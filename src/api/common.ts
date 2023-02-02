@@ -14,8 +14,7 @@ export function useConfig() {
           Authorization: `Bearer ${publicApiKey}`,
           'X-User-Id': userId ?? 'guest',
           'Content-Type': 'application/json'
-        },
-        crossDomain:true
+        }
       }),
       [publicApiKey, userId]
     )
