@@ -14,7 +14,8 @@ export function useConfig() {
           Authorization: `Bearer ${publicApiKey}`,
           'X-User-Id': userId ?? 'guest',
           'Content-Type': 'application/json'
-        }
+        },
+        mode: 'cors'
       }),
       [publicApiKey, userId]
     )
