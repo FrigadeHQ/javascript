@@ -25,5 +25,11 @@
     "jest.config.js",
     "jest.setup.js",
     ".eslintrc.js"
-  ]
+  ],
+  "ts-node": {
+    "transpileOnly": true,
+    "compilerOptions": {
+      "module": "commonjs"
+    }
+  }
 }
