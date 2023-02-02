@@ -15,7 +15,6 @@ export function useConfig() {
           'X-User-Id': userId ?? 'guest',
           'Content-Type': 'application/json'
         },
-        mode: 'no-cors',
         crossDomain:true
       }),
       [publicApiKey, userId]
