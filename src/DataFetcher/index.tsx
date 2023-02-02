@@ -2,7 +2,7 @@ import React, { FC, useContext, useEffect } from 'react'
 import { useFlows } from '../api/flows'
 import { FrigadeContext } from '../FrigadeProvider'
 import { useUser } from '../api/users'
-import uuid from 'uuid'
+import { v4 as uuidv4 } from 'uuid';
 
 interface DataFetcherProps {}
 
@@ -24,7 +24,7 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
   function generateGuestUserId() {
     // If userId is null, generate a guest user id using uuid
     if (userId === null) {
-      setUserId('guest_' + uuid.v4())
+      setUserId('guest_' + uuidv4())
     }
   }
 
