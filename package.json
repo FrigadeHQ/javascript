@@ -91,6 +91,5 @@
     "@frigade/react-onboarding-components": "^1.1.0",
     "react-dom": "*",
     "uuid": "^9.0.0"
-  },
-  "type":"module"
+  }
 }
