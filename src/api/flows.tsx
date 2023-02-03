@@ -55,10 +55,9 @@ export function useFlows() {
 
   function getStepStatus(flowSlug: string, stepId: string) {
     // TODO: add server-side call to sync date.
-    // Iterate through all flow responses and find the latest one for this step
-    const responsesForStep = flowResponses.filter(
+    const responsesForStep = flowResponses ? flowResponses.filter(
       (r) => r.flowSlug === flowSlug && r.stepId === stepId
-    );
+    )[0] : null;
   }
 
   function getFlowData(slug: string): Flow {
