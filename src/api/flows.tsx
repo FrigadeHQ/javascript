@@ -64,5 +64,5 @@ export function useFlows() {
     return JSON.parse(flows.find((f) => f.slug === slug).data)
   }
 
-  return { getFlows, getFlow, getFlowData, hasLoadedData, getStepStatus, getFlowSteps }
+  return { getFlows, getFlow, getFlowData, hasLoadedData, getStepStatus, getFlowSteps, markStepStarted, markStepCompleted }
 }
