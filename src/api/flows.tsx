@@ -28,7 +28,7 @@ export function useFlows() {
   }
 
   function getFlowSteps(slug: string): any[] {
-    return JSON.parse(getFlow(slug).data).data
+    return getFlow(slug) ? JSON.parse(getFlow(slug).data).data : []
   }
 
   function markStepStarted(flowSlug: string, stepId: string, data?: any) {
