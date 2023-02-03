@@ -55,7 +55,7 @@ export function useFlows() {
 
   function getStepStatus(flowSlug: string, stepId: string) {
     // TODO: add server-side call to sync data.
-    const responsesForStep = flowResponses ? flowResponses.find((r) => r.stepId === stepId)?.actionType : null
+    return flowResponses ? flowResponses.find((r) => r.stepId === stepId)?.actionType : null
   }
 
   function getFlowData(slug: string): Flow {
