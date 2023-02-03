@@ -1,6 +1,6 @@
-import React, { useContext } from 'react'
-import { API_PREFIX, PaginatedResult, useConfig } from './common'
-import { FrigadeContext } from '../FrigadeProvider'
+import React, {useContext} from 'react'
+import {API_PREFIX, PaginatedResult, useConfig} from './common'
+import {FrigadeContext} from '../FrigadeProvider'
 import {useFlowResponses} from "./flow-responses";
 
 export interface Flow {
@@ -14,10 +14,10 @@ export interface Flow {
 }
 
 export function useFlows() {
-  const { config } = useConfig()
-  const { flows, hasLoadedData, setHasLoadedData } = useContext(FrigadeContext)
-  const { userId } = useContext(FrigadeContext)
-  const { addResponse, flowResponses } = useFlowResponses()
+  const {config} = useConfig()
+  const {flows, hasLoadedData, setHasLoadedData} = useContext(FrigadeContext)
+  const {userId} = useContext(FrigadeContext)
+  const {addResponse, flowResponses} = useFlowResponses()
 
   function getFlows() {
     return fetch(`${API_PREFIX}flows`, config).then((r) => r.json())
@@ -62,5 +62,14 @@ export function useFlows() {
     return JSON.parse(flows.find((f) => f.slug === slug).data)
   }
 
-  return { getFlows, getFlow, getFlowData, hasLoadedData, getStepStatus, getFlowSteps, markStepStarted, markStepCompleted }
+  return {
+    getFlows,
+    getFlow,
+    getFlowData,
+    hasLoadedData,
+    getStepStatus,
+    getFlowSteps,
+    markStepStarted,
+    markStepCompleted
+  }
 }

@@ -13,7 +13,7 @@ export interface FlowResponse {
 
 export function useFlowResponses() {
   const { config } = useConfig()
-  const { failedFlowResponses, setFailedFlowResponses } = useContext(FrigadeContext)
+  const { failedFlowResponses, setFailedFlowResponses, flowResponses, setFlowResponses } = useContext(FrigadeContext)
   const [successfulFlowResponsesStrings, setSuccessfulFlowResponsesStrings] = useState<Set<String>>(
     new Set()
   )
@@ -37,6 +37,7 @@ export function useFlowResponses() {
     setSuccessfulFlowResponsesStrings(successfulFlowResponsesStrings)
     successfulFlowResponses.add(flowResponse)
     setSuccessfulFlowResponses(successfulFlowResponses)
+    setFlowResponses([...flowResponses, flowResponse])
 
     return fetch(`${API_PREFIX}flowResponses`, {
       ...config,
@@ -119,5 +120,5 @@ export function useFlowResponses() {
     return flowResponse
   }
 
-  return { addResponse, markFlowStarted, markFlowCompleted, flowResponses: Array.from(successfulFlowResponses) }
+  return { addResponse, markFlowStarted, markFlowCompleted, flowResponses: Array.from(flowResponses) }
 }
