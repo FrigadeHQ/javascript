@@ -119,5 +119,5 @@ export function useFlowResponses() {
     return flowResponse
   }
 
-  return { addResponse, markFlowStarted, markFlowCompleted }
+  return { addResponse, markFlowStarted, markFlowCompleted, flowResponses: Array.from(successfulFlowResponses) }
 }
