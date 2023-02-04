@@ -9,7 +9,7 @@
 <span> · </span>
 <a href="https://github.com/FrigadeHQ">GitHub</a> 
 <span> · </span>
-<a href="https://discord.gg/3fujYupY">Discord</a>
+<a href="https://discord.gg/yaRVEZMww5">Discord</a>
 </div>
 
 ## Introduction
