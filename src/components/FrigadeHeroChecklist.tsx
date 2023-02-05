@@ -29,7 +29,7 @@ export const FrigadeHeroChecklist: React.FC<FrigadeHeroChecklistProps & HeroChec
       steps={steps.map((step) => {
         return {
           ...step,
-          complete: getStepStatus(flowId, step.id),
+          complete: getStepStatus(flowId, step.id) === 'COMPLETED_STEP',
           handleCTAClick: () => {
             markStepCompleted(flowId, step.id)
           },
