@@ -3,15 +3,11 @@ import { Checklist, HeroChecklist } from '@frigade/react-onboarding-components'
 import HeroChecklistProps from '@frigade/react-onboarding-components'
 import { useFlows } from '../../api/flows'
 
-export interface FrigadeHeroChecklistProps {
+export interface FrigadeHeroChecklistProps extends HeroChecklistProps {
   flowId: string
 }
 
-// Create FC with FrigadeHeroChecklistProps & CheckListProps
-export const FrigadeHeroChecklist: React.FC<FrigadeHeroChecklistProps & HeroChecklistProps> = ({
-  flowId,
-  ...props
-}) => {
+export const FrigadeHeroChecklist: React.FC<FrigadeHeroChecklistProps> = ({ flowId, ...props }) => {
   const { getFlow, getFlowSteps, markStepStarted, markStepCompleted, getStepStatus } = useFlows()
 
   const flow = getFlow(flowId)
