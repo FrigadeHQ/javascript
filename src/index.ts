@@ -1,5 +1,5 @@
 export { FrigadeProvider } from './FrigadeProvider'
+export { FrigadeHeroChecklist } from './components/FrigadeHeroChecklist'
 export { useFlows } from './api/flows'
 export { useFlowResponses } from './api/flow-responses'
 export { useUser } from './api/users'
-export { FrigadeHeroChecklist } from './components/FrigadeHeroChecklist'

@@ -1,8 +1,9 @@
 import React from 'react'
-import { Checklist, HeroChecklistProps, HeroChecklist } from '@frigade/react-onboarding-components'
-import { useFlows } from '../api/flows'
+import { Checklist, HeroChecklist } from '@frigade/react-onboarding-components'
+import HeroChecklistProps from '@frigade/react-onboarding-components'
+import { useFlows } from '../../api/flows'
 
-interface FrigadeHeroChecklistProps {
+export interface FrigadeHeroChecklistProps {
   flowId: string
 }
 
