@@ -1070,10 +1070,10 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@frigade/react-onboarding-components@^1.4.7":
-  version "1.4.7"
-  resolved "https://registry.yarnpkg.com/@frigade/react-onboarding-components/-/react-onboarding-components-1.4.7.tgz#0a80921ae1e6992bd3bd26a9aa5bdbd632141120"
-  integrity sha512-Y6/sC7DcG56auU3PqocTyOeEK4sY3c56vUR1Y7SqC9UnSH7T4x8033N1hn6XxuK4gVrT7/FYWC/aFFBbcn5how==
+"@frigade/react-onboarding-components@^1.5.0":
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/@frigade/react-onboarding-components/-/react-onboarding-components-1.5.0.tgz#ae5781d78b0659adb4b84dd4bcf2be9dba1fc56e"
+  integrity sha512-Zx8d80BcYZDBei5Ct45VJUX24uPFbHe4iIEuzW+CIQj+Q5CxKQprpC1WeKqLGkZ7tlr8RyAf+QDHdndYcCI6fg==
   dependencies:
     react-dom "*"
     styled-components "^5.3.6"

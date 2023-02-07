@@ -1,7 +1,7 @@
-import React, {useContext} from 'react'
-import {API_PREFIX, PaginatedResult, useConfig} from './common'
-import {FrigadeContext} from '../FrigadeProvider'
-import {useFlowResponses} from "./flow-responses";
+import React, { useContext } from 'react'
+import { API_PREFIX, PaginatedResult, useConfig } from './common'
+import { FrigadeContext } from '../FrigadeProvider'
+import { useFlowResponses } from './flow-responses'
 
 export interface Flow {
   id: number
@@ -14,10 +14,10 @@ export interface Flow {
 }
 
 export function useFlows() {
-  const {config} = useConfig()
-  const {flows, hasLoadedData, setHasLoadedData} = useContext(FrigadeContext)
-  const {userId} = useContext(FrigadeContext)
-  const {addResponse, flowResponses} = useFlowResponses()
+  const { config } = useConfig()
+  const { flows, hasLoadedData, setHasLoadedData } = useContext(FrigadeContext)
+  const { userId } = useContext(FrigadeContext)
+  const { addResponse, flowResponses } = useFlowResponses()
 
   function getFlows() {
     return fetch(`${API_PREFIX}flows`, config).then((r) => r.json())
@@ -58,6 +58,42 @@ export function useFlows() {
     return flowResponses ? flowResponses.find((r) => r.stepId === stepId)?.actionType : null
   }
 
+  function getFlowStatus(flowSlug: string) {
+    if (getNumberOfStepsCompleted(flowSlug) === getNumberOfSteps(flowSlug)) {
+      return 'COMPLETED_FLOW'
+    }
+
+    const startedFlow = flowResponses?.find((r) => r.flowSlug === flowSlug)
+    if (startedFlow) {
+      return 'STARTED_FLOW'
+    }
+    return null
+  }
+
+  function getNumberOfStepsCompleted(flowSlug: string) {
+    // Filter flowResponses for the flowSlug + id and return the length
+    let flowResponsesFound = []
+    if (flowResponses) {
+      // Add all unique flowResonses by stepId to flowResponsesFound
+      flowResponses.forEach((r) => {
+        if (r.flowSlug === flowSlug && r.actionType === 'COMPLETED_STEP') {
+          const found = flowResponsesFound.find((fr) => fr.stepId === r.stepId)
+          if (!found) {
+            flowResponsesFound.push(r)
+          }
+        }
+      })
+    }
+
+    return flowResponsesFound?.filter(
+      (r) => r.flowSlug === flowSlug && r.actionType === 'COMPLETED_STEP'
+    ).length
+  }
+
+  function getNumberOfSteps(flowSlug: string) {
+    return getFlowSteps(flowSlug).length
+  }
+
   function getFlowData(slug: string): Flow {
     return JSON.parse(flows.find((f) => f.slug === slug).data)
   }
@@ -70,6 +106,9 @@ export function useFlows() {
     getStepStatus,
     getFlowSteps,
     markStepStarted,
-    markStepCompleted
+    markStepCompleted,
+    getFlowStatus,
+    getNumberOfStepsCompleted,
+    getNumberOfSteps,
   }
 }
