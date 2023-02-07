@@ -26,8 +26,16 @@ export const FrigadeHeroChecklist: React.FC<FrigadeHeroChecklistProps> = ({
   initialSelectedStep,
   className,
 }) => {
-  const { getFlow, getFlowSteps, markStepStarted, markStepCompleted, getStepStatus } = useFlows()
+  const {
+    getFlow,
+    getFlowSteps,
+    markStepStarted,
+    markStepCompleted,
+    getStepStatus,
+    getNumberOfStepsCompleted,
+  } = useFlows()
   const [selectedStep, setSelectedStep] = useState(initialSelectedStep || 0)
+  const [finishedInitialLoad, setFinishedInitialLoad] = useState(false)
 
   const flow = getFlow(flowId)
   if (!flow) {
@@ -37,6 +45,12 @@ export const FrigadeHeroChecklist: React.FC<FrigadeHeroChecklistProps> = ({
   const steps = getFlowSteps(flowId)
   if (!steps) {
     return null
+  }
+
+  if (!finishedInitialLoad && initialSelectedStep === undefined) {
+    const completedSteps = Math.min(getNumberOfStepsCompleted(flowId), steps.length - 1)
+    setSelectedStep(completedSteps)
+    setFinishedInitialLoad(true)
   }
 
   return (

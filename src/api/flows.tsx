@@ -70,11 +70,11 @@ export function useFlows() {
     return null
   }
 
-  function getNumberOfStepsCompleted(flowSlug: string) {
+  function getNumberOfStepsCompleted(flowSlug: string): number {
     // Filter flowResponses for the flowSlug + id and return the length
     let flowResponsesFound = []
     if (flowResponses) {
-      // Add all unique flowResonses by stepId to flowResponsesFound
+      // Add all unique flowResponses by stepId to flowResponsesFound
       flowResponses.forEach((r) => {
         if (r.flowSlug === flowSlug && r.actionType === 'COMPLETED_STEP') {
           const found = flowResponsesFound.find((fr) => fr.stepId === r.stepId)
@@ -85,9 +85,11 @@ export function useFlows() {
       })
     }
 
-    return flowResponsesFound?.filter(
-      (r) => r.flowSlug === flowSlug && r.actionType === 'COMPLETED_STEP'
-    ).length
+    return (
+      flowResponsesFound?.filter(
+        (r) => r.flowSlug === flowSlug && r.actionType === 'COMPLETED_STEP'
+      ).length ?? 0
+    )
   }
 
   function getNumberOfSteps(flowSlug: string) {

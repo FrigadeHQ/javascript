@@ -11,9 +11,24 @@ export interface FlowResponse {
   createdAt: Date
 }
 
+export interface PublicUserFlowState {
+  flowId: string
+  flowState: 'COMPLETED_FLOW' | 'STARTED_FLOW' | 'NOT_STARTED_FLOW'
+  lastStepId: string
+  userId: string
+  foreignUserId: string
+  stepStates: object
+}
+
+export interface PublicStepState {
+  stepId: string
+  actionType: 'COMPLETED_STEP' | 'STARTED_STEP' | 'NOT_STARTED_STEP'
+}
+
 export function useFlowResponses() {
   const { config } = useConfig()
-  const { failedFlowResponses, setFailedFlowResponses, flowResponses, setFlowResponses } = useContext(FrigadeContext)
+  const { failedFlowResponses, setFailedFlowResponses, flowResponses, setFlowResponses } =
+    useContext(FrigadeContext)
   const [successfulFlowResponsesStrings, setSuccessfulFlowResponsesStrings] = useState<Set<String>>(
     new Set()
   )
@@ -52,6 +67,21 @@ export function useFlowResponses() {
         )
         setFailedFlowResponses([...failedFlowResponses, flowResponse])
       }
+    })
+  }
+
+  async function getUserFlowState(
+    flowSlug: string,
+    foreignUserId: string
+  ): Promise<PublicUserFlowState> {
+    return fetch(
+      `${API_PREFIX}userFlowStates/${flowSlug}?foreignUserId=${encodeURIComponent(foreignUserId)}`,
+      config
+    ).then((r) => {
+      if (r.status === 404) {
+        return null
+      }
+      return r.json()
     })
   }
 
@@ -120,5 +150,12 @@ export function useFlowResponses() {
     return flowResponse
   }
 
-  return { addResponse, markFlowStarted, markFlowCompleted, flowResponses: Array.from(flowResponses) }
+  return {
+    addResponse,
+    markFlowStarted,
+    markFlowCompleted,
+    flowResponses: Array.from(flowResponses),
+    setFlowResponses,
+    getUserFlowState,
+  }
 }
