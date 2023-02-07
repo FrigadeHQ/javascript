@@ -1,9 +1,14 @@
-import React, { FC, useContext, useEffect } from 'react'
+import React, { FC, useContext, useEffect, useState } from 'react'
 import { useFlows } from '../api/flows'
 import { FrigadeContext } from '../FrigadeProvider'
 import { useUser } from '../api/users'
 import { v4 as uuidv4 } from 'uuid'
-import { FlowResponse, PublicStepState, useFlowResponses } from '../api/flow-responses'
+import {
+  FlowResponse,
+  PublicStepState,
+  PublicUserFlowState,
+  useFlowResponses,
+} from '../api/flow-responses'
 
 interface DataFetcherProps {}
 
@@ -14,6 +19,7 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
   const { getUserFlowState, setFlowResponses, flowResponses } = useFlowResponses()
   const { userId, setUserId } = useUser()
   const { setFlows, setHasLoadedData } = useContext(FrigadeContext)
+  const [internalFlowResponses, setInternalFlowResponses] = useState<FlowResponse[]>([])
 
   async function prefetchFlows() {
     setHasLoadedData(false)
@@ -22,9 +28,14 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
       // Prefetch flow responses for each flow in parallel
       let prefetchPromises = []
       flows.data.forEach((flow) => {
-        prefetchPromises.push(prefetchFlowResponses(flow.slug, userId))
+        prefetchPromises.push(getUserFlowState(flow.slug, userId))
       })
-      await Promise.all(prefetchPromises)
+      const flowStates = await Promise.all(prefetchPromises)
+      for (let i = 0; i < flowStates.length; i++) {
+        if (flowStates[i]) {
+          syncFlowStates(flowStates[i])
+        }
+      }
       setFlows(flows.data)
       setHasLoadedData(true)
     } else {
@@ -32,29 +43,23 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
     }
   }
 
-  async function prefetchFlowResponses(flowSlug: string, userId: string) {
-    const flowState = await getUserFlowState(flowSlug, userId)
-    if (flowState && flowState.stepStates) {
+  function syncFlowStates(flowState: PublicUserFlowState) {
+    if (flowState && flowState.stepStates && Object.keys(flowState.stepStates).length !== 0) {
       // Convert flowState.stepStates map to flowResponses
       const apiFlowResponses: FlowResponse[] = []
       for (const stepSlug in flowState.stepStates) {
         const stepState = flowState.stepStates[stepSlug] as PublicStepState
         apiFlowResponses.push({
-          foreignUserId: userId,
-          flowSlug,
+          foreignUserId: flowState.foreignUserId,
+          flowSlug: flowState.flowId,
           stepId: stepState.stepId,
           actionType: stepState.actionType,
           data: {},
           createdAt: new Date(),
         } as FlowResponse)
       }
-      if (flowResponses.length > 0) {
-        // Merge the new flow responses with the existing ones
-        const newFlowResponses = flowResponses.concat(apiFlowResponses)
-        setFlowResponses(newFlowResponses)
-        return
-      }
-      setFlowResponses(apiFlowResponses)
+      // merge internal flow responses with api flow responses
+      setFlowResponses((responses) => [...responses, ...apiFlowResponses])
     }
   }
 
@@ -73,6 +78,8 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
       setUserId(newGuestUserId)
     }
   }
+
+  useEffect(() => {}, [flowResponses])
 
   useEffect(() => {
     generateGuestUserId()

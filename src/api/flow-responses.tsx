@@ -73,7 +73,7 @@ export function useFlowResponses() {
   async function getUserFlowState(
     flowSlug: string,
     foreignUserId: string
-  ): Promise<PublicUserFlowState> {
+  ): Promise<PublicUserFlowState | null> {
     return fetch(
       `${API_PREFIX}userFlowStates/${flowSlug}?foreignUserId=${encodeURIComponent(foreignUserId)}`,
       config

@@ -12,7 +12,7 @@ export interface IFrigadeContext {
   failedFlowResponses: FlowResponse[]
   setFailedFlowResponses: (flowResponses: FlowResponse[]) => void
   flowResponses?: FlowResponse[]
-  setFlowResponses?: (flowResponses: FlowResponse[]) => void
+  setFlowResponses?: React.Dispatch<React.SetStateAction<FlowResponse[]>>
   children?: React.ReactNode
   hasLoadedData: boolean
   setHasLoadedData: (hasLoadedData: boolean) => void
