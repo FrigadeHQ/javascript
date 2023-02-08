@@ -1,11 +1,11 @@
-import React, { createContext, FC, useState } from 'react'
+import React, { createContext, FC, useEffect, useState } from 'react'
 import { DataFetcher } from '../DataFetcher'
 import { Flow } from '../api/flows'
 import { FlowResponse } from '../api/flow-responses'
 
 export interface IFrigadeContext {
   publicApiKey: string
-  userId?: string
+  userId?: string | null
   setUserId: React.Dispatch<React.SetStateAction<string | null>>
   flows: Flow[]
   setFlows: React.Dispatch<React.SetStateAction<Flow[]>>
@@ -38,13 +38,17 @@ export const FrigadeContext = createContext<IFrigadeContext>({
 })
 
 export const FrigadeProvider: FC<FrigadeProviderProps> = ({ publicApiKey, userId, children }) => {
-  const [userIdValue, setUserIdValue] = useState<string | null>(
-    userId === undefined ? null : userId
-  )
+  const [userIdValue, setUserIdValue] = useState<string | null>(!userId ? null : userId)
   const [flows, setFlows] = useState<Flow[]>([])
   const [failedFlowResponses, setFailedFlowResponses] = useState<FlowResponse[]>([])
   const [flowResponses, setFlowResponses] = useState<FlowResponse[]>([])
   const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    if (userId !== userIdValue) {
+      setUserIdValue(userId)
+    }
+  }, [userId])
 
   return (
     <FrigadeContext.Provider

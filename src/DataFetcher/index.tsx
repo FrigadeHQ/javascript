@@ -61,7 +61,7 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
 
   function generateGuestUserId() {
     // If userId is null, generate a guest user id using uuid
-    if (userId === null) {
+    if (!userId) {
       // Call local storage to see if we already have a guest user id
       const guestUserId = localStorage.getItem(guestUserIdField)
       if (guestUserId) {
@@ -76,11 +76,8 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
   }
 
   useEffect(() => {
-    generateGuestUserId()
-  }, [])
-
-  useEffect(() => {
     if (userId !== null) {
+      generateGuestUserId()
       syncFlows()
     }
   }, [userId, flows])
