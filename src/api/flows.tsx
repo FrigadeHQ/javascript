@@ -1,7 +1,8 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { API_PREFIX, PaginatedResult, useConfig } from './common'
 import { FrigadeContext } from '../FrigadeProvider'
 import { useFlowResponses } from './flow-responses'
+import useSWR from 'swr'
 
 export interface Flow {
   id: number
@@ -15,13 +16,18 @@ export interface Flow {
 
 export function useFlows() {
   const { config } = useConfig()
-  const { flows, isLoading } = useContext(FrigadeContext)
+  const { flows, setFlows, isLoading } = useContext(FrigadeContext)
   const { userId } = useContext(FrigadeContext)
   const { addResponse, flowResponses } = useFlowResponses()
+  const fetcher = (url) => fetch(url, config).then((r) => r.json())
 
-  function getFlows() {
-    return fetch(`${API_PREFIX}flows`, config).then((r) => r.json())
-  }
+  const { data: flowData } = useSWR(`${API_PREFIX}flows`, fetcher)
+
+  useEffect(() => {
+    if (flowData && flowData.data) {
+      flowData.data = setFlows(flowData.data)
+    }
+  }, [flowData])
 
   function getFlow(slug: string): Flow {
     return flows.find((f) => f.slug === slug)
@@ -101,7 +107,6 @@ export function useFlows() {
   }
 
   return {
-    getFlows,
     getFlow,
     getFlowData,
     isLoading,

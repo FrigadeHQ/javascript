@@ -15,19 +15,16 @@ interface DataFetcherProps {}
 const guestUserIdField = 'xFrigade_guestUserId'
 
 export const DataFetcher: FC<DataFetcherProps> = ({}) => {
-  const { getFlows } = useFlows()
-  const { getUserFlowState, setFlowResponses, flowResponses } = useFlowResponses()
+  const { getUserFlowState, setFlowResponses } = useFlowResponses()
   const { userId, setUserId } = useUser()
-  const { setFlows, setIsLoading } = useContext(FrigadeContext)
-  const [lastUserIdRefreshed, setLastUserIdRefreshed] = useState<string>(userId)
+  const { flows, setIsLoading } = useContext(FrigadeContext)
 
-  async function prefetchFlows() {
+  async function syncFlows() {
     setIsLoading(true)
-    const flows = await getFlows()
-    if (flows && flows?.data) {
+    if (flows) {
       // Prefetch flow responses for each flow in parallel
       let prefetchPromises = []
-      flows.data.forEach((flow) => {
+      flows.forEach((flow) => {
         prefetchPromises.push(getUserFlowState(flow.slug, userId))
       })
       const flowStates = await Promise.all(prefetchPromises)
@@ -36,7 +33,6 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
           syncFlowStates(flowStates[i])
         }
       }
-      setFlows(flows.data)
       setIsLoading(false)
     } else {
       console.error('Failed to prefetch flows')
@@ -84,11 +80,9 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
   }, [])
 
   useEffect(() => {
-    console.log('Refreshing data for user', userId, lastUserIdRefreshed)
-    if (userId !== null && userId !== lastUserIdRefreshed) {
-      setLastUserIdRefreshed(userId)
-      prefetchFlows()
+    if (userId !== null) {
+      syncFlows()
     }
-  }, [userId, lastUserIdRefreshed])
+  }, [userId, flows])
   return <></>
 }

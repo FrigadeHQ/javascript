@@ -89,8 +89,9 @@
   },
   "homepage": "https://github.com/FrigadeHQ/frigade-react#readme",
   "dependencies": {
-    "@frigade/react-onboarding-components": "^1.5.6",
+    "@frigade/react-onboarding-components": "^1.5.7",
     "react-dom": "*",
+    "swr": "^2.0.3",
     "uuid": "^9.0.0"
   }
 }

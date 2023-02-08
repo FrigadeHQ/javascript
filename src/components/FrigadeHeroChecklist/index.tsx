@@ -33,10 +33,14 @@ export const FrigadeHeroChecklist: React.FC<FrigadeHeroChecklistProps> = ({
     markStepCompleted,
     getStepStatus,
     getNumberOfStepsCompleted,
+    isLoading,
   } = useFlows()
   const [selectedStep, setSelectedStep] = useState(initialSelectedStep || 0)
   const [finishedInitialLoad, setFinishedInitialLoad] = useState(false)
 
+  if (isLoading) {
+    return null
+  }
   const flow = getFlow(flowId)
   if (!flow) {
     return null

@@ -1070,10 +1070,10 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@frigade/react-onboarding-components@^1.5.6":
-  version "1.5.6"
-  resolved "https://registry.yarnpkg.com/@frigade/react-onboarding-components/-/react-onboarding-components-1.5.6.tgz#15ffce7e16441989e9d51c42eb0c98b7c05a41f3"
-  integrity sha512-cn5TVgjb2GHtVAxDqGu1ZPLAK0Gc/5u2uk03uZAWepsOdIbiLwcPhAmQutH+sqSUaxtvxJUb4klBuIdTMciNeQ==
+"@frigade/react-onboarding-components@^1.5.7":
+  version "1.5.7"
+  resolved "https://registry.yarnpkg.com/@frigade/react-onboarding-components/-/react-onboarding-components-1.5.7.tgz#302491b829048843351f086f787dd5e4b27f0ae2"
+  integrity sha512-oTaBsOPzblcRp+G0FTNtRLZ335sKlefp79VCz96FJvKSS1Mnj8G4S8FqjGa9WTR3m3LNoD05q6i1pw/lCqrrBQ==
   dependencies:
     react-dom "*"
     styled-components "^5.3.6"
@@ -7292,6 +7292,13 @@ supports-preserve-symlinks-flag@^1.0.0:
   resolved "https://registry.npmjs.org/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz"
   integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
 
+swr@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/swr/-/swr-2.0.3.tgz#9fe59a17f55b0fdddccd76b7b2f723f9f8e2263e"
+  integrity sha512-sGvQDok/AHEWTPfhUWXEHBVEXmgGnuahyhmRQbjl9XBYxT/MSlAzvXEKQpyM++bMPaI52vcWS2HiKNaW7+9OFw==
+  dependencies:
+    use-sync-external-store "^1.2.0"
+
 symbol-tree@^3.2.4:
   version "3.2.4"
   resolved "https://registry.npmjs.org/symbol-tree/-/symbol-tree-3.2.4.tgz"
@@ -7635,6 +7642,11 @@ url-parse@^1.5.3:
   dependencies:
     querystringify "^2.1.1"
     requires-port "^1.0.0"
+
+use-sync-external-store@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/use-sync-external-store/-/use-sync-external-store-1.2.0.tgz#7dbefd6ef3fe4e767a0cf5d7287aacfb5846928a"
+  integrity sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA==
 
 util-deprecate@^1.0.1, util-deprecate@^1.0.2, util-deprecate@~1.0.1:
   version "1.0.2"
