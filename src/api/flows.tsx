@@ -15,7 +15,7 @@ export interface Flow {
 
 export function useFlows() {
   const { config } = useConfig()
-  const { flows, hasLoadedData, setHasLoadedData } = useContext(FrigadeContext)
+  const { flows, isLoading } = useContext(FrigadeContext)
   const { userId } = useContext(FrigadeContext)
   const { addResponse, flowResponses } = useFlowResponses()
 
@@ -104,7 +104,7 @@ export function useFlows() {
     getFlows,
     getFlow,
     getFlowData,
-    hasLoadedData,
+    isLoading,
     getStepStatus,
     getFlowSteps,
     markStepStarted,

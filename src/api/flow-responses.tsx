@@ -86,6 +86,9 @@ export function useFlowResponses() {
   }
 
   async function addResponse(flowResponse: FlowResponse) {
+    if (!flowResponse.foreignUserId) {
+      return
+    }
     if (flowResponse.actionType === 'STARTED_FLOW') {
       recordResponse(flowResponse)
       await sendDataToBackend() // Send previous step data to backend

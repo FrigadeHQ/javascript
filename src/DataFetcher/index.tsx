@@ -18,11 +18,10 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
   const { getFlows } = useFlows()
   const { getUserFlowState, setFlowResponses, flowResponses } = useFlowResponses()
   const { userId, setUserId } = useUser()
-  const { setFlows, setHasLoadedData } = useContext(FrigadeContext)
-  const [internalFlowResponses, setInternalFlowResponses] = useState<FlowResponse[]>([])
+  const { setFlows, setIsLoading } = useContext(FrigadeContext)
 
   async function prefetchFlows() {
-    setHasLoadedData(false)
+    setIsLoading(true)
     const flows = await getFlows()
     if (flows && flows?.data) {
       // Prefetch flow responses for each flow in parallel
@@ -37,7 +36,7 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
         }
       }
       setFlows(flows.data)
-      setHasLoadedData(true)
+      setIsLoading(false)
     } else {
       console.error('Failed to prefetch flows')
     }
