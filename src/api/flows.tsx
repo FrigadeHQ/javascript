@@ -16,12 +16,11 @@ export interface Flow {
 
 export function useFlows() {
   const { config } = useConfig()
-  const { flows, setFlows, isLoading } = useContext(FrigadeContext)
-  const { userId } = useContext(FrigadeContext)
+  const { flows, setFlows, isLoading, userId, publicApiKey } = useContext(FrigadeContext)
   const { addResponse, flowResponses } = useFlowResponses()
   const fetcher = (url) => fetch(url, config).then((r) => r.json())
 
-  const { data: flowData } = useSWR(`${API_PREFIX}flows`, fetcher)
+  const { data: flowData } = useSWR(publicApiKey ? `${API_PREFIX}flows` : null, fetcher)
 
   useEffect(() => {
     if (flowData && flowData.data) {
@@ -60,7 +59,6 @@ export function useFlows() {
   }
 
   function getStepStatus(flowSlug: string, stepId: string) {
-    // TODO: add server-side call to sync data.
     return flowResponses ? flowResponses.find((r) => r.stepId === stepId)?.actionType : null
   }
 
