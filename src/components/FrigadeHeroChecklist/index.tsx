@@ -61,8 +61,10 @@ export const FrigadeHeroChecklist: React.FC<FrigadeHeroChecklistProps> = ({
           ...step,
           complete: getStepStatus(flowId, step.id) === 'COMPLETED_STEP',
           handleCTAClick: () => {
-            markStepCompleted(flowId, step.id)
-            setSelectedStep(selectedStep + 1 >= steps.length ? selectedStep : selectedStep + 1)
+            if (step.autoMarkCompleted) {
+              markStepCompleted(flowId, step.id)
+              setSelectedStep(selectedStep + 1 >= steps.length ? selectedStep : selectedStep + 1)
+            }
           },
         }
       })}
