@@ -27,6 +27,7 @@ export interface PublicStepState {
 
 export function useFlowResponses() {
   const { config } = useConfig()
+  const { userId, setUserId } = useContext(FrigadeContext)
   const { failedFlowResponses, setFailedFlowResponses, flowResponses, setFlowResponses } =
     useContext(FrigadeContext)
   const [successfulFlowResponsesStrings, setSuccessfulFlowResponsesStrings] = useState<Set<String>>(
@@ -74,6 +75,9 @@ export function useFlowResponses() {
     flowSlug: string,
     foreignUserId: string
   ): Promise<PublicUserFlowState | null> {
+    if (!foreignUserId) {
+      return null
+    }
     return fetch(
       `${API_PREFIX}userFlowStates/${flowSlug}?foreignUserId=${encodeURIComponent(foreignUserId)}`,
       config

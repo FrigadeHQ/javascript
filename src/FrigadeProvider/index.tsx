@@ -6,11 +6,11 @@ import { FlowResponse } from '../api/flow-responses'
 export interface IFrigadeContext {
   publicApiKey: string
   userId?: string
-  setUserId: (userId?: string) => void
+  setUserId: React.Dispatch<React.SetStateAction<string | null>>
   flows: Flow[]
-  setFlows: (flows: Flow[]) => void
+  setFlows: React.Dispatch<React.SetStateAction<Flow[]>>
   failedFlowResponses: FlowResponse[]
-  setFailedFlowResponses: (flowResponses: FlowResponse[]) => void
+  setFailedFlowResponses: React.Dispatch<React.SetStateAction<FlowResponse[]>>
   flowResponses?: FlowResponse[]
   setFlowResponses?: React.Dispatch<React.SetStateAction<FlowResponse[]>>
   children?: React.ReactNode

@@ -19,6 +19,7 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
   const { getUserFlowState, setFlowResponses, flowResponses } = useFlowResponses()
   const { userId, setUserId } = useUser()
   const { setFlows, setIsLoading } = useContext(FrigadeContext)
+  const [lastUserIdRefreshed, setLastUserIdRefreshed] = useState<string>(userId)
 
   async function prefetchFlows() {
     setIsLoading(true)
@@ -74,20 +75,20 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
       // If we don't have a guest user id, generate one and save it to local storage
       const newGuestUserId = 'guest_' + uuidv4()
       localStorage.setItem(guestUserIdField, newGuestUserId)
-      setUserId(newGuestUserId)
+      setUserId((userId) => (userId ? userId : newGuestUserId))
     }
   }
-
-  useEffect(() => {}, [flowResponses])
 
   useEffect(() => {
     generateGuestUserId()
   }, [])
 
   useEffect(() => {
-    if (userId !== null) {
+    console.log('Refreshing data for user', userId, lastUserIdRefreshed)
+    if (userId !== null && userId !== lastUserIdRefreshed) {
+      setLastUserIdRefreshed(userId)
       prefetchFlows()
     }
-  }, [userId])
+  }, [userId, lastUserIdRefreshed])
   return <></>
 }
