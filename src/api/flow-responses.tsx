@@ -18,6 +18,7 @@ export interface PublicUserFlowState {
   userId: string
   foreignUserId: string
   stepStates: object
+  shouldTrigger: boolean
 }
 
 export interface PublicStepState {

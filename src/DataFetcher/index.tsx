@@ -9,6 +9,7 @@ import {
   PublicUserFlowState,
   useFlowResponses,
 } from '../api/flow-responses'
+import { FrigadeChecklist } from '../components/FrigadeChecklist'
 
 interface DataFetcherProps {}
 
@@ -17,7 +18,8 @@ const guestUserIdField = 'xFrigade_guestUserId'
 export const DataFetcher: FC<DataFetcherProps> = ({}) => {
   const { getUserFlowState, setFlowResponses } = useFlowResponses()
   const { userId, setUserId } = useUser()
-  const { flows, setIsLoading } = useContext(FrigadeContext)
+  const { flows, userProperties, setIsLoading } = useContext(FrigadeContext)
+  const [automaticFlowIdsToTrigger, setAutomaticFlowIdsToTrigger] = useState<string[]>([])
 
   async function syncFlows() {
     setIsLoading(true)
@@ -39,6 +41,16 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
     }
   }
 
+  function triggerFlow(flowId: string) {
+    console.log('Triggering flow: ' + flowId)
+    // FIXME: Check type and only do this if type is a modal type/automatic
+    const flow = flows.find((flow) => flow.slug === flowId)
+    if (flow) {
+      // We only trigger one at a time
+      setAutomaticFlowIdsToTrigger([flowId])
+    }
+  }
+
   function syncFlowStates(flowState: PublicUserFlowState) {
     if (flowState && flowState.stepStates && Object.keys(flowState.stepStates).length !== 0) {
       // Convert flowState.stepStates map to flowResponses
@@ -56,6 +68,10 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
       }
       // merge internal flow responses with api flow responses
       setFlowResponses((responses) => [...responses, ...apiFlowResponses])
+    }
+    if (flowState && flowState.shouldTrigger) {
+      // If the flow should be triggered, trigger it
+      triggerFlow(flowState.flowId)
     }
   }
 
@@ -80,6 +96,21 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
       generateGuestUserId()
       syncFlows()
     }
-  }, [userId, flows])
-  return <></>
+  }, [userId, flows, userProperties])
+
+  function AutomaticFlowIdsToTrigger() {
+    return (
+      <>
+        {automaticFlowIdsToTrigger.map((flowId) => (
+          <FrigadeChecklist flowId={flowId} type={'modal'} />
+        ))}
+      </>
+    )
+  }
+
+  return (
+    <>
+      <AutomaticFlowIdsToTrigger />
+    </>
+  )
 }
