@@ -12,6 +12,18 @@ export interface Flow {
   createdAt: string
   modifiedAt: string
   slug: string
+  type: FlowType
+  triggerType: TriggerType
+}
+
+export enum FlowType {
+  CHECKLIST = 'CHECKLIST',
+  FORM = 'FORM',
+}
+
+export enum TriggerType {
+  MANUAL = 'MANUAL',
+  AUTOMATIC = 'AUTOMATIC',
 }
 
 export function useFlows() {

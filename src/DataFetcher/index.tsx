@@ -1,5 +1,5 @@
 import React, { FC, useContext, useEffect, useState } from 'react'
-import { useFlows } from '../api/flows'
+import { TriggerType } from '../api/flows'
 import { FrigadeContext } from '../FrigadeProvider'
 import { useUser } from '../api/users'
 import { v4 as uuidv4 } from 'uuid'
@@ -42,10 +42,8 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
   }
 
   function triggerFlow(flowId: string) {
-    console.log('Triggering flow: ' + flowId)
-    // FIXME: Check type and only do this if type is a modal type/automatic
     const flow = flows.find((flow) => flow.slug === flowId)
-    if (flow) {
+    if (flow && flow.triggerType === TriggerType.AUTOMATIC) {
       // We only trigger one at a time
       setAutomaticFlowIdsToTrigger([flowId])
     }
