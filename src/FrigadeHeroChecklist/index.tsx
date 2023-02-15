@@ -1,8 +1,7 @@
-import React, { CSSProperties, useState } from 'react'
-import { Checklist, HeroChecklist, StepData } from '@frigade/react-onboarding-components'
-import HeroChecklistProps from '@frigade/react-onboarding-components'
-import { useFlows } from '../../api/flows'
+import React, { CSSProperties } from 'react'
 import { FrigadeChecklist } from '../FrigadeChecklist'
+import { HeroChecklistProps } from '../Checklists/HeroChecklist'
+import { StepData } from '../types'
 
 export interface FrigadeHeroChecklistProps extends HeroChecklistProps {
   flowId: string

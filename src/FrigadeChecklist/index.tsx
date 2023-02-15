@@ -1,8 +1,10 @@
-import React, { CSSProperties, useEffect, useState } from 'react'
-import { HeroChecklist, StepData, ModalChecklist } from '@frigade/react-onboarding-components'
-import HeroChecklistProps from '@frigade/react-onboarding-components'
-import { useFlows } from '../../api/flows'
-import { useFlowResponses } from '../../api/flow-responses'
+import React, { CSSProperties, useState } from 'react'
+
+import { useFlows } from '../api/flows'
+import { useFlowResponses } from '../api/flow-responses'
+import { HeroChecklist, HeroChecklistProps } from '../Checklists/HeroChecklist'
+import { StepData } from '../types'
+import { ModalChecklist } from '../Checklists/ModalChecklist'
 
 export interface FrigadeHeroChecklistProps extends HeroChecklistProps {
   flowId: string
@@ -85,10 +87,6 @@ export const FrigadeChecklist: React.FC<FrigadeHeroChecklistProps> = ({
         title={title}
         subtitle={subtitle}
         primaryColor={primaryColor}
-        style={style}
-        selectedStep={selectedStep}
-        setSelectedStep={setSelectedStep}
-        className={className}
         visible={showModal}
         onClose={() => setShowModal(false)}
         autoExpandNextStep={true}

@@ -9,7 +9,7 @@ import {
   PublicUserFlowState,
   useFlowResponses,
 } from '../api/flow-responses'
-import { FrigadeChecklist } from '../components/FrigadeChecklist'
+import { FrigadeChecklist } from '../FrigadeChecklist'
 
 interface DataFetcherProps {}
 
