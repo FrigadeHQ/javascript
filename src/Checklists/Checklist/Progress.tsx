@@ -11,7 +11,6 @@ const ChecklistProgressContainer = styled.div`
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  margin: 16px 0px 12px 0px;
 `
 const ChecklistProgressProgressBar = styled.div`
   flex-grow: 1;
@@ -57,33 +56,38 @@ export const ProgressBar = ({
   total,
   fillColor = PROGRESS_BAR_COLOR_STYLES.fillColor,
   display = 'count',
+  style = {}
 }: {
   count: number
   total: number
   fillColor?: string
-  display?: 'count' | 'percent'
+  display?: 'count' | 'percent' | 'compact',
+  style?: CSSProperties
 }) => {
   if (total === 0) return <></>
 
   const fgWidth = count === 0 ? '10px' : `${(count / total) * 100}%`
+  const barHeight = display === 'compact' ? '5px' : '10px'
+  const percentComplete = Math.round((count / total) * 100)
 
   let stepText
   if (display === 'count') {
     stepText = `${count} of ${total}`
+  } else if (display === 'compact') {
+    stepText = `${percentComplete}%`
   } else if (display === 'percent') {
-    const percentComplete = Math.round((count / total) * 100)
     stepText = `${percentComplete}% complete`
   }
 
   return (
-    <ChecklistProgressContainer>      
+    <ChecklistProgressContainer style={style}>      
       <StepText>{stepText}</StepText>
       <ChecklistProgressProgressBar>
         <div
           className="ProgressBarFGFill"
-          style={{ ...progressFgStyle, width: fgWidth, backgroundColor: fillColor }}
+          style={{ ...progressFgStyle, width: fgWidth, height: barHeight, backgroundColor: fillColor }}
         />
-        <div style={progressBgStyle} />
+        <div style={{ ...progressBgStyle, height: barHeight }} />
       </ChecklistProgressProgressBar>
     </ChecklistProgressContainer>
   )
