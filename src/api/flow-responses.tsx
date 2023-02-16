@@ -61,7 +61,7 @@ export function useFlowResponses() {
     setSuccessfulFlowResponsesStrings(successfulFlowResponsesStrings)
     successfulFlowResponses.add(flowResponse)
     setSuccessfulFlowResponses(successfulFlowResponses)
-    setFlowResponses([...flowResponses, flowResponse])
+    setFlowResponses([...(flowResponses ?? []), flowResponse])
 
     return fetch(`${API_PREFIX}flowResponses`, {
       ...config,
@@ -169,7 +169,6 @@ export function useFlowResponses() {
     addResponse,
     markFlowStarted,
     markFlowCompleted,
-    flowResponses: Array.from(flowResponses),
     setFlowResponses,
     getUserFlowState,
   }

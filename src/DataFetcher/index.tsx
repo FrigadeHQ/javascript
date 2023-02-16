@@ -20,20 +20,20 @@ const GUEST_PREFIX = 'guest_'
 export const DataFetcher: FC<DataFetcherProps> = ({}) => {
   const { getUserFlowState, setFlowResponses } = useFlowResponses()
   const { userId, setUserId } = useUser()
+  const [lastUserId, setLastUserId] = useState<string | null>(null)
   const { flows, userProperties, setIsLoading, setIsLoadingUserState } = useContext(FrigadeContext)
   const [automaticFlowIdsToTrigger, setAutomaticFlowIdsToTrigger] = useState<string[]>([])
-  const [isNewGuestUser, setIsNewGuestUser] = useState(false)
 
   async function syncFlows() {
     setIsLoading(true)
     if (flows) {
       // Prefetch flow responses for each flow in parallel
       let prefetchPromises = []
-      if (!isNewGuestUser) {
-        flows.forEach((flow) => {
-          prefetchPromises.push(getUserFlowState(flow.slug, userId))
-        })
-      }
+
+      flows.forEach((flow) => {
+        prefetchPromises.push(getUserFlowState(flow.slug, userId))
+      })
+
       setIsLoadingUserState(true)
       const flowStates = await Promise.all(prefetchPromises)
       for (let i = 0; i < flowStates.length; i++) {
@@ -72,7 +72,7 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
         } as FlowResponse)
       }
       // merge internal flow responses with api flow responses
-      setFlowResponses((responses) => [...responses, ...apiFlowResponses])
+      setFlowResponses((responses) => [...(responses ?? []), ...apiFlowResponses])
     }
     if (flowState && flowState.shouldTrigger) {
       // If the flow should be triggered, trigger it
@@ -96,7 +96,6 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
         setUserId(guestUserId)
         return
       }
-      setIsNewGuestUser(true)
       // If we don't have a guest user id, generate one and save it to local storage
       const newGuestUserId = GUEST_PREFIX + uuidv4()
       localStorage.setItem(guestUserIdField, newGuestUserId)
@@ -105,6 +104,12 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
   }
 
   useEffect(() => {
+    if (userId !== lastUserId) {
+      // Reset responses
+      setFlowResponses(null)
+    }
+
+    setLastUserId(userId)
     // if user id isn't null and doesn't begin with GUEST_PREFIX , save it to local storage
     if (userId && !userId.startsWith(GUEST_PREFIX)) {
       localStorage.setItem(realUserIdField, userId)

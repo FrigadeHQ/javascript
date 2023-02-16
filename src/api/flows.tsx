@@ -5,6 +5,7 @@ import {
   COMPLETED_STEP,
   NOT_STARTED_STEP,
   STARTED_FLOW,
+  STARTED_STEP,
   useConfig,
 } from './common'
 import { FrigadeContext } from '../FrigadeProvider'
@@ -35,9 +36,9 @@ export enum TriggerType {
 
 export function useFlows() {
   const { config } = useConfig()
-  const { flows, setFlows, isLoading, userId, publicApiKey, isLoadingUserState } =
+  const { flows, setFlows, isLoading, userId, publicApiKey, isLoadingUserState, flowResponses } =
     useContext(FrigadeContext)
-  const { addResponse, flowResponses } = useFlowResponses()
+  const { addResponse } = useFlowResponses()
   const fetcher = (url) => fetch(url, config).then((r) => r.json())
 
   const { data: flowData } = useSWR(publicApiKey ? `${API_PREFIX}flows` : null, fetcher)
@@ -61,7 +62,7 @@ export function useFlows() {
       foreignUserId: userId,
       flowSlug,
       stepId,
-      actionType: 'STARTED_STEP',
+      actionType: STARTED_STEP,
       data: data ?? {},
       createdAt: new Date(),
     })
@@ -83,7 +84,7 @@ export function useFlows() {
       return undefined
     }
     if (flowResponses === null || flowResponses === undefined) {
-      return NOT_STARTED_STEP
+      return undefined
     }
 
     return flowResponses.find((r) => r.stepId === stepId)?.actionType ?? NOT_STARTED_STEP
