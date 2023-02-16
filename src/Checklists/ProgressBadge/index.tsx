@@ -10,29 +10,33 @@ interface ProgressBadgeProps {
   style?: CSSProperties
   textStyle?: CSSProperties
   onClick: () => void
+  primaryColor?: string
+  secondaryColor?: string
 }
 
-const ProgressBadge: FC<ProgressBadgeProps> = ({
+export const ProgressBadge: FC<ProgressBadgeProps> = ({
   title,
   count,
   total,
   onClick,
   style = {},
   textStyle = {},
+  primaryColor = '#000000',
+  secondaryColor = '#E6E6E6'
 }) => {
   return (
     <BadgeContainer onClick={() => onClick !== undefined && onClick()} style={style}>
       <BadgeRow>
         <BadgeTitle style={textStyle}>{title}</BadgeTitle>
-        <Chevron />
+        {
+          onClick !== undefined && (
+            <Chevron color={primaryColor} />
+          )
+        }
       </BadgeRow>
-      <BadgeRow>
-        {total && total !== 0 && (
-          <ProgressBar display="compact" count={count} total={total}></ProgressBar>
-        )}
-      </BadgeRow>
+      {total && total !== 0 && (
+        <ProgressBar display="compact" count={count} total={total} fillColor={primaryColor} bgColor={secondaryColor} textStyle={textStyle} style={{ width: '100%'}}/>
+      )}
     </BadgeContainer>
   )
 }
-
-export default ProgressBadge

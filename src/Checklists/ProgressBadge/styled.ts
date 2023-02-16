@@ -1,11 +1,11 @@
 import styled from 'styled-components'
 
-export const BadgeContainer = styled.div<{ primaryColor }>`
-  background-color: ${(props) => props.primaryColor};
+export const BadgeContainer = styled.div<{primaryColor}>`
   border: 1px solid ${(props) => props.primaryColor};
   border-radius: 8px;
   margin: 10px;
   padding: 10px 12px 10px 12px;
+  min-width: 160px;
 `
 
 export const BadgeRow = styled.div`
@@ -13,6 +13,7 @@ export const BadgeRow = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 4px;
 `
 
 export const BadgeTitle = styled.p<{ color }>`

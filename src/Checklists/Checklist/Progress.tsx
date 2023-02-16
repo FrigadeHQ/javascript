@@ -17,21 +17,19 @@ const ChecklistProgressProgressBar = styled.div`
   position: relative;
 `
 
-const StepText = styled.p`
+const StepText = styled.p<{padding}>`
   font-weight: 600;
   font-size: 15px;
   line-height: 18px;
-  min-width: 130px;
-  padding-right: 20px;
+  padding-right: ${props => props.padding};
 `
 
 const progressBgStyle: CSSProperties = {
   position: 'relative',
   left: 0,
   top: 0,
-  backgroundColor: PROGRESS_BAR_COLOR_STYLES.backgroundColor,
   width: '100%',
-  minWidth: '12px',
+  minWidth: '40px',
   height: '10px',
   borderRadius: '20px',
 }
@@ -55,20 +53,25 @@ export const ProgressBar = ({
   count,
   total,
   fillColor = PROGRESS_BAR_COLOR_STYLES.fillColor,
+  bgColor = PROGRESS_BAR_COLOR_STYLES.backgroundColor,
   display = 'count',
-  style = {}
+  style = {},
+  textStyle = {}
 }: {
   count: number
   total: number
   fillColor?: string
+  bgColor?: string
   display?: 'count' | 'percent' | 'compact',
   style?: CSSProperties
+  textStyle?: CSSProperties
 }) => {
   if (total === 0) return <></>
 
   const fgWidth = count === 0 ? '10px' : `${(count / total) * 100}%`
   const barHeight = display === 'compact' ? '5px' : '10px'
   const percentComplete = Math.round((count / total) * 100)
+  const padding = display === 'compact' ? '5px' : '20px'
 
   let stepText
   if (display === 'count') {
@@ -81,13 +84,13 @@ export const ProgressBar = ({
 
   return (
     <ChecklistProgressContainer style={style}>      
-      <StepText>{stepText}</StepText>
+      <StepText style={textStyle} padding={padding}>{stepText}</StepText>
       <ChecklistProgressProgressBar>
         <div
           className="ProgressBarFGFill"
           style={{ ...progressFgStyle, width: fgWidth, height: barHeight, backgroundColor: fillColor }}
         />
-        <div style={{ ...progressBgStyle, height: barHeight }} />
+        <div style={{ ...progressBgStyle, height: barHeight, backgroundColor: bgColor }} />
       </ChecklistProgressProgressBar>
     </ChecklistProgressContainer>
   )
