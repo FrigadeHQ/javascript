@@ -3,9 +3,9 @@ import {
   API_PREFIX,
   COMPLETED_FLOW,
   COMPLETED_STEP,
-  NOT_STARTED_STEP,
   STARTED_FLOW,
   STARTED_STEP,
+  StepActionType,
   useConfig,
 } from './common'
 import { FrigadeContext } from '../FrigadeProvider'
@@ -79,15 +79,17 @@ export function useFlows() {
     })
   }
 
-  function getStepStatus(flowSlug: string, stepId: string) {
+  function getStepStatus(flowSlug: string, stepId: string): StepActionType | null {
     if (isLoadingUserState) {
-      return undefined
+      return null
     }
     if (flowResponses === null || flowResponses === undefined) {
-      return undefined
+      return null
     }
 
-    return flowResponses.find((r) => r.stepId === stepId)?.actionType ?? NOT_STARTED_STEP
+    const maybeFlowResponse = flowResponses.find((r) => r.stepId === stepId)
+    // cast return value to StepActionType
+    return (maybeFlowResponse ? maybeFlowResponse.actionType : 'NOT_STARTED_STEP') as StepActionType
   }
 
   function getFlowStatus(flowSlug: string) {

@@ -8,6 +8,8 @@ export const COMPLETED_FLOW = 'COMPLETED_FLOW'
 export const STARTED_FLOW = 'STARTED_FLOW'
 export const COMPLETED_STEP = 'COMPLETED_STEP'
 export const STARTED_STEP = 'STARTED_STEP'
+// Define a string type that is either STARTED_STEP or COMPLETED_STEP
+export type StepActionType = 'STARTED_STEP' | 'COMPLETED_STEP' | 'NOT_STARTED_STEP'
 
 export function useConfig() {
   const { publicApiKey, userId } = React.useContext(FrigadeContext)

@@ -37,9 +37,7 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
       setIsLoadingUserState(true)
       const flowStates = await Promise.all(prefetchPromises)
       for (let i = 0; i < flowStates.length; i++) {
-        if (flowStates[i]) {
-          syncFlowStates(flowStates[i])
-        }
+        syncFlowStates(flowStates[i])
       }
       setIsLoadingUserState(false)
       setIsLoading(false)
@@ -57,6 +55,11 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
   }
 
   function syncFlowStates(flowState: PublicUserFlowState) {
+    if (!flowState) {
+      setFlowResponses((responses) => [...(responses ?? []), ...[]])
+      return
+    }
+
     if (flowState && flowState.stepStates && Object.keys(flowState.stepStates).length !== 0) {
       // Convert flowState.stepStates map to flowResponses
       const apiFlowResponses: FlowResponse[] = []
