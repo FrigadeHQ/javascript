@@ -4,6 +4,7 @@ import { useFlows } from '../api/flows'
 import { HeroChecklist, HeroChecklistProps } from '../Checklists/HeroChecklist'
 import { StepData } from '../types'
 import { ModalChecklist } from '../Checklists/ModalChecklist'
+import { COMPLETED_STEP } from '../api/common'
 
 export interface FrigadeHeroChecklistProps extends HeroChecklistProps {
   flowId: string
@@ -66,7 +67,7 @@ export const FrigadeChecklist: React.FC<FrigadeHeroChecklistProps> = ({
     return steps.map((step) => {
       return {
         ...step,
-        complete: getStepStatus(flowId, step.id) === 'COMPLETED_STEP',
+        complete: getStepStatus(flowId, step.id) === COMPLETED_STEP,
         handleCTAClick: () => {
           if (step.autoMarkCompleted || step.autoMarkCompleted === undefined) {
             markStepCompleted(flowId, step.id)

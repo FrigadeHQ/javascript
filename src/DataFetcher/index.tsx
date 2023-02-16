@@ -20,7 +20,7 @@ const GUEST_PREFIX = 'guest_'
 export const DataFetcher: FC<DataFetcherProps> = ({}) => {
   const { getUserFlowState, setFlowResponses } = useFlowResponses()
   const { userId, setUserId } = useUser()
-  const { flows, userProperties, setIsLoading } = useContext(FrigadeContext)
+  const { flows, userProperties, setIsLoading, setIsLoadingUserState } = useContext(FrigadeContext)
   const [automaticFlowIdsToTrigger, setAutomaticFlowIdsToTrigger] = useState<string[]>([])
   const [isNewGuestUser, setIsNewGuestUser] = useState(false)
 
@@ -34,12 +34,14 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
           prefetchPromises.push(getUserFlowState(flow.slug, userId))
         })
       }
+      setIsLoadingUserState(true)
       const flowStates = await Promise.all(prefetchPromises)
       for (let i = 0; i < flowStates.length; i++) {
         if (flowStates[i]) {
           syncFlowStates(flowStates[i])
         }
       }
+      setIsLoadingUserState(false)
       setIsLoading(false)
     } else {
       console.error('Failed to prefetch flows')

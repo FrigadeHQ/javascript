@@ -1,5 +1,12 @@
 import React, { useContext, useEffect } from 'react'
-import { API_PREFIX, PaginatedResult, useConfig } from './common'
+import {
+  API_PREFIX,
+  COMPLETED_FLOW,
+  COMPLETED_STEP,
+  NOT_STARTED_STEP,
+  STARTED_FLOW,
+  useConfig,
+} from './common'
 import { FrigadeContext } from '../FrigadeProvider'
 import { useFlowResponses } from './flow-responses'
 import useSWR from 'swr'
@@ -28,7 +35,8 @@ export enum TriggerType {
 
 export function useFlows() {
   const { config } = useConfig()
-  const { flows, setFlows, isLoading, userId, publicApiKey } = useContext(FrigadeContext)
+  const { flows, setFlows, isLoading, userId, publicApiKey, isLoadingUserState } =
+    useContext(FrigadeContext)
   const { addResponse, flowResponses } = useFlowResponses()
   const fetcher = (url) => fetch(url, config).then((r) => r.json())
 
@@ -64,24 +72,31 @@ export function useFlows() {
       foreignUserId: userId,
       flowSlug,
       stepId,
-      actionType: 'COMPLETED_STEP',
+      actionType: COMPLETED_STEP,
       data: data ?? {},
       createdAt: new Date(),
     })
   }
 
   function getStepStatus(flowSlug: string, stepId: string) {
-    return flowResponses ? flowResponses.find((r) => r.stepId === stepId)?.actionType : null
+    if (isLoadingUserState) {
+      return undefined
+    }
+    if (flowResponses === null || flowResponses === undefined) {
+      return NOT_STARTED_STEP
+    }
+
+    return flowResponses.find((r) => r.stepId === stepId)?.actionType ?? NOT_STARTED_STEP
   }
 
   function getFlowStatus(flowSlug: string) {
     if (getNumberOfStepsCompleted(flowSlug) === getNumberOfSteps(flowSlug)) {
-      return 'COMPLETED_FLOW'
+      return COMPLETED_FLOW
     }
 
     const startedFlow = flowResponses?.find((r) => r.flowSlug === flowSlug)
     if (startedFlow) {
-      return 'STARTED_FLOW'
+      return STARTED_FLOW
     }
     return null
   }
@@ -92,7 +107,7 @@ export function useFlows() {
     if (flowResponses) {
       // Add all unique flowResponses by stepId to flowResponsesFound
       flowResponses.forEach((r) => {
-        if (r.flowSlug === flowSlug && r.actionType === 'COMPLETED_STEP') {
+        if (r.flowSlug === flowSlug && r.actionType === COMPLETED_STEP) {
           const found = flowResponsesFound.find((fr) => fr.stepId === r.stepId)
           if (!found) {
             flowResponsesFound.push(r)
@@ -102,9 +117,8 @@ export function useFlows() {
     }
 
     return (
-      flowResponsesFound?.filter(
-        (r) => r.flowSlug === flowSlug && r.actionType === 'COMPLETED_STEP'
-      ).length ?? 0
+      flowResponsesFound?.filter((r) => r.flowSlug === flowSlug && r.actionType === COMPLETED_STEP)
+        .length ?? 0
     )
   }
 
@@ -119,7 +133,7 @@ export function useFlows() {
   return {
     getFlow,
     getFlowData,
-    isLoading,
+    isLoading: isLoadingUserState || isLoading,
     getStepStatus,
     getFlowSteps,
     markStepStarted,

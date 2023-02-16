@@ -1,5 +1,12 @@
 import React, { useContext, useState } from 'react'
-import { API_PREFIX, useConfig } from './common'
+import {
+  API_PREFIX,
+  COMPLETED_FLOW,
+  COMPLETED_STEP,
+  STARTED_FLOW,
+  STARTED_STEP,
+  useConfig,
+} from './common'
 import { FrigadeContext } from '../FrigadeProvider'
 
 export interface FlowResponse {
@@ -94,16 +101,16 @@ export function useFlowResponses() {
     if (!flowResponse.foreignUserId) {
       return
     }
-    if (flowResponse.actionType === 'STARTED_FLOW') {
+    if (flowResponse.actionType === STARTED_FLOW) {
       recordResponse(flowResponse)
       await sendDataToBackend() // Send previous step data to backend
-    } else if (flowResponse.actionType === 'COMPLETED_FLOW') {
+    } else if (flowResponse.actionType === COMPLETED_FLOW) {
       recordResponse(flowResponse)
       await sendDataToBackend() // Send previous step data to backend
-    } else if (flowResponse.actionType === 'STARTED_STEP') {
+    } else if (flowResponse.actionType === STARTED_STEP) {
       setCurrentStep(flowResponse.stepId)
       recordResponse(flowResponse)
-    } else if (flowResponse.actionType === 'COMPLETED_STEP') {
+    } else if (flowResponse.actionType === COMPLETED_STEP) {
       await sendDataToBackend() // Send previous step data to backend
       setFlowResponseMap(new Map()) // Clear existing data
       recordResponse(flowResponse)
@@ -137,7 +144,7 @@ export function useFlowResponses() {
       foreignUserId: userId,
       flowSlug: flowSlug,
       stepId: 'startFlow',
-      actionType: 'STARTED_FLOW',
+      actionType: STARTED_FLOW,
       data: {},
       createdAt: new Date(),
     }
@@ -150,7 +157,7 @@ export function useFlowResponses() {
       foreignUserId: userId,
       flowSlug: flowSlug,
       stepId: 'endFlow',
-      actionType: 'COMPLETED_FLOW',
+      actionType: COMPLETED_FLOW,
       data: { flowResponses: Array.from(successfulFlowResponses) },
       createdAt: new Date(),
     }
