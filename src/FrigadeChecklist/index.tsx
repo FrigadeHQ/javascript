@@ -1,7 +1,6 @@
 import React, { CSSProperties, useState } from 'react'
 
 import { useFlows } from '../api/flows'
-import { useFlowResponses } from '../api/flow-responses'
 import { HeroChecklist, HeroChecklistProps } from '../Checklists/HeroChecklist'
 import { StepData } from '../types'
 import { ModalChecklist } from '../Checklists/ModalChecklist'
@@ -39,8 +38,6 @@ export const FrigadeChecklist: React.FC<FrigadeHeroChecklistProps> = ({
     getNumberOfStepsCompleted,
     isLoading,
   } = useFlows()
-
-  const { flowResponses } = useFlowResponses()
 
   const [selectedStep, setSelectedStep] = useState(initialSelectedStep || 0)
   const [finishedInitialLoad, setFinishedInitialLoad] = useState(false)

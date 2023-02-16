@@ -14,21 +14,26 @@ import { FrigadeChecklist } from '../FrigadeChecklist'
 interface DataFetcherProps {}
 
 const guestUserIdField = 'xFrigade_guestUserId'
+const realUserIdField = 'xFrigade_userId'
 
+const GUEST_PREFIX = 'guest_'
 export const DataFetcher: FC<DataFetcherProps> = ({}) => {
   const { getUserFlowState, setFlowResponses } = useFlowResponses()
   const { userId, setUserId } = useUser()
   const { flows, userProperties, setIsLoading } = useContext(FrigadeContext)
   const [automaticFlowIdsToTrigger, setAutomaticFlowIdsToTrigger] = useState<string[]>([])
+  const [isNewGuestUser, setIsNewGuestUser] = useState(false)
 
   async function syncFlows() {
     setIsLoading(true)
     if (flows) {
       // Prefetch flow responses for each flow in parallel
       let prefetchPromises = []
-      flows.forEach((flow) => {
-        prefetchPromises.push(getUserFlowState(flow.slug, userId))
-      })
+      if (!isNewGuestUser) {
+        flows.forEach((flow) => {
+          prefetchPromises.push(getUserFlowState(flow.slug, userId))
+        })
+      }
       const flowStates = await Promise.all(prefetchPromises)
       for (let i = 0; i < flowStates.length; i++) {
         if (flowStates[i]) {
@@ -76,22 +81,35 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
   function generateGuestUserId() {
     // If userId is null, generate a guest user id using uuid
     if (!userId) {
+      // Check if a real user id exists in local storage
+      const realUserId = localStorage.getItem(realUserIdField)
+      if (realUserId) {
+        setUserId(realUserId)
+        return
+      }
+
       // Call local storage to see if we already have a guest user id
       const guestUserId = localStorage.getItem(guestUserIdField)
       if (guestUserId) {
         setUserId(guestUserId)
         return
       }
+      setIsNewGuestUser(true)
       // If we don't have a guest user id, generate one and save it to local storage
-      const newGuestUserId = 'guest_' + uuidv4()
+      const newGuestUserId = GUEST_PREFIX + uuidv4()
       localStorage.setItem(guestUserIdField, newGuestUserId)
       setUserId((userId) => (userId ? userId : newGuestUserId))
     }
   }
 
   useEffect(() => {
+    // if user id isn't null and doesn't begin with GUEST_PREFIX , save it to local storage
+    if (userId && !userId.startsWith(GUEST_PREFIX)) {
+      localStorage.setItem(realUserIdField, userId)
+    }
+
+    generateGuestUserId()
     if (userId !== null) {
-      generateGuestUserId()
       syncFlows()
     }
   }, [userId, flows, userProperties])

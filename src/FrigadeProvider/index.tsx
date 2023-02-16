@@ -54,7 +54,7 @@ export const FrigadeProvider: FC<FrigadeProviderProps> = ({ publicApiKey, userId
   }>({})
 
   useEffect(() => {
-    if (userId !== userIdValue) {
+    if (userId !== null && userId !== undefined && userId !== userIdValue) {
       setUserIdValue(userId)
     }
   }, [userId])
