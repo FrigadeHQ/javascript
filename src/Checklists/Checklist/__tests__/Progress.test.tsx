@@ -18,13 +18,13 @@ describe('ProgressBar', () => {
   describe("percent", () => {
     test("renders as expected", () => {
       render(<ProgressBar {...progressBarProps} display='percent'/>)
+      expect(screen.getByText('20% complete')).toBeDefined();
     })
-    expect(screen.getByText('20% complete')).toBeDefined();
   })
   describe("count", () => {
     test("renders as expected", () => {
       render(<ProgressBar {...progressBarProps} display='count'/>)
+      expect(screen.getByText('2 of 10')).toBeDefined();
     })
-    expect(screen.getByText('2 of 10')).toBeDefined();
   })
 })
