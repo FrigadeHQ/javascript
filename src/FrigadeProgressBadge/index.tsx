@@ -33,5 +33,16 @@ export const FrigadeProgressBadge: React.FC<FrigadeProgressBadgeProps> = ({ flow
   const steps = getFlowSteps(flowId)
   const completedCount = getNumberOfStepsCompleted(flowId)
 
-  return <ProgressBadge count={completedCount} total={steps.length} title={title} style={style} primaryColor={primaryColor} secondaryColor={secondaryColor} textStyle={textStyle} onClick={onClick} />
+  return (
+    <ProgressBadge
+      count={completedCount}
+      total={steps.length}
+      title={title}
+      style={style}
+      primaryColor={primaryColor}
+      secondaryColor={secondaryColor}
+      textStyle={textStyle}
+      onClick={onClick}
+    />
+  )
 }
