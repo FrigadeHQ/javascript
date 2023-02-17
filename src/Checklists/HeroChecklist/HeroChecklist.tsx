@@ -154,7 +154,7 @@ const HeroChecklist: FC<HeroChecklistProps> = ({
         <ChecklistHeader style={{ padding: '30px 0px 30px 30px', borderBottom: 'none' }}>
           <HeroChecklistTitle>{title}</HeroChecklistTitle>
           <HeroChecklistSubtitle>{subtitle}</HeroChecklistSubtitle>
-          <ProgressBar total={steps.length} count={completeCount} fillColor={primaryColor} />
+          <ProgressBar total={steps.length} count={completeCount} fillColor={primaryColor} style={{ marginTop: '24px' }}/>
         </ChecklistHeader>
         <ChecklistStepsContainer>
           {steps.map((s: StepData, idx: number) => {
