@@ -1,5 +1,5 @@
 import React from 'react'
-import ProgressBadge from '..'
+import { ProgressBadge } from '..'
 import { render, screen, fireEvent } from '@testing-library/react'
 
 describe('ChecklistProgressBadge', () => {

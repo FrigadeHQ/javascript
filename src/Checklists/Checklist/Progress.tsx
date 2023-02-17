@@ -83,7 +83,7 @@ export const ProgressBar = ({
   }
 
   return (
-    <ChecklistProgressContainer style={style}>      
+    <ChecklistProgressContainer style={style}>
       <StepText style={textStyle} padding={padding}>{stepText}</StepText>
       <ChecklistProgressProgressBar>
         <div
