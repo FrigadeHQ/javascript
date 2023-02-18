@@ -18,7 +18,7 @@ const ChecklistProgressProgressBar = styled.div`
 `
 
 const StepText = styled.p<{ padding }>`
-  font-weight: 600;
+  font-weight: 500;
   font-size: 15px;
   line-height: 18px;
   padding-right: ${(props) => props.padding};
@@ -83,7 +83,14 @@ export const ProgressBar = ({
 
   return (
     <ChecklistProgressContainer style={style}>
-      <StepText style={textStyle} padding={padding}>
+      <StepText
+        style={{
+          ...textStyle,
+          fontSize: display === 'compact' ? 12 : 15,
+          fontWeight: display === 'compact' ? 400 : 500,
+        }}
+        padding={padding}
+      >
         {stepText}
       </StepText>
       <ChecklistProgressProgressBar>

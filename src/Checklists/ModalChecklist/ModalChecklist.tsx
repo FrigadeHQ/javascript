@@ -75,7 +75,7 @@ const ModalChecklist: FC<ModalChecklistProps> = ({
               count={completeCount}
               total={steps.length}
               fillColor={primaryColor}
-              style={{ marginTop: '24px' }}
+              style={{ margin: '14px 0px 8px 0px' }}
             />
           </>
         }

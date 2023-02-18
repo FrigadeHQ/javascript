@@ -33,5 +33,5 @@ export const ModalChecklistSubtitle = styled.p`
   color: #4d4d4d;
   font-size: 14px;
   line-height: 23px;
-  margin: 4px 0 0 0;
+  margin: 2px 0 0 0;
 `
