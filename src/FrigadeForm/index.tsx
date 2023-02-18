@@ -1,13 +1,13 @@
 import React, { CSSProperties, FC, useState } from 'react'
-import { Button } from '../../components/Button'
+import { Button } from '../components/Button'
 
 import { CTAContainer, FormStepContent, FormStepSubtitle, FormStepTitle } from './styled'
 
-import { CustomFormTypeProps, StepData } from '../../types'
-import { useFlows } from '../../api/flows'
-import { COMPLETED_STEP } from '../../api/common'
-import { LinkCollectionStepType } from '../LinkCollectionStepType'
-import { Modal } from '../../components/Modal'
+import { CustomFormTypeProps, StepData } from '../types'
+import { useFlows } from '../api/flows'
+import { COMPLETED_STEP } from '../api/common'
+import { LinkCollectionStepType } from '../Forms/LinkCollectionStepType'
+import { Modal } from '../components/Modal'
 
 export interface FormProps {
   title?: string
