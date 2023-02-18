@@ -1,8 +1,8 @@
 import { ToolTipPosition } from './Tooltip'
 
 type BoundingRect = {
-  x: number
-  y: number
+  left: number
+  top: number
   width: number
   height: number
 }
@@ -21,17 +21,17 @@ export const getPosition = (
   const scrollY = window.scrollY
   const scrollX = window.scrollX
 
-  if (!boundingRect || !boundingRect.x || !boundingRect.y) return { x: 0, y: 0 }
+  if (!boundingRect || !boundingRect.left || !boundingRect.top) return { x: 0, y: 0 }
 
   if (position === 'left') {
     return {
-      x: boundingRect.x - cardWidth - offset.x + scrollX,
-      y: boundingRect.y - offset.y + scrollY,
+      x: boundingRect.left - cardWidth + offset.x + scrollX,
+      y: boundingRect.top - offset.y + scrollY,
     }
   } else if (position === 'right') {
     return {
-      x: boundingRect.x + boundingRect.width + offset.x + scrollX,
-      y: boundingRect.y - offset.y + scrollY,
+      x: boundingRect.left + boundingRect.width + offset.x + scrollX,
+      y: boundingRect.top - offset.y + scrollY,
     }
   }
 

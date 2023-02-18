@@ -17,27 +17,33 @@ import {
 } from './styled'
 import { StepData } from '../types'
 
+import { useElemRect, getWindow } from '@reactour/utils'
+
+
 export type ToolTipPosition = 'left' | 'right'
 
 const CARD_WIDTH = 385
 
 // TODO: Should extend from FlowItem in a shared types repo
 interface TooltipData extends StepData {
+  selector?: string;
   subtitleStyle?: CSSProperties
   titleStyle?: CSSProperties
   buttonStyle?: CSSProperties
 }
 
-interface ToolTipProps {
+export interface ToolTipProps {
   data: TooltipData | TooltipData[]
   onDismiss: () => void
   onNext: (idx: number) => void
   onComplete: () => void
   tooltipPosition?: ToolTipPosition
-  ref?: any
   showHighlight?: boolean
   primaryColor?: string
   buttonStyle?: CSSProperties
+
+  elem?: any // initial element to focus
+  offset?: { x: number, y: number}
 }
 
 const breatheAnimation = keyframes`
@@ -66,50 +72,32 @@ const HighlightInner = styled.div<{ primaryColor: string }>`
   opacity: 0.8;
 `
 
-const Tooltip: FC<ToolTipProps> = React.forwardRef<HTMLElement, ToolTipProps>(
-  (
-    {
-      data,
-      onDismiss,
-      onNext,
-      onComplete,
-      tooltipPosition = 'left',
-      showHighlight = true,
-      primaryColor = '#000000',
-      buttonStyle = {},
-    },
-    ref
-  ) => {
-    const [currentStep, setCurrentStep] = useState(0)
-    const [currentStepData, setCurrentStepData] = useState<TooltipData>()
+const Tooltip: FC<ToolTipProps> = (
+  {
+    data,
+    onDismiss,
+    onNext,
+    onComplete,
+    tooltipPosition = 'left',
+    showHighlight = true,
+    primaryColor = '#000000',
+    buttonStyle = {},
+    elem: initialElem,
+    offset = { x: 0, y: 0 }
+  }) => {
+    const [currentStep, setCurrentStep] = useState(0);
+    
+    const [elem, setElem] = useState(initialElem)
+    const boundingRect = useElemRect(elem, currentStep)
+    const position = getPosition(boundingRect, tooltipPosition, CARD_WIDTH, offset)
 
     const [isVisible, setVisible] = useState(true)
-    const [position, setPosition] = useState({ x: 0, y: 0 })
-    const [highlightPosition, setHighlightPosition] = useState({ x: 0, y: 0 })
-
-    const handlePositioningUpdate = () => {
-      if (!ref) return
-      if (typeof ref === 'function') {
-        console.error(
-          'Tooltip can not handle function ref. Please pass in HTML Element ref instead'
-        )
-        return
-      }
-      const anchorBounds = (ref.current as any)?.getBoundingClientRect()
-      setPosition(getPosition(anchorBounds, tooltipPosition, CARD_WIDTH, { x: 0, y: 20 }))
-      setHighlightPosition(
-        getPosition(anchorBounds, tooltipPosition, CARD_WIDTH, { x: -40, y: 20 })
-      )
-    }
 
     useEffect(() => {
       if (!Array.isArray(data)) {
-        setCurrentStepData(data)
-        handlePositioningUpdate()
         return
       }
-      setCurrentStepData(data[currentStep])
-      handlePositioningUpdate()
+      setElem(document.querySelector(data[currentStep].selector))
     }, [currentStep])
 
     const handleOnCTAClick = () => {
@@ -122,11 +110,11 @@ const Tooltip: FC<ToolTipProps> = React.forwardRef<HTMLElement, ToolTipProps>(
       }
     }
 
-    if (!isVisible || !currentStepData) return <></>
+    if (!isVisible) return <></>
 
     const FooterContent = () => {
       if (!Array.isArray(data)) {
-        return <Button title={currentStepData.primaryButtonTitle} onClick={handleOnCTAClick} />
+        return <Button title={data[currentStep].primaryButtonTitle} onClick={handleOnCTAClick} />
       }
 
       return (
@@ -138,7 +126,7 @@ const Tooltip: FC<ToolTipProps> = React.forwardRef<HTMLElement, ToolTipProps>(
           </TooltipFooterLeft>
           <TooltipFooterRight>
             <Button
-              title={currentStepData.primaryButtonTitle || 'Next'}
+              title={data[currentStep].primaryButtonTitle || 'Next'}
               onClick={handleOnCTAClick}
               style={{ backgroundColor: primaryColor, borderColor: primaryColor, ...buttonStyle }}
             />
@@ -154,16 +142,16 @@ const Tooltip: FC<ToolTipProps> = React.forwardRef<HTMLElement, ToolTipProps>(
             <HighlightInner
               style={{
                 position: 'absolute',
-                top: highlightPosition?.y - 10 ?? 0,
-                left: highlightPosition?.x - 10 ?? 0,
+                top: position?.y - 10 ?? 0,
+                left: position?.x - 10 ?? 0,
               }}
               primaryColor={primaryColor}
             ></HighlightInner>
             <HighlightOuter
               style={{
                 position: 'absolute',
-                top: highlightPosition?.y - 24 ?? 0,
-                left: highlightPosition?.x - 24 ?? 0,
+                top: position?.y - 24 ?? 0,
+                left: position?.x - 24 ?? 0,
               }}
               primaryColor={primaryColor}
             ></HighlightOuter>
@@ -180,7 +168,7 @@ const Tooltip: FC<ToolTipProps> = React.forwardRef<HTMLElement, ToolTipProps>(
         >
           <TooltipHeader>
             <TooltipTitle style={{ fontSize: '18px', fontWeight: '600' }}>
-              {currentStepData.title}
+              {data[currentStep].title}
             </TooltipTitle>
             {onDismiss && (
               <div
@@ -197,7 +185,7 @@ const Tooltip: FC<ToolTipProps> = React.forwardRef<HTMLElement, ToolTipProps>(
             )}
           </TooltipHeader>
           <div className="Tooltip-Body">
-            <p style={{ fontSize: '16px', fontWeight: '400' }}>{currentStepData.subtitle}</p>
+            <p style={{ fontSize: '16px', fontWeight: '400' }}>{data[currentStep].subtitle}</p>
           </div>
           <TooltipFooter>
             <FooterContent />
@@ -205,7 +193,6 @@ const Tooltip: FC<ToolTipProps> = React.forwardRef<HTMLElement, ToolTipProps>(
         </TooltipContainer>
       </Wrapper>
     )
-  }
-)
+}
 
 export default Tooltip
