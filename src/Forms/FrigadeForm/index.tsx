@@ -181,3 +181,5 @@ export const FrigadeForm: FC<FormProps> = ({
 
   return content
 }
+
+export default FrigadeForm
