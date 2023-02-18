@@ -8,7 +8,7 @@ const ModalContainer = styled.div`
   background: #ffffff;
   box-shadow: 0px 6px 25px rgba(0, 0, 0, 0.06);
   border-radius: 6px;
-  z-index: 10;
+  z-index: 55;
   padding: 32px 32px 24px 32px;
 
   position: fixed;
@@ -46,11 +46,18 @@ const Body = styled.div`
 interface ModalProps {
   onClose: () => void
   visible: boolean
-  headerContent: React.ReactNode
+  headerContent?: React.ReactNode
   children: React.ReactNode
+  style?: React.CSSProperties
 }
 
-export const Modal: FC<ModalProps> = ({ onClose, visible, headerContent, children }) => {
+export const Modal: FC<ModalProps> = ({
+  onClose,
+  visible,
+  headerContent = null,
+  style = null,
+  children,
+}) => {
   if (!visible) return <></>
 
   // If user presses escape key, close modal
@@ -67,7 +74,7 @@ export const Modal: FC<ModalProps> = ({ onClose, visible, headerContent, childre
   return (
     <>
       <ModalBackground onClose={onClose} />
-      <ModalContainer>
+      <ModalContainer style={style}>
         <ModalHeader>
           <ModalClose onClick={() => onClose()}>
             <CloseIcon />
