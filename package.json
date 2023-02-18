@@ -89,6 +89,7 @@
   },
   "homepage": "https://github.com/FrigadeHQ/frigade-react#readme",
   "dependencies": {
+    "@reactour/utils": "^0.4.7",
     "framer-motion": "^9.0.4",
     "react-dom": "*",
     "styled-components": "^5.3.6",

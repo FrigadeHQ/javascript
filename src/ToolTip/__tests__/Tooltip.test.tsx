@@ -4,11 +4,14 @@ import { render, screen } from '@testing-library/react'
 import { Tooltip } from '../index'
 
 describe('Tooltip', () => {
-  const data = {
+  const data = [{
+    id: 'test',
+    complete: false,
     title: 'Test title',
     subtitle: 'Test subtitle',
     cta: 'Next',
-  }
+    selector: 'test-select-0'
+  }]
 
   test('renders with provided ref div', () => {
     const onDismiss = jest.fn()
@@ -16,15 +19,9 @@ describe('Tooltip', () => {
     const onNext = jest.fn()
 
     function ControlledTooltip() {
-      const testRef = {
-        current: {
-          getBoundingClientRect: jest.fn(() => ({ x: 100, y: 100, width: 200, height: 200 })),
-        },
-      }
       return (
         <div>
           <Tooltip
-            ref={testRef}
             data={data}
             onComplete={onComplete}
             onDismiss={onDismiss}
@@ -37,7 +34,7 @@ describe('Tooltip', () => {
       )
     }
     render(<ControlledTooltip />)
-    expect(screen.getByText(data.title)).toBeDefined()
-    expect(screen.getByText(data.subtitle)).toBeDefined()
+    expect(screen.getByText(data[0].title)).toBeDefined()
+    expect(screen.getByText(data[0].subtitle)).toBeDefined()
   })
 })
