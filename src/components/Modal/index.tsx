@@ -31,8 +31,9 @@ const ModalHeader = styled.div`
 
 const ModalClose = styled.div`
   position: absolute;
-  top: -10px;
-  right: -10px;
+  top: 16px;
+  right: 16px;
+  cursor: pointer;
 `
 
 const Body = styled.div`
@@ -75,12 +76,10 @@ export const Modal: FC<ModalProps> = ({
     <>
       <ModalBackground onClose={onClose} />
       <ModalContainer style={style}>
-        <ModalHeader>
-          <ModalClose onClick={() => onClose()}>
-            <CloseIcon />
-          </ModalClose>
-          {headerContent}
-        </ModalHeader>
+        <ModalClose onClick={() => onClose()}>
+          <CloseIcon />
+        </ModalClose>
+        {headerContent && <ModalHeader>{headerContent}</ModalHeader>}
         <Body>{children}</Body>
       </ModalContainer>
     </>

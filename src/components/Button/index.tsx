@@ -5,6 +5,7 @@ interface ButtonProps {
   onClick?: () => void
   title?: string
   style?: CSSProperties
+  disabled?: boolean
 }
 
 const BUTTON_PRIMARY_BG = '#000000'
@@ -20,18 +21,22 @@ const ButtonContainer = styled.button`
   justify-content: center;
   align-content: center;
   border: 1px solid ${BUTTON_PRIMARY_BG};
+  color: ${BUTTON_PRIMARY_TEXT_COLOR};
+  :disabled {
+    opacity: 0.3;
+  }
 `
 
 const ButtonText = styled.span`
   font-size: 13px;
   line-height: 20px;
   font-weight: 500;
-  color: ${BUTTON_PRIMARY_TEXT_COLOR};
+  color: inherit;
 `
 
-export const Button: FC<ButtonProps> = ({ onClick, title, style }) => {
+export const Button: FC<ButtonProps> = ({ onClick, title, style, disabled }) => {
   return (
-    <ButtonContainer onClick={onClick} style={style}>
+    <ButtonContainer disabled={disabled} onClick={onClick} style={style}>
       <ButtonText>{title}</ButtonText>
     </ButtonContainer>
   )

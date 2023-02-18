@@ -1,9 +1,9 @@
 import React, { CSSProperties, FC, useState } from 'react'
 import { Button } from '../../components/Button'
 
-import { FormStepContent, FormStepSubtitle, FormStepTitle } from './styled'
+import { CTAContainer, FormStepContent, FormStepSubtitle, FormStepTitle } from './styled'
 
-import { StepData } from '../../types'
+import { CustomFormTypeProps, StepData } from '../../types'
 import { useFlows } from '../../api/flows'
 import { COMPLETED_STEP } from '../../api/common'
 import { LinkCollectionStepType } from '../LinkCollectionStepType'
@@ -19,8 +19,7 @@ export interface FormProps {
 
   onCompleteStep?: (index: number, stepData: StepData) => void
 
-  // Object from string to function with StepData returning React.ReactNode
-  customStepTypes?: { [key: string]: (stepData: StepData) => React.ReactNode }
+  customStepTypes?: { [key: string]: (params: CustomFormTypeProps) => React.ReactNode }
 
   className?: string
 }
@@ -76,9 +75,7 @@ export const FrigadeForm: FC<FormProps> = ({
         </FormStepContent>
       )
     },
-    linkCollection: (stepData: StepData) => {
-      return <LinkCollectionStepType stepData={stepData} />
-    },
+    linkCollection: LinkCollectionStepType,
   }
 
   const mergedCustomStepTypes = { ...DEFAULT_CUSTOM_STEP_TYPES, ...customStepTypes }
@@ -121,13 +118,16 @@ export const FrigadeForm: FC<FormProps> = ({
     if (!steps[selectedStepValue]?.type || !mergedCustomStepTypes[steps[selectedStepValue].type]) {
       return mergedCustomStepTypes['default'](steps[selectedStepValue])
     }
-    return mergedCustomStepTypes[steps[selectedStepValue].type](steps[selectedStepValue])
+    return mergedCustomStepTypes[steps[selectedStepValue].type]({
+      stepData: steps[selectedStepValue],
+      primaryColor: primaryColor,
+    })
   }
 
   const content = (
     <div>
       <StepContent />
-      <div>
+      <CTAContainer>
         {steps[selectedStepValue].secondaryButtonTitle ? (
           <Button
             title={steps[selectedStepValue].secondaryButtonTitle}
@@ -136,25 +136,44 @@ export const FrigadeForm: FC<FormProps> = ({
                 window.open(steps[selectedStepValue].secondaryButtonUri)
               }
             }}
+            style={{
+              backgroundColor: 'transparent',
+              borderColor: primaryColor,
+              color: primaryColor,
+              width: 'auto',
+              display: 'inline-block',
+              marginRight: 12,
+            }}
           />
         ) : null}{' '}
         {steps[selectedStepValue].primaryButtonTitle ? (
           <Button
+            disabled={true}
             title={steps[selectedStepValue].primaryButtonTitle}
             onClick={() => {
               if (steps[selectedStepValue].primaryButtonUri) {
                 window.open(steps[selectedStepValue].primaryButtonUri)
               }
             }}
+            style={{
+              backgroundColor: primaryColor,
+              borderColor: primaryColor,
+              width: 'auto',
+              display: 'inline-block',
+            }}
           />
         ) : null}
-      </div>
+      </CTAContainer>
     </div>
   )
 
   if (type === 'modal') {
     return (
-      <Modal onClose={() => setShowModal(false)} style={{ maxWidth: 1024 }} visible={showModal}>
+      <Modal
+        onClose={() => setShowModal(false)}
+        style={{ maxWidth: 1024, width: 1024, maxHeight: 700 }}
+        visible={showModal}
+      >
         {content}
       </Modal>
     )
