@@ -89,9 +89,10 @@
   },
   "homepage": "https://github.com/FrigadeHQ/frigade-react#readme",
   "dependencies": {
+    "framer-motion": "^9.0.4",
     "react-dom": "*",
+    "styled-components": "^5.3.6",
     "swr": "^2.0.3",
-    "uuid": "^9.0.0",
-    "styled-components": "^5.3.6"
+    "uuid": "^9.0.0"
   }
 }

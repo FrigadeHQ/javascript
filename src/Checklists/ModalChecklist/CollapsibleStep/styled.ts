@@ -32,13 +32,7 @@ export const CollapseChevronContainer = styled.div`
   padding: 20px;
 `
 
-export const ExpandedContentContainer = styled.div<{ open }>`
-  opacity: ${(props) => (props.open ? '1' : '0')};
-  max-height: ${(props) => (props.open ? '100%' : '0')};
-  overflow: hidden;
-  transition: all 0.25s;
-  -webkit-transition: all 0.25s;
-`
+export const ExpandedContentContainer = styled.div``
 
 export const StepSubtitle = styled.p`
   font-weight: 400;

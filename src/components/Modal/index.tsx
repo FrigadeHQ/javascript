@@ -53,6 +53,17 @@ interface ModalProps {
 export const Modal: FC<ModalProps> = ({ onClose, visible, headerContent, children }) => {
   if (!visible) return <></>
 
+  // If user presses escape key, close modal
+  React.useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose()
+      }
+    }
+    document.addEventListener('keydown', handleEscape)
+    return () => document.removeEventListener('keydown', handleEscape)
+  }, [onClose])
+
   return (
     <>
       <ModalBackground onClose={onClose} />

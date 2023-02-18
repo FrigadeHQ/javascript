@@ -3,10 +3,10 @@ import { StepData } from '../../../types'
 import { CheckBox } from '../../../components/CheckBox'
 import { Chevron } from '../../../components/Icons/Chevron'
 import { Button } from '../../../components/Button'
+import { AnimatePresence, motion } from 'framer-motion'
 
 import {
   CollapseChevronContainer,
-  ExpandedContentContainer,
   HeaderLeft,
   StepContainer,
   StepHeader,
@@ -48,15 +48,24 @@ export const CollapsibleStep: FC<CollapsibleStepProps> = ({
         </CollapseChevronContainer>
       </StepHeader>
 
-      <ExpandedContentContainer open={!collapsed}>
-        <StepSubtitle>{stepData.subtitle}</StepSubtitle>
-
-        <Button
-          title={stepData.primaryButtonTitle ?? 'Continue'}
-          onClick={() => onComplete()}
-          style={{ backgroundColor: primaryColor, borderColor: primaryColor, width: 'auto' }}
-        />
-      </ExpandedContentContainer>
+      <AnimatePresence>
+        {!collapsed && (
+          <motion.div
+            initial={{ opacity: 1, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 1, height: 0 }}
+            key={stepData.id}
+            style={{ overflow: 'hidden' }}
+          >
+            <StepSubtitle>{stepData.subtitle}</StepSubtitle>
+            <Button
+              title={stepData.primaryButtonTitle ?? 'Continue'}
+              onClick={() => onComplete()}
+              style={{ backgroundColor: primaryColor, borderColor: primaryColor, width: 'auto' }}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </StepContainer>
   )
 }
