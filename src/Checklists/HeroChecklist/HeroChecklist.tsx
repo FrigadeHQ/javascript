@@ -162,7 +162,6 @@ const HeroChecklist: FC<HeroChecklistProps> = ({
           />
         </ChecklistHeader>
         <ChecklistStepsContainer>
-          m
           {steps.map((s: StepData, idx: number) => {
             return (
               <StepChecklistItem
