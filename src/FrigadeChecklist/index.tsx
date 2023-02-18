@@ -19,6 +19,8 @@ export interface FrigadeHeroChecklistProps extends HeroChecklistProps {
 
   className?: string
   type?: 'inline' | 'modal'
+
+  onDismiss?: () => void
 }
 
 export const FrigadeChecklist: React.FC<FrigadeHeroChecklistProps> = ({
@@ -30,6 +32,7 @@ export const FrigadeChecklist: React.FC<FrigadeHeroChecklistProps> = ({
   initialSelectedStep,
   className,
   type,
+  onDismiss,
 }) => {
   const {
     getFlow,
@@ -86,7 +89,12 @@ export const FrigadeChecklist: React.FC<FrigadeHeroChecklistProps> = ({
         subtitle={subtitle}
         primaryColor={primaryColor}
         visible={showModal}
-        onClose={() => setShowModal(false)}
+        onClose={() => {
+          setShowModal(false)
+          if (onDismiss) {
+            onDismiss()
+          }
+        }}
         autoExpandNextStep={true}
       />
     )

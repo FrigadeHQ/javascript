@@ -1,10 +1,11 @@
 import React, { CSSProperties } from 'react'
-import { useFlows } from '../api/flows';
-import { ProgressBadge } from "../Checklists/ProgressBadge";
+import { useFlows } from '../api/flows'
+import { ProgressBadge } from '../Checklists/ProgressBadge'
 
 interface FrigadeProgressBadgeProps {
   flowId: string
   title: string
+  className?: string
   style?: CSSProperties
   primaryColor?: string
   secondaryColor?: string
@@ -12,14 +13,17 @@ interface FrigadeProgressBadgeProps {
   onClick?: () => void
 }
 
-export const FrigadeProgressBadge: React.FC<FrigadeProgressBadgeProps> = ({ flowId, primaryColor, title, style, textStyle, secondaryColor, onClick }) => {
-
-  const {
-    getFlow,
-    getFlowSteps,
-    getNumberOfStepsCompleted,
-    isLoading,
-  } = useFlows()
+export const FrigadeProgressBadge: React.FC<FrigadeProgressBadgeProps> = ({
+  flowId,
+  primaryColor,
+  title,
+  style,
+  textStyle,
+  secondaryColor,
+  onClick,
+  className,
+}) => {
+  const { getFlow, getFlowSteps, getNumberOfStepsCompleted, isLoading } = useFlows()
 
   if (isLoading) {
     return null
@@ -43,6 +47,7 @@ export const FrigadeProgressBadge: React.FC<FrigadeProgressBadgeProps> = ({ flow
       secondaryColor={secondaryColor}
       textStyle={textStyle}
       onClick={onClick}
+      className={className}
     />
   )
 }

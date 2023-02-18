@@ -12,6 +12,7 @@ interface ProgressBadgeProps {
   onClick: () => void
   primaryColor?: string
   secondaryColor?: string
+  className?: string
 }
 
 export const ProgressBadge: FC<ProgressBadgeProps> = ({
@@ -22,20 +23,29 @@ export const ProgressBadge: FC<ProgressBadgeProps> = ({
   style = {},
   textStyle = {},
   primaryColor = '#000000',
-  secondaryColor = '#E6E6E6'
+  secondaryColor = '#E6E6E6',
+  className,
 }) => {
   return (
-    <BadgeContainer onClick={() => onClick !== undefined && onClick()} style={style}>
+    <BadgeContainer
+      className={className}
+      onClick={() => onClick !== undefined && onClick()}
+      style={style}
+    >
       <BadgeRow>
         <BadgeTitle style={textStyle}>{title}</BadgeTitle>
-        {
-          onClick !== undefined && (
-            <Chevron color={primaryColor} />
-          )
-        }
+        {onClick !== undefined && <Chevron color={primaryColor} />}
       </BadgeRow>
       {total && total !== 0 && (
-        <ProgressBar display="compact" count={count} total={total} fillColor={primaryColor} bgColor={secondaryColor} textStyle={textStyle} style={{ width: '100%'}}/>
+        <ProgressBar
+          display="compact"
+          count={count}
+          total={total}
+          fillColor={primaryColor}
+          bgColor={secondaryColor}
+          textStyle={textStyle}
+          style={{ width: '100%' }}
+        />
       )}
     </BadgeContainer>
   )
