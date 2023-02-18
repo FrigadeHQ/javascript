@@ -26,3 +26,5 @@ export const FrigadeTooltip: FC<
 
   return <Tooltip data={steps} elem={elem} {...props} />
 }
+
+export default FrigadeTooltip
