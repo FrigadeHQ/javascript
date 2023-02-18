@@ -15,9 +15,7 @@
 
 ## Introduction
 
-A library of high-quality components for creating beautiful onboarding and product education in your React apps.
-The library helps developers build better onboarding experiences faster so they can focus on what matters most: building great products.
-
+Frigade is the easiest way for developers to build high-quality product onboarding and education.
 
 ## Install
 
