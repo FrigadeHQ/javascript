@@ -1,15 +1,11 @@
 import React, { FC, useContext, useEffect, useState } from 'react'
-import { TriggerType } from '../api/flows'
+import { Flow, FlowType, TriggerType } from '../api/flows'
 import { FrigadeContext } from '../FrigadeProvider'
 import { useUser } from '../api/users'
 import { v4 as uuidv4 } from 'uuid'
-import {
-  FlowResponse,
-  PublicStepState,
-  PublicUserFlowState,
-  useFlowResponses,
-} from '../api/flow-responses'
+import { FlowResponse, PublicStepState, useFlowResponses } from '../api/flow-responses'
 import { FrigadeChecklist } from '../FrigadeChecklist'
+import { PublicUserFlowState, useUserFlowStates } from '../api/user-flow-states'
 
 interface DataFetcherProps {}
 
@@ -18,39 +14,33 @@ const realUserIdField = 'xFrigade_userId'
 
 const GUEST_PREFIX = 'guest_'
 export const DataFetcher: FC<DataFetcherProps> = ({}) => {
-  const { getUserFlowState, setFlowResponses } = useFlowResponses()
+  const { setFlowResponses } = useFlowResponses()
+  const { userFlowStatesData, isLoadingUserFlowStateData } = useUserFlowStates()
   const { userId, setUserId } = useUser()
   const [lastUserId, setLastUserId] = useState<string | null>(null)
   const { flows, userProperties, setIsLoading, setIsLoadingUserState } = useContext(FrigadeContext)
-  const [automaticFlowIdsToTrigger, setAutomaticFlowIdsToTrigger] = useState<string[]>([])
+  const [automaticFlowIdsToTrigger, setAutomaticFlowIdsToTrigger] = useState<Flow[]>([])
 
-  async function syncFlows() {
-    setIsLoading(true)
-    if (flows) {
-      // Prefetch flow responses for each flow in parallel
-      let prefetchPromises = []
-
-      flows.forEach((flow) => {
-        prefetchPromises.push(getUserFlowState(flow.slug, userId))
-      })
-
+  useEffect(() => {
+    if (isLoadingUserFlowStateData) {
       setIsLoadingUserState(true)
-      const flowStates = await Promise.all(prefetchPromises)
-      for (let i = 0; i < flowStates.length; i++) {
-        syncFlowStates(flowStates[i])
-      }
-      setIsLoadingUserState(false)
-      setIsLoading(false)
+      setIsLoading(true)
     } else {
-      console.error('Failed to prefetch flows')
+      if (userFlowStatesData) {
+        for (let i = 0; i < userFlowStatesData.length; i++) {
+          syncFlowStates(userFlowStatesData[i])
+        }
+      }
+      setIsLoading(false)
+      setIsLoadingUserState(false)
     }
-  }
+  }, [isLoadingUserFlowStateData, userFlowStatesData])
 
   function triggerFlow(flowId: string) {
     const flow = flows.find((flow) => flow.slug === flowId)
     if (flow && flow.triggerType === TriggerType.AUTOMATIC) {
       // We only trigger one at a time
-      setAutomaticFlowIdsToTrigger([flowId])
+      setAutomaticFlowIdsToTrigger([flow])
     }
   }
 
@@ -119,17 +109,16 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
     }
 
     generateGuestUserId()
-    if (userId !== null) {
-      syncFlows()
-    }
   }, [userId, flows, userProperties])
 
   function AutomaticFlowIdsToTrigger() {
     return (
       <>
-        {automaticFlowIdsToTrigger.map((flowId) => (
-          <FrigadeChecklist flowId={flowId} type={'modal'} />
-        ))}
+        {automaticFlowIdsToTrigger.map((flow) =>
+          flow.type === FlowType.CHECKLIST ? (
+            <FrigadeChecklist flowId={flow.slug} type={'modal'} />
+          ) : null
+        )}
       </>
     )
   }

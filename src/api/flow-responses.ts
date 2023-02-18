@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import { useContext, useState } from 'react'
 import {
   API_PREFIX,
   COMPLETED_FLOW,
@@ -16,16 +16,6 @@ export interface FlowResponse {
   actionType: string
   data: object
   createdAt: Date
-}
-
-export interface PublicUserFlowState {
-  flowId: string
-  flowState: 'COMPLETED_FLOW' | 'STARTED_FLOW' | 'NOT_STARTED_FLOW'
-  lastStepId: string
-  userId: string
-  foreignUserId: string
-  stepStates: object
-  shouldTrigger: boolean
 }
 
 export interface PublicStepState {
@@ -76,24 +66,6 @@ export function useFlowResponses() {
         )
         setFailedFlowResponses([...failedFlowResponses, flowResponse])
       }
-    })
-  }
-
-  async function getUserFlowState(
-    flowSlug: string,
-    foreignUserId: string
-  ): Promise<PublicUserFlowState | null> {
-    if (!foreignUserId) {
-      return null
-    }
-    return fetch(
-      `${API_PREFIX}userFlowStates/${flowSlug}?foreignUserId=${encodeURIComponent(foreignUserId)}`,
-      config
-    ).then((r) => {
-      if (r.status === 404) {
-        return null
-      }
-      return r.json()
     })
   }
 
@@ -170,6 +142,5 @@ export function useFlowResponses() {
     markFlowStarted,
     markFlowCompleted,
     setFlowResponses,
-    getUserFlowState,
   }
 }
