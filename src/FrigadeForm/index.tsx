@@ -41,6 +41,7 @@ export const FrigadeForm: FC<FormProps> = ({
     getStepStatus,
     getNumberOfStepsCompleted,
     isLoading,
+    targetingLogicShouldHideFlow,
   } = useFlows()
 
   const [selectedStep, setSelectedStep] = useState(0)
@@ -85,6 +86,10 @@ export const FrigadeForm: FC<FormProps> = ({
   }
   const flow = getFlow(flowId)
   if (!flow) {
+    return null
+  }
+
+  if (targetingLogicShouldHideFlow(flow)) {
     return null
   }
 

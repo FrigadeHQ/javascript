@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import { useContext, useEffect } from 'react'
 import {
   API_PREFIX,
   COMPLETED_FLOW,
@@ -11,6 +11,7 @@ import {
 import { FrigadeContext } from '../FrigadeProvider'
 import { useFlowResponses } from './flow-responses'
 import useSWR from 'swr'
+import { useUserFlowStates } from './user-flow-states'
 
 export interface Flow {
   id: number
@@ -22,6 +23,7 @@ export interface Flow {
   slug: string
   type: FlowType
   triggerType: TriggerType
+  targetingLogic?: string
 }
 
 export enum FlowType {
@@ -40,6 +42,7 @@ export function useFlows() {
     useContext(FrigadeContext)
   const { addResponse } = useFlowResponses()
   const fetcher = (url) => fetch(url, config).then((r) => r.json())
+  const { userFlowStatesData, isLoadingUserFlowStateData } = useUserFlowStates()
 
   const { data: flowData } = useSWR(publicApiKey ? `${API_PREFIX}flows` : null, fetcher)
 
@@ -133,6 +136,21 @@ export function useFlows() {
     return JSON.parse(flows.find((f) => f.slug === slug).data)
   }
 
+  function targetingLogicShouldHideFlow(flow: Flow) {
+    if (isLoadingUserFlowStateData) {
+      return true
+    }
+    if (flow.targetingLogic && userFlowStatesData) {
+      // Iterate through matcing userFlowState for the flow and if shouldTrigger is true, return false
+      const matchingUserFlowState = userFlowStatesData.find((ufs) => ufs.flowId === flow.slug)
+      if (matchingUserFlowState) {
+        return matchingUserFlowState.shouldTrigger === false
+      }
+    }
+
+    return false
+  }
+
   return {
     getFlow,
     getFlowData,
@@ -144,5 +162,6 @@ export function useFlows() {
     getFlowStatus,
     getNumberOfStepsCompleted,
     getNumberOfSteps,
+    targetingLogicShouldHideFlow,
   }
 }

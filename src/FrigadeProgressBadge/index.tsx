@@ -23,7 +23,13 @@ export const FrigadeProgressBadge: React.FC<FrigadeProgressBadgeProps> = ({
   onClick,
   className,
 }) => {
-  const { getFlow, getFlowSteps, getNumberOfStepsCompleted, isLoading } = useFlows()
+  const {
+    getFlow,
+    getFlowSteps,
+    getNumberOfStepsCompleted,
+    isLoading,
+    targetingLogicShouldHideFlow,
+  } = useFlows()
 
   if (isLoading) {
     return null
@@ -31,6 +37,10 @@ export const FrigadeProgressBadge: React.FC<FrigadeProgressBadgeProps> = ({
 
   const flow = getFlow(flowId)
   if (!flow) {
+    return null
+  }
+
+  if (targetingLogicShouldHideFlow(flow)) {
     return null
   }
 

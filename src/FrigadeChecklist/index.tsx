@@ -41,6 +41,7 @@ export const FrigadeChecklist: React.FC<FrigadeHeroChecklistProps> = ({
     getStepStatus,
     getNumberOfStepsCompleted,
     isLoading,
+    targetingLogicShouldHideFlow,
   } = useFlows()
 
   const [selectedStep, setSelectedStep] = useState(initialSelectedStep || 0)
@@ -52,6 +53,10 @@ export const FrigadeChecklist: React.FC<FrigadeHeroChecklistProps> = ({
   }
   const flow = getFlow(flowId)
   if (!flow) {
+    return null
+  }
+
+  if (targetingLogicShouldHideFlow(flow)) {
     return null
   }
 
