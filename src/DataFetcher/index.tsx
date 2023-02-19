@@ -107,8 +107,14 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
     if (userId && !userId.startsWith(GUEST_PREFIX)) {
       localStorage.setItem(realUserIdField, userId)
     }
-
-    generateGuestUserId()
+    // If the user ID is null, give a grace period of 50ms to set the real user id
+    if (userId === null) {
+      setTimeout(() => {
+        if (userId === null) {
+          generateGuestUserId()
+        }
+      }, 50)
+    }
   }, [userId, flows, userProperties])
 
   function AutomaticFlowIdsToTrigger() {
