@@ -1,6 +1,7 @@
 import React, { CSSProperties, FC } from 'react'
 import { CheckBox } from '../../components/CheckBox'
 import styled from 'styled-components'
+import { motion } from 'framer-motion'
 import { StepData } from '../../types'
 
 interface StepItemProps {
@@ -46,6 +47,8 @@ export const StepChecklistItem: FC<StepItemProps> = ({
     >
       {isSelected && (
         <StepItemSelectedIndicator
+          as={motion.div}
+          layoutId="checklis-step-selected"
           style={{ backgroundColor: primaryColor }}
         ></StepItemSelectedIndicator>
       )}
