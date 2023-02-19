@@ -18,6 +18,7 @@ export interface StepData {
   complete: boolean
   StepContent?: React.ReactNode
   handleCTAClick?: () => void
+  handleSecondaryCTAClick?: () => void
   ctaActionType?: 'complete'
   imageStyle?: CSSProperties
   props?: any

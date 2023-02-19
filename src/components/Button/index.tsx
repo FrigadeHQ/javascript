@@ -5,6 +5,7 @@ interface ButtonProps {
   onClick?: () => void
   title?: string
   style?: CSSProperties
+  textStyle?: CSSProperties
   disabled?: boolean
 }
 
@@ -34,10 +35,10 @@ const ButtonText = styled.span`
   color: inherit;
 `
 
-export const Button: FC<ButtonProps> = ({ onClick, title, style, disabled }) => {
+export const Button: FC<ButtonProps> = ({ onClick, title, style, disabled, textStyle = {} }) => {
   return (
     <ButtonContainer disabled={disabled} onClick={onClick} style={style}>
-      <ButtonText>{title}</ButtonText>
+      <ButtonText style={textStyle}>{title}</ButtonText>
     </ButtonContainer>
   )
 }

@@ -4,6 +4,12 @@ import { render } from '@testing-library/react'
 
 describe('ModalChecklist', () => {
 
+  jest.spyOn(window, 'scrollTo').mockImplementation(() => { });
+
+  afterAll(() => {
+    jest.restoreAllMocks()
+  })
+
   const modalChecklistProps = {
     title: 'Test Checklist',
     subtitle: 'More content for test checklist',

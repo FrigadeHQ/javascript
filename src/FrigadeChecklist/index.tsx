@@ -74,6 +74,10 @@ export const FrigadeChecklist: React.FC<FrigadeHeroChecklistProps> = ({
   function getSteps() {
     return steps.map((step) => {
       return {
+        handleSecondaryCTAClick: () => {
+          // Default to skip behavior for secondary click but allow for override
+          setSelectedStep(selectedStep + 1 >= steps.length ? selectedStep : selectedStep + 1)
+        },
         ...step,
         complete: getStepStatus(flowId, step.id) === COMPLETED_STEP,
         handleCTAClick: () => {

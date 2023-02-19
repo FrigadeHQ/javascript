@@ -71,6 +71,12 @@ const Divider = styled.div`
   background: #e6e6e6;
 `
 
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+`
+
 const HeroChecklistStepContentContainer = styled.div`
   flex: 2;
   padding: 2rem;
@@ -110,6 +116,14 @@ const HeroChecklist: FC<HeroChecklistProps> = ({
             window.open(currentStep.url, currentStep.urlTarget ?? '_blank')
           }
         }
+        const handleSecondaryCTAClick = () => {
+          if (currentStep.handleSecondaryCTAClick) {
+            currentStep.handleSecondaryCTAClick()
+          }
+          if (currentStep.secondaryButtonUri) {
+            window.open(currentStep.secondaryButtonUri)
+          }
+        }
         return (
           <HeroChecklistStepContent>
             {stepData.imageUri ? (
@@ -118,11 +132,21 @@ const HeroChecklist: FC<HeroChecklistProps> = ({
             {stepData.videoUri ? <VideoPlayer videoUri={stepData.videoUri} /> : null}
             <HeroChecklistStepTitle>{stepData.title}</HeroChecklistStepTitle>
             <HeroChecklistStepSubtitle>{stepData.subtitle}</HeroChecklistStepSubtitle>
-            <Button
-              title={stepData.primaryButtonTitle}
-              onClick={handleCTAClick}
-              style={{ backgroundColor: primaryColor, borderColor: primaryColor, width: 'auto' }}
-            />
+            <ButtonContainer>
+              <Button
+                title={stepData.primaryButtonTitle}
+                onClick={handleCTAClick}
+                style={{ backgroundColor: primaryColor, borderColor: primaryColor, width: 'auto', marginRight: '12px' }}
+              />
+              { stepData.secondaryButtonTitle && (
+                <Button
+                  title={stepData.secondaryButtonTitle}
+                  onClick={handleSecondaryCTAClick}
+                  style={{ borderColor: primaryColor, width: 'auto', backgroundColor: '#FFFFFF' }}
+                  textStyle={{ color: primaryColor }}
+                />
+              )}
+            </ButtonContainer>
           </HeroChecklistStepContent>
         )
       },
