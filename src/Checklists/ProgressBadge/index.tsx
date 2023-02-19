@@ -2,6 +2,7 @@ import React, { CSSProperties, FC } from 'react'
 import { Chevron } from '../../components/Icons/Chevron'
 import { ProgressBar } from '../Checklist/Progress'
 import { BadgeContainer, BadgeRow, BadgeTitle } from './styled'
+import { motion } from 'framer-motion'
 
 interface ProgressBadgeProps {
   title: string
@@ -28,6 +29,8 @@ export const ProgressBadge: FC<ProgressBadgeProps> = ({
 }) => {
   return (
     <BadgeContainer
+      as={motion.div}
+      whileHover={{ scale: 1.05 }} whileTap={{ scale: 1.1 }}
       className={className}
       onClick={() => onClick !== undefined && onClick()}
       style={style}
