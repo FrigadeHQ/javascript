@@ -1,7 +1,6 @@
 import React, { FC } from 'react'
 import { useFlows } from '../api/flows'
-import { Tooltip } from '../Tooltip'
-import { ToolTipProps } from '../Tooltip/Tooltip'
+import { Tooltip, ToolTipProps } from '../Tooltip'
 
 export const FrigadeTooltip: FC<
   ToolTipProps & { flowId: string; initialSelectedStep?: number }
