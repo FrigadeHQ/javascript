@@ -2,8 +2,8 @@ import React, { CSSProperties, FC, useEffect, useState } from 'react'
 
 import { Button } from '../components/Button'
 import { CloseIcon } from '../components/CloseIcon'
-
-import styled, { keyframes } from 'styled-components'
+import { motion } from 'framer-motion'
+import styled from 'styled-components'
 import { getPosition } from './position'
 import {
   TooltipContainer,
@@ -45,12 +45,6 @@ export interface ToolTipProps {
   offset?: { x: number; y: number }
   visible?: boolean
 }
-
-const breatheAnimation = keyframes`
- 0% { opacity: 0.15; }
- 50% { opacity: 0.35 }
- 100% { opacity: 0.15; }
-`
 
 const HighlightOuter = styled.div<{ primaryColor: string }>`
   width: 100%;
@@ -182,11 +176,13 @@ const Tooltip: FC<ToolTipProps> = ({
         </span>
       )}
       <TooltipContainer
+        as={motion.div}
+        layoutId='tooltip-container'
         style={{
           position: 'absolute',
-          top: position?.y ?? 0,
-          left: position?.x ?? 0,
           width: 'max-content',
+          left: position?.x ?? 0, 
+          top: position?.y ?? 0
         }}
         maxWidth={CARD_WIDTH}
       >
