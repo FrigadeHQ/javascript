@@ -17,7 +17,7 @@ import {
 } from './styled'
 import { StepData } from '../types'
 
-import { useElemRect, getWindow } from '@reactour/utils'
+import { useElemRect } from '@reactour/utils'
 
 
 export type ToolTipPosition = 'left' | 'right'
@@ -44,6 +44,7 @@ export interface ToolTipProps {
 
   elem?: any // initial element to focus
   offset?: { x: number, y: number}
+  visible?: boolean
 }
 
 const breatheAnimation = keyframes`
@@ -83,15 +84,14 @@ const Tooltip: FC<ToolTipProps> = (
     primaryColor = '#000000',
     buttonStyle = {},
     elem: initialElem,
-    offset = { x: 0, y: 0 }
+    offset = { x: 0, y: 0 },
+    visible = true
   }) => {
     const [currentStep, setCurrentStep] = useState(0);
     
     const [elem, setElem] = useState(initialElem)
     const boundingRect = useElemRect(elem, currentStep)
     const position = getPosition(boundingRect, tooltipPosition, CARD_WIDTH, offset)
-
-    const [isVisible, setVisible] = useState(true)
 
     useEffect(() => {
       if (!Array.isArray(data)) {
@@ -102,7 +102,6 @@ const Tooltip: FC<ToolTipProps> = (
 
     const handleOnCTAClick = () => {
       if (!Array.isArray(data) || currentStep === data.length - 1) {
-        setVisible(false)
         return onComplete()
       } else {
         onNext(currentStep)
@@ -110,7 +109,7 @@ const Tooltip: FC<ToolTipProps> = (
       }
     }
 
-    if (!isVisible) return <></>
+    if (!visible) return <></>
 
     const FooterContent = () => {
       if (!Array.isArray(data)) {
