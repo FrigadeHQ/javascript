@@ -5,6 +5,7 @@ import { CustomFormTypeProps } from '../../types'
 interface Link {
   title?: string
   uri?: string
+  uriTarget?: string
   imageUri?: string
 }
 
@@ -78,7 +79,11 @@ export function LinkCollectionStepType({ stepData, primaryColor }: CustomFormTyp
               style={{ borderColor: primaryColor ?? '#000000', color: primaryColor ?? '#000000' }}
               onClick={() => {
                 if (link.uri) {
-                  window.open(link.uri, '_blank')
+                  if (link.uriTarget && link.uriTarget === '_blank') {
+                    window.open(link.uri, '_blank')
+                  } else {
+                    window.location.href = link.uri
+                  }
                 }
               }}
             >
