@@ -1,4 +1,5 @@
 import React, { CSSProperties } from 'react'
+import { motion } from 'framer-motion'
 import styled from 'styled-components'
 
 const PROGRESS_BAR_COLOR_STYLES = {
@@ -34,18 +35,12 @@ const progressBgStyle: CSSProperties = {
   borderRadius: '20px',
 }
 
-/*
-  Progress bar styles defined here rather than as styled component
-  to enable the css transition property to function. Otherwise,
-  the random div created by the styled component on render will disable the transition
- */
 const progressFgStyle: CSSProperties = {
   position: 'absolute',
   left: 0,
   top: 0,
   height: '10px',
   borderRadius: '20px',
-  transition: 'width 0.35s ease-in-out',
 }
 
 export const ProgressBar = ({
@@ -94,8 +89,7 @@ export const ProgressBar = ({
         {stepText}
       </StepText>
       <ChecklistProgressProgressBar>
-        <div
-          className="ProgressBarFGFill"
+        <motion.div
           style={{
             ...progressFgStyle,
             width: fgWidth,
