@@ -78,7 +78,7 @@ const HighlightInner = styled.div<{ primaryColor: string }>`
   border-radius: 100px;
   background-color: ${(props) => props.primaryColor};
   z-index: 20;
-  opacity: 0.8;
+  opacity: 1;
 `
 
 const Tooltip: FC<ToolTipProps> = ({
