@@ -32,7 +32,7 @@ export const CollapsibleStep: FC<CollapsibleStepProps> = ({
   const iconStyle = collapsed ? {} : { transform: 'rotate(90deg)' }
 
   return (
-    <StepContainer>
+    <StepContainer onClick={() => collapsed ? onClick() : null} data-testid={`step-${stepData.id}`}>
       <StepHeader>
         <HeaderLeft>
           <CheckBox
