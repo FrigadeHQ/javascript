@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { FrigadeContext } from '../FrigadeProvider'
 import { API_PREFIX, useConfig } from './common'
+import { useUserFlowStates } from './user-flow-states'
 
 interface AddPropertyToUserDTO {
   readonly foreignId: string
@@ -10,6 +11,7 @@ interface AddPropertyToUserDTO {
 export function useUser() {
   const { userId, setUserId, setUserProperties, userProperties } = useContext(FrigadeContext)
   const { config } = useConfig()
+  const { mutateUserFlowState } = useUserFlowStates()
 
   async function addPropertiesToUser(properties: {
     [key: string]: string | boolean | number | null
@@ -24,6 +26,7 @@ export function useUser() {
       body: JSON.stringify(data),
     })
     setUserProperties({ ...userProperties, ...properties })
+    mutateUserFlowState()
   }
 
   return { userId, setUserId, addPropertiesToUser }

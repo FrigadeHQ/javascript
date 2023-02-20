@@ -23,7 +23,10 @@ export function useUserFlowStates(): {
   const { publicApiKey, userId, flows } = useContext(FrigadeContext)
 
   function arrayFetcher(urlArray: string[]) {
-    const f = (u) => fetch(u, config).then((r) => r.json())
+    const f = (url) =>
+      fetch(url, config).then((response) => {
+        return response.json()
+      })
     return Promise.all(urlArray.map(f))
   }
 

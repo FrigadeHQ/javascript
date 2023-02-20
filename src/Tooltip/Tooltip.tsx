@@ -54,9 +54,9 @@ const HighlightOuter = styled.div<{ primaryColor: string }>`
   position: absolute;
   display: inline-flex;
   background-color: ${(props: any) => props.primaryColor};
-  animation-duration: 1s;
+  animation-duration: 1.5s;
   animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
-  animation-delay: 0s;
+  animation-delay: 0.15s;
   animation-iteration-count: infinite;
   animation-direction: normal;
   animation-fill-mode: none;
@@ -67,7 +67,7 @@ const HighlightOuter = styled.div<{ primaryColor: string }>`
   @keyframes ping {
     75%,
     to {
-      transform: scale(2);
+      transform: scale(1.75);
       opacity: 0;
     }
   }
@@ -79,7 +79,7 @@ const HighlightInner = styled.div<{ primaryColor: string }>`
   border-radius: 100px;
   background-color: ${(props) => props.primaryColor};
   z-index: 20;
-  opacity: 0.8;
+  opacity: 1;
 `
 
 const Tooltip: FC<ToolTipProps> = ({
@@ -232,12 +232,12 @@ const Tooltip: FC<ToolTipProps> = ({
       )}
       <TooltipContainer
         as={motion.div}
-        layoutId='tooltip-container'
+        layoutId="tooltip-container"
         style={{
           position: 'absolute',
           width: 'max-content',
-          left: position?.x ?? 0, 
-          top: position?.y ?? 0
+          left: position?.x ?? 0,
+          top: position?.y ?? 0,
         }}
         maxWidth={CARD_WIDTH}
       >

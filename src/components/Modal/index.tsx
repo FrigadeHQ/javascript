@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect } from 'react'
 import styled from 'styled-components'
 
 import { ModalBackground } from './ModalBackground'
@@ -59,18 +59,27 @@ export const Modal: FC<ModalProps> = ({
   style = null,
   children,
 }) => {
-  if (!visible) return <></>
-
   // If user presses escape key, close modal
-  React.useEffect(() => {
+  useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         onClose()
       }
     }
     document.addEventListener('keydown', handleEscape)
-    return () => document.removeEventListener('keydown', handleEscape)
-  }, [onClose])
+    if (visible) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'unset'
+    }
+
+    return () => {
+      document.body.style.overflow = 'unset'
+      document.removeEventListener('keydown', handleEscape)
+    }
+  }, [onClose, visible])
+
+  if (!visible) return <></>
 
   return (
     <>
