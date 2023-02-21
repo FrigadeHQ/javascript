@@ -9,11 +9,12 @@ interface Link {
   imageUri?: string
 }
 
-// Create a grid with 3 cols per row. Min width of 300 px per col.
+// create flex that wraps if not enoug space
 const LinkContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  grid-gap: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
 `
 
 const Link = styled.div`
@@ -27,6 +28,9 @@ const Link = styled.div`
   border-radius: 8px;
   margin: 15px;
   padding: 20px;
+  flex-basis: 255px;
+  flex-grow: 0;
+  flex-shrink: 0;
 `
 
 const LinkIcon = styled.img`

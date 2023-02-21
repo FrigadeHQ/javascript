@@ -15,13 +15,29 @@ const ModalContainer = styled.div`
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  max-width: 500px;
-  min-width: 500px;
-  min-height: 600px;
-  max-height: 600px;
 
   display: flex;
   flex-direction: column;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+
+  /* Mobile */
+  @media (max-width: 500px) {
+    width: 90%;
+    height: 90%;
+    top: 0px;
+    left: 0px;
+    margin-left: 14px;
+    margin-top: 14px;
+    transform: none;
+  }
+
+  @media (min-width: 501px) {
+    width: 90%;
+  }
+
+  @media (min-width: 1000px) {
+    width: 1000px;
+  }
 `
 
 const ModalHeader = styled.div`

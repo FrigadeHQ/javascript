@@ -174,11 +174,7 @@ export const FrigadeForm: FC<FormProps> = ({
 
   if (type === 'modal') {
     return (
-      <Modal
-        onClose={() => setShowModal(false)}
-        style={{ maxWidth: 1024, width: 1024, maxHeight: 700 }}
-        visible={showModal}
-      >
+      <Modal onClose={() => setShowModal(false)} visible={showModal}>
         {content}
       </Modal>
     )
