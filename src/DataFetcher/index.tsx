@@ -91,7 +91,11 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
       }
       // If we don't have a guest user id, generate one and save it to local storage
       const newGuestUserId = GUEST_PREFIX + uuidv4()
-      localStorage.setItem(guestUserIdField, newGuestUserId)
+      try {
+        localStorage.setItem(guestUserIdField, newGuestUserId)
+      } catch (e) {
+        console.log('Failed to save guest user id locally: Local storage available', e)
+      }
       setUserId((userId) => (userId ? userId : newGuestUserId))
     }
   }
@@ -105,7 +109,11 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
     setLastUserId(userId)
     // if user id isn't null and doesn't begin with GUEST_PREFIX , save it to local storage
     if (userId && !userId.startsWith(GUEST_PREFIX)) {
-      localStorage.setItem(realUserIdField, userId)
+      try {
+        localStorage.setItem(realUserIdField, userId)
+      } catch (e) {
+        console.log('Failed to save user id locally: Local storage available', e)
+      }
     }
     // If the user ID is null, give a grace period of 50ms to set the real user id
     if (userId === null) {
