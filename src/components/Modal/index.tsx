@@ -24,11 +24,8 @@ const ModalContainer = styled.div`
   @media (max-width: 500px) {
     width: 90%;
     height: 90%;
-    top: 0px;
-    left: 0px;
-    margin-left: 14px;
-    margin-top: 14px;
-    transform: none;
+    top: 50%;
+    left: 50%;
   }
 
   @media (min-width: 501px) {
