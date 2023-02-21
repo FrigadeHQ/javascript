@@ -46,9 +46,11 @@ export const TooltipFooterLeft = styled.div`
 
 export const TooltipFooterRight = styled.div`
   display: flex;
-  flex: 1;
-  flex-direction: column;
-  justify-content: center;
+  flex: 2;
+  flex-shrink: 1;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-content: center;
 `
 
 export const TooltipStepCounter = styled.p`
