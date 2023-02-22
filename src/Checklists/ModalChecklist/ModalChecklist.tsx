@@ -4,7 +4,7 @@ import { Modal } from '../../components/Modal'
 import { ProgressBar } from '../Checklist/Progress'
 import { CollapsibleStep } from './CollapsibleStep'
 
-import { HeaderContent, ModalChecklistTitle, ModalChecklistSubtitle } from './styled'
+import { HeaderContent, ModalChecklistSubtitle, ModalChecklistTitle } from './styled'
 
 interface ModalChecklistProps {
   steps: StepData[]
@@ -79,6 +79,7 @@ const ModalChecklist: FC<ModalChecklistProps> = ({
             />
           </>
         }
+        style={{ maxWidth: '600px' }}
       >
         {steps.map((step: StepData, idx: number) => {
           const isCollapsed = collapsedSteps[idx]
