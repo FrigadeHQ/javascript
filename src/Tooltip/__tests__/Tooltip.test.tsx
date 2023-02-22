@@ -2,6 +2,7 @@ import React from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
 
 import { Tooltip } from '../index'
+import { StepData } from '../../types'
 
 describe('Tooltip', () => {
   const data = [
@@ -83,4 +84,29 @@ describe('Tooltip', () => {
     expect(onDismiss).toHaveBeenCalledTimes(1);
   })
 
+  test('renders custom StepContent', () => {
+
+    const CustomStepContent = ({ stepData }: { stepData: StepData}) => (
+      <div data-testid='test-div'>
+        <p>This is custom content</p>
+        <button onClick={stepData.handleCTAClick}>Custom primary</button>
+      </div>
+    )
+
+    const customStepData = [
+      {
+        id: 'test-0',
+        complete: false,
+        selector: 'test-select-0',
+        StepContent: CustomStepContent,
+        handleCTAClick: jest.fn()
+      } as unknown as StepData,
+    ]
+
+    render(<Tooltip data={customStepData} onComplete={onComplete} onDismiss={onDismiss} onNext={onNext} />)
+    expect(screen.getByTestId('test-div')).toBeDefined()
+    expect(screen.getByText('This is custom content')).toBeDefined()
+    fireEvent.click(screen.getByText('Custom primary'))
+    expect(customStepData[0].handleCTAClick).toHaveBeenCalledTimes(1)
+  })
 })

@@ -45,6 +45,7 @@ export interface ToolTipProps {
   offset?: { x: number; y: number }
   visible?: boolean
   initialStep?: number
+  containerStyle?: CSSProperties
 }
 
 const HighlightOuter = styled.div<{ primaryColor: string }>`
@@ -94,7 +95,8 @@ const Tooltip: FC<ToolTipProps> = ({
   elem: initialElem,
   offset = { x: 0, y: 0 },
   visible = true,
-  initialStep = 0
+  initialStep = 0,
+  containerStyle = {}
 }) => {
   const [currentStep, setCurrentStep] = useState(initialStep)
 
@@ -196,6 +198,8 @@ const Tooltip: FC<ToolTipProps> = ({
     )
   }
 
+  const Content = data[currentStep]?.StepContent ? data[currentStep].StepContent : DefaultTooltipStepContent
+
   return (
     <Wrapper>
       {showHighlight && (
@@ -238,10 +242,11 @@ const Tooltip: FC<ToolTipProps> = ({
           width: 'max-content',
           left: position?.x ?? 0,
           top: position?.y ?? 0,
+          ...containerStyle
         }}
         maxWidth={CARD_WIDTH}
       >
-        <DefaultTooltipStepContent />
+       <Content stepData={data[currentStep]} />
       </TooltipContainer>
     </Wrapper>
   )
