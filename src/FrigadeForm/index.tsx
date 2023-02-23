@@ -109,7 +109,10 @@ export const FrigadeForm: FC<FormProps> = ({
       ...rawStep,
       complete: getStepStatus(flowId, rawStep.id) === COMPLETED_STEP,
       handleCTAClick: () => {
-        if (rawStep.autoMarkCompleted || rawStep.autoMarkCompleted === undefined) {
+        if (
+          !rawStep.completionCriteria &&
+          (rawStep.autoMarkCompleted || rawStep.autoMarkCompleted === undefined)
+        ) {
           markStepCompleted(flowId, rawStep.id)
           setSelectedStep(selectedStep + 1 >= steps.length ? selectedStep : selectedStep + 1)
         }

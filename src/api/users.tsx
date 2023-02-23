@@ -52,6 +52,7 @@ export function useUser() {
       method: 'POST',
       body: JSON.stringify(data),
     })
+    mutateUserFlowState()
   }
 
   return { userId, setUserId, addPropertiesToUser, trackEventForUser }

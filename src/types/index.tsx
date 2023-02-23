@@ -7,8 +7,10 @@ export interface StepData {
   subtitle?: string
   primaryButtonTitle?: string
   primaryButtonUri?: string
+  primaryButtonUriTarget?: string
   secondaryButtonTitle?: string
   secondaryButtonUri?: string
+  secondaryButtonUriTarget?: string
   url?: string
   urlTarget?: string
   type?: string

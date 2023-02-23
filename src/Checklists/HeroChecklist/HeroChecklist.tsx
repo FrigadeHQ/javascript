@@ -108,6 +108,7 @@ const HeroChecklist: FC<HeroChecklistProps> = ({
           return <div>{Content}</div>
         }
         const currentStep = steps[selectedStepValue]
+
         const handleCTAClick = () => {
           if (currentStep.handleCTAClick) {
             currentStep.handleCTAClick()
@@ -115,15 +116,35 @@ const HeroChecklist: FC<HeroChecklistProps> = ({
           if (currentStep.url) {
             window.open(currentStep.url, currentStep.urlTarget ?? '_blank')
           }
+          if (currentStep.primaryButtonUri) {
+            if (
+              currentStep.primaryButtonUriTarget &&
+              currentStep.primaryButtonUriTarget !== '_blank'
+            ) {
+              window.location.href = currentStep.primaryButtonUri
+            } else {
+              window.open(currentStep.primaryButtonUri)
+            }
+          }
         }
+
         const handleSecondaryCTAClick = () => {
           if (currentStep.handleSecondaryCTAClick) {
             currentStep.handleSecondaryCTAClick()
           }
           if (currentStep.secondaryButtonUri) {
             window.open(currentStep.secondaryButtonUri)
+            if (
+              currentStep.secondaryButtonUriTarget &&
+              currentStep.secondaryButtonUriTarget !== '_blank'
+            ) {
+              window.location.href = currentStep.secondaryButtonUri
+            } else {
+              window.open(currentStep.secondaryButtonUri)
+            }
           }
         }
+
         return (
           <HeroChecklistStepContent>
             {stepData.imageUri ? (
@@ -136,9 +157,14 @@ const HeroChecklist: FC<HeroChecklistProps> = ({
               <Button
                 title={stepData.primaryButtonTitle}
                 onClick={handleCTAClick}
-                style={{ backgroundColor: primaryColor, borderColor: primaryColor, width: 'auto', marginRight: '12px' }}
+                style={{
+                  backgroundColor: primaryColor,
+                  borderColor: primaryColor,
+                  width: 'auto',
+                  marginRight: '12px',
+                }}
               />
-              { stepData.secondaryButtonTitle && (
+              {stepData.secondaryButtonTitle && (
                 <Button
                   title={stepData.secondaryButtonTitle}
                   onClick={handleSecondaryCTAClick}
