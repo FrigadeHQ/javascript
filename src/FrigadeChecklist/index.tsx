@@ -5,6 +5,7 @@ import { HeroChecklist, HeroChecklistProps } from '../Checklists/HeroChecklist'
 import { StepData } from '../types'
 import { ModalChecklist } from '../Checklists/ModalChecklist'
 import { COMPLETED_STEP } from '../api/common'
+import { primaryCTAClickSideEffects, secondaryCTAClickSideEffects } from '../shared/cta-util'
 
 export interface FrigadeHeroChecklistProps extends HeroChecklistProps {
   flowId: string
@@ -72,19 +73,24 @@ export const FrigadeChecklist: React.FC<FrigadeHeroChecklistProps> = ({
   }
 
   function getSteps() {
-    return steps.map((step) => {
+    return steps.map((step: StepData) => {
       return {
         handleSecondaryCTAClick: () => {
           // Default to skip behavior for secondary click but allow for override
           setSelectedStep(selectedStep + 1 >= steps.length ? selectedStep : selectedStep + 1)
+          secondaryCTAClickSideEffects(step)
         },
         ...step,
         complete: getStepStatus(flowId, step.id) === COMPLETED_STEP,
         handleCTAClick: () => {
-          if (step.autoMarkCompleted || step.autoMarkCompleted === undefined) {
+          if (
+            !step.completionCriteria &&
+            (step.autoMarkCompleted || step.autoMarkCompleted === undefined)
+          ) {
             markStepCompleted(flowId, step.id)
             setSelectedStep(selectedStep + 1 >= steps.length ? selectedStep : selectedStep + 1)
           }
+          primaryCTAClickSideEffects(step)
         },
       }
     })

@@ -113,35 +113,11 @@ const HeroChecklist: FC<HeroChecklistProps> = ({
           if (currentStep.handleCTAClick) {
             currentStep.handleCTAClick()
           }
-          if (currentStep.url) {
-            window.open(currentStep.url, currentStep.urlTarget ?? '_blank')
-          }
-          if (currentStep.primaryButtonUri) {
-            if (
-              currentStep.primaryButtonUriTarget &&
-              currentStep.primaryButtonUriTarget !== '_blank'
-            ) {
-              window.location.href = currentStep.primaryButtonUri
-            } else {
-              window.open(currentStep.primaryButtonUri)
-            }
-          }
         }
 
         const handleSecondaryCTAClick = () => {
           if (currentStep.handleSecondaryCTAClick) {
             currentStep.handleSecondaryCTAClick()
-          }
-          if (currentStep.secondaryButtonUri) {
-            window.open(currentStep.secondaryButtonUri)
-            if (
-              currentStep.secondaryButtonUriTarget &&
-              currentStep.secondaryButtonUriTarget !== '_blank'
-            ) {
-              window.location.href = currentStep.secondaryButtonUri
-            } else {
-              window.open(currentStep.secondaryButtonUri)
-            }
           }
         }
 

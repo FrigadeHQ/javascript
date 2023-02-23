@@ -98,7 +98,11 @@ const ModalChecklist: FC<ModalChecklistProps> = ({
                 }
                 if (!autoExpandNextStep) return
                 // Automatically expand next step
-                if (idx < collapsedSteps.length - 1 && collapsedSteps[idx + 1]) {
+                if (
+                  !step.completionCriteria &&
+                  idx < collapsedSteps.length - 1 &&
+                  collapsedSteps[idx + 1]
+                ) {
                   handleStepClick(idx + 1)
                 }
               }}
