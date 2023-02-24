@@ -1,11 +1,26 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect } from 'react'
 import { useFlows } from '../api/flows'
 import { Tooltip, ToolTipProps } from '../Tooltip'
 
 export const FrigadeTooltip: FC<
   ToolTipProps & { flowId: string; initialSelectedStep?: number }
-> = ({ flowId, initialSelectedStep, ...props }) => {
-  const { getFlow, getFlowSteps, isLoading, targetingLogicShouldHideFlow, markStepCompleted } = useFlows()
+> = ({ flowId, initialSelectedStep, customVariables, ...props }) => {
+  const {
+    getFlow,
+    getFlowSteps,
+    isLoading,
+    targetingLogicShouldHideFlow,
+    markStepCompleted,
+    setCustomVariable,
+  } = useFlows()
+
+  useEffect(() => {
+    if (!isLoading && customVariables) {
+      Object.keys(customVariables).forEach((key) => {
+        setCustomVariable(key, customVariables[key])
+      })
+    }
+  }, [customVariables, isLoading])
 
   if (isLoading) {
     return null
@@ -27,7 +42,15 @@ export const FrigadeTooltip: FC<
   const steps = getFlowSteps(flowId)
   const elem = document.querySelector(steps[initialSelectedStep ?? 0].selector)
 
-  return <Tooltip data={steps} elem={elem} onNext={handleOnNext} initialStep={initialSelectedStep} {...props} />
+  return (
+    <Tooltip
+      data={steps}
+      elem={elem}
+      onNext={handleOnNext}
+      initialStep={initialSelectedStep}
+      {...props}
+    />
+  )
 }
 
 export default FrigadeTooltip

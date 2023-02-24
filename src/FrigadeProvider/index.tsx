@@ -24,6 +24,10 @@ export interface IFrigadeContext {
   >
   openFlowStates: { [key: string]: boolean }
   setOpenFlowStates: React.Dispatch<React.SetStateAction<{ [key: string]: boolean }>>
+  customVariables?: { [key: string]: string | boolean | number | null }
+  setCustomVariables?: React.Dispatch<
+    React.SetStateAction<{ [key: string]: string | boolean | number | null }>
+  >
 }
 
 export interface FrigadeProviderProps {
@@ -49,6 +53,8 @@ export const FrigadeContext = createContext<IFrigadeContext>({
   setUserProperties: () => {},
   openFlowStates: {},
   setOpenFlowStates: () => {},
+  customVariables: {},
+  setCustomVariables: () => {},
 })
 
 export const FrigadeProvider: FC<FrigadeProviderProps> = ({ publicApiKey, userId, children }) => {
@@ -62,6 +68,9 @@ export const FrigadeProvider: FC<FrigadeProviderProps> = ({ publicApiKey, userId
     [key: string]: string | boolean | number | null
   }>({})
   const [openFlowStates, setOpenFlowStates] = useState<{ [key: string]: boolean }>({})
+  const [customVariables, setCustomVariables] = useState<{
+    [key: string]: string | boolean | number | null
+  }>({})
 
   useEffect(() => {
     if (userId !== null && userId !== undefined && userId !== userIdValue) {
@@ -89,6 +98,8 @@ export const FrigadeProvider: FC<FrigadeProviderProps> = ({ publicApiKey, userId
         setUserProperties,
         openFlowStates,
         setOpenFlowStates,
+        customVariables,
+        setCustomVariables,
       }}
     >
       {children}

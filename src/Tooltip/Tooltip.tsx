@@ -45,6 +45,7 @@ export interface ToolTipProps {
   offset?: { x: number; y: number }
   visible?: boolean
   initialStep?: number
+  customVariables?: { [key: string]: string | number | boolean }
 }
 
 const HighlightOuter = styled.div<{ primaryColor: string }>`
@@ -94,7 +95,7 @@ const Tooltip: FC<ToolTipProps> = ({
   elem: initialElem,
   offset = { x: 0, y: 0 },
   visible = true,
-  initialStep = 0
+  initialStep = 0,
 }) => {
   const [currentStep, setCurrentStep] = useState(initialStep)
 
@@ -112,7 +113,6 @@ const Tooltip: FC<ToolTipProps> = ({
   if (!visible) return <></>
 
   const DefaultFooterContent = () => {
-
     const handleOnCTAClick = () => {
       if (!Array.isArray(data) || currentStep === data.length - 1) {
         return onComplete()
@@ -121,21 +121,19 @@ const Tooltip: FC<ToolTipProps> = ({
         setCurrentStep(currentStep + 1)
       }
     }
-  
+
     const handleOnSecondaryCTAClick = () => {
-      if(data[currentStep].handleSecondaryCTAClick) {
+      if (data[currentStep].handleSecondaryCTAClick) {
         data[currentStep].handleSecondaryCTAClick()
-      }
-      else {
+      } else {
         setCurrentStep(currentStep + 1)
       }
     }
-  
-  
+
     if (!Array.isArray(data)) {
       return <Button title={data[currentStep].primaryButtonTitle} onClick={handleOnCTAClick} />
     }
-  
+
     return (
       <>
         <TooltipFooterLeft>
@@ -147,18 +145,26 @@ const Tooltip: FC<ToolTipProps> = ({
           <Button
             title={data[currentStep].primaryButtonTitle || 'Next'}
             onClick={handleOnCTAClick}
-            style={{ backgroundColor: primaryColor, borderColor: primaryColor, maxWidth: '50%', ...buttonStyle }}
+            style={{
+              backgroundColor: primaryColor,
+              borderColor: primaryColor,
+              maxWidth: '50%',
+              ...buttonStyle,
+            }}
           />
-          {
-            data[currentStep].secondaryButtonTitle && (
-              <Button
-                title={data[currentStep].secondaryButtonTitle}
-                onClick={handleOnSecondaryCTAClick}
-                style={{ borderColor: primaryColor, width: 'auto', backgroundColor: '#FFFFFF', marginLeft: '8px' }}
-                textStyle={{ color: primaryColor }}
-              />
-            )
-          }
+          {data[currentStep].secondaryButtonTitle && (
+            <Button
+              title={data[currentStep].secondaryButtonTitle}
+              onClick={handleOnSecondaryCTAClick}
+              style={{
+                borderColor: primaryColor,
+                width: 'auto',
+                backgroundColor: '#FFFFFF',
+                marginLeft: '8px',
+              }}
+              textStyle={{ color: primaryColor }}
+            />
+          )}
         </TooltipFooterRight>
       </>
     )
@@ -173,7 +179,7 @@ const Tooltip: FC<ToolTipProps> = ({
           </TooltipTitle>
           {onDismiss && (
             <div
-              data-testid='tooltip-dismiss'
+              data-testid="tooltip-dismiss"
               onClick={onDismiss}
               style={{
                 height: '100%',

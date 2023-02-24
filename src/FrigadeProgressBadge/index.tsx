@@ -1,4 +1,4 @@
-import React, { CSSProperties } from 'react'
+import React, { CSSProperties, useEffect } from 'react'
 import { useFlows } from '../api/flows'
 import { ProgressBadge } from '../Checklists/ProgressBadge'
 import { useFlowOpens } from '../api/flow-opens'
@@ -12,6 +12,7 @@ interface FrigadeProgressBadgeProps {
   secondaryColor?: string
   textStyle?: CSSProperties
   onClick?: () => void
+  customVariables?: { [key: string]: string | number | boolean }
 }
 
 export const FrigadeProgressBadge: React.FC<FrigadeProgressBadgeProps> = ({
@@ -23,6 +24,7 @@ export const FrigadeProgressBadge: React.FC<FrigadeProgressBadgeProps> = ({
   secondaryColor,
   onClick,
   className,
+  customVariables,
 }) => {
   const {
     getFlow,
@@ -30,9 +32,18 @@ export const FrigadeProgressBadge: React.FC<FrigadeProgressBadgeProps> = ({
     getNumberOfStepsCompleted,
     isLoading,
     targetingLogicShouldHideFlow,
+    setCustomVariable,
   } = useFlows()
 
   const { setOpenFlowState, getOpenFlowState } = useFlowOpens()
+
+  useEffect(() => {
+    if (!isLoading && customVariables) {
+      Object.keys(customVariables).forEach((key) => {
+        setCustomVariable(key, customVariables[key])
+      })
+    }
+  }, [customVariables, isLoading])
 
   if (isLoading) {
     return null

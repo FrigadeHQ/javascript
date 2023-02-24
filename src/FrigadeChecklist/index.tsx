@@ -1,4 +1,4 @@
-import React, { CSSProperties, useState } from 'react'
+import React, { CSSProperties, useEffect, useState } from 'react'
 
 import { useFlows } from '../api/flows'
 import { HeroChecklist, HeroChecklistProps } from '../Checklists/HeroChecklist'
@@ -25,6 +25,8 @@ export interface FrigadeHeroChecklistProps extends HeroChecklistProps {
   visible?: boolean
 
   onDismiss?: () => void
+
+  customVariables?: { [key: string]: string | number | boolean }
 }
 
 export const FrigadeChecklist: React.FC<FrigadeHeroChecklistProps> = ({
@@ -38,6 +40,7 @@ export const FrigadeChecklist: React.FC<FrigadeHeroChecklistProps> = ({
   type,
   onDismiss,
   visible,
+  customVariables,
 }) => {
   const {
     getFlow,
@@ -47,11 +50,20 @@ export const FrigadeChecklist: React.FC<FrigadeHeroChecklistProps> = ({
     getNumberOfStepsCompleted,
     isLoading,
     targetingLogicShouldHideFlow,
+    setCustomVariable,
   } = useFlows()
   const { getOpenFlowState, setOpenFlowState } = useFlowOpens()
   const [selectedStep, setSelectedStep] = useState(initialSelectedStep || 0)
   const [finishedInitialLoad, setFinishedInitialLoad] = useState(false)
   const showModal = visible === undefined ? getOpenFlowState(flowId) : visible
+
+  useEffect(() => {
+    if (!isLoading && customVariables) {
+      Object.keys(customVariables).forEach((key) => {
+        setCustomVariable(key, customVariables[key])
+      })
+    }
+  }, [customVariables, isLoading])
 
   if (isLoading) {
     return null
@@ -122,7 +134,7 @@ export const FrigadeChecklist: React.FC<FrigadeHeroChecklistProps> = ({
     steps: getSteps(),
     title,
     subtitle,
-    primaryColor
+    primaryColor,
   }
 
   if (type === 'modal') {
