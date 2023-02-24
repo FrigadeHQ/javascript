@@ -60,6 +60,8 @@ export function useFlows() {
     return getFlow(slug) ? JSON.parse(getFlow(slug).data).data : []
   }
 
+  function setVariable(key: string, value: string | number | boolean) {}
+
   function markStepStarted(flowSlug: string, stepId: string, data?: any) {
     addResponse({
       foreignUserId: userId,
