@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import { StepData } from '../../../types'
-import { CheckBox } from '../../../components/CheckBox'
+import { CheckBoxRow } from '../../../components/CheckBoxRow'
 import { Chevron } from '../../../components/Icons/Chevron'
 import { Button, MultipleButtonContainer } from '../../../components/Button'
 import { AnimatePresence, motion } from 'framer-motion'
@@ -40,7 +40,7 @@ export const CollapsibleStep: FC<CollapsibleStepProps> = ({
     >
       <StepHeader>
         <HeaderLeft>
-          <CheckBox
+          <CheckBoxRow
             value={stepData.complete}
             style={{ width: 'auto', borderTop: 0 }}
             primaryColor={primaryColor}
