@@ -22,6 +22,8 @@ export interface FrigadeHeroChecklistProps extends HeroChecklistProps {
   className?: string
   type?: 'inline' | 'modal'
 
+  visible?: boolean
+
   onDismiss?: () => void
 }
 
@@ -35,6 +37,7 @@ export const FrigadeChecklist: React.FC<FrigadeHeroChecklistProps> = ({
   className,
   type,
   onDismiss,
+  visible,
 }) => {
   const {
     getFlow,
@@ -48,7 +51,7 @@ export const FrigadeChecklist: React.FC<FrigadeHeroChecklistProps> = ({
   const { getOpenFlowState, setOpenFlowState } = useFlowOpens()
   const [selectedStep, setSelectedStep] = useState(initialSelectedStep || 0)
   const [finishedInitialLoad, setFinishedInitialLoad] = useState(false)
-  const showModal = getOpenFlowState(flowId)
+  const showModal = visible === undefined ? getOpenFlowState(flowId) : visible
 
   if (isLoading) {
     return null
