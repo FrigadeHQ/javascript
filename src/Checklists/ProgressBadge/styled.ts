@@ -5,6 +5,7 @@ export const BadgeContainer = styled.div<{ primaryColor }>`
   border-radius: 8px;
   padding: 6px 10px 6px 10px;
   min-width: 160px;
+  cursor: pointer;
 `
 
 export const BadgeRow = styled.div`

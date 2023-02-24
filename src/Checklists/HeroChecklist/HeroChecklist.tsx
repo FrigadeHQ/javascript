@@ -3,7 +3,7 @@ import React, { CSSProperties, FC, useState } from 'react'
 import styled from 'styled-components'
 import { StepChecklistItem } from './StepChecklistItem'
 import { ProgressBar } from '../Checklist/Progress'
-import { Button } from '../../components/Button'
+import { Button, MultipleButtonContainer } from '../../components/Button'
 
 import {
   HeroChecklistStepContent,
@@ -71,12 +71,6 @@ const Divider = styled.div`
   background: #e6e6e6;
 `
 
-const ButtonContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-`
-
 const HeroChecklistStepContentContainer = styled.div`
   flex: 2;
   padding: 2rem;
@@ -129,7 +123,7 @@ const HeroChecklist: FC<HeroChecklistProps> = ({
             {stepData.videoUri ? <VideoPlayer videoUri={stepData.videoUri} /> : null}
             <HeroChecklistStepTitle>{stepData.title}</HeroChecklistStepTitle>
             <HeroChecklistStepSubtitle>{stepData.subtitle}</HeroChecklistStepSubtitle>
-            <ButtonContainer>
+            <MultipleButtonContainer>
               <Button
                 title={stepData.primaryButtonTitle}
                 onClick={handleCTAClick}
@@ -148,7 +142,7 @@ const HeroChecklist: FC<HeroChecklistProps> = ({
                   textStyle={{ color: primaryColor }}
                 />
               )}
-            </ButtonContainer>
+            </MultipleButtonContainer>
           </HeroChecklistStepContent>
         )
       },

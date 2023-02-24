@@ -35,6 +35,15 @@ const ButtonText = styled.span`
   color: inherit;
 `
 
+export const MultipleButtonContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  & > * {
+    margin-right: 8px;
+  }
+`
+
 export const Button: FC<ButtonProps> = ({ onClick, title, style, disabled, textStyle = {} }) => {
   return (
     <ButtonContainer disabled={disabled} onClick={onClick} style={style}>

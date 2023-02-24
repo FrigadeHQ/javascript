@@ -17,6 +17,8 @@ interface ModalChecklistProps {
   autoExpandFirstIncompleteStep?: boolean
   autoExpandNextStep?: boolean
   primaryColor?: string
+  selectedStep?: number
+  setSelectedStep?: (index: number) => void
 }
 
 const ModalChecklist: FC<ModalChecklistProps> = ({
@@ -30,6 +32,8 @@ const ModalChecklist: FC<ModalChecklistProps> = ({
   autoCollapse = true,
   autoExpandNextStep = true,
   primaryColor = '#000000',
+  selectedStep,
+  setSelectedStep,
 }) => {
   const completeCount = steps.filter((s) => s.complete).length
   const [collapsedSteps, setCollapsedSteps] = useState<boolean[]>(Array(steps.length).fill(true))
@@ -46,11 +50,17 @@ const ModalChecklist: FC<ModalChecklistProps> = ({
     setCollapsedSteps(initCollapsedState)
   }, [])
 
+  useEffect(() => {
+    handleStepClick(selectedStep)
+  }, [selectedStep])
+
   const handleStepClick = (idx: number) => {
     const newCollapsedState = [...collapsedSteps]
     if (autoCollapse) {
       for (let i = 0; i < collapsedSteps.length; ++i) {
-        if (i !== idx) newCollapsedState[i] = true
+        if (i !== idx) {
+          newCollapsedState[i] = true
+        }
       }
     }
     newCollapsedState[idx] = !newCollapsedState[idx]
@@ -88,8 +98,10 @@ const ModalChecklist: FC<ModalChecklistProps> = ({
               stepData={step}
               collapsed={isCollapsed}
               key={`modal-checklist-${step.id ?? idx}`}
-              onClick={() => handleStepClick(idx)}
-              onComplete={() => {
+              onClick={() => {
+                setSelectedStep(idx)
+              }}
+              onPrimaryButtonClick={() => {
                 if (onCompleteStep) {
                   onCompleteStep(idx, step)
                 }
@@ -103,7 +115,12 @@ const ModalChecklist: FC<ModalChecklistProps> = ({
                   idx < collapsedSteps.length - 1 &&
                   collapsedSteps[idx + 1]
                 ) {
-                  handleStepClick(idx + 1)
+                  setSelectedStep(idx + 1)
+                }
+              }}
+              onSecondaryButtonClick={() => {
+                if (step.handleSecondaryCTAClick) {
+                  step.handleSecondaryCTAClick()
                 }
               }}
               primaryColor={primaryColor}

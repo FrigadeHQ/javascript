@@ -11,6 +11,7 @@ export interface StepData {
   secondaryButtonTitle?: string
   secondaryButtonUri?: string
   secondaryButtonUriTarget?: string
+  skippable?: boolean
   url?: string
   urlTarget?: string
   type?: string
