@@ -1,6 +1,7 @@
 import React, { CSSProperties } from 'react'
 import { useFlows } from '../api/flows'
 import { ProgressBadge } from '../Checklists/ProgressBadge'
+import { useFlowOpens } from '../api/flow-opens'
 
 interface FrigadeProgressBadgeProps {
   flowId: string
@@ -31,6 +32,8 @@ export const FrigadeProgressBadge: React.FC<FrigadeProgressBadgeProps> = ({
     targetingLogicShouldHideFlow,
   } = useFlows()
 
+  const { setOpenFlowState, getOpenFlowState } = useFlowOpens()
+
   if (isLoading) {
     return null
   }
@@ -56,7 +59,12 @@ export const FrigadeProgressBadge: React.FC<FrigadeProgressBadgeProps> = ({
       primaryColor={primaryColor}
       secondaryColor={secondaryColor}
       textStyle={textStyle}
-      onClick={onClick}
+      onClick={() => {
+        setOpenFlowState(flowId, true)
+        if (onClick) {
+          onClick()
+        }
+      }}
       className={className}
     />
   )

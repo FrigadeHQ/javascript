@@ -6,6 +6,7 @@ import { StepData } from '../types'
 import { ModalChecklist } from '../Checklists/ModalChecklist'
 import { COMPLETED_STEP } from '../api/common'
 import { primaryCTAClickSideEffects, secondaryCTAClickSideEffects } from '../shared/cta-util'
+import { useFlowOpens } from '../api/flow-opens'
 
 export interface FrigadeHeroChecklistProps extends HeroChecklistProps {
   flowId: string
@@ -44,10 +45,10 @@ export const FrigadeChecklist: React.FC<FrigadeHeroChecklistProps> = ({
     isLoading,
     targetingLogicShouldHideFlow,
   } = useFlows()
-
+  const { getOpenFlowState, setOpenFlowState } = useFlowOpens()
   const [selectedStep, setSelectedStep] = useState(initialSelectedStep || 0)
   const [finishedInitialLoad, setFinishedInitialLoad] = useState(false)
-  const [showModal, setShowModal] = useState(true)
+  const showModal = getOpenFlowState(flowId)
 
   if (isLoading) {
     return null
@@ -105,7 +106,7 @@ export const FrigadeChecklist: React.FC<FrigadeHeroChecklistProps> = ({
         primaryColor={primaryColor}
         visible={showModal}
         onClose={() => {
-          setShowModal(false)
+          setOpenFlowState(flowId, false)
           if (onDismiss) {
             onDismiss()
           }
