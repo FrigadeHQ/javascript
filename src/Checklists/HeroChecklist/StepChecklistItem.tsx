@@ -1,5 +1,5 @@
 import React, { CSSProperties, FC } from 'react'
-import { CheckBox } from '../../components/CheckBox'
+import { CheckBoxRow } from '../../components/CheckBoxRow'
 import styled from 'styled-components'
 import { motion } from 'framer-motion'
 import { StepData } from '../../types'
@@ -53,12 +53,10 @@ export const StepChecklistItem: FC<StepItemProps> = ({
         ></StepItemSelectedIndicator>
       )}
       <ChecklistStepItem key={`hero-checklist-step-${index}`} role="listitem">
-        <CheckBox
+        <CheckBoxRow
           value={data.complete}
           labelPosition="left"
           label={data.stepName}
-          index={index}
-          length={listLength}
           style={style}
           primaryColor={primaryColor}
         />

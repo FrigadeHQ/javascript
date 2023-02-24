@@ -90,13 +90,16 @@ export const FrigadeChecklist: React.FC<FrigadeHeroChecklistProps> = ({
     })
   }
 
+  const commonProps = {
+    steps: getSteps(),
+    title,
+    subtitle,
+    primaryColor
+  }
+
   if (type === 'modal') {
     return (
       <ModalChecklist
-        steps={getSteps()}
-        title={title}
-        subtitle={subtitle}
-        primaryColor={primaryColor}
         visible={showModal}
         onClose={() => {
           setShowModal(false)
@@ -105,20 +108,18 @@ export const FrigadeChecklist: React.FC<FrigadeHeroChecklistProps> = ({
           }
         }}
         autoExpandNextStep={true}
+        {...commonProps}
       />
     )
   }
 
   return (
     <HeroChecklist
-      steps={getSteps()}
-      title={title}
-      subtitle={subtitle}
-      primaryColor={primaryColor}
       style={style}
       selectedStep={selectedStep}
       setSelectedStep={setSelectedStep}
       className={className}
+      {...commonProps}
     />
   )
 }
