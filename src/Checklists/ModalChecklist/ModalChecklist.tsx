@@ -99,6 +99,11 @@ const ModalChecklist: FC<ModalChecklistProps> = ({
               collapsed={isCollapsed}
               key={`modal-checklist-${step.id ?? idx}`}
               onClick={() => {
+                if (selectedStep === idx) {
+                  // Collapse step if needed
+                  handleStepClick(idx)
+                  return
+                }
                 setSelectedStep(idx)
               }}
               onPrimaryButtonClick={() => {
