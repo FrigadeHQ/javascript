@@ -76,12 +76,24 @@ export const FrigadeChecklist: React.FC<FrigadeHeroChecklistProps> = ({
     setFinishedInitialLoad(true)
   }
 
+  function goToNextStepIfPossible() {
+    if (selectedStep + 1 >= steps.length) {
+      // If modal, close it
+      if (type === 'modal') {
+        setOpenFlowState(flowId, false)
+      }
+      return
+    }
+
+    setSelectedStep(selectedStep + 1)
+  }
+
   function getSteps() {
     return steps.map((step: StepData) => {
       return {
         handleSecondaryCTAClick: () => {
           // Default to skip behavior for secondary click but allow for override
-          setSelectedStep(selectedStep + 1 >= steps.length ? selectedStep : selectedStep + 1)
+          goToNextStepIfPossible()
           secondaryCTAClickSideEffects(step)
           if (step.skippable === true) {
             markStepCompleted(flowId, step.id, { skipped: true })
@@ -95,7 +107,7 @@ export const FrigadeChecklist: React.FC<FrigadeHeroChecklistProps> = ({
             (step.autoMarkCompleted || step.autoMarkCompleted === undefined)
           ) {
             markStepCompleted(flowId, step.id)
-            setSelectedStep(selectedStep + 1 >= steps.length ? selectedStep : selectedStep + 1)
+            goToNextStepIfPossible()
           }
           if (step.primaryButtonUri && step.primaryButtonUri.trim() == '#' && type === 'modal') {
             setOpenFlowState(flowId, false)
