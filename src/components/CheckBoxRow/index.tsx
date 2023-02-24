@@ -1,6 +1,6 @@
 import React, { CSSProperties, FC } from 'react'
 import styled from 'styled-components'
-import { CheckBox, CheckBoxType } from '../Checkbox'
+import { CheckBox, CheckBoxType } from '../CheckBox'
 
 interface CheckBoxProps {
   label?: string
