@@ -32,9 +32,9 @@ interface TooltipData extends StepData {
 }
 
 export interface ToolTipProps {
-  data: TooltipData[]
-  onDismiss: () => void
-  onComplete: () => void
+  steps?: TooltipData[]
+  onDismiss?: () => void
+  onComplete?: () => void
   tooltipPosition?: ToolTipPosition
   showHighlight?: boolean
   primaryColor?: string
@@ -84,9 +84,9 @@ const HighlightInner = styled.div<{ primaryColor: string }>`
 `
 
 const Tooltips: FC<ToolTipProps> = ({
-  data,
+  steps = [],
   onDismiss,
-  onComplete,
+  onComplete = () => {},
   tooltipPosition = 'left',
   showHighlight = true,
   primaryColor = '#000000',
@@ -102,27 +102,27 @@ const Tooltips: FC<ToolTipProps> = ({
   const position = getPosition(boundingRect, tooltipPosition, CARD_WIDTH, offset)
 
   useEffect(() => {
-    if (!Array.isArray(data)) {
+    if (!Array.isArray(steps)) {
       return
     }
-    setElem(document.querySelector(data[selectedStep].selector))
+    setElem(document.querySelector(steps[selectedStep].selector))
   }, [selectedStep])
 
   if (!visible) return <></>
 
   const DefaultFooterContent = () => {
     const handleOnCTAClick = () => {
-      if (data[selectedStep].handlePrimaryButtonClick) {
-        data[selectedStep].handlePrimaryButtonClick()
+      if (steps[selectedStep].handlePrimaryButtonClick) {
+        steps[selectedStep].handlePrimaryButtonClick()
       }
-      if (selectedStep === data.length - 1) {
+      if (selectedStep === steps.length - 1) {
         return onComplete()
       }
     }
 
     const handleOnSecondaryCTAClick = () => {
-      if (data[selectedStep].handleSecondaryButtonClick) {
-        data[selectedStep].handleSecondaryButtonClick()
+      if (steps[selectedStep].handleSecondaryButtonClick) {
+        steps[selectedStep].handleSecondaryButtonClick()
       }
     }
 
@@ -130,12 +130,12 @@ const Tooltips: FC<ToolTipProps> = ({
       <>
         <TooltipFooterLeft>
           <TooltipStepCounter>
-            {selectedStep + 1} of {data.length}
+            {selectedStep + 1} of {steps.length}
           </TooltipStepCounter>
         </TooltipFooterLeft>
         <TooltipFooterRight>
           <Button
-            title={data[selectedStep].primaryButtonTitle || 'Next'}
+            title={steps[selectedStep].primaryButtonTitle || 'Next'}
             onClick={handleOnCTAClick}
             style={{
               backgroundColor: primaryColor,
@@ -144,9 +144,9 @@ const Tooltips: FC<ToolTipProps> = ({
               ...buttonStyle,
             }}
           />
-          {data[selectedStep].secondaryButtonTitle && (
+          {steps[selectedStep].secondaryButtonTitle && (
             <Button
-              title={data[selectedStep].secondaryButtonTitle}
+              title={steps[selectedStep].secondaryButtonTitle}
               onClick={handleOnSecondaryCTAClick}
               style={{
                 borderColor: primaryColor,
@@ -167,7 +167,7 @@ const Tooltips: FC<ToolTipProps> = ({
       <>
         <TooltipHeader>
           <TooltipTitle style={{ fontSize: '18px', fontWeight: '600' }}>
-            {data[selectedStep].title}
+            {steps[selectedStep].title}
           </TooltipTitle>
           {onDismiss && (
             <div
@@ -186,7 +186,7 @@ const Tooltips: FC<ToolTipProps> = ({
           )}
         </TooltipHeader>
         <div className="Tooltip-Body">
-          <p style={{ fontSize: '16px', fontWeight: '400' }}>{data[selectedStep].subtitle}</p>
+          <p style={{ fontSize: '16px', fontWeight: '400' }}>{steps[selectedStep].subtitle}</p>
         </div>
         <TooltipFooter>
           <DefaultFooterContent />

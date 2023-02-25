@@ -102,7 +102,7 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
 
   return (
     <Tooltips
-      data={getSteps()}
+      steps={getSteps()}
       elem={elem}
       setSelectedStep={setSelectedStep}
       selectedStep={selectedStep}

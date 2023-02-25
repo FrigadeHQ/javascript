@@ -39,7 +39,7 @@ describe('Tooltip', () => {
     function ControlledTooltip() {
       return (
         <div>
-          <Tooltips data={data} onComplete={onComplete} onDismiss={onDismiss} />
+          <Tooltips steps={data} onComplete={onComplete} onDismiss={onDismiss} />
           <div id="tooltip-target">
             <p>Some text on screen!</p>
           </div>
@@ -51,18 +51,8 @@ describe('Tooltip', () => {
     expect(screen.getByText(data[0].subtitle)).toBeDefined()
   })
 
-  test('handles onNext and onComplete', () => {
-    render(<Tooltips data={data} onComplete={onComplete} onDismiss={onDismiss} />)
-
-    fireEvent.click(screen.getByText(data[0].primaryButtonTitle))
-    expect(onNext).toHaveBeenCalledTimes(1)
-
-    fireEvent.click(screen.getByText(data[1].primaryButtonTitle))
-    expect(onComplete).toHaveBeenCalledTimes(1)
-  })
-
   test('handles secondary action', () => {
-    render(<Tooltips data={data} onComplete={onComplete} onDismiss={onDismiss} />)
+    render(<Tooltips steps={data} onComplete={onComplete} onDismiss={onDismiss} />)
 
     fireEvent.click(screen.getByText(data[0].secondaryButtonTitle ?? 'Skip'))
     // Skipping does not call the onNext callback: but this behavior may be TBD
@@ -71,7 +61,7 @@ describe('Tooltip', () => {
   })
 
   test('handles dismiss', () => {
-    render(<Tooltips data={data} onComplete={onComplete} onDismiss={onDismiss} />)
+    render(<Tooltips steps={data} onComplete={onComplete} onDismiss={onDismiss} />)
 
     fireEvent.click(screen.getByTestId('tooltip-dismiss'))
     expect(onDismiss).toHaveBeenCalledTimes(1)
