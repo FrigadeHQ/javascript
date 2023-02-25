@@ -83,6 +83,7 @@ export const StepTitle = styled.p`
   text-align: center;
   color: #434343;
   margin-top: 20px;
+  margin-bottom: 16px;
 `
 
 export const StepSubtitle = styled.p`

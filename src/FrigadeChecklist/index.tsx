@@ -14,6 +14,7 @@ export interface FrigadeHeroChecklistProps extends HeroChecklistProps {
   title?: string
   subtitle?: string
   primaryColor?: string
+  secondaryColor?: string
 
   onCompleteStep?: (index: number, stepData: StepData) => void
   style?: CSSProperties
@@ -35,6 +36,7 @@ export const FrigadeChecklist: React.FC<FrigadeHeroChecklistProps> = ({
   title,
   subtitle,
   primaryColor,
+  secondaryColor,
   style,
   initialSelectedStep,
   className,
@@ -173,6 +175,7 @@ export const FrigadeChecklist: React.FC<FrigadeHeroChecklistProps> = ({
             onDismiss()
           }
         }}
+        secondaryColor={secondaryColor}
         selectedStep={selectedStep}
         setSelectedStep={setSelectedStep}
         {...commonProps}

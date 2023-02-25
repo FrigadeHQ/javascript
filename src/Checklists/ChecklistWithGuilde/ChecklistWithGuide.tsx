@@ -40,6 +40,7 @@ interface ChecklistWithGuideProps extends HeroChecklistProps {
   customStepTypes?: Map<string, (stepData: StepData) => React.ReactNode>
   visible: boolean
   stepsTitle: string
+  secondaryColor?: string
 
   onClose: () => void
 }
@@ -51,6 +52,7 @@ const ChecklistWithGuide: FC<ChecklistWithGuideProps> = ({
   subtitle,
   stepsTitle,
   primaryColor,
+  secondaryColor,
 
   visible,
   onClose,
@@ -184,7 +186,7 @@ const ChecklistWithGuide: FC<ChecklistWithGuideProps> = ({
                         {stepData.stepName}
                       </StepListStepName>
                       <StepListItemRight>
-                        <CheckBox value={stepData.complete} type='round' />
+                        <CheckBox value={stepData.complete} type='round' primaryColor={primaryColor} secondaryColor={secondaryColor}/>
                         <CenterVertical>
                           <Chevron style={{ marginLeft: '10px' }} />
                         </CenterVertical>
