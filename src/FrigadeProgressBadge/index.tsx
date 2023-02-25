@@ -13,6 +13,7 @@ interface FrigadeProgressBadgeProps {
   textStyle?: CSSProperties
   onClick?: () => void
   customVariables?: { [key: string]: string | number | boolean }
+  hideOnFlowCompletion?: boolean
 }
 
 export const FrigadeProgressBadge: React.FC<FrigadeProgressBadgeProps> = ({
@@ -25,6 +26,7 @@ export const FrigadeProgressBadge: React.FC<FrigadeProgressBadgeProps> = ({
   onClick,
   className,
   customVariables,
+  hideOnFlowCompletion,
 }) => {
   const {
     getFlow,
@@ -61,6 +63,13 @@ export const FrigadeProgressBadge: React.FC<FrigadeProgressBadgeProps> = ({
   }
 
   if (targetingLogicShouldHideFlow(flow)) {
+    return null
+  }
+
+  if (
+    hideOnFlowCompletion === true &&
+    getNumberOfStepsCompleted(flowId) === getFlowSteps(flowId).length
+  ) {
     return null
   }
 
