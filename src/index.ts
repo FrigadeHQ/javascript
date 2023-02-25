@@ -3,6 +3,7 @@ export { FrigadeHeroChecklist } from './FrigadeHeroChecklist'
 export { FrigadeChecklist } from './FrigadeChecklist'
 export { FrigadeProgressBadge } from './FrigadeProgressBadge'
 export { FrigadeForm } from './FrigadeForm'
+export { FrigadeGuide } from './FrigadeGuide'
 export { FrigadeTour } from './FrigadeTour'
 
 export { useFlows } from './api/flows'
