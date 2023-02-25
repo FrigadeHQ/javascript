@@ -7,6 +7,7 @@ import { ModalChecklist } from '../Checklists/ModalChecklist'
 import { COMPLETED_STEP } from '../api/common'
 import { primaryCTAClickSideEffects, secondaryCTAClickSideEffects } from '../shared/cta-util'
 import { useFlowOpens } from '../api/flow-opens'
+import { ChecklistWithGuide } from '../Checklists/ChecklistWithGuilde'
 
 export interface FrigadeHeroChecklistProps extends HeroChecklistProps {
   flowId: string
@@ -20,7 +21,7 @@ export interface FrigadeHeroChecklistProps extends HeroChecklistProps {
   initialSelectedStep?: number
 
   className?: string
-  type?: 'inline' | 'modal'
+  type?: 'inline' | 'modal' | 'withGuide'
 
   visible?: boolean
 
@@ -157,6 +158,23 @@ export const FrigadeChecklist: React.FC<FrigadeHeroChecklistProps> = ({
         selectedStep={selectedStep}
         setSelectedStep={setSelectedStep}
         autoExpandNextStep={true}
+        {...commonProps}
+      />
+    )
+  }
+  if (type === 'withGuide') {
+    return (
+      <ChecklistWithGuide
+        visible={showModal}
+        stepsTitle={'your quick start guide'}
+        onClose={() => {
+          setOpenFlowState(flowId, false)
+          if (onDismiss) {
+            onDismiss()
+          }
+        }}
+        selectedStep={selectedStep}
+        setSelectedStep={setSelectedStep}
         {...commonProps}
       />
     )
