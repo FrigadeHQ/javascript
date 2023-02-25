@@ -27,6 +27,13 @@ export interface FrigadeHeroChecklistProps extends HeroChecklistProps {
   onDismiss?: () => void
 
   customVariables?: { [key: string]: string | number | boolean }
+  /**
+   * Handler for step completion. Return true if your app performs and action (e.g. open other modal or page transition).
+   * This will dismiss any Frigade modals.
+   * @param step
+   * @param index
+   */
+  onStepCompletion?: (step: StepData, index: number) => boolean
 }
 
 export const FrigadeChecklist: React.FC<FrigadeHeroChecklistProps> = ({
@@ -41,6 +48,7 @@ export const FrigadeChecklist: React.FC<FrigadeHeroChecklistProps> = ({
   onDismiss,
   visible,
   customVariables,
+  onStepCompletion,
 }) => {
   const {
     getFlow,
@@ -107,6 +115,15 @@ export const FrigadeChecklist: React.FC<FrigadeHeroChecklistProps> = ({
     setSelectedStep(selectedStep + 1)
   }
 
+  function handleStepCompletionHandlers(step: StepData) {
+    if (onStepCompletion) {
+      const completion = onStepCompletion(step, selectedStep)
+      if (completion === true && type === 'modal') {
+        setOpenFlowState(flowId, false)
+      }
+    }
+  }
+
   function getSteps() {
     return steps.map((step: StepData) => {
       return {
@@ -116,6 +133,7 @@ export const FrigadeChecklist: React.FC<FrigadeHeroChecklistProps> = ({
           secondaryCTAClickSideEffects(step)
           if (step.skippable === true) {
             markStepCompleted(flowId, step.id, { skipped: true })
+            handleStepCompletionHandlers(step)
           }
         },
         ...step,
@@ -126,6 +144,7 @@ export const FrigadeChecklist: React.FC<FrigadeHeroChecklistProps> = ({
             (step.autoMarkCompleted || step.autoMarkCompleted === undefined)
           ) {
             markStepCompleted(flowId, step.id)
+            handleStepCompletionHandlers(step)
             goToNextStepIfPossible()
           }
           if (step.primaryButtonUri && step.primaryButtonUri.trim() == '#' && type === 'modal') {
