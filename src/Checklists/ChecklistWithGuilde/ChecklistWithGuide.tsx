@@ -4,7 +4,7 @@ import { CheckBox } from '../../components/CheckBox'
 import { Chevron } from '../../components/Icons/Chevron'
 import { StepData } from '../../types'
 import { ProgressBar } from '../Checklist/Progress'
-import { HeroChecklistProps } from '../HeroChecklist'
+import { ModalChecklistProps } from '../ModalChecklist/ModalChecklist'
 import { StepItemSelectedIndicator } from '../HeroChecklist/styled'
 import { motion } from 'framer-motion'
 import { 
@@ -30,10 +30,11 @@ import {
 } from './styled'
 import { CenterVertical } from '../../components/styled'
 import { Modal } from '../../components/Modal'
+import Guide, { GuideStepData } from '../../Guides/Guide'
 
 
 // TODO: Create common Checlist props interface to extend
-interface ChecklistWithGuideProps extends HeroChecklistProps {
+interface ChecklistWithGuideProps extends ModalChecklistProps {
   
   // Map from string to function with StepData returning React.ReactNode
   // TODO: Move to common Checlist props interface
@@ -42,7 +43,8 @@ interface ChecklistWithGuideProps extends HeroChecklistProps {
   stepsTitle: string
   secondaryColor?: string
 
-  onClose: () => void
+  guideData?: GuideStepData[]
+  guideTitle?: string
 }
 
 
@@ -59,7 +61,9 @@ const ChecklistWithGuide: FC<ChecklistWithGuideProps> = ({
 
   selectedStep,
   setSelectedStep,
-  customStepTypes
+  customStepTypes,
+  guideData,
+  guideTitle,
 }) => {
 
   const DefaultStepContent = ({ stepData, handleSecondaryCTAClick, handleCTAClick }) => {
@@ -199,6 +203,12 @@ const ChecklistWithGuide: FC<ChecklistWithGuideProps> = ({
           
           <StepContent />
         </StepsBody>
+
+        {
+          guideData && guideData.length > 0 && (
+            <Guide steps={guideData} title={guideTitle} />
+          )
+        }
 
       </StepsContainer>
     </Modal>
