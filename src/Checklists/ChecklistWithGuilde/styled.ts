@@ -9,8 +9,16 @@ export const ContainerStyle: CSSProperties = {
   boxShadow: '0px 6px 25px rgba(0, 0, 0, 0.06)',
   borderRadius: '6px',
   zIndex: 75,
-  padding: '32px'
+  padding: '32px',
+  maxHeight: '550px',
+  msOverflowStyle: 'none',  /* IE and Edge */
+  scrollbarWidth: 'none'  /* Firefox */
 }
+
+export const ScrollContainer = styled.div`
+  max-height: 350px;
+  padding-bottom: 40px;
+`
 
 export const HeaderContent = styled.div`
   display: flex;
@@ -131,4 +139,5 @@ export const ProgressBarContainer = styled.div`
   justify-content: flex-end;
   align-content: center;
   align-items: center;
+  margin-right: 20px;
 `

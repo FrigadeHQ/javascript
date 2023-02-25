@@ -9,7 +9,7 @@ import { primaryCTAClickSideEffects, secondaryCTAClickSideEffects } from '../sha
 import { useFlowOpens } from '../api/flow-opens'
 import { ChecklistWithGuide } from '../Checklists/ChecklistWithGuilde'
 
-export interface FrigadeHeroChecklistProps extends HeroChecklistProps {
+export interface FrigadeChecklistProps extends HeroChecklistProps {
   flowId: string
   title?: string
   subtitle?: string
@@ -36,9 +36,18 @@ export interface FrigadeHeroChecklistProps extends HeroChecklistProps {
    * @param index
    */
   onStepCompletion?: (step: StepData, index: number) => boolean
+
+
+  /**
+   *  Optionl Props specifically for ChecklistWithGuide
+   * 
+   */
+
+  guideFlowId?: string
+  guideTitle?: string
 }
 
-export const FrigadeChecklist: React.FC<FrigadeHeroChecklistProps> = ({
+export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
   flowId,
   title,
   subtitle,
@@ -52,6 +61,7 @@ export const FrigadeChecklist: React.FC<FrigadeHeroChecklistProps> = ({
   visible,
   customVariables,
   onStepCompletion,
+  ...guideProps
 }) => {
   const {
     getFlow,
@@ -184,6 +194,15 @@ export const FrigadeChecklist: React.FC<FrigadeHeroChecklistProps> = ({
     )
   }
   if (type === 'withGuide') {
+    const guideFlowId = guideProps.guideFlowId
+    let guideFlowSteps
+    if (guideFlowId) {
+      const guideFlow = getFlow(guideFlowId)
+      if (guideFlow) {
+        guideFlowSteps = getFlowSteps(guideFlowId)
+      }
+    }
+
     return (
       <ChecklistWithGuide
         visible={showModal}
@@ -197,6 +216,8 @@ export const FrigadeChecklist: React.FC<FrigadeHeroChecklistProps> = ({
         secondaryColor={secondaryColor}
         selectedStep={selectedStep}
         setSelectedStep={setSelectedStep}
+        guideData={guideFlowSteps}
+        guideTitle={guideProps.guideTitle ?? 'Guide'}
         {...commonProps}
       />
     )
