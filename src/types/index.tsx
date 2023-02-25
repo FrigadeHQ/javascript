@@ -20,8 +20,8 @@ export interface StepData {
   autoMarkCompleted?: boolean
   complete: boolean
   StepContent?: React.ReactNode
-  handleCTAClick?: () => void
-  handleSecondaryCTAClick?: () => void
+  handlePrimaryButtonClick?: () => void
+  handleSecondaryButtonClick?: () => void
   ctaActionType?: 'complete'
   imageStyle?: CSSProperties
   props?: any

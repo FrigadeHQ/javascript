@@ -1,62 +1,30 @@
-import React, { CSSProperties, useEffect, useState } from 'react'
-
+import React, { FC, useEffect, useState } from 'react'
 import { useFlows } from '../api/flows'
-import { HeroChecklist, HeroChecklistProps } from '../Checklists/HeroChecklist'
+import { ToolTipProps, Tooltips } from '../Tooltips'
 import { StepData } from '../types'
-import { ModalChecklist } from '../Checklists/ModalChecklist'
-import { COMPLETED_STEP } from '../api/common'
 import { primaryCTAClickSideEffects, secondaryCTAClickSideEffects } from '../shared/cta-util'
-import { useFlowOpens } from '../api/flow-opens'
+import { COMPLETED_FLOW, COMPLETED_STEP } from '../api/common'
 
-export interface FrigadeHeroChecklistProps extends HeroChecklistProps {
-  flowId: string
-  title?: string
-  subtitle?: string
-  primaryColor?: string
-
-  onCompleteStep?: (index: number, stepData: StepData) => void
-  style?: CSSProperties
-  // Optional props
-  initialSelectedStep?: number
-
-  className?: string
-  type?: 'inline' | 'modal'
-
-  visible?: boolean
-
-  onDismiss?: () => void
-
-  customVariables?: { [key: string]: string | number | boolean }
-}
-
-export const FrigadeChecklist: React.FC<FrigadeHeroChecklistProps> = ({
+export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedStep?: number }> = ({
   flowId,
-  title,
-  subtitle,
-  primaryColor,
-  style,
   initialSelectedStep,
-  className,
-  type,
-  onDismiss,
-  visible,
   customVariables,
+  ...props
 }) => {
   const {
     getFlow,
     getFlowSteps,
-    markStepCompleted,
-    getStepStatus,
-    getNumberOfStepsCompleted,
     isLoading,
     targetingLogicShouldHideFlow,
+    markStepCompleted,
     setCustomVariable,
+    getStepStatus,
+    getNumberOfStepsCompleted,
+    getFlowStatus,
     customVariables: existingCustomVariables,
   } = useFlows()
-  const { getOpenFlowState, setOpenFlowState } = useFlowOpens()
-  const [selectedStep, setSelectedStep] = useState(initialSelectedStep || 0)
   const [finishedInitialLoad, setFinishedInitialLoad] = useState(false)
-  const showModal = visible === undefined ? getOpenFlowState(flowId) : visible
+  const [selectedStep, setSelectedStep] = useState(initialSelectedStep || 0)
 
   useEffect(() => {
     if (
@@ -84,10 +52,11 @@ export const FrigadeChecklist: React.FC<FrigadeHeroChecklistProps> = ({
     return null
   }
 
-  const steps = getFlowSteps(flowId)
-  if (!steps) {
+  if (getFlowStatus(flowId) == COMPLETED_FLOW) {
     return null
   }
+
+  const steps = getFlowSteps(flowId)
 
   if (!finishedInitialLoad && initialSelectedStep === undefined) {
     const completedSteps = Math.min(getNumberOfStepsCompleted(flowId), steps.length - 1)
@@ -97,10 +66,6 @@ export const FrigadeChecklist: React.FC<FrigadeHeroChecklistProps> = ({
 
   function goToNextStepIfPossible() {
     if (selectedStep + 1 >= steps.length) {
-      // If modal, close it
-      if (type === 'modal') {
-        setOpenFlowState(flowId, false)
-      }
       return
     }
 
@@ -112,7 +77,6 @@ export const FrigadeChecklist: React.FC<FrigadeHeroChecklistProps> = ({
       return {
         handleSecondaryButtonClick: () => {
           // Default to skip behavior for secondary click but allow for override
-          goToNextStepIfPossible()
           secondaryCTAClickSideEffects(step)
           if (step.skippable === true) {
             markStepCompleted(flowId, step.id, { skipped: true })
@@ -128,47 +92,23 @@ export const FrigadeChecklist: React.FC<FrigadeHeroChecklistProps> = ({
             markStepCompleted(flowId, step.id)
             goToNextStepIfPossible()
           }
-          if (step.primaryButtonUri && step.primaryButtonUri.trim() == '#' && type === 'modal') {
-            setOpenFlowState(flowId, false)
-          }
           primaryCTAClickSideEffects(step)
         },
       }
     })
   }
 
-  const commonProps = {
-    steps: getSteps(),
-    title,
-    subtitle,
-    primaryColor,
-  }
-
-  if (type === 'modal') {
-    return (
-      <ModalChecklist
-        visible={showModal}
-        onClose={() => {
-          setOpenFlowState(flowId, false)
-          if (onDismiss) {
-            onDismiss()
-          }
-        }}
-        selectedStep={selectedStep}
-        setSelectedStep={setSelectedStep}
-        autoExpandNextStep={true}
-        {...commonProps}
-      />
-    )
-  }
+  const elem = document.querySelector(steps[initialSelectedStep ?? 0].selector)
 
   return (
-    <HeroChecklist
-      style={style}
-      selectedStep={selectedStep}
+    <Tooltips
+      data={getSteps()}
+      elem={elem}
       setSelectedStep={setSelectedStep}
-      className={className}
-      {...commonProps}
+      selectedStep={selectedStep}
+      {...props}
     />
   )
 }
+
+export default FrigadeTour

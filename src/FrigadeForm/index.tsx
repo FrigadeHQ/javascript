@@ -55,9 +55,9 @@ export const FrigadeForm: FC<FormProps> = ({
         return <div>{Content}</div>
       }
       const currentStep = steps[selectedStepValue]
-      const handleCTAClick = () => {
-        if (currentStep.handleCTAClick) {
-          currentStep.handleCTAClick()
+      const handlePrimaryButtonClick = () => {
+        if (currentStep.handlePrimaryButtonClick) {
+          currentStep.handlePrimaryButtonClick()
         }
         if (currentStep.url) {
           window.open(currentStep.url, currentStep.urlTarget ?? '_blank')
@@ -70,7 +70,7 @@ export const FrigadeForm: FC<FormProps> = ({
           <FormStepSubtitle>{stepData.subtitle}</FormStepSubtitle>
           <Button
             title={stepData.primaryButtonTitle}
-            onClick={handleCTAClick}
+            onClick={handlePrimaryButtonClick}
             style={{ backgroundColor: primaryColor, borderColor: primaryColor, width: 'auto' }}
           />
         </FormStepContent>
@@ -108,7 +108,7 @@ export const FrigadeForm: FC<FormProps> = ({
     return {
       ...rawStep,
       complete: getStepStatus(flowId, rawStep.id) === COMPLETED_STEP,
-      handleCTAClick: () => {
+      handlePrimaryButtonClick: () => {
         if (
           !rawStep.completionCriteria &&
           (rawStep.autoMarkCompleted || rawStep.autoMarkCompleted === undefined)

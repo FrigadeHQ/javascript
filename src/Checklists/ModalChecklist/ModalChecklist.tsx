@@ -110,8 +110,8 @@ const ModalChecklist: FC<ModalChecklistProps> = ({
                 if (onCompleteStep) {
                   onCompleteStep(idx, step)
                 }
-                if (step.handleCTAClick) {
-                  step.handleCTAClick()
+                if (step.handlePrimaryButtonClick) {
+                  step.handlePrimaryButtonClick()
                 }
                 if (!autoExpandNextStep) return
                 // Automatically expand next step
@@ -124,8 +124,8 @@ const ModalChecklist: FC<ModalChecklistProps> = ({
                 }
               }}
               onSecondaryButtonClick={() => {
-                if (step.handleSecondaryCTAClick) {
-                  step.handleSecondaryCTAClick()
+                if (step.handleSecondaryButtonClick) {
+                  step.handleSecondaryButtonClick()
                 }
               }}
               primaryColor={primaryColor}

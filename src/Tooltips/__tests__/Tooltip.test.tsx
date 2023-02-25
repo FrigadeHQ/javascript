@@ -1,7 +1,7 @@
 import React from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
 
-import { Tooltip } from '../index'
+import { Tooltips } from '../index'
 
 describe('Tooltip', () => {
   const data = [
@@ -14,7 +14,7 @@ describe('Tooltip', () => {
       selector: 'test-select-0',
       primaryButtonTitle: 'Next',
       secondaryButtonTitle: 'Skip',
-      handleSecondaryCTAClick: jest.fn()
+      handleSecondaryButtonClick: jest.fn(),
     },
     {
       id: 'test-1',
@@ -24,7 +24,7 @@ describe('Tooltip', () => {
       cta: 'Next',
       selector: 'test-select-1',
       primaryButtonTitle: 'Complete',
-    }
+    },
   ]
 
   const onDismiss = jest.fn()
@@ -36,16 +36,10 @@ describe('Tooltip', () => {
   })
 
   test('renders with provided selector found', () => {
-
     function ControlledTooltip() {
       return (
         <div>
-          <Tooltip
-            data={data}
-            onComplete={onComplete}
-            onDismiss={onDismiss}
-            onNext={onNext}
-          />
+          <Tooltips data={data} onComplete={onComplete} onDismiss={onDismiss} />
           <div id="tooltip-target">
             <p>Some text on screen!</p>
           </div>
@@ -58,29 +52,28 @@ describe('Tooltip', () => {
   })
 
   test('handles onNext and onComplete', () => {
-    render(<Tooltip data={data} onComplete={onComplete} onDismiss={onDismiss} onNext={onNext} />)
+    render(<Tooltips data={data} onComplete={onComplete} onDismiss={onDismiss} />)
 
     fireEvent.click(screen.getByText(data[0].primaryButtonTitle))
-    expect(onNext).toHaveBeenCalledTimes(1);
-    
+    expect(onNext).toHaveBeenCalledTimes(1)
+
     fireEvent.click(screen.getByText(data[1].primaryButtonTitle))
-    expect(onComplete).toHaveBeenCalledTimes(1);
+    expect(onComplete).toHaveBeenCalledTimes(1)
   })
 
   test('handles secondary action', () => {
-    render(<Tooltip data={data} onComplete={onComplete} onDismiss={onDismiss} onNext={onNext} />)
+    render(<Tooltips data={data} onComplete={onComplete} onDismiss={onDismiss} />)
 
     fireEvent.click(screen.getByText(data[0].secondaryButtonTitle ?? 'Skip'))
     // Skipping does not call the onNext callback: but this behavior may be TBD
     expect(onNext).toHaveBeenCalledTimes(0)
-    expect(data[0].handleSecondaryCTAClick).toHaveBeenCalledTimes(1)
+    expect(data[0].handleSecondaryButtonClick).toHaveBeenCalledTimes(1)
   })
 
   test('handles dismiss', () => {
-    render(<Tooltip data={data} onComplete={onComplete} onDismiss={onDismiss} onNext={onNext} />)
+    render(<Tooltips data={data} onComplete={onComplete} onDismiss={onDismiss} />)
 
     fireEvent.click(screen.getByTestId('tooltip-dismiss'))
-    expect(onDismiss).toHaveBeenCalledTimes(1);
+    expect(onDismiss).toHaveBeenCalledTimes(1)
   })
-
 })

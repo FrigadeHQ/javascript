@@ -189,5 +189,6 @@ export function useFlows() {
     getNumberOfSteps,
     targetingLogicShouldHideFlow,
     setCustomVariable,
+    customVariables,
   }
 }

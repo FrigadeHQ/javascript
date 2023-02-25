@@ -32,9 +32,8 @@ interface TooltipData extends StepData {
 }
 
 export interface ToolTipProps {
-  data: TooltipData | TooltipData[]
+  data: TooltipData[]
   onDismiss: () => void
-  onNext: (stepId: string) => void
   onComplete: () => void
   tooltipPosition?: ToolTipPosition
   showHighlight?: boolean
@@ -44,8 +43,9 @@ export interface ToolTipProps {
   elem?: any // initial element to focus
   offset?: { x: number; y: number }
   visible?: boolean
-  initialStep?: number
   customVariables?: { [key: string]: string | number | boolean }
+  selectedStep?: number
+  setSelectedStep?: (index: number) => void
 }
 
 const HighlightOuter = styled.div<{ primaryColor: string }>`
@@ -83,10 +83,9 @@ const HighlightInner = styled.div<{ primaryColor: string }>`
   opacity: 1;
 `
 
-const Tooltip: FC<ToolTipProps> = ({
+const Tooltips: FC<ToolTipProps> = ({
   data,
   onDismiss,
-  onNext,
   onComplete,
   tooltipPosition = 'left',
   showHighlight = true,
@@ -95,55 +94,48 @@ const Tooltip: FC<ToolTipProps> = ({
   elem: initialElem,
   offset = { x: 0, y: 0 },
   visible = true,
-  initialStep = 0,
+  selectedStep = 0,
+  setSelectedStep = () => {},
 }) => {
-  const [currentStep, setCurrentStep] = useState(initialStep)
-
   const [elem, setElem] = useState(initialElem)
-  const boundingRect = useElemRect(elem, currentStep)
+  const boundingRect = useElemRect(elem, selectedStep)
   const position = getPosition(boundingRect, tooltipPosition, CARD_WIDTH, offset)
 
   useEffect(() => {
     if (!Array.isArray(data)) {
       return
     }
-    setElem(document.querySelector(data[currentStep].selector))
-  }, [currentStep])
+    setElem(document.querySelector(data[selectedStep].selector))
+  }, [selectedStep])
 
   if (!visible) return <></>
 
   const DefaultFooterContent = () => {
     const handleOnCTAClick = () => {
-      if (!Array.isArray(data) || currentStep === data.length - 1) {
+      if (data[selectedStep].handlePrimaryButtonClick) {
+        data[selectedStep].handlePrimaryButtonClick()
+      }
+      if (selectedStep === data.length - 1) {
         return onComplete()
-      } else {
-        onNext(data[currentStep].id)
-        setCurrentStep(currentStep + 1)
       }
     }
 
     const handleOnSecondaryCTAClick = () => {
-      if (data[currentStep].handleSecondaryCTAClick) {
-        data[currentStep].handleSecondaryCTAClick()
-      } else {
-        setCurrentStep(currentStep + 1)
+      if (data[selectedStep].handleSecondaryButtonClick) {
+        data[selectedStep].handleSecondaryButtonClick()
       }
-    }
-
-    if (!Array.isArray(data)) {
-      return <Button title={data[currentStep].primaryButtonTitle} onClick={handleOnCTAClick} />
     }
 
     return (
       <>
         <TooltipFooterLeft>
           <TooltipStepCounter>
-            {currentStep + 1} of {data.length}
+            {selectedStep + 1} of {data.length}
           </TooltipStepCounter>
         </TooltipFooterLeft>
         <TooltipFooterRight>
           <Button
-            title={data[currentStep].primaryButtonTitle || 'Next'}
+            title={data[selectedStep].primaryButtonTitle || 'Next'}
             onClick={handleOnCTAClick}
             style={{
               backgroundColor: primaryColor,
@@ -152,9 +144,9 @@ const Tooltip: FC<ToolTipProps> = ({
               ...buttonStyle,
             }}
           />
-          {data[currentStep].secondaryButtonTitle && (
+          {data[selectedStep].secondaryButtonTitle && (
             <Button
-              title={data[currentStep].secondaryButtonTitle}
+              title={data[selectedStep].secondaryButtonTitle}
               onClick={handleOnSecondaryCTAClick}
               style={{
                 borderColor: primaryColor,
@@ -175,7 +167,7 @@ const Tooltip: FC<ToolTipProps> = ({
       <>
         <TooltipHeader>
           <TooltipTitle style={{ fontSize: '18px', fontWeight: '600' }}>
-            {data[currentStep].title}
+            {data[selectedStep].title}
           </TooltipTitle>
           {onDismiss && (
             <div
@@ -186,6 +178,7 @@ const Tooltip: FC<ToolTipProps> = ({
                 flexDirection: 'column',
                 justifyContent: 'center',
                 display: 'flex',
+                cursor: 'pointer',
               }}
             >
               <CloseIcon />
@@ -193,7 +186,7 @@ const Tooltip: FC<ToolTipProps> = ({
           )}
         </TooltipHeader>
         <div className="Tooltip-Body">
-          <p style={{ fontSize: '16px', fontWeight: '400' }}>{data[currentStep].subtitle}</p>
+          <p style={{ fontSize: '16px', fontWeight: '400' }}>{data[selectedStep].subtitle}</p>
         </div>
         <TooltipFooter>
           <DefaultFooterContent />
@@ -253,4 +246,4 @@ const Tooltip: FC<ToolTipProps> = ({
   )
 }
 
-export default Tooltip
+export default Tooltips

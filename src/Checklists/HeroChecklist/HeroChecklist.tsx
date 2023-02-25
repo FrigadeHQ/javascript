@@ -103,15 +103,15 @@ const HeroChecklist: FC<HeroChecklistProps> = ({
         }
         const currentStep = steps[selectedStepValue]
 
-        const handleCTAClick = () => {
-          if (currentStep.handleCTAClick) {
-            currentStep.handleCTAClick()
+        const handlePrimaryButtonClick = () => {
+          if (currentStep.handlePrimaryButtonClick) {
+            currentStep.handlePrimaryButtonClick()
           }
         }
 
-        const handleSecondaryCTAClick = () => {
-          if (currentStep.handleSecondaryCTAClick) {
-            currentStep.handleSecondaryCTAClick()
+        const handleSecondaryButtonClick = () => {
+          if (currentStep.handleSecondaryButtonClick) {
+            currentStep.handleSecondaryButtonClick()
           }
         }
 
@@ -126,7 +126,7 @@ const HeroChecklist: FC<HeroChecklistProps> = ({
             <MultipleButtonContainer>
               <Button
                 title={stepData.primaryButtonTitle}
-                onClick={handleCTAClick}
+                onClick={handlePrimaryButtonClick}
                 style={{
                   backgroundColor: primaryColor,
                   borderColor: primaryColor,
@@ -137,7 +137,7 @@ const HeroChecklist: FC<HeroChecklistProps> = ({
               {stepData.secondaryButtonTitle && (
                 <Button
                   title={stepData.secondaryButtonTitle}
-                  onClick={handleSecondaryCTAClick}
+                  onClick={handleSecondaryButtonClick}
                   style={{ borderColor: primaryColor, width: 'auto', backgroundColor: '#FFFFFF' }}
                   textStyle={{ color: primaryColor }}
                 />
