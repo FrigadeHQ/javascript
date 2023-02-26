@@ -30,7 +30,8 @@ export const ProgressBadge: FC<ProgressBadgeProps> = ({
   return (
     <BadgeContainer
       as={motion.div}
-      whileHover={{ scale: 1.05 }} whileTap={{ scale: 1.1 }}
+      whileHover={{ opacity: 0.9 }}
+      whileTap={{ scale: 0.98 }}
       className={className}
       onClick={() => onClick !== undefined && onClick()}
       style={style}
