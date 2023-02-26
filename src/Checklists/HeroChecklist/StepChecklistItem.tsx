@@ -1,8 +1,9 @@
 import React, { CSSProperties, FC } from 'react'
-import { CheckBox } from '../../components/CheckBox'
+import { CheckBoxRow } from '../../components/CheckBoxRow'
 import styled from 'styled-components'
 import { motion } from 'framer-motion'
 import { StepData } from '../../types'
+import { ChecklistStepItem, StepItemSelectedIndicator } from './styled'
 
 interface StepItemProps {
   data: StepData
@@ -13,21 +14,6 @@ interface StepItemProps {
   style: CSSProperties
   onClick: () => void
 }
-
-const StepItemSelectedIndicator = styled.div`
-  width: 4px;
-  position: absolute;
-  left: 0;
-  top: 10%;
-  height: 80%;
-  border-top-right-radius: 8px;
-  border-bottom-right-radius: 8px;
-`
-
-const ChecklistStepItem = styled.div`
-  flex-direction: row;
-  justify-content: flex-start;
-`
 
 export const StepChecklistItem: FC<StepItemProps> = ({
   data,
@@ -53,12 +39,10 @@ export const StepChecklistItem: FC<StepItemProps> = ({
         ></StepItemSelectedIndicator>
       )}
       <ChecklistStepItem key={`hero-checklist-step-${index}`} role="listitem">
-        <CheckBox
+        <CheckBoxRow
           value={data.complete}
           labelPosition="left"
           label={data.stepName}
-          index={index}
-          length={listLength}
           style={style}
           primaryColor={primaryColor}
         />

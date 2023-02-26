@@ -5,7 +5,13 @@ import { useUserFlowStates } from './user-flow-states'
 
 interface AddPropertyToUserDTO {
   readonly foreignId: string
-  readonly properties: { [key: string]: string | boolean | number | null }
+  readonly properties?: { [key: string]: string | boolean | number | null }
+  readonly events?: UserEvent[]
+}
+
+interface UserEvent {
+  readonly event: string
+  readonly properties?: { [key: string]: string | boolean | number | null }
 }
 
 export function useUser() {
@@ -29,5 +35,25 @@ export function useUser() {
     mutateUserFlowState()
   }
 
-  return { userId, setUserId, addPropertiesToUser }
+  async function trackEventForUser(
+    event: string,
+    properties?: { [key: string]: string | boolean | number | null }
+  ) {
+    const eventData: UserEvent = {
+      event,
+      properties,
+    }
+    const data: AddPropertyToUserDTO = {
+      foreignId: userId,
+      events: [eventData],
+    }
+    await fetch(`${API_PREFIX}users`, {
+      ...config,
+      method: 'POST',
+      body: JSON.stringify(data),
+    })
+    mutateUserFlowState()
+  }
+
+  return { userId, setUserId, addPropertiesToUser, trackEventForUser }
 }

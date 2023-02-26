@@ -4,9 +4,9 @@ import { Modal } from '../../components/Modal'
 import { ProgressBar } from '../Checklist/Progress'
 import { CollapsibleStep } from './CollapsibleStep'
 
-import { HeaderContent, ModalChecklistTitle, ModalChecklistSubtitle } from './styled'
+import { HeaderContent, ModalChecklistSubtitle, ModalChecklistTitle } from './styled'
 
-interface ModalChecklistProps {
+export interface ModalChecklistProps {
   steps: StepData[]
   title: string
   subtitle: string
@@ -17,6 +17,8 @@ interface ModalChecklistProps {
   autoExpandFirstIncompleteStep?: boolean
   autoExpandNextStep?: boolean
   primaryColor?: string
+  selectedStep?: number
+  setSelectedStep?: (index: number) => void
 }
 
 const ModalChecklist: FC<ModalChecklistProps> = ({
@@ -30,6 +32,8 @@ const ModalChecklist: FC<ModalChecklistProps> = ({
   autoCollapse = true,
   autoExpandNextStep = true,
   primaryColor = '#000000',
+  selectedStep,
+  setSelectedStep,
 }) => {
   const completeCount = steps.filter((s) => s.complete).length
   const [collapsedSteps, setCollapsedSteps] = useState<boolean[]>(Array(steps.length).fill(true))
@@ -46,11 +50,17 @@ const ModalChecklist: FC<ModalChecklistProps> = ({
     setCollapsedSteps(initCollapsedState)
   }, [])
 
+  useEffect(() => {
+    handleStepClick(selectedStep)
+  }, [selectedStep])
+
   const handleStepClick = (idx: number) => {
     const newCollapsedState = [...collapsedSteps]
     if (autoCollapse) {
       for (let i = 0; i < collapsedSteps.length; ++i) {
-        if (i !== idx) newCollapsedState[i] = true
+        if (i !== idx) {
+          newCollapsedState[i] = true
+        }
       }
     }
     newCollapsedState[idx] = !newCollapsedState[idx]
@@ -79,6 +89,7 @@ const ModalChecklist: FC<ModalChecklistProps> = ({
             />
           </>
         }
+        style={{ maxWidth: '600px' }}
       >
         {steps.map((step: StepData, idx: number) => {
           const isCollapsed = collapsedSteps[idx]
@@ -87,18 +98,34 @@ const ModalChecklist: FC<ModalChecklistProps> = ({
               stepData={step}
               collapsed={isCollapsed}
               key={`modal-checklist-${step.id ?? idx}`}
-              onClick={() => handleStepClick(idx)}
-              onComplete={() => {
+              onClick={() => {
+                if (selectedStep === idx) {
+                  // Collapse step if needed
+                  handleStepClick(idx)
+                  return
+                }
+                setSelectedStep(idx)
+              }}
+              onPrimaryButtonClick={() => {
                 if (onCompleteStep) {
                   onCompleteStep(idx, step)
                 }
-                if (step.handleCTAClick) {
-                  step.handleCTAClick()
+                if (step.handlePrimaryButtonClick) {
+                  step.handlePrimaryButtonClick()
                 }
                 if (!autoExpandNextStep) return
                 // Automatically expand next step
-                if (idx < collapsedSteps.length - 1 && collapsedSteps[idx + 1]) {
-                  handleStepClick(idx + 1)
+                if (
+                  !step.completionCriteria &&
+                  idx < collapsedSteps.length - 1 &&
+                  collapsedSteps[idx + 1]
+                ) {
+                  setSelectedStep(idx + 1)
+                }
+              }}
+              onSecondaryButtonClick={() => {
+                if (step.handleSecondaryButtonClick) {
+                  step.handleSecondaryButtonClick()
                 }
               }}
               primaryColor={primaryColor}

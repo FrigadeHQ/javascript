@@ -3,9 +3,8 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import { HeroChecklist } from '../index'
 
 describe('HeroChecklist', () => {
-
-  const handlePrimary = jest.fn();
-  const handleSecondary = jest.fn();
+  const handlePrimary = jest.fn()
+  const handleSecondary = jest.fn()
 
   afterEach(() => {
     jest.resetAllMocks()
@@ -21,8 +20,8 @@ describe('HeroChecklist', () => {
 
     primaryButtonTitle: 'Test Primary',
     secondaryButtonTitle: 'Test Secondary',
-    handleCTAClick: handlePrimary,
-    handleSecondaryCTAClick: handleSecondary
+    handlePrimaryButtonClick: handlePrimary,
+    handleSecondaryButtonClick: handleSecondary,
   }
 
   const HeroChecklistProps = {
@@ -54,5 +53,4 @@ describe('HeroChecklist', () => {
     expect(handlePrimary).toHaveBeenCalledTimes(0)
     expect(handleSecondary).toHaveBeenCalledTimes(1)
   })
-
 })

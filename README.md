@@ -12,7 +12,6 @@
 <a href="https://docs.frigade.com">Docs</a>
 <span> · </span>
 
-
 ## Introduction
 
 Frigade is the easiest way for developers to build high-quality product onboarding and education.

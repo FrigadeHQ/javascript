@@ -1,8 +1,8 @@
 import React, { FC } from 'react'
 import { StepData } from '../../../types'
-import { CheckBox } from '../../../components/CheckBox'
+import { CheckBoxRow } from '../../../components/CheckBoxRow'
 import { Chevron } from '../../../components/Icons/Chevron'
-import { Button } from '../../../components/Button'
+import { Button, MultipleButtonContainer } from '../../../components/Button'
 import { AnimatePresence, motion } from 'framer-motion'
 
 import {
@@ -18,7 +18,8 @@ interface CollapsibleStepProps {
   stepData: StepData
   collapsed: boolean
   onClick: () => void
-  onComplete: () => void
+  onSecondaryButtonClick: () => void
+  onPrimaryButtonClick: () => void
   primaryColor?: string
 }
 
@@ -27,15 +28,19 @@ export const CollapsibleStep: FC<CollapsibleStepProps> = ({
   collapsed,
   onClick,
   primaryColor = '#000000',
-  onComplete,
+  onPrimaryButtonClick,
+  onSecondaryButtonClick,
 }) => {
   const iconStyle = collapsed ? {} : { transform: 'rotate(90deg)' }
 
   return (
-    <StepContainer onClick={() => collapsed ? onClick() : null} data-testid={`step-${stepData.id}`}>
+    <StepContainer
+      onClick={() => (collapsed ? onClick() : null)}
+      data-testid={`step-${stepData.id}`}
+    >
       <StepHeader>
         <HeaderLeft>
-          <CheckBox
+          <CheckBoxRow
             value={stepData.complete}
             style={{ width: 'auto', borderTop: 0 }}
             primaryColor={primaryColor}
@@ -58,11 +63,21 @@ export const CollapsibleStep: FC<CollapsibleStepProps> = ({
             style={{ overflow: 'hidden' }}
           >
             <StepSubtitle>{stepData.subtitle}</StepSubtitle>
-            <Button
-              title={stepData.primaryButtonTitle ?? 'Continue'}
-              onClick={() => onComplete()}
-              style={{ backgroundColor: primaryColor, borderColor: primaryColor, width: 'auto' }}
-            />
+            <MultipleButtonContainer>
+              <Button
+                title={stepData.primaryButtonTitle ?? 'Continue'}
+                onClick={() => onPrimaryButtonClick()}
+                style={{ backgroundColor: primaryColor, borderColor: primaryColor, width: 'auto' }}
+              />
+              {stepData.secondaryButtonTitle ? (
+                <Button
+                  title={stepData.secondaryButtonTitle}
+                  onClick={() => onSecondaryButtonClick()}
+                  textStyle={{ color: primaryColor }}
+                  style={{ borderColor: primaryColor, width: 'auto', backgroundColor: '#FFFFFF' }}
+                />
+              ) : null}
+            </MultipleButtonContainer>
           </motion.div>
         )}
       </AnimatePresence>

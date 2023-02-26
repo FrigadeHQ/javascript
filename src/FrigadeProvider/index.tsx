@@ -22,6 +22,12 @@ export interface IFrigadeContext {
   setUserProperties?: React.Dispatch<
     React.SetStateAction<{ [key: string]: string | boolean | number | null }>
   >
+  openFlowStates: { [key: string]: boolean }
+  setOpenFlowStates: React.Dispatch<React.SetStateAction<{ [key: string]: boolean }>>
+  customVariables?: { [key: string]: string | boolean | number | null }
+  setCustomVariables?: React.Dispatch<
+    React.SetStateAction<{ [key: string]: string | boolean | number | null }>
+  >
 }
 
 export interface FrigadeProviderProps {
@@ -45,6 +51,10 @@ export const FrigadeContext = createContext<IFrigadeContext>({
   setIsLoadingUserState: () => {},
   userProperties: {},
   setUserProperties: () => {},
+  openFlowStates: {},
+  setOpenFlowStates: () => {},
+  customVariables: {},
+  setCustomVariables: () => {},
 })
 
 export const FrigadeProvider: FC<FrigadeProviderProps> = ({ publicApiKey, userId, children }) => {
@@ -55,6 +65,10 @@ export const FrigadeProvider: FC<FrigadeProviderProps> = ({ publicApiKey, userId
   const [isLoading, setIsLoading] = useState(true)
   const [isLoadingUserState, setIsLoadingUserState] = useState(true)
   const [userProperties, setUserProperties] = useState<{
+    [key: string]: string | boolean | number | null
+  }>({})
+  const [openFlowStates, setOpenFlowStates] = useState<{ [key: string]: boolean }>({})
+  const [customVariables, setCustomVariables] = useState<{
     [key: string]: string | boolean | number | null
   }>({})
 
@@ -82,6 +96,10 @@ export const FrigadeProvider: FC<FrigadeProviderProps> = ({ publicApiKey, userId
         setFlowResponses,
         userProperties,
         setUserProperties,
+        openFlowStates,
+        setOpenFlowStates,
+        customVariables,
+        setCustomVariables,
       }}
     >
       {children}

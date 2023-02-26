@@ -1,5 +1,4 @@
 import React, { CSSProperties, FC } from 'react'
-import styled from 'styled-components'
 
 const CheckIcon = ({ color = '#FFFFFF' }) => (
   <svg width={10} height={8} viewBox="0 0 10 8" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -13,18 +12,7 @@ const CheckIcon = ({ color = '#FFFFFF' }) => (
   </svg>
 )
 
-interface CheckBoxProps {
-  label?: string
-  value: boolean
-  labelStyle?: CSSProperties
-  index?: number
-  length?: number
-  labelPosition?: 'left' | 'right'
-  style?: CSSProperties
-  primaryColor?: string
-}
-
-const BASE_CHECKBOX_STYLES: CSSProperties = {
+const BASE_CHECKBOX_STYLES_SQUARE: CSSProperties = {
   width: '22px',
   height: '22px',
   borderRadius: 8,
@@ -33,71 +21,85 @@ const BASE_CHECKBOX_STYLES: CSSProperties = {
   alignItems: 'center',
 }
 
-const BASE_CHECKBOX_STYLES__CHECKED = {
+const BASE_CHECKBOX_STYLES_ROUND: CSSProperties = {
+  width: '22px',
+  height: '22px',
+  borderRadius: 40,
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+}
+
+const BASE_CHECKBOX_STYLES_SQUARE__CHECKED = {
   border: '1px solid #000000',
   color: '#FFFFFF',
 }
 
-const BASE_CHECKBOX_STYLES__UNCHECKED = {
+const BASE_CHECKBOX_STYLES_SQUARE__UNCHECKED = {
   background: '#FFFFFF',
   border: '1px solid #E6E6E6',
 }
 
-const Label = styled.span`
-  font-weight: 400;
-  font-size: 15px;
-  line-height: 20px;
-  color: #4d4d4d;
-  display: inline-block;
-  vertical-align: middle;
-  margin-left: 12px;
-`
+const BASE_CHECKBOX_STYLES_ROUND__CHECKED = {
+  color: '#FFFFFF',
+}
 
-const CheckBoxRow = styled.div`
-  flex-direction: row;
-  justify-content: space-between;
-  display: flex;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  border-top: 1px solid #e6e6e6;
-  width: 100%;
-`
+const BASE_CHECKBOX_STYLES_ROUND__UNCHECKED = {
+  background: '#FFFFFF',
+  border: '3px solid #D9D9D9',
+}
 
-export const CheckBox: FC<CheckBoxProps> = ({
-  label,
-  value,
-  labelStyle = {},
-  index,
-  length,
-  labelPosition = 'right',
-  style,
-  primaryColor = '#000000',
-}) => {
-  let checkBoxStyle = {
-    ...BASE_CHECKBOX_STYLES,
+
+const getBaseStyle = (type: CheckBoxType): CSSProperties => {
+  if (type === 'square') return BASE_CHECKBOX_STYLES_SQUARE
+  else return BASE_CHECKBOX_STYLES_ROUND
+}
+
+const getStateStyle = (type: CheckBoxType, checked: boolean): CSSProperties => {
+  if (type === 'square') return checked ? BASE_CHECKBOX_STYLES_SQUARE__CHECKED : BASE_CHECKBOX_STYLES_SQUARE__UNCHECKED
+  return checked ? BASE_CHECKBOX_STYLES_ROUND__CHECKED : BASE_CHECKBOX_STYLES_ROUND__UNCHECKED
+}
+
+export type CheckBoxType = 'square' | 'round'
+
+export interface CheckBoxProps {
+  value: boolean
+  type: CheckBoxType
+  primaryColor?: string
+  secondaryColor?: string
+}
+
+export const CheckBox: FC<CheckBoxProps> = (
+  {
+    value,
+    type = 'square',
+    primaryColor = '#000000',
+    secondaryColor = 'rgb(0,0,0, 0.3)' 
   }
+) => {
 
+  let checkBoxStyle = getBaseStyle(type)
+  let stateStyle = getStateStyle(type, value)
+
+  const checkColor = type === 'round' ? primaryColor : '#FFFFFF'
+ 
   if (value === true) {
     checkBoxStyle = {
       ...checkBoxStyle,
-      ...BASE_CHECKBOX_STYLES__CHECKED,
-      backgroundColor: primaryColor,
-      borderColor: primaryColor,
+      ...stateStyle,
+      backgroundColor: type === 'square' ? primaryColor : secondaryColor,
+      borderColor: type === 'square' ? primaryColor : undefined,
     }
   } else {
     checkBoxStyle = {
       ...checkBoxStyle,
-      ...BASE_CHECKBOX_STYLES__UNCHECKED,
+      ...stateStyle,
     }
   }
 
   return (
-    <CheckBoxRow style={{ ...style }}>
-      {labelPosition === 'left' && label && <Label style={labelStyle}>{label}</Label>}
-      <div style={checkBoxStyle} role="checkbox">
-        {value && <CheckIcon />}
-      </div>
-      {labelPosition === 'right' && label && <Label style={labelStyle}>{label}</Label>}
-    </CheckBoxRow>
+    <div style={checkBoxStyle} role="checkbox">
+      {value && <CheckIcon color={checkColor} />}
+    </div>
   )
 }

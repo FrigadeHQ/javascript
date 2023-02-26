@@ -1,6 +1,6 @@
 import React, { CSSProperties, FC } from 'react'
 import { CloseIcon } from '../../components/CloseIcon'
-import { CheckBox } from '../../components/CheckBox'
+import { CheckBoxRow } from '../../components/CheckBoxRow'
 
 import { ProgressBar } from './Progress'
 import { getPositionStyle } from './styles'
@@ -87,11 +87,9 @@ const Checklist: FC<ChecklistProps> = ({
           {steps.map((s, idx) => {
             return (
               <ChecklistListItem key={`checkbox-step-${idx}`} role="listitem">
-                <CheckBox
+                <CheckBoxRow
                   value={s.complete}
                   label={s.text}
-                  index={idx}
-                  length={steps.length}
                   style={{ justifyContent: 'flex-start' }}
                   primaryColor={primaryColor}
                 />

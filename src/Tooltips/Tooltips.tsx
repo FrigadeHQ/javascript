@@ -32,10 +32,9 @@ interface TooltipData extends StepData {
 }
 
 export interface ToolTipProps {
-  data: TooltipData | TooltipData[]
-  onDismiss: () => void
-  onNext: (stepId: string) => void
-  onComplete: () => void
+  steps?: TooltipData[]
+  onDismiss?: () => void
+  onComplete?: () => void
   tooltipPosition?: ToolTipPosition
   showHighlight?: boolean
   primaryColor?: string
@@ -46,6 +45,10 @@ export interface ToolTipProps {
   visible?: boolean
   initialStep?: number
   containerStyle?: CSSProperties
+  customVariables?: { [key: string]: string | number | boolean }
+  selectedStep?: number
+  setSelectedStep?: (index: number) => void
+  customStepTypes?: Map<string, (stepData: StepData) => React.ReactNode>
 }
 
 const HighlightOuter = styled.div<{ primaryColor: string }>`
@@ -83,11 +86,10 @@ const HighlightInner = styled.div<{ primaryColor: string }>`
   opacity: 1;
 `
 
-const Tooltip: FC<ToolTipProps> = ({
-  data,
+const Tooltips: FC<ToolTipProps> = ({
+  steps = [],
   onDismiss,
-  onNext,
-  onComplete,
+  onComplete = () => {},
   tooltipPosition = 'left',
   showHighlight = true,
   primaryColor = '#000000',
@@ -96,71 +98,71 @@ const Tooltip: FC<ToolTipProps> = ({
   offset = { x: 0, y: 0 },
   visible = true,
   initialStep = 0,
-  containerStyle = {}
+  containerStyle = {},
+  selectedStep = 0,
+  setSelectedStep = () => {},
+  customStepTypes
 }) => {
-  const [currentStep, setCurrentStep] = useState(initialStep)
-
   const [elem, setElem] = useState(initialElem)
-  const boundingRect = useElemRect(elem, currentStep)
+  const boundingRect = useElemRect(elem, selectedStep)
   const position = getPosition(boundingRect, tooltipPosition, CARD_WIDTH, offset)
 
   useEffect(() => {
-    if (!Array.isArray(data)) {
+    if (!Array.isArray(steps)) {
       return
     }
-    setElem(document.querySelector(data[currentStep].selector))
-  }, [currentStep])
+    setElem(document.querySelector(steps[selectedStep].selector))
+  }, [selectedStep])
 
   if (!visible) return <></>
 
   const DefaultFooterContent = () => {
-
     const handleOnCTAClick = () => {
-      if (!Array.isArray(data) || currentStep === data.length - 1) {
+      if (steps[selectedStep].handlePrimaryButtonClick) {
+        steps[selectedStep].handlePrimaryButtonClick()
+      }
+      if (selectedStep === steps.length - 1) {
         return onComplete()
-      } else {
-        onNext(data[currentStep].id)
-        setCurrentStep(currentStep + 1)
       }
     }
-  
+
     const handleOnSecondaryCTAClick = () => {
-      if(data[currentStep].handleSecondaryCTAClick) {
-        data[currentStep].handleSecondaryCTAClick()
-      }
-      else {
-        setCurrentStep(currentStep + 1)
+      if (steps[selectedStep].handleSecondaryButtonClick) {
+        steps[selectedStep].handleSecondaryButtonClick()
       }
     }
-  
-  
-    if (!Array.isArray(data)) {
-      return <Button title={data[currentStep].primaryButtonTitle} onClick={handleOnCTAClick} />
-    }
-  
+
     return (
       <>
         <TooltipFooterLeft>
           <TooltipStepCounter>
-            {currentStep + 1} of {data.length}
+            {selectedStep + 1} of {steps.length}
           </TooltipStepCounter>
         </TooltipFooterLeft>
         <TooltipFooterRight>
           <Button
-            title={data[currentStep].primaryButtonTitle || 'Next'}
+            title={steps[selectedStep].primaryButtonTitle || 'Next'}
             onClick={handleOnCTAClick}
-            style={{ backgroundColor: primaryColor, borderColor: primaryColor, maxWidth: '50%', ...buttonStyle }}
+            style={{
+              backgroundColor: primaryColor,
+              borderColor: primaryColor,
+              maxWidth: '50%',
+              ...buttonStyle,
+            }}
           />
-          {
-            data[currentStep].secondaryButtonTitle && (
-              <Button
-                title={data[currentStep].secondaryButtonTitle}
-                onClick={handleOnSecondaryCTAClick}
-                style={{ borderColor: primaryColor, width: 'auto', backgroundColor: '#FFFFFF', marginLeft: '8px' }}
-                textStyle={{ color: primaryColor }}
-              />
-            )
-          }
+          {steps[selectedStep].secondaryButtonTitle && (
+            <Button
+              title={steps[selectedStep].secondaryButtonTitle}
+              onClick={handleOnSecondaryCTAClick}
+              style={{
+                borderColor: primaryColor,
+                width: 'auto',
+                backgroundColor: '#FFFFFF',
+                marginLeft: '8px',
+              }}
+              textStyle={{ color: primaryColor }}
+            />
+          )}
         </TooltipFooterRight>
       </>
     )
@@ -171,17 +173,18 @@ const Tooltip: FC<ToolTipProps> = ({
       <>
         <TooltipHeader>
           <TooltipTitle style={{ fontSize: '18px', fontWeight: '600' }}>
-            {data[currentStep].title}
+            {steps[selectedStep].title}
           </TooltipTitle>
           {onDismiss && (
             <div
-              data-testid='tooltip-dismiss'
+              data-testid="tooltip-dismiss"
               onClick={onDismiss}
               style={{
                 height: '100%',
                 flexDirection: 'column',
                 justifyContent: 'center',
                 display: 'flex',
+                cursor: 'pointer',
               }}
             >
               <CloseIcon />
@@ -189,7 +192,7 @@ const Tooltip: FC<ToolTipProps> = ({
           )}
         </TooltipHeader>
         <div className="Tooltip-Body">
-          <p style={{ fontSize: '16px', fontWeight: '400' }}>{data[currentStep].subtitle}</p>
+          <p style={{ fontSize: '16px', fontWeight: '400' }}>{steps[selectedStep].subtitle}</p>
         </div>
         <TooltipFooter>
           <DefaultFooterContent />
@@ -198,7 +201,34 @@ const Tooltip: FC<ToolTipProps> = ({
     )
   }
 
-  const Content = data[currentStep]?.StepContent ? data[currentStep].StepContent : DefaultTooltipStepContent
+  const Content = steps[selectedStep]?.StepContent ? steps[selectedStep].StepContent : DefaultTooltipStepContent
+
+  const DEFAULT_CUSTOM_STEP_TYPES = {
+    'default':
+    (stepData: StepData) => {
+      if (steps[selectedStep]?.StepContent) {
+        const Content: React.ReactNode = steps[selectedStep].StepContent
+        return <div>{Content}</div>
+      }
+
+      return (
+        <DefaultTooltipStepContent />
+      )
+    },
+  }
+
+  const mergedCustomStepTypes = { ...DEFAULT_CUSTOM_STEP_TYPES, ...customStepTypes }
+
+  const StepContent = () => {
+    if(!steps) return <></>
+    if (!steps[selectedStep]?.type || !mergedCustomStepTypes[steps[selectedStep].type]) {
+      return mergedCustomStepTypes['default'](steps[selectedStep])
+    }
+    return mergedCustomStepTypes[steps[selectedStep].type]({
+      stepData: steps[selectedStep],
+      primaryColor: primaryColor,
+    })
+  }
 
   return (
     <Wrapper>
@@ -246,10 +276,10 @@ const Tooltip: FC<ToolTipProps> = ({
         }}
         maxWidth={CARD_WIDTH}
       >
-       <Content stepData={data[currentStep]} />
+       <StepContent />
       </TooltipContainer>
     </Wrapper>
   )
 }
 
-export default Tooltip
+export default Tooltips

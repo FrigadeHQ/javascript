@@ -7,8 +7,11 @@ export interface StepData {
   subtitle?: string
   primaryButtonTitle?: string
   primaryButtonUri?: string
+  primaryButtonUriTarget?: string
   secondaryButtonTitle?: string
   secondaryButtonUri?: string
+  secondaryButtonUriTarget?: string
+  skippable?: boolean
   url?: string
   urlTarget?: string
   type?: string
@@ -17,8 +20,8 @@ export interface StepData {
   autoMarkCompleted?: boolean
   complete: boolean
   StepContent?: React.ReactNode
-  handleCTAClick?: () => void
-  handleSecondaryCTAClick?: () => void
+  handlePrimaryButtonClick?: () => void
+  handleSecondaryButtonClick?: () => void
   ctaActionType?: 'complete'
   imageStyle?: CSSProperties
   props?: any

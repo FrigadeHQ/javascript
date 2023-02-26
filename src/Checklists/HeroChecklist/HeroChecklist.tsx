@@ -3,7 +3,7 @@ import React, { CSSProperties, FC, useState } from 'react'
 import styled from 'styled-components'
 import { StepChecklistItem } from './StepChecklistItem'
 import { ProgressBar } from '../Checklist/Progress'
-import { Button } from '../../components/Button'
+import { Button, MultipleButtonContainer } from '../../components/Button'
 
 import {
   HeroChecklistStepContent,
@@ -71,12 +71,6 @@ const Divider = styled.div`
   background: #e6e6e6;
 `
 
-const ButtonContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-`
-
 const HeroChecklistStepContentContainer = styled.div`
   flex: 2;
   padding: 2rem;
@@ -108,22 +102,19 @@ const HeroChecklist: FC<HeroChecklistProps> = ({
           return <div>{Content}</div>
         }
         const currentStep = steps[selectedStepValue]
-        const handleCTAClick = () => {
-          if (currentStep.handleCTAClick) {
-            currentStep.handleCTAClick()
-          }
-          if (currentStep.url) {
-            window.open(currentStep.url, currentStep.urlTarget ?? '_blank')
+
+        const handlePrimaryButtonClick = () => {
+          if (currentStep.handlePrimaryButtonClick) {
+            currentStep.handlePrimaryButtonClick()
           }
         }
-        const handleSecondaryCTAClick = () => {
-          if (currentStep.handleSecondaryCTAClick) {
-            currentStep.handleSecondaryCTAClick()
-          }
-          if (currentStep.secondaryButtonUri) {
-            window.open(currentStep.secondaryButtonUri)
+
+        const handleSecondaryButtonClick = () => {
+          if (currentStep.handleSecondaryButtonClick) {
+            currentStep.handleSecondaryButtonClick()
           }
         }
+
         return (
           <HeroChecklistStepContent>
             {stepData.imageUri ? (
@@ -132,21 +123,26 @@ const HeroChecklist: FC<HeroChecklistProps> = ({
             {stepData.videoUri ? <VideoPlayer videoUri={stepData.videoUri} /> : null}
             <HeroChecklistStepTitle>{stepData.title}</HeroChecklistStepTitle>
             <HeroChecklistStepSubtitle>{stepData.subtitle}</HeroChecklistStepSubtitle>
-            <ButtonContainer>
+            <MultipleButtonContainer>
               <Button
                 title={stepData.primaryButtonTitle}
-                onClick={handleCTAClick}
-                style={{ backgroundColor: primaryColor, borderColor: primaryColor, width: 'auto', marginRight: '12px' }}
+                onClick={handlePrimaryButtonClick}
+                style={{
+                  backgroundColor: primaryColor,
+                  borderColor: primaryColor,
+                  width: 'auto',
+                  marginRight: '12px',
+                }}
               />
-              { stepData.secondaryButtonTitle && (
+              {stepData.secondaryButtonTitle && (
                 <Button
                   title={stepData.secondaryButtonTitle}
-                  onClick={handleSecondaryCTAClick}
+                  onClick={handleSecondaryButtonClick}
                   style={{ borderColor: primaryColor, width: 'auto', backgroundColor: '#FFFFFF' }}
                   textStyle={{ color: primaryColor }}
                 />
               )}
-            </ButtonContainer>
+            </MultipleButtonContainer>
           </HeroChecklistStepContent>
         )
       },

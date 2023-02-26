@@ -1,16 +1,20 @@
-import React, { CSSProperties, useState } from 'react'
+import React, { CSSProperties, useEffect, useState } from 'react'
 
 import { useFlows } from '../api/flows'
 import { HeroChecklist, HeroChecklistProps } from '../Checklists/HeroChecklist'
 import { StepData } from '../types'
 import { ModalChecklist } from '../Checklists/ModalChecklist'
 import { COMPLETED_STEP } from '../api/common'
+import { primaryCTAClickSideEffects, secondaryCTAClickSideEffects } from '../shared/cta-util'
+import { useFlowOpens } from '../api/flow-opens'
+import { ChecklistWithGuide } from '../Checklists/ChecklistWithGuilde'
 
-export interface FrigadeHeroChecklistProps extends HeroChecklistProps {
+export interface FrigadeChecklistProps extends HeroChecklistProps {
   flowId: string
   title?: string
   subtitle?: string
   primaryColor?: string
+  secondaryColor?: string
 
   onCompleteStep?: (index: number, stepData: StepData) => void
   style?: CSSProperties
@@ -18,21 +22,48 @@ export interface FrigadeHeroChecklistProps extends HeroChecklistProps {
   initialSelectedStep?: number
 
   className?: string
-  type?: 'inline' | 'modal'
+  type?: 'inline' | 'modal' | 'withGuide'
+
+  visible?: boolean
 
   onDismiss?: () => void
+
+  customVariables?: { [key: string]: string | number | boolean }
+  /**
+   * Handler for when a primary or secondary CTA is clicked. Return true if your app performs and action (e.g. open other modal or page transition).
+   * This will dismiss any Frigade modals.
+   * @param step
+   * @param index
+   */
+  onStepCompletion?: (step: StepData, index: number) => boolean
+  
+  onButtonClick?: (step: StepData, index: number, cta: 'primary' | 'secondary') => boolean
+
+  /**
+   *  Optionl Props specifically for ChecklistWithGuide
+   * 
+   */
+
+  guideFlowId?: string
+  guideTitle?: string
 }
 
-export const FrigadeChecklist: React.FC<FrigadeHeroChecklistProps> = ({
+export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
   flowId,
   title,
   subtitle,
   primaryColor,
+  secondaryColor,
   style,
   initialSelectedStep,
   className,
   type,
   onDismiss,
+  visible,
+  customVariables,
+  onStepCompletion,
+  onButtonClick,
+  ...guideProps
 }) => {
   const {
     getFlow,
@@ -42,15 +73,31 @@ export const FrigadeChecklist: React.FC<FrigadeHeroChecklistProps> = ({
     getNumberOfStepsCompleted,
     isLoading,
     targetingLogicShouldHideFlow,
+    setCustomVariable,
+    customVariables: existingCustomVariables,
   } = useFlows()
-
+  const { getOpenFlowState, setOpenFlowState } = useFlowOpens()
   const [selectedStep, setSelectedStep] = useState(initialSelectedStep || 0)
   const [finishedInitialLoad, setFinishedInitialLoad] = useState(false)
-  const [showModal, setShowModal] = useState(true)
+  const showModal = visible === undefined ? getOpenFlowState(flowId) : visible
+
+  useEffect(() => {
+    if (
+      !isLoading &&
+      customVariables &&
+      JSON.stringify(existingCustomVariables) !=
+        JSON.stringify({ ...existingCustomVariables, ...customVariables })
+    ) {
+      Object.keys(customVariables).forEach((key) => {
+        setCustomVariable(key, customVariables[key])
+      })
+    }
+  }, [isLoading, customVariables, setCustomVariable, existingCustomVariables])
 
   if (isLoading) {
     return null
   }
+
   const flow = getFlow(flowId)
   if (!flow) {
     return null
@@ -71,54 +118,120 @@ export const FrigadeChecklist: React.FC<FrigadeHeroChecklistProps> = ({
     setFinishedInitialLoad(true)
   }
 
+  function goToNextStepIfPossible() {
+    if (selectedStep + 1 >= steps.length) {
+      // If modal, close it
+      if (type === 'modal') {
+        setOpenFlowState(flowId, false)
+      }
+      return
+    }
+
+    setSelectedStep(selectedStep + 1)
+  }
+
+  function handleStepCompletionHandlers(step: StepData, cta: 'primary' | 'secondary') {
+    if (onButtonClick) {
+      const completion = onButtonClick(step, selectedStep, cta)
+      if (completion === true && type === 'modal') {
+        setOpenFlowState(flowId, false)
+      }
+    }
+  }
+
   function getSteps() {
-    return steps.map((step) => {
+    return steps.map((step: StepData) => {
       return {
-        handleSecondaryCTAClick: () => {
+        handleSecondaryButtonClick: () => {
           // Default to skip behavior for secondary click but allow for override
-          setSelectedStep(selectedStep + 1 >= steps.length ? selectedStep : selectedStep + 1)
+          goToNextStepIfPossible()
+          secondaryCTAClickSideEffects(step)
+          if (step.skippable === true) {
+            markStepCompleted(flowId, step.id, { skipped: true })
+          }
+          handleStepCompletionHandlers(step, 'secondary')
         },
         ...step,
         complete: getStepStatus(flowId, step.id) === COMPLETED_STEP,
-        handleCTAClick: () => {
-          if (step.autoMarkCompleted || step.autoMarkCompleted === undefined) {
+        handlePrimaryButtonClick: () => {
+          if (
+            !step.completionCriteria &&
+            (step.autoMarkCompleted || step.autoMarkCompleted === undefined)
+          ) {
             markStepCompleted(flowId, step.id)
-            setSelectedStep(selectedStep + 1 >= steps.length ? selectedStep : selectedStep + 1)
+            goToNextStepIfPossible()
           }
+          handleStepCompletionHandlers(step, 'primary')
+          if (step.primaryButtonUri && step.primaryButtonUri.trim() == '#' && type === 'modal') {
+            setOpenFlowState(flowId, false)
+          }
+          primaryCTAClickSideEffects(step)
         },
       }
     })
   }
 
+  const commonProps = {
+    steps: getSteps(),
+    title,
+    subtitle,
+    primaryColor,
+  }
+
   if (type === 'modal') {
     return (
       <ModalChecklist
-        steps={getSteps()}
-        title={title}
-        subtitle={subtitle}
-        primaryColor={primaryColor}
         visible={showModal}
         onClose={() => {
-          setShowModal(false)
+          setOpenFlowState(flowId, false)
           if (onDismiss) {
             onDismiss()
           }
         }}
+        selectedStep={selectedStep}
+        setSelectedStep={setSelectedStep}
         autoExpandNextStep={true}
+        {...commonProps}
+      />
+    )
+  }
+  if (type === 'withGuide') {
+    const guideFlowId = guideProps.guideFlowId
+    let guideFlowSteps
+    if (guideFlowId) {
+      const guideFlow = getFlow(guideFlowId)
+      if (guideFlow) {
+        guideFlowSteps = getFlowSteps(guideFlowId)
+      }
+    }
+
+    return (
+      <ChecklistWithGuide
+        visible={showModal}
+        stepsTitle={'your quick start guide'}
+        onClose={() => {
+          setOpenFlowState(flowId, false)
+          if (onDismiss) {
+            onDismiss()
+          }
+        }}
+        secondaryColor={secondaryColor}
+        selectedStep={selectedStep}
+        setSelectedStep={setSelectedStep}
+        guideData={guideFlowSteps}
+        guideTitle={guideProps.guideTitle ?? 'Guide'}
+        {...commonProps}
       />
     )
   }
 
   return (
     <HeroChecklist
-      steps={getSteps()}
-      title={title}
-      subtitle={subtitle}
-      primaryColor={primaryColor}
       style={style}
       selectedStep={selectedStep}
       setSelectedStep={setSelectedStep}
       className={className}
+      {...commonProps}
     />
   )
 }

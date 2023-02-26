@@ -38,8 +38,17 @@ export enum TriggerType {
 
 export function useFlows() {
   const { config } = useConfig()
-  const { flows, setFlows, isLoading, userId, publicApiKey, isLoadingUserState, flowResponses } =
-    useContext(FrigadeContext)
+  const {
+    flows,
+    setFlows,
+    isLoading,
+    userId,
+    publicApiKey,
+    isLoadingUserState,
+    flowResponses,
+    customVariables,
+    setCustomVariables,
+  } = useContext(FrigadeContext)
   const { addResponse } = useFlowResponses()
   const fetcher = (url) => fetch(url, config).then((r) => r.json())
   const { userFlowStatesData, isLoadingUserFlowStateData } = useUserFlowStates()
@@ -57,7 +66,23 @@ export function useFlows() {
   }
 
   function getFlowSteps(slug: string): any[] {
-    return getFlow(slug) ? JSON.parse(getFlow(slug).data).data : []
+    if (!getFlow(slug)) {
+      return []
+    }
+    let flowData = getFlow(slug).data
+    if (!flowData) {
+      return []
+    }
+    // Replace all variables of format ${variableName} with the value of the variable from customVariables
+    flowData = flowData.replace(/\${(.*?)}/g, (match, variableName) => {
+      return customVariables[variableName] ? String(customVariables[variableName]) : match
+    })
+
+    return JSON.parse(flowData)?.data ?? []
+  }
+
+  function setCustomVariable(key: string, value: string | number | boolean) {
+    setCustomVariables((prev) => ({ ...prev, [key]: value }))
   }
 
   function markStepStarted(flowSlug: string, stepId: string, data?: any) {
@@ -163,5 +188,7 @@ export function useFlows() {
     getNumberOfStepsCompleted,
     getNumberOfSteps,
     targetingLogicShouldHideFlow,
+    setCustomVariable,
+    customVariables,
   }
 }

@@ -1,6 +1,7 @@
-import React, { CSSProperties } from 'react'
+import React, { CSSProperties, useEffect } from 'react'
 import { useFlows } from '../api/flows'
 import { ProgressBadge } from '../Checklists/ProgressBadge'
+import { useFlowOpens } from '../api/flow-opens'
 
 interface FrigadeProgressBadgeProps {
   flowId: string
@@ -11,6 +12,8 @@ interface FrigadeProgressBadgeProps {
   secondaryColor?: string
   textStyle?: CSSProperties
   onClick?: () => void
+  customVariables?: { [key: string]: string | number | boolean }
+  hideOnFlowCompletion?: boolean
 }
 
 export const FrigadeProgressBadge: React.FC<FrigadeProgressBadgeProps> = ({
@@ -22,6 +25,8 @@ export const FrigadeProgressBadge: React.FC<FrigadeProgressBadgeProps> = ({
   secondaryColor,
   onClick,
   className,
+  customVariables,
+  hideOnFlowCompletion,
 }) => {
   const {
     getFlow,
@@ -29,7 +34,24 @@ export const FrigadeProgressBadge: React.FC<FrigadeProgressBadgeProps> = ({
     getNumberOfStepsCompleted,
     isLoading,
     targetingLogicShouldHideFlow,
+    setCustomVariable,
+    customVariables: existingCustomVariables,
   } = useFlows()
+
+  const { setOpenFlowState, getOpenFlowState } = useFlowOpens()
+
+  useEffect(() => {
+    if (
+      !isLoading &&
+      customVariables &&
+      JSON.stringify(existingCustomVariables) !=
+        JSON.stringify({ ...existingCustomVariables, ...customVariables })
+    ) {
+      Object.keys(customVariables).forEach((key) => {
+        setCustomVariable(key, customVariables[key])
+      })
+    }
+  }, [isLoading, customVariables, setCustomVariable, existingCustomVariables])
 
   if (isLoading) {
     return null
@@ -41,6 +63,13 @@ export const FrigadeProgressBadge: React.FC<FrigadeProgressBadgeProps> = ({
   }
 
   if (targetingLogicShouldHideFlow(flow)) {
+    return null
+  }
+
+  if (
+    hideOnFlowCompletion === true &&
+    getNumberOfStepsCompleted(flowId) === getFlowSteps(flowId).length
+  ) {
     return null
   }
 
@@ -56,7 +85,12 @@ export const FrigadeProgressBadge: React.FC<FrigadeProgressBadgeProps> = ({
       primaryColor={primaryColor}
       secondaryColor={secondaryColor}
       textStyle={textStyle}
-      onClick={onClick}
+      onClick={() => {
+        setOpenFlowState(flowId, true)
+        if (onClick) {
+          onClick()
+        }
+      }}
       className={className}
     />
   )

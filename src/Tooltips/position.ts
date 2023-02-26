@@ -1,4 +1,4 @@
-import { ToolTipPosition } from './Tooltip'
+import { ToolTipPosition } from './Tooltips'
 
 type BoundingRect = {
   left: number
