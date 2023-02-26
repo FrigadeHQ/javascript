@@ -6,7 +6,7 @@ import { CollapsibleStep } from './CollapsibleStep'
 
 import { HeaderContent, ModalChecklistSubtitle, ModalChecklistTitle } from './styled'
 
-interface ModalChecklistProps {
+export interface ModalChecklistProps {
   steps: StepData[]
   title: string
   subtitle: string

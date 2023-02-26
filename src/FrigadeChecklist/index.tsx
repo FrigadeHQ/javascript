@@ -7,12 +7,14 @@ import { ModalChecklist } from '../Checklists/ModalChecklist'
 import { COMPLETED_STEP } from '../api/common'
 import { primaryCTAClickSideEffects, secondaryCTAClickSideEffects } from '../shared/cta-util'
 import { useFlowOpens } from '../api/flow-opens'
+import { ChecklistWithGuide } from '../Checklists/ChecklistWithGuilde'
 
-export interface FrigadeHeroChecklistProps extends HeroChecklistProps {
+export interface FrigadeChecklistProps extends HeroChecklistProps {
   flowId: string
   title?: string
   subtitle?: string
   primaryColor?: string
+  secondaryColor?: string
 
   onCompleteStep?: (index: number, stepData: StepData) => void
   style?: CSSProperties
@@ -20,7 +22,7 @@ export interface FrigadeHeroChecklistProps extends HeroChecklistProps {
   initialSelectedStep?: number
 
   className?: string
-  type?: 'inline' | 'modal'
+  type?: 'inline' | 'modal' | 'withGuide'
 
   visible?: boolean
 
@@ -33,14 +35,25 @@ export interface FrigadeHeroChecklistProps extends HeroChecklistProps {
    * @param step
    * @param index
    */
+  onStepCompletion?: (step: StepData, index: number) => boolean
+  
   onButtonClick?: (step: StepData, index: number, cta: 'primary' | 'secondary') => boolean
+
+  /**
+   *  Optionl Props specifically for ChecklistWithGuide
+   * 
+   */
+
+  guideFlowId?: string
+  guideTitle?: string
 }
 
-export const FrigadeChecklist: React.FC<FrigadeHeroChecklistProps> = ({
+export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
   flowId,
   title,
   subtitle,
   primaryColor,
+  secondaryColor,
   style,
   initialSelectedStep,
   className,
@@ -48,7 +61,9 @@ export const FrigadeChecklist: React.FC<FrigadeHeroChecklistProps> = ({
   onDismiss,
   visible,
   customVariables,
+  onStepCompletion,
   onButtonClick,
+  ...guideProps
 }) => {
   const {
     getFlow,
@@ -176,6 +191,35 @@ export const FrigadeChecklist: React.FC<FrigadeHeroChecklistProps> = ({
         selectedStep={selectedStep}
         setSelectedStep={setSelectedStep}
         autoExpandNextStep={true}
+        {...commonProps}
+      />
+    )
+  }
+  if (type === 'withGuide') {
+    const guideFlowId = guideProps.guideFlowId
+    let guideFlowSteps
+    if (guideFlowId) {
+      const guideFlow = getFlow(guideFlowId)
+      if (guideFlow) {
+        guideFlowSteps = getFlowSteps(guideFlowId)
+      }
+    }
+
+    return (
+      <ChecklistWithGuide
+        visible={showModal}
+        stepsTitle={'your quick start guide'}
+        onClose={() => {
+          setOpenFlowState(flowId, false)
+          if (onDismiss) {
+            onDismiss()
+          }
+        }}
+        secondaryColor={secondaryColor}
+        selectedStep={selectedStep}
+        setSelectedStep={setSelectedStep}
+        guideData={guideFlowSteps}
+        guideTitle={guideProps.guideTitle ?? 'Guide'}
         {...commonProps}
       />
     )

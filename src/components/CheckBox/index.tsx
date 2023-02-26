@@ -41,7 +41,6 @@ const BASE_CHECKBOX_STYLES_SQUARE__UNCHECKED = {
 }
 
 const BASE_CHECKBOX_STYLES_ROUND__CHECKED = {
-  border: '1px solid #000000',
   color: '#FFFFFF',
 }
 
@@ -89,7 +88,7 @@ export const CheckBox: FC<CheckBoxProps> = (
       ...checkBoxStyle,
       ...stateStyle,
       backgroundColor: type === 'square' ? primaryColor : secondaryColor,
-      borderColor: type === 'square' ? primaryColor : secondaryColor,
+      borderColor: type === 'square' ? primaryColor : undefined,
     }
   } else {
     checkBoxStyle = {

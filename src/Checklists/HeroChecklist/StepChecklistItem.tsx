@@ -3,6 +3,7 @@ import { CheckBoxRow } from '../../components/CheckBoxRow'
 import styled from 'styled-components'
 import { motion } from 'framer-motion'
 import { StepData } from '../../types'
+import { ChecklistStepItem, StepItemSelectedIndicator } from './styled'
 
 interface StepItemProps {
   data: StepData
@@ -13,21 +14,6 @@ interface StepItemProps {
   style: CSSProperties
   onClick: () => void
 }
-
-const StepItemSelectedIndicator = styled.div`
-  width: 4px;
-  position: absolute;
-  left: 0;
-  top: 10%;
-  height: 80%;
-  border-top-right-radius: 8px;
-  border-bottom-right-radius: 8px;
-`
-
-const ChecklistStepItem = styled.div`
-  flex-direction: row;
-  justify-content: flex-start;
-`
 
 export const StepChecklistItem: FC<StepItemProps> = ({
   data,
