@@ -201,8 +201,6 @@ const Tooltips: FC<ToolTipProps> = ({
     )
   }
 
-  const Content = steps[selectedStep]?.StepContent ? steps[selectedStep].StepContent : DefaultTooltipStepContent
-
   const DEFAULT_CUSTOM_STEP_TYPES = {
     'default':
     (stepData: StepData) => {

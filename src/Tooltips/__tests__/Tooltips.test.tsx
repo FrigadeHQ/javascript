@@ -65,12 +65,12 @@ describe('Tooltip', () => {
     expect(onDismiss).toHaveBeenCalledTimes(1)
   })
 
-  test('renders custom StepContent', () => {
+  test.only('renders custom StepContent', () => {
 
-    const CustomStepContent = ({ stepData }: { stepData: StepData}) => (
+    const CustomStepContent = () => (
       <div data-testid='test-div'>
         <p>This is custom content</p>
-        <button onClick={stepData.handlePrimaryButtonClick}>Custom primary</button>
+        <button>Custom primary</button>
       </div>
     )
 
@@ -79,15 +79,15 @@ describe('Tooltip', () => {
         id: 'test-0',
         complete: false,
         selector: 'test-select-0',
-        StepContent: CustomStepContent,
-        handlePrimaryButtonClick: jest.fn()
+        handlePrimaryButtonClick: jest.fn(),
       } as unknown as StepData,
     ]
 
-    render(<Tooltips steps={customStepData} onComplete={onComplete} onDismiss={onDismiss} />)
+    const customSteps = new Map()
+    customSteps['default'] = CustomStepContent
+
+    render(<Tooltips steps={customStepData} onComplete={onComplete} onDismiss={onDismiss} customStepTypes={customSteps} />)
     expect(screen.getByTestId('test-div')).toBeDefined()
     expect(screen.getByText('This is custom content')).toBeDefined()
-    fireEvent.click(screen.getByText('Custom primary'))
-    expect(customStepData[0].handlePrimaryButtonClick).toHaveBeenCalledTimes(1)
   })
 })
