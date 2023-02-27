@@ -63,6 +63,7 @@ interface ModalProps {
   headerContent?: React.ReactNode
   children: React.ReactNode
   style?: React.CSSProperties
+  closeTint?: string
 }
 
 export const Modal: FC<ModalProps> = ({
@@ -71,6 +72,7 @@ export const Modal: FC<ModalProps> = ({
   headerContent = null,
   style = null,
   children,
+  closeTint = '#000000'
 }) => {
   // If user presses escape key, close modal
   useEffect(() => {
@@ -99,7 +101,7 @@ export const Modal: FC<ModalProps> = ({
       <ModalBackground onClose={onClose} />
       <ModalContainer style={style}>
         <ModalClose onClick={() => onClose()}>
-          <CloseIcon />
+          <CloseIcon color={closeTint} />
         </ModalClose>
         {headerContent && <ModalHeader>{headerContent}</ModalHeader>}
         <Body>{children}</Body>

@@ -88,7 +88,7 @@ export const CheckBox: FC<CheckBoxProps> = (
       ...checkBoxStyle,
       ...stateStyle,
       backgroundColor: type === 'square' ? primaryColor : secondaryColor,
-      borderColor: type === 'square' ? primaryColor : undefined,
+      borderColor: type === 'square' ? primaryColor : 'none',
     }
   } else {
     checkBoxStyle = {

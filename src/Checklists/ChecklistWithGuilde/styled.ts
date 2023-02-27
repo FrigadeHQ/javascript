@@ -10,9 +10,11 @@ export const ContainerStyle: CSSProperties = {
   borderRadius: '6px',
   zIndex: 75,
   padding: '32px',
-  maxHeight: '550px',
+  maxHeight: '700px',
   msOverflowStyle: 'none',  /* IE and Edge */
-  scrollbarWidth: 'none'  /* Firefox */
+  scrollbarWidth: 'none'  /* Firefox */,
+  paddingBottom: '12px',
+  minHeight: '610px'
 }
 
 export const ScrollContainer = styled.div`
@@ -23,6 +25,7 @@ export const ScrollContainer = styled.div`
 export const HeaderContent = styled.div`
   display: flex;
   flex-direction: column;
+  margin-top: 20px;
 `
 
 export const ChecklistTitle = styled.p`
@@ -34,10 +37,11 @@ export const ChecklistTitle = styled.p`
 `
 export const ChecklistSubtitle = styled.p`
   font-weight: 400;
-  color: #8c8c8c;
+  color: #8C8C8C;
   font-size: 16px;
   line-height: 20px;
   margin-bottom: 16px;
+  padding-left: 1px;
 `
 
 export const StepsContainer = styled.div`
@@ -46,6 +50,7 @@ export const StepsContainer = styled.div`
   border-radius: 14px;
   display: flex;
   flex-direction: column;
+  min-height: 240px;
 `
 
 export const StepsHeader = styled.div`
