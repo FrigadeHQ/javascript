@@ -157,7 +157,7 @@ export function useFlows() {
     return getFlowSteps(flowSlug).length
   }
 
-  function getFlowData(slug: string): Flow {
+  function getFlowData(slug: string): object {
     return JSON.parse(flows.find((f) => f.slug === slug).data)
   }
 
