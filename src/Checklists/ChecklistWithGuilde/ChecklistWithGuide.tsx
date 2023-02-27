@@ -112,7 +112,7 @@ const ChecklistWithGuide: FC<ChecklistWithGuideProps> = ({
       const handleCTAClick = () => {
         if (currentStep.handlePrimaryButtonClick) {
           currentStep.handlePrimaryButtonClick()
-        }
+        } 
       }
 
       const handleSecondaryCTAClick = () => {
@@ -154,6 +154,7 @@ const ChecklistWithGuide: FC<ChecklistWithGuideProps> = ({
       onClose={onClose}
       visible={visible}
       style={ContainerStyle}
+      closeTint={'#8C8C8C'}
     >
       <HeaderContent>
         <ChecklistTitle>{title}</ChecklistTitle>
@@ -177,6 +178,7 @@ const ChecklistWithGuide: FC<ChecklistWithGuideProps> = ({
                     const isSelected = selectedStepValue === idx;
                     return (
                       <StepListItem selected={isSelected}
+                        key={`checklist-guide-step-${stepData.id ?? idx}`}
                         onClick={() => {
                           setSelectedStepValue(idx)
                         }}>
@@ -184,7 +186,7 @@ const ChecklistWithGuide: FC<ChecklistWithGuideProps> = ({
                           <StepItemSelectedIndicator
                             as={motion.div}
                             layoutId="checklist-step-selected"
-                            style={{ backgroundColor: primaryColor, borderRadius: 0 }}
+                            style={{ backgroundColor: primaryColor, borderRadius: 0, height: '100%', top: '0%', width: '2px'}}
                           ></StepItemSelectedIndicator>
                         )}
                         <StepListStepName selected={isSelected}>

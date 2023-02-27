@@ -9,6 +9,16 @@ import { primaryCTAClickSideEffects, secondaryCTAClickSideEffects } from '../sha
 import { useFlowOpens } from '../api/flow-opens'
 import { ChecklistWithGuide } from '../Checklists/ChecklistWithGuilde'
 
+
+/**
+ * Frigade Checklists
+ * inline: Renders as an on-page element
+ * modal: Display above other content with a shadowed background
+ * withGuide: A modal checklist with a Guide included beneath the modal content
+ * 
+ */
+export type FrigadeChecklistType = 'inline' | 'modal' | 'withGuide'
+
 export interface FrigadeChecklistProps extends HeroChecklistProps {
   flowId: string
   title?: string
@@ -22,7 +32,7 @@ export interface FrigadeChecklistProps extends HeroChecklistProps {
   initialSelectedStep?: number
 
   className?: string
-  type?: 'inline' | 'modal' | 'withGuide'
+  type?: FrigadeChecklistType
 
   visible?: boolean
 

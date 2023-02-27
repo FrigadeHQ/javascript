@@ -22,6 +22,7 @@ export const GuideTitle = styled.p`
   font-weight: 400;
   font-size: 10px;
   line-height: 12px;
+  letter-spacing: 0.09em;
 `
 
 export const GuideItem = styled.div`
