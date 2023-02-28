@@ -91,7 +91,8 @@
   "dependencies": {
     "@reactour/utils": "^0.4.7",
     "framer-motion": "^9.0.4",
-    "react-dom": "*",
+    "react-dom": "^18.2.0",
+    "react-portal": "^4.2.2",
     "styled-components": "^5.3.6",
     "swr": "^2.0.3",
     "uuid": "^9.0.0"

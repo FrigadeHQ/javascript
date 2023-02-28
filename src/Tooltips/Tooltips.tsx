@@ -242,7 +242,7 @@ const Tooltips: FC<ToolTipProps> = ({
             height: 32,
             top: position?.y - 24 ?? 0,
             left: position?.x - 24 ?? 0,
-            position: 'absolute',
+            position: 'fixed',
             display: 'flex',
             alignContent: 'center',
             justifyContent: 'center',
@@ -251,7 +251,7 @@ const Tooltips: FC<ToolTipProps> = ({
         >
           <HighlightInner
             style={{
-              position: 'absolute',
+              position: 'fixed',
               // top: position?.y - 10 ?? 0,
               // left: position?.x - 10 ?? 0,
             }}
@@ -271,7 +271,7 @@ const Tooltips: FC<ToolTipProps> = ({
         as={motion.div}
         layoutId="tooltip-container"
         style={{
-          position: 'absolute',
+          position: 'fixed',
           width: 'max-content',
           left: position?.x ?? 0,
           top: position?.y ?? 0,

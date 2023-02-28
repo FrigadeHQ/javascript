@@ -4,6 +4,7 @@ import { ToolTipProps, Tooltips } from '../Tooltips'
 import { StepData } from '../types'
 import { primaryCTAClickSideEffects, secondaryCTAClickSideEffects } from '../shared/cta-util'
 import { COMPLETED_FLOW, COMPLETED_STEP } from '../api/common'
+import { Portal } from 'react-portal'
 
 export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedStep?: number }> = ({
   flowId,
@@ -101,13 +102,15 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
   const elem = document.querySelector(steps[initialSelectedStep ?? 0].selector)
 
   return (
-    <Tooltips
-      steps={getSteps()}
-      elem={elem}
-      setSelectedStep={setSelectedStep}
-      selectedStep={selectedStep}
-      {...props}
-    />
+    <Portal>
+      <Tooltips
+        steps={getSteps()}
+        elem={elem}
+        setSelectedStep={setSelectedStep}
+        selectedStep={selectedStep}
+        {...props}
+      />
+    </Portal>
   )
 }
 
