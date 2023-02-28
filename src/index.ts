@@ -5,6 +5,7 @@ export { FrigadeProgressBadge } from './FrigadeProgressBadge'
 export { FrigadeForm } from './FrigadeForm'
 export { FrigadeGuide } from './FrigadeGuide'
 export { FrigadeTour } from './FrigadeTour'
+export { FrigadeFloatingSupportWidget } from './FrigadeFloatingSupportWidget'
 
 export { useFlows } from './api/flows'
 export { useFlowResponses } from './api/flow-responses'
