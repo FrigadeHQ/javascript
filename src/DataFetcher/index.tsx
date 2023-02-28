@@ -18,7 +18,8 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
   const { userFlowStatesData, isLoadingUserFlowStateData } = useUserFlowStates()
   const { userId, setUserId } = useUser()
   const [lastUserId, setLastUserId] = useState<string | null>(null)
-  const { flows, userProperties, setIsLoading, setIsLoadingUserState } = useContext(FrigadeContext)
+  const { flows, userProperties, setIsLoading, setIsLoadingUserState, setIsNewGuestUser } =
+    useContext(FrigadeContext)
   const [automaticFlowIdsToTrigger, setAutomaticFlowIdsToTrigger] = useState<Flow[]>([])
 
   useEffect(() => {
@@ -89,7 +90,9 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
         setUserId(guestUserId)
         return
       }
+
       // If we don't have a guest user id, generate one and save it to local storage
+      setIsNewGuestUser(true)
       const newGuestUserId = GUEST_PREFIX + uuidv4()
       try {
         localStorage.setItem(guestUserIdField, newGuestUserId)

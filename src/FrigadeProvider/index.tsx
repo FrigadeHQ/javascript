@@ -28,6 +28,8 @@ export interface IFrigadeContext {
   setCustomVariables?: React.Dispatch<
     React.SetStateAction<{ [key: string]: string | boolean | number | null }>
   >
+  isNewGuestUser: boolean
+  setIsNewGuestUser: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export interface FrigadeProviderProps {
@@ -55,6 +57,8 @@ export const FrigadeContext = createContext<IFrigadeContext>({
   setOpenFlowStates: () => {},
   customVariables: {},
   setCustomVariables: () => {},
+  isNewGuestUser: false,
+  setIsNewGuestUser: () => {},
 })
 
 export const FrigadeProvider: FC<FrigadeProviderProps> = ({ publicApiKey, userId, children }) => {
@@ -71,6 +75,7 @@ export const FrigadeProvider: FC<FrigadeProviderProps> = ({ publicApiKey, userId
   const [customVariables, setCustomVariables] = useState<{
     [key: string]: string | boolean | number | null
   }>({})
+  const [isNewGuestUser, setIsNewGuestUser] = useState(false)
 
   useEffect(() => {
     if (userId !== null && userId !== undefined && userId !== userIdValue) {
@@ -100,6 +105,8 @@ export const FrigadeProvider: FC<FrigadeProviderProps> = ({ publicApiKey, userId
         setOpenFlowStates,
         customVariables,
         setCustomVariables,
+        isNewGuestUser,
+        setIsNewGuestUser,
       }}
     >
       {children}

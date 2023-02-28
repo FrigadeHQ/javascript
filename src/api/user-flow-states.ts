@@ -20,7 +20,7 @@ export function useUserFlowStates(): {
   error: any
 } {
   const { config } = useConfig()
-  const { publicApiKey, userId, flows } = useContext(FrigadeContext)
+  const { publicApiKey, userId, flows, isNewGuestUser } = useContext(FrigadeContext)
 
   function arrayFetcher(urlArray: string[]) {
     const f = (url) =>
@@ -36,7 +36,7 @@ export function useUserFlowStates(): {
     mutate: mutateUserFlowState,
     error,
   } = useSWR(
-    publicApiKey && flows && userId
+    publicApiKey && flows && userId && !isNewGuestUser
       ? flows.map(
           (flow) =>
             `${API_PREFIX}userFlowStates/${flow.slug}?foreignUserId=${encodeURIComponent(userId)}`
