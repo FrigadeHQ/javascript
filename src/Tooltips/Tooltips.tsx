@@ -19,7 +19,7 @@ import { StepData } from '../types'
 
 import { useElemRect } from '@reactour/utils'
 
-export type ToolTipPosition = 'left' | 'right'
+export type ToolTipPosition = 'left' | 'right' | 'auto'
 
 const CARD_WIDTH = 385
 
@@ -105,7 +105,16 @@ const Tooltips: FC<ToolTipProps> = ({
 }) => {
   const [elem, setElem] = useState(initialElem)
   const boundingRect = useElemRect(elem, selectedStep)
-  const position = getPosition(boundingRect, tooltipPosition, CARD_WIDTH, offset)
+
+  let tooltipPositionValue = tooltipPosition === 'auto' ? 'right' : tooltipPosition
+  let position = getPosition(boundingRect, tooltipPositionValue, CARD_WIDTH, offset)
+  const rightSideIsCropped =
+    boundingRect.right + CARD_WIDTH > (window.innerWidth || document.documentElement.clientWidth)
+
+  if (rightSideIsCropped && tooltipPosition === 'auto') {
+    position = getPosition(boundingRect, 'left', CARD_WIDTH, offset)
+    tooltipPositionValue = 'left'
+  }
 
   const url = window.location.pathname.split('/').pop()
 
@@ -237,7 +246,7 @@ const Tooltips: FC<ToolTipProps> = ({
             width: 32,
             height: 32,
             top: position?.y - 24 ?? 0,
-            left: (tooltipPosition == 'left' ? boundingRect.x : position?.x - 24) ?? 0,
+            left: (tooltipPositionValue == 'left' ? boundingRect.x : position?.x - 24) ?? 0,
             position: 'fixed',
             display: 'flex',
             alignContent: 'center',
