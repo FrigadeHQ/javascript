@@ -1,5 +1,5 @@
 import React from 'react'
-import { fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 
 import { StepData } from '../../types'
 import { Tooltips } from '../index'
@@ -12,7 +12,7 @@ describe('Tooltip', () => {
       title: 'Test title',
       subtitle: 'Test subtitle',
       cta: 'Next',
-      selector: 'test-select-0',
+      selector: '#test-select-0',
       primaryButtonTitle: 'Next',
       secondaryButtonTitle: 'Skip',
       handleSecondaryButtonClick: jest.fn(),
@@ -35,37 +35,54 @@ describe('Tooltip', () => {
     jest.resetAllMocks()
   })
 
-  test('renders with provided selector found', () => {
-    function ControlledTooltip() {
+  function ControlledTooltip() {
+    return (
+      <div>
+        <Tooltips steps={data} onComplete={onComplete} onDismiss={onDismiss} />
+        <div id="test-select-0">
+          <p>Some text on screen!</p>
+        </div>
+      </div>
+    )
+  }
+
+  test('renders with provided selector found', async () => {
+    render(<ControlledTooltip />)
+    expect(screen.getByText(data[0].title)).toBeDefined()  
+    expect(screen.getByText(data[0].subtitle)).toBeDefined()
+  })
+
+  test('Hidden if no selector found', () => {
+    function ControlledTooltipHidden() {
       return (
         <div>
           <Tooltips steps={data} onComplete={onComplete} onDismiss={onDismiss} />
-          <div id="tooltip-target">
+          <div id="tooltip-err-target">
             <p>Some text on screen!</p>
           </div>
         </div>
       )
     }
-    render(<ControlledTooltip />)
-    expect(screen.getByText(data[0].title)).toBeDefined()
-    expect(screen.getByText(data[0].subtitle)).toBeDefined()
+    render(<ControlledTooltipHidden />)
+    expect(screen.queryByText(data[0].title)).toBeNull()
+    expect(screen.queryByText(data[0].subtitle)).toBeNull()
   })
 
   test('handles secondary action', () => {
-    render(<Tooltips steps={data} onComplete={onComplete} onDismiss={onDismiss} />)
+    render(<ControlledTooltip />)
 
     fireEvent.click(screen.getByText(data[0].secondaryButtonTitle ?? 'Skip'))
     expect(data[0].handleSecondaryButtonClick).toHaveBeenCalledTimes(1)
   })
 
   test('handles dismiss', () => {
-    render(<Tooltips steps={data} onComplete={onComplete} onDismiss={onDismiss} />)
+    render(<ControlledTooltip />)
 
     fireEvent.click(screen.getByTestId('tooltip-dismiss'))
     expect(onDismiss).toHaveBeenCalledTimes(1)
   })
 
-  test.only('renders custom StepContent', () => {
+  test('renders custom StepContent', () => {
 
     const CustomStepContent = () => (
       <div data-testid='test-div'>
@@ -78,7 +95,7 @@ describe('Tooltip', () => {
       {
         id: 'test-0',
         complete: false,
-        selector: 'test-select-0',
+        selector: '#test-select-0',
         handlePrimaryButtonClick: jest.fn(),
       } as unknown as StepData,
     ]
@@ -86,7 +103,18 @@ describe('Tooltip', () => {
     const customSteps = new Map()
     customSteps['default'] = CustomStepContent
 
-    render(<Tooltips steps={customStepData} onComplete={onComplete} onDismiss={onDismiss} customStepTypes={customSteps} />)
+    function ControlledTooltipCustom() {
+      return (
+        <div>
+          <Tooltips steps={customStepData} onComplete={onComplete} onDismiss={onDismiss} customStepTypes={customSteps} />
+          <div id="test-select-0">
+            <p>Some text on screen!</p>
+          </div>
+        </div>
+      )
+    }
+
+    render(<ControlledTooltipCustom />)
     expect(screen.getByTestId('test-div')).toBeDefined()
     expect(screen.getByText('This is custom content')).toBeDefined()
   })

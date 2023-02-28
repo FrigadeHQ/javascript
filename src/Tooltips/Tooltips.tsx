@@ -118,7 +118,7 @@ const Tooltips: FC<ToolTipProps> = ({
   if (elem === null) {
     return <></>
   }
-  
+
   if (!visible) return <></>
 
   const DefaultFooterContent = () => {
