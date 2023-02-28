@@ -43,9 +43,12 @@ export interface ToolTipProps {
   elem?: any // initial element to focus
   offset?: { x: number; y: number }
   visible?: boolean
+  initialStep?: number
+  containerStyle?: CSSProperties
   customVariables?: { [key: string]: string | number | boolean }
   selectedStep?: number
   setSelectedStep?: (index: number) => void
+  customStepTypes?: Map<string, (stepData: StepData) => React.ReactNode>
 }
 
 const HighlightOuter = styled.div<{ primaryColor: string }>`
@@ -94,19 +97,27 @@ const Tooltips: FC<ToolTipProps> = ({
   elem: initialElem,
   offset = { x: 0, y: 0 },
   visible = true,
+  initialStep = 0,
+  containerStyle = {},
   selectedStep = 0,
   setSelectedStep = () => {},
+  customStepTypes
 }) => {
-  const [elem, setElem] = useState(initialElem)
+  const [elem, setElem] = useState(initialElem)  
   const boundingRect = useElemRect(elem, selectedStep)
   const position = getPosition(boundingRect, tooltipPosition, CARD_WIDTH, offset)
 
+  const url = window.location.pathname.split('/').pop();
+
   useEffect(() => {
-    if (!Array.isArray(steps)) {
-      return
-    }
-    setElem(document.querySelector(steps[selectedStep].selector))
-  }, [selectedStep])
+    const elem = document.querySelector(steps[selectedStep].selector)
+    setElem(elem)
+  }, [selectedStep, url])
+
+
+  if (elem === null) {
+    return <></>
+  }
 
   if (!visible) return <></>
 
@@ -195,6 +206,33 @@ const Tooltips: FC<ToolTipProps> = ({
     )
   }
 
+  const DEFAULT_CUSTOM_STEP_TYPES = {
+    'default':
+    (stepData: StepData) => {
+      if (steps[selectedStep]?.StepContent) {
+        const Content: React.ReactNode = steps[selectedStep].StepContent
+        return <div>{Content}</div>
+      }
+
+      return (
+        <DefaultTooltipStepContent />
+      )
+    },
+  }
+
+  const mergedCustomStepTypes = { ...DEFAULT_CUSTOM_STEP_TYPES, ...customStepTypes }
+
+  const StepContent = () => {
+    if(!steps) return <></>
+    if (!steps[selectedStep]?.type || !mergedCustomStepTypes[steps[selectedStep].type]) {
+      return mergedCustomStepTypes['default'](steps[selectedStep])
+    }
+    return mergedCustomStepTypes[steps[selectedStep].type]({
+      stepData: steps[selectedStep],
+      primaryColor: primaryColor,
+    })
+  }
+
   return (
     <Wrapper>
       {showHighlight && (
@@ -237,10 +275,11 @@ const Tooltips: FC<ToolTipProps> = ({
           width: 'max-content',
           left: position?.x ?? 0,
           top: position?.y ?? 0,
+          ...containerStyle
         }}
         maxWidth={CARD_WIDTH}
       >
-        <DefaultTooltipStepContent />
+       <StepContent />
       </TooltipContainer>
     </Wrapper>
   )
