@@ -29,6 +29,9 @@ export interface Flow {
 export enum FlowType {
   CHECKLIST = 'CHECKLIST',
   FORM = 'FORM',
+  TOUR = 'TOUR',
+  SUPPORT = 'SUPPORT',
+  CUSTOM = 'CUSTOM',
 }
 
 export enum TriggerType {
