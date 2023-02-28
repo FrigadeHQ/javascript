@@ -101,19 +101,18 @@ const Tooltips: FC<ToolTipProps> = ({
   containerStyle = {},
   selectedStep = 0,
   setSelectedStep = () => {},
-  customStepTypes
+  customStepTypes,
 }) => {
-  const [elem, setElem] = useState(initialElem)  
+  const [elem, setElem] = useState(initialElem)
   const boundingRect = useElemRect(elem, selectedStep)
   const position = getPosition(boundingRect, tooltipPosition, CARD_WIDTH, offset)
 
-  const url = window.location.pathname.split('/').pop();
+  const url = window.location.pathname.split('/').pop()
 
   useEffect(() => {
     const elem = document.querySelector(steps[selectedStep].selector)
     setElem(elem)
   }, [selectedStep, url])
-
 
   if (elem === null) {
     return <></>
@@ -207,23 +206,20 @@ const Tooltips: FC<ToolTipProps> = ({
   }
 
   const DEFAULT_CUSTOM_STEP_TYPES = {
-    'default':
-    (stepData: StepData) => {
+    default: (stepData: StepData) => {
       if (steps[selectedStep]?.StepContent) {
         const Content: React.ReactNode = steps[selectedStep].StepContent
         return <div>{Content}</div>
       }
 
-      return (
-        <DefaultTooltipStepContent />
-      )
+      return <DefaultTooltipStepContent />
     },
   }
 
   const mergedCustomStepTypes = { ...DEFAULT_CUSTOM_STEP_TYPES, ...customStepTypes }
 
   const StepContent = () => {
-    if(!steps) return <></>
+    if (!steps) return <></>
     if (!steps[selectedStep]?.type || !mergedCustomStepTypes[steps[selectedStep].type]) {
       return mergedCustomStepTypes['default'](steps[selectedStep])
     }
@@ -241,7 +237,7 @@ const Tooltips: FC<ToolTipProps> = ({
             width: 32,
             height: 32,
             top: position?.y - 24 ?? 0,
-            left: position?.x - 24 ?? 0,
+            left: (tooltipPosition == 'left' ? boundingRect.x : position?.x - 24) ?? 0,
             position: 'fixed',
             display: 'flex',
             alignContent: 'center',
@@ -252,8 +248,6 @@ const Tooltips: FC<ToolTipProps> = ({
           <HighlightInner
             style={{
               position: 'fixed',
-              // top: position?.y - 10 ?? 0,
-              // left: position?.x - 10 ?? 0,
             }}
             primaryColor={primaryColor}
           ></HighlightInner>
@@ -275,11 +269,11 @@ const Tooltips: FC<ToolTipProps> = ({
           width: 'max-content',
           left: position?.x ?? 0,
           top: position?.y ?? 0,
-          ...containerStyle
+          ...containerStyle,
         }}
         maxWidth={CARD_WIDTH}
       >
-       <StepContent />
+        <StepContent />
       </TooltipContainer>
     </Wrapper>
   )
