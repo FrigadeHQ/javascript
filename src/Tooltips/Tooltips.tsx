@@ -103,17 +103,22 @@ const Tooltips: FC<ToolTipProps> = ({
   setSelectedStep = () => {},
   customStepTypes
 }) => {
-  const [elem, setElem] = useState(initialElem)
+  const [elem, setElem] = useState(initialElem)  
   const boundingRect = useElemRect(elem, selectedStep)
   const position = getPosition(boundingRect, tooltipPosition, CARD_WIDTH, offset)
 
-  useEffect(() => {
-    if (!Array.isArray(steps)) {
-      return
-    }
-    setElem(document.querySelector(steps[selectedStep].selector))
-  }, [selectedStep])
+  const url = window.location.pathname.split('/').pop();
 
+  useEffect(() => {
+    const elem = document.querySelector(steps[selectedStep].selector)
+    setElem(elem)
+  }, [selectedStep, url])
+
+
+  if (elem === null) {
+    return <></>
+  }
+  
   if (!visible) return <></>
 
   const DefaultFooterContent = () => {
