@@ -49,6 +49,14 @@ export interface ToolTipProps {
   selectedStep?: number
   setSelectedStep?: (index: number) => void
   customStepTypes?: Map<string, (stepData: StepData) => React.ReactNode>
+
+  /**
+   * Handler for when a primary or secondary CTA is clicked. Return true if your app performs and action (e.g. open other modal or page transition).
+   * This will dismiss any Frigade modals.
+   * @param step
+   * @param index
+   */
+  onStepCompletion?: (step: StepData, index: number) => boolean
 }
 
 const HighlightOuter = styled.div<{ primaryColor: string }>`
@@ -102,11 +110,13 @@ const Tooltips: FC<ToolTipProps> = ({
   selectedStep = 0,
   setSelectedStep = () => {},
   customStepTypes,
+  onStepCompletion,
+  
 }) => {
   const [elem, setElem] = useState(initialElem)
   const boundingRect = useElemRect(elem, selectedStep)
 
-  let tooltipPositionValue = tooltipPosition === 'auto' ? 'right' : tooltipPosition
+  let tooltipPositionValue: ToolTipPosition = tooltipPosition === 'auto' ? 'right' : tooltipPosition as ToolTipPosition
   let position = getPosition(boundingRect, tooltipPositionValue, CARD_WIDTH, offset)
   const rightSideIsCropped =
     boundingRect.right + CARD_WIDTH > (window.innerWidth || document.documentElement.clientWidth)

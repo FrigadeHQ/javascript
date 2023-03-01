@@ -47,7 +47,7 @@ const Checklist: FC<ChecklistProps> = ({
   style = {},
 }) => {
   const completeCount = steps.filter((s) => s.complete).length
-  const positionStyle = displayMode === 'Modal' ? getPositionStyle(position, positionOffset) : {}
+  const positionStyle = displayMode === 'Modal' ? getPositionStyle(position as CheckListPosition, positionOffset) : {}
 
   const wrapperDisplayModeStyle =
     displayMode === 'Modal'
