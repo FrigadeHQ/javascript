@@ -20,6 +20,9 @@ export const ContainerStyle: CSSProperties = {
 export const ScrollContainer = styled.div`
   max-height: 350px;
   padding-bottom: 40px;
+  border-image: linear-gradient(#f6b73c, #4d9f0c) 30;
+  border-bottom-width: 4px;
+  border-style: solid;
 `
 
 export const HeaderContent = styled.div`

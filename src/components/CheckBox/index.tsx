@@ -78,8 +78,8 @@ export const CheckBox: FC<CheckBoxProps> = (
   }
 ) => {
 
-  let checkBoxStyle = getBaseStyle(type)
-  let stateStyle = getStateStyle(type, value)
+  let checkBoxStyle = getBaseStyle(type as CheckBoxType)
+  let stateStyle = getStateStyle(type as CheckBoxType, value)
 
   const checkColor = type === 'round' ? primaryColor : '#FFFFFF'
  
