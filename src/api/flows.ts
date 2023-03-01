@@ -66,7 +66,7 @@ export function useFlows() {
 
   function getFlow(slug: string): Flow {
     const flow = flows.find((f) => f.slug === slug)
-    if (!flow) {
+    if (!flow && flows.length > 0 && !isLoadingUserState && !isLoading) {
       console.error(`Flow with slug ${slug} not found`)
     }
     return flow
