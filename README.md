@@ -10,7 +10,6 @@
 <a href="https://github.com/FrigadeHQ">GitHub</a> 
 <span> · </span>
 <a href="https://docs.frigade.com">Docs</a>
-<span> · </span>
 
 ## Introduction
 
@@ -23,19 +22,12 @@ Install the package from your command line.
 #### With yarn
 
 ```bash
-yarn add @frigade/react-onboarding-components
+yarn add @frigade/react
 ```
 
 #### With npm
 
 ```bash
-npm install @frigade/react-onboarding-components
+npm install @frigade/react
 ```
-
-## Supercharge your onboarding flows
-While the above examples contain hard-coded strings and images for illustrative purposes, we highly recommend loading your strings and presentation
-layer logic from your API rather than as plain strings in your app.
-
-We built [Frigade](https://frigade.com/) to work seamlessly with `react-onboarding-components` and make it easier for developers to build and scale onboarding. 
-With Frigade, you can update onboarding flow without releasing to the app store, integrate 3rd party analytics (Segment, Mixpanel, etc.) to power user targeting, and integrate our API/webhooks to make user data input easy.
 
