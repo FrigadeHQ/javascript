@@ -32,7 +32,7 @@
     "Walkthrough"
   ],
   "peerDependencies": {
-    "react": "^17.0.0 || ^18.0.0",
+    "react": "17.0.2",
     "react-dom": "^17.0.0 || ^18.0.0"
   },
   "devDependencies": {
@@ -89,7 +89,6 @@
   "dependencies": {
     "@reactour/utils": "^0.4.7",
     "framer-motion": "6.5.0",
-    "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-portal": "^4.2.2",
     "styled-components": "^5.3.6",
