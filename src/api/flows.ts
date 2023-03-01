@@ -65,7 +65,11 @@ export function useFlows() {
   }, [flowData])
 
   function getFlow(slug: string): Flow {
-    return flows.find((f) => f.slug === slug)
+    const flow = flows.find((f) => f.slug === slug)
+    if (!flow) {
+      console.error(`Flow with slug ${slug} not found`)
+    }
+    return flow
   }
 
   function getFlowSteps(slug: string): any[] {
