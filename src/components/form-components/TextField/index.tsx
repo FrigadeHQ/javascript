@@ -46,13 +46,39 @@ const TextArea = styled.textarea`
   }
 `
 
-export function TextField({ formInput, customFormTypeProps, onSaveInputData }: FormInputProps) {
+export function TextField({
+  formInput,
+  customFormTypeProps,
+  onSaveInputData,
+  setFormValidationErrors,
+}: FormInputProps) {
   const input = formInput as TextFieldProps
   const [data, setData] = useState('')
+  const [hasLoaded, setHasLoaded] = useState(false)
+
+  if (data === '' && !hasLoaded) {
+    setHasLoaded(true)
+    handleDataChange('')
+  }
 
   let InputComponent = TextInput
   if (input.multiline) {
     InputComponent = TextArea
+  }
+
+  function handleDataChange(value: string) {
+    setData(value)
+    if (input.required === true && value.trim() === '') {
+      setFormValidationErrors([
+        {
+          id: input.id,
+          message: `${input.title} is required`,
+        },
+      ])
+      return
+    }
+    setFormValidationErrors([])
+    onSaveInputData({ text: value })
   }
 
   return (
@@ -64,8 +90,7 @@ export function TextField({ formInput, customFormTypeProps, onSaveInputData }: F
       <InputComponent
         value={data}
         onChange={(e) => {
-          setData(e.target.value)
-          onSaveInputData({ text: e.target.value })
+          handleDataChange(e.target.value)
         }}
         placeholder={input.placeholder}
       ></InputComponent>

@@ -31,12 +31,11 @@ export const FloatingWidgetMenu = styled.div`
   display: flex;
   flex-direction: column;
   min-width: 200px;
-  //gap: 0px;
   padding: 4px;
   box-shadow: 0px 9px 28px 8px rgba(0, 0, 0, 0.05), 0px 6px 16px rgba(0, 0, 0, 0.08),
     0px 3px 6px -4px rgba(0, 0, 0, 0.12);
   border-radius: 8px;
-  margin-bottom: 12px;
+  margin-bottom: 22px;
 `
 
 export const FlowWidgetMenuItem = styled.button`

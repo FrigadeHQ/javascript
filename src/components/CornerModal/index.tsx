@@ -9,7 +9,7 @@ const CornerModalContainer = styled.div`
   right: 0;
   bottom: 0;
   margin-right: 24px;
-  margin-bottom: 100px;
+  margin-bottom: 90px;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -78,9 +78,6 @@ export const CornerModal: FC<CornerModalProps> = ({
   }, [onClose, visible])
 
   if (!visible) return <></>
-
-  // TODO: Look for customer support widgets in the same container and if one is visible, place above.
-  // Otherwise, below
 
   return (
     <Portal>

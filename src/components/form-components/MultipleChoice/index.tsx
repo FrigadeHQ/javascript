@@ -39,15 +39,6 @@ const MultipleChoiceSelect = styled.select`
     color: #c7c7c7;
     font-size: 14px;
   }
-  -webkit-appearance: none;
-  appearance: none;
-  ::after {
-    content: '▼';
-    font-size: 1rem;
-    top: 6px;
-    right: 10px;
-    position: absolute;
-  }
 `
 
 export function MultipleChoice({
@@ -57,6 +48,13 @@ export function MultipleChoice({
 }: FormInputProps) {
   const input = formInput as MultipleChoiceProps
   const [data, setData] = useState('')
+  const [hasLoaded, setHasLoaded] = useState(false)
+
+  if (data === '' && !hasLoaded) {
+    setHasLoaded(true)
+    setData(input.props.options?.[0].id || '')
+    onSaveInputData({ choice: [input.props.options?.[0].id || ''] })
+  }
 
   return (
     <MultipleChoiceWrapper>
@@ -68,7 +66,7 @@ export function MultipleChoice({
         value={data}
         onChange={(e) => {
           setData(e.target.value)
-          onSaveInputData({ text: e.target.value })
+          onSaveInputData({ choice: [e.target.value] })
         }}
         placeholder={input.placeholder}
       >

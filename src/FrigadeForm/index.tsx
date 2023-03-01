@@ -1,4 +1,4 @@
-import React, { CSSProperties, FC, useState } from 'react'
+import React, { CSSProperties, FC, useEffect, useState } from 'react'
 import { Button } from '../components/Button'
 
 import { CTAContainer } from './styled'
@@ -29,6 +29,8 @@ export interface FormProps {
   visible?: boolean
 
   setVisible?: (visible: boolean) => void
+
+  customVariables?: { [key: string]: string | number | boolean }
 }
 
 export const FrigadeForm: FC<FormProps> = ({
@@ -42,6 +44,7 @@ export const FrigadeForm: FC<FormProps> = ({
   type = 'inline',
   visible,
   setVisible,
+  customVariables,
 }) => {
   const {
     getFlow,
@@ -51,6 +54,8 @@ export const FrigadeForm: FC<FormProps> = ({
     getNumberOfStepsCompleted,
     isLoading,
     targetingLogicShouldHideFlow,
+    setCustomVariable,
+    customVariables: existingCustomVariables,
   } = useFlows()
 
   const [canContinue, setCanContinue] = useState(false)
@@ -60,6 +65,19 @@ export const FrigadeForm: FC<FormProps> = ({
     visible !== undefined && setVisible !== undefined ? [visible, setVisible] : useState(true)
   const [selectedStepInternal, setSelectedStepInternal] = useState(0)
   const [formData, setFormData] = useState({})
+
+  useEffect(() => {
+    if (
+      !isLoading &&
+      customVariables &&
+      JSON.stringify(existingCustomVariables) !=
+        JSON.stringify({ ...existingCustomVariables, ...customVariables })
+    ) {
+      Object.keys(customVariables).forEach((key) => {
+        setCustomVariable(key, customVariables[key])
+      })
+    }
+  }, [isLoading, customVariables, setCustomVariable, existingCustomVariables])
 
   const DEFAULT_CUSTOM_STEP_TYPES = {
     linkCollection: LinkCollectionStepType,
@@ -117,7 +135,6 @@ export const FrigadeForm: FC<FormProps> = ({
     setFormData((prevState) => {
       let newObj = {}
       newObj[step.id] = data
-
       return {
         ...prevState,
         ...newObj,
@@ -125,24 +142,27 @@ export const FrigadeForm: FC<FormProps> = ({
     })
   }
 
-  function StepContent() {
-    if (!steps[selectedStepValue]?.type || !mergedCustomStepTypes[steps[selectedStepValue].type]) {
-      return <></>
+  const StepContent = mergedCustomStepTypes[steps[selectedStepValue]?.type] ?? MultiInputStepType
+
+  function getDataPayload() {
+    const data = formData[steps[selectedStepValue].id] ?? {}
+    return {
+      data: data,
+      stepId: steps[selectedStepValue].id,
+      customVariables: customVariables,
     }
-    return mergedCustomStepTypes[steps[selectedStepValue].type]({
-      stepData: steps[selectedStepValue],
-      primaryColor: primaryColor,
-      setCanContinue: setCanContinue,
-      canContinue: canContinue,
-      onSaveData: (data) => {
-        updateData(steps[selectedStepValue], data)
-      },
-    })
   }
 
   const content = (
     <div>
-      <StepContent />
+      <StepContent
+        stepData={steps[selectedStepValue]}
+        canContinue={canContinue}
+        setCanContinue={setCanContinue}
+        onSaveData={(data) => {
+          updateData(steps[selectedStepValue], data)
+        }}
+      />
       <CTAContainer>
         {steps[selectedStepValue].secondaryButtonTitle ? (
           <Button
@@ -171,11 +191,7 @@ export const FrigadeForm: FC<FormProps> = ({
               if (steps[selectedStepValue].primaryButtonUri) {
                 window.open(steps[selectedStepValue].primaryButtonUri)
               }
-              markStepCompleted(
-                flowId,
-                steps[selectedStepValue].id,
-                formData[steps[selectedStepValue].id] ?? {}
-              )
+              markStepCompleted(flowId, steps[selectedStepValue].id, getDataPayload())
               if (selectedStepValue + 1 >= steps.length) {
                 if (setVisible) {
                   setVisible(false)

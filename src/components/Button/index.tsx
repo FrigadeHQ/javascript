@@ -23,8 +23,13 @@ const ButtonContainer = styled.button`
   align-content: center;
   border: 1px solid ${BUTTON_PRIMARY_BG};
   color: ${BUTTON_PRIMARY_TEXT_COLOR};
+  cursor: pointer;
+  :hover {
+    opacity: 0.95;
+  }
   :disabled {
     opacity: 0.3;
+    cursor: not-allowed;
   }
 `
 

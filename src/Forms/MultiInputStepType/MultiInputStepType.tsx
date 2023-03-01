@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { CustomFormTypeProps, FormInputProps, FormInputType } from '../../FrigadeForm/types'
+import {
+  CustomFormTypeProps,
+  FormInputProps,
+  FormInputType,
+  FormValidationError,
+} from '../../FrigadeForm/types'
 import { TextField } from '../../components/form-components/TextField'
 import { MultipleChoice } from '../../components/form-components/MultipleChoice'
 
@@ -86,19 +91,17 @@ export function MultiInputStepType({
   // Create map storing data from individual stepids
   // use state
   const [allFormData, setAllFormData] = useState({})
+  const [formValidationErrors, setFormValidationErrors] = useState<FormValidationError[]>([])
 
   useEffect(() => {
-    setCanContinue(true)
-  }, [])
+    setCanContinue(formValidationErrors.length === 0)
+    onSaveData(allFormData)
+  }, [allFormData, formValidationErrors])
 
   function saveDataFromInputs(input: FormInputType, data: object) {
-    let newObj = {}
-    newObj[input.id] = data
-
-    const newFormData = { ...allFormData, newObj }
-    setAllFormData(newFormData)
-    // FIXME: Figure out why this resets the state.
-    //onSaveData(allFormData)
+    setAllFormData((prev) => {
+      return { ...prev, [input.id]: data }
+    })
   }
 
   return (
@@ -120,6 +123,14 @@ export function MultiInputStepType({
                 },
                 onSaveInputData: (data) => {
                   saveDataFromInputs(input, data)
+                },
+                setFormValidationErrors: (errors) => {
+                  setFormValidationErrors((prev) => {
+                    if (errors.length === 0) {
+                      return prev.filter((error) => error.id !== input.id)
+                    }
+                    return [...prev, ...errors]
+                  })
                 },
               })}
             </span>
