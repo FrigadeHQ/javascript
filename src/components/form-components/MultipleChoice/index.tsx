@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 
 import styled from 'styled-components'
 import { FormInputProps, FormInputType } from '../../../FrigadeForm/types'
+import { FormLabel, LabelWrapper, RequiredSymbol } from '../shared/styled'
 
 interface MultipleChoiceProps extends FormInputType {
   id: string
@@ -21,6 +22,8 @@ const MultipleChoiceWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
 `
 
 const MultipleChoiceSelect = styled.select`
@@ -36,29 +39,15 @@ const MultipleChoiceSelect = styled.select`
     color: #c7c7c7;
     font-size: 14px;
   }
-`
-
-const FormLabel = styled.label`
-  font-size: 12px;
-  line-height: 20px;
-  color: #434343;
-  display: flex;
-`
-
-const RequiredSymbol = styled.span`
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 22px;
-  color: #f5222d;
-  display: flex;
-  margin-right: 5px;
-`
-
-const LabelWrapper = styled.div`
-  display: flex;
-  align-items: flex-start;
-  justify-content: left;
-  margin-bottom: 10px;
+  -webkit-appearance: none;
+  appearance: none;
+  ::after {
+    content: '▼';
+    font-size: 1rem;
+    top: 6px;
+    right: 10px;
+    position: absolute;
+  }
 `
 
 export function MultipleChoice({

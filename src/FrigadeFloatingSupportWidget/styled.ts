@@ -43,6 +43,10 @@ export const FlowWidgetMenuItem = styled.button`
   display: flex;
   border-radius: 8px;
   color: #434343;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  font-size: 14px;
   :hover {
     background-color: #f5f5f5;
   }
