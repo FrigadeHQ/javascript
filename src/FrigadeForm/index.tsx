@@ -1,20 +1,23 @@
 import React, { CSSProperties, FC, useState } from 'react'
 import { Button } from '../components/Button'
 
-import { CTAContainer, FormStepContent, FormStepSubtitle, FormStepTitle } from './styled'
+import { CTAContainer } from './styled'
 
-import { CustomFormTypeProps, StepData } from '../types'
+import { StepData } from '../types'
 import { useFlows } from '../api/flows'
 import { COMPLETED_STEP } from '../api/common'
 import { LinkCollectionStepType } from '../Forms/LinkCollectionStepType'
 import { Modal } from '../components/Modal'
+import { CornerModal } from '../components/CornerModal'
+import { MultiInputStepType } from '../Forms/MultiInputStepType/MultiInputStepType'
+import { CustomFormTypeProps } from './types'
 
 export interface FormProps {
   title?: string
   subtitle?: string
   primaryColor?: string
   style?: CSSProperties
-  type?: 'inline' | 'modal'
+  type?: 'inline' | 'modal' | 'corner-modal'
   flowId: string
 
   onCompleteStep?: (index: number, stepData: StepData) => void
@@ -22,6 +25,10 @@ export interface FormProps {
   customStepTypes?: { [key: string]: (params: CustomFormTypeProps) => React.ReactNode }
 
   className?: string
+
+  visible?: boolean
+
+  setVisible?: (visible: boolean) => void
 }
 
 export const FrigadeForm: FC<FormProps> = ({
@@ -33,6 +40,8 @@ export const FrigadeForm: FC<FormProps> = ({
   className = '',
   customStepTypes = {},
   type = 'inline',
+  visible,
+  setVisible,
 }) => {
   const {
     getFlow,
@@ -44,39 +53,17 @@ export const FrigadeForm: FC<FormProps> = ({
     targetingLogicShouldHideFlow,
   } = useFlows()
 
+  const [canContinue, setCanContinue] = useState(false)
   const [selectedStep, setSelectedStep] = useState(0)
   const [finishedInitialLoad, setFinishedInitialLoad] = useState(false)
-  const [showModal, setShowModal] = useState(true)
+  const [showModal, setShowModal] =
+    visible !== undefined && setVisible !== undefined ? [visible, setVisible] : useState(true)
   const [selectedStepInternal, setSelectedStepInternal] = useState(0)
-  const DEFAULT_CUSTOM_STEP_TYPES = {
-    default: (stepData: StepData) => {
-      if (steps[selectedStepValue]?.StepContent) {
-        const Content: React.ReactNode = steps[selectedStepValue].StepContent
-        return <div>{Content}</div>
-      }
-      const currentStep = steps[selectedStepValue]
-      const handlePrimaryButtonClick = () => {
-        if (currentStep.handlePrimaryButtonClick) {
-          currentStep.handlePrimaryButtonClick()
-        }
-        if (currentStep.url) {
-          window.open(currentStep.url, currentStep.urlTarget ?? '_blank')
-        }
-      }
+  const [formData, setFormData] = useState({})
 
-      return (
-        <FormStepContent>
-          <FormStepTitle>{stepData.title}</FormStepTitle>
-          <FormStepSubtitle>{stepData.subtitle}</FormStepSubtitle>
-          <Button
-            title={stepData.primaryButtonTitle}
-            onClick={handlePrimaryButtonClick}
-            style={{ backgroundColor: primaryColor, borderColor: primaryColor, width: 'auto' }}
-          />
-        </FormStepContent>
-      )
-    },
+  const DEFAULT_CUSTOM_STEP_TYPES = {
     linkCollection: LinkCollectionStepType,
+    multiInput: MultiInputStepType,
   }
 
   const mergedCustomStepTypes = { ...DEFAULT_CUSTOM_STEP_TYPES, ...customStepTypes }
@@ -95,6 +82,10 @@ export const FrigadeForm: FC<FormProps> = ({
 
   const rawSteps = getFlowSteps(flowId)
   if (!rawSteps) {
+    return null
+  }
+
+  if (visible !== undefined && visible === false) {
     return null
   }
 
@@ -122,13 +113,30 @@ export const FrigadeForm: FC<FormProps> = ({
 
   const selectedStepValue = selectedStep ?? selectedStepInternal
 
-  const StepContent = () => {
+  function updateData(step: StepData, data: object) {
+    setFormData((prevState) => {
+      let newObj = {}
+      newObj[step.id] = data
+
+      return {
+        ...prevState,
+        ...newObj,
+      }
+    })
+  }
+
+  function StepContent() {
     if (!steps[selectedStepValue]?.type || !mergedCustomStepTypes[steps[selectedStepValue].type]) {
-      return mergedCustomStepTypes['default'](steps[selectedStepValue])
+      return <></>
     }
     return mergedCustomStepTypes[steps[selectedStepValue].type]({
       stepData: steps[selectedStepValue],
       primaryColor: primaryColor,
+      setCanContinue: setCanContinue,
+      canContinue: canContinue,
+      onSaveData: (data) => {
+        updateData(steps[selectedStepValue], data)
+      },
     })
   }
 
@@ -148,25 +156,37 @@ export const FrigadeForm: FC<FormProps> = ({
               backgroundColor: 'transparent',
               borderColor: primaryColor,
               color: primaryColor,
-              width: 'auto',
+              width: type == 'corner-modal' ? '100%' : 'auto',
               display: 'inline-block',
+              borderRadius: type == 'corner-modal' ? 30 : 5,
               marginRight: 12,
             }}
           />
         ) : null}{' '}
         {steps[selectedStepValue].primaryButtonTitle ? (
           <Button
-            disabled={true}
+            disabled={!canContinue}
             title={steps[selectedStepValue].primaryButtonTitle}
             onClick={() => {
               if (steps[selectedStepValue].primaryButtonUri) {
                 window.open(steps[selectedStepValue].primaryButtonUri)
               }
+              markStepCompleted(
+                flowId,
+                steps[selectedStepValue].id,
+                formData[steps[selectedStepValue].id] ?? {}
+              )
+              if (selectedStepValue + 1 >= steps.length) {
+                if (setVisible) {
+                  setVisible(false)
+                }
+              }
             }}
             style={{
               backgroundColor: primaryColor,
               borderColor: primaryColor,
-              width: 'auto',
+              width: type == 'corner-modal' ? '100%' : 'auto',
+              borderRadius: type == 'corner-modal' ? 30 : 5,
               display: 'inline-block',
             }}
           />
@@ -180,6 +200,14 @@ export const FrigadeForm: FC<FormProps> = ({
       <Modal onClose={() => setShowModal(false)} visible={showModal}>
         {content}
       </Modal>
+    )
+  }
+
+  if (type === 'corner-modal') {
+    return (
+      <CornerModal onClose={() => setShowModal(false)} visible={showModal}>
+        {content}
+      </CornerModal>
     )
   }
 

@@ -27,8 +27,3 @@ export interface StepData {
   props?: any
   completionCriteria?: string
 }
-
-export interface CustomFormTypeProps {
-  stepData: StepData
-  primaryColor?: string
-}

@@ -9,6 +9,7 @@ export const FloatingWidgetContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  z-index: 50;
 `
 
 export const FloatingWidgetButton = styled.button`
@@ -41,7 +42,7 @@ export const FloatingWidgetMenu = styled.div`
 export const FlowWidgetMenuItem = styled.button`
   display: flex;
   border-radius: 8px;
-
+  color: #434343;
   :hover {
     background-color: #f5f5f5;
   }

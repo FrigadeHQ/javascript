@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { CustomFormTypeProps } from '../../types'
+import { CustomFormTypeProps } from '../../FrigadeForm/types'
 
 interface Link {
   title?: string

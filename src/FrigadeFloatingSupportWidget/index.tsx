@@ -20,6 +20,7 @@ export interface FloatingWidgetProps {
   flowId: string
   onStepCompletion?: (step: StepData, index: number) => boolean
   className?: string
+  visible?: boolean
 }
 
 export const FrigadeFloatingSupportWidget: FC<FloatingWidgetProps> = ({
@@ -29,6 +30,7 @@ export const FrigadeFloatingSupportWidget: FC<FloatingWidgetProps> = ({
   style,
   className = '',
   onStepCompletion,
+  visible = true,
 }) => {
   const {
     getFlow,
@@ -70,6 +72,10 @@ export const FrigadeFloatingSupportWidget: FC<FloatingWidgetProps> = ({
 
   const steps: StepData[] = getFlowSteps(flowId)
   if (!steps) {
+    return null
+  }
+
+  if (!visible) {
     return null
   }
 
@@ -117,7 +123,7 @@ export const FrigadeFloatingSupportWidget: FC<FloatingWidgetProps> = ({
           as={motion.button}
           whileHover={{ scale: 1.1 }}
         >
-          <Question color={'#000000'} style={{ display: 'flex', width: '20px', height: '20px' }} />
+          <Question color={'#434343'} style={{ display: 'flex', width: '20px', height: '20px' }} />
         </FloatingWidgetButton>
       </FloatingWidgetContainer>
     </Portal>
