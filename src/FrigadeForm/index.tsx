@@ -31,6 +31,8 @@ export interface FormProps {
   setVisible?: (visible: boolean) => void
 
   customVariables?: { [key: string]: string | number | boolean }
+
+  onComplete?: () => void
 }
 
 export const FrigadeForm: FC<FormProps> = ({
@@ -45,6 +47,7 @@ export const FrigadeForm: FC<FormProps> = ({
   visible,
   setVisible,
   customVariables,
+  onComplete,
 }) => {
   const {
     getFlow,
@@ -195,6 +198,9 @@ export const FrigadeForm: FC<FormProps> = ({
               if (selectedStepValue + 1 >= steps.length) {
                 if (setVisible) {
                   setVisible(false)
+                }
+                if (onComplete) {
+                  onComplete()
                 }
               }
             }}

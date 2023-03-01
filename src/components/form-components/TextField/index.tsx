@@ -41,6 +41,7 @@ const TextArea = styled.textarea`
   margin-bottom: 10px;
   font-size: 14px;
   ::placeholder {
+    padding-top: 6px;
     color: #c7c7c7;
     font-size: 14px;
   }
