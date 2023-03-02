@@ -5,6 +5,7 @@ export const TooltipContainer = styled.div<{ maxWidth: number }>`
   box-shadow: 0px 6px 25px rgba(0, 0, 0, 0.06);
   border-radius: 20px;
   max-width: ${(props) => props.maxWidth}px;
+  min-width: 300px;
   padding: 10px 18px 10px 18px;
   z-index: 100;
 `

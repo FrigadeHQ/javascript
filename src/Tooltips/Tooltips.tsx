@@ -1,4 +1,4 @@
-import React, { CSSProperties, FC, useEffect, useState } from 'react'
+import React, { CSSProperties, FC, useEffect, useLayoutEffect, useState, useRef } from 'react'
 
 import { Button } from '../components/Button'
 import { CloseIcon } from '../components/CloseIcon'
@@ -115,9 +115,21 @@ const Tooltips: FC<ToolTipProps> = ({
 }) => {
   const [elem, setElem] = useState(initialElem)
   const boundingRect = useElemRect(elem, selectedStep)
+  const [selfBounds, setSelfBounds] = useState<undefined | DOMRect>(undefined)
+
+  const selfRef = useRef();
+
+  useLayoutEffect(() => {
+    if (selfRef.current) {
+      setSelfBounds({
+        width: selfRef.current.offsetWidth,
+        height: selfRef.current.offsetHeight
+      });
+    }
+  }, []);
 
   let tooltipPositionValue: ToolTipPosition = tooltipPosition === 'auto' ? 'right' : tooltipPosition as ToolTipPosition
-  let position = getPosition(boundingRect, tooltipPositionValue, CARD_WIDTH, offset)
+  let position = getPosition(boundingRect, tooltipPositionValue, selfBounds?.width ?? CARD_WIDTH, offset)
   const rightSideIsCropped =
     boundingRect.right + CARD_WIDTH > (window.innerWidth || document.documentElement.clientWidth)
 
@@ -128,10 +140,30 @@ const Tooltips: FC<ToolTipProps> = ({
 
   const url = window.location.pathname.split('/').pop()
 
-  useEffect(() => {
+  const handleRefreshPosition = () => {
     const elem = document.querySelector(steps[selectedStep].selector)
     setElem(elem)
+  }
+
+  useLayoutEffect(() => {
+    handleRefreshPosition()
   }, [selectedStep, url])
+
+  useEffect(() => {
+    function handleUpdate() {
+      handleRefreshPosition()
+    }
+    window.addEventListener("resize", handleUpdate);
+    window.addEventListener("scroll", handleUpdate);
+    document.addEventListener("click", handleUpdate);
+  
+    handleUpdate();
+    return () => {
+      window.removeEventListener("resize", handleUpdate)
+      window.removeEventListener("scroll", handleUpdate);
+      document.removeEventListener("click", handleUpdate);
+    };
+  }, []);
 
   if (elem === null) {
     return <></>
@@ -170,6 +202,7 @@ const Tooltips: FC<ToolTipProps> = ({
               backgroundColor: primaryColor,
               borderColor: primaryColor,
               maxWidth: '50%',
+              minWidth: '120px',
               ...buttonStyle,
             }}
           />
@@ -273,21 +306,20 @@ const Tooltips: FC<ToolTipProps> = ({
           <HighlightOuter
             style={{
               position: 'relative',
-              // top: position?.y - 24 ?? 0,
-              // left: position?.x - 24 ?? 0,
             }}
             primaryColor={primaryColor}
           ></HighlightOuter>
         </span>
       )}
       <TooltipContainer
+        ref={selfRef}
         as={motion.div}
         layoutId="tooltip-container"
         style={{
           position: 'fixed',
           width: 'max-content',
-          left: position?.x ?? 0,
-          top: position?.y ?? 0,
+          left: `${position?.x}px` ?? 0,
+          top: `${position?.y}px` ?? 0,
           ...containerStyle,
         }}
         maxWidth={CARD_WIDTH}
