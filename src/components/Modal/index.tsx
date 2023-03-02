@@ -6,9 +6,8 @@ import { CloseIcon } from '../CloseIcon'
 
 const ModalContainer = styled.div`
   background: #ffffff;
-  box-shadow: 0px 6px 25px rgba(0, 0, 0, 0.06);
   border-radius: 6px;
-  z-index: 55;
+  z-index: 110;
   padding: 32px 32px 24px 32px;
 
   position: fixed;
@@ -72,7 +71,7 @@ export const Modal: FC<ModalProps> = ({
   headerContent = null,
   style = null,
   children,
-  closeTint = '#000000'
+  closeTint = '#000000',
 }) => {
   // If user presses escape key, close modal
   useEffect(() => {

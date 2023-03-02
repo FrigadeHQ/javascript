@@ -1,11 +1,13 @@
 import React, { CSSProperties } from 'react'
 
 export const Question = ({
-  color = '#323232',
+  color = '#000000',
   style,
+  className,
 }: {
   color?: string
   style?: CSSProperties
+  className?: string
 }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -14,6 +16,7 @@ export const Question = ({
     fill="none"
     viewBox="0 0 18 18"
     style={style}
+    className={className}
   >
     <path
       fill={color}

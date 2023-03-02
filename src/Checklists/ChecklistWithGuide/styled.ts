@@ -1,28 +1,23 @@
 import { CSSProperties } from 'react'
 import styled from 'styled-components'
 
-
 // Styles for top level container and text
 
 export const ContainerStyle: CSSProperties = {
   background: '#ffffff',
   boxShadow: '0px 6px 25px rgba(0, 0, 0, 0.06)',
   borderRadius: '6px',
-  zIndex: 75,
   padding: '32px',
   maxHeight: '700px',
-  msOverflowStyle: 'none',  /* IE and Edge */
-  scrollbarWidth: 'none'  /* Firefox */,
+  msOverflowStyle: 'none' /* IE and Edge */,
+  scrollbarWidth: 'none' /* Firefox */,
   paddingBottom: '12px',
-  minHeight: '610px'
+  minHeight: '610px',
 }
 
 export const ScrollContainer = styled.div`
   max-height: 350px;
   padding-bottom: 40px;
-  border-image: linear-gradient(#f6b73c, #4d9f0c) 30;
-  border-bottom-width: 4px;
-  border-style: solid;
 `
 
 export const HeaderContent = styled.div`
@@ -40,7 +35,7 @@ export const ChecklistTitle = styled.p`
 `
 export const ChecklistSubtitle = styled.p`
   font-weight: 400;
-  color: #8C8C8C;
+  color: #8c8c8c;
   font-size: 16px;
   line-height: 20px;
   margin-bottom: 16px;
@@ -48,7 +43,7 @@ export const ChecklistSubtitle = styled.p`
 `
 
 export const StepsContainer = styled.div`
-  border: 1px solid #FAFAFA;
+  border: 1px solid #fafafa;
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.05);
   border-radius: 14px;
   display: flex;
@@ -67,7 +62,7 @@ export const StepsTitle = styled.p`
   font-size: 10px;
   line-height: 12px;
   text-transform: uppercase;
-  color: #8C8C8C;
+  color: #8c8c8c;
   margin: 20px;
 `
 
@@ -107,30 +102,31 @@ export const StepSubtitle = styled.p`
   font-size: 12px;
   line-height: 14px;
   text-align: center;
-  color: #8C8C8C;
+  color: #8c8c8c;
+  margin: 0;
 `
 
 export const MultipleButtonContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-
 `
 
-export const StepListItem = styled.div<{selected: boolean}>`
+export const StepListItem = styled.div<{ selected: boolean }>`
   padding: 20px;
-  background-color: ${(props) => props.selected ? '#FAFAFA' : '#FFFFFF'};
+  background-color: ${(props) => (props.selected ? '#FAFAFA' : '#FFFFFF')};
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   position: relative;
 `
 
-export const StepListStepName = styled.p<{selected: boolean}>`
-  font-weight: ${(props) => props.selected ? 500 :  400};
+export const StepListStepName = styled.p<{ selected: boolean }>`
+  font-weight: ${(props) => (props.selected ? 500 : 400)};
   font-size: 14px;
   line-height: 22px;
-  color: ${(props) => props.selected ? '#434343' :  '#BFBFBF'};
+  color: ${(props) => (props.selected ? '#434343' : '#BFBFBF')};
+  margin: 0;
 `
 
 export const StepListItemRight = styled.div`

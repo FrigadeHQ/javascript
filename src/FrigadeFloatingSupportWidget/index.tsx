@@ -1,6 +1,6 @@
 import React, { CSSProperties, FC, useEffect, useRef, useState } from 'react'
 
-import { StepData } from '../types'
+import { Appearance, StepData } from '../types'
 import { useFlows } from '../api/flows'
 import { Portal } from 'react-portal'
 import {
@@ -9,9 +9,10 @@ import {
   FloatingWidgetMenu,
   FlowWidgetMenuItem,
 } from './styled'
-import { Question } from '../components/Icons/Question'
 import { AnimatePresence, motion } from 'framer-motion'
 import { primaryCTAClickSideEffects } from '../shared/cta-util'
+import { Question } from '../components/Icons/Question'
+import { getClassName } from '../shared/appearance'
 
 export interface FloatingWidgetProps {
   primaryColor?: string
@@ -21,16 +22,16 @@ export interface FloatingWidgetProps {
   onStepCompletion?: (step: StepData, index: number) => boolean
   className?: string
   visible?: boolean
+  appearance?: Appearance
 }
 
 export const FrigadeFloatingSupportWidget: FC<FloatingWidgetProps> = ({
   flowId,
-  primaryColor = '#000000',
-  backgroundColor = '#FFFFFF',
   style,
   className = '',
   onStepCompletion,
   visible = true,
+  appearance,
 }) => {
   const {
     getFlow,
@@ -99,6 +100,7 @@ export const FrigadeFloatingSupportWidget: FC<FloatingWidgetProps> = ({
         <AnimatePresence>
           {showMenu && (
             <FloatingWidgetMenu
+              classes={getClassName('floatingWidgetMenu', appearance)}
               as={motion.div}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -107,6 +109,7 @@ export const FrigadeFloatingSupportWidget: FC<FloatingWidgetProps> = ({
             >
               {steps.map((step, index) => (
                 <FlowWidgetMenuItem
+                  className={getClassName('floatingWidgetMenuItem', appearance)}
                   key={index}
                   onClick={() => handlePrimaryButtonClick(step, index)}
                 >
@@ -122,8 +125,12 @@ export const FrigadeFloatingSupportWidget: FC<FloatingWidgetProps> = ({
           }}
           as={motion.button}
           whileHover={{ scale: 1.1 }}
+          className={getClassName('floatingWidgetButton', appearance)}
         >
-          <Question color={'#434343'} style={{ display: 'flex', width: '20px', height: '20px' }} />
+          <Question
+            className={getClassName('floatingWidgetMenu', appearance)}
+            style={{ display: 'flex', width: '20px', height: '20px' }}
+          />
         </FloatingWidgetButton>
       </FloatingWidgetContainer>
     </Portal>

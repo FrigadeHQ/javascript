@@ -7,15 +7,14 @@ import { ModalChecklist } from '../Checklists/ModalChecklist'
 import { COMPLETED_STEP } from '../api/common'
 import { primaryCTAClickSideEffects, secondaryCTAClickSideEffects } from '../shared/cta-util'
 import { useFlowOpens } from '../api/flow-opens'
-import { ChecklistWithGuide } from '../Checklists/ChecklistWithGuilde'
-
+import { ChecklistWithGuide } from '../Checklists/ChecklistWithGuide'
 
 /**
  * Frigade Checklists
  * inline: Renders as an on-page element
  * modal: Display above other content with a shadowed background
  * withGuide: A modal checklist with a Guide included beneath the modal content
- * 
+ *
  */
 export type FrigadeChecklistType = 'inline' | 'modal' | 'withGuide'
 
@@ -46,12 +45,12 @@ export interface FrigadeChecklistProps extends HeroChecklistProps {
    * @param index
    */
   onStepCompletion?: (step: StepData, index: number) => boolean
-  
+
   onButtonClick?: (step: StepData, index: number, cta: 'primary' | 'secondary') => boolean
 
   /**
    *  Optionl Props specifically for ChecklistWithGuide
-   * 
+   *
    */
 
   guideFlowId?: string

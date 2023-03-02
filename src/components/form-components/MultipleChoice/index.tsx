@@ -44,7 +44,6 @@ const MultipleChoiceSelect = styled.select`
   background-position: right 0.5rem center;
   background-repeat: no-repeat;
   background-size: 1.5em 1.5em;
-  padding-right: 2.5rem;
   -webkit-print-color-adjust: exact;
 `
 

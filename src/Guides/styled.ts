@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const GuideContainer = styled.div`
-  border: 1px solid #FAFAFA;
+  border: 1px solid #fafafa;
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.05);
   border-radius: 14px;
   padding: 20px;
@@ -11,12 +11,12 @@ export const GuideContainer = styled.div`
 
 export const GuideItems = styled.div`
   display: flex;
-  justify-content: flex-start;
   flex-wrap: wrap;
+  justify-content: space-between;
   overflow-y: scroll;
 `
 
-export const GuideTitle = styled.p`
+export const GuideTitle = styled.div`
   color: #595959;
   text-transform: uppercase;
   font-weight: 400;
@@ -26,24 +26,22 @@ export const GuideTitle = styled.p`
 `
 
 export const GuideItem = styled.div`
-  background: #FFFFFF;
-  border: 1px solid #FAFAFA;
+  background: #ffffff;
+  border: 1px solid #fafafa;
   border-radius: 14px;
   padding: 20px;
-  margin: auto;
   flex-direction: column;
-  align-content: left;
+  align-content: center;
 
-  max-width: 25%;
+  max-width: 150px;
   min-width: 200px;
-  margin: 16px;
 `
 
 export const GuideIconWrapper = styled.div`
   width: 40px;
   height: 40px;
 
-  background: radial-gradient(50% 50% at 50% 50%, #FFFFFF 0%, #F7F7F7 100%);
+  background: radial-gradient(50% 50% at 50% 50%, #ffffff 0%, #f7f7f7 100%);
   border-radius: 7px;
   display: flex;
   justify-content: center;
@@ -51,7 +49,7 @@ export const GuideIconWrapper = styled.div`
   align-items: center;
 `
 
-export const GuideIcon = styled.p`
+export const GuideIcon = styled.div`
   font-weight: 600;
   font-size: 20px;
   line-height: 24px;
@@ -59,7 +57,7 @@ export const GuideIcon = styled.p`
   height: 20px;
 `
 
-export const GuideItemTitle = styled.p`
+export const GuideItemTitle = styled.div`
   font-weight: 600;
   font-size: 14px;
   line-height: 17px;
@@ -69,14 +67,14 @@ export const GuideItemTitle = styled.p`
   color: #434343;
 `
 
-export const GuideItemSubtitle = styled.p`
+export const GuideItemSubtitle = styled.div`
   font-weight: 400;
   font-size: 12px;
   line-height: 14px;
-  color: #8C8C8C;
+  color: #8c8c8c;
 `
 
-export const GuideItemLink = styled.a<{color: string}>`
+export const GuideItemLink = styled.a<{ color: string }>`
   color: ${(props) => props.color};
   font-size: 12px;
   line-height: 14px;

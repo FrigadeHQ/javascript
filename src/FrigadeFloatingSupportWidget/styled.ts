@@ -27,7 +27,7 @@ export const FloatingWidgetButton = styled.button`
   cursor: pointer;
 `
 export const FloatingWidgetMenu = styled.div`
-  background-color: #ffffff;
+  background: #ffffff;
   display: flex;
   flex-direction: column;
   min-width: 200px;

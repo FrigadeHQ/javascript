@@ -23,6 +23,7 @@ const StepText = styled.p<{ padding }>`
   font-size: 15px;
   line-height: 18px;
   padding-right: ${(props) => props.padding};
+  margin: 0;
 `
 
 const progressBgStyle: CSSProperties = {
