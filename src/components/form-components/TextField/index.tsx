@@ -41,7 +41,6 @@ const TextArea = styled.textarea`
     border: 1px solid #e5e5e5;
     font-size: 14px;
     ::placeholder {
-      padding-top: 6px;
       color: #c7c7c7;
       font-size: 14px;
     }
@@ -52,6 +51,9 @@ const TextArea = styled.textarea`
   border-radius: 4px;
   padding: 0 10px;
   margin-bottom: 10px;
+  ::placeholder {
+    padding-top: 6px;
+  }
 `
 
 export function TextField({
