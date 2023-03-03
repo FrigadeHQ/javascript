@@ -160,7 +160,7 @@ const ChecklistWithGuide: FC<ChecklistWithGuideProps> = ({
       onClose={onClose}
       visible={visible}
       style={ContainerStyle}
-      closeTint={'#8C8C8C'}
+      closeTint={appearance?.styleOverrides?.iconColor ?? '#8C8C8C'}
       appearance={appearance}
     >
       <HeaderContent>
@@ -169,7 +169,7 @@ const ChecklistWithGuide: FC<ChecklistWithGuideProps> = ({
       </HeaderContent>
 
       <ScrollContainer>
-        <StepsContainer>
+        <StepsContainer className={getClassName('stepsContainer', appearance)}>
           <StepsHeader>
             <div style={{flex: 3}}>
               <StepsTitle>{stepsTitle}</StepsTitle>
@@ -206,7 +206,7 @@ const ChecklistWithGuide: FC<ChecklistWithGuideProps> = ({
                         <StepListItemRight>
                           <CheckBox value={stepData.complete} type='round' primaryColor={primaryColor} secondaryColor={secondaryColor}/>
                           <CenterVertical>
-                            <Chevron style={{ marginLeft: '10px' }} />
+                            <Chevron style={{ marginLeft: '10px' }} color={appearance?.styleOverrides?.iconColor}/>
                           </CenterVertical>
                         </StepListItemRight>
                       </StepListItem>

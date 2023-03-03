@@ -43,7 +43,9 @@ export const ChecklistSubtitle = styled.p`
 `
 
 export const StepsContainer = styled.div`
-  border: 1px solid #fafafa;
+  :not(${(props) => getCustomClasOverrides(props)}) {
+    border: 1px solid #fafafa;
+  }
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.05);
   border-radius: 14px;
   display: flex;
