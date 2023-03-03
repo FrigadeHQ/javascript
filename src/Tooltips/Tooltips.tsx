@@ -13,7 +13,6 @@ import {
   TooltipHeader,
   TooltipStepCounter,
   TooltipTitle,
-  Wrapper,
 } from './styled'
 import { StepData } from '../types'
 
@@ -85,6 +84,8 @@ const HighlightOuter = styled.div<{ primaryColor: string }>`
   }
 `
 
+const DEFAULT_REFRESH_DELAY = 500
+
 const HighlightInner = styled.div<{ primaryColor: string }>`
   width: 20px;
   height: 20px;
@@ -111,13 +112,14 @@ const Tooltips: FC<ToolTipProps> = ({
   setSelectedStep = () => {},
   customStepTypes,
   onStepCompletion,
-  
 }) => {
-  const [elem, setElem] = useState(initialElem)
-  const boundingRect = useElemRect(elem, selectedStep)
-  const [selfBounds, setSelfBounds] = useState<undefined | DOMRect>(undefined)
 
+  const [selfBounds, setSelfBounds] = useState<undefined | DOMRect>(undefined)
+  const [needsUpdate, setNeedsUpdate] = useState(new Date())
   const selfRef = useRef();
+
+  const [elem, setElem] = useState(initialElem)
+  const boundingRect = useElemRect(elem, needsUpdate)
 
   useLayoutEffect(() => {
     if (selfRef.current) {
@@ -143,27 +145,16 @@ const Tooltips: FC<ToolTipProps> = ({
   const handleRefreshPosition = () => {
     const elem = document.querySelector(steps[selectedStep].selector)
     setElem(elem)
+    setNeedsUpdate(new Date())
   }
 
   useLayoutEffect(() => {
+    setTimeout(() => {
+      handleRefreshPosition()
+    }, DEFAULT_REFRESH_DELAY)
+    
     handleRefreshPosition()
   }, [selectedStep, url])
-
-  useEffect(() => {
-    function handleUpdate() {
-      handleRefreshPosition()
-    }
-    window.addEventListener("resize", handleUpdate);
-    window.addEventListener("scroll", handleUpdate);
-    document.addEventListener("click", handleUpdate);
-  
-    handleUpdate();
-    return () => {
-      window.removeEventListener("resize", handleUpdate)
-      window.removeEventListener("scroll", handleUpdate);
-      document.removeEventListener("click", handleUpdate);
-    };
-  }, []);
 
   if (elem === null) {
     return <></>
@@ -282,7 +273,7 @@ const Tooltips: FC<ToolTipProps> = ({
   }
 
   return (
-    <Wrapper>
+    <>
       {showHighlight && (
         <span
           style={{
@@ -290,7 +281,7 @@ const Tooltips: FC<ToolTipProps> = ({
             height: 32,
             top: position?.y - 24 ?? 0,
             left: (tooltipPositionValue == 'left' ? boundingRect.x : position?.x - 24) ?? 0,
-            position: 'fixed',
+            position: 'absolute',
             display: 'flex',
             alignContent: 'center',
             justifyContent: 'center',
@@ -299,7 +290,7 @@ const Tooltips: FC<ToolTipProps> = ({
         >
           <HighlightInner
             style={{
-              position: 'fixed',
+              position: 'absolute',
             }}
             primaryColor={primaryColor}
           ></HighlightInner>
@@ -316,17 +307,19 @@ const Tooltips: FC<ToolTipProps> = ({
         as={motion.div}
         layoutId="tooltip-container"
         style={{
-          position: 'fixed',
+          position: 'absolute',
           width: 'max-content',
           left: `${position?.x}px` ?? 0,
           top: `${position?.y}px` ?? 0,
           ...containerStyle,
         }}
         maxWidth={CARD_WIDTH}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
       >
         <StepContent />
       </TooltipContainer>
-    </Wrapper>
+    </>
   )
 }
 

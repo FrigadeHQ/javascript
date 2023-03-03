@@ -33,11 +33,6 @@ export const TooltipFooter = styled.div`
   align-content: center;
 `
 
-export const Wrapper = styled.div`
-  position: relative;
-  overflow: visible;
-`
-
 export const TooltipFooterLeft = styled.div`
   display: flex;
   flex: 1;
