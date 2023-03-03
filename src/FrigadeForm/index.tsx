@@ -1,9 +1,9 @@
-import React, { CSSProperties, FC, useEffect, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { Button } from '../components/Button'
 
-import { CTAContainer } from './styled'
+import { FormCTAContainer } from './styled'
 
-import { StepData } from '../types'
+import { DefaultFrigadeFlowProps, StepData } from '../types'
 import { useFlows } from '../api/flows'
 import { COMPLETED_STEP } from '../api/common'
 import { LinkCollectionStepType } from '../Forms/LinkCollectionStepType'
@@ -11,27 +11,17 @@ import { Modal } from '../components/Modal'
 import { CornerModal } from '../components/CornerModal'
 import { MultiInputStepType } from '../Forms/MultiInputStepType/MultiInputStepType'
 import { CustomFormTypeProps } from './types'
+import { getClassName } from '../shared/appearance'
 
-export interface FormProps {
+export interface FormProps extends DefaultFrigadeFlowProps {
   title?: string
   subtitle?: string
   primaryColor?: string
-  style?: CSSProperties
   type?: 'inline' | 'modal' | 'corner-modal'
-  flowId: string
-
   onCompleteStep?: (index: number, stepData: StepData) => void
-
   customStepTypes?: { [key: string]: (params: CustomFormTypeProps) => React.ReactNode }
-
-  className?: string
-
   visible?: boolean
-
   setVisible?: (visible: boolean) => void
-
-  customVariables?: { [key: string]: string | number | boolean }
-
   onComplete?: () => void
 }
 
@@ -48,6 +38,7 @@ export const FrigadeForm: FC<FormProps> = ({
   setVisible,
   customVariables,
   onComplete,
+  appearance,
 }) => {
   const {
     getFlow,
@@ -165,8 +156,9 @@ export const FrigadeForm: FC<FormProps> = ({
         onSaveData={(data) => {
           updateData(steps[selectedStepValue], data)
         }}
+        appearance={appearance}
       />
-      <CTAContainer>
+      <FormCTAContainer className={getClassName('formCTAContainer', appearance)}>
         {steps[selectedStepValue].secondaryButtonTitle ? (
           <Button
             title={steps[selectedStepValue].secondaryButtonTitle}
@@ -213,13 +205,13 @@ export const FrigadeForm: FC<FormProps> = ({
             }}
           />
         ) : null}
-      </CTAContainer>
+      </FormCTAContainer>
     </div>
   )
 
   if (type === 'modal') {
     return (
-      <Modal onClose={() => setShowModal(false)} visible={showModal}>
+      <Modal appearance={appearance} onClose={() => setShowModal(false)} visible={showModal}>
         {content}
       </Modal>
     )
@@ -227,7 +219,7 @@ export const FrigadeForm: FC<FormProps> = ({
 
   if (type === 'corner-modal') {
     return (
-      <CornerModal onClose={() => setShowModal(false)} visible={showModal}>
+      <CornerModal appearance={appearance} onClose={() => setShowModal(false)} visible={showModal}>
         {content}
       </CornerModal>
     )

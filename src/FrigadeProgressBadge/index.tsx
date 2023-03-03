@@ -2,17 +2,14 @@ import React, { CSSProperties, useEffect } from 'react'
 import { useFlows } from '../api/flows'
 import { ProgressBadge } from '../Checklists/ProgressBadge'
 import { useFlowOpens } from '../api/flow-opens'
+import { DefaultFrigadeFlowProps } from '../types'
 
-interface FrigadeProgressBadgeProps {
-  flowId: string
+interface FrigadeProgressBadgeProps extends DefaultFrigadeFlowProps {
   title: string
-  className?: string
-  style?: CSSProperties
   primaryColor?: string
   secondaryColor?: string
   textStyle?: CSSProperties
   onClick?: () => void
-  customVariables?: { [key: string]: string | number | boolean }
   hideOnFlowCompletion?: boolean
 }
 

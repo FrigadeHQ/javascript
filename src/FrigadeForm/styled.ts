@@ -21,7 +21,7 @@ export const FormStepSubtitle = styled.p`
   margin: 8px 0px 0px 0px;
 `
 
-export const CTAContainer = styled.div`
+export const FormCTAContainer = styled.div`
   align-content: flex-end;
   text-align: right;
 `

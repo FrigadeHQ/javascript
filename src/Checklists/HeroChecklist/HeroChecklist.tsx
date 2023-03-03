@@ -1,4 +1,4 @@
-import React, { CSSProperties, FC, useState } from 'react'
+import React, { FC, useState } from 'react'
 
 import styled from 'styled-components'
 import { StepChecklistItem } from './StepChecklistItem'
@@ -11,13 +11,12 @@ import {
   HeroChecklistStepTitle,
 } from './styled'
 import { VideoPlayer } from './VideoPlayer'
-import { StepData } from '../../types'
+import { DefaultFrigadeFlowProps, StepData } from '../../types'
 
-export interface HeroChecklistProps {
+export interface HeroChecklistProps extends DefaultFrigadeFlowProps {
   title?: string
   subtitle?: string
   primaryColor?: string
-  style?: CSSProperties
   steps?: StepData[]
 
   onCompleteStep?: (index: number, stepData: StepData) => void
@@ -28,8 +27,6 @@ export interface HeroChecklistProps {
 
   // Map from string to function with StepData returning React.ReactNode
   customStepTypes?: Map<string, (stepData: StepData) => React.ReactNode>
-
-  className?: string
 }
 
 const HeroChecklistContainer = styled.div`

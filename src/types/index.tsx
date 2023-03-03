@@ -28,6 +28,14 @@ export interface StepData {
   completionCriteria?: string
 }
 
+export interface DefaultFrigadeFlowProps {
+  flowId: string
+  style?: CSSProperties
+  className?: string
+  appearance?: Appearance
+  customVariables?: { [key: string]: string | number | boolean }
+}
+
 export interface Appearance {
   /**
    * Overrides of individual components and classes.

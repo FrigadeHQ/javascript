@@ -1,10 +1,15 @@
 import React, { FC, useEffect } from 'react'
 import styled from 'styled-components'
-import { CloseIcon } from '../CloseIcon'
 import { Portal } from 'react-portal'
+import { Appearance } from '../../types'
+import { getClassName, getCustomClasOverrides } from '../../shared/appearance'
+import { CloseIcon } from '../CloseIcon'
 
 const CornerModalContainer = styled.div`
-  background: #ffffff;
+  :not(${(props) => getCustomClasOverrides(props)}) {
+    // Anything inside this block will be ignored if the user provides a custom class
+    background: #ffffff;
+  }
   position: fixed;
   right: 0;
   bottom: 0;
@@ -30,6 +35,10 @@ const CornerModalClose = styled.div`
   top: 16px;
   right: 16px;
   cursor: pointer;
+  :not(${(props) => getCustomClasOverrides(props)}) {
+    // Anything inside this block will be ignored if the user provides a custom class
+    color: #000000;
+  }
 `
 
 const Body = styled.div`
@@ -46,7 +55,7 @@ interface CornerModalProps {
   headerContent?: React.ReactNode
   children: React.ReactNode
   style?: React.CSSProperties
-  closeTint?: string
+  appearance?: Appearance
 }
 
 export const CornerModal: FC<CornerModalProps> = ({
@@ -55,7 +64,7 @@ export const CornerModal: FC<CornerModalProps> = ({
   headerContent = null,
   style = null,
   children,
-  closeTint = '#000000',
+  appearance,
 }) => {
   // If user presses escape key, close cornerModal
   useEffect(() => {
@@ -81,9 +90,15 @@ export const CornerModal: FC<CornerModalProps> = ({
 
   return (
     <Portal>
-      <CornerModalContainer style={style}>
-        <CornerModalClose onClick={() => onClose()}>
-          <CloseIcon color={closeTint} />
+      <CornerModalContainer
+        className={getClassName('cornerModalContainer', appearance)}
+        style={style}
+      >
+        <CornerModalClose
+          className={getClassName('cornerModalClose', appearance)}
+          onClick={() => onClose()}
+        >
+          <CloseIcon />
         </CornerModalClose>
         {headerContent && <CornerModalHeader>{headerContent}</CornerModalHeader>}
         <Body>{children}</Body>
