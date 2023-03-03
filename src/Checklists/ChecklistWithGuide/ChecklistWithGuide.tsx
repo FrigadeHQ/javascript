@@ -185,7 +185,7 @@ const ChecklistWithGuide: FC<ChecklistWithGuideProps> = ({
                     const isSelected = selectedStepValue === idx;
                     return (
                       <StepListItem selected={isSelected}
-                        className={getClassName(`checklistStepListItem${isSelected && 'Selected'}`, appearance)}
+                        className={getClassName(`checklistStepListItem${isSelected ? 'Selected' : ''}`, appearance)}
                         key={`checklist-guide-step-${stepData.id ?? idx}`}
                         onClick={() => {
                           setSelectedStepValue(idx)
@@ -200,7 +200,7 @@ const ChecklistWithGuide: FC<ChecklistWithGuideProps> = ({
                         )}
                         <StepListStepName
                           selected={isSelected} 
-                          className={getClassName(`checklistStepListStepName${isSelected && 'Selected'}`, appearance)}>
+                          className={getClassName(`checklistStepListStepName${isSelected ? 'Selected' : ''}`, appearance)}>
                           {stepData.stepName}
                         </StepListStepName>
                         <StepListItemRight>
