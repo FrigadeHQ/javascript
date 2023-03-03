@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { getCustomClasOverrides } from '../shared/appearance'
 
 export const GuideContainer = styled.div`
   border: 1px solid #fafafa;
@@ -17,17 +18,23 @@ export const GuideItems = styled.div`
 `
 
 export const GuideTitle = styled.div`
-  color: #595959;
+  :not(${(props) => getCustomClasOverrides(props)}) {
+    color: #595959;
+  }
   text-transform: uppercase;
   font-weight: 400;
   font-size: 10px;
   line-height: 12px;
   letter-spacing: 0.09em;
+  margin-bottom: 12px;
 `
 
 export const GuideItem = styled.div`
-  background: #ffffff;
-  border: 1px solid #fafafa;
+  :not(${(props) => getCustomClasOverrides(props)}) {
+    // Anything inside this block will be ignored if the user provides a custom class
+    background: #ffffff;
+    border: 1px solid #fafafa;
+  }
   border-radius: 14px;
   padding: 20px;
   flex-direction: column;
@@ -38,10 +45,12 @@ export const GuideItem = styled.div`
 `
 
 export const GuideIconWrapper = styled.div`
+  :not(${(props) => getCustomClasOverrides(props)}) {
+    background: radial-gradient(50% 50% at 50% 50%, #ffffff 0%, #f7f7f7 100%);
+  }
   width: 40px;
   height: 40px;
 
-  background: radial-gradient(50% 50% at 50% 50%, #ffffff 0%, #f7f7f7 100%);
   border-radius: 7px;
   display: flex;
   justify-content: center;
@@ -58,20 +67,23 @@ export const GuideIcon = styled.div`
 `
 
 export const GuideItemTitle = styled.div`
+  :not(${(props) => getCustomClasOverrides(props)}) {
+    color: #434343;
+  }
   font-weight: 600;
   font-size: 14px;
   line-height: 17px;
-  color: #434343;
   margin-top: 12px;
   margin-bottom: 8px;
-  color: #434343;
 `
 
 export const GuideItemSubtitle = styled.div`
+  :not(${(props) => getCustomClasOverrides(props)}) {
+    color: #8c8c8c;
+  }
   font-weight: 400;
   font-size: 12px;
   line-height: 14px;
-  color: #8c8c8c;
 `
 
 export const GuideItemLink = styled.a<{ color: string }>`

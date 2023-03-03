@@ -49,6 +49,7 @@ export const StepsContainer = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 240px;
+  overflow: hidden;
 `
 
 export const StepsHeader = styled.div`
@@ -115,7 +116,7 @@ export const MultipleButtonContainer = styled.div`
 export const StepListItem = styled.div<{ selected: boolean }>`
   :not(${(props) => getCustomClasOverrides(props)}) {
     // Anything inside this block will be ignored if the user provides a custom class
-    /* background-color: ${(props) => (props.selected ? '#FAFAFA' : '#FFFFFF')}; */
+    background-color: ${(props) => (props.selected ? '#FAFAFA' : '#FFFFFF')};
   }
   padding: 20px;
   display: flex;

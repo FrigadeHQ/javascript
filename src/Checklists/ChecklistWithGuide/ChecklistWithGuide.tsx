@@ -227,7 +227,9 @@ const ChecklistWithGuide: FC<ChecklistWithGuideProps> = ({
                 style={{
                   border: 'none',
                   boxShadow: 'none'
-              }}/>
+                }}
+                appearance={appearance}
+              />
             )
           }
       </ScrollContainer>
