@@ -1,4 +1,5 @@
 import React, { CSSProperties, FC } from 'react'
+import { ProgressRing } from '../Progress/ProgressRing'
 
 const CheckIcon = ({ color = '#FFFFFF' }) => (
   <svg width={10} height={8} viewBox="0 0 10 8" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -67,6 +68,7 @@ export interface CheckBoxProps {
   type: CheckBoxType
   primaryColor?: string
   secondaryColor?: string
+  progress?: number // progress percentage our of 1. e.g. 0.5
 }
 
 export const CheckBox: FC<CheckBoxProps> = (
@@ -74,7 +76,8 @@ export const CheckBox: FC<CheckBoxProps> = (
     value,
     type = 'square',
     primaryColor = '#000000',
-    secondaryColor = 'rgb(0,0,0, 0.3)' 
+    secondaryColor = 'rgb(0,0,0, 0.3)',
+    progress
   }
 ) => {
 
@@ -95,6 +98,13 @@ export const CheckBox: FC<CheckBoxProps> = (
       ...checkBoxStyle,
       ...stateStyle,
     }
+  }
+
+  if (type === 'round' && progress !== undefined) {
+    console.log('returning progress percentage: ', progress)
+    return (
+      <ProgressRing fillColor={primaryColor} percentage={progress} size={18}/>
+    )
   }
 
   return (

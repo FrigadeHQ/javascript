@@ -204,7 +204,12 @@ const ChecklistWithGuide: FC<ChecklistWithGuideProps> = ({
                           {stepData.stepName}
                         </StepListStepName>
                         <StepListItemRight>
-                          <CheckBox value={stepData.complete} type='round' primaryColor={primaryColor} secondaryColor={secondaryColor}/>
+                          <CheckBox
+                            value={stepData.complete}
+                            type='round'
+                            primaryColor={primaryColor}
+                            secondaryColor={secondaryColor}
+                          />
                           <CenterVertical>
                             <Chevron style={{ marginLeft: '10px' }} color={appearance?.styleOverrides?.iconColor}/>
                           </CenterVertical>
