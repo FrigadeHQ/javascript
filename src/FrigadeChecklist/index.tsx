@@ -139,17 +139,20 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
     setSelectedStep(selectedStep + 1)
   }
 
-  function handleStepCompletionHandlers(step: StepData, cta: 'primary' | 'secondary') {
+  function handleStepCompletionHandlers(step: StepData, cta: 'primary' | 'secondary', idx: number) {
     if (onButtonClick) {
       const completion = onButtonClick(step, selectedStep, cta)
       if (completion === true && type === 'modal') {
         setOpenFlowState(flowId, false)
       }
     }
+    if (onStepCompletion) {
+      onStepCompletion(step, idx)
+    }
   }
 
   function getSteps() {
-    return steps.map((step: StepData) => {
+    return steps.map((step: StepData, idx: number) => {
       return {
         handleSecondaryButtonClick: () => {
           // Default to skip behavior for secondary click but allow for override
@@ -158,7 +161,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
           if (step.skippable === true) {
             markStepCompleted(flowId, step.id, { skipped: true })
           }
-          handleStepCompletionHandlers(step, 'secondary')
+          handleStepCompletionHandlers(step, 'secondary', idx)
         },
         ...step,
         complete: getStepStatus(flowId, step.id) === COMPLETED_STEP,
@@ -170,7 +173,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
             markStepCompleted(flowId, step.id)
             goToNextStepIfPossible()
           }
-          handleStepCompletionHandlers(step, 'primary')
+          handleStepCompletionHandlers(step, 'primary', idx)
           if (step.primaryButtonUri && step.primaryButtonUri.trim() == '#' && type === 'modal') {
             setOpenFlowState(flowId, false)
           }
