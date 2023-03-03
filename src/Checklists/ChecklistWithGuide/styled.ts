@@ -18,6 +18,8 @@ export const ContainerStyle: CSSProperties = {
 export const ScrollContainer = styled.div`
   max-height: 350px;
   padding-bottom: 40px;
+  -webkit-mask-image: -webkit-gradient(linear, left 90%, left bottom, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)));
+  mask-image: -webkit-gradient(linear, left 90%, left bottom, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)));
 `
 
 export const HeaderContent = styled.div`
