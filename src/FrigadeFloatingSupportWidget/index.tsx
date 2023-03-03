@@ -1,6 +1,6 @@
-import React, { CSSProperties, FC, useEffect, useRef, useState } from 'react'
+import React, { FC, useEffect, useRef, useState } from 'react'
 
-import { Appearance, StepData } from '../types'
+import { DefaultFrigadeFlowProps, StepData } from '../types'
 import { useFlows } from '../api/flows'
 import { Portal } from 'react-portal'
 import {
@@ -14,15 +14,11 @@ import { primaryCTAClickSideEffects } from '../shared/cta-util'
 import { Question } from '../components/Icons/Question'
 import { getClassName } from '../shared/appearance'
 
-export interface FloatingWidgetProps {
+export interface FloatingWidgetProps extends DefaultFrigadeFlowProps {
   primaryColor?: string
   backgroundColor?: string
-  style?: CSSProperties
-  flowId: string
   onStepCompletion?: (step: StepData, index: number) => boolean
-  className?: string
   visible?: boolean
-  appearance?: Appearance
 }
 
 export const FrigadeFloatingSupportWidget: FC<FloatingWidgetProps> = ({
@@ -100,7 +96,7 @@ export const FrigadeFloatingSupportWidget: FC<FloatingWidgetProps> = ({
         <AnimatePresence>
           {showMenu && (
             <FloatingWidgetMenu
-              classes={getClassName('floatingWidgetMenu', appearance)}
+              className={getClassName('floatingWidgetMenu', appearance)}
               as={motion.div}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -128,7 +124,7 @@ export const FrigadeFloatingSupportWidget: FC<FloatingWidgetProps> = ({
           className={getClassName('floatingWidgetButton', appearance)}
         >
           <Question
-            className={getClassName('floatingWidgetMenu', appearance)}
+            className={getClassName('floatingWidgetButtonIcon', appearance)}
             style={{ display: 'flex', width: '20px', height: '20px' }}
           />
         </FloatingWidgetButton>

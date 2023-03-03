@@ -3,9 +3,14 @@ import styled from 'styled-components'
 
 import { ModalBackground } from './ModalBackground'
 import { CloseIcon } from '../CloseIcon'
+import { getClassName, getCustomClasOverrides } from '../../shared/appearance'
+import { Appearance } from '../../types'
 
 const ModalContainer = styled.div`
-  background: #ffffff;
+  :not(${(props) => getCustomClasOverrides(props)}) {
+    // Anything inside this block will be ignored if the user provides a custom class
+    background: #ffffff;
+  }
   border-radius: 6px;
   z-index: 110;
   padding: 32px 32px 24px 32px;
@@ -46,6 +51,10 @@ const ModalClose = styled.div`
   top: 16px;
   right: 16px;
   cursor: pointer;
+  :not(${(props) => getCustomClasOverrides(props)}) {
+    // Anything inside this block will be ignored if the user provides a custom class
+    color: #000000;
+  }
 `
 
 const Body = styled.div`
@@ -63,6 +72,7 @@ interface ModalProps {
   children: React.ReactNode
   style?: React.CSSProperties
   closeTint?: string
+  appearance?: Appearance
 }
 
 export const Modal: FC<ModalProps> = ({
@@ -71,7 +81,7 @@ export const Modal: FC<ModalProps> = ({
   headerContent = null,
   style = null,
   children,
-  closeTint = '#000000',
+  appearance,
 }) => {
   // If user presses escape key, close modal
   useEffect(() => {
@@ -98,9 +108,9 @@ export const Modal: FC<ModalProps> = ({
   return (
     <>
       <ModalBackground onClose={onClose} />
-      <ModalContainer style={style}>
-        <ModalClose onClick={() => onClose()}>
-          <CloseIcon color={closeTint} />
+      <ModalContainer className={getClassName('modalContainer', appearance)} style={style}>
+        <ModalClose className={getClassName('modalClose', appearance)} onClick={() => onClose()}>
+          <CloseIcon />
         </ModalClose>
         {headerContent && <ModalHeader>{headerContent}</ModalHeader>}
         <Body>{children}</Body>

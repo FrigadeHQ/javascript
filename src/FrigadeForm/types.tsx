@@ -1,5 +1,5 @@
 import React from 'react'
-import { StepData } from '../types'
+import { Appearance, StepData } from '../types'
 
 export interface FormInputType {
   id: string
@@ -26,4 +26,5 @@ export interface CustomFormTypeProps {
   canContinue: boolean
   setCanContinue: (canContinue: boolean) => void
   onSaveData: (data: object) => void
+  appearance?: Appearance
 }

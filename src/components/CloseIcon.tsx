@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const CloseIcon = ({ color = '#000000', size = 12 }) => (
+export const CloseIcon = ({ size = 12 }) => (
   <svg
     width={size}
     height={size}
@@ -16,7 +16,7 @@ export const CloseIcon = ({ color = '#000000', size = 12 }) => (
       height="14.9738"
       rx="0.998255"
       transform="rotate(45 10.5879 0)"
-      fill={color}
+      fill="currentColor"
     />
     <rect
       y="1.41211"
@@ -24,7 +24,7 @@ export const CloseIcon = ({ color = '#000000', size = 12 }) => (
       height="14.9738"
       rx="0.998255"
       transform="rotate(-45 0 1.41211)"
-      fill={color}
+      fill="currentColor"
     />
   </svg>
 )

@@ -30,4 +30,3 @@ yarn add @frigade/react
 ```bash
 npm install @frigade/react
 ```
-

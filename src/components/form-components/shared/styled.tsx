@@ -1,9 +1,12 @@
 import styled from 'styled-components'
+import { getCustomClasOverrides } from '../../../shared/appearance'
 
 export const FormLabel = styled.label`
-  font-size: 12px;
-  line-height: 20px;
-  color: #434343;
+  :not(${(props) => getCustomClasOverrides(props)}) {
+    color: #434343;
+    font-size: 12px;
+    line-height: 20px;
+  }
   display: flex;
 `
 

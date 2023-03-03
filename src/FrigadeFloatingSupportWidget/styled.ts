@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { getCustomClasOverrides } from '../shared/appearance'
 
 export const FloatingWidgetContainer = styled.div`
   position: fixed;
@@ -13,21 +14,27 @@ export const FloatingWidgetContainer = styled.div`
 `
 
 export const FloatingWidgetButton = styled.button`
+  :not(${(props) => getCustomClasOverrides(props)}) {
+    // Anything inside this block will be ignored if the user provides a custom class
+    background-color: #ffffff;
+    border: 1px solid #f5f5f5;
+  }
   width: 50px;
   height: 50px;
   display: flex;
   align-content: center;
   align-items: center;
   justify-content: center;
-  background: #ffffff;
-  border: 1px solid #f5f5f5;
   box-shadow: 0px 9px 28px 8px rgba(0, 0, 0, 0.05), 0px 6px 16px rgba(0, 0, 0, 0.08),
     0px 3px 6px -4px rgba(0, 0, 0, 0.12);
   border-radius: 45px;
   cursor: pointer;
 `
 export const FloatingWidgetMenu = styled.div`
-  background: #ffffff;
+  :not(${(props) => getCustomClasOverrides(props)}) {
+    // Anything inside this block will be ignored if the user provides a custom class
+    background: #ffffff;
+  }
   display: flex;
   flex-direction: column;
   min-width: 200px;
@@ -39,16 +46,20 @@ export const FloatingWidgetMenu = styled.div`
 `
 
 export const FlowWidgetMenuItem = styled.button`
+  :not(${(props) => getCustomClasOverrides(props)}) {
+    // Anything inside this block will be ignored if the user provides a custom class
+    color: #434343;
+    :hover {
+      background-color: #f5f5f5;
+    }
+  }
+
   display: flex;
   border-radius: 8px;
-  color: #434343;
-  border: none;
   background-color: transparent;
+  border: none;
   cursor: pointer;
   font-size: 14px;
-  :hover {
-    background-color: #f5f5f5;
-  }
 
   padding: 8px 12px;
 `

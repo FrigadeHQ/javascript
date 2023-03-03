@@ -17,3 +17,22 @@ export function getClassName(className: string, appearance?: Appearance) {
 
   return defaultClass
 }
+
+const defaultClass = '.fr-element'
+
+export function getCustomClasOverrides(props: any) {
+  if (!props.className) {
+    return defaultClass
+  }
+  // Remove any extra spaces from props.customClasses. Only allow one space per class.
+  const customClasses = props.className.replace(/\s+/g, ' ')
+  const customClassesArray = customClasses.split(' ')
+  if (customClassesArray.length == 1 && customClassesArray[0].startsWith(prefix)) {
+    return defaultClass
+  }
+  return customClassesArray
+    .map((className: string) => {
+      return `.${className}`
+    })
+    .join(', ')
+}

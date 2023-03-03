@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { FormInputProps, FormInputType } from '../../../FrigadeForm/types'
 import { FormLabel, LabelWrapper, RequiredSymbol } from '../shared/styled'
+import { getClassName, getCustomClasOverrides } from '../../../shared/appearance'
 
 interface TextFieldProps extends FormInputType {
   id: string
@@ -18,33 +19,38 @@ const TextInputWrapper = styled.div`
 `
 
 const TextInput = styled.input`
+  :not(${(props) => getCustomClasOverrides(props)}) {
+    // Anything inside this block will be ignored if the user provides a custom class
+    border: 1px solid #e5e5e5;
+    font-size: 14px;
+    ::placeholder {
+      color: #c7c7c7;
+      font-size: 14px;
+    }
+  }
   width: 100%;
   height: 40px;
-  border: 1px solid #e5e5e5;
   box-sizing: border-box;
   border-radius: 4px;
   padding: 0 10px;
   margin-bottom: 10px;
-  font-size: 14px;
-  ::placeholder {
-    color: #c7c7c7;
-    font-size: 14px;
-  }
 `
 const TextArea = styled.textarea`
+  :not(${(props) => getCustomClasOverrides(props)}) {
+    // Anything inside this block will be ignored if the user provides a custom class
+    border: 1px solid #e5e5e5;
+    font-size: 14px;
+    padding-top: 10px;
+    ::placeholder {
+      color: #c7c7c7;
+      font-size: 14px;
+    }
+  }
   width: 100%;
   min-height: 70px;
-  border: 1px solid #e5e5e5;
   box-sizing: border-box;
   border-radius: 4px;
-  padding: 0 10px;
   margin-bottom: 10px;
-  font-size: 14px;
-  ::placeholder {
-    padding-top: 6px;
-    color: #c7c7c7;
-    font-size: 14px;
-  }
 `
 
 export function TextField({
@@ -86,9 +92,12 @@ export function TextField({
     <TextInputWrapper>
       <LabelWrapper>
         <RequiredSymbol>*</RequiredSymbol>
-        <FormLabel>{input.title}</FormLabel>
+        <FormLabel className={getClassName('formLabel', customFormTypeProps.appearance)}>
+          {input.title}
+        </FormLabel>
       </LabelWrapper>
       <InputComponent
+        className={getClassName('inputComponent', customFormTypeProps.appearance)}
         value={data}
         onChange={(e) => {
           handleDataChange(e.target.value)

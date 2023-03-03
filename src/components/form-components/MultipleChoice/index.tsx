@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { FormInputProps, FormInputType } from '../../../FrigadeForm/types'
 import { FormLabel, LabelWrapper, RequiredSymbol } from '../shared/styled'
+import { getClassName, getCustomClasOverrides } from '../../../shared/appearance'
 
 interface MultipleChoiceProps extends FormInputType {
   id: string
@@ -27,18 +28,22 @@ const MultipleChoiceWrapper = styled.div`
 `
 
 const MultipleChoiceSelect = styled.select`
+  :not(${(props) => getCustomClasOverrides(props)}) {
+    // Anything inside this block will be ignored if the user provides a custom class
+    border: 1px solid #e5e5e5;
+    font-size: 14px;
+    ::placeholder {
+      color: #c7c7c7;
+      font-size: 14px;
+    }
+  }
   width: 100%;
   height: 40px;
-  border: 1px solid #e5e5e5;
   box-sizing: border-box;
   border-radius: 4px;
   padding: 0 10px;
   margin-bottom: 10px;
-  font-size: 14px;
-  ::placeholder {
-    color: #c7c7c7;
-    font-size: 14px;
-  }
+
   appearance: none;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'><path stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/></svg>");
   background-position: right 0.5rem center;
@@ -66,7 +71,9 @@ export function MultipleChoice({
     <MultipleChoiceWrapper>
       <LabelWrapper>
         <RequiredSymbol>*</RequiredSymbol>
-        <FormLabel>{input.title}</FormLabel>
+        <FormLabel className={getClassName('formLabel', customFormTypeProps.appearance)}>
+          {input.title}
+        </FormLabel>
       </LabelWrapper>
       <MultipleChoiceSelect
         value={data}
@@ -75,6 +82,7 @@ export function MultipleChoice({
           onSaveInputData({ choice: [e.target.value] })
         }}
         placeholder={input.placeholder}
+        className={getClassName('multipleChoiceSelect', customFormTypeProps.appearance)}
       >
         {input.props.options?.map((option) => {
           return (
