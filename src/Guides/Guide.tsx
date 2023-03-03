@@ -1,5 +1,5 @@
 import React, { CSSProperties, FC } from "react"
-import { StepData } from "../types"
+import { Appearance, StepData } from "../types"
 import { motion } from "framer-motion";
 
 import {
@@ -15,6 +15,7 @@ import {
   GuideItemSubtitle,
   GuideItemLink
 } from './styled'
+import { getClassName } from "../shared/appearance";
 
 
 export interface GuideStepData extends StepData {
@@ -26,16 +27,17 @@ interface GuideProps {
   title: string
   style?: CSSProperties
   primaryColor?: string
+  appearance: Appearance
 }
 
 /**
  * A guide is essentially a list of links that does not have a state
  */
-const Guide: FC<GuideProps> = ({ steps, style, title, primaryColor }) => {
+const Guide: FC<GuideProps> = ({ steps, style, title, primaryColor, appearance }) => {
 
   return (
-    <GuideContainer style={style}>
-      <GuideTitle>{title}</GuideTitle>
+    <GuideContainer style={style} className={getClassName('guideContainer', appearance)}>
+      <GuideTitle className={getClassName('guideTitle', appearance)}>{title}</GuideTitle>
       <GuideItems>
         {
         steps.map((stepData: GuideStepData, idx) => {
@@ -47,6 +49,7 @@ const Guide: FC<GuideProps> = ({ steps, style, title, primaryColor }) => {
                 boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.05)',
                 transition: { duration: 0.25 },
               }}
+              className={getClassName('guideItem', appearance)}
             >
               {
                 stepData.icon && (
@@ -58,15 +61,19 @@ const Guide: FC<GuideProps> = ({ steps, style, title, primaryColor }) => {
                 )
               }
 
-              <GuideItemTitle>
+              <GuideItemTitle className={getClassName('guideItemTitle', appearance)}>
                 {stepData.title}
               </GuideItemTitle>
 
-              <GuideItemSubtitle>
+              <GuideItemSubtitle className={getClassName('guideItemSubtitle', appearance)}>
                 {stepData.subtitle}
               </GuideItemSubtitle>
 
-              <GuideItemLink color={primaryColor} href={stepData.primaryButtonUri} target={stepData.primaryButtonUriTarget ?? '_self'}>
+              <GuideItemLink className={getClassName('guideIteLink', appearance)}
+                color={primaryColor}
+                href={stepData.primaryButtonUri}
+                target={stepData.primaryButtonUriTarget ?? '_self'}
+              >
                 {stepData.primaryButtonTitle}
               </GuideItemLink>
             </GuideItem>

@@ -2,7 +2,7 @@ import React, { CSSProperties, useEffect, useState } from 'react'
 
 import { useFlows } from '../api/flows'
 import { HeroChecklist, HeroChecklistProps } from '../Checklists/HeroChecklist'
-import { StepData } from '../types'
+import { Appearance, StepData } from '../types'
 import { ModalChecklist } from '../Checklists/ModalChecklist'
 import { COMPLETED_STEP } from '../api/common'
 import { primaryCTAClickSideEffects, secondaryCTAClickSideEffects } from '../shared/cta-util'
@@ -48,6 +48,8 @@ export interface FrigadeChecklistProps extends HeroChecklistProps {
 
   onButtonClick?: (step: StepData, index: number, cta: 'primary' | 'secondary') => boolean
 
+  appearance?: Appearance
+
   /**
    *  Optionl Props specifically for ChecklistWithGuide
    *
@@ -72,6 +74,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
   customVariables,
   onStepCompletion,
   onButtonClick,
+  appearance,
   ...guideProps
 }) => {
   const {
@@ -188,6 +191,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
     title,
     subtitle,
     primaryColor,
+    appearance,
   }
 
   if (type === 'modal') {
