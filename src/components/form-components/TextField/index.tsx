@@ -40,6 +40,7 @@ const TextArea = styled.textarea`
     // Anything inside this block will be ignored if the user provides a custom class
     border: 1px solid #e5e5e5;
     font-size: 14px;
+    padding-top: 10px;
     ::placeholder {
       color: #c7c7c7;
       font-size: 14px;
@@ -49,11 +50,7 @@ const TextArea = styled.textarea`
   min-height: 70px;
   box-sizing: border-box;
   border-radius: 4px;
-  padding: 0 10px;
   margin-bottom: 10px;
-  ::placeholder {
-    padding-top: 6px;
-  }
 `
 
 export function TextField({
