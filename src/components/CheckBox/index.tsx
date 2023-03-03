@@ -101,7 +101,6 @@ export const CheckBox: FC<CheckBoxProps> = (
   }
 
   if (type === 'round' && progress !== undefined) {
-    console.log('returning progress percentage: ', progress)
     return (
       <ProgressRing fillColor={primaryColor} percentage={progress} size={18}/>
     )
