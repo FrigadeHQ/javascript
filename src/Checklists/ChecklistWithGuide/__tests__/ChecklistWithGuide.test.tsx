@@ -1,5 +1,5 @@
 import React from "react"
-import  { ChecklistWithGuide } from ".."
+import  { ChecklistWithGuide, ChecklistWithGuideProps } from ".."
 import { render, screen, fireEvent } from '@testing-library/react'
 import { StepData } from "../../../types"
 
@@ -23,7 +23,7 @@ describe('ChecklistWithGuide', () => {
     handleSecondaryButtonClick: jest.fn(),
   }
 
-  const testProps = {
+  const testProps: ChecklistWithGuideProps = {
     title: 'Test Checklist',
     subtitle: 'Test Checklist subtitle',
     visible: true,
@@ -47,5 +47,15 @@ describe('ChecklistWithGuide', () => {
     render(<ChecklistWithGuide {...testProps} />)
     fireEvent.click(screen.getByText(stepData.secondaryButtonTitle as string))
     expect(stepData.handleSecondaryButtonClick).toHaveBeenCalledTimes(1)
+  })
+
+  test('applies custom style overrides', () => {
+    testProps.appearance = {
+      styleOverrides: {
+        checklistStepContainer: 'bg-black text-white',
+      }
+    }
+    render(<ChecklistWithGuide {...testProps} />)
+    expect(screen.getByTestId('checklistStepContainer').className).toContain('bg-black text-white')
   })
 })

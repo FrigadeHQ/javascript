@@ -32,10 +32,11 @@ import {
 import { CenterVertical } from '../../components/styled'
 import { Modal } from '../../components/Modal'
 import Guide, { GuideStepData } from '../../Guides/Guide'
+import { getClassName } from '../../shared/appearance'
 
 
 // TODO: Create common Checlist props interface to extend
-interface ChecklistWithGuideProps extends ModalChecklistProps {
+export interface ChecklistWithGuideProps extends ModalChecklistProps {
   
   // Map from string to function with StepData returning React.ReactNode
   // TODO: Move to common Checlist props interface
@@ -63,6 +64,9 @@ const ChecklistWithGuide: FC<ChecklistWithGuideProps> = ({
   selectedStep,
   setSelectedStep,
   customStepTypes,
+
+  appearance,
+
   guideData,
   guideTitle,
 }) => {
@@ -72,12 +76,13 @@ const ChecklistWithGuide: FC<ChecklistWithGuideProps> = ({
     if(!stepData) return <></>
 
     return (
-      <StepContainer>
-        <StepTitle>{stepData.title}</StepTitle>
-        <StepSubtitle>{stepData.subtitle}</StepSubtitle>
+      <StepContainer className={getClassName('checklistStepContainer', appearance)} data-testid='checklistStepContainer'>
+        <StepTitle className={getClassName('checklistStepTitle', appearance)}>{stepData.title}</StepTitle>
+        <StepSubtitle className={getClassName('checklistStepSubtitle', appearance)}>{stepData.subtitle}</StepSubtitle>
         <MultipleButtonContainer>
           {stepData.secondaryButtonTitle && (
             <Button
+              className={getClassName('checklistStepSecondaryButton', appearance)}
               title={stepData.secondaryButtonTitle}
               onClick={handleSecondaryCTAClick}
               style={{ borderColor: '#D9D9D9', width: 'auto', backgroundColor: '#FFFFFF', borderRadius: '30px' }}
@@ -85,6 +90,7 @@ const ChecklistWithGuide: FC<ChecklistWithGuideProps> = ({
             />
           )}
           <Button
+            className={getClassName('checklistStepPrimaryButton', appearance)}
             title={stepData.primaryButtonTitle}
             onClick={handleCTAClick}
             style={{
@@ -155,10 +161,11 @@ const ChecklistWithGuide: FC<ChecklistWithGuideProps> = ({
       visible={visible}
       style={ContainerStyle}
       closeTint={'#8C8C8C'}
+      appearance={appearance}
     >
       <HeaderContent>
-        <ChecklistTitle>{title}</ChecklistTitle>
-        <ChecklistSubtitle>{subtitle}</ChecklistSubtitle>
+        <ChecklistTitle className={getClassName('checklistTitle', appearance)}>{title}</ChecklistTitle>
+        <ChecklistSubtitle className={getClassName('checklistSubtitle', appearance)}>{subtitle}</ChecklistSubtitle>
       </HeaderContent>
 
       <ScrollContainer>
@@ -172,24 +179,28 @@ const ChecklistWithGuide: FC<ChecklistWithGuideProps> = ({
             </ProgressBarContainer>
           </StepsHeader>
           <StepsBody>
-            <StepListContainer>
+            <StepListContainer className={getClassName('checklistStepListContainer', appearance)}>
               {
                   steps.map((stepData: StepData, idx: number) => {
                     const isSelected = selectedStepValue === idx;
                     return (
                       <StepListItem selected={isSelected}
+                        className={getClassName(`checklistStepListItem${isSelected && 'Selected'}`, appearance)}
                         key={`checklist-guide-step-${stepData.id ?? idx}`}
                         onClick={() => {
                           setSelectedStepValue(idx)
                         }}>
                         {isSelected && (
                           <StepItemSelectedIndicator
+                            className={getClassName('checklistStepItemSelectedIndicator', appearance)}
                             as={motion.div}
                             layoutId="checklist-step-selected"
                             style={{ backgroundColor: primaryColor, borderRadius: 0, height: '100%', top: '0%', width: '2px'}}
                           ></StepItemSelectedIndicator>
                         )}
-                        <StepListStepName selected={isSelected}>
+                        <StepListStepName
+                          selected={isSelected} 
+                          className={getClassName(`checklistStepListStepName${isSelected && 'Selected'}`, appearance)}>
                           {stepData.stepName}
                         </StepListStepName>
                         <StepListItemRight>

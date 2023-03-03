@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react'
-import { StepData } from '../../types'
+import { Appearance, StepData } from '../../types'
 import { Modal } from '../../components/Modal'
 import { ProgressBar } from '../Checklist/Progress'
 import { CollapsibleStep } from './CollapsibleStep'
@@ -19,6 +19,8 @@ export interface ModalChecklistProps {
   primaryColor?: string
   selectedStep?: number
   setSelectedStep?: (index: number) => void
+
+  appearance?: Appearance
 }
 
 const ModalChecklist: FC<ModalChecklistProps> = ({
