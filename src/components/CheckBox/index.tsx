@@ -100,7 +100,7 @@ export const CheckBox: FC<CheckBoxProps> = (
     }
   }
 
-  if (type === 'round' && progress !== undefined) {
+  if (type === 'round' && progress !== undefined && progress !== 1) {
     return (
       <ProgressRing fillColor={primaryColor} percentage={progress} size={18}/>
     )
