@@ -87,6 +87,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
     targetingLogicShouldHideFlow,
     setCustomVariable,
     customVariables: existingCustomVariables,
+    getStepOptionalProgress
   } = useFlows()
   const { getOpenFlowState, setOpenFlowState } = useFlowOpens()
   const [selectedStep, setSelectedStep] = useState(initialSelectedStep || 0)
@@ -183,6 +184,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
           }
           primaryCTAClickSideEffects(step)
         },
+        progress: getStepOptionalProgress(step)
       }
     })
   }

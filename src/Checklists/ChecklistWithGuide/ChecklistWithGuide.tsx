@@ -209,6 +209,7 @@ const ChecklistWithGuide: FC<ChecklistWithGuideProps> = ({
                             type='round'
                             primaryColor={primaryColor}
                             secondaryColor={secondaryColor}
+                            progress={stepData.progress}
                           />
                           <CenterVertical>
                             <Chevron style={{ marginLeft: '10px' }} color={appearance?.styleOverrides?.iconColor}/>

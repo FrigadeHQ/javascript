@@ -12,6 +12,8 @@ import { FrigadeContext } from '../FrigadeProvider'
 import { useFlowResponses } from './flow-responses'
 import useSWR from 'swr'
 import { useUserFlowStates } from './user-flow-states'
+import { StepData } from '../types'
+import { getSubFlowFromCompletionCriteria } from './completionUtil'
 
 export interface Flow {
   id: number
@@ -127,6 +129,18 @@ export function useFlows() {
     return (maybeFlowResponse ? maybeFlowResponse.actionType : 'NOT_STARTED_STEP') as StepActionType
   }
 
+  function getStepOptionalProgress(step: StepData) {
+    if(!step.completionCriteria) return undefined;
+    
+    const stepSubFlowSlug = getSubFlowFromCompletionCriteria(step.completionCriteria)
+    if (stepSubFlowSlug === null) return undefined;
+
+    const completed = getNumberOfStepsCompleted(stepSubFlowSlug)
+    const total = getNumberOfSteps(stepSubFlowSlug)
+
+    return total === 0 ? undefined : (completed / total)
+  }
+
   function getFlowStatus(flowSlug: string) {
     if (getNumberOfStepsCompleted(flowSlug) === getNumberOfSteps(flowSlug)) {
       return COMPLETED_FLOW
@@ -197,5 +211,6 @@ export function useFlows() {
     targetingLogicShouldHideFlow,
     setCustomVariable,
     customVariables,
+    getStepOptionalProgress,
   }
 }
