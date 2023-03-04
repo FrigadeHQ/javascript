@@ -22,7 +22,13 @@ export interface FrigadeChecklistProps extends HeroChecklistProps {
   flowId: string
   title?: string
   subtitle?: string
+  /**
+   * @deprecated Use `appearance` instead
+   */
   primaryColor?: string
+  /**
+   * @deprecated Use `appearance` instead
+   */
   secondaryColor?: string
 
   onCompleteStep?: (index: number, stepData: StepData) => void
@@ -94,6 +100,14 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
   const [finishedInitialLoad, setFinishedInitialLoad] = useState(false)
   const showModal = visible === undefined ? getOpenFlowState(flowId) : visible
   appearance = mergeAppearanceWithDefault(appearance)
+
+  // TODO: Remove once primary and secondary colors are deprecated
+  if (primaryColor) {
+    appearance.theme.colorPrimary = primaryColor
+  }
+  if (secondaryColor) {
+    appearance.theme.colorSecondary = secondaryColor
+  }
 
   useEffect(() => {
     if (

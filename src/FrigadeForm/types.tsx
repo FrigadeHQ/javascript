@@ -28,3 +28,8 @@ export interface CustomFormTypeProps {
   onSaveData: (data: object) => void
   appearance?: Appearance
 }
+
+export interface StepContentProps {
+  stepData: StepData
+  appearance?: Appearance
+}
