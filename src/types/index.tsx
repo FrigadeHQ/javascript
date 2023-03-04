@@ -26,6 +26,7 @@ export interface StepData {
   imageStyle?: CSSProperties
   props?: any
   completionCriteria?: string
+  progress?: number
 }
 
 export interface DefaultFrigadeFlowProps {
