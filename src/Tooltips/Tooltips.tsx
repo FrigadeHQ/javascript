@@ -304,7 +304,6 @@ const Tooltips: FC<ToolTipProps> = ({
       )}
       <TooltipContainer
         ref={selfRef}
-        as={motion.div}
         layoutId="tooltip-container"
         style={{
           position: 'absolute',
@@ -314,8 +313,6 @@ const Tooltips: FC<ToolTipProps> = ({
           ...containerStyle,
         }}
         maxWidth={CARD_WIDTH}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
       >
         <StepContent />
       </TooltipContainer>
