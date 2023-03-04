@@ -2,7 +2,7 @@ import React, { CSSProperties, useEffect } from 'react'
 import { useFlows } from '../api/flows'
 import { ProgressBadge } from '../Checklists/ProgressBadge'
 import { useFlowOpens } from '../api/flow-opens'
-import { DefaultFrigadeFlowProps } from '../types'
+import { DefaultFrigadeFlowProps, mergeAppearanceWithDefault } from '../types'
 
 interface FrigadeProgressBadgeProps extends DefaultFrigadeFlowProps {
   title: string
@@ -24,6 +24,7 @@ export const FrigadeProgressBadge: React.FC<FrigadeProgressBadgeProps> = ({
   className,
   customVariables,
   hideOnFlowCompletion,
+  appearance,
 }) => {
   const {
     getFlow,
@@ -34,7 +35,7 @@ export const FrigadeProgressBadge: React.FC<FrigadeProgressBadgeProps> = ({
     setCustomVariable,
     customVariables: existingCustomVariables,
   } = useFlows()
-
+  appearance = mergeAppearanceWithDefault(appearance)
   const { setOpenFlowState, getOpenFlowState } = useFlowOpens()
 
   useEffect(() => {

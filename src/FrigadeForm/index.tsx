@@ -3,7 +3,7 @@ import { Button } from '../components/Button'
 
 import { FormContainer, FormCTAContainer } from './styled'
 
-import { DefaultFrigadeFlowProps, StepData } from '../types'
+import { DefaultFrigadeFlowProps, mergeAppearanceWithDefault, StepData } from '../types'
 import { useFlows } from '../api/flows'
 import { COMPLETED_STEP } from '../api/common'
 import { LinkCollectionStepType } from '../Forms/LinkCollectionStepType'
@@ -51,6 +51,8 @@ export const FrigadeForm: FC<FormProps> = ({
     setCustomVariable,
     customVariables: existingCustomVariables,
   } = useFlows()
+
+  appearance = mergeAppearanceWithDefault(appearance)
 
   const [canContinue, setCanContinue] = useState(false)
   const [selectedStep, setSelectedStep] = useState(0)
@@ -167,15 +169,14 @@ export const FrigadeForm: FC<FormProps> = ({
                 window.open(steps[selectedStepValue].secondaryButtonUri)
               }
             }}
+            isSecondary={true}
             style={{
-              backgroundColor: 'transparent',
-              borderColor: primaryColor,
-              color: primaryColor,
               width: type == 'corner-modal' ? '100%' : 'auto',
               display: 'inline-block',
               borderRadius: type == 'corner-modal' ? 30 : 5,
               marginRight: 12,
             }}
+            appearance={appearance}
           />
         ) : null}{' '}
         {steps[selectedStepValue].primaryButtonTitle ? (
@@ -201,6 +202,7 @@ export const FrigadeForm: FC<FormProps> = ({
               borderRadius: type == 'corner-modal' ? 30 : 5,
               display: 'inline-block',
             }}
+            appearance={appearance}
           />
         ) : null}
       </FormCTAContainer>

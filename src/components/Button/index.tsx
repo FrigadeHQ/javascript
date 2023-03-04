@@ -9,11 +9,15 @@ interface ButtonProps {
   textStyle?: CSSProperties
   disabled?: boolean
   type?: 'full-width' | 'inline'
+  isSecondary?: boolean
   appearance?: Appearance
 }
 
 const ButtonContainer = styled.button`
-  background-color: ${(props) => props.appearance.theme.colorPrimary};
+  background-color: ${(props) =>
+    props.isSecondary
+      ? props.appearance.theme.colorBackground
+      : props.appearance.theme.colorPrimary};
   border-radius: 5px;
   width: 100%;
   padding: 8px 20px 8px 20px;
@@ -22,7 +26,10 @@ const ButtonContainer = styled.button`
   justify-content: center;
   align-content: center;
   border: 1px solid ${(props) => props.appearance.theme.colorPrimary};
-  color: ${(props) => props.appearance.theme.colorTextOnPrimaryBackground};
+  color: ${(props) =>
+    props.isSecondary
+      ? props.appearance.theme.colorPrimary
+      : props.appearance.theme.colorTextOnPrimaryBackground};
   cursor: pointer;
   :hover {
     opacity: 0.95;
@@ -56,10 +63,17 @@ export const Button: FC<ButtonProps> = ({
   disabled,
   textStyle = {},
   type = 'inline',
+  isSecondary = false,
   appearance = DefaultAppearance,
 }) => {
   return (
-    <ButtonContainer appearance={appearance} disabled={disabled} onClick={onClick} style={style}>
+    <ButtonContainer
+      isSecondary={isSecondary}
+      appearance={appearance}
+      disabled={disabled}
+      onClick={onClick}
+      style={style}
+    >
       <ButtonText style={textStyle}>{title}</ButtonText>
     </ButtonContainer>
   )

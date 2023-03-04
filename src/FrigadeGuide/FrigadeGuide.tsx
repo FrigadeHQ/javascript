@@ -1,15 +1,16 @@
 import React, { FC } from 'react'
 import { useFlows } from '../api/flows'
 import { Guide } from '../Guides'
-import { DefaultFrigadeFlowProps } from '../types'
+import { DefaultFrigadeFlowProps, mergeAppearanceWithDefault } from '../types'
 
 export interface FrigadeGuideProps extends DefaultFrigadeFlowProps {
   title: string
   primaryColor?: string
 }
 
-export const FrigadeGuide: FC<FrigadeGuideProps> = ({ flowId, style, ...props }) => {
+export const FrigadeGuide: FC<FrigadeGuideProps> = ({ flowId, style, appearance, ...props }) => {
   const { getFlow, targetingLogicShouldHideFlow, getFlowSteps } = useFlows()
+  appearance = mergeAppearanceWithDefault(appearance)
 
   const flow = getFlow(flowId)
   if (!flow) {

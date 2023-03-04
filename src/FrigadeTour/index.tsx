@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from 'react'
 import { useFlows } from '../api/flows'
 import { ToolTipProps, Tooltips } from '../Tooltips'
-import { StepData } from '../types'
+import { mergeAppearanceWithDefault, StepData } from '../types'
 import { primaryCTAClickSideEffects, secondaryCTAClickSideEffects } from '../shared/cta-util'
 import { COMPLETED_FLOW, COMPLETED_STEP } from '../api/common'
 import { Portal } from 'react-portal'
@@ -10,6 +10,7 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
   flowId,
   initialSelectedStep,
   customVariables,
+  appearance,
   ...props
 }) => {
   const {
@@ -26,6 +27,7 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
   } = useFlows()
   const [finishedInitialLoad, setFinishedInitialLoad] = useState(false)
   const [selectedStep, setSelectedStep] = useState(initialSelectedStep || 0)
+  appearance = mergeAppearanceWithDefault(appearance)
 
   useEffect(() => {
     if (

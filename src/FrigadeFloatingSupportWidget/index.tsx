@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useRef, useState } from 'react'
 
-import { DefaultFrigadeFlowProps, StepData } from '../types'
+import { DefaultFrigadeFlowProps, mergeAppearanceWithDefault, StepData } from '../types'
 import { useFlows } from '../api/flows'
 import { Portal } from 'react-portal'
 import {
@@ -40,6 +40,8 @@ export const FrigadeFloatingSupportWidget: FC<FloatingWidgetProps> = ({
   } = useFlows()
   const wrapperRef = useRef(null)
   const [showMenu, setShowMenu] = useState(false)
+
+  appearance = mergeAppearanceWithDefault(appearance)
 
   // below is the same as componentDidMount and componentDidUnmount
   useEffect(() => {

@@ -68,3 +68,16 @@ export const DefaultAppearance: Appearance = {
     colorTextSecondary: '#000000',
   },
 }
+
+export function mergeAppearanceWithDefault(appearance?: Appearance): Appearance {
+  return {
+    styleOverrides: {
+      ...DefaultAppearance.styleOverrides,
+      ...appearance?.styleOverrides,
+    },
+    theme: {
+      ...DefaultAppearance.theme,
+      ...appearance?.theme,
+    },
+  }
+}
