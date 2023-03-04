@@ -39,6 +39,7 @@ export const FrigadeForm: FC<FormProps> = ({
   customVariables,
   onComplete,
   appearance,
+  hideOnFlowCompletion = true,
 }) => {
   const {
     getFlow,
@@ -170,10 +171,9 @@ export const FrigadeForm: FC<FormProps> = ({
               }
             }}
             isSecondary={true}
+            type={type == 'corner-modal' ? 'full-width' : 'inline'}
             style={{
-              width: type == 'corner-modal' ? '100%' : 'auto',
               display: 'inline-block',
-              borderRadius: type == 'corner-modal' ? 30 : 5,
               marginRight: 12,
             }}
             appearance={appearance}
@@ -189,17 +189,20 @@ export const FrigadeForm: FC<FormProps> = ({
               }
               markStepCompleted(flowId, steps[selectedStepValue].id, getDataPayload())
               if (selectedStepValue + 1 >= steps.length) {
-                if (setVisible) {
-                  setVisible(false)
-                }
                 if (onComplete) {
                   onComplete()
                 }
+                if (hideOnFlowCompletion) {
+                  if (setVisible) {
+                    setVisible(false)
+                  }
+                  setShowModal(false)
+                }
               }
             }}
+            type={type == 'corner-modal' ? 'full-width' : 'inline'}
             style={{
-              width: type == 'corner-modal' ? '100%' : 'auto',
-              borderRadius: type == 'corner-modal' ? 30 : 5,
+              backgroundColor: primaryColor ?? appearance.primaryColor,
               display: 'inline-block',
             }}
             appearance={appearance}

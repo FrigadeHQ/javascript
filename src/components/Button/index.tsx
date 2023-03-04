@@ -18,7 +18,7 @@ const ButtonContainer = styled.button`
     props.isSecondary
       ? props.appearance.theme.colorBackground
       : props.appearance.theme.colorPrimary};
-  border-radius: 5px;
+  border-radius: ${(props) => props.appearance.theme.borderRadius}px;
   width: 100%;
   padding: 8px 20px 8px 20px;
   margin: 16px 0px 16px 0px;
@@ -30,6 +30,8 @@ const ButtonContainer = styled.button`
     props.isSecondary
       ? props.appearance.theme.colorPrimary
       : props.appearance.theme.colorTextOnPrimaryBackground};
+  width: ${(props) => (props.type === 'full-width' ? '100%' : 'auto')};
+
   cursor: pointer;
   :hover {
     opacity: 0.95;
@@ -73,6 +75,7 @@ export const Button: FC<ButtonProps> = ({
       disabled={disabled}
       onClick={onClick}
       style={style}
+      type={type}
     >
       <ButtonText style={textStyle}>{title}</ButtonText>
     </ButtonContainer>

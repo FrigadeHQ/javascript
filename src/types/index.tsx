@@ -34,6 +34,7 @@ export interface DefaultFrigadeFlowProps {
   className?: string
   appearance?: Appearance
   customVariables?: { [key: string]: string | number | boolean }
+  hideOnFlowCompletion?: boolean
 }
 
 export interface Appearance {
@@ -66,6 +67,7 @@ export const DefaultAppearance: Appearance = {
     colorBackground: '#ffffff',
     colorTextOnPrimaryBackground: '#ffffff',
     colorTextSecondary: '#000000',
+    borderRadius: 8,
   },
 }
 
