@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 
 import styled from 'styled-components'
 import { FormInputProps, FormInputType } from '../../../FrigadeForm/types'
-import { FormLabel, LabelWrapper, RequiredSymbol } from '../shared/styled'
 import { getClassName, getCustomClasOverrides } from '../../../shared/appearance'
+import { Label } from '../shared/Label'
 
 interface TextFieldProps extends FormInputType {
   id: string
@@ -27,11 +27,11 @@ const TextInput = styled.input`
       color: #c7c7c7;
       font-size: 14px;
     }
+    border-radius: 6px;
   }
   width: 100%;
   height: 40px;
   box-sizing: border-box;
-  border-radius: 4px;
   padding: 0 10px;
   margin-bottom: 10px;
 `
@@ -45,11 +45,11 @@ const TextArea = styled.textarea`
       color: #c7c7c7;
       font-size: 14px;
     }
+    border-radius: 6px;
   }
   width: 100%;
   min-height: 70px;
   box-sizing: border-box;
-  border-radius: 4px;
   margin-bottom: 10px;
 `
 
@@ -90,12 +90,11 @@ export function TextField({
 
   return (
     <TextInputWrapper>
-      <LabelWrapper>
-        <RequiredSymbol>*</RequiredSymbol>
-        <FormLabel className={getClassName('formLabel', customFormTypeProps.appearance)}>
-          {input.title}
-        </FormLabel>
-      </LabelWrapper>
+      <Label
+        title={input.title}
+        required={input.required}
+        appearance={customFormTypeProps.appearance}
+      />
       <InputComponent
         className={getClassName('inputComponent', customFormTypeProps.appearance)}
         value={data}

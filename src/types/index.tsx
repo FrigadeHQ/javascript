@@ -72,14 +72,14 @@ export const DefaultAppearance: Appearance = {
 }
 
 export function mergeAppearanceWithDefault(appearance?: Appearance): Appearance {
+  if (!appearance) {
+    return DefaultAppearance
+  }
   return {
-    styleOverrides: {
-      ...DefaultAppearance.styleOverrides,
-      ...appearance?.styleOverrides,
-    },
-    theme: {
-      ...DefaultAppearance.theme,
-      ...appearance?.theme,
-    },
+    styleOverrides: Object.assign(
+      DefaultAppearance.styleOverrides ?? {},
+      appearance.styleOverrides ?? {}
+    ),
+    theme: Object.assign(DefaultAppearance.theme, appearance.theme ?? {}),
   }
 }

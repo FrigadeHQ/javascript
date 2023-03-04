@@ -175,6 +175,7 @@ export const FrigadeForm: FC<FormProps> = ({
             style={{
               display: 'inline-block',
               marginRight: 12,
+              marginBottom: 0,
             }}
             appearance={appearance}
           />
@@ -202,8 +203,8 @@ export const FrigadeForm: FC<FormProps> = ({
             }}
             type={type == 'corner-modal' ? 'full-width' : 'inline'}
             style={{
-              backgroundColor: primaryColor ?? appearance.primaryColor,
               display: 'inline-block',
+              marginBottom: 0,
             }}
             appearance={appearance}
           />

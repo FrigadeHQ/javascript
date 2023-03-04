@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 
 import styled from 'styled-components'
 import { FormInputProps, FormInputType } from '../../../FrigadeForm/types'
-import { FormLabel, LabelWrapper, RequiredSymbol } from '../shared/styled'
 import { getClassName, getCustomClasOverrides } from '../../../shared/appearance'
+import { Label } from '../shared/Label'
 
 interface MultipleChoiceProps extends FormInputType {
   id: string
@@ -36,11 +36,12 @@ const MultipleChoiceSelect = styled.select`
       color: #c7c7c7;
       font-size: 14px;
     }
+    border-radius: 6px;
   }
   width: 100%;
   height: 40px;
   box-sizing: border-box;
-  border-radius: 4px;
+
   padding: 0 10px;
   margin-bottom: 10px;
 
@@ -69,12 +70,11 @@ export function MultipleChoice({
 
   return (
     <MultipleChoiceWrapper>
-      <LabelWrapper>
-        <RequiredSymbol>*</RequiredSymbol>
-        <FormLabel className={getClassName('formLabel', customFormTypeProps.appearance)}>
-          {input.title}
-        </FormLabel>
-      </LabelWrapper>
+      <Label
+        title={input.title}
+        required={input.required}
+        appearance={customFormTypeProps.appearance}
+      />
       <MultipleChoiceSelect
         value={data}
         onChange={(e) => {

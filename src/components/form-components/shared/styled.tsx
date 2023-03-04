@@ -3,9 +3,10 @@ import { getCustomClasOverrides } from '../../../shared/appearance'
 
 export const FormLabel = styled.label`
   :not(${(props) => getCustomClasOverrides(props)}) {
-    color: #434343;
-    font-size: 12px;
+    font-size: 14px;
     line-height: 20px;
+    margin-bottom: 5px;
+    margin-top: 10px;
   }
   display: flex;
 `

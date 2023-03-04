@@ -1,6 +1,7 @@
 import React, { CSSProperties, FC } from 'react'
 import styled from 'styled-components'
 import { Appearance, DefaultAppearance } from '../../types'
+import { getClassName, getCustomClasOverrides } from '../../shared/appearance'
 
 interface ButtonProps {
   onClick?: () => void
@@ -19,9 +20,7 @@ const ButtonContainer = styled.button`
       ? props.appearance.theme.colorBackground
       : props.appearance.theme.colorPrimary};
   border-radius: ${(props) => props.appearance.theme.borderRadius}px;
-  width: 100%;
   padding: 8px 20px 8px 20px;
-  margin: 16px 0px 16px 0px;
   display: flex;
   justify-content: center;
   align-content: center;
@@ -30,7 +29,11 @@ const ButtonContainer = styled.button`
     props.isSecondary
       ? props.appearance.theme.colorPrimary
       : props.appearance.theme.colorTextOnPrimaryBackground};
-  width: ${(props) => (props.type === 'full-width' ? '100%' : 'auto')};
+  :not(${(props) => getCustomClasOverrides(props)}) {
+    // Anything inside this block will be ignored if the user provides a custom class
+    width: ${(props) => (props.type === 'full-width' ? '100%' : 'auto')};
+    margin: 16px 0px 16px 0px;
+  }
 
   cursor: pointer;
   :hover {
@@ -76,6 +79,7 @@ export const Button: FC<ButtonProps> = ({
       onClick={onClick}
       style={style}
       type={type}
+      className={getClassName('button', appearance)}
     >
       <ButtonText style={textStyle}>{title}</ButtonText>
     </ButtonContainer>

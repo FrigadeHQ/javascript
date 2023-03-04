@@ -8,6 +8,7 @@ import {
 } from '../../FrigadeForm/types'
 import { TextField } from '../../components/form-components/TextField'
 import { MultipleChoice } from '../../components/form-components/MultipleChoice'
+import { MultipleChoiceList } from '../../components/form-components/MultipleChoiceList'
 
 interface MultiInputStepProps {
   data?: FormInputType[]
@@ -40,6 +41,7 @@ const HeaderSubtitle = styled.h2`
 const DEFAULT_INPUT_TYPES: { [key: string]: (params: FormInputProps) => React.ReactNode } = {
   text: TextField,
   multipleChoice: MultipleChoice,
+  multipleChoiceList: MultipleChoiceList,
 }
 
 export function MultiInputStepType({
