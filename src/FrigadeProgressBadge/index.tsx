@@ -15,10 +15,19 @@ interface FrigadeProgressBadgeProps extends DefaultFrigadeFlowProps {
 
 export const FrigadeProgressBadge: React.FC<FrigadeProgressBadgeProps> = ({
   flowId,
+  /**
+   * @deprecated Use `appearance` instead
+   */
   primaryColor,
   title,
   style,
+  /**
+   * @deprecated Use `appearance` instead
+   */
   textStyle,
+  /**
+   * @deprecated Use `appearance` instead
+   */
   secondaryColor,
   onClick,
   className,
@@ -36,6 +45,14 @@ export const FrigadeProgressBadge: React.FC<FrigadeProgressBadgeProps> = ({
     customVariables: existingCustomVariables,
   } = useFlows()
   appearance = mergeAppearanceWithDefault(appearance)
+
+  // TODO: Remove onces fields are deleted
+  if (primaryColor) {
+    appearance.theme.colorPrimary = primaryColor
+  }
+  if (secondaryColor) {
+    appearance.theme.colorSecondary = secondaryColor
+  }
   const { setOpenFlowState, getOpenFlowState } = useFlowOpens()
 
   useEffect(() => {
@@ -80,8 +97,8 @@ export const FrigadeProgressBadge: React.FC<FrigadeProgressBadgeProps> = ({
       total={steps.length}
       title={title}
       style={style}
-      primaryColor={primaryColor}
-      secondaryColor={secondaryColor}
+      primaryColor={appearance.theme.colorPrimary}
+      secondaryColor={appearance.theme.colorSecondary}
       textStyle={textStyle}
       onClick={() => {
         setOpenFlowState(flowId, true)

@@ -93,7 +93,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
     targetingLogicShouldHideFlow,
     setCustomVariable,
     customVariables: existingCustomVariables,
-    getStepOptionalProgress
+    getStepOptionalProgress,
   } = useFlows()
   const { getOpenFlowState, setOpenFlowState } = useFlowOpens()
   const [selectedStep, setSelectedStep] = useState(initialSelectedStep || 0)
@@ -101,7 +101,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
   const showModal = visible === undefined ? getOpenFlowState(flowId) : visible
   appearance = mergeAppearanceWithDefault(appearance)
 
-  // TODO: Remove once primary and secondary colors are deprecated
+  // TODO: Remove once primary and secondary colors are deprecated + removed
   if (primaryColor) {
     appearance.theme.colorPrimary = primaryColor
   }
@@ -198,7 +198,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
           }
           primaryCTAClickSideEffects(step)
         },
-        progress: getStepOptionalProgress(step)
+        progress: getStepOptionalProgress(step),
       }
     })
   }
@@ -224,6 +224,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
         selectedStep={selectedStep}
         setSelectedStep={setSelectedStep}
         autoExpandNextStep={true}
+        appearance={appearance}
         {...commonProps}
       />
     )
@@ -253,6 +254,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
         setSelectedStep={setSelectedStep}
         guideData={guideFlowSteps}
         guideTitle={guideProps.guideTitle ?? 'Guide'}
+        appearance={appearance}
         {...commonProps}
       />
     )
@@ -264,6 +266,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
       selectedStep={selectedStep}
       setSelectedStep={setSelectedStep}
       className={className}
+      apperaance={appearance}
       {...commonProps}
     />
   )

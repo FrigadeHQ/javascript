@@ -36,6 +36,7 @@ const ModalChecklist: FC<ModalChecklistProps> = ({
   primaryColor = '#000000',
   selectedStep,
   setSelectedStep,
+  appearance,
 }) => {
   const completeCount = steps.filter((s) => s.complete).length
   const [collapsedSteps, setCollapsedSteps] = useState<boolean[]>(Array(steps.length).fill(true))
@@ -97,6 +98,7 @@ const ModalChecklist: FC<ModalChecklistProps> = ({
           const isCollapsed = collapsedSteps[idx]
           return (
             <CollapsibleStep
+              appearance={appearance}
               stepData={step}
               collapsed={isCollapsed}
               key={`modal-checklist-${step.id ?? idx}`}

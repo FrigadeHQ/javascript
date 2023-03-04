@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { StepData } from '../../../types'
+import { Appearance, StepData } from '../../../types'
 import { CheckBoxRow } from '../../../components/CheckBoxRow'
 import { Chevron } from '../../../components/Icons/Chevron'
 import { Button, MultipleButtonContainer } from '../../../components/Button'
@@ -21,6 +21,7 @@ interface CollapsibleStepProps {
   onSecondaryButtonClick: () => void
   onPrimaryButtonClick: () => void
   primaryColor?: string
+  appearance?: Appearance
 }
 
 export const CollapsibleStep: FC<CollapsibleStepProps> = ({
@@ -30,6 +31,7 @@ export const CollapsibleStep: FC<CollapsibleStepProps> = ({
   primaryColor = '#000000',
   onPrimaryButtonClick,
   onSecondaryButtonClick,
+  appearance,
 }) => {
   const iconStyle = collapsed ? {} : { transform: 'rotate(90deg)' }
 
@@ -67,14 +69,16 @@ export const CollapsibleStep: FC<CollapsibleStepProps> = ({
               <Button
                 title={stepData.primaryButtonTitle ?? 'Continue'}
                 onClick={() => onPrimaryButtonClick()}
-                style={{ backgroundColor: primaryColor, borderColor: primaryColor, width: 'auto' }}
+                style={{ width: 'auto' }}
+                appearance={appearance}
               />
               {stepData.secondaryButtonTitle ? (
                 <Button
+                  secondary
                   title={stepData.secondaryButtonTitle}
                   onClick={() => onSecondaryButtonClick()}
-                  textStyle={{ color: primaryColor }}
-                  style={{ borderColor: primaryColor, width: 'auto', backgroundColor: '#FFFFFF' }}
+                  style={{ marginLeft: '12px', width: 'auto' }}
+                  appearance={appearance}
                 />
               ) : null}
             </MultipleButtonContainer>

@@ -1,8 +1,7 @@
-import React, { CSSProperties, FC, useEffect, useLayoutEffect, useState, useRef } from 'react'
+import React, { CSSProperties, FC, useLayoutEffect, useRef, useState } from 'react'
 
 import { Button } from '../components/Button'
 import { CloseIcon } from '../components/CloseIcon'
-import { motion } from 'framer-motion'
 import styled from 'styled-components'
 import { getPosition } from './position'
 import {
@@ -14,7 +13,7 @@ import {
   TooltipStepCounter,
   TooltipTitle,
 } from './styled'
-import { StepData } from '../types'
+import { Appearance, StepData } from '../types'
 
 import { useElemRect } from '@reactour/utils'
 
@@ -36,6 +35,9 @@ export interface ToolTipProps {
   onComplete?: () => void
   tooltipPosition?: ToolTipPosition
   showHighlight?: boolean
+  /**
+   * @deprecated Use `appearance` instead
+   */
   primaryColor?: string
   buttonStyle?: CSSProperties
 
@@ -56,6 +58,8 @@ export interface ToolTipProps {
    * @param index
    */
   onStepCompletion?: (step: StepData, index: number) => boolean
+
+  appearance?: Appearance
 }
 
 const HighlightOuter = styled.div<{ primaryColor: string }>`
@@ -112,11 +116,11 @@ const Tooltips: FC<ToolTipProps> = ({
   setSelectedStep = () => {},
   customStepTypes,
   onStepCompletion,
+  appearance,
 }) => {
-
   const [selfBounds, setSelfBounds] = useState<undefined | DOMRect>(undefined)
   const [needsUpdate, setNeedsUpdate] = useState(new Date())
-  const selfRef = useRef();
+  const selfRef = useRef()
 
   const [elem, setElem] = useState(initialElem)
   const boundingRect = useElemRect(elem, needsUpdate)
@@ -125,13 +129,19 @@ const Tooltips: FC<ToolTipProps> = ({
     if (selfRef.current) {
       setSelfBounds({
         width: selfRef.current.offsetWidth,
-        height: selfRef.current.offsetHeight
-      });
+        height: selfRef.current.offsetHeight,
+      })
     }
-  }, []);
+  }, [])
 
-  let tooltipPositionValue: ToolTipPosition = tooltipPosition === 'auto' ? 'right' : tooltipPosition as ToolTipPosition
-  let position = getPosition(boundingRect, tooltipPositionValue, selfBounds?.width ?? CARD_WIDTH, offset)
+  let tooltipPositionValue: ToolTipPosition =
+    tooltipPosition === 'auto' ? 'right' : (tooltipPosition as ToolTipPosition)
+  let position = getPosition(
+    boundingRect,
+    tooltipPositionValue,
+    selfBounds?.width ?? CARD_WIDTH,
+    offset
+  )
   const rightSideIsCropped =
     boundingRect.right + CARD_WIDTH > (window.innerWidth || document.documentElement.clientWidth)
 
@@ -152,7 +162,7 @@ const Tooltips: FC<ToolTipProps> = ({
     setTimeout(() => {
       handleRefreshPosition()
     }, DEFAULT_REFRESH_DELAY)
-    
+
     handleRefreshPosition()
   }, [selectedStep, url])
 
@@ -188,10 +198,9 @@ const Tooltips: FC<ToolTipProps> = ({
         <TooltipFooterRight>
           <Button
             title={steps[selectedStep].primaryButtonTitle || 'Next'}
+            appearance={appearance}
             onClick={handleOnCTAClick}
             style={{
-              backgroundColor: primaryColor,
-              borderColor: primaryColor,
               maxWidth: '50%',
               minWidth: '120px',
               ...buttonStyle,
@@ -200,14 +209,13 @@ const Tooltips: FC<ToolTipProps> = ({
           {steps[selectedStep].secondaryButtonTitle && (
             <Button
               title={steps[selectedStep].secondaryButtonTitle}
+              appearance={appearance}
               onClick={handleOnSecondaryCTAClick}
               style={{
-                borderColor: primaryColor,
                 width: 'auto',
-                backgroundColor: '#FFFFFF',
                 marginLeft: '8px',
               }}
-              textStyle={{ color: primaryColor }}
+              secondary
             />
           )}
         </TooltipFooterRight>
@@ -292,13 +300,13 @@ const Tooltips: FC<ToolTipProps> = ({
             style={{
               position: 'absolute',
             }}
-            primaryColor={primaryColor}
+            primaryColor={appearance.theme.colorPrimary}
           ></HighlightInner>
           <HighlightOuter
             style={{
               position: 'relative',
             }}
-            primaryColor={primaryColor}
+            primaryColor={appearance.theme.colorPrimary}
           ></HighlightOuter>
         </span>
       )}

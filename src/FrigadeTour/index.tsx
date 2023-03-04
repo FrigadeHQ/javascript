@@ -11,6 +11,7 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
   initialSelectedStep,
   customVariables,
   appearance,
+  primaryColor,
   ...props
 }) => {
   const {
@@ -28,6 +29,9 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
   const [finishedInitialLoad, setFinishedInitialLoad] = useState(false)
   const [selectedStep, setSelectedStep] = useState(initialSelectedStep || 0)
   appearance = mergeAppearanceWithDefault(appearance)
+  if (primaryColor) {
+    appearance.theme.colorPrimary = primaryColor
+  }
 
   useEffect(() => {
     if (
@@ -106,6 +110,7 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
   return (
     <Portal>
       <Tooltips
+        appearance={appearance}
         steps={getSteps()}
         elem={elem}
         setSelectedStep={setSelectedStep}

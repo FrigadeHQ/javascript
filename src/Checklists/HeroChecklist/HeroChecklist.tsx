@@ -3,19 +3,16 @@ import React, { FC, useState } from 'react'
 import styled from 'styled-components'
 import { StepChecklistItem } from './StepChecklistItem'
 import { ProgressBar } from '../Checklist/Progress'
-import { Button, MultipleButtonContainer } from '../../components/Button'
-
-import {
-  HeroChecklistStepContent,
-  HeroChecklistStepSubtitle,
-  HeroChecklistStepTitle,
-} from './styled'
-import { VideoPlayer } from './VideoPlayer'
-import { DefaultFrigadeFlowProps, StepData } from '../../types'
+import { DefaultFrigadeFlowProps, mergeAppearanceWithDefault, StepData } from '../../types'
+import { HeroStepContent } from '../../components/step-content/HeroStepContent'
+import { StepContentProps } from '../../FrigadeForm/types'
 
 export interface HeroChecklistProps extends DefaultFrigadeFlowProps {
   title?: string
   subtitle?: string
+  /**
+   * @deprecated Use `appearance` instead
+   */
   primaryColor?: string
   steps?: StepData[]
 
@@ -73,12 +70,6 @@ const HeroChecklistStepContentContainer = styled.div`
   padding: 2rem;
 `
 
-const StepImage = styled.img`
-  border-radius: 4px;
-  max-height: 260px;
-  min-height: 200px;
-`
-
 const HeroChecklist: FC<HeroChecklistProps> = ({
   title,
   subtitle,
@@ -89,64 +80,21 @@ const HeroChecklist: FC<HeroChecklistProps> = ({
   setSelectedStep,
   className = '',
   customStepTypes = new Map(),
+  appearance,
 }) => {
-  const DEFAULT_CUSTOM_STEP_TYPES = new Map([
-    [
-      'default',
-      (stepData: StepData) => {
-        if (steps[selectedStepValue]?.StepContent) {
-          const Content: React.ReactNode = steps[selectedStepValue].StepContent
-          return <div>{Content}</div>
-        }
-        const currentStep = steps[selectedStepValue]
+  appearance = mergeAppearanceWithDefault(appearance)
 
-        const handlePrimaryButtonClick = () => {
-          if (currentStep.handlePrimaryButtonClick) {
-            currentStep.handlePrimaryButtonClick()
-          }
-        }
+  // TODO: Remove once primary and secondary colors are deprecated + removed
+  if (primaryColor) {
+    appearance.theme.colorPrimary = primaryColor
+  }
 
-        const handleSecondaryButtonClick = () => {
-          if (currentStep.handleSecondaryButtonClick) {
-            currentStep.handleSecondaryButtonClick()
-          }
-        }
+  const DEFAULT_CUSTOM_STEP_TYPES = new Map([['default', HeroStepContent]])
 
-        return (
-          <HeroChecklistStepContent>
-            {stepData.imageUri ? (
-              <StepImage src={stepData.imageUri} style={stepData.imageStyle} />
-            ) : null}
-            {stepData.videoUri ? <VideoPlayer videoUri={stepData.videoUri} /> : null}
-            <HeroChecklistStepTitle>{stepData.title}</HeroChecklistStepTitle>
-            <HeroChecklistStepSubtitle>{stepData.subtitle}</HeroChecklistStepSubtitle>
-            <MultipleButtonContainer>
-              <Button
-                title={stepData.primaryButtonTitle}
-                onClick={handlePrimaryButtonClick}
-                style={{
-                  backgroundColor: primaryColor,
-                  borderColor: primaryColor,
-                  width: 'auto',
-                  marginRight: '12px',
-                }}
-              />
-              {stepData.secondaryButtonTitle && (
-                <Button
-                  title={stepData.secondaryButtonTitle}
-                  onClick={handleSecondaryButtonClick}
-                  style={{ borderColor: primaryColor, width: 'auto', backgroundColor: '#FFFFFF' }}
-                  textStyle={{ color: primaryColor }}
-                />
-              )}
-            </MultipleButtonContainer>
-          </HeroChecklistStepContent>
-        )
-      },
-    ],
+  const mergedCustomStepTypes = new Map<string, FC<StepContentProps>>([
+    ...DEFAULT_CUSTOM_STEP_TYPES,
+    ...customStepTypes,
   ])
-
-  const mergedCustomStepTypes = new Map([...DEFAULT_CUSTOM_STEP_TYPES, ...customStepTypes])
 
   const [selectedStepInternal, setSelectedStepInternal] = useState(0)
 
@@ -160,9 +108,15 @@ const HeroChecklist: FC<HeroChecklistProps> = ({
       !steps[selectedStepValue]?.type ||
       !mergedCustomStepTypes.has(steps[selectedStepValue].type)
     ) {
-      return mergedCustomStepTypes.get('default')(steps[selectedStepValue])
+      return mergedCustomStepTypes.get('default')({
+        stepData: steps[selectedStepValue],
+        appearance: appearance,
+      })
     }
-    return mergedCustomStepTypes.get(steps[selectedStepValue].type)(steps[selectedStepValue])
+    return mergedCustomStepTypes.get(steps[selectedStepValue].type)({
+      stepData: steps[selectedStepValue],
+      appearance: appearance,
+    })
   }
 
   return (

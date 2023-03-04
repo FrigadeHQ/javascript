@@ -170,7 +170,7 @@ export const FrigadeForm: FC<FormProps> = ({
                 window.open(steps[selectedStepValue].secondaryButtonUri)
               }
             }}
-            isSecondary={true}
+            secondary={true}
             type={type == 'corner-modal' ? 'full-width' : 'inline'}
             style={{
               display: 'inline-block',

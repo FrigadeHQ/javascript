@@ -10,15 +10,13 @@ interface ButtonProps {
   textStyle?: CSSProperties
   disabled?: boolean
   type?: 'full-width' | 'inline'
-  isSecondary?: boolean
+  secondary?: boolean
   appearance?: Appearance
 }
 
 const ButtonContainer = styled.button`
   background-color: ${(props) =>
-    props.isSecondary
-      ? props.appearance.theme.colorBackground
-      : props.appearance.theme.colorPrimary};
+    props.secondary ? props.appearance.theme.colorBackground : props.appearance.theme.colorPrimary};
   border-radius: ${(props) => props.appearance.theme.borderRadius}px;
   padding: 8px 20px 8px 20px;
   display: flex;
@@ -26,7 +24,7 @@ const ButtonContainer = styled.button`
   align-content: center;
   border: 1px solid ${(props) => props.appearance.theme.colorPrimary};
   color: ${(props) =>
-    props.isSecondary
+    props.secondary
       ? props.appearance.theme.colorPrimary
       : props.appearance.theme.colorTextOnPrimaryBackground};
   :not(${(props) => getCustomClasOverrides(props)}) {
@@ -68,12 +66,12 @@ export const Button: FC<ButtonProps> = ({
   disabled,
   textStyle = {},
   type = 'inline',
-  isSecondary = false,
+  secondary = false,
   appearance = DefaultAppearance,
 }) => {
   return (
     <ButtonContainer
-      isSecondary={isSecondary}
+      secondary={secondary}
       appearance={appearance}
       disabled={disabled}
       onClick={onClick}
