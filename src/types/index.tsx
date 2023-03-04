@@ -49,6 +49,7 @@ export interface Appearance {
 
 export interface BaseTheme {
   colorPrimary?: string
+  colorBackground?: string
   colorText?: string
   colorTextOnPrimaryBackground?: string
   colorTextSecondary?: string
@@ -56,4 +57,14 @@ export interface BaseTheme {
   fontSmoothing?: string
   fontWeight?: string | number
   borderRadius?: number
+}
+
+export const DefaultAppearance: Appearance = {
+  theme: {
+    colorPrimary: '#000000',
+    colorText: '#000000',
+    colorBackground: '#ffffff',
+    colorTextOnPrimaryBackground: '#ffffff',
+    colorTextSecondary: '#000000',
+  },
 }

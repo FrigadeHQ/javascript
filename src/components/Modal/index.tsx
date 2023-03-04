@@ -10,6 +10,22 @@ const ModalContainer = styled.div`
   :not(${(props) => getCustomClasOverrides(props)}) {
     // Anything inside this block will be ignored if the user provides a custom class
     background: #ffffff;
+    /* Mobile */
+    @media (max-width: 500px) {
+      width: 90%;
+      height: 90%;
+      top: 50%;
+      left: 50%;
+    }
+
+    @media (min-width: 501px) {
+      width: 90%;
+    }
+
+    @media (min-width: 1000px) {
+      width: 1000px;
+    }
+    width: 1000px;
   }
   border-radius: 6px;
   z-index: 110;
@@ -23,22 +39,6 @@ const ModalContainer = styled.div`
   display: flex;
   flex-direction: column;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-
-  /* Mobile */
-  @media (max-width: 500px) {
-    width: 90%;
-    height: 90%;
-    top: 50%;
-    left: 50%;
-  }
-
-  @media (min-width: 501px) {
-    width: 90%;
-  }
-
-  @media (min-width: 1000px) {
-    width: 1000px;
-  }
 `
 
 const ModalHeader = styled.div`

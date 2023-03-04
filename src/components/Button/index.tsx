@@ -1,5 +1,6 @@
 import React, { CSSProperties, FC } from 'react'
 import styled from 'styled-components'
+import { Appearance, DefaultAppearance } from '../../types'
 
 interface ButtonProps {
   onClick?: () => void
@@ -7,13 +8,12 @@ interface ButtonProps {
   style?: CSSProperties
   textStyle?: CSSProperties
   disabled?: boolean
+  type?: 'full-width' | 'inline'
+  appearance?: Appearance
 }
 
-const BUTTON_PRIMARY_BG = '#000000'
-const BUTTON_PRIMARY_TEXT_COLOR = '#FFFFFF'
-
 const ButtonContainer = styled.button`
-  background-color: ${BUTTON_PRIMARY_BG};
+  background-color: ${(props) => props.appearance.theme.colorPrimary};
   border-radius: 5px;
   width: 100%;
   padding: 8px 20px 8px 20px;
@@ -21,8 +21,8 @@ const ButtonContainer = styled.button`
   display: flex;
   justify-content: center;
   align-content: center;
-  border: 1px solid ${BUTTON_PRIMARY_BG};
-  color: ${BUTTON_PRIMARY_TEXT_COLOR};
+  border: 1px solid ${(props) => props.appearance.theme.colorPrimary};
+  color: ${(props) => props.appearance.theme.colorTextOnPrimaryBackground};
   cursor: pointer;
   :hover {
     opacity: 0.95;
@@ -49,9 +49,17 @@ export const MultipleButtonContainer = styled.div`
   }
 `
 
-export const Button: FC<ButtonProps> = ({ onClick, title, style, disabled, textStyle = {} }) => {
+export const Button: FC<ButtonProps> = ({
+  onClick,
+  title,
+  style,
+  disabled,
+  textStyle = {},
+  type = 'inline',
+  appearance = DefaultAppearance,
+}) => {
   return (
-    <ButtonContainer disabled={disabled} onClick={onClick} style={style}>
+    <ButtonContainer appearance={appearance} disabled={disabled} onClick={onClick} style={style}>
       <ButtonText style={textStyle}>{title}</ButtonText>
     </ButtonContainer>
   )

@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from 'react'
 import { Button } from '../components/Button'
 
-import { FormCTAContainer } from './styled'
+import { FormContainer, FormCTAContainer } from './styled'
 
 import { DefaultFrigadeFlowProps, StepData } from '../types'
 import { useFlows } from '../api/flows'
@@ -148,7 +148,7 @@ export const FrigadeForm: FC<FormProps> = ({
   }
 
   const content = (
-    <div>
+    <FormContainer className={getClassName('formContainer', appearance)}>
       <StepContent
         stepData={steps[selectedStepValue]}
         canContinue={canContinue}
@@ -197,8 +197,6 @@ export const FrigadeForm: FC<FormProps> = ({
               }
             }}
             style={{
-              backgroundColor: primaryColor,
-              borderColor: primaryColor,
               width: type == 'corner-modal' ? '100%' : 'auto',
               borderRadius: type == 'corner-modal' ? 30 : 5,
               display: 'inline-block',
@@ -206,7 +204,7 @@ export const FrigadeForm: FC<FormProps> = ({
           />
         ) : null}
       </FormCTAContainer>
-    </div>
+    </FormContainer>
   )
 
   if (type === 'modal') {
