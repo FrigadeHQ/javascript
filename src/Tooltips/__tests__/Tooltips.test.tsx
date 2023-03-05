@@ -1,7 +1,7 @@
 import React from 'react'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 
-import { StepData } from '../../types'
+import { DefaultAppearance, StepData } from '../../types'
 import { Tooltips } from '../index'
 
 describe('Tooltip', () => {
@@ -38,7 +38,7 @@ describe('Tooltip', () => {
   function ControlledTooltip() {
     return (
       <div>
-        <Tooltips steps={data} onComplete={onComplete} onDismiss={onDismiss} />
+        <Tooltips steps={data} onComplete={onComplete} onDismiss={onDismiss} appearance={DefaultAppearance} />
         <div id="test-select-0">
           <p>Some text on screen!</p>
         </div>
@@ -56,7 +56,7 @@ describe('Tooltip', () => {
     function ControlledTooltipHidden() {
       return (
         <div>
-          <Tooltips steps={data} onComplete={onComplete} onDismiss={onDismiss} />
+          <Tooltips steps={data} onComplete={onComplete} onDismiss={onDismiss} appearance={DefaultAppearance} />
           <div id="tooltip-err-target">
             <p>Some text on screen!</p>
           </div>
@@ -106,7 +106,7 @@ describe('Tooltip', () => {
     function ControlledTooltipCustom() {
       return (
         <div>
-          <Tooltips steps={customStepData} onComplete={onComplete} onDismiss={onDismiss} customStepTypes={customSteps} />
+          <Tooltips steps={customStepData} onComplete={onComplete} onDismiss={onDismiss} customStepTypes={customSteps} appearance={DefaultAppearance} />
           <div id="test-select-0">
             <p>Some text on screen!</p>
           </div>
