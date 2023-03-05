@@ -4,8 +4,12 @@ import styled from 'styled-components'
 import { StepChecklistItem } from './StepChecklistItem'
 import { ProgressBar } from '../Checklist/Progress'
 import { DefaultFrigadeFlowProps, mergeAppearanceWithDefault, StepData } from '../../types'
-import { HeroStepContent } from '../../components/step-content/HeroStepContent'
+import {
+  HERO_STEP_CONTENT_TYPE,
+  HeroStepContent,
+} from '../../components/step-content/HeroStepContent'
 import { StepContentProps } from '../../FrigadeForm/types'
+import { VIDEO_CAROUSEL_TYPE, VideoCarousel } from '../../components/step-content/VideoCarousel'
 
 export interface HeroChecklistProps extends DefaultFrigadeFlowProps {
   title?: string
@@ -89,7 +93,10 @@ const HeroChecklist: FC<HeroChecklistProps> = ({
     appearance.theme.colorPrimary = primaryColor
   }
 
-  const DEFAULT_CUSTOM_STEP_TYPES = new Map([['default', HeroStepContent]])
+  const DEFAULT_CUSTOM_STEP_TYPES = new Map([
+    [HERO_STEP_CONTENT_TYPE, HeroStepContent],
+    [VIDEO_CAROUSEL_TYPE, VideoCarousel],
+  ])
 
   const mergedCustomStepTypes = new Map<string, FC<StepContentProps>>([
     ...DEFAULT_CUSTOM_STEP_TYPES,
@@ -108,7 +115,7 @@ const HeroChecklist: FC<HeroChecklistProps> = ({
       !steps[selectedStepValue]?.type ||
       !mergedCustomStepTypes.has(steps[selectedStepValue].type)
     ) {
-      return mergedCustomStepTypes.get('default')({
+      return mergedCustomStepTypes.get(HERO_STEP_CONTENT_TYPE)({
         stepData: steps[selectedStepValue],
         appearance: appearance,
       })
