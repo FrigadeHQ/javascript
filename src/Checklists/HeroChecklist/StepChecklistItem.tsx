@@ -2,8 +2,9 @@ import React, { CSSProperties, FC } from 'react'
 import { CheckBoxRow } from '../../components/CheckBoxRow'
 import styled from 'styled-components'
 import { motion } from 'framer-motion'
-import { StepData } from '../../types'
+import { Appearance, StepData } from '../../types'
 import { ChecklistStepItem, StepItemSelectedIndicator } from './styled'
+import { getClassName } from '../../shared/appearance'
 
 interface StepItemProps {
   data: StepData
@@ -13,6 +14,7 @@ interface StepItemProps {
   primaryColor: string
   style: CSSProperties
   onClick: () => void
+  appearance?: Appearance
 }
 
 export const StepChecklistItem: FC<StepItemProps> = ({
@@ -23,6 +25,7 @@ export const StepChecklistItem: FC<StepItemProps> = ({
   primaryColor,
   style,
   onClick,
+  appearance,
 }) => {
   return (
     <div
@@ -33,9 +36,10 @@ export const StepChecklistItem: FC<StepItemProps> = ({
     >
       {isSelected && (
         <StepItemSelectedIndicator
+          className={getClassName('checklistStepItemSelectedIndicator', appearance)}
           as={motion.div}
           layoutId="checklis-step-selected"
-          style={{ backgroundColor: primaryColor }}
+          style={{ backgroundColor: appearance?.theme?.primaryColor ?? primaryColor }}
         ></StepItemSelectedIndicator>
       )}
       <ChecklistStepItem key={`hero-checklist-step-${index}`} role="listitem">
@@ -44,7 +48,7 @@ export const StepChecklistItem: FC<StepItemProps> = ({
           labelPosition="left"
           label={data.stepName}
           style={style}
-          primaryColor={primaryColor}
+          primaryColor={appearance?.theme?.primaryColor ?? primaryColor}
         />
       </ChecklistStepItem>
     </div>
