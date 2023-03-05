@@ -11,7 +11,7 @@ const Circle: FC<{ color: string, percentage?: number, size: number}> = ({ color
       cy={size * 0.5}
       fill="transparent"
       stroke={strokePct !== circum ? color : ""}
-      strokeWidth={"2px"}
+      strokeWidth={"3px"}
       strokeDasharray={circum}
       strokeDashoffset={percentage ? strokePct : 0}
     ></circle>
@@ -30,7 +30,7 @@ const ProgressRing: FC<ProgressRingProps> = ({ fillColor, size, percentage, chil
   return (
     <svg width={size} height={size} overflow='visible'>
       <g transform={`rotate(-90 ${`${size * 0.5} ${size * 0.5}`})`}>
-        <Circle color={bgColor} size={size}/>
+        <Circle color={bgColor} size={size} />
         <Circle color={fillColor} percentage={percentage} size={size} />
       </g>
       { children }
