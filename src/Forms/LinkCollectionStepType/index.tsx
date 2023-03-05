@@ -70,7 +70,7 @@ const HeaderSubtitle = styled.h2`
   max-width: 70%;
 `
 
-export function LinkCollectionStepType({ stepData, primaryColor }: CustomFormTypeProps) {
+export function LinkCollectionStepType({ stepData, appearance }: CustomFormTypeProps) {
   return (
     <div>
       <HeaderTitle>{stepData.title}</HeaderTitle>
@@ -80,7 +80,10 @@ export function LinkCollectionStepType({ stepData, primaryColor }: CustomFormTyp
           <Link key={link.title}>
             <LinkIcon src={link.imageUri} />
             <LinkTitle
-              style={{ borderColor: primaryColor ?? '#000000', color: primaryColor ?? '#000000' }}
+              style={{
+                borderColor: appearance.theme.colorPrimary,
+                color: appearance.theme.colorPrimary,
+              }}
               onClick={() => {
                 if (link.uri) {
                   if (link.uriTarget && link.uriTarget === '_blank') {

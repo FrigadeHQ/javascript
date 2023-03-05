@@ -55,6 +55,10 @@ export const FrigadeForm: FC<FormProps> = ({
 
   appearance = mergeAppearanceWithDefault(appearance)
 
+  if (primaryColor) {
+    appearance.theme.colorPrimary = primaryColor
+  }
+
   const [canContinue, setCanContinue] = useState(false)
   const [selectedStep, setSelectedStep] = useState(0)
   const [finishedInitialLoad, setFinishedInitialLoad] = useState(false)
