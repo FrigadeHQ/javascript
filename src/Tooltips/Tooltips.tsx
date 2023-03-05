@@ -12,10 +12,12 @@ import {
   TooltipHeader,
   TooltipStepCounter,
   TooltipTitle,
+  TooltipSubtitle,
 } from './styled'
 import { Appearance, StepData } from '../types'
 
 import { useElemRect } from '@reactour/utils'
+import { getClassName } from '../shared/appearance'
 
 export type ToolTipPosition = 'left' | 'right' | 'auto'
 
@@ -191,7 +193,7 @@ const Tooltips: FC<ToolTipProps> = ({
     return (
       <>
         <TooltipFooterLeft>
-          <TooltipStepCounter>
+          <TooltipStepCounter className={getClassName('tooltipStepCounter', appearance)}>
             {selectedStep + 1} of {steps.length}
           </TooltipStepCounter>
         </TooltipFooterLeft>
@@ -226,8 +228,8 @@ const Tooltips: FC<ToolTipProps> = ({
   const DefaultTooltipStepContent = () => {
     return (
       <>
-        <TooltipHeader>
-          <TooltipTitle style={{ fontSize: '18px', fontWeight: '600' }}>
+        <TooltipHeader className={getClassName('tooltipHeader', appearance)}>
+          <TooltipTitle className={getClassName('tooltipTitle', appearance)} appearance={appearance}>
             {steps[selectedStep].title}
           </TooltipTitle>
           {onDismiss && (
@@ -247,9 +249,9 @@ const Tooltips: FC<ToolTipProps> = ({
           )}
         </TooltipHeader>
         <div className="Tooltip-Body">
-          <p style={{ fontSize: '16px', fontWeight: '400' }}>{steps[selectedStep].subtitle}</p>
+          <TooltipSubtitle appearance={appearance}>{steps[selectedStep].subtitle}</TooltipSubtitle>
         </div>
-        <TooltipFooter>
+        <TooltipFooter className={getClassName('tooltipFooter', appearance)}>
           <DefaultFooterContent />
         </TooltipFooter>
       </>
@@ -320,6 +322,8 @@ const Tooltips: FC<ToolTipProps> = ({
           top: `${position?.y}px` ?? 0,
           ...containerStyle,
         }}
+        appearance={appearance}
+        className={getClassName('tooltipContainer', appearance)}
         maxWidth={CARD_WIDTH}
       >
         <StepContent />

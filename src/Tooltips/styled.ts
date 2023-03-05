@@ -1,7 +1,8 @@
 import styled from 'styled-components'
+import { Appearance } from '../types'
 
-export const TooltipContainer = styled.div<{ maxWidth: number }>`
-  background: #ffffff;
+export const TooltipContainer = styled.div<{ maxWidth: number, appearance: Appearance }>`
+  background: ${ (props) => props.appearance.theme.colorBackground };
   box-shadow: 0px 6px 25px rgba(0, 0, 0, 0.06);
   border-radius: 20px;
   max-width: ${(props) => props.maxWidth}px;
@@ -20,10 +21,18 @@ export const TooltipHeader = styled.div`
   margin-right: 12px;
 `
 
-export const TooltipTitle = styled.p`
+export const TooltipTitle = styled.p<{ appearance }>`
   display: flex;
   margin: 0;
   font-size: 18px;
+  font-weight: 600;
+  color: ${(props) => props.appearance?.theme?.colorText};
+`
+
+export const TooltipSubtitle = styled.p<{}>`
+  font-size: 16px;
+  font-weight: 400;
+  color: ${(props) => props.appearance?.theme?.colorText};
 `
 
 export const TooltipFooter = styled.div`
