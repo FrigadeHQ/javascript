@@ -79,7 +79,7 @@ const HeroChecklist: FC<HeroChecklistProps> = ({
   title,
   subtitle,
   steps = [],
-  primaryColor = '#000000',
+  primaryColor,
   style = {},
   selectedStep,
   setSelectedStep,
@@ -136,7 +136,7 @@ const HeroChecklist: FC<HeroChecklistProps> = ({
           <ProgressBar
             total={steps.length}
             count={completeCount}
-            fillColor={primaryColor}
+            fillColor={appearance.theme.colorPrimary}
             style={{ marginTop: '24px' }}
             appearance={appearance}
           />
@@ -150,7 +150,7 @@ const HeroChecklist: FC<HeroChecklistProps> = ({
                 key={idx}
                 listLength={steps.length}
                 isSelected={idx === selectedStepValue}
-                primaryColor={primaryColor}
+                primaryColor={appearance.theme.colorPrimary}
                 style={{ justifyContent: 'space-between' }}
                 onClick={() => {
                   setSelectedStepValue(idx)

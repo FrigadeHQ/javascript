@@ -80,7 +80,7 @@ export const VideoCarousel: FC<StepContentProps> = ({ stepData, appearance }) =>
     )
   }
 
-  function VideoCard({ video }: { video: VideoMetadata }) {
+  function VideoCard({ video, key }: { video: VideoMetadata; key: string }) {
     // Create ref to use with videoplayer
 
     const ref = useRef<any>()
@@ -88,7 +88,7 @@ export const VideoCarousel: FC<StepContentProps> = ({ stepData, appearance }) =>
     const [isPlaying, setIsPlaying] = useState(false)
 
     return (
-      <Video>
+      <Video key={key}>
         {!isPlaying && (
           <PlayIconWrapper
             onClick={() => {
@@ -114,7 +114,7 @@ export const VideoCarousel: FC<StepContentProps> = ({ stepData, appearance }) =>
         <InfoWithCTA stepData={stepData} appearance={appearance} />
         <VideoList>
           {videoProps.videos.map((video: VideoMetadata) => (
-            <VideoCard video={video} />
+            <VideoCard key={video.uri} video={video} />
           ))}
         </VideoList>
       </VideoCarouselContainer>

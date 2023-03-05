@@ -29,7 +29,7 @@ export const FrigadeForm: FC<FormProps> = ({
   flowId,
   title,
   subtitle,
-  primaryColor = '#000000',
+  primaryColor,
   style = {},
   className = '',
   customStepTypes = {},
