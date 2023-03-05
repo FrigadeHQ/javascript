@@ -22,8 +22,8 @@ export const InfoWithCTA: FC<StepContentProps> = ({ stepData, appearance }) => {
 
   return (
     <>
-      <HeroChecklistStepTitle>{stepData.title}</HeroChecklistStepTitle>
-      <HeroChecklistStepSubtitle>{stepData.subtitle}</HeroChecklistStepSubtitle>
+      <HeroChecklistStepTitle appearance={appearance}>{stepData.title}</HeroChecklistStepTitle>
+      <HeroChecklistStepSubtitle appearance={appearance}>{stepData.subtitle}</HeroChecklistStepSubtitle>
       <MultipleButtonContainer>
         <Button
           appearance={appearance}

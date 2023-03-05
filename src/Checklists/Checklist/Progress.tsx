@@ -1,10 +1,12 @@
 import React, { CSSProperties } from 'react'
 import { motion } from 'framer-motion'
 import styled from 'styled-components'
+import { Appearance } from '../../types'
+import { getClassName } from '../../shared/appearance'
 
+// TODO: remove once secondary color is passed from theme
 const PROGRESS_BAR_COLOR_STYLES = {
   backgroundColor: '#E6E6E6',
-  fillColor: '#000000',
 }
 
 const ChecklistProgressContainer = styled.div`
@@ -18,11 +20,12 @@ const ChecklistProgressProgressBar = styled.div`
   position: relative;
 `
 
-const StepText = styled.p<{ padding }>`
+const StepText = styled.p<{ padding, appearance }>`
   font-weight: 500;
   font-size: 15px;
   line-height: 18px;
   padding-right: ${(props) => props.padding};
+  color: ${(props) => props.appearance?.theme?.colorSecondary};
   margin: 0;
 `
 
@@ -47,11 +50,12 @@ const progressFgStyle: CSSProperties = {
 export const ProgressBar = ({
   count,
   total,
-  fillColor = PROGRESS_BAR_COLOR_STYLES.fillColor,
+  fillColor,
   bgColor = PROGRESS_BAR_COLOR_STYLES.backgroundColor,
   display = 'count',
   style = {},
   textStyle = {},
+  appearance,
 }: {
   count: number
   total: number
@@ -60,6 +64,7 @@ export const ProgressBar = ({
   display?: 'count' | 'percent' | 'compact'
   style?: CSSProperties
   textStyle?: CSSProperties
+  appearance?: Appearance
 }) => {
   if (total === 0) return <></>
 
@@ -80,11 +85,13 @@ export const ProgressBar = ({
   return (
     <ChecklistProgressContainer style={style}>
       <StepText
+        className={getClassName('progressBarStepText', appearance)}
         style={{
           ...textStyle,
           fontSize: display === 'compact' ? 12 : 15,
           fontWeight: display === 'compact' ? 400 : 500,
         }}
+        appearance={appearance}
         padding={padding}
       >
         {stepText}
@@ -95,11 +102,12 @@ export const ProgressBar = ({
             ...progressFgStyle,
             width: fgWidth,
             height: barHeight,
-            backgroundColor: fillColor,
+            backgroundColor: appearance?.theme?.colorPrimary ?? fillColor,
             zIndex: display == 'compact' ? 0 : 5,
           }}
+          className={getClassName('progressBarFill', appearance)}
         />
-        <div style={{ ...progressBgStyle, height: barHeight, backgroundColor: bgColor }} />
+        <div className={getClassName('progressBarBackground', appearance)} style={{ ...progressBgStyle, height: barHeight, backgroundColor: appearance?.theme?.colorSecondary ?? bgColor }} />
       </ChecklistProgressProgressBar>
     </ChecklistProgressContainer>
   )

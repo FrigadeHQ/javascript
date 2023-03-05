@@ -87,6 +87,7 @@ const ChecklistWithGuide: FC<ChecklistWithGuideProps> = ({
               onClick={handleSecondaryCTAClick}
               style={{ borderColor: '#D9D9D9', width: 'auto', backgroundColor: '#FFFFFF', borderRadius: '30px' }}
               textStyle={{ color: '#434343' }}
+              appearance={appearance}
             />
           )}
           <Button
@@ -100,6 +101,7 @@ const ChecklistWithGuide: FC<ChecklistWithGuideProps> = ({
               width: 'auto',
               marginLeft: '12px',
             }}
+            appearance={appearance}
           />
         </MultipleButtonContainer>
       </StepContainer>

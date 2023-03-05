@@ -30,25 +30,26 @@ export interface HeroChecklistProps extends DefaultFrigadeFlowProps {
   customStepTypes?: Map<string, (stepData: StepData) => React.ReactNode>
 }
 
-const HeroChecklistContainer = styled.div`
+const HeroChecklistContainer = styled.div<{ appearance }>`
   display: flex;
   flex-direction: row;
   min-width: 1000px;
   margin: 40px 40px 40px 40px;
-  background: #ffffff;
+  background: ${(props) => props.appearance?.theme.colorBackground};
   box-shadow: 0px 6px 25px rgba(0, 0, 0, 0.06);
   border-radius: 8px;
 `
 
-const HeroChecklistTitle = styled.p`
+const HeroChecklistTitle = styled.p<{apperance}>`
   font-size: 24px;
   font-weight: 600;
+  color: ${(props) => props.appearance?.theme?.colorText};
 `
 
 const HeroChecklistSubtitle = styled.p`
   font-size: 15px;
   line-height: 20px;
-  color: #4d4d4d;
+  color: ${(props) => props.appearance?.theme?.colorTextSecondary ?? '#4d4d4d'};
   margin: 10px 0px 0px 0px;
 `
 
@@ -127,16 +128,17 @@ const HeroChecklist: FC<HeroChecklistProps> = ({
   }
 
   return (
-    <HeroChecklistContainer style={style} className={className}>
+    <HeroChecklistContainer style={style} className={className} appearance={appearance}>
       <ChecklistHeader style={{ flex: 1 }}>
         <ChecklistHeader style={{ padding: '30px 0px 30px 30px', borderBottom: 'none' }}>
-          <HeroChecklistTitle>{title}</HeroChecklistTitle>
-          <HeroChecklistSubtitle>{subtitle}</HeroChecklistSubtitle>
+          <HeroChecklistTitle appearance={appearance}>{title}</HeroChecklistTitle>
+          <HeroChecklistSubtitle appearance={appearance}>{subtitle}</HeroChecklistSubtitle>
           <ProgressBar
             total={steps.length}
             count={completeCount}
             fillColor={primaryColor}
             style={{ marginTop: '24px' }}
+            appearance={appearance}
           />
         </ChecklistHeader>
         <ChecklistStepsContainer>
@@ -160,7 +162,7 @@ const HeroChecklist: FC<HeroChecklistProps> = ({
       </ChecklistHeader>
       <Divider />
       <HeroChecklistStepContentContainer>
-        <StepContent />
+        <StepContent appearance={appearance} />
       </HeroChecklistStepContentContainer>
     </HeroChecklistContainer>
   )

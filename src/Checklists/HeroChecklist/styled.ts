@@ -6,19 +6,21 @@ export const HeroChecklistStepContent = styled.div`
   line-height: 22px;
 `
 
-export const HeroChecklistStepTitle = styled.p`
+export const HeroChecklistStepTitle = styled.p<{appearance}>`
   font-weight: 700;
   font-size: 18px;
   line-height: 22px;
   margin: 20px 0px 0px 0px;
+  color: ${(props) => props.appearance?.theme?.colorText};
 `
 
-export const HeroChecklistStepSubtitle = styled.p`
+export const HeroChecklistStepSubtitle = styled.p<{appearance}>`
   font-weight: 400;
   font-size: 15px;
   line-height: 28px;
   max-width: 540px;
   margin: 8px 0px 0px 0px;
+  color: ${(props) => props.appearance?.theme?.colorTextSecondary};
 `
 
 export const StepItemSelectedIndicator = styled.div`
