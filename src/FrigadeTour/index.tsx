@@ -1,10 +1,12 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, useEffect, useState, useContext } from 'react'
 import { useFlows } from '../api/flows'
 import { ToolTipProps, Tooltips } from '../Tooltips'
 import { mergeAppearanceWithDefault, StepData } from '../types'
 import { primaryCTAClickSideEffects, secondaryCTAClickSideEffects } from '../shared/cta-util'
 import { COMPLETED_FLOW, COMPLETED_STEP } from '../api/common'
 import { Portal } from 'react-portal'
+import { useFlowOpens } from '../api/flow-opens'
+import { FrigadeContext } from '../FrigadeProvider'
 
 export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedStep?: number }> = ({
   flowId,
@@ -26,6 +28,9 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
     getFlowStatus,
     customVariables: existingCustomVariables,
   } = useFlows()
+
+  const { openFlowStates } = useContext(FrigadeContext)
+
   const [finishedInitialLoad, setFinishedInitialLoad] = useState(false)
   const [selectedStep, setSelectedStep] = useState(initialSelectedStep || 0)
   appearance = mergeAppearanceWithDefault(appearance)
@@ -64,6 +69,14 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
   }
 
   const steps = getFlowSteps(flowId)
+
+  // Hide tour flow if another flow is open
+  if(Object.keys(openFlowStates).length > 0) {
+    const otherFlowId = Object.keys(openFlowStates).find(_flowID => openFlowStates[_flowID] === true)
+    if (otherFlowId !== undefined && otherFlowId !== flowId) {
+      return <></>
+    }
+  }
 
   if (!finishedInitialLoad && initialSelectedStep === undefined) {
     const completedSteps = Math.min(getNumberOfStepsCompleted(flowId), steps.length - 1)
