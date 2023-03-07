@@ -17,7 +17,6 @@ import { getClassName } from '../shared/appearance'
 export interface FloatingWidgetProps extends DefaultFrigadeFlowProps {
   primaryColor?: string
   backgroundColor?: string
-  onStepCompletion?: (step: StepData, index: number) => boolean
   visible?: boolean
 }
 

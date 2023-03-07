@@ -15,22 +15,24 @@ interface ButtonProps {
 }
 
 const ButtonContainer = styled.button`
-  background-color: ${(props) =>
-    props.secondary ? props.appearance?.theme?.colorBackground : props?.appearance?.theme?.colorPrimary};
-  border-radius: ${(props) => props.appearance?.theme?.borderRadius}px;
-  padding: 8px 20px 8px 20px;
   display: flex;
   justify-content: center;
   align-content: center;
-  border: 1px solid ${(props) => props.appearance?.theme?.colorPrimary};
-  color: ${(props) =>
-    props.secondary
-      ? props.appearance?.theme?.colorPrimary
-      : props.appearance?.theme?.colorTextOnPrimaryBackground};
   :not(${(props) => getCustomClasOverrides(props)}) {
     // Anything inside this block will be ignored if the user provides a custom class
     width: ${(props) => (props.type === 'full-width' ? '100%' : 'auto')};
     margin: 16px 0px 16px 0px;
+    border: 1px solid ${(props) => props.appearance?.theme?.colorPrimary};
+    color: ${(props) =>
+      props.secondary
+        ? props.appearance?.theme?.colorPrimary
+        : props.appearance?.theme?.colorTextOnPrimaryBackground};
+    background-color: ${(props) =>
+      props.secondary
+        ? props.appearance?.theme?.colorBackground
+        : props?.appearance?.theme?.colorPrimary};
+    border-radius: ${(props) => props.appearance?.theme?.borderRadius}px;
+    padding: 8px 20px 8px 20px;
   }
 
   cursor: pointer;

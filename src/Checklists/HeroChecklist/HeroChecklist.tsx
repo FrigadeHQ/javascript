@@ -20,6 +20,9 @@ export interface HeroChecklistProps extends DefaultFrigadeFlowProps {
   primaryColor?: string
   steps?: StepData[]
 
+  /**
+   * @deprecated use onStepCompletion instead
+   */
   onCompleteStep?: (index: number, stepData: StepData) => void
 
   // Optional props
@@ -40,7 +43,7 @@ const HeroChecklistContainer = styled.div<{ appearance }>`
   border-radius: 8px;
 `
 
-const HeroChecklistTitle = styled.p<{apperance}>`
+const HeroChecklistTitle = styled.p<{ apperance }>`
   font-size: 24px;
   font-weight: 600;
   color: ${(props) => props.appearance?.theme?.colorText};

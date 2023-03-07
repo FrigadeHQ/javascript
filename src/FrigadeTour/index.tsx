@@ -14,6 +14,8 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
   customVariables,
   appearance,
   primaryColor,
+  onStepCompletion,
+  onButtonClick,
   ...props
 }) => {
   const {
@@ -95,8 +97,17 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
     if (selectedStep + 1 >= steps.length) {
       return
     }
-
     setSelectedStep(selectedStep + 1)
+  }
+
+  function handleStepCompletionHandlers(step: StepData, cta: 'primary' | 'secondary', idx: number) {
+    const maybeNextStep = selectedStep + 1 < steps.length ? steps[selectedStep + 1] : null
+    if (onButtonClick) {
+      onButtonClick(step, selectedStep, cta, maybeNextStep)
+    }
+    if (onStepCompletion) {
+      onStepCompletion(step, idx, maybeNextStep)
+    }
   }
 
   function getSteps() {
@@ -108,6 +119,7 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
           if (step.skippable === true) {
             markStepCompleted(flowId, step.id, { skipped: true })
           }
+          handleStepCompletionHandlers(step, 'secondary', selectedStep)
         },
         ...step,
         complete: getStepStatus(flowId, step.id) === COMPLETED_STEP,
@@ -119,6 +131,7 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
             markStepCompleted(flowId, step.id)
             goToNextStepIfPossible()
           }
+          handleStepCompletionHandlers(step, 'primary', selectedStep)
           primaryCTAClickSideEffects(step)
         },
       }

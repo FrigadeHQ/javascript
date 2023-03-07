@@ -36,6 +36,27 @@ export interface DefaultFrigadeFlowProps {
   appearance?: Appearance
   customVariables?: { [key: string]: string | number | boolean }
   hideOnFlowCompletion?: boolean
+  /**
+   * Handler for when a step is completed.
+   * Return true if your app performs and action (e.g. open other modal or page transition).
+   * This will dismiss any Frigade modals.
+   * @param step
+   * @param index
+   */
+  onStepCompletion?: (step: StepData, index: number, nextStep?: StepData) => boolean
+  /**
+   * Handler for when a primary or secondary CTA is clicked (regardless if step is completed or not).
+   * Return true if your app performs and action (e.g. open other modal or page transition).
+   * @param step
+   * @param index
+   * @param cta
+   */
+  onButtonClick?: (
+    step: StepData,
+    index: number,
+    cta: 'primary' | 'secondary',
+    nextStep?: StepData
+  ) => boolean
 }
 
 export interface Appearance {
@@ -76,7 +97,7 @@ export const DefaultAppearance: Appearance = {
 }
 
 export function mergeAppearanceWithDefault(appearance?: Appearance): Appearance {
-  const _appearance = JSON.parse(JSON.stringify(DefaultAppearance));
+  const _appearance = JSON.parse(JSON.stringify(DefaultAppearance))
 
   if (!appearance) {
     return _appearance

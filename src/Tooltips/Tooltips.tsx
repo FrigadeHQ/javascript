@@ -14,7 +14,7 @@ import {
   TooltipSubtitle,
   TooltipTitle,
 } from './styled'
-import { Appearance, StepData } from '../types'
+import { Appearance, DefaultFrigadeFlowProps, StepData } from '../types'
 
 import { useElemRect } from '@reactour/utils'
 import { getClassName } from '../shared/appearance'
@@ -31,7 +31,7 @@ interface TooltipData extends StepData {
   buttonStyle?: CSSProperties
 }
 
-export interface ToolTipProps {
+export interface ToolTipProps extends DefaultFrigadeFlowProps {
   steps?: TooltipData[]
   onDismiss?: () => void
   onComplete?: () => void
@@ -52,15 +52,6 @@ export interface ToolTipProps {
   selectedStep?: number
   setSelectedStep?: (index: number) => void
   customStepTypes?: Map<string, (stepData: StepData) => React.ReactNode>
-
-  /**
-   * Handler for when a primary or secondary CTA is clicked. Return true if your app performs and action (e.g. open other modal or page transition).
-   * This will dismiss any Frigade modals.
-   * @param step
-   * @param index
-   */
-  onStepCompletion?: (step: StepData, index: number) => boolean
-
   appearance?: Appearance
 }
 
