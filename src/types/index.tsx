@@ -19,6 +19,7 @@ export interface StepData {
   imageUri?: string | null
   autoMarkCompleted?: boolean
   complete: boolean
+  blocked?: boolean
   StepContent?: React.ReactNode
   handlePrimaryButtonClick?: () => void
   handleSecondaryButtonClick?: () => void
@@ -26,6 +27,7 @@ export interface StepData {
   imageStyle?: CSSProperties
   props?: any
   completionCriteria?: string
+  startCriteria?: string
   progress?: number
 }
 
@@ -38,7 +40,7 @@ export interface DefaultFrigadeFlowProps {
   hideOnFlowCompletion?: boolean
   /**
    * Handler for when a step is completed.
-   * Return true if your app performs and action (e.g. open other modal or page transition).
+   * Return true if your app performs an action (e.g. open other modal or page transition).
    * This will dismiss any Frigade modals.
    * @param step
    * @param index
@@ -46,7 +48,7 @@ export interface DefaultFrigadeFlowProps {
   onStepCompletion?: (step: StepData, index: number, nextStep?: StepData) => boolean
   /**
    * Handler for when a primary or secondary CTA is clicked (regardless if step is completed or not).
-   * Return true if your app performs and action (e.g. open other modal or page transition).
+   * Return true if your app performs an action (e.g. open other modal or page transition).
    * @param step
    * @param index
    * @param cta
