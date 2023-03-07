@@ -8,13 +8,14 @@ export const GuideContainer = styled.div`
   padding: 20px;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 `
 
 export const GuideItems = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  overflow-y: scroll;
+  overflow: hidden;
 `
 
 export const GuideTitle = styled.div`

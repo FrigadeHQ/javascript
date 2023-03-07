@@ -119,16 +119,20 @@ export const StepListItem = styled.div<{ selected: boolean }>`
   :not(${(props) => getCustomClasOverrides(props)}) {
     // Anything inside this block will be ignored if the user provides a custom class
     background-color: ${(props) => (props.selected ? '#FAFAFA' : '#FFFFFF')};
+    :hover {
+      background-color: #fafafa;
+    }
   }
   padding: 20px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   position: relative;
+  cursor: pointer;
 `
 
 export const StepListStepName = styled.p<{ selected: boolean }>`
-:not(${(props) => getCustomClasOverrides(props)}) {
+  :not(${(props) => getCustomClasOverrides(props)}) {
     // Anything inside this block will be ignored if the user provides a custom class
     color: ${(props) => (props.selected ? '#434343' : '#BFBFBF')};
   }

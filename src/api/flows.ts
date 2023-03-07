@@ -90,6 +90,26 @@ export function useFlows() {
     return JSON.parse(flowData)?.data ?? []
   }
 
+  /**
+   * Get high-level props for a flow such as title and subtitle
+   * @param slug
+   */
+  function getFlowMetadata(slug: string): any {
+    if (!getFlow(slug)) {
+      return []
+    }
+    let flowData = getFlow(slug).data
+    if (!flowData) {
+      return []
+    }
+    // Replace all variables of format ${variableName} with the value of the variable from customVariables
+    flowData = flowData.replace(/\${(.*?)}/g, (match, variableName) => {
+      return customVariables[variableName] ? String(customVariables[variableName]) : match
+    })
+
+    return JSON.parse(flowData) ?? {}
+  }
+
   function setCustomVariable(key: string, value: string | number | boolean) {
     setCustomVariables((prev) => ({ ...prev, [key]: value }))
   }
@@ -130,15 +150,15 @@ export function useFlows() {
   }
 
   function getStepOptionalProgress(step: StepData) {
-    if(!step.completionCriteria) return undefined;
-    
+    if (!step.completionCriteria) return undefined
+
     const stepSubFlowSlug = getSubFlowFromCompletionCriteria(step.completionCriteria)
-    if (stepSubFlowSlug === null) return undefined;
+    if (stepSubFlowSlug === null) return undefined
 
     const completed = getNumberOfStepsCompleted(stepSubFlowSlug)
     const total = getNumberOfSteps(stepSubFlowSlug)
 
-    return total === 0 ? undefined : (completed / total)
+    return total === 0 ? undefined : completed / total
   }
 
   function getFlowStatus(flowSlug: string) {
@@ -212,5 +232,6 @@ export function useFlows() {
     setCustomVariable,
     customVariables,
     getStepOptionalProgress,
+    getFlowMetadata,
   }
 }

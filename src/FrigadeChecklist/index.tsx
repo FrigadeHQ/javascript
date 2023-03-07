@@ -94,6 +94,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
     setCustomVariable,
     customVariables: existingCustomVariables,
     getStepOptionalProgress,
+    getFlowMetadata,
   } = useFlows()
   const { getOpenFlowState, setOpenFlowState } = useFlowOpens()
   const [selectedStep, setSelectedStep] = useState(initialSelectedStep || 0)
@@ -138,6 +139,13 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
   const steps = getFlowSteps(flowId)
   if (!steps) {
     return null
+  }
+  const metaData = getFlowMetadata(flowId)
+  if (metaData?.title) {
+    title = metaData.title
+  }
+  if (metaData?.subtitle) {
+    subtitle = metaData.subtitle
   }
 
   if (!finishedInitialLoad && initialSelectedStep === undefined) {
@@ -242,7 +250,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
     return (
       <ChecklistWithGuide
         visible={showModal}
-        stepsTitle={'your quick start guide'}
+        stepsTitle={'Your quick start guide'}
         onClose={() => {
           setOpenFlowState(flowId, false)
           if (onDismiss) {
@@ -255,6 +263,8 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
         guideData={guideFlowSteps}
         guideTitle={guideProps.guideTitle ?? 'Guide'}
         appearance={appearance}
+        title={title}
+        subtitle={subtitle}
         {...commonProps}
       />
     )
