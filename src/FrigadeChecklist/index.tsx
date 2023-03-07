@@ -189,6 +189,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
 
   function getSteps() {
     return steps.map((step: StepData, idx: number) => {
+      const autoCalculatedProgress = getStepOptionalProgress(step)
       return {
         handleSecondaryButtonClick: () => {
           // Default to skip behavior for secondary click but allow for override
@@ -200,7 +201,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
           handleStepCompletionHandlers(step, 'secondary', idx)
         },
         ...step,
-        complete: getStepStatus(flowId, step.id) === COMPLETED_STEP,
+        complete: getStepStatus(flowId, step.id) === COMPLETED_STEP || autoCalculatedProgress >= 1,
         handlePrimaryButtonClick: () => {
           if (
             !step.completionCriteria &&
@@ -215,7 +216,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
           }
           primaryCTAClickSideEffects(step)
         },
-        progress: getStepOptionalProgress(step),
+        progress: autoCalculatedProgress,
       }
     })
   }
@@ -259,7 +260,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
     return (
       <ChecklistWithGuide
         visible={showModal}
-        stepsTitle={'Your quick start guide'}
+        stepsTitle={metaData.stepsTitle ? metaData.stepsTitle : 'Your quick start guide'}
         onClose={() => {
           setOpenFlowState(flowId, false)
           if (onDismiss) {

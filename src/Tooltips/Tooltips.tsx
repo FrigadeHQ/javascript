@@ -101,6 +101,17 @@ const HighlightInner = styled.div<{ primaryColor: string }>`
   opacity: 1;
 `
 
+const HiglightContainer = styled.div<{ primaryColor: string }>`
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+`
+
 const Tooltips: FC<ToolTipProps> = ({
   steps = [],
   onDismiss,
@@ -293,17 +304,10 @@ const Tooltips: FC<ToolTipProps> = ({
   return (
     <>
       {showHighlight && (
-        <span
+        <HiglightContainer
           style={{
-            width: 32,
-            height: 32,
             top: position?.y - 24 ?? 0,
             left: (tooltipPositionValue == 'left' ? boundingRect.x : position?.x - 24) ?? 0,
-            position: 'absolute',
-            display: 'flex',
-            alignContent: 'center',
-            justifyContent: 'center',
-            alignItems: 'center',
           }}
         >
           <HighlightInner
@@ -318,7 +322,7 @@ const Tooltips: FC<ToolTipProps> = ({
             }}
             primaryColor={appearance.theme.colorPrimary}
           ></HighlightOuter>
-        </span>
+        </HiglightContainer>
       )}
       <TooltipContainer
         ref={selfRef}
