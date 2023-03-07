@@ -53,6 +53,7 @@ export interface BaseTheme {
   colorPrimary?: string
   colorSecondary?: string
   colorBackground?: string
+  colorBackgroundSecondary?: string
   colorText?: string
   colorTextOnPrimaryBackground?: string
   colorTextSecondary?: string
@@ -67,6 +68,7 @@ export const DefaultAppearance: Appearance = {
     colorPrimary: '#000000',
     colorText: '#000000',
     colorBackground: '#ffffff',
+    colorBackgroundSecondary: '#ffffff66',
     colorTextOnPrimaryBackground: '#ffffff',
     colorTextSecondary: '#000000',
     borderRadius: 8,

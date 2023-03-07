@@ -1,9 +1,12 @@
 import React, { CSSProperties, FC } from 'react'
 import { Chevron } from '../../components/Icons/Chevron'
 import { ProgressBar } from '../Checklist/Progress'
-import { BadgeContainer, BadgeRow, BadgeTitle } from './styled'
+import { BadgeContainer, BadgeRow, BadgeTitle, ProgressRingContainer } from './styled'
 import { motion } from 'framer-motion'
+import { Appearance } from '../../types'
+import ProgressRing from '../../components/Progress/ProgressRing/ProgressRing'
 
+export type ProgressBadgeType = 'condensed' | 'default'
 interface ProgressBadgeProps {
   title: string
   count: number
@@ -14,6 +17,8 @@ interface ProgressBadgeProps {
   primaryColor?: string
   secondaryColor?: string
   className?: string
+  type?: ProgressBadgeType
+  appearance?: Appearance
 }
 
 export const ProgressBadge: FC<ProgressBadgeProps> = ({
@@ -23,9 +28,9 @@ export const ProgressBadge: FC<ProgressBadgeProps> = ({
   onClick,
   style = {},
   textStyle = {},
-  primaryColor = '#000000',
-  secondaryColor = '#E6E6E6',
   className,
+  appearance,
+  type,
 }) => {
   return (
     <BadgeContainer
@@ -34,19 +39,34 @@ export const ProgressBadge: FC<ProgressBadgeProps> = ({
       whileTap={{ scale: 0.98 }}
       className={className}
       onClick={() => onClick !== undefined && onClick()}
-      style={style}
+      style={{
+        ...(type == 'condensed' ? { display: 'flex', justifyContent: 'space-between' } : {}),
+        ...style,
+      }}
     >
-      <BadgeRow>
-        <BadgeTitle style={textStyle}>{title}</BadgeTitle>
-        {onClick !== undefined && <Chevron color={primaryColor} />}
+      {type == 'condensed' && total && total !== 0 && (
+        <ProgressRingContainer>
+          <ProgressRing
+            size={19}
+            percentage={count / total}
+            fillColor={appearance.theme.colorPrimary}
+            bgColor={appearance.theme.colorBackgroundSecondary}
+          />
+        </ProgressRingContainer>
+      )}
+      <BadgeRow type={type}>
+        <BadgeTitle type={type} style={textStyle}>
+          {title}
+        </BadgeTitle>
+        {onClick !== undefined && <Chevron color={appearance.theme.colorPrimary} />}
       </BadgeRow>
-      {total && total !== 0 && (
+      {type == 'default' && total && total !== 0 && (
         <ProgressBar
           display="compact"
           count={count}
           total={total}
-          fillColor={primaryColor}
-          bgColor={secondaryColor}
+          fillColor={appearance.theme.colorPrimary}
+          bgColor={appearance.theme.colorBackgroundSecondary}
           textStyle={textStyle}
           style={{ width: '100%' }}
         />

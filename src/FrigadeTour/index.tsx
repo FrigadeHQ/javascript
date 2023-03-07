@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState, useContext } from 'react'
+import React, { FC, useContext, useEffect, useState } from 'react'
 import { useFlows } from '../api/flows'
 import { ToolTipProps, Tooltips } from '../Tooltips'
 import { mergeAppearanceWithDefault, StepData } from '../types'
@@ -28,6 +28,7 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
     getFlowStatus,
     customVariables: existingCustomVariables,
   } = useFlows()
+  const { hasOpenModals } = useFlowOpens()
 
   const { openFlowStates } = useContext(FrigadeContext)
 
@@ -68,11 +69,17 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
     return null
   }
 
+  // Check if any other flow modals are open. If so hide this one
+  if (hasOpenModals()) {
+    return null
+  }
   const steps = getFlowSteps(flowId)
 
   // Hide tour flow if another flow is open
-  if(Object.keys(openFlowStates).length > 0) {
-    const otherFlowId = Object.keys(openFlowStates).find(_flowID => openFlowStates[_flowID] === true)
+  if (Object.keys(openFlowStates).length > 0) {
+    const otherFlowId = Object.keys(openFlowStates).find(
+      (_flowID) => openFlowStates[_flowID] === true
+    )
     if (otherFlowId !== undefined && otherFlowId !== flowId) {
       return <></>
     }

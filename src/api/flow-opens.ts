@@ -15,8 +15,13 @@ export function useFlowOpens() {
     })
   }
 
+  function hasOpenModals() {
+    return Object.values(openFlowStates).some((isOpen) => isOpen)
+  }
+
   return {
     getOpenFlowState,
     setOpenFlowState,
+    hasOpenModals,
   }
 }

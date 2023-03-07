@@ -14,12 +14,20 @@ export const BadgeRow = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2px;
+  flex-grow: 2;
 `
 
-export const BadgeTitle = styled.p<{ color }>`
+export const BadgeTitle = styled.p<{ color; type }>`
   text-overflow: ellipsis;
   font-weight: 600;
   font-size: 12px;
   line-height: 15px;
+  text-align: ${(props) => (props.type === 'condensed' ? 'left' : 'right')};
   color: ${(props) => props.color};
+`
+export const ProgressRingContainer = styled.div`
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+  display: flex;
 `

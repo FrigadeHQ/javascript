@@ -1,6 +1,7 @@
 import React from 'react'
 import { ProgressBadge } from '..'
-import { render, screen, fireEvent } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
+import { DefaultAppearance } from '../../../types'
 
 describe('ChecklistProgressBadge', () => {
   const checklistProgressProps = {
@@ -8,6 +9,7 @@ describe('ChecklistProgressBadge', () => {
     onClick: jest.fn(),
     count: 2,
     total: 10,
+    appearance: DefaultAppearance,
   }
 
   afterEach(() => {

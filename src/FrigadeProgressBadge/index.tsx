@@ -1,6 +1,6 @@
 import React, { CSSProperties, useEffect } from 'react'
 import { useFlows } from '../api/flows'
-import { ProgressBadge } from '../Checklists/ProgressBadge'
+import { ProgressBadge, ProgressBadgeType } from '../Checklists/ProgressBadge'
 import { useFlowOpens } from '../api/flow-opens'
 import { DefaultFrigadeFlowProps, mergeAppearanceWithDefault } from '../types'
 
@@ -11,6 +11,7 @@ interface FrigadeProgressBadgeProps extends DefaultFrigadeFlowProps {
   textStyle?: CSSProperties
   onClick?: () => void
   hideOnFlowCompletion?: boolean
+  type?: ProgressBadgeType
 }
 
 export const FrigadeProgressBadge: React.FC<FrigadeProgressBadgeProps> = ({
@@ -34,6 +35,7 @@ export const FrigadeProgressBadge: React.FC<FrigadeProgressBadgeProps> = ({
   customVariables,
   hideOnFlowCompletion,
   appearance,
+  type = 'default',
 }) => {
   const {
     getFlow,
@@ -97,8 +99,6 @@ export const FrigadeProgressBadge: React.FC<FrigadeProgressBadgeProps> = ({
       total={steps.length}
       title={title}
       style={style}
-      primaryColor={appearance.theme.colorPrimary}
-      secondaryColor={appearance.theme.colorSecondary}
       textStyle={textStyle}
       onClick={() => {
         setOpenFlowState(flowId, true)
@@ -106,7 +106,9 @@ export const FrigadeProgressBadge: React.FC<FrigadeProgressBadgeProps> = ({
           onClick()
         }
       }}
+      type={type}
       className={className}
+      appearance={appearance}
     />
   )
 }
