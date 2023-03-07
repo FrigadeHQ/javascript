@@ -30,7 +30,7 @@ export const ProgressBadge: FC<ProgressBadgeProps> = ({
   textStyle = {},
   className,
   appearance,
-  type,
+  type = 'default',
 }) => {
   return (
     <BadgeContainer
