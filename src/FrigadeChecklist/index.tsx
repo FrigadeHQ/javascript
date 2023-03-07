@@ -45,13 +45,21 @@ export interface FrigadeChecklistProps extends HeroChecklistProps {
 
   customVariables?: { [key: string]: string | number | boolean }
   /**
-   * Handler for when a primary or secondary CTA is clicked. Return true if your app performs and action (e.g. open other modal or page transition).
+   * Handler for when a step is completed.
+   * Return true if your app performs and action (e.g. open other modal or page transition).
    * This will dismiss any Frigade modals.
    * @param step
    * @param index
    */
   onStepCompletion?: (step: StepData, index: number) => boolean
 
+  /**
+   * Handler for when a primary or secondary CTA is clicked (regardless if step is completed or not).
+   * Return true if your app performs and action (e.g. open other modal or page transition).
+   * @param step
+   * @param index
+   * @param cta
+   */
   onButtonClick?: (step: StepData, index: number, cta: 'primary' | 'secondary') => boolean
 
   appearance?: Appearance
@@ -100,6 +108,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
   const [selectedStep, setSelectedStep] = useState(initialSelectedStep || 0)
   const [finishedInitialLoad, setFinishedInitialLoad] = useState(false)
   const showModal = visible === undefined ? getOpenFlowState(flowId) : visible
+  const isModal = type === 'modal' || type === 'withGuide'
   appearance = mergeAppearanceWithDefault(appearance)
 
   // TODO: Remove once primary and secondary colors are deprecated + removed
@@ -157,7 +166,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
   function goToNextStepIfPossible() {
     if (selectedStep + 1 >= steps.length) {
       // If modal, close it
-      if (type === 'modal') {
+      if (isModal) {
         setOpenFlowState(flowId, false)
       }
       return
@@ -169,7 +178,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
   function handleStepCompletionHandlers(step: StepData, cta: 'primary' | 'secondary', idx: number) {
     if (onButtonClick) {
       const completion = onButtonClick(step, selectedStep, cta)
-      if (completion === true && type === 'modal') {
+      if (completion === true && isModal) {
         setOpenFlowState(flowId, false)
       }
     }
