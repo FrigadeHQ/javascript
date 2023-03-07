@@ -210,7 +210,6 @@ const ChecklistWithGuide: FC<ChecklistWithGuideProps> = ({
                             value={stepData.complete}
                             type='round'
                             primaryColor={primaryColor}
-                            secondaryColor={secondaryColor}
                             progress={stepData.progress}
                           />
                           <CenterVertical>

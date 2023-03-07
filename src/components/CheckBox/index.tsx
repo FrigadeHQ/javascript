@@ -67,7 +67,6 @@ export interface CheckBoxProps {
   value: boolean
   type: CheckBoxType
   primaryColor?: string
-  secondaryColor?: string
   progress?: number // progress percentage our of 1. e.g. 0.5
 }
 
@@ -76,7 +75,6 @@ export const CheckBox: FC<CheckBoxProps> = (
     value,
     type = 'square',
     primaryColor = '#000000',
-    secondaryColor = 'rgb(0,0,0, 0.3)',
     progress
   }
 ) => {
