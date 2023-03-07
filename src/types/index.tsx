@@ -31,9 +31,6 @@ export interface StepData {
 
 export interface DefaultFrigadeFlowProps {
   flowId: string
-  /**
-   * @deprecated use appearance prop instead
-   */
   style?: CSSProperties
   className?: string
   appearance?: Appearance

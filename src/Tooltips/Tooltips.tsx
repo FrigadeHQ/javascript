@@ -11,8 +11,8 @@ import {
   TooltipFooterRight,
   TooltipHeader,
   TooltipStepCounter,
-  TooltipTitle,
   TooltipSubtitle,
+  TooltipTitle,
 } from './styled'
 import { Appearance, StepData } from '../types'
 
@@ -229,7 +229,10 @@ const Tooltips: FC<ToolTipProps> = ({
     return (
       <>
         <TooltipHeader className={getClassName('tooltipHeader', appearance)}>
-          <TooltipTitle className={getClassName('tooltipTitle', appearance)} appearance={appearance}>
+          <TooltipTitle
+            className={getClassName('tooltipTitle', appearance)}
+            appearance={appearance}
+          >
             {steps[selectedStep].title}
           </TooltipTitle>
           {onDismiss && (
@@ -249,7 +252,12 @@ const Tooltips: FC<ToolTipProps> = ({
           )}
         </TooltipHeader>
         <div className="Tooltip-Body">
-          <TooltipSubtitle appearance={appearance}>{steps[selectedStep].subtitle}</TooltipSubtitle>
+          <TooltipSubtitle
+            className={getClassName('tooltipBody', appearance)}
+            appearance={appearance}
+          >
+            {steps[selectedStep].subtitle}
+          </TooltipSubtitle>
         </div>
         <TooltipFooter className={getClassName('tooltipFooter', appearance)}>
           <DefaultFooterContent />
