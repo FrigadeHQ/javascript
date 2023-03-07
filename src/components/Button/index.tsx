@@ -79,7 +79,7 @@ export const Button: FC<ButtonProps> = ({
       onClick={onClick}
       style={style}
       type={type}
-      className={getClassName('button', appearance)}
+      className={getClassName(secondary ? 'buttonSecondary' : 'button', appearance)}
     >
       <ButtonText style={textStyle}>{title}</ButtonText>
     </ButtonContainer>
