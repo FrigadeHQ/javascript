@@ -5,7 +5,7 @@ import { FormContainer, FormCTAContainer } from './styled'
 
 import { DefaultFrigadeFlowProps, mergeAppearanceWithDefault, StepData } from '../types'
 import { useFlows } from '../api/flows'
-import { COMPLETED_STEP } from '../api/common'
+import { COMPLETED_FLOW, COMPLETED_STEP } from '../api/common'
 import { LinkCollectionStepType } from '../Forms/LinkCollectionStepType'
 import { Modal } from '../components/Modal'
 import { CornerModal } from '../components/CornerModal'
@@ -51,6 +51,7 @@ export const FrigadeForm: FC<FormProps> = ({
     targetingLogicShouldHideFlow,
     setCustomVariable,
     customVariables: existingCustomVariables,
+    getFlowStatus,
   } = useFlows()
 
   appearance = mergeAppearanceWithDefault(appearance)
@@ -112,6 +113,10 @@ export const FrigadeForm: FC<FormProps> = ({
     const completedSteps = Math.min(getNumberOfStepsCompleted(flowId), rawSteps.length - 1)
     setSelectedStep(completedSteps)
     setFinishedInitialLoad(true)
+  }
+
+  if (getFlowStatus(flowId) === COMPLETED_FLOW && hideOnFlowCompletion) {
+    return null
   }
 
   const steps: StepData[] = rawSteps.map((rawStep) => {
