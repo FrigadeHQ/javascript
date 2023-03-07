@@ -17,17 +17,18 @@ export const BadgeRow = styled.div`
   flex-grow: 2;
 `
 
-export const BadgeTitle = styled.p<{ color; type }>`
+export const BadgeTitle = styled.div<{ color; type }>`
   text-overflow: ellipsis;
   font-weight: 600;
   font-size: 12px;
   line-height: 15px;
   text-align: ${(props) => (props.type === 'condensed' ? 'left' : 'right')};
-  color: ${(props) => props.color};
+  color: ${(props) => props.appearance.theme.colorPrimary};
 `
 export const ProgressRingContainer = styled.div`
   width: 20px;
-  height: 20px;
   margin-right: 8px;
   display: flex;
+  height: 100%;
+  align-items: center;
 `

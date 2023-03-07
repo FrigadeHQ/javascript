@@ -55,7 +55,7 @@ export const ProgressBadge: FC<ProgressBadgeProps> = ({
         </ProgressRingContainer>
       )}
       <BadgeRow type={type}>
-        <BadgeTitle type={type} style={textStyle}>
+        <BadgeTitle type={type} style={textStyle} appearance={appearance}>
           {title}
         </BadgeTitle>
         {onClick !== undefined && <Chevron color={appearance.theme.colorPrimary} />}
