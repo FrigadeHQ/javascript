@@ -150,6 +150,7 @@ const Tooltips: FC<ToolTipProps> = ({
 
   const [elem, setElem] = useState(initialElem)
   const boundingRect = useElemRect(elem, needsUpdate)
+  const [lastBoundingRect, setLastBoundingRect] = useState()
 
   useLayoutEffect(() => {
     if (selfRef.current) {
@@ -180,14 +181,13 @@ const Tooltips: FC<ToolTipProps> = ({
 
   const handleRefreshPosition = () => {
     const elem = document.querySelector(steps[selectedStep].selector)
+    if (lastBoundingRect && lastBoundingRect === JSON.stringify(elem?.getBoundingClientRect())) {
+      return
+    }
     setElem(elem)
     setNeedsUpdate(new Date())
-
-    if (elem?.parentElement) {
-      const x = new MutationObserver(function (e) {
-        handleRefreshPosition()
-      })
-      x.observe(elem.parentElement, { childList: true })
+    if (elem) {
+      setLastBoundingRect(JSON.stringify(elem.getBoundingClientRect()))
     }
   }
 
