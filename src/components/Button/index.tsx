@@ -15,10 +15,10 @@ interface ButtonProps {
 }
 
 const ButtonContainer = styled.button`
-  display: flex;
   justify-content: center;
   align-content: center;
   :not(${(props) => getCustomClasOverrides(props)}) {
+    display: flex;
     // Anything inside this block will be ignored if the user provides a custom class
     width: ${(props) => (props.type === 'full-width' ? '100%' : 'auto')};
     margin: 16px 0px 16px 0px;
