@@ -26,9 +26,10 @@ const ModalContainer = styled.div`
       width: 1000px;
     }
     width: 1000px;
+
+    z-index: 110;
   }
   border-radius: 6px;
-  z-index: 110;
   padding: 32px 32px 24px 32px;
 
   position: fixed;
@@ -107,7 +108,7 @@ export const Modal: FC<ModalProps> = ({
 
   return (
     <>
-      <ModalBackground onClose={onClose} />
+      <ModalBackground appearance={appearance} onClose={onClose} />
       <ModalContainer className={getClassName('modalContainer', appearance)} style={style}>
         <ModalClose className={getClassName('modalClose', appearance)} onClick={() => onClose()}>
           <CloseIcon />
