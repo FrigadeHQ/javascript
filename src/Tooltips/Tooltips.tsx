@@ -6,10 +6,10 @@ import styled from 'styled-components'
 import { getPosition } from './position'
 import {
   TooltipContainer,
+  TooltipCTAContainer,
   TooltipFooter,
-  TooltipFooterLeft,
-  TooltipFooterRight,
   TooltipHeader,
+  TooltipStepCountContainer,
   TooltipStepCounter,
   TooltipSubtitle,
   TooltipTitle,
@@ -228,12 +228,12 @@ const Tooltips: FC<ToolTipProps> = ({
 
     return (
       <>
-        <TooltipFooterLeft>
+        <TooltipStepCountContainer>
           <TooltipStepCounter className={getClassName('tooltipStepCounter', appearance)}>
             {selectedStep + 1} of {steps.length}
           </TooltipStepCounter>
-        </TooltipFooterLeft>
-        <TooltipFooterRight>
+        </TooltipStepCountContainer>
+        <TooltipCTAContainer className={getClassName('tooltipCTAContainer', appearance)}>
           <Button
             title={steps[selectedStep].primaryButtonTitle || 'Next'}
             appearance={appearance}
@@ -256,7 +256,7 @@ const Tooltips: FC<ToolTipProps> = ({
               secondary
             />
           )}
-        </TooltipFooterRight>
+        </TooltipCTAContainer>
       </>
     )
   }

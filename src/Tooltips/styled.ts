@@ -47,20 +47,22 @@ export const TooltipFooter = styled.div`
   align-content: center;
 `
 
-export const TooltipFooterLeft = styled.div`
+export const TooltipStepCountContainer = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
   justify-content: center;
 `
 
-export const TooltipFooterRight = styled.div`
+export const TooltipCTAContainer = styled.div`
   display: flex;
   flex: 2;
   flex-shrink: 1;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-content: center;
+  :not(${(props) => getCustomClasOverrides(props)}) {
+    flex-direction: row;
+    justify-content: flex-end;
+    align-content: center;
+  }
 `
 
 export const TooltipStepCounter = styled.p`
