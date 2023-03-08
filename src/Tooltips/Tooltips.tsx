@@ -37,6 +37,7 @@ export interface ToolTipProps extends DefaultFrigadeFlowProps {
   onComplete?: () => void
   tooltipPosition?: ToolTipPosition
   showHighlight?: boolean
+  showTooltipsSimultaneously?: boolean
   /**
    * @deprecated Use `appearance` instead
    */
@@ -121,6 +122,7 @@ const Tooltips: FC<ToolTipProps> = ({
   customStepTypes,
   onStepCompletion,
   appearance,
+  showTooltipsSimultaneously = false,
 }) => {
   const [selfBounds, setSelfBounds] = useState<undefined | DOMRect>(undefined)
   const [needsUpdate, setNeedsUpdate] = useState(new Date())
@@ -247,7 +249,7 @@ const Tooltips: FC<ToolTipProps> = ({
                 justifyContent: 'center',
                 display: 'flex',
                 cursor: 'pointer',
-                color: appearance?.theme?.colorText
+                color: appearance?.theme?.colorText,
               }}
             >
               <CloseIcon />

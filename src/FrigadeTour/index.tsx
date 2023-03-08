@@ -16,6 +16,7 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
   primaryColor,
   onStepCompletion,
   onButtonClick,
+  showTooltipsSimultaneously = false,
   ...props
 }) => {
   const {
@@ -142,14 +143,30 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
 
   return (
     <Portal>
-      <Tooltips
-        appearance={appearance}
-        steps={getSteps()}
-        elem={elem}
-        setSelectedStep={setSelectedStep}
-        selectedStep={selectedStep}
-        {...props}
-      />
+      {showTooltipsSimultaneously ? (
+        steps.map((step: StepData, idx: number) => (
+          <Tooltips
+            key={step.id}
+            appearance={appearance}
+            steps={getSteps()}
+            elem={elem}
+            setSelectedStep={setSelectedStep}
+            selectedStep={idx}
+            showTooltipsSimultaneously={showTooltipsSimultaneously}
+            {...props}
+          />
+        ))
+      ) : (
+        <Tooltips
+          appearance={appearance}
+          steps={getSteps()}
+          elem={elem}
+          setSelectedStep={setSelectedStep}
+          selectedStep={selectedStep}
+          showTooltipsSimultaneously={showTooltipsSimultaneously}
+          {...props}
+        />
+      )}
     </Portal>
   )
 }
