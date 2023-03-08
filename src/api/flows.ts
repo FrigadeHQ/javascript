@@ -57,7 +57,8 @@ export function useFlows() {
   } = useContext(FrigadeContext)
   const { addResponse } = useFlowResponses()
   const fetcher = (url) => fetch(url, config).then((r) => r.json())
-  const { userFlowStatesData, isLoadingUserFlowStateData } = useUserFlowStates()
+  const { userFlowStatesData, isLoadingUserFlowStateData, mutateUserFlowState } =
+    useUserFlowStates()
 
   const { data: flowData } = useSWR(publicApiKey ? `${API_PREFIX}flows` : null, fetcher)
 
@@ -123,6 +124,8 @@ export function useFlows() {
       actionType: STARTED_STEP,
       data: data ?? {},
       createdAt: new Date(),
+    }).then(() => {
+      mutateUserFlowState()
     })
   }
 
