@@ -162,6 +162,13 @@ const Tooltips: FC<ToolTipProps> = ({
     const elem = document.querySelector(steps[selectedStep].selector)
     setElem(elem)
     setNeedsUpdate(new Date())
+
+    if (elem?.parentElement) {
+      const x = new MutationObserver(function (e) {
+        handleRefreshPosition()
+      })
+      x.observe(elem.parentElement, { childList: true })
+    }
   }
 
   useLayoutEffect(() => {
