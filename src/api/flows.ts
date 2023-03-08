@@ -60,13 +60,17 @@ export function useFlows() {
   const { userFlowStatesData, isLoadingUserFlowStateData, mutateUserFlowState } =
     useUserFlowStates()
 
-  const { data: flowData } = useSWR(publicApiKey ? `${API_PREFIX}flows` : null, fetcher)
+  const { data: flowData, error } = useSWR(publicApiKey ? `${API_PREFIX}flows` : null, fetcher)
 
   useEffect(() => {
+    if (error) {
+      console.error(error)
+      return
+    }
     if (flowData && flowData.data) {
       flowData.data = setFlows(flowData.data)
     }
-  }, [flowData])
+  }, [flowData, error])
 
   function getFlow(slug: string): Flow {
     const flow = flows.find((f) => f.slug === slug)
