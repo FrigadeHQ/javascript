@@ -58,6 +58,7 @@ export const TooltipCTAContainer = styled.div`
   display: flex;
   flex: 2;
   flex-shrink: 1;
+  gap: 8px;
   :not(${(props) => getCustomClasOverrides(props)}) {
     flex-direction: row;
     justify-content: flex-end;

@@ -238,21 +238,12 @@ const Tooltips: FC<ToolTipProps> = ({
             title={steps[selectedStep].primaryButtonTitle || 'Next'}
             appearance={appearance}
             onClick={handleOnCTAClick}
-            style={{
-              maxWidth: '50%',
-              minWidth: '120px',
-              ...buttonStyle,
-            }}
           />
           {steps[selectedStep].secondaryButtonTitle && (
             <Button
               title={steps[selectedStep].secondaryButtonTitle}
               appearance={appearance}
               onClick={handleOnSecondaryCTAClick}
-              style={{
-                width: 'auto',
-                marginLeft: '8px',
-              }}
               secondary
             />
           )}
