@@ -1,8 +1,9 @@
 import styled from 'styled-components'
 
-export const StepContainer = styled.div`
-  background: #ffffff;
-  border: 1px solid #e6e6e6;
+export const StepContainer = styled.div<{ appearance }>`
+  background-color: ${(props) => props.appearance?.theme?.colorBackground};
+  border: 1px solid;
+  border-color: ${(props) => props.appearance?.theme?.colorBorder};
   border-radius: 6px;
   padding: 2px 20px 2px 20px;
   display: flex;
@@ -20,7 +21,8 @@ export const StepHeader = styled.div`
   align-items: center;
 `
 
-export const StepTitle = styled.p`
+export const StepTitle = styled.p<{ appearance }>`
+  color: ${(props) => props.appearance?.theme?.colorText};
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
@@ -34,11 +36,11 @@ export const CollapseChevronContainer = styled.div`
 
 export const ExpandedContentContainer = styled.div``
 
-export const StepSubtitle = styled.p`
+export const StepSubtitle = styled.p<{ appearance }>`
+  color: ${(props) => props.appearance?.theme?.colorText};
   font-weight: 400;
   font-size: 14px;
   line-height: 22px;
-  color: #4d4d4d;
 `
 
 export const HeaderLeft = styled.div`

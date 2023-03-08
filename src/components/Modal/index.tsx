@@ -6,10 +6,10 @@ import { CloseIcon } from '../CloseIcon'
 import { getClassName, getCustomClasOverrides } from '../../shared/appearance'
 import { Appearance } from '../../types'
 
-const ModalContainer = styled.div`
+const ModalContainer = styled.div<{ appearance }>`
   :not(${(props) => getCustomClasOverrides(props)}) {
     // Anything inside this block will be ignored if the user provides a custom class
-    background: #ffffff;
+    background-color: ${(props) => props.appearance?.theme?.colorBackground};
     /* Mobile */
     @media (max-width: 500px) {
       width: 90%;
@@ -47,14 +47,14 @@ const ModalHeader = styled.div`
   flex: 1;
 `
 
-const ModalClose = styled.div`
+const ModalClose = styled.div<{ appearance }>`
   position: absolute;
   top: 16px;
   right: 16px;
   cursor: pointer;
   :not(${(props) => getCustomClasOverrides(props)}) {
     // Anything inside this block will be ignored if the user provides a custom class
-    color: #000000;
+    color: ${(props) => props.appearance?.theme?.colorText};
   }
 `
 
@@ -109,8 +109,8 @@ export const Modal: FC<ModalProps> = ({
   return (
     <>
       <ModalBackground appearance={appearance} onClose={onClose} />
-      <ModalContainer className={getClassName('modalContainer', appearance)} style={style}>
-        <ModalClose className={getClassName('modalClose', appearance)} onClick={() => onClose()}>
+      <ModalContainer appearance={appearance} className={getClassName('modalContainer', appearance)} style={style}>
+        <ModalClose className={getClassName('modalClose', appearance)} onClick={() => onClose()} appearance={appearance}>
           <CloseIcon />
         </ModalClose>
         {headerContent && <ModalHeader>{headerContent}</ModalHeader>}
