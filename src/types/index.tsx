@@ -80,6 +80,7 @@ export interface BaseTheme {
   colorText?: string
   colorTextOnPrimaryBackground?: string
   colorTextSecondary?: string
+  colorBorder?: string
   fontSize?: string | number
   fontSmoothing?: string
   fontWeight?: string | number
@@ -94,6 +95,7 @@ export const DefaultAppearance: Appearance = {
     colorBackgroundSecondary: '#ffffff66',
     colorTextOnPrimaryBackground: '#ffffff',
     colorTextSecondary: '#000000',
+    colorBorder: '#E6E6E6',
     borderRadius: 8,
   },
 }

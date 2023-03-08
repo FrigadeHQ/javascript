@@ -39,19 +39,20 @@ export const CollapsibleStep: FC<CollapsibleStepProps> = ({
     <StepContainer
       onClick={() => (collapsed ? onClick() : null)}
       data-testid={`step-${stepData.id}`}
+      appearance={appearance}
     >
       <StepHeader>
         <HeaderLeft>
           <CheckBoxRow
             value={stepData.complete}
             style={{ width: 'auto', borderTop: 0 }}
-            primaryColor={primaryColor}
+            primaryColor={appearance?.theme?.colorPrimary}
           />
-          <StepTitle>{stepData.title}</StepTitle>
+          <StepTitle appearance={appearance}>{stepData.title}</StepTitle>
         </HeaderLeft>
 
         <CollapseChevronContainer onClick={() => onClick()}>
-          <Chevron style={{ ...iconStyle, transition: 'transform 0.1s ease-in-out' }} />
+          <Chevron style={{ ...iconStyle, transition: 'transform 0.1s ease-in-out' }} color={appearance?.theme?.colorTextSecondary}/>
         </CollapseChevronContainer>
       </StepHeader>
 
@@ -64,7 +65,7 @@ export const CollapsibleStep: FC<CollapsibleStepProps> = ({
             key={stepData.id}
             style={{ overflow: 'hidden' }}
           >
-            <StepSubtitle>{stepData.subtitle}</StepSubtitle>
+            <StepSubtitle appearance={appearance}>{stepData.subtitle}</StepSubtitle>
             <MultipleButtonContainer>
               <Button
                 title={stepData.primaryButtonTitle ?? 'Continue'}

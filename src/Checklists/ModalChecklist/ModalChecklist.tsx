@@ -77,11 +77,13 @@ const ModalChecklist: FC<ModalChecklistProps> = ({
       <Modal
         onClose={onClose}
         visible={visible}
+        appearance={appearance}
+        style={{ maxWidth: '600px' }}
         headerContent={
           <>
             <HeaderContent>
-              <ModalChecklistTitle>{title}</ModalChecklistTitle>
-              <ModalChecklistSubtitle>{subtitle}</ModalChecklistSubtitle>
+              <ModalChecklistTitle appearance={appearance}>{title}</ModalChecklistTitle>
+              <ModalChecklistSubtitle appearance={appearance}>{subtitle}</ModalChecklistSubtitle>
             </HeaderContent>
             <ProgressBar
               display="percent"
@@ -89,10 +91,10 @@ const ModalChecklist: FC<ModalChecklistProps> = ({
               total={steps.length}
               fillColor={primaryColor}
               style={{ margin: '14px 0px 8px 0px' }}
+              appearance={appearance}
             />
           </>
         }
-        style={{ maxWidth: '600px' }}
       >
         {steps.map((step: StepData, idx: number) => {
           const isCollapsed = collapsedSteps[idx]
