@@ -3,6 +3,7 @@ import {
   API_PREFIX,
   COMPLETED_FLOW,
   COMPLETED_STEP,
+  NOT_STARTED_STEP,
   STARTED_FLOW,
   STARTED_STEP,
   StepActionType,
@@ -144,9 +145,12 @@ export function useFlows() {
       return null
     }
 
-    const maybeFlowResponse = flowResponses.find((r) => r.stepId === stepId)
-    // cast return value to StepActionType
-    return (maybeFlowResponse ? maybeFlowResponse.actionType : 'NOT_STARTED_STEP') as StepActionType
+    const flowResponsesSorted = [...flowResponses].sort((a, b) => {
+      return b.createdAt.getTime() - a.createdAt.getTime()
+    })
+
+    const maybeFlowResponse = flowResponsesSorted.find((r) => r.stepId === stepId)
+    return (maybeFlowResponse ? maybeFlowResponse.actionType : NOT_STARTED_STEP) as StepActionType
   }
 
   function getStepOptionalProgress(step: StepData) {
