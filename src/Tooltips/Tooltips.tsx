@@ -1,4 +1,4 @@
-import React, { CSSProperties, FC, useLayoutEffect, useRef, useState } from 'react'
+import React, { CSSProperties, FC, useEffect, useLayoutEffect, useRef, useState } from 'react'
 
 import { Button } from '../components/Button'
 import { CloseIcon } from '../components/CloseIcon'
@@ -104,6 +104,26 @@ const HiglightContainer = styled.div<{ primaryColor: string }>`
   z-index: 100;
 `
 
+function useInterval(param: () => void, number: number) {
+  const callback = useRef(param)
+
+  // Remember the latest callback.
+  useEffect(() => {
+    callback.current = param
+  }, [param])
+
+  // Set up the interval.
+  useEffect(() => {
+    function tick() {
+      callback.current()
+    }
+    if (number !== null) {
+      let id = setInterval(tick, number)
+      return () => clearInterval(id)
+    }
+  }, [number])
+}
+
 const Tooltips: FC<ToolTipProps> = ({
   steps = [],
   onDismiss,
@@ -170,6 +190,11 @@ const Tooltips: FC<ToolTipProps> = ({
       x.observe(elem.parentElement, { childList: true })
     }
   }
+
+  // Periodically refresh position every 100 ms
+  useInterval(() => {
+    handleRefreshPosition()
+  }, 200)
 
   useLayoutEffect(() => {
     setTimeout(() => {
