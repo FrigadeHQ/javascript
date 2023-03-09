@@ -40,6 +40,17 @@ const ModalContainer = styled.div<{ appearance }>`
   display: flex;
   flex-direction: column;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  animation-duration: 0.15s;
+  animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  animation-name: fadeIn;
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
 `
 
 const ModalHeader = styled.div`
@@ -109,8 +120,16 @@ export const Modal: FC<ModalProps> = ({
   return (
     <>
       <ModalBackground appearance={appearance} onClose={onClose} />
-      <ModalContainer appearance={appearance} className={getClassName('modalContainer', appearance)} style={style}>
-        <ModalClose className={getClassName('modalClose', appearance)} onClick={() => onClose()} appearance={appearance}>
+      <ModalContainer
+        appearance={appearance}
+        className={getClassName('modalContainer', appearance)}
+        style={style}
+      >
+        <ModalClose
+          className={getClassName('modalClose', appearance)}
+          onClick={() => onClose()}
+          appearance={appearance}
+        >
           <CloseIcon />
         </ModalClose>
         {headerContent && <ModalHeader>{headerContent}</ModalHeader>}

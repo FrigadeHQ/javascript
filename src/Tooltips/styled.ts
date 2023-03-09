@@ -3,7 +3,9 @@ import { Appearance } from '../types'
 import { getCustomClasOverrides } from '../shared/appearance'
 
 export const TooltipContainer = styled.div<{ maxWidth: number; appearance: Appearance }>`
-  background: ${(props) => props.appearance.theme.colorBackground};
+  :not(${(props) => getCustomClasOverrides(props)}) {
+    background: ${(props) => props.appearance.theme.colorBackground};
+  }
   box-shadow: 0px 6px 25px rgba(0, 0, 0, 0.06);
   border-radius: 20px;
   max-width: ${(props) => props.maxWidth}px;

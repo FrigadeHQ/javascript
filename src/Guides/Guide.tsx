@@ -1,22 +1,19 @@
-import React, { CSSProperties, FC } from "react"
-import { Appearance, StepData } from "../types"
-import { motion } from "framer-motion";
+import React, { CSSProperties, FC } from 'react'
+import { Appearance, StepData } from '../types'
+import { motion } from 'framer-motion'
 
 import {
   GuideContainer,
-  GuideItems,
-  GuideItem,
-  GuideTitle,
-
-  GuideIconWrapper,
   GuideIcon,
-
-  GuideItemTitle,
+  GuideIconWrapper,
+  GuideItem,
+  GuideItemLink,
+  GuideItems,
   GuideItemSubtitle,
-  GuideItemLink
+  GuideItemTitle,
+  GuideTitle,
 } from './styled'
-import { getClassName } from "../shared/appearance";
-
+import { getClassName } from '../shared/appearance'
 
 export interface GuideStepData extends StepData {
   icon?: string
@@ -34,13 +31,11 @@ interface GuideProps {
  * A guide is essentially a list of links that does not have a state
  */
 const Guide: FC<GuideProps> = ({ steps, style, title, primaryColor, appearance }) => {
-
   return (
     <GuideContainer style={style} className={getClassName('guideContainer', appearance)}>
       <GuideTitle className={getClassName('guideTitle', appearance)}>{title}</GuideTitle>
       <GuideItems>
-        {
-        steps.map((stepData: GuideStepData, idx) => {
+        {steps.map((stepData: GuideStepData, idx) => {
           return (
             <GuideItem
               key={`guide-${stepData.id ?? idx}`}
@@ -51,15 +46,11 @@ const Guide: FC<GuideProps> = ({ steps, style, title, primaryColor, appearance }
               }}
               className={getClassName('guideItem', appearance)}
             >
-              {
-                stepData.icon && (
-                  <GuideIconWrapper>
-                    <GuideIcon>
-                      {stepData.icon}
-                    </GuideIcon>
-                  </GuideIconWrapper>
-                )
-              }
+              {stepData.icon && (
+                <GuideIconWrapper className={getClassName('guideIcon', appearance)}>
+                  <GuideIcon>{stepData.icon}</GuideIcon>
+                </GuideIconWrapper>
+              )}
 
               <GuideItemTitle className={getClassName('guideItemTitle', appearance)}>
                 {stepData.title}
@@ -69,7 +60,8 @@ const Guide: FC<GuideProps> = ({ steps, style, title, primaryColor, appearance }
                 {stepData.subtitle}
               </GuideItemSubtitle>
 
-              <GuideItemLink className={getClassName('guideIteLink', appearance)}
+              <GuideItemLink
+                className={getClassName('guideIteLink', appearance)}
                 color={primaryColor}
                 href={stepData.primaryButtonUri}
                 target={stepData.primaryButtonUriTarget ?? '_self'}
@@ -78,8 +70,7 @@ const Guide: FC<GuideProps> = ({ steps, style, title, primaryColor, appearance }
               </GuideItemLink>
             </GuideItem>
           )
-        })
-      }
+        })}
       </GuideItems>
     </GuideContainer>
   )

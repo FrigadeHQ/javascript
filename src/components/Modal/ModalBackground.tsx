@@ -14,6 +14,18 @@ const Background = styled.div`
     background-color: rgba(0, 0, 0, 0.6);
     z-index: 100;
   }
+  animation-duration: 0.15s;
+  animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  animation-name: fadeIn;
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
 `
 
 export const ModalBackground = ({ onClose, appearance }) => {
