@@ -37,7 +37,6 @@ const BASE_CHECKBOX_STYLES_SQUARE__CHECKED = {
 }
 
 const BASE_CHECKBOX_STYLES_SQUARE__UNCHECKED = {
-  background: '#FFFFFF',
   border: '1px solid #E6E6E6',
 }
 
@@ -46,10 +45,8 @@ const BASE_CHECKBOX_STYLES_ROUND__CHECKED = {
 }
 
 const BASE_CHECKBOX_STYLES_ROUND__UNCHECKED = {
-  background: '#FFFFFF',
   border: '3px solid #D9D9D9',
 }
-
 
 const getBaseStyle = (type: CheckBoxType): CSSProperties => {
   if (type === 'square') return BASE_CHECKBOX_STYLES_SQUARE
@@ -57,7 +54,8 @@ const getBaseStyle = (type: CheckBoxType): CSSProperties => {
 }
 
 const getStateStyle = (type: CheckBoxType, checked: boolean): CSSProperties => {
-  if (type === 'square') return checked ? BASE_CHECKBOX_STYLES_SQUARE__CHECKED : BASE_CHECKBOX_STYLES_SQUARE__UNCHECKED
+  if (type === 'square')
+    return checked ? BASE_CHECKBOX_STYLES_SQUARE__CHECKED : BASE_CHECKBOX_STYLES_SQUARE__UNCHECKED
   return checked ? BASE_CHECKBOX_STYLES_ROUND__CHECKED : BASE_CHECKBOX_STYLES_ROUND__UNCHECKED
 }
 
@@ -70,18 +68,15 @@ export interface CheckBoxProps {
   progress?: number // progress percentage our of 1. e.g. 0.5
 }
 
-export const CheckBox: FC<CheckBoxProps> = (
-  {
-    value,
-    type = 'square',
-    primaryColor = '#000000',
-    progress
-  }
-) => {
-
+export const CheckBox: FC<CheckBoxProps> = ({
+  value,
+  type = 'square',
+  primaryColor = '#000000',
+  progress,
+}) => {
   let checkBoxStyle = getBaseStyle(type as CheckBoxType)
   let stateStyle = getStateStyle(type as CheckBoxType, value)
- 
+
   if (value === true) {
     checkBoxStyle = {
       ...checkBoxStyle,
@@ -97,9 +92,7 @@ export const CheckBox: FC<CheckBoxProps> = (
   }
 
   if (type === 'round' && progress !== undefined && progress !== 1) {
-    return (
-      <ProgressRing fillColor={primaryColor} percentage={progress} size={22} />
-    )
+    return <ProgressRing fillColor={primaryColor} percentage={progress} size={22} />
   }
 
   return (

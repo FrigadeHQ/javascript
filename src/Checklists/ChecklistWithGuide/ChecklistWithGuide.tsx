@@ -50,8 +50,6 @@ const ChecklistWithGuide: FC<ChecklistWithGuideProps> = ({
   title,
   subtitle,
   stepsTitle,
-  primaryColor,
-  secondaryColor,
 
   visible,
   onClose,
@@ -142,7 +140,7 @@ const ChecklistWithGuide: FC<ChecklistWithGuideProps> = ({
     }
     return mergedCustomStepTypes[steps[selectedStepValue].type]({
       stepData: steps[selectedStepValue],
-      primaryColor: primaryColor,
+      primaryColor: appearance.theme.colorPrimary,
     })
   }
 
@@ -175,7 +173,7 @@ const ChecklistWithGuide: FC<ChecklistWithGuideProps> = ({
             </div>
             <ProgressBarContainer>
               <ProgressBar
-                fillColor={primaryColor}
+                fillColor={appearance.theme.colorPrimary}
                 style={{ width: '100%' }}
                 count={completeCount}
                 total={steps.length}
@@ -209,7 +207,7 @@ const ChecklistWithGuide: FC<ChecklistWithGuideProps> = ({
                         as={motion.div}
                         layoutId="checklist-step-selected"
                         style={{
-                          backgroundColor: primaryColor,
+                          backgroundColor: appearance.theme.colorPrimary,
                           borderRadius: 0,
                           height: '100%',
                           top: '0%',
@@ -230,13 +228,13 @@ const ChecklistWithGuide: FC<ChecklistWithGuideProps> = ({
                       <CheckBox
                         value={stepData.complete}
                         type="round"
-                        primaryColor={primaryColor}
+                        primaryColor={appearance.theme.colorPrimary}
                         progress={stepData.progress}
                       />
                       <CenterVertical>
                         <Chevron
                           style={{ marginLeft: '10px' }}
-                          color={appearance?.styleOverrides?.iconColor}
+                          color={appearance.theme.colorPrimary}
                         />
                       </CenterVertical>
                     </StepListItemRight>
@@ -252,7 +250,7 @@ const ChecklistWithGuide: FC<ChecklistWithGuideProps> = ({
           <Guide
             steps={guideData}
             title={guideTitle}
-            primaryColor={primaryColor}
+            primaryColor={appearance.theme.colorPrimary}
             style={{
               border: 'none',
               boxShadow: 'none',
