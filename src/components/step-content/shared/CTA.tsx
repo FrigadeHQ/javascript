@@ -1,13 +1,8 @@
 import React, { FC } from 'react'
-
-import {
-  HeroChecklistStepSubtitle,
-  HeroChecklistStepTitle,
-} from '../../../Checklists/HeroChecklist/styled'
 import { Button, MultipleButtonContainer } from '../../Button'
 import { StepContentProps } from '../../../FrigadeForm/types'
 
-export const InfoWithCTA: FC<StepContentProps> = ({ stepData, appearance }) => {
+export const CTA: FC<StepContentProps> = ({ stepData, appearance }) => {
   const handlePrimaryButtonClick = () => {
     if (stepData.handlePrimaryButtonClick) {
       stepData.handlePrimaryButtonClick()
@@ -22,8 +17,6 @@ export const InfoWithCTA: FC<StepContentProps> = ({ stepData, appearance }) => {
 
   return (
     <>
-      <HeroChecklistStepTitle appearance={appearance}>{stepData.title}</HeroChecklistStepTitle>
-      <HeroChecklistStepSubtitle appearance={appearance}>{stepData.subtitle}</HeroChecklistStepSubtitle>
       <MultipleButtonContainer>
         <Button
           appearance={appearance}

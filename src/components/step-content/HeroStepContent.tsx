@@ -3,7 +3,7 @@ import { VideoPlayer } from '../../Checklists/HeroChecklist/VideoPlayer'
 import React, { FC } from 'react'
 import { StepContentProps } from '../../FrigadeForm/types'
 import styled from 'styled-components'
-import { InfoWithCTA } from './shared/InfoWithCTA'
+import { TitleSubtitleWithCTA } from './shared/TitleSubtitleWithCTA'
 
 export const HERO_STEP_CONTENT_TYPE = 'default'
 const StepImage = styled.img`
@@ -21,7 +21,7 @@ export const HeroStepContent: FC<StepContentProps> = ({ stepData, appearance }) 
     <HeroChecklistStepContent>
       {stepData.imageUri ? <StepImage src={stepData.imageUri} style={stepData.imageStyle} /> : null}
       {stepData.videoUri ? <VideoPlayer videoUri={stepData.videoUri} /> : null}
-      <InfoWithCTA stepData={stepData} appearance={appearance} />
+      <TitleSubtitleWithCTA stepData={stepData} appearance={appearance} />
     </HeroChecklistStepContent>
   )
 }

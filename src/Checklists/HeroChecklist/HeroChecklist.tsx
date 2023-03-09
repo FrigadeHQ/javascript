@@ -10,6 +10,10 @@ import {
 } from '../../components/step-content/HeroStepContent'
 import { StepContentProps } from '../../FrigadeForm/types'
 import { VIDEO_CAROUSEL_TYPE, VideoCarousel } from '../../components/step-content/VideoCarousel'
+import {
+  CODE_SNIPPET_CONTENT_TYPE,
+  CodeSnippetContent,
+} from '../../components/step-content/CodeSnippetContent'
 
 export interface HeroChecklistProps extends DefaultFrigadeFlowProps {
   title?: string
@@ -100,6 +104,7 @@ const HeroChecklist: FC<HeroChecklistProps> = ({
   const DEFAULT_CUSTOM_STEP_TYPES = new Map([
     [HERO_STEP_CONTENT_TYPE, HeroStepContent],
     [VIDEO_CAROUSEL_TYPE, VideoCarousel],
+    [CODE_SNIPPET_CONTENT_TYPE, CodeSnippetContent],
   ])
 
   const mergedCustomStepTypes = new Map<string, FC<StepContentProps>>([

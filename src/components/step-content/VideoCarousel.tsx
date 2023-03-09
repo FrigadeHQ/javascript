@@ -1,8 +1,10 @@
 import React, { FC, useRef, useState } from 'react'
 import styled from 'styled-components'
-import { InfoWithCTA } from './shared/InfoWithCTA'
+import { TitleSubtitleWithCTA } from './shared/TitleSubtitleWithCTA'
 import { StepContentProps } from '../../FrigadeForm/types'
 import { Play } from '../Icons/Play'
+import { TitleSubtitle } from './shared/TitleSubtitle'
+import { CTA } from './shared/CTA'
 
 const VideoCarouselContainer = styled.div`
   display: block;
@@ -16,6 +18,8 @@ const VideoList = styled.div`
   gap: 0px;
   align-items: center;
   align-content: center;
+  margin-top: 24px;
+  margin-bottom: 24px;
 `
 
 const Video = styled.div`
@@ -75,7 +79,7 @@ export const VideoCarousel: FC<StepContentProps> = ({ stepData, appearance }) =>
   if (!stepData.props?.videos) {
     return (
       <VideoCarouselContainer>
-        <InfoWithCTA stepData={stepData} appearance={appearance} />
+        <TitleSubtitleWithCTA stepData={stepData} appearance={appearance} />
       </VideoCarouselContainer>
     )
   }
@@ -111,12 +115,13 @@ export const VideoCarousel: FC<StepContentProps> = ({ stepData, appearance }) =>
   if (videoProps.videos) {
     return (
       <VideoCarouselContainer>
-        <InfoWithCTA stepData={stepData} appearance={appearance} />
+        <TitleSubtitle stepData={stepData} appearance={appearance} />
         <VideoList>
           {videoProps.videos.map((video: VideoMetadata) => (
             <VideoCard key={video.uri} video={video} />
           ))}
         </VideoList>
+        <CTA stepData={stepData} appearance={appearance} />
       </VideoCarouselContainer>
     )
   }
