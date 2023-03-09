@@ -141,6 +141,8 @@ export function useFlows() {
       actionType: COMPLETED_STEP,
       data: data ?? {},
       createdAt: new Date(),
+    }).then(() => {
+      mutateUserFlowState()
     })
   }
 

@@ -110,9 +110,12 @@ export const StepSubtitle = styled.p`
 `
 
 export const MultipleButtonContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
+  :not(${(props) => getCustomClasOverrides(props)}) {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 8px;
+  }
 `
 
 export const StepListItem = styled.div<{ selected: boolean }>`

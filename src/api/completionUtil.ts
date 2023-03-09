@@ -1,4 +1,4 @@
-const regex = /user.flow\(([^\)]+)\) == 'COMPLETED_FLOW'/gm
+const regex = /user.flow\(([^\)]+)\) == '?COMPLETED_FLOW'?/gm
 
 export const getSubFlowFromCompletionCriteria = (completionCriteria: string) => {
   const flowMatch = regex.exec(completionCriteria)
