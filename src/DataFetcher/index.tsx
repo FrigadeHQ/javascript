@@ -63,6 +63,7 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
           actionType: stepState.actionType,
           data: {},
           createdAt: new Date(),
+          blocked: stepState.blocked,
         } as FlowResponse)
       }
       // merge internal flow responses with api flow responses

@@ -83,6 +83,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
     customVariables: existingCustomVariables,
     getStepOptionalProgress,
     getFlowMetadata,
+    isStepBlocked,
   } = useFlows()
   const { getOpenFlowState, setOpenFlowState } = useFlowOpens()
   const [selectedStep, setSelectedStep] = useState(initialSelectedStep || 0)
@@ -137,7 +138,11 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
     subtitle = metaData.subtitle
   }
 
-  if (!finishedInitialLoad && initialSelectedStep === undefined) {
+  if (
+    !finishedInitialLoad &&
+    initialSelectedStep === undefined &&
+    getNumberOfStepsCompleted(flowId) > 0
+  ) {
     const completedSteps = Math.min(getNumberOfStepsCompleted(flowId), steps.length - 1)
     setSelectedStep(completedSteps)
     setFinishedInitialLoad(true)
@@ -149,6 +154,10 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
       if (isModal) {
         setOpenFlowState(flowId, false)
       }
+      return
+    }
+    // Double check next step is not blocked
+    if (isStepBlocked(flowId, steps[selectedStep + 1].id)) {
       return
     }
 
@@ -183,6 +192,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
         },
         ...step,
         complete: getStepStatus(flowId, step.id) === COMPLETED_STEP || autoCalculatedProgress >= 1,
+        blocked: isStepBlocked(flowId, step.id),
         handlePrimaryButtonClick: () => {
           if (
             !step.completionCriteria &&
@@ -192,10 +202,11 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
             goToNextStepIfPossible()
           }
           handleStepCompletionHandlers(step, 'primary', idx)
-          if (step.primaryButtonUri && step.primaryButtonUri.trim() == '#' && type === 'modal') {
-            setOpenFlowState(flowId, false)
-          }
           primaryCTAClickSideEffects(step)
+          // If step is done, try to go to next step
+          if (getStepStatus(flowId, step.id) === COMPLETED_STEP) {
+            goToNextStepIfPossible()
+          }
         },
         progress: autoCalculatedProgress,
       }

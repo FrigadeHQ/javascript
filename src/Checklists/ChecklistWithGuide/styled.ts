@@ -126,6 +126,12 @@ export const StepListItem = styled.div<{ selected: boolean }>`
       background-color: #fafafa;
     }
   }
+  //Check if attr disabled is true
+  &[disabled] {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
   padding: 20px;
   display: flex;
   flex-direction: row;

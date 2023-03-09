@@ -10,7 +10,7 @@ import {
   useConfig,
 } from './common'
 import { FrigadeContext } from '../FrigadeProvider'
-import { useFlowResponses } from './flow-responses'
+import { FlowResponse, useFlowResponses } from './flow-responses'
 import useSWR from 'swr'
 import { useUserFlowStates } from './user-flow-states'
 import { StepData } from '../types'
@@ -128,6 +128,7 @@ export function useFlows() {
       actionType: STARTED_STEP,
       data: data ?? {},
       createdAt: new Date(),
+      blocked: false,
     }).then(() => {
       mutateUserFlowState()
     })
@@ -141,12 +142,28 @@ export function useFlows() {
       actionType: COMPLETED_STEP,
       data: data ?? {},
       createdAt: new Date(),
+      blocked: false,
     }).then(() => {
       mutateUserFlowState()
     })
   }
 
   function getStepStatus(flowSlug: string, stepId: string): StepActionType | null {
+    const maybeFlowResponse = getLastFlowResponseForStep(flowSlug, stepId)
+    return (maybeFlowResponse ? maybeFlowResponse.actionType : NOT_STARTED_STEP) as StepActionType
+  }
+
+  function isStepBlocked(flowSlug: string, stepId: string): boolean {
+    const maybeFlowResponse = getLastFlowResponseForStep(flowSlug, stepId)
+
+    if (!maybeFlowResponse) {
+      return false
+    }
+
+    return maybeFlowResponse.blocked
+  }
+
+  function getLastFlowResponseForStep(flowSlug: string, stepId: string): FlowResponse | null {
     if (isLoadingUserState) {
       return null
     }
@@ -159,7 +176,7 @@ export function useFlows() {
     })
 
     const maybeFlowResponse = flowResponsesSorted.find((r) => r.stepId === stepId)
-    return (maybeFlowResponse ? maybeFlowResponse.actionType : NOT_STARTED_STEP) as StepActionType
+    return maybeFlowResponse
   }
 
   function getStepOptionalProgress(step: StepData) {
@@ -246,5 +263,6 @@ export function useFlows() {
     customVariables,
     getStepOptionalProgress,
     getFlowMetadata,
+    isStepBlocked,
   }
 }

@@ -16,11 +16,13 @@ export interface FlowResponse {
   actionType: string
   data: object
   createdAt: Date
+  blocked: boolean
 }
 
 export interface PublicStepState {
   stepId: string
   actionType: 'COMPLETED_STEP' | 'STARTED_STEP' | 'NOT_STARTED_STEP'
+  blocked: boolean
 }
 
 export function useFlowResponses() {
@@ -119,6 +121,7 @@ export function useFlowResponses() {
       actionType: STARTED_FLOW,
       data: {},
       createdAt: new Date(),
+      blocked: false,
     }
     await addResponse(flowResponse)
     return flowResponse
@@ -132,6 +135,7 @@ export function useFlowResponses() {
       actionType: COMPLETED_FLOW,
       data: { flowResponses: Array.from(successfulFlowResponses) },
       createdAt: new Date(),
+      blocked: false,
     }
     await addResponse(flowResponse)
     return flowResponse

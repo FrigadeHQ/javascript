@@ -194,9 +194,14 @@ const ChecklistWithGuide: FC<ChecklistWithGuideProps> = ({
                       appearance
                     )}
                     key={`checklist-guide-step-${stepData.id ?? idx}`}
+                    disabled={stepData.blocked}
                     onClick={() => {
+                      if (stepData.blocked) {
+                        return
+                      }
                       setSelectedStepValue(idx)
                     }}
+                    title={stepData.blocked ? 'Finish remaining steps to continue' : undefined}
                   >
                     {isSelected && (
                       <StepItemSelectedIndicator

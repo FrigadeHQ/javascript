@@ -28,6 +28,7 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
     setCustomVariable,
     getStepStatus,
     getNumberOfStepsCompleted,
+    isStepBlocked,
     getFlowStatus,
     customVariables: existingCustomVariables,
   } = useFlows()
@@ -98,6 +99,10 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
     if (selectedStep + 1 >= steps.length) {
       return
     }
+    // Double check next step is not blocked
+    if (isStepBlocked(flowId, steps[selectedStep + 1].id)) {
+      return
+    }
     setSelectedStep(selectedStep + 1)
   }
 
@@ -124,6 +129,7 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
         },
         ...step,
         complete: getStepStatus(flowId, step.id) === COMPLETED_STEP,
+        blocked: isStepBlocked(flowId, step.id),
         handlePrimaryButtonClick: () => {
           if (
             !step.completionCriteria &&
