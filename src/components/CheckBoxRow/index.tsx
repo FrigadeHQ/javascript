@@ -21,6 +21,7 @@ const Label = styled.span`
   display: inline-block;
   vertical-align: middle;
   margin-left: 12px;
+  padding-right: 12px;
 `
 
 const CheckBoxRowContainer = styled.div`
@@ -42,7 +43,6 @@ export const CheckBoxRow: FC<CheckBoxRowProps> = ({
   primaryColor = '#000000',
   checkBoxType = 'square',
 }) => {
-
   return (
     <CheckBoxRowContainer style={{ ...style }}>
       {labelPosition === 'left' && label && <Label style={labelStyle}>{label}</Label>}
