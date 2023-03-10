@@ -3,6 +3,7 @@ import { useFlows } from '../api/flows'
 import { ProgressBadge, ProgressBadgeType } from '../Checklists/ProgressBadge'
 import { useFlowOpens } from '../api/flow-opens'
 import { DefaultFrigadeFlowProps, mergeAppearanceWithDefault } from '../types'
+import { COMPLETED_FLOW } from '../api/common'
 
 interface FrigadeProgressBadgeProps extends DefaultFrigadeFlowProps {
   title: string
@@ -40,6 +41,7 @@ export const FrigadeProgressBadge: React.FC<FrigadeProgressBadgeProps> = ({
   const {
     getFlow,
     getFlowSteps,
+    getFlowStatus,
     getNumberOfStepsCompleted,
     isLoading,
     targetingLogicShouldHideFlow,
@@ -83,10 +85,7 @@ export const FrigadeProgressBadge: React.FC<FrigadeProgressBadgeProps> = ({
     return null
   }
 
-  if (
-    hideOnFlowCompletion === true &&
-    getNumberOfStepsCompleted(flowId) === getFlowSteps(flowId).length
-  ) {
+  if (hideOnFlowCompletion === true && getFlowStatus(flowId) === COMPLETED_FLOW) {
     return null
   }
 

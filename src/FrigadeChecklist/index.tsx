@@ -4,7 +4,7 @@ import { useFlows } from '../api/flows'
 import { HeroChecklist, HeroChecklistProps } from '../Checklists/HeroChecklist'
 import { mergeAppearanceWithDefault, StepData } from '../types'
 import { ModalChecklist } from '../Checklists/ModalChecklist'
-import { COMPLETED_STEP } from '../api/common'
+import { COMPLETED_FLOW, COMPLETED_STEP } from '../api/common'
 import { primaryCTAClickSideEffects, secondaryCTAClickSideEffects } from '../shared/cta-util'
 import { useFlowOpens } from '../api/flow-opens'
 import { ChecklistWithGuide } from '../Checklists/ChecklistWithGuide'
@@ -69,6 +69,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
   onStepCompletion,
   onButtonClick,
   appearance,
+  hideOnFlowCompletion,
   ...guideProps
 }) => {
   const {
@@ -84,6 +85,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
     getStepOptionalProgress,
     getFlowMetadata,
     isStepBlocked,
+    getFlowStatus,
   } = useFlows()
   const { getOpenFlowState, setOpenFlowState } = useFlowOpens()
   const [selectedStep, setSelectedStep] = useState(initialSelectedStep || 0)
@@ -130,6 +132,11 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
   if (!steps) {
     return null
   }
+
+  if (hideOnFlowCompletion === true && getFlowStatus(flowId) === COMPLETED_FLOW) {
+    return null
+  }
+
   const metaData = getFlowMetadata(flowId)
   if (metaData?.title) {
     title = metaData.title
