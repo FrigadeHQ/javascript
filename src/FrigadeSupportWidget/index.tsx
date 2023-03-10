@@ -132,13 +132,15 @@ export const FrigadeSupportWidget: FC<FloatingWidgetProps> = ({
           }}
           className={getClassName('supportButton', appearance)}
         >
-          <SupportIconContainer>
+          <SupportIconContainer className={getClassName('supportIconContainer', appearance)}>
             <QuestionCircle
               className={getClassName('supportIcon', appearance)}
               style={{ width: '18px', height: '18px' }}
             />
           </SupportIconContainer>
-          <SupportTitle>{title}</SupportTitle>
+          <SupportTitle className={getClassName('supportButtonTitle', appearance)}>
+            {title}
+          </SupportTitle>
         </SupportButton>
         <AnimatePresence>
           <Menu />

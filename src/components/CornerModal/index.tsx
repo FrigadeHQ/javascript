@@ -13,8 +13,8 @@ const CornerModalContainer = styled.div`
   position: fixed;
   right: 0;
   bottom: 0;
-  margin-right: 24px;
-  margin-bottom: 90px;
+  margin-right: 28px;
+  margin-bottom: 28px;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
