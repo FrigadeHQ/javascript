@@ -18,6 +18,7 @@ export const RequiredSymbol = styled.span`
   color: #f5222d;
   display: flex;
   margin-right: 5px;
+  margin-top: 10px;
 `
 
 export const LabelWrapper = styled.div`

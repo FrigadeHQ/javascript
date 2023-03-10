@@ -1,6 +1,26 @@
 import styled from 'styled-components'
 import { getCustomClasOverrides } from '../shared/appearance'
 
+export const SupportButton = styled.button`
+  :not(${(props) => getCustomClasOverrides(props)}) {
+    // Anything inside this block will be ignored if the user provides a custom class
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 6px 10px;
+    gap: 8px;
+
+    background: #fafafa;
+    border: 1px solid #d9d9d9;
+    border-radius: 21px;
+    font-size: 12px;
+    :hover {
+      opacity: 0.8;
+    }
+  }
+`
+
 export const FloatingWidgetContainer = styled.div`
   position: fixed;
   right: 0;
@@ -35,6 +55,7 @@ export const FloatingWidgetMenu = styled.div`
     // Anything inside this block will be ignored if the user provides a custom class
     background: #ffffff;
   }
+
   display: flex;
   flex-direction: column;
   min-width: 200px;
@@ -43,6 +64,9 @@ export const FloatingWidgetMenu = styled.div`
     0px 3px 6px -4px rgba(0, 0, 0, 0.12);
   border-radius: 8px;
   margin-bottom: 22px;
+  position: ${(props) => (props.type == 'inline' ? 'absolute' : 'relative')};
+  top: ${(props) => (props.type == 'inline' ? '68px' : 0)};
+  margin-left: ${(props) => (props.type == 'inline' ? '-127px' : 0)};
 `
 
 export const FlowWidgetMenuItem = styled.button`

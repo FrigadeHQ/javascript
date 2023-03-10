@@ -5,7 +5,7 @@ export { FrigadeProgressBadge } from './FrigadeProgressBadge'
 export { FrigadeForm } from './FrigadeForm'
 export { FrigadeGuide } from './FrigadeGuide'
 export { FrigadeTour } from './FrigadeTour'
-export { FrigadeFloatingSupportWidget } from './FrigadeFloatingSupportWidget'
+export { FrigadeSupportWidget } from './FrigadeSupportWidget'
 
 export type { BaseTheme as FigadeTheme } from './types'
 

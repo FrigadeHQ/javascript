@@ -8,24 +8,28 @@ import {
   FloatingWidgetContainer,
   FloatingWidgetMenu,
   FlowWidgetMenuItem,
+  SupportButton,
 } from './styled'
 import { AnimatePresence, motion } from 'framer-motion'
 import { primaryCTAClickSideEffects } from '../shared/cta-util'
 import { Question } from '../components/Icons/Question'
 import { getClassName } from '../shared/appearance'
+import { QuestionCircle } from '../components/Icons/QuestionCircle'
 
 export interface FloatingWidgetProps extends DefaultFrigadeFlowProps {
-  primaryColor?: string
-  backgroundColor?: string
+  type?: 'floating' | 'inline'
   visible?: boolean
+  title?: string
 }
 
-export const FrigadeFloatingSupportWidget: FC<FloatingWidgetProps> = ({
+export const FrigadeSupportWidget: FC<FloatingWidgetProps> = ({
   flowId,
   style,
   className = '',
   onStepCompletion,
   visible = true,
+  type = 'inline',
+  title = 'Help',
   appearance,
 }) => {
   const {
@@ -91,30 +95,59 @@ export const FrigadeFloatingSupportWidget: FC<FloatingWidgetProps> = ({
     setShowMenu(false)
   }
 
+  function Menu() {
+    return (
+      showMenu && (
+        <FloatingWidgetMenu
+          className={getClassName('floatingWidgetMenu', appearance)}
+          as={motion.div}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.1 }}
+          type={type}
+        >
+          {steps.map((step, index) => (
+            <FlowWidgetMenuItem
+              className={getClassName('floatingWidgetMenuItem', appearance)}
+              key={index}
+              onClick={() => handlePrimaryButtonClick(step, index)}
+            >
+              {step.title}
+            </FlowWidgetMenuItem>
+          ))}
+        </FloatingWidgetMenu>
+      )
+    )
+  }
+
+  if (type == 'inline') {
+    return (
+      <span ref={wrapperRef}>
+        <SupportButton
+          onClick={() => {
+            setShowMenu(!showMenu)
+          }}
+          className={getClassName('supportButton', appearance)}
+        >
+          <QuestionCircle
+            className={getClassName('supportIcon', appearance)}
+            style={{ display: 'flex', width: '18px', height: '18px' }}
+          />
+          {title}
+        </SupportButton>
+        <AnimatePresence>
+          <Menu />
+        </AnimatePresence>
+      </span>
+    )
+  }
+
   return (
     <Portal>
       <FloatingWidgetContainer ref={wrapperRef}>
         <AnimatePresence>
-          {showMenu && (
-            <FloatingWidgetMenu
-              className={getClassName('floatingWidgetMenu', appearance)}
-              as={motion.div}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.1 }}
-            >
-              {steps.map((step, index) => (
-                <FlowWidgetMenuItem
-                  className={getClassName('floatingWidgetMenuItem', appearance)}
-                  key={index}
-                  onClick={() => handlePrimaryButtonClick(step, index)}
-                >
-                  {step.title}
-                </FlowWidgetMenuItem>
-              ))}
-            </FloatingWidgetMenu>
-          )}
+          <Menu />
         </AnimatePresence>
         <FloatingWidgetButton
           onClick={() => {
@@ -134,4 +167,4 @@ export const FrigadeFloatingSupportWidget: FC<FloatingWidgetProps> = ({
   )
 }
 
-export default FrigadeFloatingSupportWidget
+export default FrigadeSupportWidget
