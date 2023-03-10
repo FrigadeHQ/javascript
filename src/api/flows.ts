@@ -150,6 +150,9 @@ export function useFlows() {
 
   function getStepStatus(flowSlug: string, stepId: string): StepActionType | null {
     const maybeFlowResponse = getLastFlowResponseForStep(flowSlug, stepId)
+    if (maybeFlowResponse === null) {
+      return null
+    }
     return (maybeFlowResponse ? maybeFlowResponse.actionType : NOT_STARTED_STEP) as StepActionType
   }
 
