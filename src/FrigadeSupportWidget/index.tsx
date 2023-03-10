@@ -9,6 +9,8 @@ import {
   FloatingWidgetMenu,
   FlowWidgetMenuItem,
   SupportButton,
+  SupportIconContainer,
+  SupportTitle,
 } from './styled'
 import { AnimatePresence, motion } from 'framer-motion'
 import { primaryCTAClickSideEffects } from '../shared/cta-util'
@@ -130,11 +132,13 @@ export const FrigadeSupportWidget: FC<FloatingWidgetProps> = ({
           }}
           className={getClassName('supportButton', appearance)}
         >
-          <QuestionCircle
-            className={getClassName('supportIcon', appearance)}
-            style={{ display: 'flex', width: '18px', height: '18px' }}
-          />
-          {title}
+          <SupportIconContainer>
+            <QuestionCircle
+              className={getClassName('supportIcon', appearance)}
+              style={{ width: '18px', height: '18px' }}
+            />
+          </SupportIconContainer>
+          <SupportTitle>{title}</SupportTitle>
         </SupportButton>
         <AnimatePresence>
           <Menu />

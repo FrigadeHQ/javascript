@@ -21,6 +21,19 @@ export const SupportButton = styled.button`
   }
 `
 
+export const SupportTitle = styled.span`
+  :not(${(props) => getCustomClasOverrides(props)}) {
+    font-size: 12px;
+    display: inline-block;
+  }
+`
+export const SupportIconContainer = styled.span`
+  :not(${(props) => getCustomClasOverrides(props)}) {
+    font-size: 12px;
+    display: inline-block;
+  }
+`
+
 export const FloatingWidgetContainer = styled.div`
   position: fixed;
   right: 0;
