@@ -12,6 +12,7 @@ import { CornerModal } from '../components/CornerModal'
 import { MultiInputStepType } from '../Forms/MultiInputStepType/MultiInputStepType'
 import { CustomFormTypeProps } from './types'
 import { getClassName } from '../shared/appearance'
+import { CallToActionStepType } from '../Forms/CallToActionStepType/CallToActionStepType'
 
 export interface FormProps extends DefaultFrigadeFlowProps {
   title?: string
@@ -84,6 +85,7 @@ export const FrigadeForm: FC<FormProps> = ({
   const DEFAULT_CUSTOM_STEP_TYPES = {
     linkCollection: LinkCollectionStepType,
     multiInput: MultiInputStepType,
+    callToAction: CallToActionStepType,
   }
 
   const mergedCustomStepTypes = { ...DEFAULT_CUSTOM_STEP_TYPES, ...customStepTypes }
