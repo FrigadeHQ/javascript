@@ -52,7 +52,10 @@ export const CollapsibleStep: FC<CollapsibleStepProps> = ({
         </HeaderLeft>
 
         <CollapseChevronContainer onClick={() => onClick()}>
-          <Chevron style={{ ...iconStyle, transition: 'transform 0.1s ease-in-out' }} color={appearance?.theme?.colorTextSecondary}/>
+          <Chevron
+            style={{ ...iconStyle, transition: 'transform 0.1s ease-in-out' }}
+            color={appearance?.theme?.colorTextSecondary}
+          />
         </CollapseChevronContainer>
       </StepHeader>
 
@@ -67,21 +70,21 @@ export const CollapsibleStep: FC<CollapsibleStepProps> = ({
           >
             <StepSubtitle appearance={appearance}>{stepData.subtitle}</StepSubtitle>
             <MultipleButtonContainer>
-              <Button
-                title={stepData.primaryButtonTitle ?? 'Continue'}
-                onClick={() => onPrimaryButtonClick()}
-                style={{ width: 'auto' }}
-                appearance={appearance}
-              />
               {stepData.secondaryButtonTitle ? (
                 <Button
                   secondary
                   title={stepData.secondaryButtonTitle}
                   onClick={() => onSecondaryButtonClick()}
-                  style={{ marginLeft: '12px', width: 'auto' }}
+                  style={{ width: 'auto' }}
                   appearance={appearance}
                 />
               ) : null}
+              <Button
+                title={stepData.primaryButtonTitle ?? 'Continue'}
+                onClick={() => onPrimaryButtonClick()}
+                style={{ marginLeft: '12px', width: 'auto' }}
+                appearance={appearance}
+              />
             </MultipleButtonContainer>
           </motion.div>
         )}
