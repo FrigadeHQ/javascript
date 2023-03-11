@@ -20,7 +20,6 @@ interface CollapsibleStepProps {
   onClick: () => void
   onSecondaryButtonClick: () => void
   onPrimaryButtonClick: () => void
-  primaryColor?: string
   appearance?: Appearance
 }
 
@@ -28,7 +27,6 @@ export const CollapsibleStep: FC<CollapsibleStepProps> = ({
   stepData,
   collapsed,
   onClick,
-  primaryColor = '#000000',
   onPrimaryButtonClick,
   onSecondaryButtonClick,
   appearance,
