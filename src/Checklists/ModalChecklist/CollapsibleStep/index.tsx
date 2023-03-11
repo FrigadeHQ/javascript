@@ -75,14 +75,14 @@ export const CollapsibleStep: FC<CollapsibleStepProps> = ({
                   secondary
                   title={stepData.secondaryButtonTitle}
                   onClick={() => onSecondaryButtonClick()}
-                  style={{ width: 'auto' }}
+                  style={{ width: 'auto', marginRight: '12px' }}
                   appearance={appearance}
                 />
               ) : null}
               <Button
                 title={stepData.primaryButtonTitle ?? 'Continue'}
                 onClick={() => onPrimaryButtonClick()}
-                style={{ marginLeft: '12px', width: 'auto' }}
+                style={{ width: 'auto' }}
                 appearance={appearance}
               />
             </MultipleButtonContainer>
