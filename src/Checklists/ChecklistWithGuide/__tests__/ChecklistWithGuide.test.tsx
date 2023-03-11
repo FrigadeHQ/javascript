@@ -29,7 +29,13 @@ describe('ChecklistWithGuide', () => {
     visible: true,
     stepsTitle: 'Custom steps title for guide checklist',
     onClose: jest.fn(),
-    steps: [ stepData ]
+    steps: [ stepData ],
+    appearance: {
+      styleOverrides: {
+        checklistStepContainer: 'bg-black text-white',
+      },
+      theme: { }
+    }
   }
 
   test('renders', () => {
@@ -50,11 +56,6 @@ describe('ChecklistWithGuide', () => {
   })
 
   test('applies custom style overrides', () => {
-    testProps.appearance = {
-      styleOverrides: {
-        checklistStepContainer: 'bg-black text-white',
-      }
-    }
     render(<ChecklistWithGuide {...testProps} />)
     expect(screen.getByTestId('checklistStepContainer').className).toContain('bg-black text-white')
   })

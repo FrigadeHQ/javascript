@@ -7,7 +7,7 @@ export { FrigadeGuide } from './FrigadeGuide'
 export { FrigadeTour } from './FrigadeTour'
 export { FrigadeSupportWidget } from './FrigadeSupportWidget'
 
-export type { BaseTheme as FigadeTheme } from './types'
+export type { BaseTheme as FrigadeTheme } from './types'
 
 export { useFlows } from './api/flows'
 export { useFlowResponses } from './api/flow-responses'
