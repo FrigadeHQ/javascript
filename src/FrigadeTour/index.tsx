@@ -76,6 +76,13 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
     return null
   }
 
+  if (
+    getStepStatus(flowId, selectedStep) == COMPLETED_STEP &&
+    selectedStep == getFlowSteps(flowId).length - 1
+  ) {
+    return null
+  }
+
   // Check if any other flow modals are open. If so hide this one
   if (hasOpenModals()) {
     return null
@@ -93,8 +100,8 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
   }
 
   if (!finishedInitialLoad && initialSelectedStep === undefined) {
-    const completedSteps = Math.min(getNumberOfStepsCompleted(flowId), steps.length - 1)
-    setSelectedStep(completedSteps)
+    //const completedSteps = Math.min(getNumberOfStepsCompleted(flowId), steps.length - 1)
+    setSelectedStep(0)
     setFinishedInitialLoad(true)
   }
 
