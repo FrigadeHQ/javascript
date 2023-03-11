@@ -57,8 +57,12 @@ export function useFlows() {
   } = useContext(FrigadeContext)
   const { addResponse } = useFlowResponses()
   const fetcher = (url) => fetch(url, config).then((r) => r.json())
-  const { userFlowStatesData, isLoadingUserFlowStateData, mutateUserFlowState } =
-    useUserFlowStates()
+  const {
+    userFlowStatesData,
+    isLoadingUserFlowStateData,
+    mutateUserFlowState,
+    optimisticallyMarkFlowCompleted,
+  } = useUserFlowStates()
 
   const { data: flowData, error } = useSWR(publicApiKey ? `${API_PREFIX}flows` : null, fetcher)
 
@@ -148,6 +152,38 @@ export function useFlows() {
     })
   }
 
+  function markFlowStarted(flowSlug: string, data?: any) {
+    const firstStep = getFlowSteps(flowSlug)[0]
+
+    addResponse({
+      foreignUserId: userId,
+      flowSlug,
+      stepId: firstStep ?? 'unknown',
+      actionType: STARTED_FLOW,
+      data: data ?? {},
+      createdAt: new Date(),
+      blocked: false,
+    }).then(() => {
+      mutateUserFlowState()
+    })
+  }
+
+  function markFlowCompleted(flowSlug: string, data?: any) {
+    const currentStep = getCurrentStep(flowSlug)
+    optimisticallyMarkFlowCompleted(flowSlug)
+    addResponse({
+      foreignUserId: userId,
+      flowSlug,
+      stepId: currentStep?.id ?? 'unknown',
+      actionType: COMPLETED_FLOW,
+      data: data ?? {},
+      createdAt: new Date(),
+      blocked: false,
+    }).then(() => {
+      mutateUserFlowState()
+    })
+  }
+
   function getStepStatus(flowSlug: string, stepId: string): StepActionType | null {
     const maybeFlowResponse = getLastFlowResponseForStep(flowSlug, stepId)
     if (maybeFlowResponse === null) {
@@ -178,8 +214,27 @@ export function useFlows() {
       return b.createdAt.getTime() - a.createdAt.getTime()
     })
 
-    const maybeFlowResponse = flowResponsesSorted.find((r) => r.stepId === stepId)
-    return maybeFlowResponse
+    return flowResponsesSorted.find((r) => r.stepId === stepId)
+  }
+
+  function getCurrentStep(flowSlug: string): StepData | null {
+    if (isLoadingUserState || !userFlowStatesData) {
+      return null
+    }
+
+    const lastStep = userFlowStatesData.find((f) => f.flowId === flowSlug)?.lastStepId
+    if (lastStep) {
+      return getFlowSteps(flowSlug).find((s) => s.id === lastStep)
+    }
+    return null
+  }
+
+  function getCurrentStepIndex(flowSlug: string): number {
+    const currentStep = getCurrentStep(flowSlug)
+    if (!currentStep) {
+      return 0
+    }
+    return getFlowSteps(flowSlug).findIndex((s) => s.id === currentStep.id) ?? 0
   }
 
   function getStepOptionalProgress(step: StepData) {
@@ -195,15 +250,11 @@ export function useFlows() {
   }
 
   function getFlowStatus(flowSlug: string) {
-    if (getNumberOfStepsCompleted(flowSlug) === getNumberOfSteps(flowSlug)) {
-      return COMPLETED_FLOW
+    const userFlowState = userFlowStatesData?.find((f) => f.flowId === flowSlug)
+    if (!userFlowState) {
+      return null
     }
-
-    const startedFlow = flowResponses?.find((r) => r.flowSlug === flowSlug)
-    if (startedFlow) {
-      return STARTED_FLOW
-    }
-    return null
+    return userFlowState.flowState
   }
 
   function getNumberOfStepsCompleted(flowSlug: string): number {
@@ -258,6 +309,8 @@ export function useFlows() {
     getFlowSteps,
     markStepStarted,
     markStepCompleted,
+    markFlowStarted,
+    markFlowCompleted,
     getFlowStatus,
     getNumberOfStepsCompleted,
     getNumberOfSteps,

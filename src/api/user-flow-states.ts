@@ -17,6 +17,7 @@ export function useUserFlowStates(): {
   userFlowStatesData: PublicUserFlowState[]
   isLoadingUserFlowStateData: boolean
   mutateUserFlowState: () => any
+  optimisticallyMarkFlowCompleted: (flowId: string) => void
   error: any
 } {
   const { config } = useConfig()
@@ -45,10 +46,18 @@ export function useUserFlowStates(): {
     arrayFetcher
   )
 
+  function optimisticallyMarkFlowCompleted(flowId: string) {
+    const flowState = userFlowStatesData.find((state) => state.flowId === flowId)
+    if (flowState) {
+      flowState.flowState = 'COMPLETED_FLOW'
+    }
+  }
+
   return {
     userFlowStatesData,
     isLoadingUserFlowStateData,
     mutateUserFlowState,
+    optimisticallyMarkFlowCompleted,
     error,
   }
 }

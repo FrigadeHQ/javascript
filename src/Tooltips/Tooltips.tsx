@@ -54,6 +54,10 @@ export interface ToolTipProps extends DefaultFrigadeFlowProps {
   setSelectedStep?: (index: number) => void
   customStepTypes?: Map<string, (stepData: StepData) => React.ReactNode>
   appearance?: Appearance
+  /**
+   * Shows a close button in the top right corner of the tooltip. This will end the flow.
+   */
+  dismissible?: boolean
 }
 
 const HighlightOuter = styled.div<{ primaryColor: string }>`
@@ -143,6 +147,7 @@ const Tooltips: FC<ToolTipProps> = ({
   onStepCompletion,
   appearance,
   showTooltipsSimultaneously = false,
+  dismissible = false,
 }) => {
   const [selfBounds, setSelfBounds] = useState<undefined | DOMRect>(undefined)
   const [needsUpdate, setNeedsUpdate] = useState(new Date())
@@ -234,11 +239,6 @@ const Tooltips: FC<ToolTipProps> = ({
           </TooltipStepCounter>
         </TooltipStepCountContainer>
         <TooltipCTAContainer className={getClassName('tooltipCTAContainer', appearance)}>
-          <Button
-            title={steps[selectedStep].primaryButtonTitle || 'Next'}
-            appearance={appearance}
-            onClick={handleOnCTAClick}
-          />
           {steps[selectedStep].secondaryButtonTitle && (
             <Button
               title={steps[selectedStep].secondaryButtonTitle}
@@ -247,6 +247,11 @@ const Tooltips: FC<ToolTipProps> = ({
               secondary
             />
           )}
+          <Button
+            title={steps[selectedStep].primaryButtonTitle || 'Next'}
+            appearance={appearance}
+            onClick={handleOnCTAClick}
+          />
         </TooltipCTAContainer>
       </>
     )
@@ -262,10 +267,14 @@ const Tooltips: FC<ToolTipProps> = ({
           >
             {steps[selectedStep].title}
           </TooltipTitle>
-          {onDismiss && (
+          {dismissible && (
             <div
               data-testid="tooltip-dismiss"
-              onClick={onDismiss}
+              onClick={() => {
+                if (onDismiss) {
+                  onDismiss()
+                }
+              }}
               style={{
                 height: '100%',
                 flexDirection: 'column',

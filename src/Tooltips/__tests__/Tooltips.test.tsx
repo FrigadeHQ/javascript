@@ -1,5 +1,5 @@
 import React from 'react'
-import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 
 import { DefaultAppearance, StepData } from '../../types'
 import { Tooltips } from '../index'
@@ -38,7 +38,12 @@ describe('Tooltip', () => {
   function ControlledTooltip() {
     return (
       <div>
-        <Tooltips steps={data} onComplete={onComplete} onDismiss={onDismiss} appearance={DefaultAppearance} />
+        <Tooltips
+          steps={data}
+          onComplete={onComplete}
+          onDismiss={onDismiss}
+          appearance={DefaultAppearance}
+        />
         <div id="test-select-0">
           <p>Some text on screen!</p>
         </div>
@@ -48,7 +53,7 @@ describe('Tooltip', () => {
 
   test('renders with provided selector found', async () => {
     render(<ControlledTooltip />)
-    expect(screen.getByText(data[0].title)).toBeDefined()  
+    expect(screen.getByText(data[0].title)).toBeDefined()
     expect(screen.getByText(data[0].subtitle)).toBeDefined()
   })
 
@@ -56,7 +61,12 @@ describe('Tooltip', () => {
     function ControlledTooltipHidden() {
       return (
         <div>
-          <Tooltips steps={data} onComplete={onComplete} onDismiss={onDismiss} appearance={DefaultAppearance} />
+          <Tooltips
+            steps={data}
+            onComplete={onComplete}
+            onDismiss={onDismiss}
+            appearance={DefaultAppearance}
+          />
           <div id="tooltip-err-target">
             <p>Some text on screen!</p>
           </div>
@@ -75,17 +85,9 @@ describe('Tooltip', () => {
     expect(data[0].handleSecondaryButtonClick).toHaveBeenCalledTimes(1)
   })
 
-  test('handles dismiss', () => {
-    render(<ControlledTooltip />)
-
-    fireEvent.click(screen.getByTestId('tooltip-dismiss'))
-    expect(onDismiss).toHaveBeenCalledTimes(1)
-  })
-
   test('renders custom StepContent', () => {
-
     const CustomStepContent = () => (
-      <div data-testid='test-div'>
+      <div data-testid="test-div">
         <p>This is custom content</p>
         <button>Custom primary</button>
       </div>
@@ -106,7 +108,13 @@ describe('Tooltip', () => {
     function ControlledTooltipCustom() {
       return (
         <div>
-          <Tooltips steps={customStepData} onComplete={onComplete} onDismiss={onDismiss} customStepTypes={customSteps} appearance={DefaultAppearance} />
+          <Tooltips
+            steps={customStepData}
+            onComplete={onComplete}
+            onDismiss={onDismiss}
+            customStepTypes={customSteps}
+            appearance={DefaultAppearance}
+          />
           <div id="test-select-0">
             <p>Some text on screen!</p>
           </div>

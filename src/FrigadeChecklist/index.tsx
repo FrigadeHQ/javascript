@@ -70,6 +70,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
   onButtonClick,
   appearance,
   hideOnFlowCompletion,
+  setVisible,
   ...guideProps
 }) => {
   const {
@@ -114,6 +115,12 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
       })
     }
   }, [isLoading, customVariables, setCustomVariable, existingCustomVariables])
+
+  useEffect(() => {
+    if (visible !== undefined && getOpenFlowState(flowId) !== visible) {
+      setOpenFlowState(flowId, visible)
+    }
+  }, [visible, setOpenFlowState, getOpenFlowState, flowId])
 
   if (isLoading) {
     return null

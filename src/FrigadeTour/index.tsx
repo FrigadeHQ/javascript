@@ -17,6 +17,8 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
   onStepCompletion,
   onButtonClick,
   showTooltipsSimultaneously = false,
+  onDismiss,
+  dismissible,
   ...props
 }) => {
   const {
@@ -25,6 +27,7 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
     isLoading,
     targetingLogicShouldHideFlow,
     markStepCompleted,
+    markFlowCompleted,
     setCustomVariable,
     getStepStatus,
     getNumberOfStepsCompleted,
@@ -145,6 +148,13 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
     })
   }
 
+  function onDismissCurrentTooltip() {
+    if (onDismiss) {
+      onDismiss()
+    }
+    markFlowCompleted(flowId)
+  }
+
   const elem = document.querySelector(steps[initialSelectedStep ?? 0].selector)
 
   return (
@@ -159,6 +169,8 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
             setSelectedStep={setSelectedStep}
             selectedStep={idx}
             showTooltipsSimultaneously={showTooltipsSimultaneously}
+            dismissible={dismissible}
+            onDismiss={onDismissCurrentTooltip}
             {...props}
           />
         ))
@@ -170,6 +182,8 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
           setSelectedStep={setSelectedStep}
           selectedStep={selectedStep}
           showTooltipsSimultaneously={showTooltipsSimultaneously}
+          dismissible={dismissible}
+          onDismiss={onDismissCurrentTooltip}
           {...props}
         />
       )}
