@@ -158,7 +158,7 @@ export function useFlows() {
     addResponse({
       foreignUserId: userId,
       flowSlug,
-      stepId: firstStep ?? 'unknown',
+      stepId: firstStep.stepId ?? 'unknown',
       actionType: STARTED_FLOW,
       data: data ?? {},
       createdAt: new Date(),
