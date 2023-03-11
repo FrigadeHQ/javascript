@@ -220,6 +220,15 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
     })
   }
 
+  function PreloadImages() {
+    return steps.map((step: StepData, idx: number) => {
+      if (step.imageUri) {
+        return <img src={step.imageUri} key={idx} style={{ display: 'none' }} />
+      }
+      return null
+    })
+  }
+
   const commonProps = {
     steps: getSteps(),
     title,
@@ -230,20 +239,23 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
 
   if (type === 'modal') {
     return (
-      <ModalChecklist
-        visible={showModal}
-        onClose={() => {
-          setOpenFlowState(flowId, false)
-          if (onDismiss) {
-            onDismiss()
-          }
-        }}
-        selectedStep={selectedStep}
-        setSelectedStep={setSelectedStep}
-        autoExpandNextStep={true}
-        appearance={appearance}
-        {...commonProps}
-      />
+      <>
+        <PreloadImages />
+        <ModalChecklist
+          visible={showModal}
+          onClose={() => {
+            setOpenFlowState(flowId, false)
+            if (onDismiss) {
+              onDismiss()
+            }
+          }}
+          selectedStep={selectedStep}
+          setSelectedStep={setSelectedStep}
+          autoExpandNextStep={true}
+          appearance={appearance}
+          {...commonProps}
+        />
+      </>
     )
   }
   if (type === 'withGuide') {
@@ -257,36 +269,42 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
     }
 
     return (
-      <ChecklistWithGuide
-        visible={showModal}
-        stepsTitle={metaData.stepsTitle ? metaData.stepsTitle : 'Your quick start guide'}
-        onClose={() => {
-          setOpenFlowState(flowId, false)
-          if (onDismiss) {
-            onDismiss()
-          }
-        }}
-        secondaryColor={secondaryColor}
-        selectedStep={selectedStep}
-        setSelectedStep={setSelectedStep}
-        guideData={guideFlowSteps}
-        guideTitle={guideProps.guideTitle ?? 'Guide'}
-        appearance={appearance}
-        title={title}
-        subtitle={subtitle}
-        {...commonProps}
-      />
+      <>
+        <PreloadImages />
+        <ChecklistWithGuide
+          visible={showModal}
+          stepsTitle={metaData.stepsTitle ? metaData.stepsTitle : 'Your quick start guide'}
+          onClose={() => {
+            setOpenFlowState(flowId, false)
+            if (onDismiss) {
+              onDismiss()
+            }
+          }}
+          secondaryColor={secondaryColor}
+          selectedStep={selectedStep}
+          setSelectedStep={setSelectedStep}
+          guideData={guideFlowSteps}
+          guideTitle={guideProps.guideTitle ?? 'Guide'}
+          appearance={appearance}
+          title={title}
+          subtitle={subtitle}
+          {...commonProps}
+        />
+      </>
     )
   }
 
   return (
-    <HeroChecklist
-      style={style}
-      selectedStep={selectedStep}
-      setSelectedStep={setSelectedStep}
-      className={className}
-      apperaance={appearance}
-      {...commonProps}
-    />
+    <>
+      <PreloadImages />
+      <HeroChecklist
+        style={style}
+        selectedStep={selectedStep}
+        setSelectedStep={setSelectedStep}
+        className={className}
+        apperaance={appearance}
+        {...commonProps}
+      />
+    </>
   )
 }

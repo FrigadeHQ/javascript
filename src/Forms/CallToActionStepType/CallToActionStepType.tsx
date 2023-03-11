@@ -38,7 +38,12 @@ const HeaderSubtitle = styled.h2`
   }
 `
 
-export function CallToActionStepType({ stepData, appearance }: CustomFormTypeProps) {
+export function CallToActionStepType({
+  stepData,
+  appearance,
+  setCanContinue,
+}: CustomFormTypeProps) {
+  setCanContinue(true)
   return (
     <CallToActionStepContainer className={getClassName('callToActionContainer', appearance)}>
       <HeaderTitle className={getClassName('callToActionTitle', appearance)}>
