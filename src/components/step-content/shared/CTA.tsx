@@ -18,23 +18,23 @@ export const CTA: FC<StepContentProps> = ({ stepData, appearance }) => {
   return (
     <>
       <MultipleButtonContainer>
-        <Button
-          appearance={appearance}
-          title={stepData.primaryButtonTitle}
-          onClick={handlePrimaryButtonClick}
-          style={{
-            width: 'auto',
-            marginRight: '12px',
-          }}
-        />
         {stepData.secondaryButtonTitle && (
           <Button
             appearance={appearance}
             secondary
             title={stepData.secondaryButtonTitle}
             onClick={handleSecondaryButtonClick}
+            style={{
+              width: 'auto',
+              marginRight: '12px',
+            }}
           />
         )}
+        <Button
+          appearance={appearance}
+          title={stepData.primaryButtonTitle}
+          onClick={handlePrimaryButtonClick}
+        />
       </MultipleButtonContainer>
     </>
   )
