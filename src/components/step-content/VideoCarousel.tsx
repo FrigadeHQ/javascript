@@ -117,8 +117,8 @@ export const VideoCarousel: FC<StepContentProps> = ({ stepData, appearance }) =>
       <VideoCarouselContainer>
         <TitleSubtitle stepData={stepData} appearance={appearance} />
         <VideoList>
-          {videoProps.videos.map((video: VideoMetadata) => (
-            <span key={video.uri}>
+          {videoProps.videos.map((video: VideoMetadata, idx: number) => (
+            <span key={`${video.uri}-${idx}`}>
               <VideoCard video={video} />
             </span>
           ))}
