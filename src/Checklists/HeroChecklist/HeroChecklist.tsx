@@ -47,13 +47,13 @@ const HeroChecklistContainer = styled.div<{ appearance }>`
   border-radius: 8px;
 `
 
-const HeroChecklistTitle = styled.p<{ apperance }>`
+const HeroChecklistTitle = styled.h1<{ apperance }>`
   font-size: 24px;
   font-weight: 600;
   color: ${(props) => props.appearance?.theme?.colorText};
 `
 
-const HeroChecklistSubtitle = styled.p`
+const HeroChecklistSubtitle = styled.h2`
   font-size: 15px;
   line-height: 20px;
   color: ${(props) => props.appearance?.theme?.colorTextSecondary ?? '#4d4d4d'};

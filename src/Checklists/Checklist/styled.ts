@@ -19,13 +19,13 @@ export const ChecklistHeaderTop = styled.div`
   align-content: flex-start;
 `
 
-export const ChecklistTitle = styled.p`
+export const ChecklistTitle = styled.h1`
   display: flex;
   margin: 0;
   font-size: 18px;
 `
 
-export const ChecklistSubtitle = styled.p`
+export const ChecklistSubtitle = styled.h2`
   font-size: 15px;
   color: #4d4d4d;
 `

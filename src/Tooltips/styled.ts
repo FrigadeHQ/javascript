@@ -24,7 +24,7 @@ export const TooltipHeader = styled.div`
   margin-right: 12px;
 `
 
-export const TooltipTitle = styled.p<{ appearance }>`
+export const TooltipTitle = styled.h2<{ appearance }>`
   display: flex;
   margin: 0;
   :not(${(props) => getCustomClasOverrides(props)}) {

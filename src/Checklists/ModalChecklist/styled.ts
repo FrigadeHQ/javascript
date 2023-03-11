@@ -21,7 +21,7 @@ export const HeaderContent = styled.div`
   flex-direction: column;
 `
 
-export const ModalChecklistTitle = styled.p<{ appearance }>`
+export const ModalChecklistTitle = styled.h1<{ appearance }>`
   color: ${(props) => props.appearance?.theme?.colorText};
   font-style: normal;
   font-weight: 700;
@@ -29,7 +29,7 @@ export const ModalChecklistTitle = styled.p<{ appearance }>`
   line-height: 24px;
   margin-bottom: 8px;
 `
-export const ModalChecklistSubtitle = styled.p<{ appearance }>`
+export const ModalChecklistSubtitle = styled.h2<{ appearance }>`
   color: ${(props) => props.appearance?.theme?.colorTextSecondary};
   font-weight: 400;
   color: #4d4d4d;

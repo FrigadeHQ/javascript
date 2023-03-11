@@ -26,14 +26,14 @@ export const HeaderContent = styled.div`
   margin-top: 20px;
 `
 
-export const ChecklistTitle = styled.p`
+export const ChecklistTitle = styled.h1`
   font-style: normal;
   font-weight: 600;
   font-size: 30px;
   line-height: 36px;
   margin-bottom: 16px;
 `
-export const ChecklistSubtitle = styled.p`
+export const ChecklistSubtitle = styled.h2`
   font-weight: 400;
   color: #8c8c8c;
   font-size: 16px;
