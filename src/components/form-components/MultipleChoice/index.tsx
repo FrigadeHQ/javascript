@@ -9,6 +9,7 @@ interface MultipleChoiceProps extends FormInputType {
   id: string
   title?: string
   placeholder?: string
+  defaultValue?: string
   props: {
     options?: MultipleChoiceOption[]
   }
@@ -64,15 +65,25 @@ export function MultipleChoice({
 
   if (data === '' && !hasLoaded) {
     setHasLoaded(true)
-    setData(input.props.options?.[0].id || '')
-    onSaveInputData({ choice: [input.props.options?.[0].id || ''] })
+    if (
+      input.defaultValue &&
+      input.props.options?.find((option) => option.id === input.defaultValue)
+    ) {
+      // Find input.props.options with id == defaultValue
+      const defaultValue = input.props.options?.find((option) => option.id === input.defaultValue)
+      setData(defaultValue.id)
+      onSaveInputData({ choice: [defaultValue.id] })
+    } else {
+      setData(input.props.options?.[0].id || '')
+      onSaveInputData({ choice: [input.props.options?.[0].id || ''] })
+    }
   }
 
   return (
     <MultipleChoiceWrapper>
       <Label
         title={input.title}
-        required={input.required}
+        required={false} // MultipleChoice is always required as it has a default value
         appearance={customFormTypeProps.appearance}
       />
       <MultipleChoiceSelect
