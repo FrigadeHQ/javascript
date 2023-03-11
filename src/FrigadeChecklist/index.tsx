@@ -116,11 +116,11 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
     }
   }, [isLoading, customVariables, setCustomVariable, existingCustomVariables])
 
-  useEffect(() => {
-    if (visible !== undefined && getOpenFlowState(flowId) !== visible) {
-      setOpenFlowState(flowId, visible)
-    }
-  }, [visible, setOpenFlowState, getOpenFlowState, flowId])
+  // useEffect(() => {
+  //   if (visible !== undefined && getOpenFlowState(flowId) !== visible) {
+  //     setOpenFlowState(flowId, visible)
+  //   }
+  // }, [visible, setOpenFlowState, getOpenFlowState, flowId])
 
   if (isLoading) {
     return null
