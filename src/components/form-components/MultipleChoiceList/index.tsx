@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import styled from 'styled-components'
 import { FormInputProps, FormInputType } from '../../../FrigadeForm/types'
-import { getCustomClasOverrides } from '../../../shared/appearance'
+import { getCustomClassOverrides } from '../../../shared/appearance'
 import { Label } from '../shared/Label'
 
 interface MultipleChoiceListProps extends FormInputType {
@@ -29,7 +29,7 @@ const MultipleChoiceListWrapper = styled.div`
 `
 
 const MultipleChoiceListItem = styled.button`
-  :not(${(props) => getCustomClasOverrides(props)}) {
+  :not(${(props) => getCustomClassOverrides(props)}) {
     // Anything inside this block will be ignored if the user provides a custom class
     border: 1px solid #e5e5e5;
     font-size: 14px;

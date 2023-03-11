@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { CustomFormTypeProps, FormInputType } from '../../FrigadeForm/types'
-import { getClassName, getCustomClasOverrides } from '../../shared/appearance'
+import { getClassName, getCustomClassOverrides } from '../../shared/appearance'
 
 interface CallToActionStepProps {
   data?: FormInputType[]
@@ -9,7 +9,7 @@ interface CallToActionStepProps {
 
 // create flex that wraps if not enoug space
 const CallToActionStepContainer = styled.div`
-  :not(${(props) => getCustomClasOverrides(props)}) {
+  :not(${(props) => getCustomClassOverrides(props)}) {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -17,7 +17,7 @@ const CallToActionStepContainer = styled.div`
 `
 
 const HeaderTitle = styled.h1`
-  :not(${(props) => getCustomClasOverrides(props)}) {
+  :not(${(props) => getCustomClassOverrides(props)}) {
     font-style: normal;
     font-weight: 590;
     font-size: 16px;
@@ -28,7 +28,7 @@ const HeaderTitle = styled.h1`
 `
 
 const HeaderSubtitle = styled.h2`
-  :not(${(props) => getCustomClasOverrides(props)}) {
+  :not(${(props) => getCustomClassOverrides(props)}) {
     font-style: normal;
     font-weight: 400;
     font-size: 16px;

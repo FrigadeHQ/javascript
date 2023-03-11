@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { getClassName, getCustomClasOverrides } from '../../shared/appearance'
+import { getClassName, getCustomClassOverrides } from '../../shared/appearance'
 
 const Background = styled.div`
   display: flex;
@@ -10,7 +10,7 @@ const Background = styled.div`
   left: 0;
   bottom: 0;
   right: 0;
-  :not(${(props) => getCustomClasOverrides(props)}) {
+  :not(${(props) => getCustomClassOverrides(props)}) {
     background-color: rgba(0, 0, 0, 0.6);
     z-index: 100;
   }

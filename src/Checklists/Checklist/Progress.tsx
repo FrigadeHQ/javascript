@@ -25,7 +25,7 @@ const StepText = styled.p<{ padding, appearance }>`
   font-size: 15px;
   line-height: 18px;
   padding-right: ${(props) => props.padding};
-  color: ${(props) => props.appearance?.theme?.colorSecondary};
+  color: ${(props) => props.appearance?.theme?.colorTextSecondary};
   margin: 0;
 `
 

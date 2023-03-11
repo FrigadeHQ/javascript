@@ -3,11 +3,11 @@ import styled from 'styled-components'
 
 import { ModalBackground } from './ModalBackground'
 import { CloseIcon } from '../CloseIcon'
-import { getClassName, getCustomClasOverrides } from '../../shared/appearance'
+import { getClassName, getCustomClassOverrides } from '../../shared/appearance'
 import { Appearance } from '../../types'
 
 const ModalContainer = styled.div<{ appearance }>`
-  :not(${(props) => getCustomClasOverrides(props)}) {
+  :not(${(props) => getCustomClassOverrides(props)}) {
     // Anything inside this block will be ignored if the user provides a custom class
     background-color: ${(props) => props.appearance?.theme?.colorBackground};
     /* Mobile */
@@ -63,7 +63,7 @@ const ModalClose = styled.div<{ appearance }>`
   top: 16px;
   right: 16px;
   cursor: pointer;
-  :not(${(props) => getCustomClasOverrides(props)}) {
+  :not(${(props) => getCustomClassOverrides(props)}) {
     // Anything inside this block will be ignored if the user provides a custom class
     color: ${(props) => props.appearance?.theme?.colorText};
   }

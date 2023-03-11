@@ -2,11 +2,11 @@ import React, { FC, useEffect } from 'react'
 import styled from 'styled-components'
 import { Portal } from 'react-portal'
 import { Appearance } from '../../types'
-import { getClassName, getCustomClasOverrides } from '../../shared/appearance'
+import { getClassName, getCustomClassOverrides } from '../../shared/appearance'
 import { CloseIcon } from '../CloseIcon'
 
 const CornerModalContainer = styled.div`
-  :not(${(props) => getCustomClasOverrides(props)}) {
+  :not(${(props) => getCustomClassOverrides(props)}) {
     // Anything inside this block will be ignored if the user provides a custom class
     background: #ffffff;
   }
@@ -35,7 +35,7 @@ const CornerModalClose = styled.div`
   top: 16px;
   right: 16px;
   cursor: pointer;
-  :not(${(props) => getCustomClasOverrides(props)}) {
+  :not(${(props) => getCustomClassOverrides(props)}) {
     // Anything inside this block will be ignored if the user provides a custom class
     color: #000000;
   }

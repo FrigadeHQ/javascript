@@ -1,7 +1,7 @@
 import React, { CSSProperties, FC } from 'react'
 import styled from 'styled-components'
 import { Appearance, DefaultAppearance } from '../../types'
-import { getClassName, getCustomClasOverrides } from '../../shared/appearance'
+import { getClassName, getCustomClassOverrides } from '../../shared/appearance'
 
 interface ButtonProps {
   onClick?: () => void
@@ -17,7 +17,7 @@ interface ButtonProps {
 const ButtonContainer = styled.button`
   justify-content: center;
   align-content: center;
-  :not(${(props) => getCustomClasOverrides(props)}) {
+  :not(${(props) => getCustomClassOverrides(props)}) {
     display: flex;
     // Anything inside this block will be ignored if the user provides a custom class
     width: ${(props) => (props.type === 'full-width' ? '100%' : 'auto')};

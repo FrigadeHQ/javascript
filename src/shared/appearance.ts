@@ -20,7 +20,7 @@ export function getClassName(className: string, appearance?: Appearance) {
 
 const defaultClass = '.fr-element'
 
-export function getCustomClasOverrides(props: any) {
+export function getCustomClassOverrides(props: any) {
   if (!props.className) {
     return defaultClass
   }

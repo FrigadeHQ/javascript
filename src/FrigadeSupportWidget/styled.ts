@@ -1,8 +1,8 @@
 import styled from 'styled-components'
-import { getCustomClasOverrides } from '../shared/appearance'
+import { getCustomClassOverrides } from '../shared/appearance'
 
 export const SupportButton = styled.button`
-  :not(${(props) => getCustomClasOverrides(props)}) {
+  :not(${(props) => getCustomClassOverrides(props)}) {
     // Anything inside this block will be ignored if the user provides a custom class
 
     display: flex;
@@ -22,13 +22,13 @@ export const SupportButton = styled.button`
 `
 
 export const SupportTitle = styled.span`
-  :not(${(props) => getCustomClasOverrides(props)}) {
+  :not(${(props) => getCustomClassOverrides(props)}) {
     font-size: 12px;
     display: inline-block;
   }
 `
 export const SupportIconContainer = styled.span`
-  :not(${(props) => getCustomClasOverrides(props)}) {
+  :not(${(props) => getCustomClassOverrides(props)}) {
     font-size: 12px;
     display: inline-block;
   }
@@ -47,7 +47,7 @@ export const FloatingWidgetContainer = styled.div`
 `
 
 export const FloatingWidgetButton = styled.button`
-  :not(${(props) => getCustomClasOverrides(props)}) {
+  :not(${(props) => getCustomClassOverrides(props)}) {
     // Anything inside this block will be ignored if the user provides a custom class
     background-color: #ffffff;
     border: 1px solid #f5f5f5;
@@ -64,7 +64,7 @@ export const FloatingWidgetButton = styled.button`
   cursor: pointer;
 `
 export const FloatingWidgetMenu = styled.div`
-  :not(${(props) => getCustomClasOverrides(props)}) {
+  :not(${(props) => getCustomClassOverrides(props)}) {
     // Anything inside this block will be ignored if the user provides a custom class
     background: #ffffff;
   }
@@ -83,7 +83,7 @@ export const FloatingWidgetMenu = styled.div`
 `
 
 export const FlowWidgetMenuItem = styled.button`
-  :not(${(props) => getCustomClasOverrides(props)}) {
+  :not(${(props) => getCustomClassOverrides(props)}) {
     // Anything inside this block will be ignored if the user provides a custom class
     color: #434343;
     :hover {

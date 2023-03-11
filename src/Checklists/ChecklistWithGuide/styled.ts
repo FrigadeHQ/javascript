@@ -1,6 +1,6 @@
 import { CSSProperties } from 'react'
 import styled from 'styled-components'
-import { getCustomClasOverrides } from '../../shared/appearance'
+import { getCustomClassOverrides } from '../../shared/appearance'
 
 // Styles for top level container and text
 
@@ -43,7 +43,7 @@ export const ChecklistSubtitle = styled.h2`
 `
 
 export const StepsContainer = styled.div`
-  :not(${(props) => getCustomClasOverrides(props)}) {
+  :not(${(props) => getCustomClassOverrides(props)}) {
     border: 1px solid #fafafa;
   }
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.05);
@@ -107,10 +107,10 @@ export const StepSubtitle = styled.p`
   text-align: center;
   color: #8c8c8c;
   margin: 0;
-`
+`;
 
 export const MultipleButtonContainer = styled.div`
-  :not(${(props) => getCustomClasOverrides(props)}) {
+  :not(${(props) => getCustomClassOverrides(props)}) {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -119,7 +119,7 @@ export const MultipleButtonContainer = styled.div`
 `
 
 export const StepListItem = styled.div<{ selected: boolean }>`
-  :not(${(props) => getCustomClasOverrides(props)}) {
+  :not(${(props) => getCustomClassOverrides(props)}) {
     // Anything inside this block will be ignored if the user provides a custom class
     background-color: ${(props) => (props.selected ? '#FAFAFA' : '#FFFFFF')};
     :hover {
@@ -141,7 +141,7 @@ export const StepListItem = styled.div<{ selected: boolean }>`
 `
 
 export const StepListStepName = styled.p<{ selected: boolean }>`
-  :not(${(props) => getCustomClasOverrides(props)}) {
+  :not(${(props) => getCustomClassOverrides(props)}) {
     // Anything inside this block will be ignored if the user provides a custom class
     color: ${(props) => (props.selected ? '#434343' : '#BFBFBF')};
   }
