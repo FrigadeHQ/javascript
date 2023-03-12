@@ -87,6 +87,8 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
     getFlowMetadata,
     isStepBlocked,
     getFlowStatus,
+    hasActiveFullPageFlow,
+    setHasActiveFullPageFlow,
   } = useFlows()
   const { getOpenFlowState, setOpenFlowState } = useFlowOpens()
   const [selectedStep, setSelectedStep] = useState(initialSelectedStep || 0)
@@ -115,6 +117,14 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
       })
     }
   }, [isLoading, customVariables, setCustomVariable, existingCustomVariables])
+
+  useEffect(() => {
+    if (showModal && isModal && !hasActiveFullPageFlow) {
+      setHasActiveFullPageFlow(true)
+    } else if (!showModal && isModal && hasActiveFullPageFlow) {
+      setHasActiveFullPageFlow(false)
+    }
+  }, [showModal, isModal, hasActiveFullPageFlow])
 
   // useEffect(() => {
   //   if (visible !== undefined && getOpenFlowState(flowId) !== visible) {

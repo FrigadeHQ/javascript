@@ -2,7 +2,7 @@ import { useContext } from 'react'
 import { FrigadeContext } from '../FrigadeProvider'
 
 export function useFlowOpens() {
-  const { openFlowStates, setOpenFlowStates } = useContext(FrigadeContext)
+  const { openFlowStates, setOpenFlowStates, hasActiveFullPageFlow } = useContext(FrigadeContext)
 
   function getOpenFlowState(flowSlug: string) {
     return openFlowStates[flowSlug] ?? false
@@ -16,7 +16,7 @@ export function useFlowOpens() {
   }
 
   function hasOpenModals() {
-    return Object.values(openFlowStates).some((isOpen) => isOpen)
+    return Object.values(openFlowStates).some((isOpen) => isOpen) || hasActiveFullPageFlow
   }
 
   return {

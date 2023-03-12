@@ -55,6 +55,8 @@ export function useFlows() {
     flowResponses,
     customVariables,
     setCustomVariables,
+    hasActiveFullPageFlow,
+    setHasActiveFullPageFlow,
   } = useContext(FrigadeContext)
   const { addResponse } = useFlowResponses()
   const fetcher = (url) => fetch(url, config).then((r) => r.json())
@@ -337,5 +339,7 @@ export function useFlows() {
     getStepOptionalProgress,
     getFlowMetadata,
     isStepBlocked,
+    hasActiveFullPageFlow,
+    setHasActiveFullPageFlow,
   }
 }

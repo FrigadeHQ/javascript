@@ -30,6 +30,8 @@ export interface IFrigadeContext {
   >
   isNewGuestUser: boolean
   setIsNewGuestUser: React.Dispatch<React.SetStateAction<boolean>>
+  hasActiveFullPageFlow: boolean
+  setHasActiveFullPageFlow: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export interface FrigadeProviderProps {
@@ -59,6 +61,8 @@ export const FrigadeContext = createContext<IFrigadeContext>({
   setCustomVariables: () => {},
   isNewGuestUser: false,
   setIsNewGuestUser: () => {},
+  hasActiveFullPageFlow: false,
+  setHasActiveFullPageFlow: () => {},
 })
 
 export const FrigadeProvider: FC<FrigadeProviderProps> = ({ publicApiKey, userId, children }) => {
@@ -76,6 +80,7 @@ export const FrigadeProvider: FC<FrigadeProviderProps> = ({ publicApiKey, userId
     [key: string]: string | boolean | number | null
   }>({})
   const [isNewGuestUser, setIsNewGuestUser] = useState(false)
+  const [hasActiveFullPageFlow, setHasActiveFullPageFlow] = useState(false)
 
   useEffect(() => {
     if (userId !== null && userId !== undefined && userId !== userIdValue) {
@@ -107,6 +112,8 @@ export const FrigadeProvider: FC<FrigadeProviderProps> = ({ publicApiKey, userId
         setCustomVariables,
         isNewGuestUser,
         setIsNewGuestUser,
+        hasActiveFullPageFlow,
+        setHasActiveFullPageFlow,
       }}
     >
       {children}
