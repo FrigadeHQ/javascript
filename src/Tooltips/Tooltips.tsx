@@ -174,6 +174,7 @@ const Tooltips: FC<ToolTipProps> = ({
     selfBounds?.width ?? CARD_WIDTH,
     offset
   )
+
   const rightSideIsCropped =
     boundingRect.right + CARD_WIDTH > (window.innerWidth || document.documentElement.clientWidth)
 
@@ -210,6 +211,11 @@ const Tooltips: FC<ToolTipProps> = ({
   }, [selectedStep, url])
 
   if (elem === null) {
+    return <></>
+  }
+
+  // Safeguard for when page is still waiting to render.
+  if (position.x == 0 && position.y == 0) {
     return <></>
   }
 
