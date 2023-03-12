@@ -13,6 +13,7 @@ import { MultiInputStepType } from '../Forms/MultiInputStepType/MultiInputStepTy
 import { CustomFormTypeProps } from './types'
 import { getClassName } from '../shared/appearance'
 import { CallToActionStepType } from '../Forms/CallToActionStepType/CallToActionStepType'
+import { SelectListStepType } from '../Forms/SelectListStepType/SelectListStepType'
 
 export interface FormProps extends DefaultFrigadeFlowProps {
   title?: string
@@ -86,6 +87,7 @@ export const FrigadeForm: FC<FormProps> = ({
     linkCollection: LinkCollectionStepType,
     multiInput: MultiInputStepType,
     callToAction: CallToActionStepType,
+    selectList: SelectListStepType
   }
 
   const mergedCustomStepTypes = { ...DEFAULT_CUSTOM_STEP_TYPES, ...customStepTypes }
