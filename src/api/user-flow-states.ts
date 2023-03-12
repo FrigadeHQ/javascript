@@ -47,9 +47,11 @@ export function useUserFlowStates(): {
   )
 
   function optimisticallyMarkFlowCompleted(flowId: string) {
-    const flowState = userFlowStatesData.find((state) => state.flowId === flowId)
-    if (flowState) {
-      flowState.flowState = 'COMPLETED_FLOW'
+    if (userFlowStatesData) {
+      const flowState = userFlowStatesData.find((state) => state.flowId === flowId)
+      if (flowState) {
+        flowState.flowState = 'COMPLETED_FLOW'
+      }
     }
   }
 

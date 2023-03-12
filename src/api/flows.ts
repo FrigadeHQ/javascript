@@ -3,6 +3,7 @@ import {
   API_PREFIX,
   COMPLETED_FLOW,
   COMPLETED_STEP,
+  NOT_STARTED_FLOW,
   NOT_STARTED_STEP,
   STARTED_FLOW,
   STARTED_STEP,
@@ -152,13 +153,25 @@ export function useFlows() {
     })
   }
 
-  function markFlowStarted(flowSlug: string, data?: any) {
-    const firstStep = getFlowSteps(flowSlug)[0]
-
+  function markFlowNotStarted(flowSlug: string, data?: any) {
     addResponse({
       foreignUserId: userId,
       flowSlug,
-      stepId: firstStep.stepId ?? 'unknown',
+      stepId: 'unknown',
+      actionType: NOT_STARTED_FLOW,
+      data: data ?? {},
+      createdAt: new Date(),
+      blocked: false,
+    }).then(() => {
+      mutateUserFlowState()
+    })
+  }
+
+  function markFlowStarted(flowSlug: string, data?: any) {
+    addResponse({
+      foreignUserId: userId,
+      flowSlug,
+      stepId: 'unknown',
       actionType: STARTED_FLOW,
       data: data ?? {},
       createdAt: new Date(),
@@ -169,12 +182,11 @@ export function useFlows() {
   }
 
   function markFlowCompleted(flowSlug: string, data?: any) {
-    const currentStep = getCurrentStep(flowSlug)
     optimisticallyMarkFlowCompleted(flowSlug)
     addResponse({
       foreignUserId: userId,
       flowSlug,
-      stepId: currentStep?.id ?? 'unknown',
+      stepId: 'unknown',
       actionType: COMPLETED_FLOW,
       data: data ?? {},
       createdAt: new Date(),
@@ -220,6 +232,9 @@ export function useFlows() {
   function getCurrentStep(flowSlug: string): StepData | null {
     if (isLoadingUserState || !userFlowStatesData) {
       return null
+    }
+    if (getFlowStatus(flowSlug) === NOT_STARTED_FLOW) {
+      return getFlowSteps(flowSlug)[0] ?? null
     }
 
     const lastStep = userFlowStatesData.find((f) => f.flowId === flowSlug)?.lastStepId
@@ -307,8 +322,10 @@ export function useFlows() {
     isLoading: isLoadingUserState || isLoading,
     getStepStatus,
     getFlowSteps,
+    getCurrentStepIndex,
     markStepStarted,
     markStepCompleted,
+    markFlowNotStarted,
     markFlowStarted,
     markFlowCompleted,
     getFlowStatus,

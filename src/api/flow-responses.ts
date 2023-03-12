@@ -3,6 +3,7 @@ import {
   API_PREFIX,
   COMPLETED_FLOW,
   COMPLETED_STEP,
+  NOT_STARTED_FLOW,
   STARTED_FLOW,
   STARTED_STEP,
   useConfig,
@@ -75,7 +76,7 @@ export function useFlowResponses() {
     if (!flowResponse.foreignUserId) {
       return
     }
-    if (flowResponse.actionType === STARTED_FLOW) {
+    if (flowResponse.actionType === STARTED_FLOW || flowResponse.actionType === NOT_STARTED_FLOW) {
       recordResponse(flowResponse)
       await sendDataToBackend() // Send previous step data to backend
     } else if (flowResponse.actionType === COMPLETED_FLOW) {

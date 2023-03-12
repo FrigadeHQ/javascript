@@ -3,7 +3,7 @@ import { useFlows } from '../api/flows'
 import { ToolTipProps, Tooltips } from '../Tooltips'
 import { mergeAppearanceWithDefault, StepData } from '../types'
 import { primaryCTAClickSideEffects, secondaryCTAClickSideEffects } from '../shared/cta-util'
-import { COMPLETED_FLOW, COMPLETED_STEP } from '../api/common'
+import { COMPLETED_FLOW, COMPLETED_STEP, NOT_STARTED_FLOW } from '../api/common'
 import { Portal } from 'react-portal'
 import { useFlowOpens } from '../api/flow-opens'
 import { FrigadeContext } from '../FrigadeProvider'
@@ -27,10 +27,11 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
     isLoading,
     targetingLogicShouldHideFlow,
     markStepCompleted,
+    markStepStarted,
     markFlowCompleted,
     setCustomVariable,
     getStepStatus,
-    getNumberOfStepsCompleted,
+    getCurrentStepIndex,
     isStepBlocked,
     getFlowStatus,
     customVariables: existingCustomVariables,
@@ -45,6 +46,7 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
   if (primaryColor) {
     appearance.theme.colorPrimary = primaryColor
   }
+  const currentFlowStatus = getFlowStatus(flowId)
 
   useEffect(() => {
     if (
@@ -58,6 +60,12 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
       })
     }
   }, [isLoading, customVariables, setCustomVariable, existingCustomVariables])
+
+  useEffect(() => {
+    if (currentFlowStatus === NOT_STARTED_FLOW) {
+      setSelectedStep(0)
+    }
+  }, [currentFlowStatus])
 
   if (isLoading) {
     return null
@@ -100,19 +108,21 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
   }
 
   if (!finishedInitialLoad && initialSelectedStep === undefined) {
-    //const completedSteps = Math.min(getNumberOfStepsCompleted(flowId), steps.length - 1)
-    setSelectedStep(0)
+    setSelectedStep(getCurrentStepIndex(flowId))
     setFinishedInitialLoad(true)
   }
 
   function goToNextStepIfPossible() {
     if (selectedStep + 1 >= steps.length) {
+      markFlowCompleted(flowId)
+      setSelectedStep(0)
       return
     }
     // Double check next step is not blocked
     if (isStepBlocked(flowId, steps[selectedStep + 1].id)) {
       return
     }
+    markStepStarted(flowId, steps[selectedStep + 1].id)
     setSelectedStep(selectedStep + 1)
   }
 
