@@ -119,12 +119,14 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
   }, [isLoading, customVariables, setCustomVariable, existingCustomVariables])
 
   useEffect(() => {
-    if (showModal && isModal && !hasActiveFullPageFlow) {
-      setHasActiveFullPageFlow(true)
-    } else if (!showModal && isModal && hasActiveFullPageFlow) {
-      setHasActiveFullPageFlow(false)
+    if (visible !== undefined) {
+      if (isModal && visible === true) {
+        setHasActiveFullPageFlow(true)
+      } else if (isModal && visible === false) {
+        setHasActiveFullPageFlow(false)
+      }
     }
-  }, [showModal, isModal, hasActiveFullPageFlow])
+  }, [visible, setVisible, hasActiveFullPageFlow])
 
   // useEffect(() => {
   //   if (visible !== undefined && getOpenFlowState(flowId) !== visible) {
