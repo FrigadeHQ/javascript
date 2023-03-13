@@ -227,8 +227,12 @@ export const FrigadeForm: FC<FormProps> = ({
   )
 
   if (type === 'modal') {
+    const overrideStyle: any = {}
+    if(steps[selectedStepValue].type === 'selectList') {
+      overrideStyle.width = '90%'
+    }
     return (
-      <Modal appearance={appearance} onClose={() => setShowModal(false)} visible={showModal}>
+      <Modal appearance={appearance} onClose={() => setShowModal(false)} visible={showModal} style={overrideStyle} >
         {content}
       </Modal>
     )

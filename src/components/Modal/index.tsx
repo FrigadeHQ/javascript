@@ -6,7 +6,7 @@ import { CloseIcon } from '../CloseIcon'
 import { getClassName, getCustomClassOverrides } from '../../shared/appearance'
 import { Appearance } from '../../types'
 
-const ModalContainer = styled.div<{ appearance }>`
+const ModalContainer = styled.div<{ appearance, maxWidth }>`
   :not(${(props) => getCustomClassOverrides(props)}) {
     // Anything inside this block will be ignored if the user provides a custom class
     background-color: ${(props) => props.appearance?.theme?.colorBackground};
@@ -25,7 +25,7 @@ const ModalContainer = styled.div<{ appearance }>`
     @media (min-width: 1000px) {
       width: 1000px;
     }
-    width: 1000px;
+    width: ${(props) => props.width ?? '1000px'};
 
     z-index: 110;
   }
@@ -51,6 +51,7 @@ const ModalContainer = styled.div<{ appearance }>`
     100% {
       opacity: 1;
     }
+  }
 `
 
 const ModalHeader = styled.div`
