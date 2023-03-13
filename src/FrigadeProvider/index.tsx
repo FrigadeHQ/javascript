@@ -32,11 +32,14 @@ export interface IFrigadeContext {
   setIsNewGuestUser: React.Dispatch<React.SetStateAction<boolean>>
   hasActiveFullPageFlow: boolean
   setHasActiveFullPageFlow: React.Dispatch<React.SetStateAction<boolean>>
+  organizationId?: string
+  setOrganizationId?: React.Dispatch<React.SetStateAction<string>>
 }
 
 export interface FrigadeProviderProps {
   publicApiKey: string
   userId?: string
+  organizationId?: string
   children?: React.ReactNode
 }
 
@@ -63,10 +66,20 @@ export const FrigadeContext = createContext<IFrigadeContext>({
   setIsNewGuestUser: () => {},
   hasActiveFullPageFlow: false,
   setHasActiveFullPageFlow: () => {},
+  organizationId: '',
+  setOrganizationId: () => {},
 })
 
-export const FrigadeProvider: FC<FrigadeProviderProps> = ({ publicApiKey, userId, children }) => {
+export const FrigadeProvider: FC<FrigadeProviderProps> = ({
+  publicApiKey,
+  userId,
+  organizationId,
+  children,
+}) => {
   const [userIdValue, setUserIdValue] = useState<string | null>(!userId ? null : userId)
+  const [organizationIdValue, setOrganizationIdValue] = useState<string | null>(
+    !organizationId ? null : organizationId
+  )
   const [flows, setFlows] = useState<Flow[]>([])
   const [failedFlowResponses, setFailedFlowResponses] = useState<FlowResponse[]>([])
   const [flowResponses, setFlowResponses] = useState<FlowResponse[] | null>(null)
@@ -114,6 +127,8 @@ export const FrigadeProvider: FC<FrigadeProviderProps> = ({ publicApiKey, userId
         setIsNewGuestUser,
         hasActiveFullPageFlow,
         setHasActiveFullPageFlow,
+        organizationId: organizationIdValue,
+        setOrganizationId: setOrganizationIdValue,
       }}
     >
       {children}
