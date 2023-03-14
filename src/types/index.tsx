@@ -45,7 +45,7 @@ export interface DefaultFrigadeFlowProps {
    * @param step
    * @param index
    */
-  onStepCompletion?: (step: StepData, index: number, nextStep?: StepData) => boolean
+  onStepCompletion?: (step: StepData, index: number, nextStep?: StepData, data?: any) => boolean
   /**
    * Handler for when a primary or secondary CTA is clicked (regardless if step is completed or not).
    * Return true if your app performs an action (e.g. open other modal or page transition).

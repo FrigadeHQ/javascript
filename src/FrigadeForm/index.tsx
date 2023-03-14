@@ -19,7 +19,6 @@ export interface FormProps extends DefaultFrigadeFlowProps {
   subtitle?: string
   primaryColor?: string
   type?: 'inline' | 'modal' | 'corner-modal'
-  onCompleteStep?: (index: number, stepData: StepData) => void
   customStepTypes?: { [key: string]: (params: CustomFormTypeProps) => React.ReactNode }
   visible?: boolean
   setVisible?: (visible: boolean) => void
@@ -41,6 +40,8 @@ export const FrigadeForm: FC<FormProps> = ({
   onComplete,
   appearance,
   hideOnFlowCompletion = true,
+  onStepCompletion,
+  onButtonClick,
 }) => {
   const {
     getFlow,
@@ -161,6 +162,16 @@ export const FrigadeForm: FC<FormProps> = ({
     }
   }
 
+  function handleStepCompletionHandlers(step: StepData, cta: 'primary' | 'secondary', idx: number) {
+    const maybeNextStep = selectedStep + 1 < steps.length ? steps[selectedStep + 1] : null
+    if (onButtonClick) {
+      onButtonClick(step, selectedStep, cta, maybeNextStep)
+    }
+    if (onStepCompletion) {
+      onStepCompletion(step, idx, maybeNextStep, formData, getDataPayload())
+    }
+  }
+
   const content = (
     <FormContainer className={getClassName('formContainer', appearance)}>
       <StepContent
@@ -180,6 +191,7 @@ export const FrigadeForm: FC<FormProps> = ({
               if (steps[selectedStepValue].secondaryButtonUri) {
                 window.open(steps[selectedStepValue].secondaryButtonUri)
               }
+              handleStepCompletionHandlers(steps[selectedStepValue], 'secondary', selectedStepValue)
             }}
             secondary={true}
             type={type == 'corner-modal' ? 'full-width' : 'inline'}
@@ -200,6 +212,7 @@ export const FrigadeForm: FC<FormProps> = ({
                 window.open(steps[selectedStepValue].primaryButtonUri)
               }
               markStepCompleted(flowId, steps[selectedStepValue].id, getDataPayload())
+              handleStepCompletionHandlers(steps[selectedStepValue], 'primary', selectedStepValue)
               if (selectedStepValue + 1 >= steps.length) {
                 if (onComplete) {
                   onComplete()
