@@ -1,6 +1,7 @@
 import React from 'react'
 import { SelectListStepType } from '../SelectListStepType'
 import { render, screen } from '@testing-library/react'
+import { mergeAppearanceWithDefault } from '../../../types'
 
 describe('SelectListStepType', () => {
 
@@ -20,7 +21,7 @@ describe('SelectListStepType', () => {
   }
   
   test('renders options', () => {
-    render(<SelectListStepType stepData={stepData} setCanContinue={jest.fn()} appearance={{}} />)
+    render(<SelectListStepType stepData={stepData} setCanContinue={jest.fn()} appearance={mergeAppearanceWithDefault({})} />)
 
     expect(screen.getByText(stepData.props.data[0].title)).toBeDefined()
     expect(screen.getByText(stepData.props.data[1].title)).toBeDefined()
