@@ -162,7 +162,7 @@ export const FrigadeForm: FC<FormProps> = ({
       customVariables: customVariables,
     }
   }
-
+  
   const content = (
     <FormContainer className={getClassName('formContainer', appearance)}>
       <StepContent
@@ -232,7 +232,13 @@ export const FrigadeForm: FC<FormProps> = ({
       overrideStyle.width = '90%'
     }
     return (
-      <Modal appearance={appearance} onClose={() => setShowModal(false)} visible={showModal} style={overrideStyle} >
+      <Modal 
+        appearance={appearance}
+        onClose={() => setShowModal(false)}
+        visible={showModal}
+        style={overrideStyle}
+        dismissible={steps[selectedStepValue].dismissible}
+      >
         {content}
       </Modal>
     )

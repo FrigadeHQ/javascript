@@ -86,6 +86,7 @@ interface ModalProps {
   style?: React.CSSProperties
   closeTint?: string
   appearance?: Appearance
+  dismissible?: boolean // defaults to true
 }
 
 export const Modal: FC<ModalProps> = ({
@@ -95,6 +96,7 @@ export const Modal: FC<ModalProps> = ({
   style = null,
   children,
   appearance,
+  dismissible = true,
 }) => {
   // If user presses escape key, close modal
   useEffect(() => {
@@ -126,13 +128,17 @@ export const Modal: FC<ModalProps> = ({
         className={getClassName('modalContainer', appearance)}
         style={style}
       >
-        <ModalClose
-          className={getClassName('modalClose', appearance)}
-          onClick={() => onClose()}
-          appearance={appearance}
-        >
-          <CloseIcon />
-        </ModalClose>
+        {
+          dismissible && (
+            <ModalClose
+              className={getClassName('modalClose', appearance)}
+              onClick={() => onClose()}
+              appearance={appearance}
+            >
+              <CloseIcon />
+            </ModalClose>
+          )
+        }
         {headerContent && <ModalHeader>{headerContent}</ModalHeader>}
         <Body>{children}</Body>
       </ModalContainer>

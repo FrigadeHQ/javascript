@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { getCustomClassOverrides } from '../../shared/appearance'
 
 export const SelectListSplitContainer = styled.div<{ appearance }>`
   display: flex;
@@ -26,11 +27,16 @@ export const SelectListSplitImageContainer = styled.div<{appearance}>`
 `
 
 export const SelectListSplitImageBackground = styled.div<{appearance}>`
+  :not(${(props) => getCustomClassOverrides(props)}) {
+    background-color: ${(props) => props.appearance?.theme?.colorPrimary};
+    opacity: 0.2;
+  }
   position: absolute;
-  width: 120%;
-  height: 120%;
-  background-color: ${(props) => props.appearance?.theme?.colorBackground };
-  opacity: 0.2;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
 `
 
 export const SelectListHeader = styled.div`

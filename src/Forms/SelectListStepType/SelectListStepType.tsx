@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { CheckBox } from '../../components/CheckBox'
+import { getClassName } from '../../shared/appearance'
 import {
   SelectListSplitContainer,
   SelectListSelectionContainer,
@@ -62,12 +63,18 @@ export const SelectListStepType = ({
           options.map((opt, idx) => {
             const isSelected = currentSelected.includes(idx);
             return (
-              <SelectItem key={`select-item-${idx}`} onClick={() => handleSelect(idx)} hideBottomBorder={idx === options.length - 1}>
+              <SelectItem
+                key={`select-item-${idx}`}
+                onClick={() => handleSelect(idx)} hideBottomBorder={idx === options.length - 1}
+                className={getClassName('selectListSelectItem', appearance)}
+              >
                 <SelectItemLeft>
                   { opt.icon && <ItemIcon src={opt.icon} alt={`select-icon-${idx}`}/> }
-                  <SelectItemText appearance={appearance}>{ opt.title }</SelectItemText>
+                  <SelectItemText appearance={appearance} className={getClassName('selectListSelectItemText', appearance)}>
+                    { opt.title }
+                  </SelectItemText>
                 </SelectItemLeft>
-                <CheckBox value={ isSelected } appearance={appearance} />
+                <CheckBox value={isSelected} primaryColor={appearance.theme.colorPrimary} />
               </SelectItem>
             )
           })
@@ -77,7 +84,7 @@ export const SelectListStepType = ({
         stepData.image && (
           <SelectListSplitImageContainer appearance={appearance}>
             <img src={stepData.image} />
-            <SelectListSplitImageBackground appearance={appearance}/>
+            <SelectListSplitImageBackground appearance={appearance} className={getClassName('selectListSplitImageBackground', appearance)} />
           </SelectListSplitImageContainer>
         )
       }
