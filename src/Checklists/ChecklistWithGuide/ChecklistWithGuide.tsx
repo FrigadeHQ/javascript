@@ -234,7 +234,7 @@ const ChecklistWithGuide: FC<ChecklistWithGuideProps> = ({
                       <CenterVertical>
                         <Chevron
                           style={{ marginLeft: '10px' }}
-                          color={appearance.theme.colorPrimary}
+                          color={appearance.theme.colorBackgroundSecondary}
                         />
                       </CenterVertical>
                     </StepListItemRight>
