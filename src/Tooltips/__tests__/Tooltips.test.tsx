@@ -4,7 +4,8 @@ import { render, screen } from '@testing-library/react'
 import { DefaultAppearance } from '../../types'
 import { Tooltips } from '../index'
 
-describe('Tooltip', () => {
+// TODO: @wbert Mock position bounds to properly test tooltip 
+describe.skip('Tooltip', () => {
   const data = [
     {
       id: 'test-0',

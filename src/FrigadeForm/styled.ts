@@ -7,3 +7,10 @@ export const FormCTAContainer = styled.div`
 export const FormContainer = styled.div`
   padding: 4px;
 `
+
+export const FormCTASplitContainer = styled.div`
+  display: flex;
+  width: 50%;
+  justify-content: center;
+  align-content: center;
+`

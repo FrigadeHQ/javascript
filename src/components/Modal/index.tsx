@@ -7,7 +7,7 @@ import { getClassName, getCustomClassOverrides } from '../../shared/appearance'
 import { Appearance } from '../../types'
 import { Portal } from 'react-portal'
 
-const ModalContainer = styled.div<{ appearance }>`
+const ModalContainer = styled.div<{ appearance, maxWidth }>`
   :not(${(props) => getCustomClassOverrides(props)}) {
     // Anything inside this block will be ignored if the user provides a custom class
     background-color: ${(props) => props.appearance?.theme?.colorBackground};
@@ -26,7 +26,7 @@ const ModalContainer = styled.div<{ appearance }>`
     @media (min-width: 1000px) {
       width: 1000px;
     }
-    width: 1000px;
+    width: ${(props) => props.width ?? '1000px'};
 
     z-index: 110;
   }
@@ -52,6 +52,7 @@ const ModalContainer = styled.div<{ appearance }>`
     100% {
       opacity: 1;
     }
+  }
 `
 
 const ModalHeader = styled.div`
@@ -86,6 +87,7 @@ interface ModalProps {
   style?: React.CSSProperties
   closeTint?: string
   appearance?: Appearance
+  dismissible?: boolean // defaults to true
 }
 
 export const Modal: FC<ModalProps> = ({
@@ -95,6 +97,7 @@ export const Modal: FC<ModalProps> = ({
   style = null,
   children,
   appearance,
+  dismissible = true,
 }) => {
   // If user presses escape key, close modal
   useEffect(() => {
@@ -126,13 +129,17 @@ export const Modal: FC<ModalProps> = ({
         className={getClassName('modalContainer', appearance)}
         style={style}
       >
-        <ModalClose
-          className={getClassName('modalClose', appearance)}
-          onClick={() => onClose()}
-          appearance={appearance}
-        >
-          <CloseIcon />
-        </ModalClose>
+        {
+          dismissible && (
+            <ModalClose
+              className={getClassName('modalClose', appearance)}
+              onClick={() => onClose()}
+              appearance={appearance}
+            >
+              <CloseIcon />
+            </ModalClose>
+          )
+        }
         {headerContent && <ModalHeader>{headerContent}</ModalHeader>}
         <Body>{children}</Body>
       </ModalContainer>

@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from 'react'
 import { Button } from '../components/Button'
 
-import { FormContainer, FormCTAContainer } from './styled'
+import { FormContainer } from './styled'
 
 import { DefaultFrigadeFlowProps, mergeAppearanceWithDefault, StepData } from '../types'
 import { useFlows } from '../api/flows'
@@ -13,12 +13,17 @@ import { MultiInputStepType } from '../Forms/MultiInputStepType/MultiInputStepTy
 import { CustomFormTypeProps } from './types'
 import { getClassName } from '../shared/appearance'
 import { CallToActionStepType } from '../Forms/CallToActionStepType/CallToActionStepType'
+import { SelectListStepType } from '../Forms/SelectListStepType/SelectListStepType'
+import { FormFooter } from './FormFooter'
+
+export type FrigadeFormType = 'inline' | 'modal' | 'corner-modal'
 
 export interface FormProps extends DefaultFrigadeFlowProps {
   title?: string
   subtitle?: string
   primaryColor?: string
-  type?: 'inline' | 'modal' | 'corner-modal'
+  type?: FrigadeFormType
+  onCompleteStep?: (index: number, stepData: StepData) => void
   customStepTypes?: { [key: string]: (params: CustomFormTypeProps) => React.ReactNode }
   visible?: boolean
   setVisible?: (visible: boolean) => void
@@ -87,6 +92,7 @@ export const FrigadeForm: FC<FormProps> = ({
     linkCollection: LinkCollectionStepType,
     multiInput: MultiInputStepType,
     callToAction: CallToActionStepType,
+    selectList: SelectListStepType
   }
 
   const mergedCustomStepTypes = { ...DEFAULT_CUSTOM_STEP_TYPES, ...customStepTypes }
@@ -183,63 +189,52 @@ export const FrigadeForm: FC<FormProps> = ({
         }}
         appearance={appearance}
       />
-      <FormCTAContainer className={getClassName('formCTAContainer', appearance)}>
-        {steps[selectedStepValue].secondaryButtonTitle ? (
-          <Button
-            title={steps[selectedStepValue].secondaryButtonTitle}
-            onClick={() => {
-              if (steps[selectedStepValue].secondaryButtonUri) {
-                window.open(steps[selectedStepValue].secondaryButtonUri)
+      <FormFooter
+        step={steps[selectedStepValue]}
+        canContinue={canContinue}
+        formType={type}
+        appearance={appearance}
+        onPrimaryClick={() => {
+          if (steps[selectedStepValue].primaryButtonUri) {
+            window.open(steps[selectedStepValue].primaryButtonUri)
+          }
+          markStepCompleted(flowId, steps[selectedStepValue].id, getDataPayload())
+          handleStepCompletionHandlers(steps[selectedStepValue], 'primary', selectedStepValue)
+          if (selectedStepValue + 1 >= steps.length) {
+            if (onComplete) {
+              onComplete()
+            }
+            if (hideOnFlowCompletion) {
+              if (setVisible) {
+                setVisible(false)
               }
-              handleStepCompletionHandlers(steps[selectedStepValue], 'secondary', selectedStepValue)
-            }}
-            secondary={true}
-            type={type == 'corner-modal' ? 'full-width' : 'inline'}
-            style={{
-              display: 'inline-block',
-              marginRight: 12,
-              marginBottom: 0,
-            }}
-            appearance={appearance}
-          />
-        ) : null}{' '}
-        {steps[selectedStepValue].primaryButtonTitle ? (
-          <Button
-            disabled={!canContinue}
-            title={steps[selectedStepValue].primaryButtonTitle}
-            onClick={() => {
-              if (steps[selectedStepValue].primaryButtonUri) {
-                window.open(steps[selectedStepValue].primaryButtonUri)
-              }
-              markStepCompleted(flowId, steps[selectedStepValue].id, getDataPayload())
-              handleStepCompletionHandlers(steps[selectedStepValue], 'primary', selectedStepValue)
-              if (selectedStepValue + 1 >= steps.length) {
-                if (onComplete) {
-                  onComplete()
-                }
-                if (hideOnFlowCompletion) {
-                  if (setVisible) {
-                    setVisible(false)
-                  }
-                  setShowModal(false)
-                }
-              }
-            }}
-            type={type == 'corner-modal' ? 'full-width' : 'inline'}
-            style={{
-              display: 'inline-block',
-              marginBottom: 0,
-            }}
-            appearance={appearance}
-          />
-        ) : null}
-      </FormCTAContainer>
+              setShowModal(false)
+            }
+          }
+        }}
+        onSecondaryClick={() => {
+          if (steps[selectedStepValue].secondaryButtonUri) {
+            window.open(steps[selectedStepValue].secondaryButtonUri)
+          }
+          handleStepCompletionHandlers(steps[selectedStepValue], 'secondary', selectedStepValue)
+        }}
+      />
     </FormContainer>
   )
 
   if (type === 'modal') {
+    const overrideStyle: any = {}
+    if(steps[selectedStepValue].type === 'selectList') {
+      overrideStyle.width = '90%'
+    }
     return (
-      <Modal appearance={appearance} onClose={() => setShowModal(false)} visible={showModal}>
+      <Modal 
+        appearance={appearance}
+        onClose={() => setShowModal(false)}
+        visible={showModal}
+        style={overrideStyle}
+        dismissible={steps[selectedStepValue].dismissible}
+      >
         {content}
       </Modal>
     )
