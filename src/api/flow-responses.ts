@@ -28,7 +28,7 @@ export interface PublicStepState {
 
 export function useFlowResponses() {
   const { config } = useConfig()
-  const { userId, setUserId } = useContext(FrigadeContext)
+  const { userId, setUserId, organizationId } = useContext(FrigadeContext)
   const { failedFlowResponses, setFailedFlowResponses, flowResponses, setFlowResponses } =
     useContext(FrigadeContext)
   const [successfulFlowResponsesStrings, setSuccessfulFlowResponsesStrings] = useState<Set<String>>(
@@ -98,7 +98,11 @@ export function useFlowResponses() {
       const pendingResponses = flowResponseMap.get(stepId)
       if (pendingResponses) {
         for (const [actionType, flowResponse] of pendingResponses) {
-          await postFlowResponse(flowResponse)
+          let flowResponseToSend = flowResponse
+          if (organizationId) {
+            flowResponseToSend.foreignUserGroupId = organizationId
+          }
+          await postFlowResponse(flowResponseToSend)
         }
       }
       flowResponseMap.delete(stepId)

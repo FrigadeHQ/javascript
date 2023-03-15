@@ -318,6 +318,10 @@ export function useFlows() {
     return false
   }
 
+  function isFlowAvailableToUser(flowId: string) {
+    return !targetingLogicShouldHideFlow(getFlow(flowId))
+  }
+
   return {
     getFlow,
     getFlowData,
@@ -341,5 +345,6 @@ export function useFlows() {
     isStepBlocked,
     hasActiveFullPageFlow,
     setHasActiveFullPageFlow,
+    isFlowAvailableToUser,
   }
 }
