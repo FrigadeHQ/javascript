@@ -287,8 +287,8 @@ const Tooltips: FC<ToolTipProps> = ({
                 justifyContent: 'center',
                 display: 'flex',
                 cursor: 'pointer',
-                color: appearance?.theme?.colorText,
               }}
+              className={getClassName('tooltipClose', appearance)}
             >
               <CloseIcon />
             </div>
