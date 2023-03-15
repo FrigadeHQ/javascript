@@ -5,6 +5,7 @@ import { ModalBackground } from './ModalBackground'
 import { CloseIcon } from '../CloseIcon'
 import { getClassName, getCustomClassOverrides } from '../../shared/appearance'
 import { Appearance } from '../../types'
+import { Portal } from 'react-portal'
 
 const ModalContainer = styled.div<{ appearance, maxWidth }>`
   :not(${(props) => getCustomClassOverrides(props)}) {
@@ -121,7 +122,7 @@ export const Modal: FC<ModalProps> = ({
   if (!visible) return <></>
 
   return (
-    <>
+    <Portal>
       <ModalBackground appearance={appearance} onClose={onClose} />
       <ModalContainer
         appearance={appearance}
@@ -142,6 +143,6 @@ export const Modal: FC<ModalProps> = ({
         {headerContent && <ModalHeader>{headerContent}</ModalHeader>}
         <Body>{children}</Body>
       </ModalContainer>
-    </>
+    </Portal>
   )
 }
