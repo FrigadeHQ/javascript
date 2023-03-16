@@ -307,8 +307,8 @@ export function useFlows() {
     if (isLoadingUserFlowStateData) {
       return true
     }
-    if (flow.targetingLogic && userFlowStatesData) {
-      // Iterate through matcing userFlowState for the flow and if shouldTrigger is true, return false
+    if (flow?.targetingLogic && userFlowStatesData) {
+      // Iterate through matching userFlowState for the flow and if shouldTrigger is true, return false
       const matchingUserFlowState = userFlowStatesData.find((ufs) => ufs.flowId === flow.slug)
       if (matchingUserFlowState) {
         return matchingUserFlowState.shouldTrigger === false
