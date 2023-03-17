@@ -1,26 +1,16 @@
 import React, { FC, useEffect, useState } from 'react'
-import { Appearance, StepData } from '../../types'
+import { StepData } from '../../types'
 import { Modal } from '../../components/Modal'
 import { ProgressBar } from '../Checklist/Progress'
 import { CollapsibleStep } from './CollapsibleStep'
 
 import { HeaderContent, ModalChecklistSubtitle, ModalChecklistTitle } from './styled'
+import { ChecklistProps } from '..'
 
-export interface ModalChecklistProps {
-  steps: StepData[]
-  title: string
-  subtitle: string
-  onClose: () => void
-  visible: boolean
-  onCompleteStep?: (index: number, stepData: StepData) => void
+export interface ModalChecklistProps extends ChecklistProps {
   autoCollapse?: boolean
   autoExpandFirstIncompleteStep?: boolean
   autoExpandNextStep?: boolean
-  primaryColor?: string
-  selectedStep?: number
-  setSelectedStep?: (index: number) => void
-
-  appearance?: Appearance
 }
 
 const ModalChecklist: FC<ModalChecklistProps> = ({

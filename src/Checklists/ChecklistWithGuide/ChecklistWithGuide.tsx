@@ -4,7 +4,6 @@ import { CheckBox } from '../../components/CheckBox'
 import { Chevron } from '../../components/Icons/Chevron'
 import { StepData } from '../../types'
 import { ProgressBar } from '../Checklist/Progress'
-import { ModalChecklistProps } from '../ModalChecklist/ModalChecklist'
 import { StepItemSelectedIndicator } from '../HeroChecklist/styled'
 import { motion } from 'framer-motion'
 import {
@@ -31,14 +30,16 @@ import { CenterVertical } from '../../components/styled'
 import { Modal } from '../../components/Modal'
 import Guide, { GuideStepData } from '../../Guides/Guide'
 import { getClassName } from '../../shared/appearance'
+import { ChecklistProps } from '..'
 
-// TODO: Create common Checlist props interface to extend
-export interface ChecklistWithGuideProps extends ModalChecklistProps {
+export interface ChecklistWithGuideProps extends ChecklistProps {
   // Map from string to function with StepData returning React.ReactNode
-  // TODO: Move to common Checlist props interface
-  customStepTypes?: Map<string, (stepData: StepData) => React.ReactNode>
   visible: boolean
   stepsTitle: string
+  
+  /**
+   * @deprecated Use `appearance` instead
+   */
   secondaryColor?: string
 
   guideData?: GuideStepData[]
@@ -157,10 +158,10 @@ const ChecklistWithGuide: FC<ChecklistWithGuideProps> = ({
       appearance={appearance}
     >
       <HeaderContent>
-        <ChecklistTitle className={getClassName('checklistTitle', appearance)}>
+        <ChecklistTitle appearance={appearance} className={getClassName('checklistTitle', appearance)}>
           {title}
         </ChecklistTitle>
-        <ChecklistSubtitle className={getClassName('checklistSubtitle', appearance)}>
+        <ChecklistSubtitle appearance={appearance} className={getClassName('checklistSubtitle', appearance)}>
           {subtitle}
         </ChecklistSubtitle>
       </HeaderContent>
@@ -177,11 +178,12 @@ const ChecklistWithGuide: FC<ChecklistWithGuideProps> = ({
                 style={{ width: '100%' }}
                 count={completeCount}
                 total={steps.length}
+                appearance={appearance}
               />
             </ProgressBarContainer>
           </StepsHeader>
           <StepsBody>
-            <StepListContainer className={getClassName('checklistStepListContainer', appearance)}>
+            <StepListContainer className={getClassName('checklistStepListContainer', appearance)} appearance={appearance}>
               {steps.map((stepData: StepData, idx: number) => {
                 const isSelected = selectedStepValue === idx
                 return (

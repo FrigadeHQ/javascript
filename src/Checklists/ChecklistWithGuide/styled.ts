@@ -26,20 +26,22 @@ export const HeaderContent = styled.div`
   margin-top: 20px;
 `
 
-export const ChecklistTitle = styled.h1`
+export const ChecklistTitle = styled.h1<{appearance}>`
   font-style: normal;
   font-weight: 600;
   font-size: 30px;
   line-height: 36px;
   margin-bottom: 16px;
+  color: ${(props) => props.appearance?.theme?.colorText};
 `
-export const ChecklistSubtitle = styled.h2`
+export const ChecklistSubtitle = styled.h2<{appearance}>`
   font-weight: 400;
   color: #8c8c8c;
   font-size: 16px;
   line-height: 20px;
   margin-bottom: 16px;
   padding-left: 1px;
+  color: ${(props) => props.appearance?.theme?.colorTextSecondary};
 `
 
 export const StepsContainer = styled.div`

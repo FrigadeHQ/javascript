@@ -135,7 +135,7 @@ const HeroChecklist: FC<HeroChecklistProps> = ({
       appearance: appearance,
     })
   }
-
+  
   return (
     <HeroChecklistContainer style={style} className={className} appearance={appearance}>
       <ChecklistHeader style={{ flex: 1 }}>
