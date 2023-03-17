@@ -283,7 +283,9 @@ export function useFlows() {
       // Add all unique flowResponses by stepId to flowResponsesFound
       flowResponses.forEach((r) => {
         if (r.flowSlug === flowSlug && r.actionType === COMPLETED_STEP) {
-          const found = flowResponsesFound.find((fr) => fr.stepId === r.stepId)
+          const found = flowResponsesFound.find(
+            (fr) => fr.stepId === r.stepId && fr.flowSlug === r.flowSlug
+          )
           if (!found) {
             flowResponsesFound.push(r)
           }
