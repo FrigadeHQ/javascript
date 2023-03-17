@@ -22,29 +22,20 @@ export function useUserFlowStates(): {
 } {
   const { config } = useConfig()
   const { publicApiKey, userId, flows, isNewGuestUser } = useContext(FrigadeContext)
-
-  function arrayFetcher(urlArray: string[]) {
-    const f = (url) =>
-      fetch(url, config).then((response) => {
-        return response.json()
-      })
-    return Promise.all(urlArray.map(f))
-  }
-
+  const fetcher = (url) => fetch(url, config).then((r) => r.json())
   const {
-    data: userFlowStatesData,
+    data,
     isLoading: isLoadingUserFlowStateData,
     mutate: mutateUserFlowState,
     error,
   } = useSWR(
     publicApiKey && flows && userId && !isNewGuestUser
-      ? flows.map(
-          (flow) =>
-            `${API_PREFIX}userFlowStates/${flow.slug}?foreignUserId=${encodeURIComponent(userId)}`
-        )
-      : [],
-    arrayFetcher
+      ? `${API_PREFIX}userFlowStates?foreignUserId=${encodeURIComponent(userId)}`
+      : null,
+    fetcher
   )
+
+  const userFlowStatesData = data?.data
 
   function optimisticallyMarkFlowCompleted(flowId: string) {
     if (userFlowStatesData) {

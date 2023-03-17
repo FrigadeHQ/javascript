@@ -101,6 +101,18 @@ export const FrigadeProvider: FC<FrigadeProviderProps> = ({
     }
   }, [userId])
 
+  useEffect(() => {
+    if (!publicApiKey) {
+      console.error('FrigadeProvider: publicApiKey is required')
+    }
+    if (
+      publicApiKey &&
+      (publicApiKey.length < 10 || publicApiKey.substring(0, 10) !== 'api_public')
+    ) {
+      console.error('FrigadeProvider: publicApiKey is invalid')
+    }
+  }, [publicApiKey])
+
   return (
     <FrigadeContext.Provider
       value={{
