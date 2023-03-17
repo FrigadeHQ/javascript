@@ -200,9 +200,11 @@ export function useFlows() {
 
   function getStepStatus(flowSlug: string, stepId: string): StepActionType | null {
     const maybeFlowResponse = getLastFlowResponseForStep(flowSlug, stepId)
+
     if (maybeFlowResponse === null) {
       return null
     }
+
     return (maybeFlowResponse ? maybeFlowResponse.actionType : NOT_STARTED_STEP) as StepActionType
   }
 
@@ -228,7 +230,7 @@ export function useFlows() {
       return b.createdAt.getTime() - a.createdAt.getTime()
     })
 
-    return flowResponsesSorted.find((r) => r.stepId === stepId)
+    return flowResponsesSorted.find((r) => r.stepId === stepId && r.flowSlug === flowSlug)
   }
 
   function getCurrentStep(flowSlug: string): StepData | null {
