@@ -3,10 +3,11 @@ import React, { CSSProperties, useEffect, useState } from 'react'
 import { useFlows } from '../api/flows'
 import { HeroChecklist, HeroChecklistProps } from '../Checklists/HeroChecklist'
 import { mergeAppearanceWithDefault, StepData } from '../types'
-import { ModalChecklist } from '../Checklists/ModalChecklist'
 import { COMPLETED_FLOW, COMPLETED_STEP } from '../api/common'
 import { primaryCTAClickSideEffects, secondaryCTAClickSideEffects } from '../shared/cta-util'
 import { useFlowOpens } from '../api/flow-opens'
+import { RenderInlineStyles } from '../components/RenderInlineStyles'
+import { ModalChecklist } from '../Checklists/ModalChecklist'
 import { ChecklistWithGuide } from '../Checklists/ChecklistWithGuide'
 
 /**
@@ -239,13 +240,20 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
     })
   }
 
-  function PreloadImages() {
-    return steps.map((step: StepData, idx: number) => {
+  function CommonDom() {
+    const imagePreload = steps.map((step: StepData, idx: number) => {
       if (step.imageUri) {
         return <img src={step.imageUri} key={idx} style={{ display: 'none' }} />
       }
       return null
     })
+
+    return (
+      <>
+        <RenderInlineStyles appearance={appearance} />
+        {imagePreload}
+      </>
+    )
   }
 
   const commonProps = {
@@ -259,7 +267,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
   if (type === 'modal') {
     return (
       <>
-        <PreloadImages />
+        <CommonDom />
         <ModalChecklist
           visible={showModal}
           onClose={() => {
@@ -289,7 +297,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
 
     return (
       <>
-        <PreloadImages />
+        <CommonDom />
         <ChecklistWithGuide
           visible={showModal}
           stepsTitle={metaData.stepsTitle ? metaData.stepsTitle : 'Your quick start guide'}
@@ -315,7 +323,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
 
   return (
     <>
-      <PreloadImages />
+      <CommonDom />
       <HeroChecklist
         style={style}
         selectedStep={selectedStep}

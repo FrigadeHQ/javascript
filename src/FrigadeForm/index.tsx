@@ -1,5 +1,4 @@
 import React, { FC, useEffect, useState } from 'react'
-import { Button } from '../components/Button'
 
 import { FormContainer } from './styled'
 
@@ -15,6 +14,7 @@ import { getClassName } from '../shared/appearance'
 import { CallToActionStepType } from '../Forms/CallToActionStepType/CallToActionStepType'
 import { SelectListStepType } from '../Forms/SelectListStepType/SelectListStepType'
 import { FormFooter } from './FormFooter'
+import { RenderInlineStyles } from '../components/RenderInlineStyles'
 
 export type FrigadeFormType = 'inline' | 'modal' | 'corner-modal'
 
@@ -92,7 +92,7 @@ export const FrigadeForm: FC<FormProps> = ({
     linkCollection: LinkCollectionStepType,
     multiInput: MultiInputStepType,
     callToAction: CallToActionStepType,
-    selectList: SelectListStepType
+    selectList: SelectListStepType,
   }
 
   const mergedCustomStepTypes = { ...DEFAULT_CUSTOM_STEP_TYPES, ...customStepTypes }
@@ -179,56 +179,59 @@ export const FrigadeForm: FC<FormProps> = ({
   }
 
   const content = (
-    <FormContainer className={getClassName('formContainer', appearance)}>
-      <StepContent
-        stepData={steps[selectedStepValue]}
-        canContinue={canContinue}
-        setCanContinue={setCanContinue}
-        onSaveData={(data) => {
-          updateData(steps[selectedStepValue], data)
-        }}
-        appearance={appearance}
-      />
-      <FormFooter
-        step={steps[selectedStepValue]}
-        canContinue={canContinue}
-        formType={type}
-        appearance={appearance}
-        onPrimaryClick={() => {
-          if (steps[selectedStepValue].primaryButtonUri) {
-            window.open(steps[selectedStepValue].primaryButtonUri)
-          }
-          markStepCompleted(flowId, steps[selectedStepValue].id, getDataPayload())
-          handleStepCompletionHandlers(steps[selectedStepValue], 'primary', selectedStepValue)
-          if (selectedStepValue + 1 >= steps.length) {
-            if (onComplete) {
-              onComplete()
+    <>
+      <RenderInlineStyles appearance={appearance} />
+      <FormContainer className={getClassName('formContainer', appearance)}>
+        <StepContent
+          stepData={steps[selectedStepValue]}
+          canContinue={canContinue}
+          setCanContinue={setCanContinue}
+          onSaveData={(data) => {
+            updateData(steps[selectedStepValue], data)
+          }}
+          appearance={appearance}
+        />
+        <FormFooter
+          step={steps[selectedStepValue]}
+          canContinue={canContinue}
+          formType={type}
+          appearance={appearance}
+          onPrimaryClick={() => {
+            if (steps[selectedStepValue].primaryButtonUri) {
+              window.open(steps[selectedStepValue].primaryButtonUri)
             }
-            if (hideOnFlowCompletion) {
-              if (setVisible) {
-                setVisible(false)
+            markStepCompleted(flowId, steps[selectedStepValue].id, getDataPayload())
+            handleStepCompletionHandlers(steps[selectedStepValue], 'primary', selectedStepValue)
+            if (selectedStepValue + 1 >= steps.length) {
+              if (onComplete) {
+                onComplete()
               }
-              setShowModal(false)
+              if (hideOnFlowCompletion) {
+                if (setVisible) {
+                  setVisible(false)
+                }
+                setShowModal(false)
+              }
             }
-          }
-        }}
-        onSecondaryClick={() => {
-          if (steps[selectedStepValue].secondaryButtonUri) {
-            window.open(steps[selectedStepValue].secondaryButtonUri)
-          }
-          handleStepCompletionHandlers(steps[selectedStepValue], 'secondary', selectedStepValue)
-        }}
-      />
-    </FormContainer>
+          }}
+          onSecondaryClick={() => {
+            if (steps[selectedStepValue].secondaryButtonUri) {
+              window.open(steps[selectedStepValue].secondaryButtonUri)
+            }
+            handleStepCompletionHandlers(steps[selectedStepValue], 'secondary', selectedStepValue)
+          }}
+        />
+      </FormContainer>
+    </>
   )
 
   if (type === 'modal') {
     const overrideStyle: any = {}
-    if(steps[selectedStepValue].type === 'selectList') {
+    if (steps[selectedStepValue].type === 'selectList') {
       overrideStyle.width = '90%'
     }
     return (
-      <Modal 
+      <Modal
         appearance={appearance}
         onClose={() => setShowModal(false)}
         visible={showModal}
