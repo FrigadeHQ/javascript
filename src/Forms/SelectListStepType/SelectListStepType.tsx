@@ -1,40 +1,31 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { CheckBox } from '../../components/CheckBox'
 import { getClassName } from '../../shared/appearance'
 import {
-  SelectListSplitContainer,
-  SelectListSelectionContainer,
-  SelectItem,
-  SelectItemText,
   ItemIcon,
-  SelectListSplitImageContainer,
-  SelectListTitle,
-  SelectListSubtitle,
+  SelectItem,
   SelectItemLeft,
-  SelectListSplitImageBackground,
-  SelectListHeader
+  SelectItemText,
+  SelectListHeader,
+  SelectListSelectionContainer,
+  SelectListSubtitle,
+  SelectListTitle,
 } from './styled'
 
-export const SelectListStepType = ({
-  stepData,
-  setCanContinue,
-  appearance
-}) => {
-
+export const SelectListStepType = ({ stepData, setCanContinue, appearance }) => {
   const [currentSelected, setCurrentSelected] = useState<number[]>([])
 
-  const options = stepData?.props?.data as any[] ?? []
-  
-  const minChoiceCount = stepData.minChoices ?? 1;
-  const maxChoiceCount = stepData.maxChoices ?? 1;
+  const options = (stepData?.props?.data as any[]) ?? []
+
+  const minChoiceCount = stepData.minChoices ?? 1
+  const maxChoiceCount = stepData.maxChoices ?? 1
 
   const handleSelect = (idx: number) => {
-    if(currentSelected.includes(idx)){
-      const removed = [...currentSelected.filter(v => v !== idx)]
+    if (currentSelected.includes(idx)) {
+      const removed = [...currentSelected.filter((v) => v !== idx)]
       setCurrentSelected(removed)
-    }
-    else if(currentSelected.length >= maxChoiceCount){
-      return;
+    } else if (currentSelected.length >= maxChoiceCount) {
+      return
     } else {
       setCurrentSelected([...currentSelected, idx])
     }
@@ -46,48 +37,36 @@ export const SelectListStepType = ({
     } else {
       setCanContinue(false)
     }
-  },[currentSelected])
+  }, [currentSelected])
 
   return (
-    <SelectListSplitContainer>
-      <SelectListSelectionContainer>
-        <SelectListHeader>
-          <SelectListTitle>
-            { stepData.title }
-          </SelectListTitle>
-          <SelectListSubtitle>
-            { stepData.subtitle }
-          </SelectListSubtitle>
-        </SelectListHeader>
-        {
-          options.map((opt, idx) => {
-            const isSelected = currentSelected.includes(idx);
-            return (
-              <SelectItem
-                key={`select-item-${idx}`}
-                onClick={() => handleSelect(idx)} hideBottomBorder={idx === options.length - 1}
-                className={getClassName('selectListSelectItem', appearance)}
+    <SelectListSelectionContainer>
+      <SelectListHeader>
+        <SelectListTitle>{stepData.title}</SelectListTitle>
+        <SelectListSubtitle>{stepData.subtitle}</SelectListSubtitle>
+      </SelectListHeader>
+      {options.map((opt, idx) => {
+        const isSelected = currentSelected.includes(idx)
+        return (
+          <SelectItem
+            key={`select-item-${idx}`}
+            onClick={() => handleSelect(idx)}
+            hideBottomBorder={idx === options.length - 1}
+            className={getClassName('selectListSelectItem', appearance)}
+          >
+            <SelectItemLeft>
+              {opt.icon && <ItemIcon src={opt.icon} alt={`select-icon-${idx}`} />}
+              <SelectItemText
+                appearance={appearance}
+                className={getClassName('selectListSelectItemText', appearance)}
               >
-                <SelectItemLeft>
-                  { opt.icon && <ItemIcon src={opt.icon} alt={`select-icon-${idx}`}/> }
-                  <SelectItemText appearance={appearance} className={getClassName('selectListSelectItemText', appearance)}>
-                    { opt.title }
-                  </SelectItemText>
-                </SelectItemLeft>
-                <CheckBox value={isSelected} primaryColor={appearance.theme.colorPrimary} />
-              </SelectItem>
-            )
-          })
-        }
-      </SelectListSelectionContainer>
-      {
-        stepData.image && (
-          <SelectListSplitImageContainer appearance={appearance}>
-            <img src={stepData.image} />
-            <SelectListSplitImageBackground appearance={appearance} className={getClassName('selectListSplitImageBackground', appearance)} />
-          </SelectListSplitImageContainer>
+                {opt.title}
+              </SelectItemText>
+            </SelectItemLeft>
+            <CheckBox value={isSelected} primaryColor={appearance.theme.colorPrimary} />
+          </SelectItem>
         )
-      }
-    </SelectListSplitContainer>
+      })}
+    </SelectListSelectionContainer>
   )
 }

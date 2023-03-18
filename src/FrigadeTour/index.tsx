@@ -7,6 +7,7 @@ import { COMPLETED_FLOW, COMPLETED_STEP, NOT_STARTED_FLOW } from '../api/common'
 import { Portal } from 'react-portal'
 import { useFlowOpens } from '../api/flow-opens'
 import { FrigadeContext } from '../FrigadeProvider'
+import { RenderInlineStyles } from '../components/RenderInlineStyles'
 
 export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedStep?: number }> = ({
   flowId,
@@ -176,6 +177,7 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
 
   return (
     <Portal>
+      <RenderInlineStyles appearance={appearance} />
       {showTooltipsSimultaneously ? (
         steps.map((step: StepData, idx: number) => (
           <Tooltips

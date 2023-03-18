@@ -7,7 +7,7 @@ import { getClassName, getCustomClassOverrides } from '../../shared/appearance'
 import { Appearance } from '../../types'
 import { Portal } from 'react-portal'
 
-const ModalContainer = styled.div<{ appearance, maxWidth }>`
+const ModalContainer = styled.div<{ appearance; maxWidth }>`
   :not(${(props) => getCustomClassOverrides(props)}) {
     // Anything inside this block will be ignored if the user provides a custom class
     background-color: ${(props) => props.appearance?.theme?.colorBackground};
@@ -28,7 +28,7 @@ const ModalContainer = styled.div<{ appearance, maxWidth }>`
     }
     width: ${(props) => props.width ?? '1000px'};
 
-    z-index: 110;
+    z-index: 1500;
   }
   border-radius: 6px;
   padding: 32px 32px 24px 32px;
@@ -129,17 +129,15 @@ export const Modal: FC<ModalProps> = ({
         className={getClassName('modalContainer', appearance)}
         style={style}
       >
-        {
-          dismissible && (
-            <ModalClose
-              className={getClassName('modalClose', appearance)}
-              onClick={() => onClose()}
-              appearance={appearance}
-            >
-              <CloseIcon />
-            </ModalClose>
-          )
-        }
+        {dismissible && (
+          <ModalClose
+            className={getClassName('modalClose', appearance)}
+            onClick={() => onClose()}
+            appearance={appearance}
+          >
+            <CloseIcon />
+          </ModalClose>
+        )}
         {headerContent && <ModalHeader>{headerContent}</ModalHeader>}
         <Body>{children}</Body>
       </ModalContainer>

@@ -1,9 +1,9 @@
 import React, { FC } from 'react'
 import { FrigadeFormType } from '.'
-import { Button } from "../components/Button"
+import { Button } from '../components/Button'
 import { getClassName } from '../shared/appearance'
 import { Appearance, StepData } from '../types'
-import { FormCTAContainer, FormCTASplitContainer } from './styled'
+import { FormCTAContainer } from './styled'
 
 interface FormFooterProps {
   step: StepData
@@ -20,37 +20,31 @@ export const FormFooter: FC<FormFooterProps> = ({
   appearance,
   onPrimaryClick,
   onSecondaryClick,
-  formType
+  formType,
 }) => {
-
-
-  let Container = FormCTAContainer;
-  let buttonType = formType == 'corner-modal' ? 'full-width' : 'inline'
+  let Container = FormCTAContainer
+  let buttonType = formType == 'corner-modal' || 'full-screen-modal' ? 'full-width' : 'inline'
   let buttonStyleOverride: any = {}
-  if (step.type === 'selectList' && step.image != null) {
-    Container = FormCTASplitContainer
-    buttonType = 'full-width'
-    buttonStyleOverride.width = '50%'
-  }
 
   return (
     <Container className={getClassName('formCTAContainer', appearance)}>
-        {step.secondaryButtonTitle ? (
-          <Button
-            title={step.secondaryButtonTitle}
-            onClick={onSecondaryClick}
-            secondary={true}
-            type={buttonType}
-            style={{
-              display: 'inline-block',
-              marginRight: 12,
-              marginBottom: 0,
-              ...buttonStyleOverride,
-            }}
-            appearance={appearance}
-          />
-        ) : null}{' '}
-        {step.primaryButtonTitle ? (<Button
+      {step.secondaryButtonTitle ? (
+        <Button
+          title={step.secondaryButtonTitle}
+          onClick={onSecondaryClick}
+          secondary={true}
+          type={buttonType}
+          style={{
+            display: 'inline-block',
+            marginRight: 12,
+            marginBottom: 0,
+            ...buttonStyleOverride,
+          }}
+          appearance={appearance}
+        />
+      ) : null}{' '}
+      {step.primaryButtonTitle ? (
+        <Button
           disabled={!canContinue}
           title={step.primaryButtonTitle}
           onClick={onPrimaryClick}
@@ -61,7 +55,8 @@ export const FormFooter: FC<FormFooterProps> = ({
             ...buttonStyleOverride,
           }}
           appearance={appearance}
-        /> ) : null}
-      </Container>
+        />
+      ) : null}
+    </Container>
   )
 }

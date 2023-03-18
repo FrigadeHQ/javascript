@@ -29,7 +29,6 @@ export interface StepData {
   completionCriteria?: string
   startCriteria?: string
   progress?: number
-  dismissible?: boolean
 }
 
 export interface DefaultFrigadeFlowProps {

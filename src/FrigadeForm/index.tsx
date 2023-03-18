@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from 'react'
 
-import { FormContainer } from './styled'
+import { FormContainer, FormContainerMain, FormContainerSidebarImage } from './styled'
 
 import { DefaultFrigadeFlowProps, mergeAppearanceWithDefault, StepData } from '../types'
 import { useFlows } from '../api/flows'
@@ -16,7 +16,7 @@ import { SelectListStepType } from '../Forms/SelectListStepType/SelectListStepTy
 import { FormFooter } from './FormFooter'
 import { RenderInlineStyles } from '../components/RenderInlineStyles'
 
-export type FrigadeFormType = 'inline' | 'modal' | 'corner-modal'
+export type FrigadeFormType = 'inline' | 'modal' | 'corner-modal' | 'full-screen-modal'
 
 export interface FormProps extends DefaultFrigadeFlowProps {
   title?: string
@@ -28,6 +28,7 @@ export interface FormProps extends DefaultFrigadeFlowProps {
   visible?: boolean
   setVisible?: (visible: boolean) => void
   onComplete?: () => void
+  dismissible?: boolean
 }
 
 export const FrigadeForm: FC<FormProps> = ({
@@ -47,6 +48,7 @@ export const FrigadeForm: FC<FormProps> = ({
   hideOnFlowCompletion = true,
   onStepCompletion,
   onButtonClick,
+  dismissible = true,
 }) => {
   const {
     getFlow,
@@ -178,57 +180,74 @@ export const FrigadeForm: FC<FormProps> = ({
     }
   }
 
+  function FormContainerSidebar(props: { selectedStep: StepData }) {
+    if (props.selectedStep.imageUri) {
+      return (
+        <FormContainerSidebarImage
+          image={props.selectedStep.imageUri}
+          className={getClassName('formContainerSidebarImage', appearance)}
+        />
+      )
+    }
+    return null
+  }
+
   const content = (
     <>
       <RenderInlineStyles appearance={appearance} />
       <FormContainer className={getClassName('formContainer', appearance)}>
-        <StepContent
-          stepData={steps[selectedStepValue]}
-          canContinue={canContinue}
-          setCanContinue={setCanContinue}
-          onSaveData={(data) => {
-            updateData(steps[selectedStepValue], data)
-          }}
-          appearance={appearance}
-        />
-        <FormFooter
-          step={steps[selectedStepValue]}
-          canContinue={canContinue}
-          formType={type}
-          appearance={appearance}
-          onPrimaryClick={() => {
-            if (steps[selectedStepValue].primaryButtonUri) {
-              window.open(steps[selectedStepValue].primaryButtonUri)
-            }
-            markStepCompleted(flowId, steps[selectedStepValue].id, getDataPayload())
-            handleStepCompletionHandlers(steps[selectedStepValue], 'primary', selectedStepValue)
-            if (selectedStepValue + 1 >= steps.length) {
-              if (onComplete) {
-                onComplete()
+        <FormContainerMain type={type}>
+          <StepContent
+            stepData={steps[selectedStepValue]}
+            canContinue={canContinue}
+            setCanContinue={setCanContinue}
+            onSaveData={(data) => {
+              updateData(steps[selectedStepValue], data)
+            }}
+            appearance={appearance}
+          />
+          <FormFooter
+            step={steps[selectedStepValue]}
+            canContinue={canContinue}
+            formType={type}
+            appearance={appearance}
+            onPrimaryClick={() => {
+              if (steps[selectedStepValue].primaryButtonUri) {
+                window.open(steps[selectedStepValue].primaryButtonUri)
               }
-              if (hideOnFlowCompletion) {
-                if (setVisible) {
-                  setVisible(false)
+              markStepCompleted(flowId, steps[selectedStepValue].id, getDataPayload())
+              handleStepCompletionHandlers(steps[selectedStepValue], 'primary', selectedStepValue)
+              if (selectedStepValue + 1 >= steps.length) {
+                if (onComplete) {
+                  onComplete()
                 }
-                setShowModal(false)
+                if (hideOnFlowCompletion) {
+                  if (setVisible) {
+                    setVisible(false)
+                  }
+                  setShowModal(false)
+                }
               }
-            }
-          }}
-          onSecondaryClick={() => {
-            if (steps[selectedStepValue].secondaryButtonUri) {
-              window.open(steps[selectedStepValue].secondaryButtonUri)
-            }
-            handleStepCompletionHandlers(steps[selectedStepValue], 'secondary', selectedStepValue)
-          }}
-        />
+            }}
+            onSecondaryClick={() => {
+              if (steps[selectedStepValue].secondaryButtonUri) {
+                window.open(steps[selectedStepValue].secondaryButtonUri)
+              }
+              handleStepCompletionHandlers(steps[selectedStepValue], 'secondary', selectedStepValue)
+            }}
+          />
+        </FormContainerMain>
+        <FormContainerSidebar selectedStep={steps[selectedStepValue]} />
       </FormContainer>
     </>
   )
 
-  if (type === 'modal') {
+  if (type === 'modal' || type === 'full-screen-modal') {
     const overrideStyle: any = {}
-    if (steps[selectedStepValue].type === 'selectList') {
-      overrideStyle.width = '90%'
+    if (type === 'full-screen-modal') {
+      overrideStyle.width = '85%'
+      overrideStyle.height = '90%'
+      overrideStyle.padding = '0'
     }
     return (
       <Modal
@@ -236,7 +255,7 @@ export const FrigadeForm: FC<FormProps> = ({
         onClose={() => setShowModal(false)}
         visible={showModal}
         style={overrideStyle}
-        dismissible={steps[selectedStepValue].dismissible}
+        dismissible={dismissible}
       >
         {content}
       </Modal>

@@ -12,7 +12,7 @@ const Background = styled.div`
   right: 0;
   :not(${(props) => getCustomClassOverrides(props)}) {
     background-color: rgba(0, 0, 0, 0.6);
-    z-index: 100;
+    z-index: 1400;
   }
   animation-duration: 0.15s;
   animation-timing-function: cubic-bezier(0, 0, 0.2, 1);

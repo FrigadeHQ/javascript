@@ -1,51 +1,20 @@
 import styled from 'styled-components'
-import { getCustomClassOverrides } from '../../shared/appearance'
-
-export const SelectListSplitContainer = styled.div<{ appearance }>`
-  display: flex;
-  flex-direction: row;
-  overflow: hidden;
-`
 
 export const SelectListSelectionContainer = styled.div`
   width: auto;
-  padding-top: 60px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-`
-
-export const SelectListSplitImageContainer = styled.div<{appearance}>`
-  width: 50%;
-  background-color: ${(props) => props.appearance?.theme?.colorBackground };
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: row;
-  position: relative;
-`
-
-export const SelectListSplitImageBackground = styled.div<{appearance}>`
-  :not(${(props) => getCustomClassOverrides(props)}) {
-    background-color: ${(props) => props.appearance?.theme?.colorPrimary};
-    opacity: 0.2;
-  }
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border-radius: 6px;
+  padding: 4px;
 `
 
 export const SelectListHeader = styled.div`
-  max-width: 80%;
-  min-width: 80%;
+  width: 100%;
   text-align: left;
 `
 
-export const SelectListTitle = styled.h1<{appearance}>`
+export const SelectListTitle = styled.h1<{ appearance }>`
   font-style: normal;
   font-weight: 700;
   font-size: 32px;
@@ -53,7 +22,7 @@ export const SelectListTitle = styled.h1<{appearance}>`
   color: ${(props) => props.appearance?.theme?.colorText};
 `
 
-export const SelectListSubtitle = styled.h1<{appearance}>`
+export const SelectListSubtitle = styled.h1<{ appearance }>`
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -61,7 +30,7 @@ export const SelectListSubtitle = styled.h1<{appearance}>`
   color: ${(props) => props.appearance?.theme?.colorTextSecondary};
 `
 
-export const SelectItem = styled.div<{hideBottomBorder}>`
+export const SelectItem = styled.div<{ hideBottomBorder }>`
   padding-top: 12px;
   padding-bottom: 12px;
   flex-direction: row;
@@ -69,14 +38,14 @@ export const SelectItem = styled.div<{hideBottomBorder}>`
   justify-content: space-between;
   align-items: center;
   align-content: center;
-  border-bottom: ${(props) => props.hideBottomBorder ? 'none' : '1px solid #D8D8D8'};
-  max-width: 80%;
-  min-width: 80%;
+  cursor: pointer;
+  border-bottom: ${(props) => (props.hideBottomBorder ? 'none' : '1px solid #D8D8D8')};
+  width: 100%;
 `
 
 export const SelectItemLeft = styled.div`
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   flex-direction: row;
   display: flex;
   justify-content: flex-start;

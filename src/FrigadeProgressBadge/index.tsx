@@ -4,6 +4,7 @@ import { ProgressBadge, ProgressBadgeType } from '../Checklists/ProgressBadge'
 import { useFlowOpens } from '../api/flow-opens'
 import { DefaultFrigadeFlowProps, mergeAppearanceWithDefault } from '../types'
 import { COMPLETED_FLOW } from '../api/common'
+import { RenderInlineStyles } from '../components/RenderInlineStyles'
 
 interface FrigadeProgressBadgeProps extends DefaultFrigadeFlowProps {
   title: string
@@ -93,21 +94,24 @@ export const FrigadeProgressBadge: React.FC<FrigadeProgressBadgeProps> = ({
   const completedCount = getNumberOfStepsCompleted(flowId)
 
   return (
-    <ProgressBadge
-      count={completedCount}
-      total={steps.length}
-      title={title}
-      style={style}
-      textStyle={textStyle}
-      onClick={() => {
-        setOpenFlowState(flowId, true)
-        if (onClick) {
-          onClick()
-        }
-      }}
-      type={type}
-      className={className}
-      appearance={appearance}
-    />
+    <>
+      <RenderInlineStyles appearance={appearance} />
+      <ProgressBadge
+        count={completedCount}
+        total={steps.length}
+        title={title}
+        style={style}
+        textStyle={textStyle}
+        onClick={() => {
+          setOpenFlowState(flowId, true)
+          if (onClick) {
+            onClick()
+          }
+        }}
+        type={type}
+        className={className}
+        appearance={appearance}
+      />
+    </>
   )
 }
