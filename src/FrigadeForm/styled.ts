@@ -20,7 +20,7 @@ export const FormContainerMain = styled.div`
   display: flex;
   // If type is set to full-screen-modal, use padding 60px horizontal, 80px vertical
   // Otherwise, use 4px padding
-  padding: ${(props) => (props.type === 'full-screen-modal' ? '100px 80px' : '4px')};
+  padding: ${(props) => (props.type === 'full-screen-modal' ? '70px 70px' : '4px')};
   flex-direction: column;
   flex: 1;
 `

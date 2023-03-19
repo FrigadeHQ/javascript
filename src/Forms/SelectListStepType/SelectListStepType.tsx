@@ -11,33 +11,34 @@ import {
   SelectListSubtitle,
   SelectListTitle,
 } from './styled'
+import { CustomFormTypeProps, MultipleChoiceProps } from '../../FrigadeForm/types'
 
-export const SelectListStepType = ({ stepData, setCanContinue, appearance }) => {
-  const [currentSelected, setCurrentSelected] = useState<number[]>([])
-
-  const options = (stepData?.props?.data as any[]) ?? []
-
-  const minChoiceCount = stepData.minChoices ?? 1
-  const maxChoiceCount = stepData.maxChoices ?? 1
-
-  const handleSelect = (idx: number) => {
-    if (currentSelected.includes(idx)) {
-      const removed = [...currentSelected.filter((v) => v !== idx)]
-      setCurrentSelected(removed)
-    } else if (currentSelected.length >= maxChoiceCount) {
-      return
-    } else {
-      setCurrentSelected([...currentSelected, idx])
-    }
-  }
+export const SelectListStepType = ({
+  stepData,
+  canContinue,
+  setCanContinue,
+  onSaveData,
+  appearance,
+}: CustomFormTypeProps) => {
+  const multipleChoiceProps = stepData.props as MultipleChoiceProps
+  const [selectedIds, setSelectedIds] = useState<string[]>([])
+  const [hasLoaded, setHasLoaded] = useState(false)
 
   useEffect(() => {
-    if (currentSelected.length >= minChoiceCount && currentSelected.length <= maxChoiceCount) {
+    if (selectedIds.length == 0 && !hasLoaded) {
+      setHasLoaded(true)
+      onSaveData({ choice: [] })
+    }
+  }, [hasLoaded])
+
+  useEffect(() => {
+    onSaveData({ choice: selectedIds })
+    if (selectedIds.length >= multipleChoiceProps.minChoices) {
       setCanContinue(true)
     } else {
       setCanContinue(false)
     }
-  }, [currentSelected])
+  }, [selectedIds])
 
   return (
     <SelectListSelectionContainer>
@@ -45,22 +46,37 @@ export const SelectListStepType = ({ stepData, setCanContinue, appearance }) => 
         <SelectListTitle>{stepData.title}</SelectListTitle>
         <SelectListSubtitle>{stepData.subtitle}</SelectListSubtitle>
       </SelectListHeader>
-      {options.map((opt, idx) => {
-        const isSelected = currentSelected.includes(idx)
+      {multipleChoiceProps.options.map((option, idx) => {
+        const isSelected = selectedIds.includes(option.id)
         return (
           <SelectItem
             key={`select-item-${idx}`}
-            onClick={() => handleSelect(idx)}
-            hideBottomBorder={idx === options.length - 1}
+            onClick={() => {
+              // If the option is already selected, remove it from the selectedIds
+              if (selectedIds.includes(option.id)) {
+                setSelectedIds(selectedIds.filter((id) => id !== option.id))
+                return
+              }
+              // Select the input if we are still under maxChoices
+              if (selectedIds.length < multipleChoiceProps.maxChoices) {
+                setSelectedIds([...selectedIds, option.id])
+              } else {
+                if (selectedIds.length == 1 && multipleChoiceProps.maxChoices == 1) {
+                  // deselect the input if we are at maxChoices and minChoices is 1
+                  setSelectedIds([option.id])
+                }
+              }
+            }}
+            hideBottomBorder={idx === multipleChoiceProps.options.length - 1}
             className={getClassName('selectListSelectItem', appearance)}
           >
             <SelectItemLeft>
-              {opt.icon && <ItemIcon src={opt.icon} alt={`select-icon-${idx}`} />}
+              {option.imageUri && <ItemIcon src={option.imageUri} alt={`select-icon-${idx}`} />}
               <SelectItemText
                 appearance={appearance}
                 className={getClassName('selectListSelectItemText', appearance)}
               >
-                {opt.title}
+                {option.title}
               </SelectItemText>
             </SelectItemLeft>
             <CheckBox value={isSelected} primaryColor={appearance.theme.colorPrimary} />

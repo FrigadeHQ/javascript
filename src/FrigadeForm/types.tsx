@@ -36,3 +36,20 @@ export interface StepContentProps {
   stepData: StepData
   appearance?: Appearance
 }
+
+export interface MultipleChoiceListProps extends FormInputType {
+  id: string
+  title?: string
+  props: MultipleChoiceProps
+}
+export interface MultipleChoiceProps {
+  minChoices?: number
+  maxChoices?: number
+  options?: MultipleChoiceListOption[]
+}
+
+export interface MultipleChoiceListOption {
+  id: string
+  title: string
+  imageUri?: string
+}

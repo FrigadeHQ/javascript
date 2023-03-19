@@ -1,24 +1,9 @@
 import React, { useEffect, useState } from 'react'
 
 import styled from 'styled-components'
-import { FormInputProps, FormInputType } from '../../../FrigadeForm/types'
+import { FormInputProps, MultipleChoiceListProps } from '../../../FrigadeForm/types'
 import { getCustomClassOverrides } from '../../../shared/appearance'
 import { Label } from '../shared/Label'
-
-interface MultipleChoiceListProps extends FormInputType {
-  id: string
-  title?: string
-  props: {
-    minChoices?: number
-    maxChoices?: number
-    options?: MultipleChoiceListOption[]
-  }
-}
-
-interface MultipleChoiceListOption {
-  id: string
-  title: string
-}
 
 const MultipleChoiceListWrapper = styled.div`
   display: flex;
