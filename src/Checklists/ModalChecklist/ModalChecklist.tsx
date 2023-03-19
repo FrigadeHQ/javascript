@@ -4,7 +4,12 @@ import { Modal } from '../../components/Modal'
 import { ProgressBar } from '../Checklist/Progress'
 import { CollapsibleStep } from './CollapsibleStep'
 
-import { HeaderContent, ModalChecklistSubtitle, ModalChecklistTitle } from './styled'
+import {
+  ChecklistContainer,
+  HeaderContent,
+  ModalChecklistSubtitle,
+  ModalChecklistTitle,
+} from './styled'
 import { ChecklistProps } from '..'
 
 export interface ModalChecklistProps extends ChecklistProps {
@@ -86,48 +91,50 @@ const ModalChecklist: FC<ModalChecklistProps> = ({
           </>
         }
       >
-        {steps.map((step: StepData, idx: number) => {
-          const isCollapsed = collapsedSteps[idx]
-          return (
-            <CollapsibleStep
-              appearance={appearance}
-              stepData={step}
-              collapsed={isCollapsed}
-              key={`modal-checklist-${step.id ?? idx}`}
-              onClick={() => {
-                if (selectedStep === idx) {
-                  // Collapse step if needed
-                  handleStepClick(idx)
-                  return
-                }
-                setSelectedStep(idx)
-              }}
-              onPrimaryButtonClick={() => {
-                if (onCompleteStep) {
-                  onCompleteStep(idx, step)
-                }
-                if (step.handlePrimaryButtonClick) {
-                  step.handlePrimaryButtonClick()
-                }
-                if (!autoExpandNextStep) return
-                // Automatically expand next step
-                if (
-                  !step.completionCriteria &&
-                  idx < collapsedSteps.length - 1 &&
-                  collapsedSteps[idx + 1]
-                ) {
-                  setSelectedStep(idx + 1)
-                }
-              }}
-              onSecondaryButtonClick={() => {
-                if (step.handleSecondaryButtonClick) {
-                  step.handleSecondaryButtonClick()
-                }
-              }}
-              primaryColor={primaryColor}
-            />
-          )
-        })}
+        <ChecklistContainer>
+          {steps.map((step: StepData, idx: number) => {
+            const isCollapsed = collapsedSteps[idx]
+            return (
+              <CollapsibleStep
+                appearance={appearance}
+                stepData={step}
+                collapsed={isCollapsed}
+                key={`modal-checklist-${step.id ?? idx}`}
+                onClick={() => {
+                  if (selectedStep === idx) {
+                    // Collapse step if needed
+                    handleStepClick(idx)
+                    return
+                  }
+                  setSelectedStep(idx)
+                }}
+                onPrimaryButtonClick={() => {
+                  if (onCompleteStep) {
+                    onCompleteStep(idx, step)
+                  }
+                  if (step.handlePrimaryButtonClick) {
+                    step.handlePrimaryButtonClick()
+                  }
+                  if (!autoExpandNextStep) return
+                  // Automatically expand next step
+                  if (
+                    !step.completionCriteria &&
+                    idx < collapsedSteps.length - 1 &&
+                    collapsedSteps[idx + 1]
+                  ) {
+                    setSelectedStep(idx + 1)
+                  }
+                }}
+                onSecondaryButtonClick={() => {
+                  if (step.handleSecondaryButtonClick) {
+                    step.handleSecondaryButtonClick()
+                  }
+                }}
+                primaryColor={primaryColor}
+              />
+            )
+          })}
+        </ChecklistContainer>
       </Modal>
     </>
   )

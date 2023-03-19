@@ -7,6 +7,7 @@ export const FormCTAContainer = styled.div`
 export const FormContainer = styled.div`
   display: flex;
   flex-direction: row;
+  flex: 1 1;
 `
 
 export const FormCTASplitContainer = styled.div`

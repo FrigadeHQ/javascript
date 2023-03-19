@@ -7,6 +7,7 @@ import { ProgressBar } from '../Checklist/Progress'
 import { StepItemSelectedIndicator } from '../HeroChecklist/styled'
 import { motion } from 'framer-motion'
 import {
+  ChecklistContainer,
   ChecklistSubtitle,
   ChecklistTitle,
   ContainerStyle,
@@ -36,7 +37,7 @@ export interface ChecklistWithGuideProps extends ChecklistProps {
   // Map from string to function with StepData returning React.ReactNode
   visible: boolean
   stepsTitle: string
-  
+
   /**
    * @deprecated Use `appearance` instead
    */
@@ -157,110 +158,121 @@ const ChecklistWithGuide: FC<ChecklistWithGuideProps> = ({
       closeTint={appearance?.styleOverrides?.iconColor ?? '#8C8C8C'}
       appearance={appearance}
     >
-      <HeaderContent>
-        <ChecklistTitle appearance={appearance} className={getClassName('checklistTitle', appearance)}>
-          {title}
-        </ChecklistTitle>
-        <ChecklistSubtitle appearance={appearance} className={getClassName('checklistSubtitle', appearance)}>
-          {subtitle}
-        </ChecklistSubtitle>
-      </HeaderContent>
+      <ChecklistContainer>
+        <HeaderContent>
+          <ChecklistTitle
+            appearance={appearance}
+            className={getClassName('checklistTitle', appearance)}
+          >
+            {title}
+          </ChecklistTitle>
+          <ChecklistSubtitle
+            appearance={appearance}
+            className={getClassName('checklistSubtitle', appearance)}
+          >
+            {subtitle}
+          </ChecklistSubtitle>
+        </HeaderContent>
 
-      <ScrollContainer>
-        <StepsContainer className={getClassName('stepsContainer', appearance)}>
-          <StepsHeader>
-            <div style={{ flex: 3 }}>
-              <StepsTitle>{stepsTitle}</StepsTitle>
-            </div>
-            <ProgressBarContainer>
-              <ProgressBar
-                fillColor={appearance.theme.colorPrimary}
-                style={{ width: '100%' }}
-                count={completeCount}
-                total={steps.length}
+        <ScrollContainer>
+          <StepsContainer className={getClassName('stepsContainer', appearance)}>
+            <StepsHeader>
+              <div style={{ flex: 3 }}>
+                <StepsTitle>{stepsTitle}</StepsTitle>
+              </div>
+              <ProgressBarContainer>
+                <ProgressBar
+                  fillColor={appearance.theme.colorPrimary}
+                  style={{ width: '100%' }}
+                  count={completeCount}
+                  total={steps.length}
+                  appearance={appearance}
+                />
+              </ProgressBarContainer>
+            </StepsHeader>
+            <StepsBody>
+              <StepListContainer
+                className={getClassName('checklistStepListContainer', appearance)}
                 appearance={appearance}
-              />
-            </ProgressBarContainer>
-          </StepsHeader>
-          <StepsBody>
-            <StepListContainer className={getClassName('checklistStepListContainer', appearance)} appearance={appearance}>
-              {steps.map((stepData: StepData, idx: number) => {
-                const isSelected = selectedStepValue === idx
-                return (
-                  <StepListItem
-                    selected={isSelected}
-                    className={getClassName(
-                      `checklistStepListItem${isSelected ? 'Selected' : ''}`,
-                      appearance
-                    )}
-                    key={`checklist-guide-step-${stepData.id ?? idx}`}
-                    disabled={stepData.blocked}
-                    onClick={() => {
-                      if (stepData.blocked) {
-                        return
-                      }
-                      setSelectedStepValue(idx)
-                    }}
-                    title={stepData.blocked ? 'Finish remaining steps to continue' : undefined}
-                  >
-                    {isSelected && (
-                      <StepItemSelectedIndicator
-                        className={getClassName('checklistStepItemSelectedIndicator', appearance)}
-                        as={motion.div}
-                        layoutId="checklist-step-selected"
-                        style={{
-                          backgroundColor: appearance.theme.colorPrimary,
-                          borderRadius: 0,
-                          height: '100%',
-                          top: '0%',
-                          width: '2px',
-                        }}
-                      ></StepItemSelectedIndicator>
-                    )}
-                    <StepListStepName
+              >
+                {steps.map((stepData: StepData, idx: number) => {
+                  const isSelected = selectedStepValue === idx
+                  return (
+                    <StepListItem
                       selected={isSelected}
                       className={getClassName(
-                        `checklistStepListStepName${isSelected ? 'Selected' : ''}`,
+                        `checklistStepListItem${isSelected ? 'Selected' : ''}`,
                         appearance
                       )}
+                      key={`checklist-guide-step-${stepData.id ?? idx}`}
+                      disabled={stepData.blocked}
+                      onClick={() => {
+                        if (stepData.blocked) {
+                          return
+                        }
+                        setSelectedStepValue(idx)
+                      }}
+                      title={stepData.blocked ? 'Finish remaining steps to continue' : undefined}
                     >
-                      {stepData.stepName}
-                    </StepListStepName>
-                    <StepListItemRight>
-                      <CheckBox
-                        value={stepData.complete}
-                        type="round"
-                        primaryColor={appearance.theme.colorPrimary}
-                        progress={stepData.progress}
-                      />
-                      <CenterVertical>
-                        <Chevron
-                          style={{ marginLeft: '10px' }}
-                          color={appearance.theme.colorBackgroundSecondary}
+                      {isSelected && (
+                        <StepItemSelectedIndicator
+                          className={getClassName('checklistStepItemSelectedIndicator', appearance)}
+                          as={motion.div}
+                          layoutId="checklist-step-selected"
+                          style={{
+                            backgroundColor: appearance.theme.colorPrimary,
+                            borderRadius: 0,
+                            height: '100%',
+                            top: '0%',
+                            width: '2px',
+                          }}
+                        ></StepItemSelectedIndicator>
+                      )}
+                      <StepListStepName
+                        selected={isSelected}
+                        className={getClassName(
+                          `checklistStepListStepName${isSelected ? 'Selected' : ''}`,
+                          appearance
+                        )}
+                      >
+                        {stepData.stepName}
+                      </StepListStepName>
+                      <StepListItemRight>
+                        <CheckBox
+                          value={stepData.complete}
+                          type="round"
+                          primaryColor={appearance.theme.colorPrimary}
+                          progress={stepData.progress}
                         />
-                      </CenterVertical>
-                    </StepListItemRight>
-                  </StepListItem>
-                )
-              })}
-            </StepListContainer>
+                        <CenterVertical>
+                          <Chevron
+                            style={{ marginLeft: '10px' }}
+                            color={appearance.theme.colorBackgroundSecondary}
+                          />
+                        </CenterVertical>
+                      </StepListItemRight>
+                    </StepListItem>
+                  )
+                })}
+              </StepListContainer>
 
-            <StepContent />
-          </StepsBody>
-        </StepsContainer>
-        {guideData && guideData.length > 0 && (
-          <Guide
-            steps={guideData}
-            title={guideTitle}
-            primaryColor={appearance.theme.colorPrimary}
-            style={{
-              border: 'none',
-              boxShadow: 'none',
-            }}
-            appearance={appearance}
-          />
-        )}
-      </ScrollContainer>
+              <StepContent />
+            </StepsBody>
+          </StepsContainer>
+          {guideData && guideData.length > 0 && (
+            <Guide
+              steps={guideData}
+              title={guideTitle}
+              primaryColor={appearance.theme.colorPrimary}
+              style={{
+                border: 'none',
+                boxShadow: 'none',
+              }}
+              appearance={appearance}
+            />
+          )}
+        </ScrollContainer>
+      </ChecklistContainer>
     </Modal>
   )
 }

@@ -26,7 +26,7 @@ export const HeaderContent = styled.div`
   margin-top: 20px;
 `
 
-export const ChecklistTitle = styled.h1<{appearance}>`
+export const ChecklistTitle = styled.h1<{ appearance }>`
   font-style: normal;
   font-weight: 600;
   font-size: 30px;
@@ -34,7 +34,7 @@ export const ChecklistTitle = styled.h1<{appearance}>`
   margin-bottom: 16px;
   color: ${(props) => props.appearance?.theme?.colorText};
 `
-export const ChecklistSubtitle = styled.h2<{appearance}>`
+export const ChecklistSubtitle = styled.h2<{ appearance }>`
   font-weight: 400;
   color: #8c8c8c;
   font-size: 16px;
@@ -109,7 +109,7 @@ export const StepSubtitle = styled.p`
   text-align: center;
   color: #8c8c8c;
   margin: 0;
-`;
+`
 
 export const MultipleButtonContainer = styled.div`
   :not(${(props) => getCustomClassOverrides(props)}) {
@@ -168,4 +168,9 @@ export const ProgressBarContainer = styled.div`
   align-content: center;
   align-items: center;
   margin-right: 20px;
+`
+
+export const ChecklistContainer = styled.div`
+  display: block;
+  width: 100%;
 `

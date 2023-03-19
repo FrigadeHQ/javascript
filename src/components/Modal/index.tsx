@@ -73,7 +73,8 @@ const ModalClose = styled.div<{ appearance }>`
 
 const Body = styled.div`
   overflow: scroll;
-  flex: 5;
+  flex: 1 1;
+  display: flex;
   ::-webkit-scrollbar {
     display: none;
   }

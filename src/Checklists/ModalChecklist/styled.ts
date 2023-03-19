@@ -37,3 +37,7 @@ export const ModalChecklistSubtitle = styled.h2<{ appearance }>`
   line-height: 23px;
   margin: 2px 0 0 0;
 `
+export const ChecklistContainer = styled.div`
+  display: block;
+  width: 100%;
+`
