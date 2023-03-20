@@ -45,6 +45,7 @@ export const CollapsibleStep: FC<CollapsibleStepProps> = ({
             value={stepData.complete}
             style={{ width: 'auto', borderTop: 0 }}
             primaryColor={appearance?.theme?.colorPrimary}
+            appearance={appearance}
           />
           <StepTitle appearance={appearance}>{stepData.title}</StepTitle>
         </HeaderLeft>

@@ -247,6 +247,7 @@ const ChecklistWithGuide: FC<ChecklistWithGuideProps> = ({
                           type="round"
                           primaryColor={appearance.theme.colorPrimary}
                           progress={stepData.progress}
+                          appearance={appearance}
                         />
                         <CenterVertical>
                           <Chevron

@@ -1,6 +1,7 @@
 import React, { CSSProperties, FC } from 'react'
 import styled from 'styled-components'
 import { CheckBox, CheckBoxType } from '../CheckBox'
+import { Appearance, DefaultAppearance } from '../../types'
 
 interface CheckBoxRowProps {
   label?: string
@@ -11,6 +12,7 @@ interface CheckBoxRowProps {
   primaryColor?: string
   secondaryColor?: string
   checkBoxType?: CheckBoxType
+  appearance?: Appearance
 }
 
 const Label = styled.span`
@@ -42,11 +44,17 @@ export const CheckBoxRow: FC<CheckBoxRowProps> = ({
   style,
   primaryColor = '#000000',
   checkBoxType = 'square',
+  appearance = DefaultAppearance,
 }) => {
   return (
     <CheckBoxRowContainer style={{ ...style }}>
       {labelPosition === 'left' && label && <Label style={labelStyle}>{label}</Label>}
-      <CheckBox value={value} type={checkBoxType} primaryColor={primaryColor} />
+      <CheckBox
+        appearance={appearance}
+        value={value}
+        type={checkBoxType}
+        primaryColor={primaryColor}
+      />
       {labelPosition === 'right' && label && <Label style={labelStyle}>{label}</Label>}
     </CheckBoxRowContainer>
   )

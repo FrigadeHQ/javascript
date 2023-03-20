@@ -79,7 +79,11 @@ export const SelectListStepType = ({
                 {option.title}
               </SelectItemText>
             </SelectItemLeft>
-            <CheckBox value={isSelected} primaryColor={appearance.theme.colorPrimary} />
+            <CheckBox
+              appearance={appearance}
+              value={isSelected}
+              primaryColor={appearance.theme.colorPrimary}
+            />
           </SelectItem>
         )
       })}

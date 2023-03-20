@@ -1,6 +1,5 @@
 import React, { CSSProperties, FC } from 'react'
 import { CheckBoxRow } from '../../components/CheckBoxRow'
-import styled from 'styled-components'
 import { motion } from 'framer-motion'
 import { Appearance, StepData } from '../../types'
 import { ChecklistStepItem, StepItemSelectedIndicator } from './styled'
@@ -49,6 +48,7 @@ export const StepChecklistItem: FC<StepItemProps> = ({
           label={data.stepName}
           style={style}
           primaryColor={appearance?.theme?.primaryColor ?? primaryColor}
+          appearance={appearance}
         />
       </ChecklistStepItem>
     </div>
