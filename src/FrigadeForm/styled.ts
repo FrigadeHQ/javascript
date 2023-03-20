@@ -22,13 +22,15 @@ export const FormContainerMain = styled.div`
   // Otherwise, use 4px padding
   padding: ${(props) => (props.type === 'full-screen-modal' ? '70px 70px' : '4px')};
   flex-direction: column;
-  flex: 1;
+  flex-grow: 1;
+  flex-basis: 0;
 `
 
 export const FormContainerSidebarImage = styled.div`
   display: flex;
   align-self: stretch;
   flex-grow: 1;
+  flex-basis: 0;
   // If props.image is set, use it as the background image
   background-image: ${(props) => (props.image ? `url(${props.image})` : 'none')};
   // scale background image to fit

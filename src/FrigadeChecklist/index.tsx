@@ -191,7 +191,11 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
     setSelectedStep(selectedStep + 1)
   }
 
-  function handleStepCompletionHandlers(step: StepData, cta: 'primary' | 'secondary', idx: number) {
+  function handleStepCompletionHandlers(
+    step: StepData,
+    cta: 'primary' | 'secondary' | 'link',
+    idx: number
+  ) {
     const maybeNextStep = selectedStep + 1 < steps.length ? steps[selectedStep + 1] : null
     if (onButtonClick) {
       const completion = onButtonClick(step, selectedStep, cta, maybeNextStep)
@@ -315,6 +319,9 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
           appearance={appearance}
           title={title}
           subtitle={subtitle}
+          onGuideButtonClick={(step) => {
+            handleStepCompletionHandlers(step, 'link', 0)
+          }}
           {...commonProps}
         />
       </>

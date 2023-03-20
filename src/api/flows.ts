@@ -95,12 +95,18 @@ export function useFlows() {
     if (!flowData) {
       return []
     }
-    // Replace all variables of format ${variableName} with the value of the variable from customVariables
-    flowData = flowData.replace(/\${(.*?)}/g, (match, variableName) => {
-      return customVariables[variableName] ? String(customVariables[variableName]) : match
-    })
+
+    flowData = substituteVariables(flowData)
 
     return JSON.parse(flowData)?.data ?? []
+  }
+
+  function substituteVariables(flowData: string) {
+    return flowData.replace(/\${(.*?)}/g, (match, variableName) => {
+      return customVariables[variableName] !== undefined
+        ? String(customVariables[variableName])
+        : ''
+    })
   }
 
   /**
@@ -115,10 +121,8 @@ export function useFlows() {
     if (!flowData) {
       return []
     }
-    // Replace all variables of format ${variableName} with the value of the variable from customVariables
-    flowData = flowData.replace(/\${(.*?)}/g, (match, variableName) => {
-      return customVariables[variableName] ? String(customVariables[variableName]) : match
-    })
+
+    flowData = substituteVariables(flowData)
 
     return JSON.parse(flowData) ?? {}
   }

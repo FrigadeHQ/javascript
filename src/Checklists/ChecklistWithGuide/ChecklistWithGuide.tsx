@@ -45,6 +45,8 @@ export interface ChecklistWithGuideProps extends ChecklistProps {
 
   guideData?: GuideStepData[]
   guideTitle?: string
+
+  onGuideButtonClick?: (stepData: StepData) => void
 }
 
 const ChecklistWithGuide: FC<ChecklistWithGuideProps> = ({
@@ -64,6 +66,8 @@ const ChecklistWithGuide: FC<ChecklistWithGuideProps> = ({
 
   guideData,
   guideTitle,
+
+  onGuideButtonClick,
 }) => {
   const DefaultStepContent = ({ stepData, handleSecondaryCTAClick, handleCTAClick }) => {
     if (!stepData) return <></>
@@ -269,6 +273,11 @@ const ChecklistWithGuide: FC<ChecklistWithGuideProps> = ({
                 boxShadow: 'none',
               }}
               appearance={appearance}
+              onButtonClick={(step) => {
+                if (onGuideButtonClick) {
+                  onGuideButtonClick(step)
+                }
+              }}
             />
           )}
         </ScrollContainer>

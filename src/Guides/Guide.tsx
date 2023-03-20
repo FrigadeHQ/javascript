@@ -25,12 +25,20 @@ interface GuideProps {
   style?: CSSProperties
   primaryColor?: string
   appearance: Appearance
+  onButtonClick?: (stepData: StepData) => void
 }
 
 /**
  * A guide is essentially a list of links that does not have a state
  */
-const Guide: FC<GuideProps> = ({ steps, style, title, primaryColor, appearance }) => {
+const Guide: FC<GuideProps> = ({
+  steps,
+  style,
+  title,
+  primaryColor,
+  appearance,
+  onButtonClick,
+}) => {
   return (
     <GuideContainer style={style} className={getClassName('guideContainer', appearance)}>
       <GuideTitle className={getClassName('guideTitle', appearance)}>{title}</GuideTitle>
@@ -61,10 +69,19 @@ const Guide: FC<GuideProps> = ({ steps, style, title, primaryColor, appearance }
               </GuideItemSubtitle>
 
               <GuideItemLink
-                className={getClassName('guideIteLink', appearance)}
+                className={getClassName('guideItemLink', appearance)}
                 color={primaryColor}
-                href={stepData.primaryButtonUri}
-                target={stepData.primaryButtonUriTarget ?? '_self'}
+                onClick={() => {
+                  if (stepData.primaryButtonUri) {
+                    window.open(
+                      stepData.primaryButtonUri,
+                      stepData.primaryButtonUriTarget ?? '_self'
+                    )
+                  }
+                  if (onButtonClick) {
+                    onButtonClick(stepData)
+                  }
+                }}
               >
                 {stepData.primaryButtonTitle}
               </GuideItemLink>

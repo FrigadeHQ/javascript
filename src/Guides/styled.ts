@@ -92,6 +92,5 @@ export const GuideItemLink = styled.a<{ color: string }>`
   font-size: 12px;
   line-height: 14px;
   font-weight: 400;
-  text-decoration: underline;
   cursor: pointer;
 `
