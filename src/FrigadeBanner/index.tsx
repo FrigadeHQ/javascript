@@ -133,7 +133,7 @@ export const FrigadeBanner: React.FC<FrigadeBannerProps> = ({
           {subtitle}
         </TextSubtitle>
       </TextContainer>
-      <CallToActionContainer className={getClassName('bannerContainer', appearance)}>
+      <CallToActionContainer className={getClassName('bannerCallToActionContainer', appearance)}>
         <Button
           title={metaData?.primaryButtonTitle ?? 'Get started'}
           appearance={appearance}
