@@ -8,7 +8,7 @@ export function secondaryCTAClickSideEffects(step: StepData) {
   handleUrl(step.secondaryButtonUri, step.secondaryButtonUriTarget)
 }
 
-function handleUrl(url?: string, target?: string) {
+export function handleUrl(url?: string, target?: string) {
   if (!url) {
     return
   }

@@ -124,7 +124,14 @@ export const Modal: FC<ModalProps> = ({
 
   return (
     <Portal>
-      <ModalBackground appearance={appearance} onClose={onClose} />
+      <ModalBackground
+        appearance={appearance}
+        onClose={() => {
+          if (dismissible) {
+            onClose()
+          }
+        }}
+      />
       <ModalContainer
         appearance={appearance}
         className={getClassName('modalContainer', appearance)}
