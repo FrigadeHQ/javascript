@@ -22,14 +22,19 @@ export function RenderInlineStyles({ appearance }: { appearance?: Appearance }) 
   }
 
   const GlobalStyleComponent = createGlobalStyle`
-    ${inlineStyles.map(([key, value]) => {
-      return `.${CUSTOM_CSS_STYLES_PREFIX}${key}.${CUSTOM_CSS_STYLES_PREFIX}${key} { ${Object.entries(
-        value
-      ).map(([key, value]) => {
-        const kebabKey = key.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase()
-        return `${kebabKey}: ${value};`
-      })} }`
-    })}`
+    ${inlineStyles
+      .map(([key, value]) => {
+        return `.${CUSTOM_CSS_STYLES_PREFIX}${key}.${CUSTOM_CSS_STYLES_PREFIX}${key} { ${Object.entries(
+          value
+        )
+          .map(([key, value]) => {
+            let kebabKey = key.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase()
+
+            return `${kebabKey}: ${value};`
+          })
+          .join(' ')} }`
+      })
+      .join(' ')}`
 
   return <GlobalStyleComponent />
 }
