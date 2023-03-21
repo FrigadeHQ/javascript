@@ -26,7 +26,7 @@ export const FormContainerMain = styled.div`
 `
 
 export const FormContainerWrapper = styled.div`
-  padding: ${(props) => (props.type === 'full-screen-modal' ? '70px' : '4px')};
+  padding: ${(props) => (props.type === 'full-screen-modal' ? '50px' : '4px')};
 `
 
 export const FormContainerSidebarImage = styled.div`

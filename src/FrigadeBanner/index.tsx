@@ -22,6 +22,7 @@ import { Button } from '../components/Button'
 import { CloseIcon } from '../components/CloseIcon'
 import { primaryCTAClickSideEffects } from '../shared/cta-util'
 import { getClassName } from '../shared/appearance'
+import { RenderInlineStyles } from '../components/RenderInlineStyles'
 
 /**
  * Frigade Banners
@@ -94,44 +95,47 @@ export const FrigadeBanner: React.FC<FrigadeBannerProps> = ({
   }
 
   return (
-    <BannerContainer
-      appearance={appearance}
-      className={getClassName('bannerContainer', appearance)}
-    >
-      <IconContainer>
-        <Info />
-      </IconContainer>
-      <TextContainer>
-        <TextTitle className={getClassName('bannerTitle', appearance)}>{title}</TextTitle>
-        <TextSubtitle className={getClassName('bannerSubtitle', appearance)}>
-          {subtitle}
-        </TextSubtitle>
-      </TextContainer>
-      <CallToActionContainer className={getClassName('bannerCallToActionContainer', appearance)}>
-        <Button
-          title={metaData?.primaryButtonTitle ?? 'Get started'}
-          appearance={appearance}
-          onClick={() => {
-            primaryCTAClickSideEffects(metaData)
-            if (onButtonClick) {
-              onButtonClick(metaData, 0, 'primary')
-            }
-          }}
-        />
-      </CallToActionContainer>
-      {metaData.dismissible === true && (
-        <DismissButton
-          onClick={() => {
-            markFlowCompleted(flowId)
-            if (onDismiss) {
-              onDismiss()
-            }
-          }}
-          className={getClassName('bannerDismissButton', appearance)}
-        >
-          <CloseIcon />
-        </DismissButton>
-      )}
-    </BannerContainer>
+    <>
+      <RenderInlineStyles appearance={appearance} />
+      <BannerContainer
+        appearance={appearance}
+        className={getClassName('bannerContainer', appearance)}
+      >
+        <IconContainer>
+          <Info />
+        </IconContainer>
+        <TextContainer>
+          <TextTitle className={getClassName('bannerTitle', appearance)}>{title}</TextTitle>
+          <TextSubtitle className={getClassName('bannerSubtitle', appearance)}>
+            {subtitle}
+          </TextSubtitle>
+        </TextContainer>
+        <CallToActionContainer className={getClassName('bannerCallToActionContainer', appearance)}>
+          <Button
+            title={metaData?.primaryButtonTitle ?? 'Get started'}
+            appearance={appearance}
+            onClick={() => {
+              primaryCTAClickSideEffects(metaData)
+              if (onButtonClick) {
+                onButtonClick(metaData, 0, 'primary')
+              }
+            }}
+          />
+        </CallToActionContainer>
+        {metaData.dismissible === true && (
+          <DismissButton
+            onClick={() => {
+              markFlowCompleted(flowId)
+              if (onDismiss) {
+                onDismiss()
+              }
+            }}
+            className={getClassName('bannerDismissButton', appearance)}
+          >
+            <CloseIcon />
+          </DismissButton>
+        )}
+      </BannerContainer>
+    </>
   )
 }

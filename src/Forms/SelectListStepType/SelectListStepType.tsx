@@ -46,7 +46,10 @@ export const SelectListStepType = ({
         <SelectListTitle className={getClassName('selectListTitle', appearance)}>
           {stepData.title}
         </SelectListTitle>
-        <SelectListSubtitle className={getClassName('selectListSubtitle', appearance)}>
+        <SelectListSubtitle
+          appearance={appearance}
+          className={getClassName('selectListSubtitle', appearance)}
+        >
           {stepData.subtitle}
         </SelectListSubtitle>
       </SelectListHeader>

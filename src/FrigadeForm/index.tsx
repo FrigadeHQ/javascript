@@ -203,7 +203,7 @@ export const FrigadeForm: FC<FormProps> = ({
       <RenderInlineStyles appearance={appearance} />
       <FormContainer className={getClassName('formContainer', appearance)}>
         <FormContainerMain>
-          <FormContainerWrapper type={type}>
+          <FormContainerWrapper type={type} className={getClassName('formContent', appearance)}>
             <StepContent
               stepData={steps[selectedStepValue]}
               canContinue={canContinue}
