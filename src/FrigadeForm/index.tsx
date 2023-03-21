@@ -1,6 +1,11 @@
 import React, { FC, useEffect, useState } from 'react'
 
-import { FormContainer, FormContainerMain, FormContainerSidebarImage } from './styled'
+import {
+  FormContainer,
+  FormContainerMain,
+  FormContainerSidebarImage,
+  FormContainerWrapper,
+} from './styled'
 
 import { DefaultFrigadeFlowProps, mergeAppearanceWithDefault, StepData } from '../types'
 import { useFlows } from '../api/flows'
@@ -29,6 +34,7 @@ export interface FormProps extends DefaultFrigadeFlowProps {
   setVisible?: (visible: boolean) => void
   onComplete?: () => void
   dismissible?: boolean
+  repeatable?: boolean
 }
 
 export const FrigadeForm: FC<FormProps> = ({
@@ -196,46 +202,52 @@ export const FrigadeForm: FC<FormProps> = ({
     <>
       <RenderInlineStyles appearance={appearance} />
       <FormContainer className={getClassName('formContainer', appearance)}>
-        <FormContainerMain type={type}>
-          <StepContent
-            stepData={steps[selectedStepValue]}
-            canContinue={canContinue}
-            setCanContinue={setCanContinue}
-            onSaveData={(data) => {
-              updateData(steps[selectedStepValue], data)
-            }}
-            appearance={appearance}
-          />
-          <FormFooter
-            step={steps[selectedStepValue]}
-            canContinue={canContinue}
-            formType={type}
-            appearance={appearance}
-            onPrimaryClick={() => {
-              if (steps[selectedStepValue].primaryButtonUri) {
-                window.open(steps[selectedStepValue].primaryButtonUri)
-              }
-              markStepCompleted(flowId, steps[selectedStepValue].id, getDataPayload())
-              handleStepCompletionHandlers(steps[selectedStepValue], 'primary', selectedStepValue)
-              if (selectedStepValue + 1 >= steps.length) {
-                if (onComplete) {
-                  onComplete()
+        <FormContainerMain>
+          <FormContainerWrapper type={type}>
+            <StepContent
+              stepData={steps[selectedStepValue]}
+              canContinue={canContinue}
+              setCanContinue={setCanContinue}
+              onSaveData={(data) => {
+                updateData(steps[selectedStepValue], data)
+              }}
+              appearance={appearance}
+            />
+            <FormFooter
+              step={steps[selectedStepValue]}
+              canContinue={canContinue}
+              formType={type}
+              appearance={appearance}
+              onPrimaryClick={() => {
+                if (steps[selectedStepValue].primaryButtonUri) {
+                  window.open(steps[selectedStepValue].primaryButtonUri)
                 }
-                if (hideOnFlowCompletion) {
-                  if (setVisible) {
-                    setVisible(false)
+                markStepCompleted(flowId, steps[selectedStepValue].id, getDataPayload())
+                handleStepCompletionHandlers(steps[selectedStepValue], 'primary', selectedStepValue)
+                if (selectedStepValue + 1 >= steps.length) {
+                  if (onComplete) {
+                    onComplete()
                   }
-                  setShowModal(false)
+                  if (hideOnFlowCompletion) {
+                    if (setVisible) {
+                      setVisible(false)
+                    }
+                    setShowModal(false)
+                  }
                 }
-              }
-            }}
-            onSecondaryClick={() => {
-              if (steps[selectedStepValue].secondaryButtonUri) {
-                window.open(steps[selectedStepValue].secondaryButtonUri)
-              }
-              handleStepCompletionHandlers(steps[selectedStepValue], 'secondary', selectedStepValue)
-            }}
-          />
+              }}
+              onSecondaryClick={() => {
+                if (steps[selectedStepValue].secondaryButtonUri) {
+                  window.open(steps[selectedStepValue].secondaryButtonUri)
+                }
+                handleStepCompletionHandlers(
+                  steps[selectedStepValue],
+                  'secondary',
+                  selectedStepValue
+                )
+              }}
+            />
+          </FormContainerWrapper>
         </FormContainerMain>
         <FormContainerSidebar selectedStep={steps[selectedStepValue]} />
       </FormContainer>
@@ -247,6 +259,8 @@ export const FrigadeForm: FC<FormProps> = ({
     if (type === 'full-screen-modal') {
       overrideStyle.width = '85%'
       overrideStyle.height = '90%'
+      overrideStyle.maxHeight = '800px'
+      overrideStyle.minHeight = '500px'
       overrideStyle.padding = '0'
     }
     return (

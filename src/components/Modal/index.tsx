@@ -44,6 +44,7 @@ const ModalContainer = styled.div<{ appearance; maxWidth }>`
   animation-duration: 0.15s;
   animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
   animation-name: fadeIn;
+  box-sizing: border-box;
 
   @keyframes fadeIn {
     0% {

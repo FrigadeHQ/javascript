@@ -5,7 +5,7 @@ export const GuideContainer = styled.div`
   border: 1px solid #fafafa;
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.05);
   border-radius: 14px;
-  padding: 20px;
+  padding-top: 20px;
   display: flex;
   flex-direction: column;
   overflow: hidden;

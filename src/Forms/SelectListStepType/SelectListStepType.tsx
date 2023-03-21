@@ -41,10 +41,14 @@ export const SelectListStepType = ({
   }, [selectedIds])
 
   return (
-    <SelectListSelectionContainer>
+    <SelectListSelectionContainer className={getClassName('selectListContainer', appearance)}>
       <SelectListHeader>
-        <SelectListTitle>{stepData.title}</SelectListTitle>
-        <SelectListSubtitle>{stepData.subtitle}</SelectListSubtitle>
+        <SelectListTitle className={getClassName('selectListTitle', appearance)}>
+          {stepData.title}
+        </SelectListTitle>
+        <SelectListSubtitle className={getClassName('selectListSubtitle', appearance)}>
+          {stepData.subtitle}
+        </SelectListSubtitle>
       </SelectListHeader>
       {multipleChoiceProps.options.map((option, idx) => {
         const isSelected = selectedIds.includes(option.id)
@@ -70,7 +74,7 @@ export const SelectListStepType = ({
             hideBottomBorder={idx === multipleChoiceProps.options.length - 1}
             className={getClassName('selectListSelectItem', appearance)}
           >
-            <SelectItemLeft>
+            <SelectItemLeft className={getClassName('selectListItemImage', appearance)}>
               {option.imageUri && <ItemIcon src={option.imageUri} alt={`select-icon-${idx}`} />}
               <SelectItemText
                 appearance={appearance}

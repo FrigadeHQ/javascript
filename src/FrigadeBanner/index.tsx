@@ -1,9 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 
 import { useFlows } from '../api/flows'
-import { DefaultFrigadeFlowProps, mergeAppearanceWithDefault, StepData } from '../types'
+import {
+  DefaultAppearance,
+  DefaultFrigadeFlowProps,
+  mergeAppearanceWithDefault,
+  StepData,
+} from '../types'
 import { COMPLETED_FLOW } from '../api/common'
-import { useFlowOpens } from '../api/flow-opens'
 import {
   BannerContainer,
   CallToActionContainer,
@@ -34,52 +38,22 @@ export const FrigadeBanner: React.FC<FrigadeBannerProps> = ({
   flowId,
   title,
   subtitle,
-  primaryColor,
-  secondaryColor,
-  style,
-  initialSelectedStep,
-  className,
-  type,
   onDismiss,
-  visible,
   customVariables,
-  onStepCompletion,
   onButtonClick,
-  appearance,
-  setVisible,
+  appearance = DefaultAppearance,
 }) => {
   const {
     getFlow,
-    getFlowSteps,
-    markStepCompleted,
-    getStepStatus,
-    getNumberOfStepsCompleted,
     markFlowCompleted,
     isLoading,
     targetingLogicShouldHideFlow,
     setCustomVariable,
     customVariables: existingCustomVariables,
-    getStepOptionalProgress,
     getFlowMetadata,
-    isStepBlocked,
     getFlowStatus,
-    hasActiveFullPageFlow,
-    setHasActiveFullPageFlow,
   } = useFlows()
-  const { getOpenFlowState, setOpenFlowState } = useFlowOpens()
-  const [selectedStep, setSelectedStep] = useState(initialSelectedStep || 0)
-  const [finishedInitialLoad, setFinishedInitialLoad] = useState(false)
-  const showModal = visible === undefined ? getOpenFlowState(flowId) : visible
-  const isModal = type === 'modal' || type === 'withGuide'
   appearance = mergeAppearanceWithDefault(appearance)
-
-  // TODO: Remove once primary and secondary colors are deprecated + removed
-  if (primaryColor) {
-    appearance.theme.colorPrimary = primaryColor
-  }
-  if (secondaryColor) {
-    appearance.theme.colorSecondary = secondaryColor
-  }
 
   useEffect(() => {
     if (
@@ -140,7 +114,7 @@ export const FrigadeBanner: React.FC<FrigadeBannerProps> = ({
           onClick={() => {
             primaryCTAClickSideEffects(metaData)
             if (onButtonClick) {
-              onButtonClick(selectedStep, 0, 'primary')
+              onButtonClick(metaData, 0, 'primary')
             }
           }}
         />

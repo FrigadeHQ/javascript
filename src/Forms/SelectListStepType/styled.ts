@@ -27,6 +27,8 @@ export const SelectListSubtitle = styled.h1<{ appearance }>`
   font-weight: 400;
   font-size: 16px;
   line-height: 27px;
+  margin-top: 16px;
+  margin-bottom: 16px;
   color: ${(props) => props.appearance?.theme?.colorTextSecondary};
 `
 

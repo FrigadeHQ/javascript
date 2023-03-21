@@ -20,10 +20,13 @@ export const FormContainerMain = styled.div`
   display: flex;
   // If type is set to full-screen-modal, use padding 60px horizontal, 80px vertical
   // Otherwise, use 4px padding
-  padding: ${(props) => (props.type === 'full-screen-modal' ? '70px 70px' : '4px')};
   flex-direction: column;
   flex-grow: 1;
   flex-basis: 0;
+`
+
+export const FormContainerWrapper = styled.div`
+  padding: ${(props) => (props.type === 'full-screen-modal' ? '70px' : '4px')};
 `
 
 export const FormContainerSidebarImage = styled.div`
