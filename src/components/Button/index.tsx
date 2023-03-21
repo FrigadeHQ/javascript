@@ -33,6 +33,9 @@ const ButtonContainer = styled.button`
         : props?.appearance?.theme?.colorPrimary};
     border-radius: ${(props) => props.appearance?.theme?.borderRadius}px;
     padding: 8px 20px 8px 20px;
+    font-size: 13px;
+    line-height: 20px;
+    font-weight: 500;
   }
 
   cursor: pointer;
@@ -43,13 +46,6 @@ const ButtonContainer = styled.button`
     opacity: 0.3;
     cursor: not-allowed;
   }
-`
-
-const ButtonText = styled.span`
-  font-size: 13px;
-  line-height: 20px;
-  font-weight: 500;
-  color: inherit;
 `
 
 export const MultipleButtonContainer = styled.div`
@@ -81,7 +77,7 @@ export const Button: FC<ButtonProps> = ({
       type={type}
       className={getClassName(secondary ? 'buttonSecondary' : 'button', appearance)}
     >
-      <ButtonText style={textStyle}>{title}</ButtonText>
+      {title}
     </ButtonContainer>
   )
 }
