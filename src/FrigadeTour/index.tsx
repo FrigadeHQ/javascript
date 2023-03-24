@@ -73,16 +73,19 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
       return
     }
 
-    if (
-      currentFlowStatus === STARTED_FLOW &&
-      !finishedInitialLoad &&
-      initialSelectedStep === undefined
-    ) {
+    if (currentFlowStatus !== STARTED_FLOW) {
+      return
+    }
+
+    if (!finishedInitialLoad && initialSelectedStep === undefined) {
       setSelectedStep(getCurrentStepIndex(flowId))
       setFinishedInitialLoad(true)
     }
   }, [finishedInitialLoad, initialSelectedStep, getCurrentStepIndex, flowId, isLoading])
 
+  if (isLoading && !finishedInitialLoad) {
+    return null
+  }
   const flow = getFlow(flowId)
   if (!flow) {
     return null
