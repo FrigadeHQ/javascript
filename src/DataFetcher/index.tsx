@@ -23,17 +23,12 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
   const [automaticFlowIdsToTrigger, setAutomaticFlowIdsToTrigger] = useState<Flow[]>([])
 
   useEffect(() => {
-    if (isLoadingUserFlowStateData) {
-      setIsLoadingUserState(true)
-      setIsLoading(true)
-    } else {
+    if (!isLoadingUserFlowStateData) {
       if (userFlowStatesData) {
         for (let i = 0; i < userFlowStatesData.length; i++) {
           syncFlowStates(userFlowStatesData[i])
         }
       }
-      setIsLoading(false)
-      setIsLoadingUserState(false)
     }
   }, [isLoadingUserFlowStateData, userFlowStatesData])
 

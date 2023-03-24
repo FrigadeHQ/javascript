@@ -14,10 +14,6 @@ export interface IFrigadeContext {
   flowResponses?: FlowResponse[]
   setFlowResponses?: React.Dispatch<React.SetStateAction<FlowResponse[]>>
   children?: React.ReactNode
-  isLoading: boolean
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
-  isLoadingUserState: boolean
-  setIsLoadingUserState: React.Dispatch<React.SetStateAction<boolean>>
   userProperties?: { [key: string]: string | boolean | number | null }
   setUserProperties?: React.Dispatch<
     React.SetStateAction<{ [key: string]: string | boolean | number | null }>
@@ -52,10 +48,6 @@ export const FrigadeContext = createContext<IFrigadeContext>({
   setFailedFlowResponses: () => {},
   flowResponses: [],
   setFlowResponses: () => {},
-  isLoading: false,
-  setIsLoading: () => {},
-  isLoadingUserState: false,
-  setIsLoadingUserState: () => {},
   userProperties: {},
   setUserProperties: () => {},
   openFlowStates: {},
@@ -83,8 +75,6 @@ export const FrigadeProvider: FC<FrigadeProviderProps> = ({
   const [flows, setFlows] = useState<Flow[]>([])
   const [failedFlowResponses, setFailedFlowResponses] = useState<FlowResponse[]>([])
   const [flowResponses, setFlowResponses] = useState<FlowResponse[] | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
-  const [isLoadingUserState, setIsLoadingUserState] = useState(true)
   const [userProperties, setUserProperties] = useState<{
     [key: string]: string | boolean | number | null
   }>({})
@@ -123,10 +113,6 @@ export const FrigadeProvider: FC<FrigadeProviderProps> = ({
         flows: flows,
         failedFlowResponses,
         setFailedFlowResponses,
-        isLoading: isLoading,
-        setIsLoading: setIsLoading,
-        isLoadingUserState,
-        setIsLoadingUserState,
         flowResponses,
         setFlowResponses,
         userProperties,

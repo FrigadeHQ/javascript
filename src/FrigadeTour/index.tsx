@@ -3,7 +3,7 @@ import { useFlows } from '../api/flows'
 import { ToolTipProps, Tooltips } from '../Tooltips'
 import { mergeAppearanceWithDefault, StepData } from '../types'
 import { primaryCTAClickSideEffects, secondaryCTAClickSideEffects } from '../shared/cta-util'
-import { COMPLETED_FLOW, COMPLETED_STEP, NOT_STARTED_FLOW } from '../api/common'
+import { COMPLETED_FLOW, COMPLETED_STEP, NOT_STARTED_FLOW, STARTED_FLOW } from '../api/common'
 import { Portal } from 'react-portal'
 import { useFlowOpens } from '../api/flow-opens'
 import { FrigadeContext } from '../FrigadeProvider'
@@ -68,9 +68,20 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
     }
   }, [currentFlowStatus])
 
-  if (isLoading) {
-    return null
-  }
+  useEffect(() => {
+    if (isLoading) {
+      return
+    }
+
+    if (
+      currentFlowStatus === STARTED_FLOW &&
+      !finishedInitialLoad &&
+      initialSelectedStep === undefined
+    ) {
+      setSelectedStep(getCurrentStepIndex(flowId))
+      setFinishedInitialLoad(true)
+    }
+  }, [finishedInitialLoad, initialSelectedStep, getCurrentStepIndex, flowId, isLoading])
 
   const flow = getFlow(flowId)
   if (!flow) {
@@ -106,11 +117,6 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
     if (otherFlowId !== undefined && otherFlowId !== flowId) {
       return <></>
     }
-  }
-
-  if (!finishedInitialLoad && initialSelectedStep === undefined) {
-    setSelectedStep(getCurrentStepIndex(flowId))
-    setFinishedInitialLoad(true)
   }
 
   function goToNextStepIfPossible() {

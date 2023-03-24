@@ -48,10 +48,8 @@ export function useFlows() {
   const {
     flows,
     setFlows,
-    isLoading,
     userId,
     publicApiKey,
-    isLoadingUserState,
     flowResponses,
     customVariables,
     setCustomVariables,
@@ -67,7 +65,11 @@ export function useFlows() {
     optimisticallyMarkFlowCompleted,
   } = useUserFlowStates()
 
-  const { data: flowData, error } = useSWR(publicApiKey ? `${API_PREFIX}flows` : null, fetcher)
+  const {
+    data: flowData,
+    error,
+    isLoading: isLoadingFlows,
+  } = useSWR(publicApiKey ? `${API_PREFIX}flows` : null, fetcher)
 
   useEffect(() => {
     if (error) {
@@ -81,7 +83,7 @@ export function useFlows() {
 
   function getFlow(slug: string): Flow {
     const flow = flows.find((f) => f.slug === slug)
-    if (!flow && flows.length > 0 && !isLoadingUserState && !isLoading) {
+    if (!flow && flows.length > 0 && !isLoadingUserFlowStateData && !isLoadingFlows) {
       console.error(`Flow with slug ${slug} not found`)
     }
     return flow
@@ -223,7 +225,7 @@ export function useFlows() {
   }
 
   function getLastFlowResponseForStep(flowSlug: string, stepId: string): FlowResponse | null {
-    if (isLoadingUserState) {
+    if (isLoadingUserFlowStateData) {
       return null
     }
     if (flowResponses === null || flowResponses === undefined) {
@@ -238,7 +240,7 @@ export function useFlows() {
   }
 
   function getCurrentStep(flowSlug: string): StepData | null {
-    if (isLoadingUserState || !userFlowStatesData) {
+    if (isLoadingUserFlowStateData || !userFlowStatesData) {
       return null
     }
     if (getFlowStatus(flowSlug) === NOT_STARTED_FLOW) {
@@ -333,7 +335,7 @@ export function useFlows() {
   return {
     getFlow,
     getFlowData,
-    isLoading: isLoadingUserState || isLoading,
+    isLoading: isLoadingUserFlowStateData || isLoadingFlows,
     getStepStatus,
     getFlowSteps,
     getCurrentStepIndex,
