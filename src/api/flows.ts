@@ -259,7 +259,14 @@ export function useFlows() {
     if (!currentStep) {
       return 0
     }
-    return getFlowSteps(flowSlug).findIndex((s) => s.id === currentStep.id) ?? 0
+    const index = getFlowSteps(flowSlug).findIndex((s) => s.id === currentStep.id) ?? 0
+    if (
+      getStepStatus(flowSlug, currentStep.id) === COMPLETED_STEP &&
+      index < getFlowSteps(flowSlug).length - 1
+    ) {
+      return index + 1
+    }
+    return index
   }
 
   function getStepOptionalProgress(step: StepData) {
