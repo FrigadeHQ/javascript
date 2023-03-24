@@ -47,6 +47,12 @@ export function useOrganization() {
     event: string,
     properties?: { [key: string]: string | boolean | number | null }
   ) {
+    if (!organizationId || !userId) {
+      console.error(
+        'Cannot track event for organization: Organization ID and User ID must both be set.'
+      )
+      return
+    }
     const eventData: OrganizationEvent = {
       event,
       properties,
