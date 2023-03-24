@@ -50,13 +50,12 @@ export function useFlows() {
     setFlows,
     userId,
     publicApiKey,
-    flowResponses,
     customVariables,
     setCustomVariables,
     hasActiveFullPageFlow,
     setHasActiveFullPageFlow,
   } = useContext(FrigadeContext)
-  const { addResponse } = useFlowResponses()
+  const { addResponse, getFlowResponses } = useFlowResponses()
   const fetcher = (url) => fetch(url, config).then((r) => r.json())
   const {
     userFlowStatesData,
@@ -64,12 +63,15 @@ export function useFlows() {
     mutateUserFlowState,
     optimisticallyMarkFlowCompleted,
   } = useUserFlowStates()
+  const flowResponses = getFlowResponses()
 
   const {
     data: flowData,
     error,
     isLoading: isLoadingFlows,
-  } = useSWR(publicApiKey ? `${API_PREFIX}flows` : null, fetcher)
+  } = useSWR(publicApiKey ? `${API_PREFIX}flows` : null, fetcher, {
+    keepPreviousData: true,
+  })
 
   useEffect(() => {
     if (error) {

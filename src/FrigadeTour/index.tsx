@@ -8,6 +8,7 @@ import { Portal } from 'react-portal'
 import { useFlowOpens } from '../api/flow-opens'
 import { FrigadeContext } from '../FrigadeProvider'
 import { RenderInlineStyles } from '../components/RenderInlineStyles'
+import { useFlowResponses } from '../api/flow-responses'
 
 export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedStep?: number }> = ({
   flowId,
@@ -37,6 +38,9 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
     getFlowStatus,
     customVariables: existingCustomVariables,
   } = useFlows()
+
+  const { getFlowResponses } = useFlowResponses()
+
   const { hasOpenModals } = useFlowOpens()
 
   const { openFlowStates } = useContext(FrigadeContext)
@@ -74,6 +78,9 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
     }
 
     if (currentFlowStatus !== STARTED_FLOW) {
+      return
+    }
+    if (!getFlowResponses()) {
       return
     }
 

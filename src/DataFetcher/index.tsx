@@ -3,7 +3,7 @@ import { Flow, FlowType, TriggerType } from '../api/flows'
 import { FrigadeContext } from '../FrigadeProvider'
 import { useUser } from '../api/users'
 import { v4 as uuidv4 } from 'uuid'
-import { FlowResponse, PublicStepState, useFlowResponses } from '../api/flow-responses'
+import { useFlowResponses } from '../api/flow-responses'
 import { FrigadeChecklist } from '../FrigadeChecklist'
 import { PublicUserFlowState, useUserFlowStates } from '../api/user-flow-states'
 
@@ -41,29 +41,6 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
   }
 
   function syncFlowStates(flowState: PublicUserFlowState) {
-    if (!flowState) {
-      setFlowResponses((responses) => [...(responses ?? []), ...[]])
-      return
-    }
-
-    if (flowState && flowState.stepStates && Object.keys(flowState.stepStates).length !== 0) {
-      // Convert flowState.stepStates map to flowResponses
-      const apiFlowResponses: FlowResponse[] = []
-      for (const stepSlug in flowState.stepStates) {
-        const stepState = flowState.stepStates[stepSlug] as PublicStepState
-        apiFlowResponses.push({
-          foreignUserId: flowState.foreignUserId,
-          flowSlug: flowState.flowId,
-          stepId: stepState.stepId,
-          actionType: stepState.actionType,
-          data: {},
-          createdAt: new Date(),
-          blocked: stepState.blocked,
-        } as FlowResponse)
-      }
-      // merge internal flow responses with api flow responses
-      setFlowResponses((responses) => [...(responses ?? []), ...apiFlowResponses])
-    }
     if (flowState && flowState.shouldTrigger) {
       // If the flow should be triggered, trigger it
       triggerFlow(flowState.flowId)
@@ -102,7 +79,7 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
   useEffect(() => {
     if (userId !== lastUserId) {
       // Reset responses
-      setFlowResponses(null)
+      setFlowResponses([])
     }
 
     setLastUserId(userId)

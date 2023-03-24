@@ -32,7 +32,10 @@ export function useUserFlowStates(): {
     publicApiKey && flows && userId && !isNewGuestUser
       ? `${API_PREFIX}userFlowStates?foreignUserId=${encodeURIComponent(userId)}`
       : null,
-    fetcher
+    fetcher,
+    {
+      keepPreviousData: true,
+    }
   )
 
   const userFlowStatesData = data?.data

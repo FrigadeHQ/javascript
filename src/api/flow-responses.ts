@@ -9,6 +9,7 @@ import {
   useConfig,
 } from './common'
 import { FrigadeContext } from '../FrigadeProvider'
+import { useUserFlowStates } from './user-flow-states'
 
 export interface FlowResponse {
   foreignUserId: string
@@ -29,6 +30,7 @@ export interface PublicStepState {
 export function useFlowResponses() {
   const { config } = useConfig()
   const { userId, setUserId, organizationId } = useContext(FrigadeContext)
+  const { userFlowStatesData } = useUserFlowStates()
   const { failedFlowResponses, setFailedFlowResponses, flowResponses, setFlowResponses } =
     useContext(FrigadeContext)
   const [successfulFlowResponsesStrings, setSuccessfulFlowResponsesStrings] = useState<Set<String>>(
@@ -146,10 +148,36 @@ export function useFlowResponses() {
     return flowResponse
   }
 
+  function getFlowResponses() {
+    const apiFlowResponses: FlowResponse[] = []
+
+    userFlowStatesData?.forEach((flowState) => {
+      if (flowState && flowState.stepStates && Object.keys(flowState.stepStates).length !== 0) {
+        // Convert flowState.stepStates map to flowResponses
+
+        for (const stepSlug in flowState.stepStates) {
+          const stepState = flowState.stepStates[stepSlug] as PublicStepState
+          apiFlowResponses.push({
+            foreignUserId: flowState.foreignUserId,
+            flowSlug: flowState.flowId,
+            stepId: stepState.stepId,
+            actionType: stepState.actionType,
+            data: {},
+            createdAt: new Date(),
+            blocked: stepState.blocked,
+          } as FlowResponse)
+        }
+      }
+    })
+
+    return [...apiFlowResponses, ...flowResponses]
+  }
+
   return {
     addResponse,
     markFlowStarted,
     markFlowCompleted,
     setFlowResponses,
+    getFlowResponses,
   }
 }

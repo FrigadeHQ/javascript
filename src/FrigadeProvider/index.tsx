@@ -74,7 +74,7 @@ export const FrigadeProvider: FC<FrigadeProviderProps> = ({
   )
   const [flows, setFlows] = useState<Flow[]>([])
   const [failedFlowResponses, setFailedFlowResponses] = useState<FlowResponse[]>([])
-  const [flowResponses, setFlowResponses] = useState<FlowResponse[] | null>(null)
+  const [flowResponses, setFlowResponses] = useState<FlowResponse[]>([])
   const [userProperties, setUserProperties] = useState<{
     [key: string]: string | boolean | number | null
   }>({})
