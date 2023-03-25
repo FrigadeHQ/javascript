@@ -52,6 +52,7 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
     appearance.theme.colorPrimary = primaryColor
   }
   const currentFlowStatus = getFlowStatus(flowId)
+  const currentStep = getCurrentStepIndex(flowId)
 
   useEffect(() => {
     if (
@@ -89,6 +90,12 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
       setFinishedInitialLoad(true)
     }
   }, [finishedInitialLoad, initialSelectedStep, getCurrentStepIndex, flowId, isLoading])
+
+  useEffect(() => {
+    if (currentStep && currentStep > selectedStep) {
+      setSelectedStep(currentStep)
+    }
+  }, [selectedStep, currentStep])
 
   if (isLoading && !finishedInitialLoad) {
     return null
