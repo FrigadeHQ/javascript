@@ -36,6 +36,7 @@ export enum FlowType {
   TOUR = 'TOUR',
   SUPPORT = 'SUPPORT',
   CUSTOM = 'CUSTOM',
+  BANNER = 'BANNER',
 }
 
 export enum TriggerType {
