@@ -103,7 +103,7 @@ export const ProgressBar = ({
             width: fgWidth,
             height: barHeight,
             backgroundColor: appearance?.theme?.colorPrimary ?? fillColor,
-            zIndex: display == 'compact' ? 0 : 5,
+            zIndex: display == 'compact' ? 1 : 5,
           }}
           className={getClassName('progressBarFill', appearance)}
         />
