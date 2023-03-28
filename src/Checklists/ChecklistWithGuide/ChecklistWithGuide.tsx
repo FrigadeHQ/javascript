@@ -154,11 +154,17 @@ const ChecklistWithGuide: FC<ChecklistWithGuideProps> = ({
 
   if (!visible) return <></>
 
+  if (!appearance.theme.modalContainer) {
+    if (appearance.theme.borderRadius) {
+      ContainerStyle.borderRadius = appearance.theme.borderRadius + 'px'
+    }
+    appearance.theme.modalContainer = ContainerStyle
+  }
+
   return (
     <Modal
       onClose={onClose}
       visible={visible}
-      style={ContainerStyle}
       closeTint={appearance?.styleOverrides?.iconColor ?? '#8C8C8C'}
       appearance={appearance}
     >

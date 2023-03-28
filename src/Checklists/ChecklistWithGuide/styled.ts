@@ -6,7 +6,6 @@ import { getCustomClassOverrides } from '../../shared/appearance'
 
 export const ContainerStyle: CSSProperties = {
   boxShadow: '0px 6px 25px rgba(0, 0, 0, 0.06)',
-  borderRadius: '6px',
   padding: '32px',
   maxHeight: '700px',
   msOverflowStyle: 'none' /* IE and Edge */,
