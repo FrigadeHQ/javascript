@@ -29,8 +29,9 @@ const ModalContainer = styled.div<{ appearance; maxWidth }>`
     width: ${(props) => props.width ?? '1000px'};
 
     z-index: 1500;
+
+    border-radius: ${(props) => props.appearance?.theme?.borderRadius ?? 8}px;
   }
-  border-radius: 6px;
   padding: 32px 32px 24px 32px;
 
   position: fixed;

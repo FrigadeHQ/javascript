@@ -92,6 +92,9 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
   }, [finishedInitialLoad, initialSelectedStep, getCurrentStepIndex, flowId, isLoading])
 
   useEffect(() => {
+    if (currentFlowStatus !== STARTED_FLOW) {
+      return
+    }
     if (currentStep && currentStep > selectedStep) {
       setSelectedStep(currentStep)
     }
