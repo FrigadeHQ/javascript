@@ -35,7 +35,6 @@ export const ChecklistTitle = styled.h1<{ appearance }>`
 `
 export const ChecklistSubtitle = styled.h2<{ appearance }>`
   font-weight: 400;
-  color: #8c8c8c;
   font-size: 16px;
   line-height: 20px;
   margin-bottom: 16px;
@@ -82,32 +81,40 @@ export const StepListContainer = styled.div`
 // Styles for Step content
 
 export const StepContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  flex-direction: column;
-  flex: 1;
+  :not(${(props) => getCustomClassOverrides(props)}) {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    flex: 1;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
 `
 
 export const StepTitle = styled.p`
-  font-style: normal;
-  font-weight: 600;
-  font-size: 22px;
-  line-height: 26px;
+  :not(${(props) => getCustomClassOverrides(props)}) {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 26px;
 
-  text-align: center;
-  color: #434343;
-  margin-top: 20px;
-  margin-bottom: 16px;
+    text-align: center;
+    color: ${(props) => props.appearance.theme.colorText};
+    margin-top: 20px;
+    margin-bottom: 16px;
+  }
 `
 
 export const StepSubtitle = styled.p`
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 14px;
-  text-align: center;
-  color: #8c8c8c;
-  margin: 0;
+  :not(${(props) => getCustomClassOverrides(props)}) {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 18px;
+    text-align: center;
+    color: ${(props) => props.appearance.theme.colorTextSecondary};
+    margin-bottom: 8px;
+  }
 `
 
 export const MultipleButtonContainer = styled.div`

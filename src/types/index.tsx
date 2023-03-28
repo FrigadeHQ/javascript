@@ -95,7 +95,7 @@ export const DefaultAppearance: Appearance = {
     colorBackground: '#ffffff',
     colorBackgroundSecondary: '#ffffff66',
     colorTextOnPrimaryBackground: '#ffffff',
-    colorTextSecondary: '#000000',
+    colorTextSecondary: '#505050',
     colorBorder: '#E6E6E6',
     borderRadius: 8,
   },

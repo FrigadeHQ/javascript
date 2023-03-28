@@ -77,10 +77,16 @@ const ChecklistWithGuide: FC<ChecklistWithGuideProps> = ({
         className={getClassName('checklistStepContainer', appearance)}
         data-testid="checklistStepContainer"
       >
-        <StepTitle className={getClassName('checklistStepTitle', appearance)}>
+        <StepTitle
+          appearance={appearance}
+          className={getClassName('checklistStepTitle', appearance)}
+        >
           {stepData.title}
         </StepTitle>
-        <StepSubtitle className={getClassName('checklistStepSubtitle', appearance)}>
+        <StepSubtitle
+          appearance={appearance}
+          className={getClassName('checklistStepSubtitle', appearance)}
+        >
           {stepData.subtitle}
         </StepSubtitle>
         <MultipleButtonContainer className={getClassName('checklistCTAContainer', appearance)}>
