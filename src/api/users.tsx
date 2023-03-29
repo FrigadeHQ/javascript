@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { FrigadeContext } from '../FrigadeProvider'
 import { API_PREFIX, useConfig } from './common'
 import { useUserFlowStates } from './user-flow-states'
@@ -14,10 +14,35 @@ interface UserEvent {
   readonly properties?: { [key: string]: string | boolean | number | null }
 }
 
+export const GUEST_PREFIX = 'guest_'
+
 export function useUser() {
   const { userId, setUserId, setUserProperties, userProperties } = useContext(FrigadeContext)
   const { config } = useConfig()
   const { mutateUserFlowState } = useUserFlowStates()
+  // Use local storage to mark if user has already been registered in frigade
+  useEffect(() => {
+    // Check if user is not a guest
+
+    if (userId) {
+      // Check if userid begins with the guest prefix
+      if (userId.startsWith(GUEST_PREFIX)) {
+        return
+      }
+      const userRegisteredKey = `frigade-user-registered-${userId}`
+      // Check if user has already been registered in frigade
+      if (!localStorage.getItem(userRegisteredKey)) {
+        // Register user in frigade
+        fetch(`${API_PREFIX}users`, {
+          ...config,
+          method: 'POST',
+          body: JSON.stringify({ foreignId: userId }),
+        })
+        // Mark user as registered in frigade
+        localStorage.setItem(userRegisteredKey, 'true')
+      }
+    }
+  }, [userId])
 
   async function addPropertiesToUser(properties: {
     [key: string]: string | boolean | number | null

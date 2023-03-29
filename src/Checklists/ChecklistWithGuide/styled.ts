@@ -61,12 +61,14 @@ export const StepsHeader = styled.div`
 `
 
 export const StepsTitle = styled.p`
-  font-weight: 400;
-  font-size: 10px;
-  line-height: 12px;
-  text-transform: uppercase;
-  color: #8c8c8c;
-  margin: 20px;
+  :not(${(props) => getCustomClassOverrides(props)}) {
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 12px;
+    text-transform: uppercase;
+    color: #8c8c8c;
+    margin: 20px;
+  }
 `
 
 export const StepsBody = styled.div`

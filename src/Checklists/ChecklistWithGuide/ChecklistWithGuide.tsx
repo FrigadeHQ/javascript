@@ -194,7 +194,9 @@ const ChecklistWithGuide: FC<ChecklistWithGuideProps> = ({
           <StepsContainer className={getClassName('stepsContainer', appearance)}>
             <StepsHeader>
               <div style={{ flex: 3 }}>
-                <StepsTitle>{stepsTitle}</StepsTitle>
+                <StepsTitle className={getClassName('stepsTitle', appearance)}>
+                  {stepsTitle}
+                </StepsTitle>
               </div>
               <ProgressBarContainer>
                 <ProgressBar

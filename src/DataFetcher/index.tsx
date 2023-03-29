@@ -1,7 +1,7 @@
 import React, { FC, useContext, useEffect, useState } from 'react'
 import { Flow, FlowType, TriggerType } from '../api/flows'
 import { FrigadeContext } from '../FrigadeProvider'
-import { useUser } from '../api/users'
+import { GUEST_PREFIX, useUser } from '../api/users'
 import { v4 as uuidv4 } from 'uuid'
 import { useFlowResponses } from '../api/flow-responses'
 import { FrigadeChecklist } from '../FrigadeChecklist'
@@ -12,7 +12,6 @@ interface DataFetcherProps {}
 const guestUserIdField = 'xFrigade_guestUserId'
 const realUserIdField = 'xFrigade_userId'
 
-const GUEST_PREFIX = 'guest_'
 export const DataFetcher: FC<DataFetcherProps> = ({}) => {
   const { setFlowResponses } = useFlowResponses()
   const { userFlowStatesData, isLoadingUserFlowStateData } = useUserFlowStates()
