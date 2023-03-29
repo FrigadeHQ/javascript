@@ -29,7 +29,7 @@ export function useUserFlowStates(): {
     mutate: mutateUserFlowState,
     error,
   } = useSWR(
-    publicApiKey && flows && userId && !isNewGuestUser
+    publicApiKey && flows && userId
       ? `${API_PREFIX}userFlowStates?foreignUserId=${encodeURIComponent(userId)}`
       : null,
     fetcher,

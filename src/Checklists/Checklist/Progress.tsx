@@ -20,7 +20,7 @@ const ChecklistProgressProgressBar = styled.div`
   position: relative;
 `
 
-const StepText = styled.p<{ padding, appearance }>`
+const StepText = styled.p<{ padding; appearance }>`
   font-weight: 500;
   font-size: 15px;
   line-height: 18px;
@@ -83,7 +83,10 @@ export const ProgressBar = ({
   }
 
   return (
-    <ChecklistProgressContainer style={style}>
+    <ChecklistProgressContainer
+      className={getClassName('progressBarContainer', appearance)}
+      style={style}
+    >
       <StepText
         className={getClassName('progressBarStepText', appearance)}
         style={{
@@ -96,7 +99,7 @@ export const ProgressBar = ({
       >
         {stepText}
       </StepText>
-      <ChecklistProgressProgressBar>
+      <ChecklistProgressProgressBar className={getClassName('progressBar', appearance)}>
         <motion.div
           style={{
             ...progressFgStyle,
@@ -107,7 +110,14 @@ export const ProgressBar = ({
           }}
           className={getClassName('progressBarFill', appearance)}
         />
-        <div className={getClassName('progressBarBackground', appearance)} style={{ ...progressBgStyle, height: barHeight, backgroundColor: appearance?.theme?.colorSecondary ?? bgColor }} />
+        <div
+          className={getClassName('progressBarBackground', appearance)}
+          style={{
+            ...progressBgStyle,
+            height: barHeight,
+            backgroundColor: appearance?.theme?.colorSecondary ?? bgColor,
+          }}
+        />
       </ChecklistProgressProgressBar>
     </ChecklistProgressContainer>
   )
