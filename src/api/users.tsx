@@ -17,14 +17,15 @@ interface UserEvent {
 export const GUEST_PREFIX = 'guest_'
 
 export function useUser() {
-  const { userId, setUserId, setUserProperties, userProperties } = useContext(FrigadeContext)
+  const { userId, organizationId, setUserId, setUserProperties, userProperties } =
+    useContext(FrigadeContext)
   const { config } = useConfig()
   const { mutateUserFlowState } = useUserFlowStates()
   // Use local storage to mark if user has already been registered in frigade
   useEffect(() => {
     // Check if user is not a guest
 
-    if (userId) {
+    if (userId && !organizationId) {
       // Check if userid begins with the guest prefix
       if (userId.startsWith(GUEST_PREFIX)) {
         return
@@ -42,7 +43,7 @@ export function useUser() {
         localStorage.setItem(userRegisteredKey, 'true')
       }
     }
-  }, [userId])
+  }, [userId, organizationId])
 
   async function addPropertiesToUser(properties: {
     [key: string]: string | boolean | number | null

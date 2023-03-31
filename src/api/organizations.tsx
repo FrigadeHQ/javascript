@@ -1,7 +1,8 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { FrigadeContext } from '../FrigadeProvider'
 import { API_PREFIX, useConfig } from './common'
 import { useUserFlowStates } from './user-flow-states'
+import { GUEST_PREFIX } from './users'
 
 interface AddPropertyToOrganizationDTO {
   readonly foreignUserId: string
@@ -19,6 +20,29 @@ export function useOrganization() {
   const { organizationId, userId, setOrganizationId } = useContext(FrigadeContext)
   const { mutateUserFlowState } = useUserFlowStates()
   const { config } = useConfig()
+
+  useEffect(() => {
+    // Check if user is not a guest
+
+    if (userId && organizationId) {
+      // Check if userid begins with the guest prefix
+      if (userId.startsWith(GUEST_PREFIX)) {
+        return
+      }
+      const userRegisteredKey = `frigade-user-group-registered-${userId}-${organizationId}`
+      // Check if user has already been registered in frigade
+      if (!localStorage.getItem(userRegisteredKey)) {
+        // Register user in frigade
+        fetch(`${API_PREFIX}userGroups`, {
+          ...config,
+          method: 'POST',
+          body: JSON.stringify({ foreignUserId: userId, foreignUserGroupId: organizationId }),
+        })
+        // Mark user as registered in frigade
+        localStorage.setItem(userRegisteredKey, 'true')
+      }
+    }
+  }, [userId, organizationId])
 
   async function addPropertiesToOrganization(properties: {
     [key: string]: string | boolean | number | null
