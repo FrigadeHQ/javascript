@@ -20,6 +20,7 @@ import { CallToActionStepType } from '../Forms/CallToActionStepType/CallToAction
 import { SelectListStepType } from '../Forms/SelectListStepType/SelectListStepType'
 import { FormFooter } from './FormFooter'
 import { RenderInlineStyles } from '../components/RenderInlineStyles'
+import { useCTAClickSideEffects } from '../hooks/useCTAClickSideEffects'
 
 export type FrigadeFormType = 'inline' | 'modal' | 'corner-modal' | 'full-screen-modal'
 
@@ -82,6 +83,7 @@ export const FrigadeForm: FC<FormProps> = ({
     visible !== undefined && setVisible !== undefined ? [visible, setVisible] : useState(true)
   const [selectedStepInternal, setSelectedStepInternal] = useState(0)
   const [formData, setFormData] = useState({})
+  const { primaryCTAClickSideEffects, secondaryCTAClickSideEffects } = useCTAClickSideEffects()
 
   useEffect(() => {
     if (
@@ -219,9 +221,7 @@ export const FrigadeForm: FC<FormProps> = ({
               formType={type}
               appearance={appearance}
               onPrimaryClick={() => {
-                if (steps[selectedStepValue].primaryButtonUri) {
-                  window.open(steps[selectedStepValue].primaryButtonUri)
-                }
+                primaryCTAClickSideEffects(steps[selectedStepValue])
                 markStepCompleted(flowId, steps[selectedStepValue].id, getDataPayload())
                 handleStepCompletionHandlers(steps[selectedStepValue], 'primary', selectedStepValue)
                 if (selectedStepValue + 1 >= steps.length) {
@@ -237,9 +237,7 @@ export const FrigadeForm: FC<FormProps> = ({
                 }
               }}
               onSecondaryClick={() => {
-                if (steps[selectedStepValue].secondaryButtonUri) {
-                  window.open(steps[selectedStepValue].secondaryButtonUri)
-                }
+                secondaryCTAClickSideEffects(steps[selectedStepValue])
                 handleStepCompletionHandlers(
                   steps[selectedStepValue],
                   'secondary',

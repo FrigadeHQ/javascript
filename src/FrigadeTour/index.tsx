@@ -180,8 +180,9 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
         blocked: isStepBlocked(flowId, step.id),
         handlePrimaryButtonClick: () => {
           if (
-            !step.completionCriteria &&
-            (step.autoMarkCompleted || step.autoMarkCompleted === undefined)
+            (!step.completionCriteria &&
+              (step.autoMarkCompleted || step.autoMarkCompleted === undefined)) ||
+            (step.completionCriteria && step.autoMarkCompleted === true)
           ) {
             markStepCompleted(flowId, step.id)
             goToNextStepIfPossible()

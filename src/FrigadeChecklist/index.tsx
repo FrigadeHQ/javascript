@@ -221,8 +221,9 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
         blocked: isStepBlocked(flowId, step.id),
         handlePrimaryButtonClick: () => {
           if (
-            !step.completionCriteria &&
-            (step.autoMarkCompleted || step.autoMarkCompleted === undefined)
+            (!step.completionCriteria &&
+              (step.autoMarkCompleted || step.autoMarkCompleted === undefined)) ||
+            (step.completionCriteria && step.autoMarkCompleted === true)
           ) {
             markStepCompleted(flowId, step.id)
             goToNextStepIfPossible()

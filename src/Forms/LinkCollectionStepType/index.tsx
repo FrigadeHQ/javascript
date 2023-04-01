@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { CustomFormTypeProps } from '../../FrigadeForm/types'
+import { useCTAClickSideEffects } from '../../hooks/useCTAClickSideEffects'
 
 interface Link {
   title?: string
@@ -71,6 +72,8 @@ const HeaderSubtitle = styled.h2`
 `
 
 export function LinkCollectionStepType({ stepData, appearance }: CustomFormTypeProps) {
+  const { handleUrl } = useCTAClickSideEffects()
+
   return (
     <div>
       <HeaderTitle>{stepData.title}</HeaderTitle>
@@ -86,11 +89,7 @@ export function LinkCollectionStepType({ stepData, appearance }: CustomFormTypeP
               }}
               onClick={() => {
                 if (link.uri) {
-                  if (link.uriTarget && link.uriTarget === '_blank') {
-                    window.open(link.uri, '_blank')
-                  } else {
-                    window.location.href = link.uri
-                  }
+                  handleUrl(link.uri, link.uriTarget ?? '_blank')
                 }
               }}
             >

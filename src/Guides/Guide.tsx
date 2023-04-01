@@ -14,6 +14,7 @@ import {
   GuideTitle,
 } from './styled'
 import { getClassName } from '../shared/appearance'
+import { useCTAClickSideEffects } from '../hooks/useCTAClickSideEffects'
 
 export interface GuideStepData extends StepData {
   icon?: string
@@ -39,6 +40,8 @@ const Guide: FC<GuideProps> = ({
   appearance,
   onButtonClick,
 }) => {
+  const { primaryCTAClickSideEffects } = useCTAClickSideEffects()
+
   return (
     <GuideContainer style={style} className={getClassName('guideContainer', appearance)}>
       <GuideTitle className={getClassName('guideTitle', appearance)}>{title}</GuideTitle>
@@ -73,10 +76,7 @@ const Guide: FC<GuideProps> = ({
                 color={primaryColor}
                 onClick={() => {
                   if (stepData.primaryButtonUri) {
-                    window.open(
-                      stepData.primaryButtonUri,
-                      stepData.primaryButtonUriTarget ?? '_self'
-                    )
+                    primaryCTAClickSideEffects(stepData)
                   }
                   if (onButtonClick) {
                     onButtonClick(stepData)

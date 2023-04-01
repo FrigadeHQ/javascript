@@ -27,5 +27,6 @@ export function useCTAClickSideEffects() {
   return {
     primaryCTAClickSideEffects,
     secondaryCTAClickSideEffects,
+    handleUrl,
   }
 }
