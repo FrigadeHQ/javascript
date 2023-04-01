@@ -4,11 +4,11 @@ import { useFlows } from '../api/flows'
 import { HeroChecklist, HeroChecklistProps } from '../Checklists/HeroChecklist'
 import { mergeAppearanceWithDefault, StepData } from '../types'
 import { COMPLETED_FLOW, COMPLETED_STEP } from '../api/common'
-import { primaryCTAClickSideEffects, secondaryCTAClickSideEffects } from '../shared/cta-util'
 import { useFlowOpens } from '../api/flow-opens'
 import { RenderInlineStyles } from '../components/RenderInlineStyles'
 import { ModalChecklist } from '../Checklists/ModalChecklist'
 import { ChecklistWithGuide } from '../Checklists/ChecklistWithGuide'
+import { useCTAClickSideEffects } from '../hooks/useCTAClickSideEffects'
 
 /**
  * Frigade Checklists
@@ -91,6 +91,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
     hasActiveFullPageFlow,
     setHasActiveFullPageFlow,
   } = useFlows()
+  const { primaryCTAClickSideEffects, secondaryCTAClickSideEffects } = useCTAClickSideEffects()
   const { getOpenFlowState, setOpenFlowState } = useFlowOpens()
   const [selectedStep, setSelectedStep] = useState(initialSelectedStep || 0)
   const [finishedInitialLoad, setFinishedInitialLoad] = useState(false)

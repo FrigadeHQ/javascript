@@ -13,10 +13,10 @@ import {
   SupportTitle,
 } from './styled'
 import { AnimatePresence, motion } from 'framer-motion'
-import { primaryCTAClickSideEffects } from '../shared/cta-util'
 import { Question } from '../components/Icons/Question'
 import { getClassName } from '../shared/appearance'
 import { QuestionCircle } from '../components/Icons/QuestionCircle'
+import { useCTAClickSideEffects } from '../hooks/useCTAClickSideEffects'
 
 export interface FloatingWidgetProps extends DefaultFrigadeFlowProps {
   type?: 'floating' | 'inline'
@@ -43,6 +43,7 @@ export const FrigadeSupportWidget: FC<FloatingWidgetProps> = ({
     isLoading,
     targetingLogicShouldHideFlow,
   } = useFlows()
+  const { primaryCTAClickSideEffects } = useCTAClickSideEffects()
   const wrapperRef = useRef(null)
   const [showMenu, setShowMenu] = useState(false)
 

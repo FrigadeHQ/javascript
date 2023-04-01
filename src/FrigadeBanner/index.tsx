@@ -20,9 +20,9 @@ import {
 import { Info } from '../components/Icons/Info'
 import { Button } from '../components/Button'
 import { CloseIcon } from '../components/CloseIcon'
-import { primaryCTAClickSideEffects } from '../shared/cta-util'
 import { getClassName } from '../shared/appearance'
 import { RenderInlineStyles } from '../components/RenderInlineStyles'
+import { useCTAClickSideEffects } from '../hooks/useCTAClickSideEffects'
 
 /**
  * Frigade Banners
@@ -54,6 +54,7 @@ export const FrigadeBanner: React.FC<FrigadeBannerProps> = ({
     getFlowMetadata,
     getFlowStatus,
   } = useFlows()
+  const { primaryCTAClickSideEffects } = useCTAClickSideEffects()
   appearance = mergeAppearanceWithDefault(appearance)
 
   useEffect(() => {

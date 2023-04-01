@@ -2,13 +2,13 @@ import React, { FC, useContext, useEffect, useState } from 'react'
 import { useFlows } from '../api/flows'
 import { ToolTipProps, Tooltips } from '../Tooltips'
 import { mergeAppearanceWithDefault, StepData } from '../types'
-import { primaryCTAClickSideEffects, secondaryCTAClickSideEffects } from '../shared/cta-util'
 import { COMPLETED_FLOW, COMPLETED_STEP, NOT_STARTED_FLOW, STARTED_FLOW } from '../api/common'
 import { Portal } from 'react-portal'
 import { useFlowOpens } from '../api/flow-opens'
 import { FrigadeContext } from '../FrigadeProvider'
 import { RenderInlineStyles } from '../components/RenderInlineStyles'
 import { useFlowResponses } from '../api/flow-responses'
+import { useCTAClickSideEffects } from '../hooks/useCTAClickSideEffects'
 
 export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedStep?: number }> = ({
   flowId,
@@ -38,6 +38,7 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
     getFlowStatus,
     customVariables: existingCustomVariables,
   } = useFlows()
+  const { primaryCTAClickSideEffects, secondaryCTAClickSideEffects } = useCTAClickSideEffects()
 
   const { getFlowResponses } = useFlowResponses()
 

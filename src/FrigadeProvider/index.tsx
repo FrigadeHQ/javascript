@@ -30,12 +30,14 @@ export interface IFrigadeContext {
   setHasActiveFullPageFlow: React.Dispatch<React.SetStateAction<boolean>>
   organizationId?: string
   setOrganizationId?: React.Dispatch<React.SetStateAction<string>>
+  navigate: (url: string, target: string) => void
 }
 
 export interface FrigadeProviderProps {
   publicApiKey: string
   userId?: string
   organizationId?: string
+  config?: FrigadeConfig
   children?: React.ReactNode
 }
 
@@ -60,12 +62,18 @@ export const FrigadeContext = createContext<IFrigadeContext>({
   setHasActiveFullPageFlow: () => {},
   organizationId: '',
   setOrganizationId: () => {},
+  navigate: () => {},
 })
+
+interface FrigadeConfig {
+  navigate: (url: string) => void
+}
 
 export const FrigadeProvider: FC<FrigadeProviderProps> = ({
   publicApiKey,
   userId,
   organizationId,
+  config,
   children,
 }) => {
   const [userIdValue, setUserIdValue] = useState<string | null>(!userId ? null : userId)
@@ -84,12 +92,16 @@ export const FrigadeProvider: FC<FrigadeProviderProps> = ({
   }>({})
   const [isNewGuestUser, setIsNewGuestUser] = useState(false)
   const [hasActiveFullPageFlow, setHasActiveFullPageFlow] = useState(false)
-
-  useEffect(() => {
-    if (userId !== null && userId !== undefined && userId !== userIdValue) {
-      setUserIdValue(userId)
+  const internalNavigate = (url: string, target: string) => {
+    // use window.location.href and respect target
+    if (target === '_blank') {
+      window.open(url, '_blank')
+      return
     }
-  }, [userId])
+    window.location.href = url
+  }
+
+  useEffect(() => {}, config)
 
   useEffect(() => {
     if (!publicApiKey) {
@@ -127,6 +139,7 @@ export const FrigadeProvider: FC<FrigadeProviderProps> = ({
         setHasActiveFullPageFlow,
         organizationId: organizationIdValue,
         setOrganizationId: setOrganizationIdValue,
+        navigate: config && config.navigate ? config.navigate : internalNavigate,
       }}
     >
       {children}
