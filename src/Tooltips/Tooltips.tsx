@@ -22,6 +22,7 @@ import { getClassName } from '../shared/appearance'
 export type ToolTipPosition = 'left' | 'right' | 'auto'
 
 const CARD_WIDTH = 385
+const CARD_HEIGHT = 50
 
 // TODO: Should extend from FlowItem in a shared types repo
 interface TooltipData extends StepData {
@@ -177,6 +178,9 @@ const Tooltips: FC<ToolTipProps> = ({
 
   const rightSideIsCropped =
     boundingRect.right + CARD_WIDTH > (window.innerWidth || document.documentElement.clientWidth)
+  const bottomIsCropped =
+    boundingRect.bottom + CARD_HEIGHT >
+    (window.innerHeight || document.documentElement.clientHeight)
 
   if (rightSideIsCropped && tooltipPosition === 'auto') {
     position = getPosition(boundingRect, 'left', CARD_WIDTH, offset)
@@ -363,7 +367,10 @@ const Tooltips: FC<ToolTipProps> = ({
           position: 'absolute',
           width: 'max-content',
           left: `${position?.x}px` ?? 0,
-          top: `${position?.y}px` ?? 0,
+          top:
+            bottomIsCropped && position.y
+              ? `${position.y - boundingRect.height - 72}px`
+              : `${position?.y}px` ?? 0,
           ...containerStyle,
         }}
         appearance={appearance}
