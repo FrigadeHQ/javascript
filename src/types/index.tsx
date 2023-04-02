@@ -20,6 +20,7 @@ export interface StepData {
   autoMarkCompleted?: boolean
   complete: boolean
   blocked?: boolean
+  hidden?: boolean
   StepContent?: React.ReactNode
   handlePrimaryButtonClick?: () => void
   handleSecondaryButtonClick?: () => void

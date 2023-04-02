@@ -101,8 +101,6 @@ export const FrigadeProvider: FC<FrigadeProviderProps> = ({
     window.location.href = url
   }
 
-  useEffect(() => {}, config)
-
   useEffect(() => {
     if (!publicApiKey) {
       console.error('FrigadeProvider: publicApiKey is required')

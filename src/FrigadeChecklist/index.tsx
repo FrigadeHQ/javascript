@@ -87,6 +87,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
     getStepOptionalProgress,
     getFlowMetadata,
     isStepBlocked,
+    isStepHidden,
     getFlowStatus,
     hasActiveFullPageFlow,
     setHasActiveFullPageFlow,
@@ -204,40 +205,44 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
   }
 
   function getSteps() {
-    return steps.map((step: StepData, idx: number) => {
-      const autoCalculatedProgress = getStepOptionalProgress(step)
-      return {
-        handleSecondaryButtonClick: () => {
-          // Default to skip behavior for secondary click but allow for override
-          goToNextStepIfPossible()
-          secondaryCTAClickSideEffects(step)
-          if (step.skippable === true) {
-            markStepCompleted(flowId, step.id, { skipped: true })
-          }
-          handleStepCompletionHandlers(step, 'secondary', idx)
-        },
-        ...step,
-        complete: getStepStatus(flowId, step.id) === COMPLETED_STEP || autoCalculatedProgress >= 1,
-        blocked: isStepBlocked(flowId, step.id),
-        handlePrimaryButtonClick: () => {
-          if (
-            (!step.completionCriteria &&
-              (step.autoMarkCompleted || step.autoMarkCompleted === undefined)) ||
-            (step.completionCriteria && step.autoMarkCompleted === true)
-          ) {
-            markStepCompleted(flowId, step.id)
+    return steps
+      .map((step: StepData, idx: number) => {
+        const autoCalculatedProgress = getStepOptionalProgress(step)
+        return {
+          handleSecondaryButtonClick: () => {
+            // Default to skip behavior for secondary click but allow for override
             goToNextStepIfPossible()
-          }
-          handleStepCompletionHandlers(step, 'primary', idx)
-          primaryCTAClickSideEffects(step)
-          // If step is done, try to go to next step
-          if (getStepStatus(flowId, step.id) === COMPLETED_STEP) {
-            goToNextStepIfPossible()
-          }
-        },
-        progress: autoCalculatedProgress,
-      }
-    })
+            secondaryCTAClickSideEffects(step)
+            if (step.skippable === true) {
+              markStepCompleted(flowId, step.id, { skipped: true })
+            }
+            handleStepCompletionHandlers(step, 'secondary', idx)
+          },
+          ...step,
+          complete:
+            getStepStatus(flowId, step.id) === COMPLETED_STEP || autoCalculatedProgress >= 1,
+          blocked: isStepBlocked(flowId, step.id),
+          hidden: isStepHidden(flowId, step.id),
+          handlePrimaryButtonClick: () => {
+            if (
+              (!step.completionCriteria &&
+                (step.autoMarkCompleted || step.autoMarkCompleted === undefined)) ||
+              (step.completionCriteria && step.autoMarkCompleted === true)
+            ) {
+              markStepCompleted(flowId, step.id)
+              goToNextStepIfPossible()
+            }
+            handleStepCompletionHandlers(step, 'primary', idx)
+            primaryCTAClickSideEffects(step)
+            // If step is done, try to go to next step
+            if (getStepStatus(flowId, step.id) === COMPLETED_STEP) {
+              goToNextStepIfPossible()
+            }
+          },
+          progress: autoCalculatedProgress,
+        }
+      })
+      .filter((step: StepData) => !(step.hidden === true))
   }
 
   function CommonDom() {

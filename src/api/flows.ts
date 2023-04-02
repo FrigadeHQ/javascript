@@ -145,6 +145,7 @@ export function useFlows() {
       data: data ?? {},
       createdAt: new Date(),
       blocked: false,
+      hidden: false,
     }).then(() => {
       mutateUserFlowState()
     })
@@ -159,6 +160,7 @@ export function useFlows() {
       data: data ?? {},
       createdAt: new Date(),
       blocked: false,
+      hidden: false,
     }).then(() => {
       mutateUserFlowState()
     })
@@ -173,6 +175,7 @@ export function useFlows() {
       data: data ?? {},
       createdAt: new Date(),
       blocked: false,
+      hidden: false,
     }).then(() => {
       mutateUserFlowState()
     })
@@ -187,6 +190,7 @@ export function useFlows() {
       data: data ?? {},
       createdAt: new Date(),
       blocked: false,
+      hidden: false,
     }).then(() => {
       mutateUserFlowState()
     })
@@ -202,6 +206,7 @@ export function useFlows() {
       data: data ?? {},
       createdAt: new Date(),
       blocked: false,
+      hidden: false,
     }).then(() => {
       mutateUserFlowState()
     })
@@ -225,6 +230,16 @@ export function useFlows() {
     }
 
     return maybeFlowResponse.blocked
+  }
+
+  function isStepHidden(flowSlug: string, stepId: string): boolean {
+    const maybeFlowResponse = getLastFlowResponseForStep(flowSlug, stepId)
+
+    if (!maybeFlowResponse) {
+      return false
+    }
+
+    return maybeFlowResponse.hidden
   }
 
   function getLastFlowResponseForStep(flowSlug: string, stepId: string): FlowResponse | null {
@@ -363,6 +378,7 @@ export function useFlows() {
     getStepOptionalProgress,
     getFlowMetadata,
     isStepBlocked,
+    isStepHidden,
     hasActiveFullPageFlow,
     setHasActiveFullPageFlow,
     isFlowAvailableToUser,

@@ -35,6 +35,7 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
     getStepStatus,
     getCurrentStepIndex,
     isStepBlocked,
+    isStepHidden,
     getFlowStatus,
     customVariables: existingCustomVariables,
   } = useFlows()
@@ -165,33 +166,36 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
   }
 
   function getSteps() {
-    return steps.map((step: StepData) => {
-      return {
-        handleSecondaryButtonClick: () => {
-          // Default to skip behavior for secondary click but allow for override
-          secondaryCTAClickSideEffects(step)
-          if (step.skippable === true) {
-            markStepCompleted(flowId, step.id, { skipped: true })
-          }
-          handleStepCompletionHandlers(step, 'secondary', selectedStep)
-        },
-        ...step,
-        complete: getStepStatus(flowId, step.id) === COMPLETED_STEP,
-        blocked: isStepBlocked(flowId, step.id),
-        handlePrimaryButtonClick: () => {
-          if (
-            (!step.completionCriteria &&
-              (step.autoMarkCompleted || step.autoMarkCompleted === undefined)) ||
-            (step.completionCriteria && step.autoMarkCompleted === true)
-          ) {
-            markStepCompleted(flowId, step.id)
-            goToNextStepIfPossible()
-          }
-          handleStepCompletionHandlers(step, 'primary', selectedStep)
-          primaryCTAClickSideEffects(step)
-        },
-      }
-    })
+    return steps
+      .map((step: StepData) => {
+        return {
+          handleSecondaryButtonClick: () => {
+            // Default to skip behavior for secondary click but allow for override
+            secondaryCTAClickSideEffects(step)
+            if (step.skippable === true) {
+              markStepCompleted(flowId, step.id, { skipped: true })
+            }
+            handleStepCompletionHandlers(step, 'secondary', selectedStep)
+          },
+          ...step,
+          complete: getStepStatus(flowId, step.id) === COMPLETED_STEP,
+          blocked: isStepBlocked(flowId, step.id),
+          hidden: isStepHidden(flowId, step.id),
+          handlePrimaryButtonClick: () => {
+            if (
+              (!step.completionCriteria &&
+                (step.autoMarkCompleted || step.autoMarkCompleted === undefined)) ||
+              (step.completionCriteria && step.autoMarkCompleted === true)
+            ) {
+              markStepCompleted(flowId, step.id)
+              goToNextStepIfPossible()
+            }
+            handleStepCompletionHandlers(step, 'primary', selectedStep)
+            primaryCTAClickSideEffects(step)
+          },
+        }
+      })
+      .filter((step: StepData) => !(step.hidden === true))
   }
 
   function onDismissCurrentTooltip() {
