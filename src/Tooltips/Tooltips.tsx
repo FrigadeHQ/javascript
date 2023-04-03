@@ -257,11 +257,13 @@ const Tooltips: FC<ToolTipProps> = ({
               secondary
             />
           )}
-          <Button
-            title={steps[selectedStep].primaryButtonTitle || 'Next'}
-            appearance={appearance}
-            onClick={handleOnCTAClick}
-          />
+          {steps[selectedStep].primaryButtonTitle && (
+            <Button
+              title={steps[selectedStep].primaryButtonTitle}
+              appearance={appearance}
+              onClick={handleOnCTAClick}
+            />
+          )}
         </TooltipCTAContainer>
       </>
     )
