@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react'
 import { FrigadeContext } from '../FrigadeProvider'
 import { API_PREFIX, useConfig } from './common'
 import { useUserFlowStates } from './user-flow-states'
+import { EntityProperties } from '../FrigadeForm/types'
 
 interface AddPropertyToUserDTO {
   readonly foreignId: string
@@ -45,9 +46,7 @@ export function useUser() {
     }
   }, [userId, organizationId])
 
-  async function addPropertiesToUser(properties: {
-    [key: string]: string | boolean | number | null
-  }) {
+  async function addPropertiesToUser(properties: EntityProperties) {
     const data: AddPropertyToUserDTO = {
       foreignId: userId,
       properties,
@@ -61,10 +60,7 @@ export function useUser() {
     mutateUserFlowState()
   }
 
-  async function trackEventForUser(
-    event: string,
-    properties?: { [key: string]: string | boolean | number | null }
-  ) {
+  async function trackEventForUser(event: string, properties?: EntityProperties) {
     const eventData: UserEvent = {
       event,
       properties,

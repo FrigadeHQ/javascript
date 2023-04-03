@@ -53,3 +53,5 @@ export interface MultipleChoiceListOption {
   title: string
   imageUri?: string
 }
+
+export type EntityProperties = Record<string, string | boolean | number | null>

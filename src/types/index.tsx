@@ -1,36 +1,111 @@
 import React, { CSSProperties } from 'react'
 
 export interface StepData {
+  /**
+   * Unique identifier for the step.
+   */
   id: string
+  /**
+   * Name of the step when shown in a list view
+   */
   stepName?: string
+  /**
+   * Title of the step
+   */
   title?: string
+  /**
+   * Subtitle of the step
+   */
   subtitle?: string
+  /**
+   * Primary button title. If omitted, the primary button will not be shown.
+   */
   primaryButtonTitle?: string
+  /**
+   * Primary button URI.
+   */
   primaryButtonUri?: string
+  /**
+   * Primary button URI target (either _blank or _self)
+   */
   primaryButtonUriTarget?: string
+  /**
+   * Secondary button title. If omitted, the secondary button will not be shown.
+   */
   secondaryButtonTitle?: string
+  /**
+   * Secondary button URI.
+   */
   secondaryButtonUri?: string
+  /**
+   * Secondary button URI target (either _blank or _self)
+   */
   secondaryButtonUriTarget?: string
+  /**
+   * If true, the step will be marked as completed when the secondary button is clicked.
+   */
   skippable?: boolean
+  /**
+   * @deprecated use primaryButtonUri instead
+   */
   url?: string
+  /**
+   * @deprecated use primaryButtonUriTarget instead
+   */
   urlTarget?: string
+  /**
+   * @deprecated
+   */
   type?: string
+  /**
+   * Video url to be shown for components supporting video.
+   */
   videoUri?: string
+  /**
+   * Image url to be shown for components supporting image.
+   */
   imageUri?: string | null
+  /**
+   * Automatically mark the step as completed when the primary button is clicked. Default is false.
+   */
   autoMarkCompleted?: boolean
   complete: boolean
+  /**
+   * Whether the step is blocked (can't be accessed yet)
+   */
   blocked?: boolean
+  /**
+   * Whether the step is hidden (not shown in the list view)
+   */
   hidden?: boolean
   StepContent?: React.ReactNode
+  /**
+   * Handler for when the primary button is clicked.
+   */
   handlePrimaryButtonClick?: () => void
+  /**
+   * Handler for when the secondary button is clicked.
+   */
   handleSecondaryButtonClick?: () => void
   ctaActionType?: 'complete'
   imageStyle?: CSSProperties
   props?: any
+  /**
+   * Criteria that needs to be met for the step to complete
+   */
   completionCriteria?: string
+  /**
+   * Criteria that needs to be met for the step to start
+   */
   startCriteria?: string
   progress?: number
+  /**
+   * Whether the step is dismissible (for instance, tooltips or other non-essential steps)
+   */
   dismissible?: boolean
+  /**
+   * Whether to show a highlight in the page where the step is shown. Typically used in tooltips for creating small pings.
+   */
   showHighlight?: boolean
 }
 
@@ -72,12 +147,22 @@ export interface Appearance {
   styleOverrides?: {
     [key: string]: CSSProperties | string
   }
+  /**
+   * The base theme to use with Frigade components.
+   */
   theme?: BaseTheme
 }
 
 export interface BaseTheme {
+  /**
+   * The base theme color used on CTAs and other primary elements.
+   */
   colorPrimary?: string
+  /**
+   * Secondary color, used for CTAs and other secondary elements.
+   */
   colorSecondary?: string
+
   colorBackground?: string
   colorBackgroundSecondary?: string
   colorText?: string

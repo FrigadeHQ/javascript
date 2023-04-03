@@ -35,7 +35,13 @@ export interface IFrigadeContext {
 
 export interface FrigadeProviderProps {
   publicApiKey: string
+  /**
+   * The user id of the user that is currently logged in.
+   */
   userId?: string
+  /**
+   * The organization id of the organization that is currently logged in.
+   */
   organizationId?: string
   config?: FrigadeConfig
   children?: React.ReactNode
@@ -66,6 +72,11 @@ export const FrigadeContext = createContext<IFrigadeContext>({
 })
 
 interface FrigadeConfig {
+  /**
+   * Override the default router used by Frigade.
+   * This is useful if you are using a router and want to avoid doing a full page refresh on navigation.
+   * @param url The url to navigate to.
+   */
   navigate: (url: string) => void
 }
 

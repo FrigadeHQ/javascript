@@ -3,6 +3,7 @@ import { FrigadeContext } from '../FrigadeProvider'
 import { API_PREFIX, useConfig } from './common'
 import { useUserFlowStates } from './user-flow-states'
 import { GUEST_PREFIX } from './users'
+import { EntityProperties } from '../FrigadeForm/types'
 
 interface AddPropertyToOrganizationDTO {
   readonly foreignUserId: string
@@ -44,9 +45,7 @@ export function useOrganization() {
     }
   }, [userId, organizationId])
 
-  async function addPropertiesToOrganization(properties: {
-    [key: string]: string | boolean | number | null
-  }) {
+  async function addPropertiesToOrganization(properties: EntityProperties) {
     if (!organizationId || !userId) {
       console.error(
         'Cannot add properties to organization: Organization ID and User ID must both be set.'
@@ -67,10 +66,7 @@ export function useOrganization() {
     mutateUserFlowState()
   }
 
-  async function trackEventForOrganization(
-    event: string,
-    properties?: { [key: string]: string | boolean | number | null }
-  ) {
+  async function trackEventForOrganization(event: string, properties?: EntityProperties) {
     if (!organizationId || !userId) {
       console.error(
         'Cannot track event for organization: Organization ID and User ID must both be set.'
