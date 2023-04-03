@@ -45,7 +45,7 @@ const Guide: FC<GuideProps> = ({
   return (
     <GuideContainer style={style} className={getClassName('guideContainer', appearance)}>
       <GuideTitle className={getClassName('guideTitle', appearance)}>{title}</GuideTitle>
-      <GuideItems>
+      <GuideItems className={getClassName('guideItemContainer', appearance)}>
         {steps.map((stepData: GuideStepData, idx) => {
           return (
             <GuideItem

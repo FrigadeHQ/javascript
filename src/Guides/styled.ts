@@ -16,6 +16,7 @@ export const GuideItems = styled.div`
   flex-wrap: wrap;
   justify-content: space-between;
   overflow: hidden;
+  row-gap: 10px;
 `
 
 export const GuideTitle = styled.div`
