@@ -339,7 +339,7 @@ const Tooltips: FC<ToolTipProps> = ({
 
   return (
     <>
-      {showHighlight && (
+      {showHighlight && steps[selectedStep].showHighlight !== false && (
         <HiglightContainer
           style={{
             top: position?.y - 24 ?? 0,
@@ -367,10 +367,7 @@ const Tooltips: FC<ToolTipProps> = ({
           position: 'absolute',
           width: 'max-content',
           left: `${position?.x}px` ?? 0,
-          top:
-            bottomIsCropped && position.y
-              ? `${position.y - boundingRect.height - 72}px`
-              : `${position?.y}px` ?? 0,
+          top: `${position?.y}px` ?? 0,
           ...containerStyle,
         }}
         appearance={appearance}

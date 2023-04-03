@@ -31,6 +31,7 @@ export interface StepData {
   startCriteria?: string
   progress?: number
   dismissible?: boolean
+  showHighlight?: boolean
 }
 
 export interface DefaultFrigadeFlowProps {
