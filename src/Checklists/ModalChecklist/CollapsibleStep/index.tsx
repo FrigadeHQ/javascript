@@ -13,6 +13,8 @@ import {
   StepSubtitle,
   StepTitle,
 } from './styled'
+import { sanitize } from '../../../shared/sanitizer'
+import { getClassName } from '../../../shared/appearance'
 
 interface CollapsibleStepProps {
   stepData: StepData
@@ -39,7 +41,7 @@ export const CollapsibleStep: FC<CollapsibleStepProps> = ({
       data-testid={`step-${stepData.id}`}
       appearance={appearance}
     >
-      <StepHeader>
+      <StepHeader className={getClassName('stepHeader', appearance)}>
         <HeaderLeft>
           <CheckBoxRow
             value={stepData.complete}
@@ -47,7 +49,11 @@ export const CollapsibleStep: FC<CollapsibleStepProps> = ({
             primaryColor={appearance?.theme?.colorPrimary}
             appearance={appearance}
           />
-          <StepTitle appearance={appearance}>{stepData.title}</StepTitle>
+          <StepTitle
+            appearance={appearance}
+            className={getClassName('stepTitle', appearance)}
+            dangerouslySetInnerHTML={sanitize(stepData.title)}
+          />
         </HeaderLeft>
 
         <CollapseChevronContainer onClick={() => onClick()}>
@@ -67,7 +73,11 @@ export const CollapsibleStep: FC<CollapsibleStepProps> = ({
             key={stepData.id}
             style={{ overflow: 'hidden' }}
           >
-            <StepSubtitle appearance={appearance}>{stepData.subtitle}</StepSubtitle>
+            <StepSubtitle
+              className={getClassName('stepSubtitle', appearance)}
+              appearance={appearance}
+              dangerouslySetInnerHTML={sanitize(stepData.subtitle)}
+            />
             <MultipleButtonContainer>
               {stepData.secondaryButtonTitle ? (
                 <Button

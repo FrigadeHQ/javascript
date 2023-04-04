@@ -15,6 +15,7 @@ import {
 } from './styled'
 import { getClassName } from '../shared/appearance'
 import { useCTAClickSideEffects } from '../hooks/useCTAClickSideEffects'
+import { sanitize } from '../shared/sanitizer'
 
 export interface GuideStepData extends StepData {
   icon?: string
@@ -63,14 +64,14 @@ const Guide: FC<GuideProps> = ({
                 </GuideIconWrapper>
               )}
 
-              <GuideItemTitle className={getClassName('guideItemTitle', appearance)}>
-                {stepData.title}
-              </GuideItemTitle>
-
-              <GuideItemSubtitle className={getClassName('guideItemSubtitle', appearance)}>
-                {stepData.subtitle}
-              </GuideItemSubtitle>
-
+              <GuideItemTitle
+                className={getClassName('guideItemTitle', appearance)}
+                dangerouslySetInnerHTML={sanitize(stepData.title)}
+              />
+              <GuideItemSubtitle
+                className={getClassName('guideItemSubtitle', appearance)}
+                dangerouslySetInnerHTML={sanitize(stepData.subtitle)}
+              />
               <GuideItemLink
                 className={getClassName('guideItemLink', appearance)}
                 color={primaryColor}

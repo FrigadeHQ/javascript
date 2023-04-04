@@ -32,6 +32,7 @@ import { Modal } from '../../components/Modal'
 import Guide, { GuideStepData } from '../../Guides/Guide'
 import { getClassName } from '../../shared/appearance'
 import { ChecklistProps } from '..'
+import { sanitize } from '../../shared/sanitizer'
 
 export interface ChecklistWithGuideProps extends ChecklistProps {
   // Map from string to function with StepData returning React.ReactNode
@@ -80,15 +81,13 @@ const ChecklistWithGuide: FC<ChecklistWithGuideProps> = ({
         <StepTitle
           appearance={appearance}
           className={getClassName('checklistStepTitle', appearance)}
-        >
-          {stepData.title}
-        </StepTitle>
+          dangerouslySetInnerHTML={sanitize(stepData.title)}
+        />
         <StepSubtitle
           appearance={appearance}
           className={getClassName('checklistStepSubtitle', appearance)}
-        >
-          {stepData.subtitle}
-        </StepSubtitle>
+          dangerouslySetInnerHTML={sanitize(stepData.subtitle)}
+        />
         <MultipleButtonContainer className={getClassName('checklistCTAContainer', appearance)}>
           {stepData.secondaryButtonTitle && (
             <Button

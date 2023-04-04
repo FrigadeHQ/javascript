@@ -18,6 +18,7 @@ import { Appearance, DefaultFrigadeFlowProps, StepData } from '../types'
 
 import { useElemRect } from '@reactour/utils'
 import { getClassName } from '../shared/appearance'
+import { sanitize } from '../shared/sanitizer'
 
 export type ToolTipPosition = 'left' | 'right' | 'auto'
 
@@ -276,9 +277,8 @@ const Tooltips: FC<ToolTipProps> = ({
           <TooltipTitle
             className={getClassName('tooltipTitle', appearance)}
             appearance={appearance}
-          >
-            {steps[selectedStep].title}
-          </TooltipTitle>
+            dangerouslySetInnerHTML={sanitize(steps[selectedStep].title)}
+          />
           {dismissible && (
             <div
               data-testid="tooltip-dismiss"
@@ -304,9 +304,8 @@ const Tooltips: FC<ToolTipProps> = ({
           <TooltipSubtitle
             className={getClassName('tooltipBody', appearance)}
             appearance={appearance}
-          >
-            {steps[selectedStep].subtitle}
-          </TooltipSubtitle>
+            dangerouslySetInnerHTML={sanitize(steps[selectedStep].subtitle)}
+          />
         </div>
         <TooltipFooter className={getClassName('tooltipFooter', appearance)}>
           <DefaultFooterContent />

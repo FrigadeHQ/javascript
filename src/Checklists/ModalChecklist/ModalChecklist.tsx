@@ -11,6 +11,7 @@ import {
   ModalChecklistTitle,
 } from './styled'
 import { ChecklistProps } from '..'
+import { sanitize } from '../../shared/sanitizer'
 
 export interface ModalChecklistProps extends ChecklistProps {
   autoCollapse?: boolean
@@ -77,8 +78,14 @@ const ModalChecklist: FC<ModalChecklistProps> = ({
         headerContent={
           <>
             <HeaderContent>
-              <ModalChecklistTitle appearance={appearance}>{title}</ModalChecklistTitle>
-              <ModalChecklistSubtitle appearance={appearance}>{subtitle}</ModalChecklistSubtitle>
+              <ModalChecklistTitle
+                appearance={appearance}
+                dangerouslySetInnerHTML={sanitize(title)}
+              />
+              <ModalChecklistSubtitle
+                appearance={appearance}
+                dangerouslySetInnerHTML={sanitize(subtitle)}
+              />
             </HeaderContent>
             <ProgressBar
               display="percent"
