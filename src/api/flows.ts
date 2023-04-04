@@ -92,18 +92,46 @@ export function useFlows() {
     return flow
   }
 
-  function getFlowSteps(slug: string): any[] {
-    if (!getFlow(slug)) {
+  function getFlowSteps(flowId: string): any[] {
+    if (!getFlow(flowId)) {
       return []
     }
-    let flowData = getFlow(slug).data
+    let flowData = getFlow(flowId).data
     if (!flowData) {
       return []
     }
 
     flowData = substituteVariables(flowData)
 
-    return JSON.parse(flowData)?.data ?? []
+    const steps = JSON.parse(flowData)?.data ?? []
+
+    return steps
+      .map((step: StepData, idx: number) => {
+        const autoCalculatedProgress = getStepOptionalProgress(step)
+        return {
+          handleSecondaryButtonClick: () => {
+            if (step.skippable === true) {
+              markStepCompleted(flowId, step.id, { skipped: true })
+            }
+          },
+          ...step,
+          complete:
+            getStepStatus(flowId, step.id) === COMPLETED_STEP || autoCalculatedProgress >= 1,
+          blocked: isStepBlocked(flowId, step.id),
+          hidden: isStepHidden(flowId, step.id),
+          handlePrimaryButtonClick: () => {
+            if (
+              (!step.completionCriteria &&
+                (step.autoMarkCompleted || step.autoMarkCompleted === undefined)) ||
+              (step.completionCriteria && step.autoMarkCompleted === true)
+            ) {
+              markStepCompleted(flowId, step.id)
+            }
+          },
+          progress: autoCalculatedProgress,
+        }
+      })
+      .filter((step: StepData) => !(step.hidden === true))
   }
 
   function substituteVariables(flowData: string) {

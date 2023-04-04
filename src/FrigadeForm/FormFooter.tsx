@@ -11,7 +11,10 @@ interface FormFooterProps {
   appearance: Appearance
   onPrimaryClick: () => void
   onSecondaryClick: () => void
+  onBack: () => void
   formType: FrigadeFormType
+  steps: StepData[]
+  currentStep: number
 }
 
 export const FormFooter: FC<FormFooterProps> = ({
@@ -20,7 +23,10 @@ export const FormFooter: FC<FormFooterProps> = ({
   appearance,
   onPrimaryClick,
   onSecondaryClick,
+  onBack,
   formType,
+  steps,
+  currentStep,
 }) => {
   let Container = FormCTAContainer
   let buttonType = formType == 'corner-modal' || 'full-screen-modal' ? 'full-width' : 'inline'
@@ -57,6 +63,19 @@ export const FormFooter: FC<FormFooterProps> = ({
           appearance={appearance}
         />
       ) : null}
+      {/*{steps.length > 1 && currentStep != 0 && (*/}
+      {/*  <Button*/}
+      {/*    title="Back"*/}
+      {/*    onClick={onBack}*/}
+      {/*    secondary={true}*/}
+      {/*    type={buttonType}*/}
+      {/*    style={{*/}
+      {/*      display: 'inline-block',*/}
+      {/*      ...buttonStyleOverride,*/}
+      {/*    }}*/}
+      {/*    appearance={appearance}*/}
+      {/*  />*/}
+      {/*)}*/}
     </Container>
   )
 }

@@ -60,13 +60,12 @@ export function MultiInputStepType({
 
   useEffect(() => {
     setCanContinue(formValidationErrors.length === 0)
-    onSaveData(allFormData)
-  }, [allFormData, formValidationErrors])
+  }, [formValidationErrors, setCanContinue])
 
   function saveDataFromInputs(input: FormInputType, data: object) {
-    setAllFormData((prev) => {
-      return { ...prev, [input.id]: data }
-    })
+    const newData = { ...allFormData, [input.id]: data }
+    setAllFormData(newData)
+    onSaveData(newData)
   }
 
   return (
@@ -88,6 +87,7 @@ export function MultiInputStepType({
                   appearance,
                 },
                 onSaveInputData: (data) => {
+                  console.log(data)
                   saveDataFromInputs(input, data)
                 },
                 setFormValidationErrors: (errors) => {
