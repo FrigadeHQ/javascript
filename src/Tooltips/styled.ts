@@ -10,7 +10,7 @@ export const TooltipContainer = styled.div<{ maxWidth: number; appearance: Appea
   border-radius: 20px;
   max-width: ${(props) => props.maxWidth}px;
   min-width: 300px;
-  padding: 10px 18px 10px 18px;
+  padding: 10px 18px 6px 18px;
   z-index: 100;
 `
 
@@ -28,7 +28,7 @@ export const TooltipTitle = styled.h2<{ appearance }>`
   display: flex;
   margin: 0;
   :not(${(props) => getCustomClassOverrides(props)}) {
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 600;
     color: ${(props) => props.appearance?.theme?.colorText};
   }
@@ -36,9 +36,9 @@ export const TooltipTitle = styled.h2<{ appearance }>`
 
 export const TooltipSubtitle = styled.p<{}>`
   :not(${(props) => getCustomClassOverrides(props)}) {
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 400;
-    color: ${(props) => props.appearance?.theme?.colorText};
+    color: ${(props) => props.appearance?.theme?.colorTextSecondary};
   }
 `
 
@@ -72,7 +72,7 @@ export const TooltipStepCounter = styled.p`
   :not(${(props) => getCustomClassOverrides(props)}) {
     font-style: normal;
     font-weight: 600;
-    font-size: 15px;
+    font-size: 14px;
     line-height: 22px;
     color: #808080;
   }
