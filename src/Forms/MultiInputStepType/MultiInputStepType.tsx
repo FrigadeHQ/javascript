@@ -87,7 +87,6 @@ export function MultiInputStepType({
                   appearance,
                 },
                 onSaveInputData: (data) => {
-                  console.log(data)
                   saveDataFromInputs(input, data)
                 },
                 setFormValidationErrors: (errors) => {
