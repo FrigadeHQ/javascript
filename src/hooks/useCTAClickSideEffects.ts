@@ -17,9 +17,11 @@ export function useCTAClickSideEffects() {
     if (!url) {
       return
     }
-    let updatedTarget = '_self'
-    if (target && target === '_blank') {
-      updatedTarget = '_blank'
+    // Check if url starts with http -- if so, default to _blank otherwise default to _self
+    let updatedTarget = url.startsWith('http') ? '_blank' : '_self'
+
+    if (target && target !== '_blank') {
+      updatedTarget = '_self'
     }
     context.navigate(url, updatedTarget)
   }
