@@ -49,11 +49,14 @@ const ButtonContainer = styled.button`
 `
 
 export const MultipleButtonContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  & > * {
-    margin-right: 8px;
+  :not(${(props) => getCustomClassOverrides(props)}) {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+
+    & > * {
+      margin-right: 8px;
+    }
   }
 `
 

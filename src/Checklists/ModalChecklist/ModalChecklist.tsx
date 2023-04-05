@@ -12,6 +12,7 @@ import {
 } from './styled'
 import { ChecklistProps } from '..'
 import { sanitize } from '../../shared/sanitizer'
+import { getClassName } from '../../shared/appearance'
 
 export interface ModalChecklistProps extends ChecklistProps {
   autoCollapse?: boolean
@@ -98,7 +99,7 @@ const ModalChecklist: FC<ModalChecklistProps> = ({
           </>
         }
       >
-        <ChecklistContainer>
+        <ChecklistContainer className={getClassName('checklistContainer', appearance)}>
           {steps.map((step: StepData, idx: number) => {
             const isCollapsed = collapsedSteps[idx]
             return (

@@ -32,7 +32,6 @@ export const ModalChecklistTitle = styled.h1<{ appearance }>`
 export const ModalChecklistSubtitle = styled.h2<{ appearance }>`
   color: ${(props) => props.appearance?.theme?.colorTextSecondary};
   font-weight: 400;
-  color: #4d4d4d;
   font-size: 14px;
   line-height: 23px;
   margin: 2px 0 0 0;

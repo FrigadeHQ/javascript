@@ -262,7 +262,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
     steps: getSteps(),
     title,
     subtitle,
-    primaryColor,
+    primaryColor: appearance.theme.colorPrimary,
     appearance,
   }
 
