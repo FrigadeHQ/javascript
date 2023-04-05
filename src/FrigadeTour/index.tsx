@@ -168,6 +168,7 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
   function getSteps() {
     return steps.map((step: StepData) => {
       return {
+        ...step,
         handleSecondaryButtonClick: () => {
           // Default to skip behavior for secondary click but allow for override
           secondaryCTAClickSideEffects(step)
@@ -176,7 +177,6 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
           }
           handleStepCompletionHandlers(step, 'secondary', selectedStep)
         },
-        ...step,
         handlePrimaryButtonClick: () => {
           if (
             (!step.completionCriteria &&

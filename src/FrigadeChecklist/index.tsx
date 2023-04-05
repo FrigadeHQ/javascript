@@ -72,6 +72,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
   appearance,
   hideOnFlowCompletion,
   setVisible,
+  customStepTypes,
   ...guideProps
 }) => {
   const {
@@ -212,6 +213,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
   function getSteps() {
     return steps.map((step: StepData, idx: number) => {
       return {
+        ...step,
         handleSecondaryButtonClick: () => {
           // Default to skip behavior for secondary click but allow for override
           goToNextStepIfPossible()
@@ -221,7 +223,6 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
           }
           handleStepCompletionHandlers(step, 'secondary', idx)
         },
-        ...step,
         handlePrimaryButtonClick: () => {
           if (
             (!step.completionCriteria &&
@@ -264,6 +265,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
     subtitle,
     primaryColor: appearance.theme.colorPrimary,
     appearance,
+    customStepTypes,
   }
 
   if (type === 'modal') {
