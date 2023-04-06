@@ -46,10 +46,12 @@ export function MultipleChoiceList({
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   const [hasLoaded, setHasLoaded] = useState(false)
 
-  if (selectedIds.length == 0 && !hasLoaded) {
-    setHasLoaded(true)
-    onSaveInputData({ choice: [] })
-  }
+  useEffect(() => {
+    if (selectedIds.length == 0 && !hasLoaded) {
+      setHasLoaded(true)
+      onSaveInputData({ choice: [] })
+    }
+  }, [])
 
   useEffect(() => {
     onSaveInputData({ choice: selectedIds })
