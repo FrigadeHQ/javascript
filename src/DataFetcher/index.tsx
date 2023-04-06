@@ -104,8 +104,10 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
     return (
       <>
         {automaticFlowIdsToTrigger.map((flow) =>
-          flow.type === FlowType.CHECKLIST ? (
-            <FrigadeChecklist flowId={flow.slug} type={'modal'} />
+          flow.type === FlowType.CHECKLIST && flow.triggerType == TriggerType.AUTOMATIC ? (
+            <span key={flow.slug}>
+              <FrigadeChecklist flowId={flow.slug} type={'modal'} />
+            </span>
           ) : null
         )}
       </>
