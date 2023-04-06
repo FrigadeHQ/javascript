@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import styled from 'styled-components'
 import { FormInputProps, FormInputType } from '../../../FrigadeForm/types'
@@ -63,21 +63,23 @@ export function MultipleChoice({
   const [data, setData] = useState('')
   const [hasLoaded, setHasLoaded] = useState(false)
 
-  if (data === '' && !hasLoaded) {
-    setHasLoaded(true)
-    if (
-      input.defaultValue &&
-      input.props.options?.find((option) => option.id === input.defaultValue)
-    ) {
-      // Find input.props.options with id == defaultValue
-      const defaultValue = input.props.options?.find((option) => option.id === input.defaultValue)
-      setData(defaultValue.id)
-      onSaveInputData({ choice: [defaultValue.id] })
-    } else {
-      setData(input.props.options?.[0].id || '')
-      onSaveInputData({ choice: [input.props.options?.[0].id || ''] })
+  useEffect(() => {
+    if (data === '' && !hasLoaded) {
+      setHasLoaded(true)
+      if (
+        input.defaultValue &&
+        input.props.options?.find((option) => option.id === input.defaultValue)
+      ) {
+        // Find input.props.options with id == defaultValue
+        const defaultValue = input.props.options?.find((option) => option.id === input.defaultValue)
+        setData(defaultValue.id)
+        onSaveInputData({ choice: [defaultValue.id] })
+      } else {
+        setData(input.props.options?.[0].id || '')
+        onSaveInputData({ choice: [input.props.options?.[0].id || ''] })
+      }
     }
-  }
+  }, [])
 
   return (
     <MultipleChoiceWrapper>

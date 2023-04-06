@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import styled from 'styled-components'
 import { FormInputProps, FormInputType } from '../../../FrigadeForm/types'
@@ -62,16 +62,13 @@ export function TextField({
   const input = formInput as TextFieldProps
   const [data, setData] = useState('')
   const [hasLoaded, setHasLoaded] = useState(false)
-
-  if (data === '' && !hasLoaded) {
-    setHasLoaded(true)
-    handleDataChange('')
-  }
-
   let InputComponent = TextInput
-  if (input.multiline) {
-    InputComponent = TextArea
-  }
+  useEffect(() => {
+    if (data === '' && !hasLoaded) {
+      setHasLoaded(true)
+      handleDataChange('')
+    }
+  }, [])
 
   function handleDataChange(value: string) {
     setData(value)
@@ -86,6 +83,10 @@ export function TextField({
     }
     setFormValidationErrors([])
     onSaveInputData({ text: value })
+  }
+
+  if (input.multiline) {
+    InputComponent = TextArea
   }
 
   return (
