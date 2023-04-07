@@ -1,7 +1,7 @@
 import React from 'react'
 import { SelectListStepType } from '../SelectListStepType'
 import { render, screen } from '@testing-library/react'
-import { mergeAppearanceWithDefault, StepData } from '../../../types'
+import { DefaultAppearance, StepData } from '../../../types'
 
 describe('SelectListStepType', () => {
   const stepData = {
@@ -24,7 +24,7 @@ describe('SelectListStepType', () => {
       <SelectListStepType
         stepData={stepData}
         setCanContinue={jest.fn()}
-        appearance={mergeAppearanceWithDefault({})}
+        appearance={DefaultAppearance}
         onSaveData={jest.fn()}
         canContinue={false}
       />

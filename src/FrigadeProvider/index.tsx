@@ -2,6 +2,7 @@ import React, { createContext, FC, useEffect, useState } from 'react'
 import { DataFetcher } from '../DataFetcher'
 import { Flow } from '../api/flows'
 import { FlowResponse } from '../api/flow-responses'
+import { Appearance, DefaultAppearance } from '../types'
 
 export interface IFrigadeContext {
   publicApiKey: string
@@ -31,6 +32,7 @@ export interface IFrigadeContext {
   organizationId?: string
   setOrganizationId?: React.Dispatch<React.SetStateAction<string>>
   navigate: (url: string, target: string) => void
+  defaultAppearance: Appearance
 }
 
 export interface FrigadeProviderProps {
@@ -69,6 +71,7 @@ export const FrigadeContext = createContext<IFrigadeContext>({
   organizationId: '',
   setOrganizationId: () => {},
   navigate: () => {},
+  defaultAppearance: DefaultAppearance,
 })
 
 interface FrigadeConfig {
@@ -78,6 +81,10 @@ interface FrigadeConfig {
    * @param url The url to navigate to.
    */
   navigate: (url: string, target: string) => void
+  /**
+   * Default Appearance for all flows.
+   */
+  defaultAppearance?: Appearance
 }
 
 export const FrigadeProvider: FC<FrigadeProviderProps> = ({
@@ -149,6 +156,16 @@ export const FrigadeProvider: FC<FrigadeProviderProps> = ({
         organizationId: organizationIdValue,
         setOrganizationId: setOrganizationIdValue,
         navigate: config && config.navigate ? config.navigate : internalNavigate,
+        defaultAppearance:
+          config && config.defaultAppearance
+            ? {
+                theme: { ...DefaultAppearance.theme, ...(config.defaultAppearance?.theme ?? {}) },
+                styleOverrides: {
+                  ...DefaultAppearance.styleOverrides,
+                  ...(config.defaultAppearance?.styleOverrides ?? {}),
+                },
+              }
+            : DefaultAppearance,
       }}
     >
       {children}

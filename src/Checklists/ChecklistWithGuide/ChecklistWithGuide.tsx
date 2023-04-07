@@ -39,11 +39,6 @@ export interface ChecklistWithGuideProps extends ChecklistProps {
   visible: boolean
   stepsTitle: string
 
-  /**
-   * @deprecated Use `appearance` instead
-   */
-  secondaryColor?: string
-
   guideData?: GuideStepData[]
   guideTitle?: string
 

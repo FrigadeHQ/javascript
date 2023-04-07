@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useRef, useState } from 'react'
 
-import { DefaultFrigadeFlowProps, mergeAppearanceWithDefault, StepData } from '../types'
+import { DefaultFrigadeFlowProps, StepData } from '../types'
 import { useFlows } from '../api/flows'
 import { Portal } from 'react-portal'
 import {
@@ -17,6 +17,7 @@ import { Question } from '../components/Icons/Question'
 import { getClassName } from '../shared/appearance'
 import { QuestionCircle } from '../components/Icons/QuestionCircle'
 import { useCTAClickSideEffects } from '../hooks/useCTAClickSideEffects'
+import { useTheme } from '../hooks/useTheme'
 
 export interface FloatingWidgetProps extends DefaultFrigadeFlowProps {
   type?: 'floating' | 'inline'
@@ -46,6 +47,7 @@ export const FrigadeSupportWidget: FC<FloatingWidgetProps> = ({
   const { primaryCTAClickSideEffects } = useCTAClickSideEffects()
   const wrapperRef = useRef(null)
   const [showMenu, setShowMenu] = useState(false)
+  const { mergeAppearanceWithDefault } = useTheme()
 
   appearance = mergeAppearanceWithDefault(appearance)
 

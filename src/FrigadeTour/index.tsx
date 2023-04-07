@@ -1,7 +1,7 @@
 import React, { FC, useContext, useEffect, useState } from 'react'
 import { useFlows } from '../api/flows'
 import { ToolTipProps, Tooltips } from '../Tooltips'
-import { mergeAppearanceWithDefault, StepData } from '../types'
+import { StepData } from '../types'
 import { COMPLETED_FLOW, COMPLETED_STEP, NOT_STARTED_FLOW, STARTED_FLOW } from '../api/common'
 import { Portal } from 'react-portal'
 import { useFlowOpens } from '../api/flow-opens'
@@ -9,13 +9,13 @@ import { FrigadeContext } from '../FrigadeProvider'
 import { RenderInlineStyles } from '../components/RenderInlineStyles'
 import { useFlowResponses } from '../api/flow-responses'
 import { useCTAClickSideEffects } from '../hooks/useCTAClickSideEffects'
+import { useTheme } from '../hooks/useTheme'
 
 export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedStep?: number }> = ({
   flowId,
   initialSelectedStep,
   customVariables,
   appearance,
-  primaryColor,
   onStepCompletion,
   onButtonClick,
   showTooltipsSimultaneously = false,
@@ -47,12 +47,11 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
 
   const { openFlowStates } = useContext(FrigadeContext)
 
+  const { mergeAppearanceWithDefault } = useTheme()
+
   const [finishedInitialLoad, setFinishedInitialLoad] = useState(false)
   const [selectedStep, setSelectedStep] = useState(initialSelectedStep || 0)
   appearance = mergeAppearanceWithDefault(appearance)
-  if (primaryColor) {
-    appearance.theme.colorPrimary = primaryColor
-  }
   const currentFlowStatus = getFlowStatus(flowId)
   const currentStep = getCurrentStepIndex(flowId)
 

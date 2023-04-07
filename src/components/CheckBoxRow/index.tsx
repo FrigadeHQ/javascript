@@ -1,7 +1,7 @@
 import React, { CSSProperties, FC } from 'react'
 import styled from 'styled-components'
 import { CheckBox, CheckBoxType } from '../CheckBox'
-import { Appearance, DefaultAppearance } from '../../types'
+import { Appearance } from '../../types'
 
 interface CheckBoxRowProps {
   label?: string
@@ -44,7 +44,7 @@ export const CheckBoxRow: FC<CheckBoxRowProps> = ({
   style,
   primaryColor = '#000000',
   checkBoxType = 'square',
-  appearance = DefaultAppearance,
+  appearance,
 }) => {
   return (
     <CheckBoxRowContainer style={{ ...style }}>

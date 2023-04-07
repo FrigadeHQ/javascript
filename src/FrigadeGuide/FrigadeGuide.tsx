@@ -1,7 +1,8 @@
 import React, { FC } from 'react'
 import { useFlows } from '../api/flows'
 import { Guide } from '../Guides'
-import { DefaultFrigadeFlowProps, mergeAppearanceWithDefault } from '../types'
+import { DefaultFrigadeFlowProps } from '../types'
+import { useTheme } from '../hooks/useTheme'
 
 export interface FrigadeGuideProps extends DefaultFrigadeFlowProps {
   title: string
@@ -10,6 +11,7 @@ export interface FrigadeGuideProps extends DefaultFrigadeFlowProps {
 
 export const FrigadeGuide: FC<FrigadeGuideProps> = ({ flowId, style, appearance, ...props }) => {
   const { getFlow, targetingLogicShouldHideFlow, getFlowSteps } = useFlows()
+  const { mergeAppearanceWithDefault } = useTheme()
   appearance = mergeAppearanceWithDefault(appearance)
 
   const flow = getFlow(flowId)

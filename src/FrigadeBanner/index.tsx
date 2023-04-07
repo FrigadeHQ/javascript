@@ -1,12 +1,7 @@
 import React, { useEffect } from 'react'
 
 import { useFlows } from '../api/flows'
-import {
-  DefaultAppearance,
-  DefaultFrigadeFlowProps,
-  mergeAppearanceWithDefault,
-  StepData,
-} from '../types'
+import { DefaultFrigadeFlowProps, StepData } from '../types'
 import { COMPLETED_FLOW } from '../api/common'
 import {
   BannerContainer,
@@ -23,6 +18,7 @@ import { getClassName } from '../shared/appearance'
 import { RenderInlineStyles } from '../components/RenderInlineStyles'
 import { useCTAClickSideEffects } from '../hooks/useCTAClickSideEffects'
 import { TitleSubtitle } from '../components/TitleSubtitle/TitleSubtitle'
+import { useTheme } from '../hooks/useTheme'
 
 /**
  * Frigade Banners
@@ -43,7 +39,7 @@ export const FrigadeBanner: React.FC<FrigadeBannerProps> = ({
   onDismiss,
   customVariables,
   onButtonClick,
-  appearance = DefaultAppearance,
+  appearance,
   type = 'full-width',
 }) => {
   const {
@@ -57,6 +53,8 @@ export const FrigadeBanner: React.FC<FrigadeBannerProps> = ({
     getFlowStatus,
   } = useFlows()
   const { primaryCTAClickSideEffects } = useCTAClickSideEffects()
+  const { mergeAppearanceWithDefault } = useTheme()
+
   appearance = mergeAppearanceWithDefault(appearance)
 
   useEffect(() => {

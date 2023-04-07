@@ -2,9 +2,10 @@ import React, { CSSProperties, useEffect } from 'react'
 import { useFlows } from '../api/flows'
 import { ProgressBadge, ProgressBadgeType } from '../Checklists/ProgressBadge'
 import { useFlowOpens } from '../api/flow-opens'
-import { DefaultFrigadeFlowProps, mergeAppearanceWithDefault } from '../types'
+import { DefaultFrigadeFlowProps } from '../types'
 import { COMPLETED_FLOW } from '../api/common'
 import { RenderInlineStyles } from '../components/RenderInlineStyles'
+import { useTheme } from '../hooks/useTheme'
 
 interface FrigadeProgressBadgeProps extends DefaultFrigadeFlowProps {
   title: string
@@ -49,6 +50,8 @@ export const FrigadeProgressBadge: React.FC<FrigadeProgressBadgeProps> = ({
     setCustomVariable,
     customVariables: existingCustomVariables,
   } = useFlows()
+  const { mergeAppearanceWithDefault } = useTheme()
+
   appearance = mergeAppearanceWithDefault(appearance)
 
   // TODO: Remove onces fields are deleted

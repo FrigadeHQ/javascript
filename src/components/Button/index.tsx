@@ -1,6 +1,6 @@
 import React, { CSSProperties, FC } from 'react'
 import styled from 'styled-components'
-import { Appearance, DefaultAppearance } from '../../types'
+import { Appearance } from '../../types'
 import { getClassName, getCustomClassOverrides } from '../../shared/appearance'
 
 interface ButtonProps {
@@ -71,7 +71,7 @@ export const Button: FC<ButtonProps> = ({
   textStyle = {},
   type = 'inline',
   secondary = false,
-  appearance = DefaultAppearance,
+  appearance,
   withMargin = true,
 }) => {
   return (

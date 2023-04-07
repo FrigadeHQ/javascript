@@ -2,13 +2,14 @@ import React, { CSSProperties, useEffect, useState } from 'react'
 
 import { useFlows } from '../api/flows'
 import { HeroChecklist, HeroChecklistProps } from '../Checklists/HeroChecklist'
-import { mergeAppearanceWithDefault, StepData } from '../types'
+import { StepData } from '../types'
 import { COMPLETED_FLOW, COMPLETED_STEP } from '../api/common'
 import { useFlowOpens } from '../api/flow-opens'
 import { RenderInlineStyles } from '../components/RenderInlineStyles'
 import { ModalChecklist } from '../Checklists/ModalChecklist'
 import { ChecklistWithGuide } from '../Checklists/ChecklistWithGuide'
 import { useCTAClickSideEffects } from '../hooks/useCTAClickSideEffects'
+import { useTheme } from '../hooks/useTheme'
 
 /**
  * Frigade Checklists
@@ -23,14 +24,6 @@ export interface FrigadeChecklistProps extends HeroChecklistProps {
   flowId: string
   title?: string
   subtitle?: string
-  /**
-   * @deprecated Use `appearance` instead
-   */
-  primaryColor?: string
-  /**
-   * @deprecated Use `appearance` instead
-   */
-  secondaryColor?: string
 
   onCompleteStep?: (index: number, stepData: StepData) => void
   style?: CSSProperties
@@ -58,8 +51,6 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
   flowId,
   title,
   subtitle,
-  primaryColor,
-  secondaryColor,
   style,
   initialSelectedStep,
   className,
@@ -99,15 +90,9 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
   const [finishedInitialLoad, setFinishedInitialLoad] = useState(false)
   const showModal = visible === undefined ? getOpenFlowState(flowId) : visible
   const isModal = type === 'modal' || type === 'withGuide'
-  appearance = mergeAppearanceWithDefault(appearance)
+  const { mergeAppearanceWithDefault } = useTheme()
 
-  // TODO: Remove once primary and secondary colors are deprecated + removed
-  if (primaryColor) {
-    appearance.theme.colorPrimary = primaryColor
-  }
-  if (secondaryColor) {
-    appearance.theme.colorSecondary = secondaryColor
-  }
+  appearance = mergeAppearanceWithDefault(appearance)
 
   useEffect(() => {
     if (
@@ -311,7 +296,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
               onDismiss()
             }
           }}
-          secondaryColor={secondaryColor}
+          secondaryColor={appearance.theme.colorSecondary}
           selectedStep={selectedStep}
           setSelectedStep={setSelectedStep}
           guideData={guideFlowSteps}

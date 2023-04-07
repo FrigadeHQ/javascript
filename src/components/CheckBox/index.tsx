@@ -1,7 +1,7 @@
 import React, { CSSProperties, FC } from 'react'
 import { ProgressRing } from '../Progress/ProgressRing'
 import { getClassName } from '../../shared/appearance'
-import { Appearance, DefaultAppearance } from '../../types'
+import { Appearance } from '../../types'
 
 const CheckIcon = ({ color = '#FFFFFF' }) => (
   <svg width={10} height={8} viewBox="0 0 10 8" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -76,7 +76,7 @@ export const CheckBox: FC<CheckBoxProps> = ({
   type = 'square',
   primaryColor = '#000000',
   progress,
-  appearance = DefaultAppearance,
+  appearance,
 }) => {
   let checkBoxStyle = getBaseStyle(type as CheckBoxType)
   let stateStyle = getStateStyle(type as CheckBoxType, value)

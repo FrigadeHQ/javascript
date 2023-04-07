@@ -7,7 +7,7 @@ import {
   FormContainerWrapper,
 } from './styled'
 
-import { DefaultFrigadeFlowProps, mergeAppearanceWithDefault, StepData } from '../types'
+import { DefaultFrigadeFlowProps, StepData } from '../types'
 import { useFlows } from '../api/flows'
 import { COMPLETED_FLOW, STARTED_FLOW } from '../api/common'
 import { LinkCollectionStepType } from '../Forms/LinkCollectionStepType'
@@ -21,13 +21,13 @@ import { SelectListStepType } from '../Forms/SelectListStepType/SelectListStepTy
 import { FormFooter } from './FormFooter'
 import { RenderInlineStyles } from '../components/RenderInlineStyles'
 import { useCTAClickSideEffects } from '../hooks/useCTAClickSideEffects'
+import { useTheme } from '../hooks/useTheme'
 
 export type FrigadeFormType = 'inline' | 'modal' | 'corner-modal' | 'full-screen-modal'
 
 export interface FormProps extends DefaultFrigadeFlowProps {
   title?: string
   subtitle?: string
-  primaryColor?: string
   type?: FrigadeFormType
   onCompleteStep?: (index: number, stepData: StepData) => void
   customStepTypes?: { [key: string]: (params: CustomFormTypeProps) => React.ReactNode }
@@ -40,9 +40,6 @@ export interface FormProps extends DefaultFrigadeFlowProps {
 
 export const FrigadeForm: FC<FormProps> = ({
   flowId,
-  title,
-  subtitle,
-  primaryColor,
   style = {},
   className = '',
   customStepTypes = {},
@@ -68,12 +65,9 @@ export const FrigadeForm: FC<FormProps> = ({
     getFlowStatus,
     getCurrentStepIndex,
   } = useFlows()
+  const { mergeAppearanceWithDefault } = useTheme()
 
   appearance = mergeAppearanceWithDefault(appearance)
-
-  if (primaryColor) {
-    appearance.theme.colorPrimary = primaryColor
-  }
 
   const [selectedStep, setSelectedStep] = useState(0)
   const [finishedInitialLoad, setFinishedInitialLoad] = useState(false)

@@ -49,15 +49,6 @@ export function toKebabKey(key: string) {
 }
 
 export function styleOverridesToCSS(props: any) {
-  console.log(
-    'new css',
-    props?.styleOverrides
-      ? Object.keys(props.styleOverrides)
-          .map((key) => `${toKebabKey(key)}: ${props.styleOverrides[key]};`)
-          .join(' ')
-      : ''
-  )
-
   return props?.styleOverrides
     ? Object.keys(props.styleOverrides)
         .map((key) => `${toKebabKey(key)}: ${props.styleOverrides[key]};`)

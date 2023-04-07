@@ -187,19 +187,3 @@ export const DefaultAppearance: Appearance = {
     borderRadius: 20,
   },
 }
-
-export function mergeAppearanceWithDefault(appearance?: Appearance): Appearance {
-  const _appearance = JSON.parse(JSON.stringify(DefaultAppearance))
-
-  if (!appearance) {
-    return _appearance
-  }
-
-  return {
-    styleOverrides: Object.assign(
-      _appearance.styleOverrides ?? {},
-      appearance.styleOverrides ?? {}
-    ),
-    theme: Object.assign(_appearance.theme, appearance.theme ?? {}),
-  }
-}

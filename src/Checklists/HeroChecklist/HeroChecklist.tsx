@@ -3,7 +3,7 @@ import React, { FC, useState } from 'react'
 import styled from 'styled-components'
 import { StepChecklistItem } from './StepChecklistItem'
 import { ProgressBar } from '../Checklist/Progress'
-import { DefaultFrigadeFlowProps, mergeAppearanceWithDefault, StepData } from '../../types'
+import { DefaultFrigadeFlowProps, StepData } from '../../types'
 import {
   HERO_STEP_CONTENT_TYPE,
   HeroStepContent,
@@ -17,6 +17,7 @@ import {
   CODE_SNIPPET_CONTENT_TYPE,
   CodeSnippetContent,
 } from '../../components/checklist-step-content/CodeSnippetContent'
+import { useTheme } from '../../hooks/useTheme'
 
 export interface HeroChecklistProps extends DefaultFrigadeFlowProps {
   title?: string
@@ -90,7 +91,6 @@ const HeroChecklist: FC<HeroChecklistProps> = ({
   title,
   subtitle,
   steps = [],
-  primaryColor,
   style = {},
   selectedStep,
   setSelectedStep,
@@ -98,12 +98,8 @@ const HeroChecklist: FC<HeroChecklistProps> = ({
   customStepTypes = new Map(),
   appearance,
 }) => {
+  const { mergeAppearanceWithDefault } = useTheme()
   appearance = mergeAppearanceWithDefault(appearance)
-
-  // TODO: Remove once primary and secondary colors are deprecated + removed
-  if (primaryColor) {
-    appearance.theme.colorPrimary = primaryColor
-  }
 
   const DEFAULT_CUSTOM_STEP_TYPES = new Map([
     [HERO_STEP_CONTENT_TYPE, HeroStepContent],
