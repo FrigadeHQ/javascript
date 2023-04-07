@@ -2,14 +2,14 @@ import styled from 'styled-components'
 
 export const BannerContainer = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: ${(props) => (props.type === 'square' ? 'column' : 'row')};
   width: 100%;
   padding: 16px;
   box-sizing: border-box;
-  align-items: center;
-  background: {$props => props.appearance.theme.colorBackgroundSecondary};
+  align-items: ${(props) => (props.type === 'square' ? 'unset' : 'center')};
+  background-color: ${(props) => props.appearance.theme.colorBackgroundSecondary};
   border-width: 1px;
-  border-color: {$props => props.appearance.theme.colorPrimary};
+  border-color: ${(props) => props.appearance.theme.colorPrimary};
   border-radius: 12px;
 `
 
@@ -23,36 +23,44 @@ export const TextContainer = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
-  margin-left: 16px;
+  margin-left: ${(props) => (props.type === 'square' ? '0px' : '16px')};
 `
 
 export const TextTitle = styled.div`
-  font-size: 16px;
+  font-size: ${(props) => (props.type === 'square' ? '14px' : '16px')};
   font-weight: 600;
-  line-height: 24px;
-  color: {$props => props.appearance.theme.colorText};
-  `
+  line-height: ${(props) => (props.type === 'square' ? '20px' : '24px')};
+  color: ${(props) => props.appearance.theme.colorText};
+  margin-bottom: ${(props) => (props.type === 'square' ? '8px' : '0')};
+`
 
 export const TextSubtitle = styled.div`
-  font-size: 14px;
+  font-size: ${(props) => (props.type === 'square' ? '14px' : '14px')};
   line-height: 20px;
-  color: {$props => props.appearance.theme.colorText};
-  `
+  color: ${(props) => props.appearance.theme.colorText};
+`
 
 export const CallToActionContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-left: 16px;
+  margin-left: ${(props) => (props.type === 'square' ? '0px' : '16px')};
 `
 
 export const DismissButton = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: ${(props) => (props.type === 'square' ? 'flex-end' : 'center')};
   align-items: flex-end;
-  margin-left: 16px;
+  margin-left: ${(props) => (props.type === 'square' ? '0px' : '16px')};
   cursor: pointer;
   :hover {
     opacity: 0.8;
   }
+`
+
+export const DismissButtonContainer = styled.div`
+  display: flex;
+  justify-content: ${(props) => (props.type === 'square' ? 'flex-end' : 'center')};
+  align-items: flex-end;
+  margin-left: ${(props) => (props.type === 'square' ? '0px' : '16px')};
 `

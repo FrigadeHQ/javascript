@@ -12,6 +12,7 @@ import {
   BannerContainer,
   CallToActionContainer,
   DismissButton,
+  DismissButtonContainer,
   IconContainer,
   TextContainer,
   TextSubtitle,
@@ -26,14 +27,15 @@ import { useCTAClickSideEffects } from '../hooks/useCTAClickSideEffects'
 
 /**
  * Frigade Banners
- * inline: Renders as an on-page element
- * modal: Display above other content with a shadowed background
- * withGuide: A modal banner with a Guide included beneath the modal content
+ * full-width: Full width banner, useful in top of the page
+ * square: Square sized banner, useful in sidebars
  *
  */
-export type FrigadeBannerType = 'inline' | 'modal' | 'withGuide'
+export type FrigadeBannerType = 'full-width' | 'square'
 
-export interface FrigadeBannerProps extends DefaultFrigadeFlowProps {}
+export interface FrigadeBannerProps extends DefaultFrigadeFlowProps {
+  type: FrigadeBannerType
+}
 
 export const FrigadeBanner: React.FC<FrigadeBannerProps> = ({
   flowId,
@@ -43,6 +45,7 @@ export const FrigadeBanner: React.FC<FrigadeBannerProps> = ({
   customVariables,
   onButtonClick,
   appearance = DefaultAppearance,
+  type = 'full-width',
 }) => {
   const {
     getFlow,
@@ -99,19 +102,54 @@ export const FrigadeBanner: React.FC<FrigadeBannerProps> = ({
     <>
       <RenderInlineStyles appearance={appearance} />
       <BannerContainer
+        type={type}
         appearance={appearance}
         className={getClassName('bannerContainer', appearance)}
       >
-        <IconContainer>
-          <Info />
-        </IconContainer>
-        <TextContainer>
-          <TextTitle className={getClassName('bannerTitle', appearance)}>{title}</TextTitle>
-          <TextSubtitle className={getClassName('bannerSubtitle', appearance)}>
+        {type != 'square' && (
+          <IconContainer>
+            <Info />
+          </IconContainer>
+        )}
+        {type === 'square' && metaData.dismissible && (
+          <DismissButtonContainer
+            type={type}
+            className={getClassName('bannerDismissButtonContainer', appearance)}
+          >
+            <DismissButton
+              type={type}
+              onClick={() => {
+                markFlowCompleted(flowId)
+                if (onDismiss) {
+                  onDismiss()
+                }
+              }}
+              className={getClassName('bannerDismissButton', appearance)}
+            >
+              <CloseIcon />
+            </DismissButton>
+          </DismissButtonContainer>
+        )}
+        <TextContainer type={type}>
+          <TextTitle
+            type={type}
+            appearance={appearance}
+            className={getClassName('bannerTitle', appearance)}
+          >
+            {title}
+          </TextTitle>
+          <TextSubtitle
+            type={type}
+            appearance={appearance}
+            className={getClassName('bannerSubtitle', appearance)}
+          >
             {subtitle}
           </TextSubtitle>
         </TextContainer>
-        <CallToActionContainer className={getClassName('bannerCallToActionContainer', appearance)}>
+        <CallToActionContainer
+          type={type}
+          className={getClassName('bannerCallToActionContainer', appearance)}
+        >
           <Button
             title={metaData?.primaryButtonTitle ?? 'Get started'}
             appearance={appearance}
@@ -123,18 +161,24 @@ export const FrigadeBanner: React.FC<FrigadeBannerProps> = ({
             }}
           />
         </CallToActionContainer>
-        {metaData.dismissible === true && (
-          <DismissButton
-            onClick={() => {
-              markFlowCompleted(flowId)
-              if (onDismiss) {
-                onDismiss()
-              }
-            }}
-            className={getClassName('bannerDismissButton', appearance)}
+        {type !== 'square' && metaData.dismissible && (
+          <DismissButtonContainer
+            type={type}
+            className={getClassName('bannerDismissButtonContainer', appearance)}
           >
-            <CloseIcon />
-          </DismissButton>
+            <DismissButton
+              type={type}
+              onClick={() => {
+                markFlowCompleted(flowId)
+                if (onDismiss) {
+                  onDismiss()
+                }
+              }}
+              className={getClassName('bannerDismissButton', appearance)}
+            >
+              <CloseIcon />
+            </DismissButton>
+          </DismissButtonContainer>
         )}
       </BannerContainer>
     </>

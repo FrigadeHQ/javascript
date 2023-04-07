@@ -180,7 +180,7 @@ export const DefaultAppearance: Appearance = {
     colorPrimary: '#000000',
     colorText: '#000000',
     colorBackground: '#ffffff',
-    colorBackgroundSecondary: '#ffffff66',
+    colorBackgroundSecondary: '#ffffff',
     colorTextOnPrimaryBackground: '#ffffff',
     colorTextSecondary: '#505050',
     colorBorder: '#E6E6E6',
