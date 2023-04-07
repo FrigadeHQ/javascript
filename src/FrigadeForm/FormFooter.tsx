@@ -29,8 +29,8 @@ export const FormFooter: FC<FormFooterProps> = ({
   currentStep,
 }) => {
   let Container = FormCTAContainer
-  let buttonType = formType == 'corner-modal' || 'full-screen-modal' ? 'full-width' : 'inline'
-  let buttonStyleOverride: any = {}
+  let buttonType =
+    formType == 'corner-modal' || 'full-screen-modal' || 'modal' ? 'full-width' : 'inline'
 
   return (
     <Container className={getClassName('formCTAContainer', appearance)}>
@@ -39,27 +39,18 @@ export const FormFooter: FC<FormFooterProps> = ({
           title={step.secondaryButtonTitle}
           onClick={onSecondaryClick}
           secondary={true}
+          withMargin={false}
           type={buttonType}
-          style={{
-            display: 'inline-block',
-            marginRight: 12,
-            marginBottom: 0,
-            ...buttonStyleOverride,
-          }}
           appearance={appearance}
         />
       ) : null}{' '}
       {step.primaryButtonTitle ? (
         <Button
           disabled={!canContinue}
+          withMargin={false}
           title={step.primaryButtonTitle}
           onClick={onPrimaryClick}
           type={buttonType}
-          style={{
-            display: 'inline-block',
-            marginBottom: 0,
-            ...buttonStyleOverride,
-          }}
           appearance={appearance}
         />
       ) : null}

@@ -15,8 +15,6 @@ import {
   DismissButtonContainer,
   IconContainer,
   TextContainer,
-  TextSubtitle,
-  TextTitle,
 } from './styled'
 import { Info } from '../components/Icons/Info'
 import { Button } from '../components/Button'
@@ -24,6 +22,7 @@ import { CloseIcon } from '../components/CloseIcon'
 import { getClassName } from '../shared/appearance'
 import { RenderInlineStyles } from '../components/RenderInlineStyles'
 import { useCTAClickSideEffects } from '../hooks/useCTAClickSideEffects'
+import { TitleSubtitle } from '../components/TitleSubtitle/TitleSubtitle'
 
 /**
  * Frigade Banners
@@ -131,20 +130,7 @@ export const FrigadeBanner: React.FC<FrigadeBannerProps> = ({
           </DismissButtonContainer>
         )}
         <TextContainer type={type}>
-          <TextTitle
-            type={type}
-            appearance={appearance}
-            className={getClassName('bannerTitle', appearance)}
-          >
-            {title}
-          </TextTitle>
-          <TextSubtitle
-            type={type}
-            appearance={appearance}
-            className={getClassName('bannerSubtitle', appearance)}
-          >
-            {subtitle}
-          </TextSubtitle>
+          <TitleSubtitle appearance={appearance} title={title} subtitle={subtitle} />
         </TextContainer>
         <CallToActionContainer
           type={type}

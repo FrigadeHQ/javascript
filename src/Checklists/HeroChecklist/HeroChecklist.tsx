@@ -7,13 +7,16 @@ import { DefaultFrigadeFlowProps, mergeAppearanceWithDefault, StepData } from '.
 import {
   HERO_STEP_CONTENT_TYPE,
   HeroStepContent,
-} from '../../components/step-content/HeroStepContent'
+} from '../../components/checklist-step-content/HeroStepContent'
 import { StepContentProps } from '../../FrigadeForm/types'
-import { VIDEO_CAROUSEL_TYPE, VideoCarousel } from '../../components/step-content/VideoCarousel'
+import {
+  VIDEO_CAROUSEL_TYPE,
+  VideoCarousel,
+} from '../../components/checklist-step-content/VideoCarousel'
 import {
   CODE_SNIPPET_CONTENT_TYPE,
   CodeSnippetContent,
-} from '../../components/step-content/CodeSnippetContent'
+} from '../../components/checklist-step-content/CodeSnippetContent'
 
 export interface HeroChecklistProps extends DefaultFrigadeFlowProps {
   title?: string
@@ -135,7 +138,7 @@ const HeroChecklist: FC<HeroChecklistProps> = ({
       appearance: appearance,
     })
   }
-  
+
   return (
     <HeroChecklistContainer style={style} className={className} appearance={appearance}>
       <ChecklistHeader style={{ flex: 1 }}>

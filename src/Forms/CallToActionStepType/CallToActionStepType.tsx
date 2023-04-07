@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { CustomFormTypeProps, FormInputType } from '../../FrigadeForm/types'
 import { getClassName, getCustomClassOverrides } from '../../shared/appearance'
+import { TitleSubtitle } from '../../components/TitleSubtitle/TitleSubtitle'
 
 interface CallToActionStepProps {
   data?: FormInputType[]
@@ -16,25 +17,18 @@ const CallToActionStepContainer = styled.div`
   }
 `
 
-const HeaderTitle = styled.h1`
+const CallToActionImage = styled.img`
   :not(${(props) => getCustomClassOverrides(props)}) {
-    font-style: normal;
-    font-weight: 590;
-    font-size: 16px;
-    line-height: 19px;
-    display: flex;
-    align-items: center;
+    width: 100%;
+    height: auto;
+    max-height: 250px;
+    margin-bottom: 32px;
   }
 `
 
-const HeaderSubtitle = styled.h2`
+const CallToActionTextContainer = styled.div`
   :not(${(props) => getCustomClassOverrides(props)}) {
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 24px;
-    margin-top: 12px;
-    margin-bottom: 16px;
+    margin-bottom: 28px;
   }
 `
 
@@ -44,14 +38,22 @@ export function CallToActionStepType({
   setCanContinue,
 }: CustomFormTypeProps) {
   setCanContinue(true)
+
   return (
     <CallToActionStepContainer className={getClassName('callToActionContainer', appearance)}>
-      <HeaderTitle className={getClassName('callToActionTitle', appearance)}>
-        {stepData.title}
-      </HeaderTitle>
-      <HeaderSubtitle className={getClassName('callToActionSubtitle', appearance)}>
-        {stepData.subtitle}
-      </HeaderSubtitle>
+      <CallToActionTextContainer className={getClassName('callToActionTextContainer', appearance)}>
+        <TitleSubtitle
+          appearance={appearance}
+          title={stepData.title}
+          subtitle={stepData.subtitle}
+        />
+      </CallToActionTextContainer>
+      {stepData.imageUri && (
+        <CallToActionImage
+          className={getClassName('callToActionImage', appearance)}
+          src={stepData.imageUri}
+        />
+      )}
     </CallToActionStepContainer>
   )
 }

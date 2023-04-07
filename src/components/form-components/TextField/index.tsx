@@ -21,7 +21,7 @@ const TextInputWrapper = styled.div`
 const TextInput = styled.input`
   :not(${(props) => getCustomClassOverrides(props)}) {
     // Anything inside this block will be ignored if the user provides a custom class
-    border: 1px solid #e5e5e5;
+    border: 1px solid ${(props) => props.appearance?.theme?.colorBorder};
     font-size: 14px;
     ::placeholder {
       color: #c7c7c7;
@@ -38,9 +38,9 @@ const TextInput = styled.input`
 const TextArea = styled.textarea`
   :not(${(props) => getCustomClassOverrides(props)}) {
     // Anything inside this block will be ignored if the user provides a custom class
-    border: 1px solid #e5e5e5;
+    border: 1px solid ${(props) => props.appearance?.theme?.colorBorder};
     font-size: 14px;
-    padding-top: 10px;
+    padding: 10px;
     ::placeholder {
       color: #c7c7c7;
       font-size: 14px;
@@ -102,6 +102,7 @@ export function TextField({
         onChange={(e) => {
           handleDataChange(e.target.value)
         }}
+        appearance={customFormTypeProps.appearance}
         placeholder={input.placeholder}
       ></InputComponent>
     </TextInputWrapper>

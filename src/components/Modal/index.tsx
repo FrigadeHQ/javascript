@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import { ModalBackground } from './ModalBackground'
 import { CloseIcon } from '../CloseIcon'
-import { getClassName, getCustomClassOverrides } from '../../shared/appearance'
+import { getClassName, getCustomClassOverrides, styleOverridesToCSS } from '../../shared/appearance'
 import { Appearance } from '../../types'
 import { Portal } from 'react-portal'
 
@@ -19,20 +19,16 @@ const ModalContainer = styled.div<{ appearance; maxWidth }>`
       left: 50%;
     }
 
-    @media (min-width: 501px) {
-      width: 90%;
-    }
-
-    @media (min-width: 1000px) {
-      width: 1000px;
-    }
     width: ${(props) => props.width ?? '1000px'};
 
     z-index: 1500;
 
     border-radius: ${(props) => props.appearance?.theme?.borderRadius ?? 8}px;
+
+    ${(props) => styleOverridesToCSS(props)}
   }
-  padding: 32px 32px 24px 32px;
+
+  padding: 32px;
 
   position: fixed;
   left: 50%;
@@ -137,7 +133,7 @@ export const Modal: FC<ModalProps> = ({
       <ModalContainer
         appearance={appearance}
         className={getClassName('modalContainer', appearance)}
-        style={style}
+        styleOverrides={style}
       >
         {dismissible && (
           <ModalClose

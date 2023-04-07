@@ -12,6 +12,7 @@ interface ButtonProps {
   type?: 'full-width' | 'inline'
   secondary?: boolean
   appearance?: Appearance
+  withMargin?: boolean
 }
 
 const ButtonContainer = styled.button`
@@ -21,7 +22,9 @@ const ButtonContainer = styled.button`
     display: flex;
     // Anything inside this block will be ignored if the user provides a custom class
     width: ${(props) => (props.type === 'full-width' ? '100%' : 'auto')};
-    margin: 16px 0px 16px 0px;
+    // Only add margin if prop withMargin is true
+    ${(props) => (props.withMargin ? 'margin: 16px 0px 16px 0px;' : '')}
+
     border: 1px solid ${(props) => props.appearance?.theme?.colorPrimary};
     color: ${(props) =>
       props.secondary
@@ -33,14 +36,14 @@ const ButtonContainer = styled.button`
         : props?.appearance?.theme?.colorPrimary};
     border-radius: ${(props) => props.appearance?.theme?.borderRadius}px;
     padding: 8px 20px 8px 20px;
-    font-size: 13px;
+    font-size: 15px;
     line-height: 20px;
     font-weight: 500;
   }
 
   cursor: pointer;
   :hover {
-    opacity: 0.9;
+    opacity: 0.8;
   }
   :disabled {
     opacity: 0.3;
@@ -69,6 +72,7 @@ export const Button: FC<ButtonProps> = ({
   type = 'inline',
   secondary = false,
   appearance = DefaultAppearance,
+  withMargin = true,
 }) => {
   return (
     <ButtonContainer
@@ -78,6 +82,7 @@ export const Button: FC<ButtonProps> = ({
       onClick={onClick}
       style={style}
       type={type}
+      withMargin={withMargin}
       className={getClassName(secondary ? 'buttonSecondary' : 'button', appearance)}
     >
       {title}

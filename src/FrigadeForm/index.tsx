@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { CSSProperties, FC, useEffect, useState } from 'react'
 
 import {
   FormContainer,
@@ -246,20 +246,26 @@ export const FrigadeForm: FC<FormProps> = ({
               />
             </FormContainerWrapper>
           </FormContainerMain>
-          <FormContainerSidebar selectedStep={steps[selectedStep]} />
+          {type == 'full-screen-modal' && (
+            <FormContainerSidebar selectedStep={steps[selectedStep]} />
+          )}
         </FormContainer>
       </>
     )
   }
 
   if (type === 'modal' || type === 'full-screen-modal') {
-    const overrideStyle: any = {}
+    const overrideStyle: CSSProperties = {
+      padding: '24px',
+    }
     if (type === 'full-screen-modal') {
       overrideStyle.width = '85%'
       overrideStyle.height = '90%'
       overrideStyle.maxHeight = '800px'
       overrideStyle.minHeight = '500px'
       overrideStyle.padding = '0'
+    } else {
+      overrideStyle.width = '400px'
     }
     return (
       <Modal

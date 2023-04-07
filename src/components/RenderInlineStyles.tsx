@@ -1,22 +1,23 @@
 import React from 'react'
 import { Appearance } from '../types'
 import { createGlobalStyle } from 'styled-components'
-import { CUSTOM_CSS_STYLES_PREFIX } from '../shared/appearance'
+import { CUSTOM_CSS_STYLES_PREFIX, toKebabKey } from '../shared/appearance'
 
 const GlobalStyleComponent = createGlobalStyle`
-${props => props.inlineStyles
-  .map(([key, value]) => {
-    return `.${CUSTOM_CSS_STYLES_PREFIX}${key}.${CUSTOM_CSS_STYLES_PREFIX}${key} { ${Object.entries(
-      value
-    )
-      .map(([key, value]) => {
-        let kebabKey = key.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase()
+${(props) =>
+  props.inlineStyles
+    .map(([key, value]) => {
+      return `.${CUSTOM_CSS_STYLES_PREFIX}${key}.${CUSTOM_CSS_STYLES_PREFIX}${key} { ${Object.entries(
+        value
+      )
+        .map(([key, value]) => {
+          let kebabKey = toKebabKey(key)
 
-        return `${kebabKey}: ${value};`
-      })
-      .join(' ')} }`
-  })
-  .join(' ')}`
+          return `${kebabKey}: ${value};`
+        })
+        .join(' ')} }`
+    })
+    .join(' ')}`
 
 export function RenderInlineStyles({ appearance }: { appearance?: Appearance }) {
   if (!appearance || !appearance.styleOverrides) {
@@ -35,7 +36,6 @@ export function RenderInlineStyles({ appearance }: { appearance?: Appearance }) 
   if (inlineStyles.length === 0) {
     return <></>
   }
-
 
   return <GlobalStyleComponent inlineStyles={inlineStyles} />
 }

@@ -31,7 +31,7 @@ const MultipleChoiceWrapper = styled.div`
 const MultipleChoiceSelect = styled.select`
   :not(${(props) => getCustomClassOverrides(props)}) {
     // Anything inside this block will be ignored if the user provides a custom class
-    border: 1px solid #e5e5e5;
+    border: 1px solid ${(props) => props.appearance?.theme?.colorBorder};
     font-size: 14px;
     ::placeholder {
       color: #c7c7c7;
@@ -95,6 +95,7 @@ export function MultipleChoice({
           onSaveInputData({ choice: [e.target.value] })
         }}
         placeholder={input.placeholder}
+        appearance={customFormTypeProps.appearance}
         className={getClassName('multipleChoiceSelect', customFormTypeProps.appearance)}
       >
         {input.props.options?.map((option) => {

@@ -9,6 +9,7 @@ import {
 import { TextField } from '../../components/form-components/TextField'
 import { MultipleChoice } from '../../components/form-components/MultipleChoice'
 import { MultipleChoiceList } from '../../components/form-components/MultipleChoiceList'
+import { TitleSubtitle } from '../../components/TitleSubtitle/TitleSubtitle'
 
 interface MultiInputStepProps {
   data?: FormInputType[]
@@ -21,23 +22,6 @@ const MultiInputContainer = styled.div`
   justify-content: flex-end;
 `
 
-const HeaderTitle = styled.h1`
-  font-style: normal;
-  font-weight: 590;
-  font-size: 16px;
-  line-height: 19px;
-  display: flex;
-  align-items: center;
-`
-
-const HeaderSubtitle = styled.h2`
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 24px;
-  margin-top: 12px;
-  margin-bottom: 16px;
-`
 const DEFAULT_INPUT_TYPES: { [key: string]: (params: FormInputProps) => React.ReactNode } = {
   text: TextField,
   multipleChoice: MultipleChoice,
@@ -70,8 +54,7 @@ export function MultiInputStepType({
 
   return (
     <div>
-      <HeaderTitle>{stepData.title}</HeaderTitle>
-      <HeaderSubtitle>{stepData.subtitle}</HeaderSubtitle>
+      <TitleSubtitle appearance={appearance} title={stepData.title} subtitle={stepData.subtitle} />
       <MultiInputContainer>
         {formElements.data?.map((input: FormInputType) =>
           DEFAULT_INPUT_TYPES[input.type] ? (

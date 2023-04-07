@@ -43,3 +43,24 @@ export function getCustomClassOverrides(props: any) {
     })
     .join(', ')
 }
+
+export function toKebabKey(key: string) {
+  return key.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase()
+}
+
+export function styleOverridesToCSS(props: any) {
+  console.log(
+    'new css',
+    props?.styleOverrides
+      ? Object.keys(props.styleOverrides)
+          .map((key) => `${toKebabKey(key)}: ${props.styleOverrides[key]};`)
+          .join(' ')
+      : ''
+  )
+
+  return props?.styleOverrides
+    ? Object.keys(props.styleOverrides)
+        .map((key) => `${toKebabKey(key)}: ${props.styleOverrides[key]};`)
+        .join(' ')
+    : ''
+}
