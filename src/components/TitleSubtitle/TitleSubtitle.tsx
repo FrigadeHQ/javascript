@@ -49,7 +49,7 @@ export function TitleSubtitle({
       />
       <HeaderSubtitle
         appearance={appearance}
-        className={getClassName(`${size}Title`, appearance)}
+        className={getClassName(`${size}Subtitle`, appearance)}
         dangerouslySetInnerHTML={sanitize(subtitle)}
         size={size}
       />
