@@ -24,22 +24,8 @@ export const TextContainer = styled.div`
   flex-direction: column;
   flex: 1;
   margin-left: ${(props) => (props.type === 'square' ? '0px' : '16px')};
+  margin-top: ${(props) => (props.type === 'square' ? '12px' : '0')};
 `
-
-export const TextTitle = styled.div`
-  font-size: ${(props) => (props.type === 'square' ? '14px' : '16px')};
-  font-weight: 600;
-  line-height: ${(props) => (props.type === 'square' ? '20px' : '24px')};
-  color: ${(props) => props.appearance.theme.colorText};
-  margin-bottom: ${(props) => (props.type === 'square' ? '8px' : '0')};
-`
-
-export const TextSubtitle = styled.div`
-  font-size: ${(props) => (props.type === 'square' ? '14px' : '14px')};
-  line-height: 20px;
-  color: ${(props) => props.appearance.theme.colorText};
-`
-
 export const CallToActionContainer = styled.div`
   display: flex;
   flex-direction: column;

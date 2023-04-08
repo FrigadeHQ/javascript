@@ -188,7 +188,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
     if (onStepCompletion) {
       onStepCompletion(step, idx, maybeNextStep)
     }
-    if (!onStepCompletion && !onButtonClick) {
+    if (!onStepCompletion && !onButtonClick && (step.primaryButtonUri || step.secondaryButtonUri)) {
       if (isModal) {
         setOpenFlowState(flowId, false)
       }

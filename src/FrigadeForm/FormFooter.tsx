@@ -29,8 +29,7 @@ export const FormFooter: FC<FormFooterProps> = ({
   currentStep,
 }) => {
   let Container = FormCTAContainer
-  let buttonType =
-    formType == 'corner-modal' || 'full-screen-modal' || 'modal' ? 'full-width' : 'inline'
+  let buttonType = formType == 'corner-modal' || 'large-modal' || 'modal' ? 'full-width' : 'inline'
 
   return (
     <Container className={getClassName('formCTAContainer', appearance)}>

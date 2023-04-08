@@ -9,11 +9,12 @@ const HeaderTitle = styled.h1`
   :not(${(props) => getCustomClassOverrides(props)}) {
     font-style: normal;
     font-weight: 600;
-    font-size: 17px;
+    font-size: 18px;
     line-height: 22px;
     display: flex;
     align-items: center;
     margin-bottom: 8px;
+    color: ${(props) => props.appearance.theme.colorText};
   }
 `
 
@@ -31,22 +32,26 @@ export function TitleSubtitle({
   appearance,
   title,
   subtitle,
+  size = 'medium',
 }: {
   appearance: Appearance
   title: string
   subtitle: string
+  size?: 'small' | 'medium' | 'large'
 }) {
   return (
     <>
       <HeaderTitle
         appearance={appearance}
-        className={getClassName('title', appearance)}
+        className={getClassName(`${size}Title`, appearance)}
         dangerouslySetInnerHTML={sanitize(title)}
+        size={size}
       />
       <HeaderSubtitle
         appearance={appearance}
-        className={getClassName('subtitle', appearance)}
+        className={getClassName(`${size}Title`, appearance)}
         dangerouslySetInnerHTML={sanitize(subtitle)}
+        size={size}
       />
     </>
   )

@@ -3,26 +3,26 @@ import styled from 'styled-components'
 import { Portal } from 'react-portal'
 import { Appearance } from '../../types'
 import { getClassName, getCustomClassOverrides } from '../../shared/appearance'
-import { CloseIcon } from '../CloseIcon'
+import { Close } from '../Icons/Close'
 
 const CornerModalContainer = styled.div`
   :not(${(props) => getCustomClassOverrides(props)}) {
     // Anything inside this block will be ignored if the user provides a custom class
     background: #ffffff;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    margin-right: 28px;
+    margin-bottom: 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    z-index: 1500;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    width: 350px;
+    padding: 24px;
   }
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  margin-right: 28px;
-  margin-bottom: 28px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  z-index: 51;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-  border-radius: 12px;
-  width: 300px;
-  padding: 50px 16px 16px;
 `
 
 const CornerModalHeader = styled.div`
@@ -32,12 +32,12 @@ const CornerModalHeader = styled.div`
 
 const CornerModalClose = styled.div`
   position: absolute;
-  top: 16px;
-  right: 16px;
+  top: 24px;
+  right: 24px;
   cursor: pointer;
   :not(${(props) => getCustomClassOverrides(props)}) {
     // Anything inside this block will be ignored if the user provides a custom class
-    color: #000000;
+    color: ${(props) => props.appearance?.theme?.colorText};
   }
 `
 
@@ -62,7 +62,6 @@ export const CornerModal: FC<CornerModalProps> = ({
   onClose,
   visible,
   headerContent = null,
-  style = null,
   children,
   appearance,
 }) => {
@@ -90,15 +89,12 @@ export const CornerModal: FC<CornerModalProps> = ({
 
   return (
     <Portal>
-      <CornerModalContainer
-        className={getClassName('cornerModalContainer', appearance)}
-        style={style}
-      >
+      <CornerModalContainer className={getClassName('cornerModalContainer', appearance)}>
         <CornerModalClose
           className={getClassName('cornerModalClose', appearance)}
           onClick={() => onClose()}
         >
-          <CloseIcon />
+          <Close />
         </CornerModalClose>
         {headerContent && <CornerModalHeader>{headerContent}</CornerModalHeader>}
         <Body>{children}</Body>

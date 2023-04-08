@@ -2,10 +2,12 @@ import React, { FC, useEffect } from 'react'
 import styled from 'styled-components'
 
 import { ModalBackground } from './ModalBackground'
-import { CloseIcon } from '../CloseIcon'
+import { Close } from '../Icons/Close'
 import { getClassName, getCustomClassOverrides, styleOverridesToCSS } from '../../shared/appearance'
 import { Appearance } from '../../types'
 import { Portal } from 'react-portal'
+
+export type ModalPosition = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' | 'center'
 
 const ModalContainer = styled.div<{ appearance; maxWidth }>`
   :not(${(props) => getCustomClassOverrides(props)}) {
@@ -60,8 +62,8 @@ const ModalHeader = styled.div`
 
 const ModalClose = styled.div<{ appearance }>`
   position: absolute;
-  top: 16px;
-  right: 16px;
+  top: 24px;
+  right: 24px;
   cursor: pointer;
   :not(${(props) => getCustomClassOverrides(props)}) {
     // Anything inside this block will be ignored if the user provides a custom class
@@ -141,7 +143,7 @@ export const Modal: FC<ModalProps> = ({
             onClick={() => onClose()}
             appearance={appearance}
           >
-            <CloseIcon />
+            <Close />
           </ModalClose>
         )}
         {headerContent && <ModalHeader>{headerContent}</ModalHeader>}

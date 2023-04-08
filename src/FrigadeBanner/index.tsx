@@ -13,7 +13,7 @@ import {
 } from './styled'
 import { Info } from '../components/Icons/Info'
 import { Button } from '../components/Button'
-import { CloseIcon } from '../components/CloseIcon'
+import { Close } from '../components/Icons/Close'
 import { getClassName } from '../shared/appearance'
 import { RenderInlineStyles } from '../components/RenderInlineStyles'
 import { useCTAClickSideEffects } from '../hooks/useCTAClickSideEffects'
@@ -123,7 +123,7 @@ export const FrigadeBanner: React.FC<FrigadeBannerProps> = ({
               }}
               className={getClassName('bannerDismissButton', appearance)}
             >
-              <CloseIcon />
+              <Close />
             </DismissButton>
           </DismissButtonContainer>
         )}
@@ -160,7 +160,7 @@ export const FrigadeBanner: React.FC<FrigadeBannerProps> = ({
               }}
               className={getClassName('bannerDismissButton', appearance)}
             >
-              <CloseIcon />
+              <Close />
             </DismissButton>
           </DismissButtonContainer>
         )}

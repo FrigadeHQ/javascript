@@ -1,24 +1,22 @@
 import React, { CSSProperties, FC, useEffect, useLayoutEffect, useRef, useState } from 'react'
 
 import { Button } from '../components/Button'
-import { CloseIcon } from '../components/CloseIcon'
+import { Close } from '../components/Icons/Close'
 import styled from 'styled-components'
 import { getPosition } from './position'
 import {
   TooltipContainer,
   TooltipCTAContainer,
+  TooltipDismissContainer,
   TooltipFooter,
-  TooltipHeader,
   TooltipStepCountContainer,
   TooltipStepCounter,
-  TooltipSubtitle,
-  TooltipTitle,
 } from './styled'
 import { Appearance, DefaultFrigadeFlowProps, StepData } from '../types'
 
 import { useElemRect } from '@reactour/utils'
 import { getClassName } from '../shared/appearance'
-import { sanitize } from '../shared/sanitizer'
+import { TitleSubtitle } from '../components/TitleSubtitle/TitleSubtitle'
 
 export type ToolTipPosition = 'left' | 'right' | 'auto'
 
@@ -40,10 +38,6 @@ export interface ToolTipProps extends DefaultFrigadeFlowProps {
   tooltipPosition?: ToolTipPosition
   showHighlight?: boolean
   showTooltipsSimultaneously?: boolean
-  /**
-   * @deprecated Use `appearance` instead
-   */
-  primaryColor?: string
   buttonStyle?: CSSProperties
 
   elem?: any // initial element to focus
@@ -273,40 +267,25 @@ const Tooltips: FC<ToolTipProps> = ({
   const DefaultTooltipStepContent = () => {
     return (
       <>
-        <TooltipHeader className={getClassName('tooltipHeader', appearance)}>
-          <TooltipTitle
-            className={getClassName('tooltipTitle', appearance)}
-            appearance={appearance}
-            dangerouslySetInnerHTML={sanitize(steps[selectedStep].title)}
-          />
-          {dismissible && (
-            <div
-              data-testid="tooltip-dismiss"
-              onClick={() => {
-                if (onDismiss) {
-                  onDismiss()
-                }
-              }}
-              style={{
-                height: '100%',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                display: 'flex',
-                cursor: 'pointer',
-              }}
-              className={getClassName('tooltipClose', appearance)}
-            >
-              <CloseIcon />
-            </div>
-          )}
-        </TooltipHeader>
-        <div className="Tooltip-Body">
-          <TooltipSubtitle
-            className={getClassName('tooltipBody', appearance)}
-            appearance={appearance}
-            dangerouslySetInnerHTML={sanitize(steps[selectedStep].subtitle)}
-          />
-        </div>
+        {dismissible && (
+          <TooltipDismissContainer
+            data-testid="tooltip-dismiss"
+            onClick={() => {
+              if (onDismiss) {
+                onDismiss()
+              }
+            }}
+            className={getClassName('tooltipClose', appearance)}
+          >
+            <Close />
+          </TooltipDismissContainer>
+        )}
+        <TitleSubtitle
+          appearance={appearance}
+          title={steps[selectedStep].title}
+          subtitle={steps[selectedStep].subtitle}
+        />
+
         <TooltipFooter className={getClassName('tooltipFooter', appearance)}>
           <DefaultFooterContent />
         </TooltipFooter>

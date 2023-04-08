@@ -10,15 +10,9 @@ export const FormContainer = styled.div`
   flex: 1 1;
 `
 
-export const FormCTASplitContainer = styled.div`
-  display: flex;
-  width: 50%;
-  justify-content: center;
-  align-content: center;
-`
 export const FormContainerMain = styled.div`
   display: flex;
-  // If type is set to full-screen-modal, use padding 60px horizontal, 80px vertical
+  // If type is set to large-modal, use padding 60px horizontal, 80px vertical
   // Otherwise, use 4px padding
   flex-direction: column;
   flex-grow: 1;
@@ -26,7 +20,7 @@ export const FormContainerMain = styled.div`
 `
 
 export const FormContainerWrapper = styled.div`
-  padding: ${(props) => (props.type === 'full-screen-modal' ? '50px' : '4px')};
+  padding: ${(props) => (props.type === 'large-modal' ? '50px' : '0px')};
 `
 
 export const FormContainerSidebarImage = styled.div`

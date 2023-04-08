@@ -11,7 +11,7 @@ import { DefaultFrigadeFlowProps, StepData } from '../types'
 import { useFlows } from '../api/flows'
 import { COMPLETED_FLOW, STARTED_FLOW } from '../api/common'
 import { LinkCollectionStepType } from '../Forms/LinkCollectionStepType'
-import { Modal } from '../components/Modal'
+import { Modal, ModalPosition } from '../components/Modal'
 import { CornerModal } from '../components/CornerModal'
 import { MultiInputStepType } from '../Forms/MultiInputStepType/MultiInputStepType'
 import { CustomFormTypeProps } from './types'
@@ -23,7 +23,7 @@ import { RenderInlineStyles } from '../components/RenderInlineStyles'
 import { useCTAClickSideEffects } from '../hooks/useCTAClickSideEffects'
 import { useTheme } from '../hooks/useTheme'
 
-export type FrigadeFormType = 'inline' | 'modal' | 'corner-modal' | 'full-screen-modal'
+export type FrigadeFormType = 'inline' | 'modal' | 'large-modal'
 
 export interface FormProps extends DefaultFrigadeFlowProps {
   title?: string
@@ -36,6 +36,8 @@ export interface FormProps extends DefaultFrigadeFlowProps {
   onComplete?: () => void
   dismissible?: boolean
   repeatable?: boolean
+  endFlowOnDismiss?: boolean
+  modalPosition?: ModalPosition
 }
 
 export const FrigadeForm: FC<FormProps> = ({
@@ -53,6 +55,8 @@ export const FrigadeForm: FC<FormProps> = ({
   onStepCompletion,
   onButtonClick,
   dismissible = true,
+  endFlowOnDismiss = false,
+  modalPosition = 'center',
 }) => {
   const {
     getFlow,
@@ -64,6 +68,7 @@ export const FrigadeForm: FC<FormProps> = ({
     customVariables: existingCustomVariables,
     getFlowStatus,
     getCurrentStepIndex,
+    markFlowCompleted,
   } = useFlows()
   const { mergeAppearanceWithDefault } = useTheme()
 
@@ -147,6 +152,13 @@ export const FrigadeForm: FC<FormProps> = ({
 
   if (getFlowStatus(flowId) === COMPLETED_FLOW && hideOnFlowCompletion) {
     return null
+  }
+
+  const handleClose = () => {
+    setShowModal(false)
+    if (endFlowOnDismiss === true) {
+      markFlowCompleted(flowId)
+    }
   }
 
   function FormContent() {
@@ -240,19 +252,17 @@ export const FrigadeForm: FC<FormProps> = ({
               />
             </FormContainerWrapper>
           </FormContainerMain>
-          {type == 'full-screen-modal' && (
-            <FormContainerSidebar selectedStep={steps[selectedStep]} />
-          )}
+          {type == 'large-modal' && <FormContainerSidebar selectedStep={steps[selectedStep]} />}
         </FormContainer>
       </>
     )
   }
 
-  if (type === 'modal' || type === 'full-screen-modal') {
+  if ((modalPosition == 'center' && type === 'modal') || type === 'large-modal') {
     const overrideStyle: CSSProperties = {
       padding: '24px',
     }
-    if (type === 'full-screen-modal') {
+    if (type === 'large-modal') {
       overrideStyle.width = '85%'
       overrideStyle.height = '90%'
       overrideStyle.maxHeight = '800px'
@@ -264,7 +274,7 @@ export const FrigadeForm: FC<FormProps> = ({
     return (
       <Modal
         appearance={appearance}
-        onClose={() => setShowModal(false)}
+        onClose={handleClose}
         visible={showModal}
         style={overrideStyle}
         dismissible={dismissible}
@@ -274,9 +284,9 @@ export const FrigadeForm: FC<FormProps> = ({
     )
   }
 
-  if (type === 'corner-modal') {
+  if (type === 'modal' && modalPosition !== 'center') {
     return (
-      <CornerModal appearance={appearance} onClose={() => setShowModal(false)} visible={showModal}>
+      <CornerModal appearance={appearance} onClose={handleClose} visible={showModal}>
         <FormContent />
       </CornerModal>
     )

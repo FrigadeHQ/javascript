@@ -10,36 +10,15 @@ export const TooltipContainer = styled.div<{ maxWidth: number; appearance: Appea
   border-radius: 20px;
   max-width: ${(props) => props.maxWidth}px;
   min-width: 300px;
-  padding: 10px 18px 6px 18px;
+  padding: 24px 22px 6px 22px;
   z-index: 100;
 `
 
-export const TooltipHeader = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-content: flex-start;
-  margin-bottom: 12px;
-  margin-top: 12px;
-  margin-right: 12px;
-`
-
-export const TooltipTitle = styled.h2<{ appearance }>`
-  display: flex;
-  margin: 0;
-  :not(${(props) => getCustomClassOverrides(props)}) {
-    font-size: 17px;
-    font-weight: 600;
-    color: ${(props) => props.appearance?.theme?.colorText};
-  }
-`
-
-export const TooltipSubtitle = styled.p<{}>`
-  :not(${(props) => getCustomClassOverrides(props)}) {
-    font-size: 15px;
-    font-weight: 400;
-    color: ${(props) => props.appearance?.theme?.colorTextSecondary};
-  }
+export const TooltipDismissContainer = styled.div`
+  display: block;
+  cursor: pointer;
+  position: absolute;
+  right: 22px;
 `
 
 export const TooltipFooter = styled.div`

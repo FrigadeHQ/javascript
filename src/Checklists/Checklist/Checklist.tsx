@@ -1,5 +1,5 @@
 import React, { CSSProperties, FC } from 'react'
-import { CloseIcon } from '../../components/CloseIcon'
+import { Close } from '../../components/Icons/Close'
 import { CheckBoxRow } from '../../components/CheckBoxRow'
 
 import { ProgressBar } from './Progress'
@@ -47,7 +47,8 @@ const Checklist: FC<ChecklistProps> = ({
   style = {},
 }) => {
   const completeCount = steps.filter((s) => s.complete).length
-  const positionStyle = displayMode === 'Modal' ? getPositionStyle(position as CheckListPosition, positionOffset) : {}
+  const positionStyle =
+    displayMode === 'Modal' ? getPositionStyle(position as CheckListPosition, positionOffset) : {}
 
   const wrapperDisplayModeStyle =
     displayMode === 'Modal'
@@ -71,7 +72,7 @@ const Checklist: FC<ChecklistProps> = ({
                 display: 'flex',
               }}
             >
-              <CloseIcon />
+              <Close />
             </div>
           )}
         </ChecklistHeaderTop>

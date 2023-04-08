@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { CustomFormTypeProps, FormInputType } from '../../FrigadeForm/types'
 import { getClassName, getCustomClassOverrides } from '../../shared/appearance'
@@ -22,13 +22,13 @@ const CallToActionImage = styled.img`
     width: 100%;
     height: auto;
     max-height: 250px;
-    margin-bottom: 32px;
+    margin-bottom: 24px;
   }
 `
 
 const CallToActionTextContainer = styled.div`
   :not(${(props) => getCustomClassOverrides(props)}) {
-    margin-bottom: 28px;
+    margin-bottom: 24px;
   }
 `
 
@@ -37,7 +37,9 @@ export function CallToActionStepType({
   appearance,
   setCanContinue,
 }: CustomFormTypeProps) {
-  setCanContinue(true)
+  useEffect(() => {
+    setCanContinue(true)
+  }, [])
 
   return (
     <CallToActionStepContainer className={getClassName('callToActionContainer', appearance)}>

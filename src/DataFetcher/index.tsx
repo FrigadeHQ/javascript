@@ -1,11 +1,12 @@
 import React, { FC, useContext, useEffect, useState } from 'react'
-import { Flow, FlowType, TriggerType } from '../api/flows'
+import { Flow, FlowType, TriggerType, useFlows } from '../api/flows'
 import { FrigadeContext } from '../FrigadeProvider'
 import { GUEST_PREFIX, useUser } from '../api/users'
 import { v4 as uuidv4 } from 'uuid'
 import { useFlowResponses } from '../api/flow-responses'
-import { FrigadeChecklist } from '../FrigadeChecklist'
-import { PublicUserFlowState, useUserFlowStates } from '../api/user-flow-states'
+import { useUserFlowStates } from '../api/user-flow-states'
+import FrigadeForm from '../FrigadeForm'
+import { NOT_STARTED_FLOW } from '../api/common'
 
 interface DataFetcherProps {}
 
@@ -17,15 +18,28 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
   const { userFlowStatesData, isLoadingUserFlowStateData } = useUserFlowStates()
   const { userId, setUserId } = useUser()
   const [lastUserId, setLastUserId] = useState<string | null>(null)
-  const { flows, userProperties, setIsLoading, setIsLoadingUserState, setIsNewGuestUser } =
-    useContext(FrigadeContext)
+  const { getFlowStatus } = useFlows()
+  const { flows, userProperties, setIsNewGuestUser } = useContext(FrigadeContext)
   const [automaticFlowIdsToTrigger, setAutomaticFlowIdsToTrigger] = useState<Flow[]>([])
 
   useEffect(() => {
     if (!isLoadingUserFlowStateData) {
       if (userFlowStatesData) {
         for (let i = 0; i < userFlowStatesData.length; i++) {
-          syncFlowStates(userFlowStatesData[i])
+          const flowState = userFlowStatesData[i]
+          const flow = flows.find((flow) => flow.slug === flowState?.flowId)
+          if (
+            flow &&
+            flowState &&
+            flowState.shouldTrigger === true &&
+            flow.type == FlowType.FORM &&
+            flow.triggerType === TriggerType.AUTOMATIC
+          ) {
+            // If the flow should be triggered, trigger it
+            triggerFlow(flowState.flowId)
+            // We only want to trigger one at a time
+            break
+          }
         }
       }
     }
@@ -36,13 +50,6 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
     if (flow && flow.triggerType === TriggerType.AUTOMATIC) {
       // We only trigger one at a time
       setAutomaticFlowIdsToTrigger([flow])
-    }
-  }
-
-  function syncFlowStates(flowState: PublicUserFlowState) {
-    if (flowState && flowState.shouldTrigger) {
-      // If the flow should be triggered, trigger it
-      triggerFlow(flowState.flowId)
     }
   }
 
@@ -103,13 +110,22 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
   function AutomaticFlowIdsToTrigger() {
     return (
       <>
-        {automaticFlowIdsToTrigger.map((flow) =>
-          flow.type === FlowType.CHECKLIST && flow.triggerType == TriggerType.AUTOMATIC ? (
+        {automaticFlowIdsToTrigger.map((flow) => {
+          if (getFlowStatus(flow.slug) !== NOT_STARTED_FLOW) {
+            return null
+          }
+
+          return (
             <span key={flow.slug}>
-              <FrigadeChecklist flowId={flow.slug} type={'modal'} />
+              <FrigadeForm
+                flowId={flow.slug}
+                type={'modal'}
+                modalPosition={'bottom-right'}
+                endFlowOnDismiss={true}
+              />
             </span>
-          ) : null
-        )}
+          )
+        })}
       </>
     )
   }
