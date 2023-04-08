@@ -8,12 +8,8 @@ import { Close } from '../Icons/Close'
 const CornerModalContainer = styled.div`
   :not(${(props) => getCustomClassOverrides(props)}) {
     // Anything inside this block will be ignored if the user provides a custom class
-    background: #ffffff;
+    background: ${(props) => props.appearance?.theme?.colorBackground};
     position: fixed;
-    right: 0;
-    bottom: 0;
-    margin-right: 28px;
-    margin-bottom: 28px;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -23,6 +19,10 @@ const CornerModalContainer = styled.div`
     width: 350px;
     padding: 24px;
   }
+  right: 0;
+  bottom: 0;
+  margin-right: 28px;
+  margin-bottom: 28px;
 `
 
 const CornerModalHeader = styled.div`
@@ -89,7 +89,10 @@ export const CornerModal: FC<CornerModalProps> = ({
 
   return (
     <Portal>
-      <CornerModalContainer className={getClassName('cornerModalContainer', appearance)}>
+      <CornerModalContainer
+        appearance={appearance}
+        className={getClassName('cornerModalContainer', appearance)}
+      >
         <CornerModalClose
           className={getClassName('cornerModalClose', appearance)}
           onClick={() => onClose()}
