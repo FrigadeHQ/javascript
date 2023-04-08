@@ -1,5 +1,5 @@
 import { API_PREFIX, COMPLETED_FLOW, STARTED_FLOW, useConfig } from './common'
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { FrigadeContext } from '../FrigadeProvider'
 import useSWR from 'swr'
 
@@ -23,6 +23,7 @@ export function useUserFlowStates(): {
 } {
   const { config } = useConfig()
   const { publicApiKey, userId, flows, isNewGuestUser } = useContext(FrigadeContext)
+  const [hasFinishedInitialLoad, setHasFinishedInitialLoad] = useState(false)
   const fetcher = (url) => fetch(url, config).then((r) => r.json())
   const {
     data,
@@ -38,8 +39,13 @@ export function useUserFlowStates(): {
       keepPreviousData: true,
     }
   )
-
   const userFlowStatesData = data?.data
+
+  useEffect(() => {
+    if (!hasFinishedInitialLoad && !isLoadingUserFlowStateData && userFlowStatesData) {
+      setHasFinishedInitialLoad(true)
+    }
+  }, [userFlowStatesData, hasFinishedInitialLoad, isLoadingUserFlowStateData])
 
   function optimisticallyMarkFlowCompleted(flowId: string) {
     if (userFlowStatesData) {
@@ -61,7 +67,7 @@ export function useUserFlowStates(): {
 
   return {
     userFlowStatesData,
-    isLoadingUserFlowStateData,
+    isLoadingUserFlowStateData: !hasFinishedInitialLoad,
     mutateUserFlowState,
     optimisticallyMarkFlowCompleted,
     optimisticallyMarkFlowStarted,
