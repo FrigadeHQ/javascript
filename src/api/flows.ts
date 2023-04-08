@@ -63,6 +63,7 @@ export function useFlows() {
     isLoadingUserFlowStateData,
     mutateUserFlowState,
     optimisticallyMarkFlowCompleted,
+    optimisticallyMarkFlowStarted,
   } = useUserFlowStates()
   const flowResponses = getFlowResponses()
 
@@ -180,6 +181,7 @@ export function useFlows() {
   }
 
   function markStepCompleted(flowSlug: string, stepId: string, data?: any) {
+    optimisticallyMarkFlowStarted(flowSlug)
     addResponse({
       foreignUserId: userId,
       flowSlug,

@@ -10,6 +10,7 @@ import { TextField } from '../../components/form-components/TextField'
 import { MultipleChoice } from '../../components/form-components/MultipleChoice'
 import { MultipleChoiceList } from '../../components/form-components/MultipleChoiceList'
 import { TitleSubtitle } from '../../components/TitleSubtitle/TitleSubtitle'
+import { getClassName } from '../../shared/appearance'
 
 interface MultiInputStepProps {
   data?: FormInputType[]
@@ -20,6 +21,8 @@ const MultiInputContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+  padding-bottom: 14px;
+  overflow: visible;
 `
 
 const DEFAULT_INPUT_TYPES: { [key: string]: (params: FormInputProps) => React.ReactNode } = {
@@ -30,7 +33,6 @@ const DEFAULT_INPUT_TYPES: { [key: string]: (params: FormInputProps) => React.Re
 
 export function MultiInputStepType({
   stepData,
-  primaryColor,
   canContinue,
   setCanContinue,
   onSaveData,
@@ -55,7 +57,7 @@ export function MultiInputStepType({
   return (
     <div>
       <TitleSubtitle appearance={appearance} title={stepData.title} subtitle={stepData.subtitle} />
-      <MultiInputContainer>
+      <MultiInputContainer className={getClassName('multiInputContainer', appearance)}>
         {formElements.data?.map((input: FormInputType) =>
           DEFAULT_INPUT_TYPES[input.type] ? (
             <span key={input.id}>
@@ -63,7 +65,6 @@ export function MultiInputStepType({
                 formInput: input,
                 customFormTypeProps: {
                   stepData,
-                  primaryColor,
                   canContinue,
                   setCanContinue,
                   onSaveData,

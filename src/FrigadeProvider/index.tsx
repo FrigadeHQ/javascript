@@ -111,12 +111,13 @@ export const FrigadeProvider: FC<FrigadeProviderProps> = ({
   const [isNewGuestUser, setIsNewGuestUser] = useState(false)
   const [hasActiveFullPageFlow, setHasActiveFullPageFlow] = useState(false)
   const internalNavigate = (url: string, target: string) => {
-    // use window.location.href and respect target
     if (target === '_blank') {
       window.open(url, '_blank')
       return
     }
-    window.location.href = url
+    setTimeout(() => {
+      window.location.href = url
+    }, 50)
   }
 
   useEffect(() => {

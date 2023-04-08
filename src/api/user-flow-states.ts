@@ -1,4 +1,4 @@
-import { API_PREFIX, useConfig } from './common'
+import { API_PREFIX, COMPLETED_FLOW, STARTED_FLOW, useConfig } from './common'
 import { useContext } from 'react'
 import { FrigadeContext } from '../FrigadeProvider'
 import useSWR from 'swr'
@@ -18,6 +18,7 @@ export function useUserFlowStates(): {
   isLoadingUserFlowStateData: boolean
   mutateUserFlowState: () => any
   optimisticallyMarkFlowCompleted: (flowId: string) => void
+  optimisticallyMarkFlowStarted: (flowId: string) => void
   error: any
 } {
   const { config } = useConfig()
@@ -44,7 +45,16 @@ export function useUserFlowStates(): {
     if (userFlowStatesData) {
       const flowState = userFlowStatesData.find((state) => state.flowId === flowId)
       if (flowState) {
-        flowState.flowState = 'COMPLETED_FLOW'
+        flowState.flowState = COMPLETED_FLOW
+      }
+    }
+  }
+
+  function optimisticallyMarkFlowStarted(flowId: string) {
+    if (userFlowStatesData) {
+      const flowState = userFlowStatesData.find((state) => state.flowId === flowId)
+      if (flowState) {
+        flowState.flowState = STARTED_FLOW
       }
     }
   }
@@ -54,6 +64,7 @@ export function useUserFlowStates(): {
     isLoadingUserFlowStateData,
     mutateUserFlowState,
     optimisticallyMarkFlowCompleted,
+    optimisticallyMarkFlowStarted,
     error,
   }
 }

@@ -229,19 +229,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
   }
 
   function CommonDom() {
-    const imagePreload = steps.map((step: StepData, idx: number) => {
-      if (step.imageUri) {
-        return <img src={step.imageUri} key={idx} style={{ display: 'none' }} />
-      }
-      return null
-    })
-
-    return (
-      <>
-        <RenderInlineStyles appearance={appearance} />
-        {imagePreload}
-      </>
-    )
+    return <RenderInlineStyles appearance={appearance} />
   }
 
   const commonProps = {

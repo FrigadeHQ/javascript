@@ -22,10 +22,6 @@ export interface FormValidationError {
 
 export interface CustomFormTypeProps {
   stepData: StepData
-  /**
-   * @deprecated use appearance prop instead
-   */
-  primaryColor?: string
   canContinue: boolean
   setCanContinue: (canContinue: boolean) => void
   onSaveData: (data: object) => void

@@ -21,6 +21,8 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
   const { getFlowStatus } = useFlows()
   const { flows, userProperties, setIsNewGuestUser } = useContext(FrigadeContext)
   const [automaticFlowIdsToTrigger, setAutomaticFlowIdsToTrigger] = useState<Flow[]>([])
+  // Add list of flows already triggered
+  const [triggeredFlows, setTriggeredFlows] = useState<string[]>([])
 
   useEffect(() => {
     if (!isLoadingUserFlowStateData) {
@@ -33,10 +35,15 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
             flowState &&
             flowState.shouldTrigger === true &&
             flow.type == FlowType.FORM &&
-            flow.triggerType === TriggerType.AUTOMATIC
+            flow.triggerType === TriggerType.AUTOMATIC &&
+            !triggeredFlows.includes(flow.slug)
           ) {
             // If the flow should be triggered, trigger it
-            triggerFlow(flowState.flowId)
+            // Give a small grace period before triggering the flow
+            setTimeout(() => {
+              triggerFlow(flowState.flowId)
+            }, 500)
+
             // We only want to trigger one at a time
             break
           }
@@ -47,8 +54,9 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
 
   function triggerFlow(flowId: string) {
     const flow = flows.find((flow) => flow.slug === flowId)
-    if (flow && flow.triggerType === TriggerType.AUTOMATIC) {
+    if (flow && flow.triggerType === TriggerType.AUTOMATIC && !triggeredFlows.includes(flow.slug)) {
       // We only trigger one at a time
+      setTriggeredFlows([...triggeredFlows, flow.slug])
       setAutomaticFlowIdsToTrigger([flow])
     }
   }
@@ -81,6 +89,37 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
       setUserId((userId) => (userId ? userId : newGuestUserId))
     }
   }
+
+  useEffect(() => {
+    try {
+      // Parse all image urls from flows (contained in flow.data) and asynchronously load them
+      if (flows) {
+        const loadedImageUrls: string[] = []
+        flows.forEach((flow) => {
+          if (flow.data) {
+            // Find all image urls in flow data. All image urls are in the json data as "imageUri" fields
+            const imageUrls = flow.data.match(/"imageUri":"(.*?)"/g)
+            if (imageUrls) {
+              imageUrls.forEach((imageUrl) => {
+                // Remove the "imageUri" and " from the url
+                const url = imageUrl.replace('"imageUri":"', '').replace('"', '')
+                // If the url has already been loaded, skip it
+                if (loadedImageUrls.includes(url)) {
+                  return
+                }
+                // Create an image element and set the src to the url
+                const img = new Image()
+                img.src = url
+                loadedImageUrls.push(url)
+              })
+            }
+          }
+        })
+      }
+    } catch (e) {
+      console.log('Failed to preload images', e)
+    }
+  }, [flows])
 
   useEffect(() => {
     if (userId !== lastUserId) {

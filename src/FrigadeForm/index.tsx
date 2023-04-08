@@ -221,7 +221,6 @@ export const FrigadeForm: FC<FormProps> = ({
                 formType={type}
                 appearance={appearance}
                 onPrimaryClick={() => {
-                  primaryCTAClickSideEffects(steps[selectedStep])
                   markStepCompleted(flowId, steps[selectedStep].id, getDataPayload())
                   handleStepCompletionHandlers(steps[selectedStep], 'primary', selectedStep)
                   if (selectedStep + 1 >= steps.length) {
@@ -237,10 +236,11 @@ export const FrigadeForm: FC<FormProps> = ({
                   } else {
                     setSelectedStep(selectedStep + 1)
                   }
+                  primaryCTAClickSideEffects(steps[selectedStep])
                 }}
                 onSecondaryClick={() => {
-                  secondaryCTAClickSideEffects(steps[selectedStep])
                   handleStepCompletionHandlers(steps[selectedStep], 'secondary', selectedStep)
+                  secondaryCTAClickSideEffects(steps[selectedStep])
                 }}
                 onBack={() => {
                   if (selectedStep - 1 >= 0) {
