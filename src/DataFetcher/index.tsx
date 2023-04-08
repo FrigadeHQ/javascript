@@ -120,7 +120,7 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
               <FrigadeForm
                 flowId={flow.slug}
                 type={'modal'}
-                modalPosition={'bottom-right'}
+                modalPosition={'center'}
                 endFlowOnDismiss={true}
               />
             </span>
