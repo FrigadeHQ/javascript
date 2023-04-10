@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { FormInputProps, FormInputType } from '../../../FrigadeForm/types'
 import { getClassName, getCustomClassOverrides } from '../../../shared/appearance'
 import { Label } from '../shared/Label'
+import { TextInput } from '../TextField'
 
 interface MultipleChoiceProps extends FormInputType {
   id: string
@@ -18,6 +19,8 @@ interface MultipleChoiceProps extends FormInputType {
 interface MultipleChoiceOption {
   id: string
   title: string
+  isOpenEnded: boolean
+  openEndedLabel?: string
 }
 
 const MultipleChoiceWrapper = styled.div`
@@ -106,6 +109,27 @@ export function MultipleChoice({
           )
         })}
       </MultipleChoiceSelect>
+      {/*// If selected data is option.isOpenEnded is true, render an input field*/}
+      {input.props.options?.find((option) => option.id === data)?.isOpenEnded && (
+        <>
+          <Label
+            title={
+              input.props.options?.find((option) => option.id === data)?.openEndedLabel ??
+              `Please specify`
+            }
+            required={false}
+            appearance={customFormTypeProps.appearance}
+          />
+          <TextInput
+            type="text"
+            placeholder="Enter your answer here"
+            onChange={(e) => {
+              onSaveInputData({ choice: [e.target.value] })
+            }}
+            appearance={customFormTypeProps.appearance}
+          />
+        </>
+      )}
     </MultipleChoiceWrapper>
   )
 }

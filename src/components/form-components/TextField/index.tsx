@@ -18,7 +18,7 @@ const TextInputWrapper = styled.div`
   width: 100%;
 `
 
-const TextInput = styled.input`
+export const TextInput = styled.input`
   :not(${(props) => getCustomClassOverrides(props)}) {
     // Anything inside this block will be ignored if the user provides a custom class
     border: 1px solid ${(props) => props.appearance?.theme?.colorBorder};

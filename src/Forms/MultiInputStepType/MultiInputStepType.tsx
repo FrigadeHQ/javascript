@@ -16,13 +16,17 @@ interface MultiInputStepProps {
   data?: FormInputType[]
 }
 
-// create flex that wraps if not enoug space
 const MultiInputContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   padding-bottom: 14px;
   overflow: visible;
+`
+
+const MultiInput = styled.div`
+  padding-left: 1px;
+  padding-right: 1px;
 `
 
 const DEFAULT_INPUT_TYPES: { [key: string]: (params: FormInputProps) => React.ReactNode } = {
@@ -55,7 +59,7 @@ export function MultiInputStepType({
   }
 
   return (
-    <div>
+    <MultiInput className={getClassName('multiInput', appearance)}>
       <TitleSubtitle appearance={appearance} title={stepData.title} subtitle={stepData.subtitle} />
       <MultiInputContainer className={getClassName('multiInputContainer', appearance)}>
         {formElements.data?.map((input: FormInputType) =>
@@ -86,6 +90,6 @@ export function MultiInputStepType({
           ) : null
         )}
       </MultiInputContainer>
-    </div>
+    </MultiInput>
   )
 }
