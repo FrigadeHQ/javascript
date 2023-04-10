@@ -14,7 +14,7 @@ interface FormFooterProps {
   onBack: () => void
   formType: FrigadeFormType
   steps: StepData[]
-  currentStep: number
+  selectedStep: number
 }
 
 export const FormFooter: FC<FormFooterProps> = ({
@@ -26,7 +26,7 @@ export const FormFooter: FC<FormFooterProps> = ({
   onBack,
   formType,
   steps,
-  currentStep,
+  selectedStep,
 }) => {
   let Container = FormCTAContainer
   let buttonType = formType == 'corner-modal' || 'large-modal' || 'modal' ? 'full-width' : 'inline'
@@ -53,7 +53,7 @@ export const FormFooter: FC<FormFooterProps> = ({
           appearance={appearance}
         />
       ) : null}
-      {/*{steps.length > 1 && currentStep != 0 && (*/}
+      {/*{steps.length > 1 && selectedStep != 0 && (*/}
       {/*  <Button*/}
       {/*    title="Back"*/}
       {/*    onClick={onBack}*/}

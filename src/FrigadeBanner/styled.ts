@@ -1,22 +1,28 @@
 import styled from 'styled-components'
+import { getCustomClassOverrides } from '../shared/appearance'
 
 export const BannerContainer = styled.div`
-  display: flex;
-  flex-direction: ${(props) => (props.type === 'square' ? 'column' : 'row')};
-  width: 100%;
-  padding: 16px;
-  box-sizing: border-box;
-  align-items: ${(props) => (props.type === 'square' ? 'unset' : 'center')};
-  background-color: ${(props) => props.appearance.theme.colorBackgroundSecondary};
-  border-width: 1px;
-  border-color: ${(props) => props.appearance.theme.colorPrimary};
-  border-radius: 12px;
+  // use the :not annotation
+  :not(${(props) => getCustomClassOverrides(props)}) {
+    display: flex;
+    flex-direction: ${(props) => (props.type === 'square' ? 'column' : 'row')};
+    width: 100%;
+    padding: 16px;
+    box-sizing: border-box;
+    align-items: ${(props) => (props.type === 'square' ? 'unset' : 'center')};
+    background-color: ${(props) => props.appearance.theme.colorBackground};
+    border-width: 1px;
+    border-color: ${(props) => props.appearance.theme.colorPrimary};
+    border-radius: 12px;
+  }
 `
 
 export const IconContainer = styled.div`
-  display: flex;
-  width: 36px;
-  height: 36px;
+  :not(${(props) => getCustomClassOverrides(props)}) {
+    display: flex;
+    width: 36px;
+    height: 36px;
+  }
 `
 
 export const TextContainer = styled.div`

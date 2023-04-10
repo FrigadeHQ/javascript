@@ -1,27 +1,13 @@
 import React, { CSSProperties, FC, useEffect, useState } from 'react'
 
-import {
-  FormContainer,
-  FormContainerMain,
-  FormContainerSidebarImage,
-  FormContainerWrapper,
-} from './styled'
-
 import { DefaultFrigadeFlowProps, StepData } from '../types'
 import { useFlows } from '../api/flows'
 import { COMPLETED_FLOW, STARTED_FLOW } from '../api/common'
-import { LinkCollectionStepType } from '../Forms/LinkCollectionStepType'
 import { Modal, ModalPosition } from '../components/Modal'
 import { CornerModal } from '../components/CornerModal'
-import { MultiInputStepType } from '../Forms/MultiInputStepType/MultiInputStepType'
 import { CustomFormTypeProps } from './types'
-import { getClassName } from '../shared/appearance'
-import { CallToActionStepType } from '../Forms/CallToActionStepType/CallToActionStepType'
-import { SelectListStepType } from '../Forms/SelectListStepType/SelectListStepType'
-import { FormFooter } from './FormFooter'
-import { RenderInlineStyles } from '../components/RenderInlineStyles'
-import { useCTAClickSideEffects } from '../hooks/useCTAClickSideEffects'
 import { useTheme } from '../hooks/useTheme'
+import { FormContent } from './FormContent'
 
 export type FrigadeFormType = 'inline' | 'modal' | 'large-modal'
 
@@ -61,11 +47,8 @@ export const FrigadeForm: FC<FormProps> = ({
   const {
     getFlow,
     getFlowSteps,
-    markStepCompleted,
     isLoading,
     targetingLogicShouldHideFlow,
-    setCustomVariable,
-    customVariables: existingCustomVariables,
     getFlowStatus,
     getCurrentStepIndex,
     markFlowCompleted,
@@ -78,29 +61,7 @@ export const FrigadeForm: FC<FormProps> = ({
   const [finishedInitialLoad, setFinishedInitialLoad] = useState(false)
   const [showModal, setShowModal] =
     visible !== undefined && setVisible !== undefined ? [visible, setVisible] : useState(true)
-  const { primaryCTAClickSideEffects, secondaryCTAClickSideEffects } = useCTAClickSideEffects()
   const currentFlowStatus = getFlowStatus(flowId)
-  const DEFAULT_CUSTOM_STEP_TYPES = {
-    linkCollection: LinkCollectionStepType,
-    multiInput: MultiInputStepType,
-    callToAction: CallToActionStepType,
-    selectList: SelectListStepType,
-  }
-
-  const mergedCustomStepTypes = { ...DEFAULT_CUSTOM_STEP_TYPES, ...customStepTypes }
-
-  useEffect(() => {
-    if (
-      !isLoading &&
-      customVariables &&
-      JSON.stringify(existingCustomVariables) !=
-        JSON.stringify({ ...existingCustomVariables, ...customVariables })
-    ) {
-      Object.keys(customVariables).forEach((key) => {
-        setCustomVariable(key, customVariables[key])
-      })
-    }
-  }, [isLoading, customVariables, setCustomVariable, existingCustomVariables])
 
   useEffect(() => {
     if (isLoading) {
@@ -116,18 +77,6 @@ export const FrigadeForm: FC<FormProps> = ({
       setFinishedInitialLoad(true)
     }
   }, [finishedInitialLoad, getCurrentStepIndex, flowId, isLoading])
-
-  function FormContainerSidebar(props: { selectedStep: StepData }) {
-    if (props.selectedStep.imageUri) {
-      return (
-        <FormContainerSidebarImage
-          image={props.selectedStep.imageUri}
-          className={getClassName('formContainerSidebarImage', appearance)}
-        />
-      )
-    }
-    return null
-  }
 
   if (isLoading) {
     return null
@@ -161,103 +110,6 @@ export const FrigadeForm: FC<FormProps> = ({
     }
   }
 
-  function FormContent() {
-    const StepContent = mergedCustomStepTypes[steps[selectedStep]?.type] ?? MultiInputStepType
-    const [canContinue, setCanContinue] = useState(false)
-    const [formData, setFormData] = useState({})
-
-    function getDataPayload() {
-      const data = formData[steps[selectedStep].id] ?? {}
-      return {
-        data: data,
-        stepId: steps[selectedStep].id,
-        customVariables: customVariables,
-      }
-    }
-
-    function handleStepCompletionHandlers(
-      step: StepData,
-      cta: 'primary' | 'secondary',
-      idx: number
-    ) {
-      const maybeNextStep = selectedStep + 1 < steps.length ? steps[selectedStep + 1] : null
-      if (onButtonClick) {
-        onButtonClick(step, selectedStep, cta, maybeNextStep)
-      }
-      if (onStepCompletion) {
-        onStepCompletion(step, idx, maybeNextStep, formData, getDataPayload())
-      }
-    }
-
-    function updateData(step: StepData, data: object) {
-      setFormData((prevState) => {
-        let newObj = {}
-        newObj[step.id] = data
-        return {
-          ...prevState,
-          ...newObj,
-        }
-      })
-    }
-
-    return (
-      <>
-        <RenderInlineStyles appearance={appearance} />
-        <FormContainer className={getClassName('formContainer', appearance)}>
-          <FormContainerMain>
-            <FormContainerWrapper type={type} className={getClassName('formContent', appearance)}>
-              <StepContent
-                stepData={steps[selectedStep]}
-                canContinue={canContinue}
-                setCanContinue={setCanContinue}
-                onSaveData={(data) => {
-                  updateData(steps[selectedStep], data)
-                }}
-                appearance={appearance}
-              />
-              <FormFooter
-                step={steps[selectedStep]}
-                canContinue={canContinue}
-                formType={type}
-                appearance={appearance}
-                onPrimaryClick={() => {
-                  markStepCompleted(flowId, steps[selectedStep].id, getDataPayload())
-                  handleStepCompletionHandlers(steps[selectedStep], 'primary', selectedStep)
-                  if (selectedStep + 1 >= steps.length) {
-                    if (onComplete) {
-                      onComplete()
-                    }
-                    if (hideOnFlowCompletion) {
-                      if (setVisible) {
-                        setVisible(false)
-                      }
-                      setShowModal(false)
-                    }
-                  } else {
-                    setSelectedStep(selectedStep + 1)
-                  }
-                  primaryCTAClickSideEffects(steps[selectedStep])
-                }}
-                onSecondaryClick={() => {
-                  handleStepCompletionHandlers(steps[selectedStep], 'secondary', selectedStep)
-                  secondaryCTAClickSideEffects(steps[selectedStep])
-                }}
-                onBack={() => {
-                  if (selectedStep - 1 >= 0) {
-                    setSelectedStep(selectedStep - 1)
-                  }
-                }}
-                steps={steps}
-                currentStep={selectedStep}
-              />
-            </FormContainerWrapper>
-          </FormContainerMain>
-          {type == 'large-modal' && <FormContainerSidebar selectedStep={steps[selectedStep]} />}
-        </FormContainer>
-      </>
-    )
-  }
-
   if ((modalPosition == 'center' && type === 'modal') || type === 'large-modal') {
     const overrideStyle: CSSProperties = {
       padding: '24px',
@@ -279,7 +131,22 @@ export const FrigadeForm: FC<FormProps> = ({
         style={overrideStyle}
         dismissible={dismissible}
       >
-        <FormContent />
+        <FormContent
+          appearance={appearance}
+          steps={steps}
+          selectedStep={selectedStep}
+          customStepTypes={customStepTypes}
+          customVariables={customVariables}
+          onButtonClick={onButtonClick}
+          onStepCompletion={onStepCompletion}
+          flowId={flowId}
+          type={type}
+          hideOnFlowCompletion={hideOnFlowCompletion}
+          onComplete={onComplete}
+          setVisible={setVisible}
+          setSelectedStep={setSelectedStep}
+          setShowModal={setShowModal}
+        />
       </Modal>
     )
   }
@@ -287,12 +154,44 @@ export const FrigadeForm: FC<FormProps> = ({
   if (type === 'modal' && modalPosition !== 'center') {
     return (
       <CornerModal appearance={appearance} onClose={handleClose} visible={showModal}>
-        <FormContent />
+        <FormContent
+          appearance={appearance}
+          steps={steps}
+          selectedStep={selectedStep}
+          customStepTypes={customStepTypes}
+          customVariables={customVariables}
+          onButtonClick={onButtonClick}
+          onStepCompletion={onStepCompletion}
+          flowId={flowId}
+          type={type}
+          hideOnFlowCompletion={hideOnFlowCompletion}
+          onComplete={onComplete}
+          setVisible={setVisible}
+          setSelectedStep={setSelectedStep}
+          setShowModal={setShowModal}
+        />
       </CornerModal>
     )
   }
 
-  return <FormContent />
+  return (
+    <FormContent
+      appearance={appearance}
+      steps={steps}
+      selectedStep={selectedStep}
+      customStepTypes={customStepTypes}
+      customVariables={customVariables}
+      onButtonClick={onButtonClick}
+      onStepCompletion={onStepCompletion}
+      flowId={flowId}
+      type={type}
+      hideOnFlowCompletion={hideOnFlowCompletion}
+      onComplete={onComplete}
+      setVisible={setVisible}
+      setSelectedStep={setSelectedStep}
+      setShowModal={setShowModal}
+    />
+  )
 }
 
 export default FrigadeForm
