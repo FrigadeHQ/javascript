@@ -42,12 +42,6 @@ export function useFlowResponses() {
     new Set()
   )
 
-  const [flowResponseMap, setFlowResponseMap] = useState<Map<string, Map<string, FlowResponse>>>(
-    new Map()
-  )
-
-  const [currentStep, setCurrentStep] = useState<string>('')
-
   function postFlowResponse(flowResponse: FlowResponse) {
     const flowResponseString = JSON.stringify(flowResponse)
 
@@ -58,7 +52,7 @@ export function useFlowResponses() {
     setSuccessfulFlowResponsesStrings(successfulFlowResponsesStrings)
     successfulFlowResponses.add(flowResponse)
     setSuccessfulFlowResponses(successfulFlowResponses)
-    setFlowResponses([...(flowResponses ?? []), flowResponse])
+    setFlowResponses((prev) => [...(prev ?? []), flowResponse])
 
     return fetch(`${API_PREFIX}flowResponses`, {
       ...config,
@@ -81,75 +75,14 @@ export function useFlowResponses() {
       return
     }
     if (flowResponse.actionType === STARTED_FLOW || flowResponse.actionType === NOT_STARTED_FLOW) {
-      recordResponse(flowResponse)
-      await sendDataToBackend() // Send previous step data to backend
+      await postFlowResponse(flowResponse) // Send previous step data to backend
     } else if (flowResponse.actionType === COMPLETED_FLOW) {
-      recordResponse(flowResponse)
-      await sendDataToBackend() // Send previous step data to backend
+      await postFlowResponse(flowResponse) // Send previous step data to backend
     } else if (flowResponse.actionType === STARTED_STEP) {
-      setCurrentStep(flowResponse.stepId)
-      recordResponse(flowResponse)
+      await postFlowResponse(flowResponse)
     } else if (flowResponse.actionType === COMPLETED_STEP) {
-      await sendDataToBackend() // Send previous step data to backend
-      setFlowResponseMap(new Map()) // Clear existing data
-      recordResponse(flowResponse)
-      await sendDataToBackend() // Send completed step data to backend
+      await postFlowResponse(flowResponse)
     }
-  }
-
-  async function sendDataToBackend() {
-    for (const [stepId, responses] of flowResponseMap.entries()) {
-      const pendingResponses = flowResponseMap.get(stepId)
-      if (pendingResponses) {
-        for (const [actionType, flowResponse] of pendingResponses) {
-          let flowResponseToSend = flowResponse
-          if (organizationId) {
-            flowResponseToSend.foreignUserGroupId = organizationId
-          }
-          await postFlowResponse(flowResponseToSend)
-        }
-      }
-      flowResponseMap.delete(stepId)
-      setFlowResponseMap(flowResponseMap)
-    }
-  }
-
-  function recordResponse(flowResponse: FlowResponse) {
-    const stepId = flowResponse.stepId
-    const actionType = flowResponse.actionType
-    const stepMap = flowResponseMap.get(stepId) || new Map()
-    stepMap.set(actionType, flowResponse)
-    flowResponseMap.set(stepId, stepMap)
-  }
-
-  async function markFlowStarted(userId: string, flowSlug: string) {
-    const flowResponse = {
-      foreignUserId: userId,
-      flowSlug: flowSlug,
-      stepId: 'startFlow',
-      actionType: STARTED_FLOW,
-      data: {},
-      createdAt: new Date(),
-      blocked: false,
-      hidden: false,
-    }
-    await addResponse(flowResponse)
-    return flowResponse
-  }
-
-  async function markFlowCompleted(userId: string, flowSlug: string) {
-    const flowResponse = {
-      foreignUserId: userId,
-      flowSlug: flowSlug,
-      stepId: 'endFlow',
-      actionType: COMPLETED_FLOW,
-      data: { flowResponses: Array.from(successfulFlowResponses) },
-      createdAt: new Date(),
-      blocked: false,
-      hidden: false,
-    }
-    await addResponse(flowResponse)
-    return flowResponse
   }
 
   function getFlowResponses() {
@@ -180,8 +113,6 @@ export function useFlowResponses() {
 
   return {
     addResponse,
-    markFlowStarted,
-    markFlowCompleted,
     setFlowResponses,
     getFlowResponses,
   }

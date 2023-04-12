@@ -19,6 +19,7 @@ export function useUserFlowStates(): {
   mutateUserFlowState: () => any
   optimisticallyMarkFlowCompleted: (flowId: string) => void
   optimisticallyMarkFlowStarted: (flowId: string) => void
+  optimisticallySetLastStepId: (flowId: string, stepId: string) => void
   error: any
 } {
   const { config } = useConfig()
@@ -50,7 +51,7 @@ export function useUserFlowStates(): {
   function optimisticallyMarkFlowCompleted(flowId: string) {
     if (userFlowStatesData) {
       const flowState = userFlowStatesData.find((state) => state.flowId === flowId)
-      if (flowState) {
+      if (flowState && flowState.flowState !== COMPLETED_FLOW) {
         flowState.flowState = COMPLETED_FLOW
       }
     }
@@ -59,8 +60,17 @@ export function useUserFlowStates(): {
   function optimisticallyMarkFlowStarted(flowId: string) {
     if (userFlowStatesData) {
       const flowState = userFlowStatesData.find((state) => state.flowId === flowId)
-      if (flowState) {
+      if (flowState && flowState.flowState !== STARTED_FLOW) {
         flowState.flowState = STARTED_FLOW
+      }
+    }
+  }
+
+  function optimisticallySetLastStepId(flowId: string, stepId: string) {
+    if (userFlowStatesData) {
+      const flowState = userFlowStatesData.find((state) => state.flowId === flowId)
+      if (flowState && flowState.lastStepId !== stepId) {
+        flowState.lastStepId = stepId
       }
     }
   }
@@ -71,6 +81,7 @@ export function useUserFlowStates(): {
     mutateUserFlowState,
     optimisticallyMarkFlowCompleted,
     optimisticallyMarkFlowStarted,
+    optimisticallySetLastStepId,
     error,
   }
 }

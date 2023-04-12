@@ -55,6 +55,7 @@ export function useFlows() {
     setCustomVariables,
     hasActiveFullPageFlow,
     setHasActiveFullPageFlow,
+    setFlowResponses,
   } = useContext(FrigadeContext)
   const { addResponse, getFlowResponses } = useFlowResponses()
   const fetcher = (url) => fetch(url, config).then((r) => r.json())
@@ -64,6 +65,7 @@ export function useFlows() {
     mutateUserFlowState,
     optimisticallyMarkFlowCompleted,
     optimisticallyMarkFlowStarted,
+    optimisticallySetLastStepId,
   } = useUserFlowStates()
   const flowResponses = getFlowResponses()
 
@@ -166,6 +168,8 @@ export function useFlows() {
   }
 
   function markStepStarted(flowSlug: string, stepId: string, data?: any) {
+    optimisticallyMarkFlowStarted(flowSlug)
+    optimisticallySetLastStepId(flowSlug, stepId)
     addResponse({
       foreignUserId: userId,
       flowSlug,
@@ -197,6 +201,7 @@ export function useFlows() {
   }
 
   function markFlowNotStarted(flowSlug: string, data?: any) {
+    setFlowResponses([])
     addResponse({
       foreignUserId: userId,
       flowSlug,

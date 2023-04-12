@@ -1,19 +1,19 @@
-import React, { FC, useContext, useEffect, useState } from 'react'
+import React, { FC, useContext, useEffect } from 'react'
 import { useFlows } from '../api/flows'
 import { ToolTipProps, Tooltips } from '../Tooltips'
 import { StepData } from '../types'
-import { COMPLETED_FLOW, COMPLETED_STEP, NOT_STARTED_FLOW, STARTED_FLOW } from '../api/common'
+import { COMPLETED_FLOW } from '../api/common'
 import { Portal } from 'react-portal'
 import { useFlowOpens } from '../api/flow-opens'
 import { FrigadeContext } from '../FrigadeProvider'
 import { RenderInlineStyles } from '../components/RenderInlineStyles'
-import { useFlowResponses } from '../api/flow-responses'
 import { useCTAClickSideEffects } from '../hooks/useCTAClickSideEffects'
 import { useTheme } from '../hooks/useTheme'
+import { useUserFlowStates } from '../api/user-flow-states'
+import { useFlowResponses } from '../api/flow-responses'
 
 export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedStep?: number }> = ({
   flowId,
-  initialSelectedStep,
   customVariables,
   appearance,
   onStepCompletion,
@@ -32,28 +32,22 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
     markStepStarted,
     markFlowCompleted,
     setCustomVariable,
-    getStepStatus,
     getCurrentStepIndex,
     isStepBlocked,
-    isStepHidden,
     getFlowStatus,
     customVariables: existingCustomVariables,
   } = useFlows()
+  const { isLoadingUserFlowStateData } = useUserFlowStates()
   const { primaryCTAClickSideEffects, secondaryCTAClickSideEffects } = useCTAClickSideEffects()
+  const { hasOpenModals } = useFlowOpens()
+  const selectedStep = getCurrentStepIndex(flowId)
+  const { openFlowStates } = useContext(FrigadeContext)
 
   const { getFlowResponses } = useFlowResponses()
 
-  const { hasOpenModals } = useFlowOpens()
-
-  const { openFlowStates } = useContext(FrigadeContext)
-
   const { mergeAppearanceWithDefault } = useTheme()
 
-  const [finishedInitialLoad, setFinishedInitialLoad] = useState(false)
-  const [selectedStep, setSelectedStep] = useState(initialSelectedStep || 0)
   appearance = mergeAppearanceWithDefault(appearance)
-  const currentFlowStatus = getFlowStatus(flowId)
-  const currentStep = getCurrentStepIndex(flowId)
 
   useEffect(() => {
     if (
@@ -68,40 +62,7 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
     }
   }, [isLoading, customVariables, setCustomVariable, existingCustomVariables])
 
-  useEffect(() => {
-    if (currentFlowStatus === NOT_STARTED_FLOW) {
-      setSelectedStep(0)
-    }
-  }, [currentFlowStatus])
-
-  useEffect(() => {
-    if (isLoading) {
-      return
-    }
-
-    if (currentFlowStatus !== STARTED_FLOW) {
-      return
-    }
-    if (!getFlowResponses()) {
-      return
-    }
-
-    if (!finishedInitialLoad && initialSelectedStep === undefined) {
-      setSelectedStep(getCurrentStepIndex(flowId))
-      setFinishedInitialLoad(true)
-    }
-  }, [finishedInitialLoad, initialSelectedStep, getCurrentStepIndex, flowId, isLoading])
-
-  useEffect(() => {
-    if (currentFlowStatus !== STARTED_FLOW) {
-      return
-    }
-    if (currentStep && currentStep > selectedStep) {
-      setSelectedStep(currentStep)
-    }
-  }, [selectedStep, currentStep])
-
-  if (isLoading && !finishedInitialLoad) {
+  if (isLoadingUserFlowStateData) {
     return null
   }
   const flow = getFlow(flowId)
@@ -114,13 +75,6 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
   }
 
   if (getFlowStatus(flowId) == COMPLETED_FLOW) {
-    return null
-  }
-
-  if (
-    getStepStatus(flowId, selectedStep) == COMPLETED_STEP &&
-    selectedStep == getFlowSteps(flowId).length - 1
-  ) {
     return null
   }
 
@@ -140,10 +94,11 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
     }
   }
 
-  function goToNextStepIfPossible() {
+  function markTooltipCompleted() {
+    markStepCompleted(flowId, steps[selectedStep].id)
+
     if (selectedStep + 1 >= steps.length) {
       markFlowCompleted(flowId)
-      setSelectedStep(0)
       return
     }
     // Double check next step is not blocked
@@ -151,7 +106,6 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
       return
     }
     markStepStarted(flowId, steps[selectedStep + 1].id)
-    setSelectedStep(selectedStep + 1)
   }
 
   function handleStepCompletionHandlers(step: StepData, cta: 'primary' | 'secondary', idx: number) {
@@ -182,8 +136,7 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
               (step.autoMarkCompleted || step.autoMarkCompleted === undefined)) ||
             (step.completionCriteria && step.autoMarkCompleted === true)
           ) {
-            markStepCompleted(flowId, step.id)
-            goToNextStepIfPossible()
+            markTooltipCompleted()
           }
           handleStepCompletionHandlers(step, 'primary', selectedStep)
           primaryCTAClickSideEffects(step)
@@ -199,7 +152,7 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
     markFlowCompleted(flowId)
   }
 
-  const elem = document.querySelector(steps[initialSelectedStep ?? 0].selector)
+  const elem = document.querySelector(steps[selectedStep].selector)
 
   return (
     <Portal>
@@ -211,7 +164,6 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
             appearance={appearance}
             steps={getSteps()}
             elem={elem}
-            setSelectedStep={setSelectedStep}
             selectedStep={idx}
             showTooltipsSimultaneously={showTooltipsSimultaneously}
             dismissible={dismissible}
@@ -224,7 +176,6 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
           appearance={appearance}
           steps={getSteps()}
           elem={elem}
-          setSelectedStep={setSelectedStep}
           selectedStep={selectedStep}
           showTooltipsSimultaneously={showTooltipsSimultaneously}
           dismissible={dismissible}

@@ -43,11 +43,9 @@ export interface ToolTipProps extends DefaultFrigadeFlowProps {
   elem?: any // initial element to focus
   offset?: { x: number; y: number }
   visible?: boolean
-  initialStep?: number
   containerStyle?: CSSProperties
   customVariables?: { [key: string]: string | number | boolean }
   selectedStep?: number
-  setSelectedStep?: (index: number) => void
   customStepTypes?: Map<string, (stepData: StepData) => React.ReactNode>
   appearance?: Appearance
   /**
@@ -135,10 +133,8 @@ const Tooltips: FC<ToolTipProps> = ({
   elem: initialElem,
   offset = { x: 0, y: 0 },
   visible = true,
-  initialStep = 0,
   containerStyle = {},
   selectedStep = 0,
-  setSelectedStep = () => {},
   customStepTypes,
   onStepCompletion,
   appearance,
