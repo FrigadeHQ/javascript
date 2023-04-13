@@ -55,3 +55,7 @@ export function styleOverridesToCSS(props: any) {
         .join(' ')
     : ''
 }
+
+export function mergeClasses(...classes: string[]) {
+  return classes.filter(Boolean).join(' ')
+}

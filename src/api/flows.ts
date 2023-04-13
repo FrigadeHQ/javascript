@@ -15,7 +15,7 @@ import { FlowResponse, useFlowResponses } from './flow-responses'
 import useSWR from 'swr'
 import { useUserFlowStates } from './user-flow-states'
 import { StepData } from '../types'
-import { getSubFlowFromCompletionCriteria } from './completionUtil'
+import { getSubFlowFromCompletionCriteria } from '../shared/completion-util'
 
 export interface Flow {
   id: number
@@ -37,6 +37,7 @@ export enum FlowType {
   SUPPORT = 'SUPPORT',
   CUSTOM = 'CUSTOM',
   BANNER = 'BANNER',
+  EMBEDDED_TIP = 'EMBEDDED_TIP',
 }
 
 export enum TriggerType {

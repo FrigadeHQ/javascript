@@ -9,7 +9,7 @@ const HeaderTitle = styled.h1`
   :not(${(props) => getCustomClassOverrides(props)}) {
     font-style: normal;
     font-weight: 600;
-    font-size: 18px;
+    font-size: ${(props) => (props.size == 'small' ? '16px' : '18px')};
     line-height: 22px;
     display: flex;
     align-items: center;
