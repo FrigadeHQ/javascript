@@ -29,7 +29,7 @@ import { useTheme } from '../hooks/useTheme'
 export type FrigadeBannerType = 'full-width' | 'square'
 
 export interface FrigadeBannerProps extends DefaultFrigadeFlowProps {
-  type: FrigadeBannerType
+  type?: FrigadeBannerType
 }
 
 export const FrigadeBanner: React.FC<FrigadeBannerProps> = ({
