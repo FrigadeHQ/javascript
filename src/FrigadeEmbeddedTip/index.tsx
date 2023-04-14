@@ -1,4 +1,4 @@
-import { DefaultFrigadeFlowProps, StepData } from '../types'
+import { DefaultFrigadeFlowProps } from '../types'
 import React, { useEffect } from 'react'
 import { useFlows } from '../api/flows'
 import { useCTAClickSideEffects } from '../hooks/useCTAClickSideEffects'
@@ -15,8 +15,6 @@ export interface FrigadeEmbeddedTipProps extends DefaultFrigadeFlowProps {}
 
 export const FrigadeEmbeddedTip: React.FC<FrigadeEmbeddedTipProps> = ({
   flowId,
-  title,
-  subtitle,
   onDismiss,
   customVariables,
   onButtonClick,
@@ -31,8 +29,9 @@ export const FrigadeEmbeddedTip: React.FC<FrigadeEmbeddedTipProps> = ({
     targetingLogicShouldHideFlow,
     setCustomVariable,
     customVariables: existingCustomVariables,
-    getFlowMetadata,
+    getFlowSteps,
     getFlowStatus,
+    getCurrentStepIndex,
   } = useFlows()
   const { primaryCTAClickSideEffects } = useCTAClickSideEffects()
   const { mergeAppearanceWithDefault } = useTheme()
@@ -69,13 +68,9 @@ export const FrigadeEmbeddedTip: React.FC<FrigadeEmbeddedTipProps> = ({
     return null
   }
 
-  const metaData = getFlowMetadata(flowId) as StepData
-  if (metaData?.title) {
-    title = metaData.title
-  }
-  if (metaData?.subtitle) {
-    subtitle = metaData.subtitle
-  }
+  const steps = getFlowSteps(flowId)
+
+  const currentStep = steps[getCurrentStepIndex(flowId)]
 
   return (
     <>
@@ -85,7 +80,7 @@ export const FrigadeEmbeddedTip: React.FC<FrigadeEmbeddedTipProps> = ({
         className={mergeClasses(getClassName('embeddedTipContainer', appearance), className)}
         style={style}
       >
-        {metaData.dismissible && (
+        {currentStep.dismissible && (
           <DismissButton
             onClick={() => {
               markFlowCompleted(flowId)
@@ -99,19 +94,24 @@ export const FrigadeEmbeddedTip: React.FC<FrigadeEmbeddedTipProps> = ({
           </DismissButton>
         )}
         <TextContainer>
-          <TitleSubtitle size="small" appearance={appearance} title={title} subtitle={subtitle} />
+          <TitleSubtitle
+            size="small"
+            appearance={appearance}
+            title={currentStep.title}
+            subtitle={currentStep.subtitle}
+          />
         </TextContainer>
-        {metaData.primaryButtonTitle && (
+        {currentStep.primaryButtonTitle && (
           <CallToActionContainer
             className={getClassName('embeddedTipCallToActionContainer', appearance)}
           >
             <Button
-              title={metaData.primaryButtonTitle}
+              title={currentStep.primaryButtonTitle}
               appearance={appearance}
               onClick={() => {
-                primaryCTAClickSideEffects(metaData)
+                primaryCTAClickSideEffects(currentStep)
                 if (onButtonClick) {
-                  onButtonClick(metaData, 0, 'primary')
+                  onButtonClick(currentStep, getCurrentStepIndex(flowId), 'primary')
                 }
               }}
             />
