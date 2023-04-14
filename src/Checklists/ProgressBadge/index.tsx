@@ -47,6 +47,7 @@ export const ProgressBadge: FC<ProgressBadgeProps> = ({
           ...(type == 'condensed' ? { display: 'flex', justifyContent: 'space-between' } : {}),
           ...style,
         }}
+        appearance={appearance}
       >
         {type == 'condensed' && total && total !== 0 && (
           <ProgressRingContainer className={getClassName('progressRingContainer', appearance)}>

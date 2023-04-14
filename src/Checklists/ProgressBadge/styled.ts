@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
-export const BadgeContainer = styled.div<{ primaryColor }>`
-  border: 1px solid ${(props) => props.primaryColor};
+export const BadgeContainer = styled.div`
+  border: 1px solid ${(props) => props.appearance.theme.colorBorder};
   border-radius: 8px;
   padding: 6px 10px 6px 10px;
   min-width: 160px;

@@ -183,10 +183,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
     if (onButtonClick) {
       const completion = onButtonClick(step, selectedStep, cta, maybeNextStep)
       if (completion === true && isModal) {
-        setOpenFlowState(flowId, false)
-        if (setVisible) {
-          setVisible(false)
-        }
+        handleClose()
       }
     }
     if (onStepCompletion) {
@@ -194,10 +191,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
     }
     if (!onStepCompletion && !onButtonClick && (step.primaryButtonUri || step.secondaryButtonUri)) {
       if (isModal) {
-        setOpenFlowState(flowId, false)
-        if (setVisible) {
-          setVisible(false)
-        }
+        handleClose()
       }
     }
   }
@@ -248,6 +242,16 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
     customStepTypes,
   }
 
+  function handleClose() {
+    setOpenFlowState(flowId, false)
+    if (onDismiss) {
+      onDismiss()
+    }
+    if (setVisible) {
+      setVisible(false)
+    }
+  }
+
   if (type === 'modal') {
     return (
       <>
@@ -255,11 +259,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
         <ModalChecklist
           visible={showModal}
           onClose={() => {
-            setOpenFlowState(flowId, false)
-            if (onDismiss) {
-              onDismiss()
-            }
-            setVisible(false)
+            handleClose()
           }}
           selectedStep={selectedStep}
           setSelectedStep={setSelectedStep}
@@ -287,13 +287,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
           visible={showModal}
           stepsTitle={metaData.stepsTitle ? metaData.stepsTitle : 'Your quick start guide'}
           onClose={() => {
-            setOpenFlowState(flowId, false)
-            if (setVisible) {
-              setVisible(false)
-            }
-            if (onDismiss) {
-              onDismiss()
-            }
+            handleClose()
           }}
           secondaryColor={appearance.theme.colorSecondary}
           selectedStep={selectedStep}
