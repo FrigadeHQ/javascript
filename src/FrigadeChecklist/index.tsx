@@ -34,6 +34,7 @@ export interface FrigadeChecklistProps extends HeroChecklistProps {
   type?: FrigadeChecklistType
 
   visible?: boolean
+  setVisible?: (visible: boolean) => void
 
   onDismiss?: () => void
 
@@ -183,6 +184,9 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
       const completion = onButtonClick(step, selectedStep, cta, maybeNextStep)
       if (completion === true && isModal) {
         setOpenFlowState(flowId, false)
+        if (setVisible) {
+          setVisible(false)
+        }
       }
     }
     if (onStepCompletion) {
@@ -191,6 +195,9 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
     if (!onStepCompletion && !onButtonClick && (step.primaryButtonUri || step.secondaryButtonUri)) {
       if (isModal) {
         setOpenFlowState(flowId, false)
+        if (setVisible) {
+          setVisible(false)
+        }
       }
     }
   }
@@ -252,6 +259,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
             if (onDismiss) {
               onDismiss()
             }
+            setVisible(false)
           }}
           selectedStep={selectedStep}
           setSelectedStep={setSelectedStep}
@@ -280,6 +288,9 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
           stepsTitle={metaData.stepsTitle ? metaData.stepsTitle : 'Your quick start guide'}
           onClose={() => {
             setOpenFlowState(flowId, false)
+            if (setVisible) {
+              setVisible(false)
+            }
             if (onDismiss) {
               onDismiss()
             }
