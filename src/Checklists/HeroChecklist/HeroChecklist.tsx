@@ -170,7 +170,7 @@ const HeroChecklist: FC<HeroChecklistProps> = ({
       </ChecklistHeader>
       <Divider />
       <HeroChecklistStepContentContainer>
-        <StepContent appearance={appearance} />
+        <StepContent />
       </HeroChecklistStepContentContainer>
     </HeroChecklistContainer>
   )
