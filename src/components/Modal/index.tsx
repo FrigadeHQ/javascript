@@ -86,7 +86,6 @@ interface ModalProps {
   headerContent?: React.ReactNode
   children: React.ReactNode
   style?: React.CSSProperties
-  closeTint?: string
   appearance?: Appearance
   dismissible?: boolean // defaults to true
 }

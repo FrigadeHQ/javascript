@@ -165,7 +165,6 @@ const ChecklistWithGuide: FC<ChecklistWithGuideProps> = ({
     <Modal
       onClose={onClose}
       visible={visible}
-      closeTint={appearance?.styleOverrides?.iconColor ?? '#8C8C8C'}
       appearance={appearance}
     >
       <ChecklistContainer>
