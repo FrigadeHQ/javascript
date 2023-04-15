@@ -38,7 +38,7 @@ export const StepChecklistItem: FC<StepItemProps> = ({
           className={getClassName('checklistStepItemSelectedIndicator', appearance)}
           as={motion.div}
           layoutId="checklis-step-selected"
-          style={{ backgroundColor: appearance?.theme?.primaryColor ?? primaryColor }}
+          style={{ backgroundColor: appearance?.theme?.colorPrimary ?? primaryColor }}
         ></StepItemSelectedIndicator>
       )}
       <ChecklistStepItem key={`hero-checklist-step-${index}`} role="listitem">
@@ -47,7 +47,7 @@ export const StepChecklistItem: FC<StepItemProps> = ({
           labelPosition="left"
           label={data.stepName}
           style={style}
-          primaryColor={appearance?.theme?.primaryColor ?? primaryColor}
+          primaryColor={appearance?.theme?.colorPrimary ?? primaryColor}
           appearance={appearance}
         />
       </ChecklistStepItem>
