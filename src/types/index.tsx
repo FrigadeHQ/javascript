@@ -170,6 +170,7 @@ export interface BaseTheme {
   fontSmoothing?: string
   fontWeight?: string | number
   borderRadius?: number
+  modalContainer?: CSSProperties
 }
 
 export const DefaultAppearance: Appearance = {
