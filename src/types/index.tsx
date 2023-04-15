@@ -53,9 +53,6 @@ export interface StepData {
    * @deprecated use primaryButtonUriTarget instead
    */
   urlTarget?: string
-  /**
-   * @deprecated
-   */
   type?: string
   /**
    * Video url to be shown for components supporting video.

@@ -17,7 +17,6 @@ import { FrigadeFormType } from './index'
 import React, { FC, useEffect, useState } from 'react'
 import { CustomFormTypeProps } from './types'
 import { useFlows } from '../api/flows'
-import { useTheme } from '../hooks/useTheme'
 
 interface FormContentProps extends DefaultFrigadeFlowProps {
   appearance: Appearance
@@ -25,7 +24,6 @@ interface FormContentProps extends DefaultFrigadeFlowProps {
   selectedStep: number
   customStepTypes?: { [key: string]: (params: CustomFormTypeProps) => React.ReactNode }
   type: FrigadeFormType
-  setSelectedStep: (step: number) => void
   setShowModal: (showModal: boolean) => void
 }
 export const FormContent: FC<FormContentProps> = ({
@@ -41,7 +39,6 @@ export const FormContent: FC<FormContentProps> = ({
   hideOnFlowCompletion,
   onComplete,
   setVisible,
-  setSelectedStep,
   setShowModal,
 }) => {
   const DEFAULT_CUSTOM_STEP_TYPES = {
@@ -59,13 +56,11 @@ export const FormContent: FC<FormContentProps> = ({
   const [formData, setFormData] = useState({})
   const {
     markStepCompleted,
+    markStepStarted,
     isLoading,
     setCustomVariable,
     customVariables: existingCustomVariables,
   } = useFlows()
-  const { mergeAppearanceWithDefault } = useTheme()
-
-  appearance = mergeAppearanceWithDefault(appearance)
 
   useEffect(() => {
     if (
@@ -144,6 +139,9 @@ export const FormContent: FC<FormContentProps> = ({
               selectedStep={selectedStep}
               appearance={appearance}
               onPrimaryClick={() => {
+                if (selectedStep + 1 < steps.length) {
+                  markStepStarted(flowId, steps[selectedStep + 1].id)
+                }
                 markStepCompleted(flowId, steps[selectedStep].id, getDataPayload())
                 handleStepCompletionHandlers(steps[selectedStep], 'primary', selectedStep)
                 if (selectedStep + 1 >= steps.length) {
@@ -156,8 +154,6 @@ export const FormContent: FC<FormContentProps> = ({
                     }
                     setShowModal(false)
                   }
-                } else {
-                  setSelectedStep(selectedStep + 1)
                 }
                 primaryCTAClickSideEffects(steps[selectedStep])
               }}
@@ -165,11 +161,7 @@ export const FormContent: FC<FormContentProps> = ({
                 handleStepCompletionHandlers(steps[selectedStep], 'secondary', selectedStep)
                 secondaryCTAClickSideEffects(steps[selectedStep])
               }}
-              onBack={() => {
-                if (selectedStep - 1 >= 0) {
-                  setSelectedStep(selectedStep - 1)
-                }
-              }}
+              onBack={() => {}}
               steps={steps}
               currentStep={selectedStep}
             />

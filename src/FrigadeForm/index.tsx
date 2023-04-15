@@ -1,8 +1,8 @@
-import React, { CSSProperties, FC, useEffect, useState } from 'react'
+import React, { CSSProperties, FC, useState } from 'react'
 
 import { DefaultFrigadeFlowProps, StepData } from '../types'
 import { useFlows } from '../api/flows'
-import { COMPLETED_FLOW, STARTED_FLOW } from '../api/common'
+import { COMPLETED_FLOW } from '../api/common'
 import { Modal, ModalPosition } from '../components/Modal'
 import { CornerModal } from '../components/CornerModal'
 import { CustomFormTypeProps } from './types'
@@ -53,30 +53,13 @@ export const FrigadeForm: FC<FormProps> = ({
     getCurrentStepIndex,
     markFlowCompleted,
   } = useFlows()
+  const selectedStep = getCurrentStepIndex(flowId)
   const { mergeAppearanceWithDefault } = useTheme()
 
   appearance = mergeAppearanceWithDefault(appearance)
 
-  const [selectedStep, setSelectedStep] = useState(0)
-  const [finishedInitialLoad, setFinishedInitialLoad] = useState(false)
   const [showModal, setShowModal] =
     visible !== undefined && setVisible !== undefined ? [visible, setVisible] : useState(true)
-  const currentFlowStatus = getFlowStatus(flowId)
-
-  useEffect(() => {
-    if (isLoading) {
-      return
-    }
-
-    if (currentFlowStatus !== STARTED_FLOW) {
-      return
-    }
-
-    if (!finishedInitialLoad) {
-      setSelectedStep(getCurrentStepIndex(flowId))
-      setFinishedInitialLoad(true)
-    }
-  }, [finishedInitialLoad, getCurrentStepIndex, flowId, isLoading])
 
   if (isLoading) {
     return null
@@ -144,7 +127,6 @@ export const FrigadeForm: FC<FormProps> = ({
           hideOnFlowCompletion={hideOnFlowCompletion}
           onComplete={onComplete}
           setVisible={setVisible}
-          setSelectedStep={setSelectedStep}
           setShowModal={setShowModal}
         />
       </Modal>
@@ -167,7 +149,6 @@ export const FrigadeForm: FC<FormProps> = ({
           hideOnFlowCompletion={hideOnFlowCompletion}
           onComplete={onComplete}
           setVisible={setVisible}
-          setSelectedStep={setSelectedStep}
           setShowModal={setShowModal}
         />
       </CornerModal>
@@ -188,7 +169,6 @@ export const FrigadeForm: FC<FormProps> = ({
       hideOnFlowCompletion={hideOnFlowCompletion}
       onComplete={onComplete}
       setVisible={setVisible}
-      setSelectedStep={setSelectedStep}
       setShowModal={setShowModal}
     />
   )
