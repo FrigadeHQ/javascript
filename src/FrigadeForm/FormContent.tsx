@@ -20,12 +20,7 @@ import { useFlows } from '../api/flows'
 import { useTheme } from '../hooks/useTheme'
 
 interface FormContentProps extends DefaultFrigadeFlowProps {
-  step: StepData
   appearance: Appearance
-  onPrimaryClick: () => void
-  onSecondaryClick: () => void
-  onBack: () => void
-  formType: FrigadeFormType
   steps: StepData[]
   selectedStep: number
   customStepTypes?: { [key: string]: (params: CustomFormTypeProps) => React.ReactNode }
@@ -146,6 +141,7 @@ export const FormContent: FC<FormContentProps> = ({
               step={steps[selectedStep]}
               canContinue={canContinue}
               formType={type}
+              selectedStep={selectedStep}
               appearance={appearance}
               onPrimaryClick={() => {
                 markStepCompleted(flowId, steps[selectedStep].id, getDataPayload())
