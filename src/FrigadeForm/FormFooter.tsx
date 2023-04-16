@@ -28,11 +28,10 @@ export const FormFooter: FC<FormFooterProps> = ({
   steps,
   selectedStep,
 }) => {
-  let Container = FormCTAContainer
   let buttonType = formType == 'corner-modal' || 'large-modal' || 'modal' ? 'full-width' : 'inline'
 
   return (
-    <Container className={getClassName('formCTAContainer', appearance)}>
+    <FormCTAContainer className={getClassName('formCTAContainer', appearance)}>
       {step.secondaryButtonTitle ? (
         <Button
           title={step.secondaryButtonTitle}
@@ -66,6 +65,6 @@ export const FormFooter: FC<FormFooterProps> = ({
       {/*    appearance={appearance}*/}
       {/*  />*/}
       {/*)}*/}
-    </Container>
+    </FormCTAContainer>
   )
 }

@@ -3,6 +3,7 @@ import styled from 'styled-components'
 export const FormCTAContainer = styled.div`
   align-content: flex-end;
   text-align: right;
+  padding-top: 14px;
 `
 export const FormContainer = styled.div`
   display: flex;
@@ -17,10 +18,12 @@ export const FormContainerMain = styled.div`
   flex-direction: column;
   flex-grow: 1;
   flex-basis: 0;
+  position: relative;
 `
 
 export const FormContainerWrapper = styled.div`
   padding: ${(props) => (props.type === 'large-modal' ? '50px' : '0px')};
+  position: relative;
 `
 
 export const FormContainerSidebarImage = styled.div`

@@ -17,6 +17,7 @@ import { FrigadeFormType } from './index'
 import React, { FC, useEffect, useState } from 'react'
 import { CustomFormTypeProps } from './types'
 import { useFlows } from '../api/flows'
+import { AnimatePresence, motion } from 'framer-motion'
 
 interface FormContentProps extends DefaultFrigadeFlowProps {
   appearance: Appearance
@@ -122,61 +123,89 @@ export const FormContent: FC<FormContentProps> = ({
       <RenderInlineStyles appearance={appearance} />
       <FormContainer className={getClassName('formContainer', appearance)}>
         <FormContainerMain>
-          <FormContainerWrapper type={type} className={getClassName('formContent', appearance)}>
+          <AnimatePresence initial={false}>
             {steps.map((step, idx) => {
+              if (idx !== selectedStep) {
+                return null
+              }
+
               return (
-                <div
+                <motion.div
                   key={step.id}
+                  initial={{
+                    opacity: 1,
+                    y: '-100%',
+                  }}
+                  animate={{
+                    opacity: 1,
+                    y: 0,
+                  }}
+                  exit={{
+                    opacity: 0,
+                    y: '100%',
+                  }}
+                  transition={{ duration: 0.4, ease: 'easeInOut' }}
                   style={{
-                    display: idx === selectedStep ? 'block' : 'none',
+                    width: '100%',
+                    height: '100%',
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    zIndex: 1,
+                    overflow: 'hidden',
                   }}
                 >
-                  {mergedCustomStepTypes[steps[idx]?.type]({
-                    stepData: steps[idx],
-                    canContinue: canContinue,
-                    setCanContinue: setCanContinue,
-                    onSaveData: (data) => {
-                      updateData(steps[idx], data)
-                    },
-                    appearance: appearance,
-                  })}
-                </div>
+                  <FormContainerWrapper
+                    type={type}
+                    className={getClassName('formContent', appearance)}
+                  >
+                    {mergedCustomStepTypes[steps[idx]?.type]({
+                      stepData: steps[idx],
+                      canContinue: canContinue,
+                      setCanContinue: setCanContinue,
+                      onSaveData: (data) => {
+                        updateData(steps[idx], data)
+                      },
+                      appearance: appearance,
+                    })}
+                    <FormFooter
+                      step={steps[selectedStep]}
+                      canContinue={canContinue}
+                      formType={type}
+                      selectedStep={selectedStep}
+                      appearance={appearance}
+                      onPrimaryClick={() => {
+                        if (selectedStep + 1 < steps.length) {
+                          markStepStarted(flowId, steps[selectedStep + 1].id)
+                        }
+                        markStepCompleted(flowId, steps[selectedStep].id, getDataPayload())
+                        handleStepCompletionHandlers(steps[selectedStep], 'primary', selectedStep)
+                        if (selectedStep + 1 >= steps.length) {
+                          if (onComplete) {
+                            onComplete()
+                          }
+                          if (hideOnFlowCompletion) {
+                            if (setVisible) {
+                              setVisible(false)
+                            }
+                            setShowModal(false)
+                          }
+                        }
+                        primaryCTAClickSideEffects(steps[selectedStep])
+                      }}
+                      onSecondaryClick={() => {
+                        handleStepCompletionHandlers(steps[selectedStep], 'secondary', selectedStep)
+                        secondaryCTAClickSideEffects(steps[selectedStep])
+                      }}
+                      onBack={() => {}}
+                      steps={steps}
+                      currentStep={selectedStep}
+                    />
+                  </FormContainerWrapper>
+                </motion.div>
               )
             })}
-            <FormFooter
-              step={steps[selectedStep]}
-              canContinue={canContinue}
-              formType={type}
-              selectedStep={selectedStep}
-              appearance={appearance}
-              onPrimaryClick={() => {
-                if (selectedStep + 1 < steps.length) {
-                  markStepStarted(flowId, steps[selectedStep + 1].id)
-                }
-                markStepCompleted(flowId, steps[selectedStep].id, getDataPayload())
-                handleStepCompletionHandlers(steps[selectedStep], 'primary', selectedStep)
-                if (selectedStep + 1 >= steps.length) {
-                  if (onComplete) {
-                    onComplete()
-                  }
-                  if (hideOnFlowCompletion) {
-                    if (setVisible) {
-                      setVisible(false)
-                    }
-                    setShowModal(false)
-                  }
-                }
-                primaryCTAClickSideEffects(steps[selectedStep])
-              }}
-              onSecondaryClick={() => {
-                handleStepCompletionHandlers(steps[selectedStep], 'secondary', selectedStep)
-                secondaryCTAClickSideEffects(steps[selectedStep])
-              }}
-              onBack={() => {}}
-              steps={steps}
-              currentStep={selectedStep}
-            />
-          </FormContainerWrapper>
+          </AnimatePresence>
         </FormContainerMain>
         {type == 'large-modal' && <FormContainerSidebar selectedStep={steps[selectedStep]} />}
       </FormContainer>
