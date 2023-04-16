@@ -289,7 +289,6 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
           onClose={() => {
             handleClose()
           }}
-          secondaryColor={appearance.theme.colorSecondary}
           selectedStep={selectedStep}
           setSelectedStep={setSelectedStep}
           guideData={guideFlowSteps}
@@ -314,7 +313,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
         selectedStep={selectedStep}
         setSelectedStep={setSelectedStep}
         className={className}
-        apperaance={appearance}
+        appearance={appearance}
         {...commonProps}
       />
     </>

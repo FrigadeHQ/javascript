@@ -19,7 +19,7 @@ import {
 } from '../../components/checklist-step-content/CodeSnippetContent'
 import { useTheme } from '../../hooks/useTheme'
 
-export interface HeroChecklistProps extends DefaultFrigadeFlowProps {
+export interface HeroChecklistProps extends Omit<DefaultFrigadeFlowProps, 'flowId'> {
   title?: string
   subtitle?: string
   /**
