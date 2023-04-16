@@ -65,7 +65,7 @@ export type CheckBoxType = 'square' | 'round'
 
 export interface CheckBoxProps {
   value: boolean
-  type: CheckBoxType
+  type?: CheckBoxType
   primaryColor?: string
   progress?: number // progress percentage our of 1. e.g. 0.5
   appearance?: Appearance

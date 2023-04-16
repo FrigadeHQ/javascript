@@ -123,15 +123,26 @@ export const FormContent: FC<FormContentProps> = ({
       <FormContainer className={getClassName('formContainer', appearance)}>
         <FormContainerMain>
           <FormContainerWrapper type={type} className={getClassName('formContent', appearance)}>
-            <StepContent
-              stepData={steps[selectedStep]}
-              canContinue={canContinue}
-              setCanContinue={setCanContinue}
-              onSaveData={(data) => {
-                updateData(steps[selectedStep], data)
-              }}
-              appearance={appearance}
-            />
+            {steps.map((step, idx) => {
+              return (
+                <div
+                  key={step.id}
+                  style={{
+                    display: idx === selectedStep ? 'block' : 'none',
+                  }}
+                >
+                  {mergedCustomStepTypes[steps[idx]?.type]({
+                    stepData: steps[idx],
+                    canContinue: canContinue,
+                    setCanContinue: setCanContinue,
+                    onSaveData: (data) => {
+                      updateData(steps[idx], data)
+                    },
+                    appearance: appearance,
+                  })}
+                </div>
+              )
+            })}
             <FormFooter
               step={steps[selectedStep]}
               canContinue={canContinue}
