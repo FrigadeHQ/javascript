@@ -31,7 +31,7 @@ interface TooltipData extends StepData {
   buttonStyle?: CSSProperties
 }
 
-export interface ToolTipProps extends DefaultFrigadeFlowProps {
+export interface ToolTipProps extends Omit<DefaultFrigadeFlowProps, 'flowId'> {
   steps?: TooltipData[]
   onDismiss?: () => void
   onComplete?: () => void
@@ -52,6 +52,7 @@ export interface ToolTipProps extends DefaultFrigadeFlowProps {
    * Shows a close button in the top right corner of the tooltip. This will end the flow.
    */
   dismissible?: boolean
+  primaryColor?: string
 }
 
 const HighlightOuter = styled.div<{ primaryColor: string }>`
@@ -141,13 +142,13 @@ const Tooltips: FC<ToolTipProps> = ({
   showTooltipsSimultaneously = false,
   dismissible = false,
 }) => {
-  const [selfBounds, setSelfBounds] = useState<undefined | DOMRect>(undefined)
+  const [selfBounds, setSelfBounds] = useState<undefined | Partial<DOMRect>>(undefined)
   const [needsUpdate, setNeedsUpdate] = useState(new Date())
-  const selfRef = useRef()
+  const selfRef = useRef<HTMLDivElement>()
 
   const [elem, setElem] = useState(initialElem)
   const boundingRect = useElemRect(elem, needsUpdate)
-  const [lastBoundingRect, setLastBoundingRect] = useState()
+  const [lastBoundingRect, setLastBoundingRect] = useState<string>()
 
   useLayoutEffect(() => {
     if (selfRef.current) {
