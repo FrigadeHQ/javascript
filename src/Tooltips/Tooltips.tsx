@@ -24,7 +24,7 @@ const CARD_WIDTH = 385
 const CARD_HEIGHT = 50
 
 // TODO: Should extend from FlowItem in a shared types repo
-interface TooltipData extends StepData {
+export interface ToolTipData extends StepData {
   selector?: string
   subtitleStyle?: CSSProperties
   titleStyle?: CSSProperties
@@ -32,7 +32,7 @@ interface TooltipData extends StepData {
 }
 
 export interface ToolTipProps extends Omit<DefaultFrigadeFlowProps, 'flowId'> {
-  steps?: TooltipData[]
+  steps?: ToolTipData[]
   onDismiss?: () => void
   onComplete?: () => void
   tooltipPosition?: ToolTipPosition

@@ -96,7 +96,7 @@ export function useFlows() {
     return flow
   }
 
-  function getFlowSteps(flowId: string): any[] {
+  function getFlowSteps(flowId: string): StepData[] {
     if (!getFlow(flowId)) {
       return []
     }
@@ -110,7 +110,7 @@ export function useFlows() {
     const steps = JSON.parse(flowData)?.data ?? []
 
     return steps
-      .map((step: StepData, idx: number) => {
+      .map((step: StepData) => {
         const autoCalculatedProgress = getStepOptionalProgress(step)
         return {
           handleSecondaryButtonClick: () => {

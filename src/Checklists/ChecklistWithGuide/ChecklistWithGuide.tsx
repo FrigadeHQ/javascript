@@ -290,6 +290,8 @@ const ChecklistWithGuide: FC<ChecklistWithGuideProps> = ({
                 if (onGuideButtonClick) {
                   onGuideButtonClick(step)
                 }
+
+                return true
               }}
             />
           )}
