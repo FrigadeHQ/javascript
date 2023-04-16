@@ -200,7 +200,6 @@ export const FormContent: FC<FormContentProps> = ({
                       }}
                       onBack={() => {}}
                       steps={steps}
-                      currentStep={selectedStep}
                     />
                   </FormContainerWrapper>
                 </motion.div>
