@@ -9,7 +9,7 @@ import { CustomFormTypeProps } from './types'
 import { useTheme } from '../hooks/useTheme'
 import { FormContent } from './FormContent'
 
-export type FrigadeFormType = 'inline' | 'modal' | 'large-modal'
+export type FrigadeFormType = 'inline' | 'modal' | 'large-modal' | 'corner-modal'
 
 export interface FormProps extends DefaultFrigadeFlowProps {
   title?: string
