@@ -134,6 +134,9 @@ export interface DefaultFrigadeFlowProps {
     cta: 'primary' | 'secondary' | 'link',
     nextStep?: StepData
   ) => boolean
+
+  onDismiss?: () => void
+  onComplete?: () => void
 }
 
 export interface Appearance {
