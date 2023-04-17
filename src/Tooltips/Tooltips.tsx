@@ -20,7 +20,7 @@ import { TitleSubtitle } from '../components/TitleSubtitle/TitleSubtitle'
 
 export type ToolTipPosition = 'left' | 'right' | 'auto'
 
-const CARD_WIDTH = 385
+const CARD_WIDTH = 300
 const CARD_HEIGHT = 50
 
 // TODO: Should extend from FlowItem in a shared types repo
@@ -58,6 +58,10 @@ export interface ToolTipProps extends Omit<DefaultFrigadeFlowProps, 'flowId'> {
    * Clicking the highlight will reveal it.
    */
   showHighlightOnly?: boolean
+  /**
+   * If true, a step counter will show up in the tooltip.
+   */
+  showStepCount?: boolean
 }
 
 const HighlightOuter = styled.div<{ primaryColor: string }>`
@@ -146,23 +150,26 @@ const Tooltips: FC<ToolTipProps> = ({
   appearance,
   showTooltipsSimultaneously = false,
   dismissible = false,
+  showHighlightOnly = false,
+  showStepCount = true,
 }) => {
   const [selfBounds, setSelfBounds] = useState<undefined | Partial<DOMRect>>(undefined)
   const [needsUpdate, setNeedsUpdate] = useState(new Date())
-  const selfRef = useRef<HTMLDivElement>()
+  const selfRef = useRef(null)
 
   const [elem, setElem] = useState(initialElem)
   const boundingRect = useElemRect(elem, needsUpdate)
   const [lastBoundingRect, setLastBoundingRect] = useState<string>()
+  const [showTooltipContainer, setShowTooltipContainer] = useState(!showHighlightOnly)
 
   useLayoutEffect(() => {
     if (selfRef.current) {
       setSelfBounds({
-        width: selfRef.current.offsetWidth,
-        height: selfRef.current.offsetHeight,
+        width: selfRef.current.clientWidth,
+        height: selfRef.current.clientHeight,
       })
     }
-  }, [])
+  }, [selectedStep, needsUpdate])
 
   let tooltipPositionValue: ToolTipPosition =
     tooltipPosition === 'auto' ? 'right' : (tooltipPosition as ToolTipPosition)
@@ -226,6 +233,9 @@ const Tooltips: FC<ToolTipProps> = ({
     const handleOnCTAClick = () => {
       if (steps[selectedStep].handlePrimaryButtonClick) {
         steps[selectedStep].handlePrimaryButtonClick()
+        if (showHighlightOnly) {
+          setShowTooltipContainer(false)
+        }
       }
       if (selectedStep === steps.length - 1) {
         return onComplete()
@@ -235,16 +245,21 @@ const Tooltips: FC<ToolTipProps> = ({
     const handleOnSecondaryCTAClick = () => {
       if (steps[selectedStep].handleSecondaryButtonClick) {
         steps[selectedStep].handleSecondaryButtonClick()
+        if (showHighlightOnly) {
+          setShowTooltipContainer(false)
+        }
       }
     }
 
     return (
       <>
-        <TooltipStepCountContainer>
-          <TooltipStepCounter className={getClassName('tooltipStepCounter', appearance)}>
-            {selectedStep + 1} of {steps.length}
-          </TooltipStepCounter>
-        </TooltipStepCountContainer>
+        {showStepCount && (
+          <TooltipStepCountContainer>
+            <TooltipStepCounter className={getClassName('tooltipStepCounter', appearance)}>
+              {selectedStep + 1} of {steps.length}
+            </TooltipStepCounter>
+          </TooltipStepCountContainer>
+        )}
         <TooltipCTAContainer className={getClassName('tooltipCTAContainer', appearance)}>
           {steps[selectedStep].secondaryButtonTitle && (
             <Button
@@ -287,7 +302,6 @@ const Tooltips: FC<ToolTipProps> = ({
           title={steps[selectedStep].title}
           subtitle={steps[selectedStep].subtitle}
         />
-
         <TooltipFooter className={getClassName('tooltipFooter', appearance)}>
           <DefaultFooterContent />
         </TooltipFooter>
@@ -326,6 +340,12 @@ const Tooltips: FC<ToolTipProps> = ({
           style={{
             top: position?.y - 24 ?? 0,
             left: (tooltipPositionValue == 'left' ? boundingRect.x : position?.x - 24) ?? 0,
+            cursor: showHighlightOnly ? 'pointer' : 'default',
+          }}
+          onClick={() => {
+            if (showHighlightOnly) {
+              setShowTooltipContainer(!showTooltipContainer)
+            }
           }}
         >
           <HighlightInner
@@ -342,22 +362,24 @@ const Tooltips: FC<ToolTipProps> = ({
           ></HighlightOuter>
         </HiglightContainer>
       )}
-      <TooltipContainer
-        ref={selfRef}
-        layoutId="tooltip-container"
-        style={{
-          position: 'absolute',
-          width: 'max-content',
-          left: `${position?.x}px` ?? 0,
-          top: `${position?.y}px` ?? 0,
-          ...containerStyle,
-        }}
-        appearance={appearance}
-        className={getClassName('tooltipContainer', appearance)}
-        maxWidth={CARD_WIDTH}
-      >
-        <StepContent />
-      </TooltipContainer>
+      {showTooltipContainer && (
+        <TooltipContainer
+          ref={selfRef}
+          layoutId="tooltip-container"
+          style={{
+            position: 'absolute',
+            width: 'max-content',
+            left: `${position?.x}px` ?? 0,
+            top: `${position?.y}px` ?? 0,
+            ...containerStyle,
+          }}
+          appearance={appearance}
+          className={getClassName('tooltipContainer', appearance)}
+          maxWidth={CARD_WIDTH}
+        >
+          <StepContent />
+        </TooltipContainer>
+      )}
     </>
   )
 }
