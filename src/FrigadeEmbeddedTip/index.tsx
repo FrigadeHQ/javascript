@@ -106,6 +106,7 @@ export const FrigadeEmbeddedTip: React.FC<FrigadeEmbeddedTipProps> = ({
             className={getClassName('embeddedTipCallToActionContainer', appearance)}
           >
             <Button
+              classPrefix="embeddedTip"
               title={currentStep.primaryButtonTitle}
               appearance={appearance}
               onClick={() => {

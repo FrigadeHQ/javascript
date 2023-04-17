@@ -23,12 +23,6 @@ export function RenderInlineStyles({ appearance }: { appearance?: Appearance }) 
   if (!appearance || !appearance.styleOverrides) {
     return <></>
   }
-  // Find all appearance.styleOverrides that contain CSS Properties
-
-  // Create a GlobalStyle component that contains all the CSS Properties
-
-  // Return the GlobalStyle component
-
   const inlineStyles = Object.entries(appearance.styleOverrides).filter(([key, value]) => {
     return typeof value === 'object'
   })

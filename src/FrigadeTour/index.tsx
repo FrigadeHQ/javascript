@@ -22,6 +22,7 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
   dismissible,
   tooltipPosition = 'auto',
   showHighlightOnly = false,
+  dismissBehavior = 'complete-flow',
   ...props
 }) => {
   const {
@@ -152,43 +153,45 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
     })
   }
 
-  function onDismissCurrentTooltip() {
+  function onDismissTooltip(stepData: StepData) {
     if (onDismiss) {
       onDismiss()
     }
-    markFlowCompleted(flowId)
+    if (dismissBehavior === 'complete-flow') {
+      markFlowCompleted(flowId)
+    } else {
+      markStepCompleted(flowId, stepData.id)
+    }
   }
-
-  const elem = document.querySelector(steps[selectedStep].selector)
 
   return (
     <Portal>
       <RenderInlineStyles appearance={appearance} />
       {showTooltipsSimultaneously ? (
-        steps.map((step: StepData, idx: number) => (
-          <Tooltips
-            key={step.id}
-            appearance={appearance}
-            steps={getSteps()}
-            elem={elem}
-            selectedStep={idx}
-            showTooltipsSimultaneously={showTooltipsSimultaneously}
-            dismissible={dismissible}
-            onDismiss={onDismissCurrentTooltip}
-            tooltipPosition={tooltipPosition}
-            showHighlightOnly={showHighlightOnly}
-            {...props}
-          />
-        ))
+        steps.map((step: StepData, idx: number) => {
+          return (
+            <Tooltips
+              key={step.id}
+              appearance={appearance}
+              steps={getSteps()}
+              selectedStep={idx}
+              showTooltipsSimultaneously={showTooltipsSimultaneously}
+              dismissible={dismissible}
+              onDismiss={() => onDismissTooltip(step)}
+              tooltipPosition={tooltipPosition}
+              showHighlightOnly={showHighlightOnly}
+              {...props}
+            />
+          )
+        })
       ) : (
         <Tooltips
           appearance={appearance}
           steps={getSteps()}
-          elem={elem}
           selectedStep={selectedStep}
           showTooltipsSimultaneously={showTooltipsSimultaneously}
           dismissible={dismissible}
-          onDismiss={onDismissCurrentTooltip}
+          onDismiss={() => onDismissTooltip(steps[selectedStep])}
           tooltipPosition={tooltipPosition}
           {...props}
         />

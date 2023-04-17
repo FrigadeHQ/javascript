@@ -22,6 +22,8 @@ export type ToolTipPosition = 'left' | 'right' | 'auto'
 
 const CARD_WIDTH = 300
 const CARD_HEIGHT = 50
+const DEFAULT_REFRESH_DELAY = 500
+const HIGHLIGHT_RADIUS = 12
 
 // TODO: Should extend from FlowItem in a shared types repo
 export interface ToolTipData extends StepData {
@@ -39,8 +41,6 @@ export interface ToolTipProps extends Omit<DefaultFrigadeFlowProps, 'flowId'> {
   showHighlight?: boolean
   showTooltipsSimultaneously?: boolean
   buttonStyle?: CSSProperties
-
-  elem?: any // initial element to focus
   offset?: { x: number; y: number }
   visible?: boolean
   containerStyle?: CSSProperties
@@ -62,6 +62,7 @@ export interface ToolTipProps extends Omit<DefaultFrigadeFlowProps, 'flowId'> {
    * If true, a step counter will show up in the tooltip.
    */
   showStepCount?: boolean
+  dismissBehavior?: 'complete-flow' | 'complete-step'
 }
 
 const HighlightOuter = styled.div<{ primaryColor: string }>`
@@ -90,11 +91,9 @@ const HighlightOuter = styled.div<{ primaryColor: string }>`
   }
 `
 
-const DEFAULT_REFRESH_DELAY = 500
-
 const HighlightInner = styled.div<{ primaryColor: string }>`
-  width: 20px;
-  height: 20px;
+  width: ${HIGHLIGHT_RADIUS}px;
+  height: ${HIGHLIGHT_RADIUS}px;
   border-radius: 100px;
   background-color: ${(props) => props.primaryColor};
   z-index: 20;
@@ -102,14 +101,14 @@ const HighlightInner = styled.div<{ primaryColor: string }>`
 `
 
 const HiglightContainer = styled.div<{ primaryColor: string }>`
-  width: 32px;
-  height: 32px;
+  width: ${HIGHLIGHT_RADIUS + 12}px;
+  height: ${HIGHLIGHT_RADIUS + 12}px;
   position: absolute;
   display: flex;
   align-content: center;
   justify-content: center;
   align-items: center;
-  z-index: 100;
+  z-index: ${(props) => (props.zIndex ? props.zIndex : 90)};
 `
 
 function useInterval(param: () => void, number: number) {
@@ -140,7 +139,6 @@ const Tooltips: FC<ToolTipProps> = ({
   showHighlight = true,
   primaryColor = '#000000',
   buttonStyle = {},
-  elem: initialElem,
   offset = { x: 0, y: 0 },
   visible = true,
   containerStyle = {},
@@ -157,19 +155,26 @@ const Tooltips: FC<ToolTipProps> = ({
   const [needsUpdate, setNeedsUpdate] = useState(new Date())
   const selfRef = useRef(null)
 
-  const [elem, setElem] = useState(initialElem)
+  const [elem, setElem] = useState(document.querySelector(steps[selectedStep].selector))
   const boundingRect = useElemRect(elem, needsUpdate)
   const [lastBoundingRect, setLastBoundingRect] = useState<string>()
   const [showTooltipContainer, setShowTooltipContainer] = useState(!showHighlightOnly)
+  const positionStyle = steps[selectedStep]?.props?.position
+    ? steps[selectedStep].props.position
+    : 'absolute'
+  const zIndex = steps[selectedStep]?.props?.zIndex ?? 90
 
   useLayoutEffect(() => {
+    if (positionStyle === 'fixed') {
+      return
+    }
     if (selfRef.current) {
       setSelfBounds({
         width: selfRef.current.clientWidth,
         height: selfRef.current.clientHeight,
       })
     }
-  }, [selectedStep, needsUpdate])
+  }, [selectedStep, needsUpdate, positionStyle])
 
   let tooltipPositionValue: ToolTipPosition =
     tooltipPosition === 'auto' ? 'right' : (tooltipPosition as ToolTipPosition)
@@ -177,7 +182,8 @@ const Tooltips: FC<ToolTipProps> = ({
     boundingRect,
     tooltipPositionValue,
     selfBounds?.width ?? CARD_WIDTH,
-    offset
+    offset,
+    positionStyle
   )
 
   const rightSideIsCropped =
@@ -187,13 +193,16 @@ const Tooltips: FC<ToolTipProps> = ({
     (window.innerHeight || document.documentElement.clientHeight)
 
   if (rightSideIsCropped && tooltipPosition === 'auto') {
-    position = getPosition(boundingRect, 'left', CARD_WIDTH, offset)
+    position = getPosition(boundingRect, 'left', CARD_WIDTH, offset, positionStyle)
     tooltipPositionValue = 'left'
   }
 
   const url = window.location.pathname.split('/').pop()
 
   const handleRefreshPosition = () => {
+    if (positionStyle === 'fixed') {
+      return
+    }
     const elem = document.querySelector(steps[selectedStep].selector)
     if (lastBoundingRect && lastBoundingRect === JSON.stringify(elem?.getBoundingClientRect())) {
       return
@@ -260,12 +269,17 @@ const Tooltips: FC<ToolTipProps> = ({
             </TooltipStepCounter>
           </TooltipStepCountContainer>
         )}
-        <TooltipCTAContainer className={getClassName('tooltipCTAContainer', appearance)}>
+        <TooltipCTAContainer
+          showStepCount={showStepCount}
+          className={getClassName('tooltipCTAContainer', appearance)}
+        >
           {steps[selectedStep].secondaryButtonTitle && (
             <Button
               title={steps[selectedStep].secondaryButtonTitle}
               appearance={appearance}
               onClick={handleOnSecondaryCTAClick}
+              size="small"
+              withMargin={false}
               secondary
             />
           )}
@@ -274,6 +288,8 @@ const Tooltips: FC<ToolTipProps> = ({
               title={steps[selectedStep].primaryButtonTitle}
               appearance={appearance}
               onClick={handleOnCTAClick}
+              withMargin={false}
+              size="small"
             />
           )}
         </TooltipCTAContainer>
@@ -301,6 +317,7 @@ const Tooltips: FC<ToolTipProps> = ({
           appearance={appearance}
           title={steps[selectedStep].title}
           subtitle={steps[selectedStep].subtitle}
+          size="small"
         />
         <TooltipFooter className={getClassName('tooltipFooter', appearance)}>
           <DefaultFooterContent />
@@ -342,8 +359,10 @@ const Tooltips: FC<ToolTipProps> = ({
       {showHighlight && steps[selectedStep].showHighlight !== false && (
         <HiglightContainer
           style={{
-            top: position?.y - 24 ?? 0,
-            left: (tooltipPositionValue == 'left' ? boundingRect.x : position?.x - 24) ?? 0,
+            top: position?.y - HIGHLIGHT_RADIUS ?? 0,
+            left:
+              (tooltipPositionValue == 'left' ? boundingRect.x : position?.x - HIGHLIGHT_RADIUS) ??
+              0,
             cursor: showHighlightOnly ? 'pointer' : 'default',
           }}
           onClick={() => {
@@ -351,10 +370,11 @@ const Tooltips: FC<ToolTipProps> = ({
               setShowTooltipContainer(!showTooltipContainer)
             }
           }}
+          zIndex={zIndex}
         >
           <HighlightInner
             style={{
-              position: 'absolute',
+              position: positionStyle,
             }}
             primaryColor={appearance.theme.colorPrimary}
           ></HighlightInner>
@@ -371,15 +391,19 @@ const Tooltips: FC<ToolTipProps> = ({
           ref={selfRef}
           layoutId="tooltip-container"
           style={{
-            position: 'absolute',
+            position: positionStyle,
             width: 'max-content',
-            left: `${position?.x}px` ?? 0,
+            left:
+              `${
+                tooltipPositionValue == 'right' ? position?.x + HIGHLIGHT_RADIUS : position?.x
+              }px` ?? 0,
             top: `${position?.y}px` ?? 0,
             ...containerStyle,
           }}
           appearance={appearance}
           className={getClassName('tooltipContainer', appearance)}
           maxWidth={CARD_WIDTH}
+          zIndex={zIndex + 10}
         >
           <StepContent />
         </TooltipContainer>

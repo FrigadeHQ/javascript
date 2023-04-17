@@ -16,10 +16,11 @@ export const getPosition = (
   boundingRect: BoundingRect,
   position: ToolTipPosition,
   cardWidth: number,
-  offset: Point = { x: 20, y: 20 }
+  offset: Point = { x: 20, y: 20 },
+  positionStyle: string
 ): Point => {
-  const scrollY = window.scrollY
-  const scrollX = window.scrollX
+  const scrollY = positionStyle == 'fixed' ? 0 : window.scrollY
+  const scrollX = positionStyle == 'fixed' ? 0 : window.scrollX
 
   if (!boundingRect || !boundingRect.left || !boundingRect.top) return { x: 0, y: 0 }
 

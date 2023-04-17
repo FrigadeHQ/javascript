@@ -59,3 +59,7 @@ export function styleOverridesToCSS(props: any) {
 export function mergeClasses(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }
+
+export function ucFirst(str: string) {
+  return str.charAt(0).toUpperCase() + str.slice(1)
+}

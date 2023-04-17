@@ -1,7 +1,7 @@
 import React, { CSSProperties, FC } from 'react'
 import styled from 'styled-components'
 import { Appearance } from '../../types'
-import { getClassName, getCustomClassOverrides } from '../../shared/appearance'
+import { getClassName, getCustomClassOverrides, ucFirst } from '../../shared/appearance'
 
 interface ButtonProps {
   onClick?: () => void
@@ -13,6 +13,8 @@ interface ButtonProps {
   secondary?: boolean
   appearance?: Appearance
   withMargin?: boolean
+  size?: 'small' | 'medium' | 'large'
+  classPrefix?: string
 }
 
 const ButtonContainer = styled.button`
@@ -35,8 +37,8 @@ const ButtonContainer = styled.button`
         ? props.appearance?.theme?.colorBackground
         : props?.appearance?.theme?.colorPrimary};
     border-radius: ${(props) => props.appearance?.theme?.borderRadius}px;
-    padding: 8px 20px 8px 20px;
-    font-size: 15px;
+    padding: ${(props) => (props.size == 'small' ? '6px 14px 6px 14px' : '8px 20px 8px 20px')};
+    font-size: ${(props) => (props.size == 'small' ? '14px' : '15px')};
     line-height: 20px;
     font-weight: 500;
   }
@@ -70,10 +72,21 @@ export const Button: FC<ButtonProps> = ({
   disabled,
   textStyle = {},
   type = 'inline',
+  size = 'medium',
   secondary = false,
   appearance,
   withMargin = true,
+  classPrefix = '',
 }) => {
+  function getClassNameWithPrefix() {
+    const name = secondary ? 'buttonSecondary' : 'button'
+    if (classPrefix === '') {
+      return name
+    }
+
+    return `${classPrefix}${ucFirst(name)}`
+  }
+
   return (
     <ButtonContainer
       secondary={secondary}
@@ -83,7 +96,8 @@ export const Button: FC<ButtonProps> = ({
       style={style}
       type={type}
       withMargin={withMargin}
-      className={getClassName(secondary ? 'buttonSecondary' : 'button', appearance)}
+      size={size}
+      className={getClassName(getClassNameWithPrefix(), appearance)}
     >
       {title}
     </ButtonContainer>
