@@ -3,7 +3,7 @@ import React, { CSSProperties, FC, useEffect, useLayoutEffect, useRef, useState 
 import { Button } from '../components/Button'
 import { Close } from '../components/Icons/Close'
 import styled from 'styled-components'
-import { getPosition } from './position'
+import { getPosition, useElemRect } from './position'
 import {
   TooltipContainer,
   TooltipCTAContainer,
@@ -14,7 +14,6 @@ import {
 } from './styled'
 import { Appearance, DefaultFrigadeFlowProps, StepData } from '../types'
 
-import { useElemRect } from '@reactour/utils'
 import { getClassName } from '../shared/appearance'
 import { TitleSubtitle } from '../components/TitleSubtitle/TitleSubtitle'
 
@@ -69,7 +68,6 @@ const HighlightOuter = styled.div<{ primaryColor: string }>`
   width: 100%;
   height: 100%;
   border-radius: 9999px;
-  position: absolute;
   display: inline-flex;
   background-color: ${(props: any) => props.primaryColor};
   animation-duration: 1.5s;
@@ -103,7 +101,6 @@ const HighlightInner = styled.div<{ primaryColor: string }>`
 const HiglightContainer = styled.div<{ primaryColor: string }>`
   width: ${HIGHLIGHT_RADIUS + 12}px;
   height: ${HIGHLIGHT_RADIUS + 12}px;
-  position: absolute;
   display: flex;
   align-content: center;
   justify-content: center;
@@ -213,11 +210,6 @@ const Tooltips: FC<ToolTipProps> = ({
       setLastBoundingRect(JSON.stringify(elem.getBoundingClientRect()))
     }
   }
-
-  // Periodically refresh position every 100 ms
-  useInterval(() => {
-    handleRefreshPosition()
-  }, 200)
 
   useLayoutEffect(() => {
     setTimeout(() => {
@@ -364,6 +356,7 @@ const Tooltips: FC<ToolTipProps> = ({
               (tooltipPositionValue == 'left' ? boundingRect.x : position?.x - HIGHLIGHT_RADIUS) ??
               0,
             cursor: showHighlightOnly ? 'pointer' : 'default',
+            position: positionStyle,
           }}
           onClick={() => {
             if (showHighlightOnly) {
