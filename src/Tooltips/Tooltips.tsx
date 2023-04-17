@@ -150,7 +150,7 @@ const Tooltips: FC<ToolTipProps> = ({
   appearance,
   showTooltipsSimultaneously = false,
   dismissible = false,
-  showHighlightOnly = false,
+  showHighlightOnly,
   showStepCount = true,
 }) => {
   const [selfBounds, setSelfBounds] = useState<undefined | Partial<DOMRect>>(undefined)
@@ -331,6 +331,10 @@ const Tooltips: FC<ToolTipProps> = ({
       stepData: steps[selectedStep],
       primaryColor: primaryColor,
     })
+  }
+
+  if (showHighlightOnly && steps[selectedStep].complete === true) {
+    return null
   }
 
   return (

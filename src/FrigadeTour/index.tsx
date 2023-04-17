@@ -2,7 +2,7 @@ import React, { FC, useContext, useEffect } from 'react'
 import { useFlows } from '../api/flows'
 import { ToolTipData, ToolTipProps, Tooltips } from '../Tooltips'
 import { StepData } from '../types'
-import { COMPLETED_FLOW } from '../api/common'
+import { COMPLETED_FLOW, COMPLETED_STEP } from '../api/common'
 import { Portal } from 'react-portal'
 import { useFlowOpens } from '../api/flow-opens'
 import { FrigadeContext } from '../FrigadeProvider'
@@ -21,6 +21,7 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
   onDismiss,
   dismissible,
   tooltipPosition = 'auto',
+  showHighlightOnly = false,
   ...props
 }) => {
   const {
@@ -33,6 +34,7 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
     markFlowCompleted,
     setCustomVariable,
     getCurrentStepIndex,
+    getStepStatus,
     isStepBlocked,
     getFlowStatus,
     customVariables: existingCustomVariables,
@@ -92,18 +94,25 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
     }
   }
 
-  function markTooltipCompleted() {
-    markStepCompleted(flowId, steps[selectedStep].id)
+  function markTooltipCompleted(stepData: StepData) {
+    markStepCompleted(flowId, stepData.id)
 
-    if (selectedStep + 1 >= steps.length) {
+    // Check if all steps are now completed
+    if (
+      steps
+        .map((step: StepData) => getStepStatus(flowId, step.id))
+        .every((status) => status === COMPLETED_STEP)
+    ) {
       markFlowCompleted(flowId)
       return
     }
-    // Double check next step is not blocked
-    if (isStepBlocked(flowId, steps[selectedStep + 1].id)) {
-      return
+    if (!showHighlightOnly) {
+      // Double check next step is not blocked
+      if (isStepBlocked(flowId, steps[selectedStep + 1].id)) {
+        return
+      }
+      markStepStarted(flowId, steps[selectedStep + 1].id)
     }
-    markStepStarted(flowId, steps[selectedStep + 1].id)
   }
 
   function handleStepCompletionHandlers(step: StepData, cta: 'primary' | 'secondary', idx: number) {
@@ -134,7 +143,7 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
               (step.autoMarkCompleted || step.autoMarkCompleted === undefined)) ||
             (step.completionCriteria && step.autoMarkCompleted === true)
           ) {
-            markTooltipCompleted()
+            markTooltipCompleted(step)
           }
           handleStepCompletionHandlers(step, 'primary', selectedStep)
           primaryCTAClickSideEffects(step)
@@ -167,6 +176,7 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
             dismissible={dismissible}
             onDismiss={onDismissCurrentTooltip}
             tooltipPosition={tooltipPosition}
+            showHighlightOnly={showHighlightOnly}
             {...props}
           />
         ))
