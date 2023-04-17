@@ -84,7 +84,7 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
       try {
         localStorage.setItem(guestUserIdField, newGuestUserId)
       } catch (e) {
-        console.log('Failed to save guest user id locally: Local storage available', e)
+        console.log('Failed to save guest user id locally: Local storage unavailable', e)
       }
       setUserId((userId) => (userId ? userId : newGuestUserId))
     }
@@ -116,9 +116,7 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
           }
         })
       }
-    } catch (e) {
-      console.log('Failed to preload images', e)
-    }
+    } catch (e) {}
   }, [flows])
 
   useEffect(() => {

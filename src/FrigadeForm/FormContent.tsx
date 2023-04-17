@@ -62,6 +62,7 @@ export const FormContent: FC<FormContentProps> = ({
     isLoading,
     setCustomVariable,
     customVariables: existingCustomVariables,
+    markFlowCompleted,
   } = useFlows()
 
   useEffect(() => {
@@ -191,6 +192,7 @@ export const FormContent: FC<FormContentProps> = ({
                             }
                             setShowModal(false)
                           }
+                          markFlowCompleted(flowId)
                         }
                         primaryCTAClickSideEffects(steps[selectedStep])
                       }}
