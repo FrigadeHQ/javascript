@@ -53,6 +53,11 @@ export interface ToolTipProps extends Omit<DefaultFrigadeFlowProps, 'flowId'> {
    */
   dismissible?: boolean
   primaryColor?: string
+  /**
+   * If true, the tooltip will only show the highlight and not the tooltip itself.
+   * Clicking the highlight will reveal it.
+   */
+  showHighlightOnly?: boolean
 }
 
 const HighlightOuter = styled.div<{ primaryColor: string }>`
@@ -127,7 +132,7 @@ const Tooltips: FC<ToolTipProps> = ({
   steps = [],
   onDismiss,
   onComplete = () => {},
-  tooltipPosition = 'left',
+  tooltipPosition = 'auto',
   showHighlight = true,
   primaryColor = '#000000',
   buttonStyle = {},

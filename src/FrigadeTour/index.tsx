@@ -10,7 +10,6 @@ import { RenderInlineStyles } from '../components/RenderInlineStyles'
 import { useCTAClickSideEffects } from '../hooks/useCTAClickSideEffects'
 import { useTheme } from '../hooks/useTheme'
 import { useUserFlowStates } from '../api/user-flow-states'
-import { useFlowResponses } from '../api/flow-responses'
 
 export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedStep?: number }> = ({
   flowId,
@@ -21,6 +20,7 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
   showTooltipsSimultaneously = false,
   onDismiss,
   dismissible,
+  tooltipPosition = 'auto',
   ...props
 }) => {
   const {
@@ -42,8 +42,6 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
   const { hasOpenModals } = useFlowOpens()
   const selectedStep = getCurrentStepIndex(flowId)
   const { openFlowStates } = useContext(FrigadeContext)
-
-  const { getFlowResponses } = useFlowResponses()
 
   const { mergeAppearanceWithDefault } = useTheme()
 
@@ -168,6 +166,7 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
             showTooltipsSimultaneously={showTooltipsSimultaneously}
             dismissible={dismissible}
             onDismiss={onDismissCurrentTooltip}
+            tooltipPosition={tooltipPosition}
             {...props}
           />
         ))
@@ -180,6 +179,7 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
           showTooltipsSimultaneously={showTooltipsSimultaneously}
           dismissible={dismissible}
           onDismiss={onDismissCurrentTooltip}
+          tooltipPosition={tooltipPosition}
           {...props}
         />
       )}
