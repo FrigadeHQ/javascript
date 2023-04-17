@@ -1,5 +1,5 @@
 import React, { CSSProperties, FC } from 'react'
-import { Appearance, StepData } from '../types'
+import { Appearance, DefaultFrigadeFlowProps, StepData } from '../types'
 import { motion } from 'framer-motion'
 
 import {
@@ -21,13 +21,12 @@ export interface GuideStepData extends StepData {
   icon?: string
 }
 
-interface GuideProps {
+interface GuideProps extends Pick<DefaultFrigadeFlowProps, 'onButtonClick'> {
   steps: GuideStepData[]
   title: string
   style?: CSSProperties
   primaryColor?: string
   appearance: Appearance
-  onButtonClick?: (stepData: StepData) => void
 }
 
 /**

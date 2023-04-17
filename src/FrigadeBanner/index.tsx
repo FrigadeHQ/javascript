@@ -30,6 +30,9 @@ export type FrigadeBannerType = 'full-width' | 'square'
 
 export interface FrigadeBannerProps extends DefaultFrigadeFlowProps {
   type?: FrigadeBannerType
+  title?: string
+  subtitle?: string
+  onDismiss?: () => void
 }
 
 export const FrigadeBanner: React.FC<FrigadeBannerProps> = ({

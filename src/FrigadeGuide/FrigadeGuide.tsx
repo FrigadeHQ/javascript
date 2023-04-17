@@ -25,5 +25,5 @@ export const FrigadeGuide: FC<FrigadeGuideProps> = ({ flowId, style, appearance,
 
   const steps = getFlowSteps(flowId)
 
-  return <Guide steps={steps} style={style} {...props} />
+  return <Guide steps={steps} style={style} appearance={appearance} {...props} />
 }

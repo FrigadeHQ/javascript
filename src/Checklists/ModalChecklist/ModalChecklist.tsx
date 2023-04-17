@@ -138,7 +138,6 @@ const ModalChecklist: FC<ModalChecklistProps> = ({
                     step.handleSecondaryButtonClick()
                   }
                 }}
-                primaryColor={primaryColor}
               />
             )
           })}

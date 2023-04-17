@@ -28,7 +28,7 @@ export const FormFooter: FC<FormFooterProps> = ({
   steps,
   selectedStep,
 }) => {
-  let buttonType = formType == 'corner-modal' || 'large-modal' || 'modal' ? 'full-width' : 'inline'
+  const buttonType = formType === 'inline' ? 'inline' : 'full-width'
 
   return (
     <FormCTAContainer className={getClassName('formCTAContainer', appearance)}>

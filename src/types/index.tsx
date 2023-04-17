@@ -120,7 +120,7 @@ export interface DefaultFrigadeFlowProps {
    * @param step
    * @param index
    */
-  onStepCompletion?: (step: StepData, index: number, nextStep?: StepData, data?: any) => boolean
+  onStepCompletion?: (step: StepData, index: number, nextStep?: StepData, data?: any, stepData?: object) => boolean
   /**
    * Handler for when a primary or secondary CTA is clicked (regardless if step is completed or not).
    * Return true if your app performs an action (e.g. open other modal or page transition).
@@ -130,10 +130,13 @@ export interface DefaultFrigadeFlowProps {
    */
   onButtonClick?: (
     step: StepData,
-    index: number,
-    cta: 'primary' | 'secondary',
+    index?: number,
+    cta?: 'primary' | 'secondary' | 'link',
     nextStep?: StepData
   ) => boolean
+
+  onDismiss?: () => void
+  onComplete?: () => void
 }
 
 export interface Appearance {
@@ -170,6 +173,7 @@ export interface BaseTheme {
   fontSmoothing?: string
   fontWeight?: string | number
   borderRadius?: number
+  modalContainer?: CSSProperties
 }
 
 export const DefaultAppearance: Appearance = {

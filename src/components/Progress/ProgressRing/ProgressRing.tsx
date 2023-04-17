@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { motion } from 'framer-motion'
 
-const Circle: FC<{ color: string, percentage?: number, size: number, key: string}> = ({ color, percentage, size }) => {
+const Circle: FC<{ color: string, percentage?: number, size: number }> = ({ color, percentage, size }) => {
   const r = size * 0.5 - 2;
   const circum = 2 * Math.PI * r;
   const strokePct = ((1 - percentage) * circum); // where stroke will start, e.g. from 15% to 100%.

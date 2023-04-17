@@ -1,6 +1,6 @@
 import React, { FC, useContext, useEffect } from 'react'
 import { useFlows } from '../api/flows'
-import { ToolTipProps, Tooltips } from '../Tooltips'
+import { ToolTipData, ToolTipProps, Tooltips } from '../Tooltips'
 import { StepData } from '../types'
 import { COMPLETED_FLOW } from '../api/common'
 import { Portal } from 'react-portal'
@@ -82,7 +82,7 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
   if (hasOpenModals()) {
     return null
   }
-  const steps = getFlowSteps(flowId)
+  const steps: ToolTipData[] = getFlowSteps(flowId)
 
   // Hide tour flow if another flow is open
   if (Object.keys(openFlowStates).length > 0) {

@@ -26,6 +26,7 @@ interface FormContentProps extends DefaultFrigadeFlowProps {
   customStepTypes?: { [key: string]: (params: CustomFormTypeProps) => React.ReactNode }
   type: FrigadeFormType
   setShowModal: (showModal: boolean) => void
+  setVisible?: (visible: boolean) => void
 }
 export const FormContent: FC<FormContentProps> = ({
   appearance,
@@ -199,7 +200,6 @@ export const FormContent: FC<FormContentProps> = ({
                       }}
                       onBack={() => {}}
                       steps={steps}
-                      currentStep={selectedStep}
                     />
                   </FormContainerWrapper>
                 </motion.div>
