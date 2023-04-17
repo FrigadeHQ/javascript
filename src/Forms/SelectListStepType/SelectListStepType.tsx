@@ -23,7 +23,7 @@ export const SelectListStepType = ({
   const multipleChoiceProps = stepData.props as MultipleChoiceProps
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   const [hasLoaded, setHasLoaded] = useState(false)
-  const [lastStepData, setLastStepData] = useState(stepData.id)
+  const [lastStepId, setLastStepId] = useState(stepData.id)
 
   useEffect(() => {
     if (selectedIds.length == 0 && !hasLoaded) {
@@ -33,8 +33,8 @@ export const SelectListStepType = ({
   }, [hasLoaded])
 
   useEffect(() => {
-    if (lastStepData !== stepData) {
-      setLastStepData(stepData.id)
+    if (lastStepId !== stepData.id) {
+      setLastStepId(stepData.id)
       setSelectedIds([])
     }
   }, [stepData])
