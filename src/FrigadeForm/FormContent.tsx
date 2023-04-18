@@ -53,7 +53,6 @@ export const FormContent: FC<FormContentProps> = ({
   const mergedCustomStepTypes = { ...DEFAULT_CUSTOM_STEP_TYPES, ...customStepTypes }
   const { primaryCTAClickSideEffects, secondaryCTAClickSideEffects } = useCTAClickSideEffects()
 
-  const StepContent = mergedCustomStepTypes[steps[selectedStep]?.type] ?? MultiInputStepType
   const [canContinue, setCanContinue] = useState(false)
   const [formData, setFormData] = useState({})
   const {
@@ -121,6 +120,42 @@ export const FormContent: FC<FormContentProps> = ({
     return null
   }
 
+  const formFooter = (
+    <FormFooter
+      step={steps[selectedStep]}
+      canContinue={canContinue}
+      formType={type}
+      selectedStep={selectedStep}
+      appearance={appearance}
+      onPrimaryClick={() => {
+        if (selectedStep + 1 < steps.length) {
+          markStepStarted(flowId, steps[selectedStep + 1].id)
+        }
+        markStepCompleted(flowId, steps[selectedStep].id, getDataPayload())
+        handleStepCompletionHandlers(steps[selectedStep], 'primary', selectedStep)
+        if (selectedStep + 1 >= steps.length) {
+          if (onComplete) {
+            onComplete()
+          }
+          if (hideOnFlowCompletion) {
+            if (setVisible) {
+              setVisible(false)
+            }
+            setShowModal(false)
+          }
+          markFlowCompleted(flowId)
+        }
+        primaryCTAClickSideEffects(steps[selectedStep])
+      }}
+      onSecondaryClick={() => {
+        handleStepCompletionHandlers(steps[selectedStep], 'secondary', selectedStep)
+        secondaryCTAClickSideEffects(steps[selectedStep])
+      }}
+      onBack={() => {}}
+      steps={steps}
+    />
+  )
+
   return (
     <>
       <RenderInlineStyles appearance={appearance} />
@@ -130,6 +165,26 @@ export const FormContent: FC<FormContentProps> = ({
             {steps.map((step, idx) => {
               if (idx !== selectedStep) {
                 return null
+              }
+
+              if (type !== 'large-modal') {
+                return (
+                  <FormContainerWrapper
+                    type={type}
+                    className={getClassName('formContent', appearance)}
+                  >
+                    {mergedCustomStepTypes[steps[idx]?.type]({
+                      stepData: steps[idx],
+                      canContinue: canContinue,
+                      setCanContinue: setCanContinue,
+                      onSaveData: (data) => {
+                        updateData(steps[idx], data)
+                      },
+                      appearance: appearance,
+                    })}
+                    {formFooter}
+                  </FormContainerWrapper>
+                )
               }
 
               return (
@@ -171,39 +226,7 @@ export const FormContent: FC<FormContentProps> = ({
                       },
                       appearance: appearance,
                     })}
-                    <FormFooter
-                      step={steps[selectedStep]}
-                      canContinue={canContinue}
-                      formType={type}
-                      selectedStep={selectedStep}
-                      appearance={appearance}
-                      onPrimaryClick={() => {
-                        if (selectedStep + 1 < steps.length) {
-                          markStepStarted(flowId, steps[selectedStep + 1].id)
-                        }
-                        markStepCompleted(flowId, steps[selectedStep].id, getDataPayload())
-                        handleStepCompletionHandlers(steps[selectedStep], 'primary', selectedStep)
-                        if (selectedStep + 1 >= steps.length) {
-                          if (onComplete) {
-                            onComplete()
-                          }
-                          if (hideOnFlowCompletion) {
-                            if (setVisible) {
-                              setVisible(false)
-                            }
-                            setShowModal(false)
-                          }
-                          markFlowCompleted(flowId)
-                        }
-                        primaryCTAClickSideEffects(steps[selectedStep])
-                      }}
-                      onSecondaryClick={() => {
-                        handleStepCompletionHandlers(steps[selectedStep], 'secondary', selectedStep)
-                        secondaryCTAClickSideEffects(steps[selectedStep])
-                      }}
-                      onBack={() => {}}
-                      steps={steps}
-                    />
+                    {formFooter}
                   </FormContainerWrapper>
                 </motion.div>
               )

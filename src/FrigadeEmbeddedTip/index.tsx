@@ -115,6 +115,7 @@ export const FrigadeEmbeddedTip: React.FC<FrigadeEmbeddedTipProps> = ({
                 if (onButtonClick) {
                   onButtonClick(currentStep, getCurrentStepIndex(flowId), 'primary')
                 }
+                markFlowCompleted(flowId)
               }}
             />
           </CallToActionContainer>
