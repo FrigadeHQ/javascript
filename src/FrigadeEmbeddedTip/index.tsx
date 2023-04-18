@@ -109,6 +109,9 @@ export const FrigadeEmbeddedTip: React.FC<FrigadeEmbeddedTipProps> = ({
               classPrefix="embeddedTip"
               title={currentStep.primaryButtonTitle}
               appearance={appearance}
+              withMargin={false}
+              size="small"
+              type="inline"
               onClick={() => {
                 currentStep.handlePrimaryButtonClick()
                 primaryCTAClickSideEffects(currentStep)

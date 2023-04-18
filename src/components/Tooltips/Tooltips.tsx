@@ -165,6 +165,7 @@ const Tooltips: FC<ToolTipProps> = ({
     if (positionStyle === 'fixed') {
       return
     }
+
     if (selfRef.current) {
       setSelfBounds({
         width: selfRef.current.clientWidth,
@@ -210,6 +211,12 @@ const Tooltips: FC<ToolTipProps> = ({
       setLastBoundingRect(JSON.stringify(elem.getBoundingClientRect()))
     }
   }
+
+  useEffect(() => {
+    const observer = new MutationObserver(handleRefreshPosition)
+    observer.observe(document.body, { subtree: true, childList: true })
+    return () => observer.disconnect()
+  }, [handleRefreshPosition])
 
   useLayoutEffect(() => {
     setTimeout(() => {

@@ -15,6 +15,7 @@ import {
   CodeSnippetContent,
 } from '../../checklist-step-content/CodeSnippetContent'
 import { useTheme } from '../../../hooks/useTheme'
+import { getCustomClassOverrides } from '../../../shared/appearance'
 
 export interface HeroChecklistProps extends Omit<DefaultFrigadeFlowProps, 'flowId'> {
   title?: string
@@ -39,13 +40,14 @@ export interface HeroChecklistProps extends Omit<DefaultFrigadeFlowProps, 'flowI
 }
 
 const HeroChecklistContainer = styled.div<{ appearance }>`
-  display: flex;
-  flex-direction: row;
-  min-width: 1000px;
-  margin: 40px 40px 40px 40px;
-  background: ${(props) => props.appearance?.theme.colorBackground};
-  box-shadow: 0px 6px 25px rgba(0, 0, 0, 0.06);
-  border-radius: 8px;
+  :not(${(props) => getCustomClassOverrides(props)}) {
+    display: flex;
+    flex-direction: row;
+    min-width: 1000px;
+    background: ${(props) => props.appearance?.theme.colorBackground};
+    box-shadow: 0px 6px 25px rgba(0, 0, 0, 0.06);
+    border-radius: 8px;
+  }
 `
 
 const HeroChecklistTitle = styled.h1<{ apperance }>`
