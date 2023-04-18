@@ -113,6 +113,7 @@ export const FormContent: FC<FormContentProps> = ({
       return (
         <FormContainerSidebarImage
           image={props.selectedStep.imageUri}
+          appearance={appearance}
           className={getClassName('formContainerSidebarImage', appearance)}
         />
       )

@@ -14,7 +14,6 @@ interface ProgressBadgeProps {
   count: number
   total: number
   style?: CSSProperties
-  textStyle?: CSSProperties
   onClick: () => void
   primaryColor?: string
   secondaryColor?: string
@@ -29,7 +28,6 @@ export const ProgressBadge: FC<ProgressBadgeProps> = ({
   total,
   onClick,
   style = {},
-  textStyle = {},
   className,
   appearance,
   type = 'default',
@@ -62,7 +60,6 @@ export const ProgressBadge: FC<ProgressBadgeProps> = ({
         <BadgeRow type={type} className={getClassName('badgeTitleContainer', appearance)}>
           <BadgeTitle
             type={type}
-            style={textStyle}
             appearance={appearance}
             className={getClassName('badgeTitle', appearance)}
           >
@@ -77,7 +74,6 @@ export const ProgressBadge: FC<ProgressBadgeProps> = ({
             total={total}
             fillColor={appearance.theme.colorPrimary}
             bgColor={appearance.theme.colorBackgroundSecondary}
-            textStyle={textStyle}
             style={{ width: '100%' }}
             appearance={appearance}
           />

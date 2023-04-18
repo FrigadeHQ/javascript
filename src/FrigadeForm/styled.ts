@@ -36,4 +36,6 @@ export const FormContainerSidebarImage = styled.div`
   // scale background image to fit
   background-size: contain;
   background-position: center;
+  border-top-right-radius: ${(props) => props.appearance.theme.borderRadius}px;
+  border-bottom-right-radius: ${(props) => props.appearance.theme.borderRadius}px;
 `

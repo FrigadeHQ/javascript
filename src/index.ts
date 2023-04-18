@@ -11,6 +11,7 @@ export { FrigadeEmbeddedTip } from './FrigadeEmbeddedTip'
 export type { BaseTheme as FrigadeTheme } from './types'
 
 export { useFlows } from './api/flows'
+export { useFlowOpens } from './api/flow-opens'
 export { useFlowResponses } from './api/flow-responses'
 export { useUser } from './api/users'
 export { useOrganization } from './api/organizations'
