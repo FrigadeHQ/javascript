@@ -107,7 +107,7 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
       markFlowCompleted(flowId)
       return
     }
-    if (!showHighlightOnly) {
+    if (!showHighlightOnly && selectedStep + 1 < steps.length) {
       // Double check next step is not blocked
       if (isStepBlocked(flowId, steps[selectedStep + 1].id)) {
         return
