@@ -35,6 +35,7 @@ const CornerModalClose = styled.div`
   top: 24px;
   right: 24px;
   cursor: pointer;
+  z-index: 1501;
   :not(${(props) => getCustomClassOverrides(props)}) {
     // Anything inside this block will be ignored if the user provides a custom class
     color: ${(props) => props.appearance?.theme?.colorText};
