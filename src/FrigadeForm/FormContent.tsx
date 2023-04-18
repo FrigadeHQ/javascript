@@ -1,4 +1,4 @@
-import { MultiInputStepType } from '../Forms/MultiInputStepType/MultiInputStepType'
+import { MultiInputStepType } from '../components/Forms/MultiInputStepType/MultiInputStepType'
 import { Appearance, DefaultFrigadeFlowProps, StepData } from '../types'
 import { RenderInlineStyles } from '../components/RenderInlineStyles'
 import {
@@ -9,9 +9,9 @@ import {
 } from './styled'
 import { getClassName } from '../shared/appearance'
 import { FormFooter } from './FormFooter'
-import { LinkCollectionStepType } from '../Forms/LinkCollectionStepType'
-import { CallToActionStepType } from '../Forms/CallToActionStepType/CallToActionStepType'
-import { SelectListStepType } from '../Forms/SelectListStepType/SelectListStepType'
+import { LinkCollectionStepType } from '../components/Forms/LinkCollectionStepType'
+import { CallToActionStepType } from '../components/Forms/CallToActionStepType/CallToActionStepType'
+import { SelectListStepType } from '../components/Forms/SelectListStepType/SelectListStepType'
 import { useCTAClickSideEffects } from '../hooks/useCTAClickSideEffects'
 import { FrigadeFormType } from './index'
 import React, { FC, useEffect, useState } from 'react'

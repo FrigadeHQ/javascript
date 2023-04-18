@@ -1,6 +1,6 @@
 import React, { CSSProperties, useEffect } from 'react'
 import { useFlows } from '../api/flows'
-import { ProgressBadge, ProgressBadgeType } from '../Checklists/ProgressBadge'
+import { ProgressBadge, ProgressBadgeType } from '../components/Checklists/ProgressBadge'
 import { useFlowOpens } from '../api/flow-opens'
 import { DefaultFrigadeFlowProps } from '../types'
 import { COMPLETED_FLOW } from '../api/common'

@@ -1,5 +1,5 @@
 export { FrigadeProvider } from './FrigadeProvider'
-export { FrigadeHeroChecklist } from './FrigadeHeroChecklist'
+export { FrigadeHeroChecklist } from './components/HeroChecklist'
 export { FrigadeChecklist } from './FrigadeChecklist'
 export { FrigadeProgressBadge } from './FrigadeProgressBadge'
 export { FrigadeForm } from './FrigadeForm'

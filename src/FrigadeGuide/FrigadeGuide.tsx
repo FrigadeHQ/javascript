@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import { useFlows } from '../api/flows'
-import { Guide } from '../Guides'
+import { Guide } from '../components/Guides'
 import { DefaultFrigadeFlowProps } from '../types'
 import { useTheme } from '../hooks/useTheme'
 

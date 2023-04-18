@@ -1,6 +1,6 @@
 import React, { FC, useContext, useEffect } from 'react'
 import { useFlows } from '../api/flows'
-import { ToolTipData, ToolTipProps, Tooltips } from '../Tooltips'
+import { ToolTipData, ToolTipProps, Tooltips } from '../components/Tooltips'
 import { StepData } from '../types'
 import { COMPLETED_FLOW, COMPLETED_STEP } from '../api/common'
 import { Portal } from 'react-portal'

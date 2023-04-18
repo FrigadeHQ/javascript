@@ -1,5 +1,5 @@
 import React, { createContext, FC, useEffect, useState } from 'react'
-import { DataFetcher } from '../DataFetcher'
+import { DataFetcher } from '../components/DataFetcher'
 import { Flow } from '../api/flows'
 import { FlowResponse } from '../api/flow-responses'
 import { Appearance, DefaultAppearance } from '../types'

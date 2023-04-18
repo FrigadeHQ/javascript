@@ -3,7 +3,7 @@ import React, { FC } from 'react'
 import {
   HeroChecklistStepSubtitle,
   HeroChecklistStepTitle,
-} from '../../../Checklists/HeroChecklist/styled'
+} from '../../Checklists/HeroChecklist/styled'
 import { StepContentProps } from '../../../FrigadeForm/types'
 import { sanitize } from '../../../shared/sanitizer'
 

@@ -1,13 +1,13 @@
 import React, { CSSProperties, useEffect, useState } from 'react'
 
 import { useFlows } from '../api/flows'
-import { HeroChecklist, HeroChecklistProps } from '../Checklists/HeroChecklist'
+import { HeroChecklist, HeroChecklistProps } from '../components/Checklists/HeroChecklist'
 import { StepData } from '../types'
 import { COMPLETED_FLOW, COMPLETED_STEP } from '../api/common'
 import { useFlowOpens } from '../api/flow-opens'
 import { RenderInlineStyles } from '../components/RenderInlineStyles'
-import { ModalChecklist } from '../Checklists/ModalChecklist'
-import { ChecklistWithGuide } from '../Checklists/ChecklistWithGuide'
+import { ModalChecklist } from '../components/Checklists/ModalChecklist'
+import { ChecklistWithGuide } from '../components/Checklists/ChecklistWithGuide'
 import { useCTAClickSideEffects } from '../hooks/useCTAClickSideEffects'
 import { useTheme } from '../hooks/useTheme'
 
@@ -77,10 +77,9 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
     targetingLogicShouldHideFlow,
     setCustomVariable,
     customVariables: existingCustomVariables,
-    getStepOptionalProgress,
     getFlowMetadata,
     isStepBlocked,
-    isStepHidden,
+    markFlowStarted,
     getFlowStatus,
     hasActiveFullPageFlow,
     setHasActiveFullPageFlow,

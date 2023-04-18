@@ -1,5 +1,5 @@
-import { HeroChecklistStepContent } from '../../Checklists/HeroChecklist/styled'
-import { VideoPlayer } from '../../Checklists/HeroChecklist/VideoPlayer'
+import { HeroChecklistStepContent } from '../Checklists/HeroChecklist/styled'
+import { VideoPlayer } from '../Checklists/HeroChecklist/VideoPlayer'
 import React, { FC } from 'react'
 import { StepContentProps } from '../../FrigadeForm/types'
 import styled from 'styled-components'
