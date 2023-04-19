@@ -86,7 +86,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
   const [selectedStep, setSelectedStep] = useState(initialSelectedStep || 0)
   const [finishedInitialLoad, setFinishedInitialLoad] = useState(false)
   const showModal = visible === undefined ? getOpenFlowState(flowId) : visible
-  const isModal = type === 'modal' || type === 'withGuide'
+  const isModal = type === 'modal'
   const { mergeAppearanceWithDefault } = useTheme()
 
   appearance = mergeAppearanceWithDefault(appearance)

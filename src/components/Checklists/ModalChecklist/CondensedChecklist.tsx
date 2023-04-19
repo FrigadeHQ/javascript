@@ -15,10 +15,11 @@ import { sanitize } from '../../../shared/sanitizer'
 import { getClassName } from '../../../shared/appearance'
 import { FrigadeChecklistProps } from '../../../FrigadeChecklist'
 
-export interface CondensedChecklistProps extends FrigadeChecklistProps {
+export interface CondensedChecklistProps extends Omit<FrigadeChecklistProps, 'flowId'> {
   autoCollapse?: boolean
   autoExpandFirstIncompleteStep?: boolean
   autoExpandNextStep?: boolean
+  onClose: () => void
 }
 
 const CondensedChecklist: FC<CondensedChecklistProps> = ({
