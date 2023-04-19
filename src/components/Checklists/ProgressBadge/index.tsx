@@ -5,7 +5,7 @@ import { BadgeContainer, BadgeRow, BadgeTitle, ProgressRingContainer } from './s
 import { motion } from 'framer-motion'
 import { Appearance } from '../../../types'
 import ProgressRing from '../../Progress/ProgressRing/ProgressRing'
-import { getClassName } from '../../../shared/appearance'
+import { getClassName, mergeClasses } from '../../../shared/appearance'
 import { RenderInlineStyles } from '../../RenderInlineStyles'
 
 export type ProgressBadgeType = 'condensed' | 'default'
@@ -39,12 +39,12 @@ export const ProgressBadge: FC<ProgressBadgeProps> = ({
         as={motion.div}
         whileHover={{ opacity: 0.9 }}
         whileTap={{ scale: 0.98 }}
-        className={className}
         onClick={() => onClick !== undefined && onClick()}
         style={{
           ...(type == 'condensed' ? { display: 'flex', justifyContent: 'space-between' } : {}),
           ...style,
         }}
+        className={mergeClasses(className ?? '', getClassName('progressRingContainer', appearance))}
         appearance={appearance}
       >
         {type == 'condensed' && total && total !== 0 && (

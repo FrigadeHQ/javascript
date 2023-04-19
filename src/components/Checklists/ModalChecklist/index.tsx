@@ -1,1 +1,1 @@
-export { default as ModalChecklist } from './ModalChecklist';
+export { default as CondensedChecklist } from './CondensedChecklist'

@@ -40,3 +40,12 @@ export const ChecklistContainer = styled.div`
   display: block;
   width: 100%;
 `
+export const CondensedChecklistContainer = styled.div`
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: ${(props) => props.appearance?.theme?.colorBackground};
+  border-radius: ${(props) => props.appearance?.theme?.borderRadius}px;
+  padding: 24px;
+`

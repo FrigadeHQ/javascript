@@ -6,6 +6,7 @@ export const BadgeContainer = styled.div`
   padding: 6px 10px 6px 10px;
   min-width: 160px;
   cursor: pointer;
+  background-color: ${(props) => props.appearance.theme.colorBackground}};
 `
 
 export const BadgeRow = styled.div`

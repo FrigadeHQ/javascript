@@ -6,19 +6,14 @@ import { StepData } from '../types'
 import { COMPLETED_FLOW, COMPLETED_STEP } from '../api/common'
 import { useFlowOpens } from '../api/flow-opens'
 import { RenderInlineStyles } from '../components/RenderInlineStyles'
-import { ModalChecklist } from '../components/Checklists/ModalChecklist'
+
 import { ChecklistWithGuide } from '../components/Checklists/ChecklistWithGuide'
 import { useCTAClickSideEffects } from '../hooks/useCTAClickSideEffects'
 import { useTheme } from '../hooks/useTheme'
+import { CondensedChecklist } from '../components/Checklists/ModalChecklist'
 
-/**
- * Frigade Checklists
- * inline: Renders as an on-page element
- * modal: Display above other content with a shadowed background
- * withGuide: A modal checklist with a Guide included beneath the modal content
- *
- */
-export type FrigadeChecklistType = 'inline' | 'modal' | 'withGuide'
+export type FrigadeChecklistType = 'inline' | 'modal'
+export type FrigadeChecklistStyle = 'with-guide' | 'default' | 'condensed'
 
 export interface FrigadeChecklistProps extends HeroChecklistProps {
   flowId: string
@@ -32,6 +27,7 @@ export interface FrigadeChecklistProps extends HeroChecklistProps {
 
   className?: string
   type?: FrigadeChecklistType
+  checklistStyle?: FrigadeChecklistStyle
 
   visible?: boolean
   setVisible?: (visible: boolean) => void
@@ -65,6 +61,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
   hideOnFlowCompletion,
   setVisible,
   customStepTypes,
+  checklistStyle,
   ...guideProps
 }) => {
   const {
@@ -239,6 +236,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
     primaryColor: appearance.theme.colorPrimary,
     appearance,
     customStepTypes,
+    type,
   }
 
   function handleClose() {
@@ -251,11 +249,11 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
     }
   }
 
-  if (type === 'modal') {
+  function getCondensedChecklist() {
     return (
       <>
         <CommonDom />
-        <ModalChecklist
+        <CondensedChecklist
           visible={showModal}
           onClose={() => {
             handleClose()
@@ -269,7 +267,8 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
       </>
     )
   }
-  if (type === 'withGuide') {
+
+  function getChecklistWithGuide() {
     const guideFlowId = guideProps.guideFlowId
     let guideFlowSteps
     if (guideFlowId) {
@@ -304,17 +303,29 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
     )
   }
 
-  return (
-    <>
-      <CommonDom />
-      <HeroChecklist
-        style={style}
-        selectedStep={selectedStep}
-        setSelectedStep={setSelectedStep}
-        className={className}
-        appearance={appearance}
-        {...commonProps}
-      />
-    </>
-  )
+  function getDefaultChecklist() {
+    return (
+      <>
+        <CommonDom />
+        <HeroChecklist
+          style={style}
+          selectedStep={selectedStep}
+          setSelectedStep={setSelectedStep}
+          className={className}
+          appearance={appearance}
+          {...commonProps}
+        />
+      </>
+    )
+  }
+
+  switch (checklistStyle) {
+    case 'condensed':
+      return getCondensedChecklist()
+    case 'with-guide':
+      return getChecklistWithGuide()
+    case 'default':
+    default:
+      return getCondensedChecklist()
+  }
 }
