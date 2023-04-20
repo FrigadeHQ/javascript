@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useCallback, useContext, useEffect } from 'react'
 import { FrigadeContext } from '../FrigadeProvider'
 import { API_PREFIX, useConfig } from './common'
 import { useUserFlowStates } from './user-flow-states'
@@ -45,50 +45,58 @@ export function useOrganization() {
     }
   }, [userId, organizationId])
 
-  async function addPropertiesToOrganization(properties: EntityProperties) {
-    if (!organizationId || !userId) {
-      console.error(
-        'Cannot add properties to organization: Organization ID and User ID must both be set.'
-      )
-      return
-    }
+  const addPropertiesToOrganization = useCallback(
+    async (properties: EntityProperties) => {
+      if (!organizationId || !userId) {
+        console.error(
+          'Cannot add properties to organization: Organization ID and User ID must both be set.',
+          { organizationId, userId }
+        )
+        return
+      }
 
-    const data: AddPropertyToOrganizationDTO = {
-      foreignUserId: userId,
-      foreignUserGroupId: organizationId,
-      properties,
-    }
-    await fetch(`${API_PREFIX}userGroups`, {
-      ...config,
-      method: 'POST',
-      body: JSON.stringify(data),
-    })
-    mutateUserFlowState()
-  }
+      const data: AddPropertyToOrganizationDTO = {
+        foreignUserId: userId,
+        foreignUserGroupId: organizationId,
+        properties,
+      }
+      await fetch(`${API_PREFIX}userGroups`, {
+        ...config,
+        method: 'POST',
+        body: JSON.stringify(data),
+      })
+      mutateUserFlowState()
+    },
+    [organizationId, userId, config, mutateUserFlowState]
+  )
 
-  async function trackEventForOrganization(event: string, properties?: EntityProperties) {
-    if (!organizationId || !userId) {
-      console.error(
-        'Cannot track event for organization: Organization ID and User ID must both be set.'
-      )
-      return
-    }
-    const eventData: OrganizationEvent = {
-      event,
-      properties,
-    }
-    const data: AddPropertyToOrganizationDTO = {
-      foreignUserId: userId,
-      foreignUserGroupId: organizationId,
-      events: [eventData],
-    }
-    await fetch(`${API_PREFIX}userGroups`, {
-      ...config,
-      method: 'POST',
-      body: JSON.stringify(data),
-    })
-    mutateUserFlowState()
-  }
+  const trackEventForOrganization = useCallback(
+    async (event: string, properties?: EntityProperties) => {
+      if (!organizationId || !userId) {
+        console.error(
+          'Cannot track event for organization: Organization ID and User ID must both be set.',
+          { organizationId, userId }
+        )
+        return
+      }
+      const eventData: OrganizationEvent = {
+        event,
+        properties,
+      }
+      const data: AddPropertyToOrganizationDTO = {
+        foreignUserId: userId,
+        foreignUserGroupId: organizationId,
+        events: [eventData],
+      }
+      await fetch(`${API_PREFIX}userGroups`, {
+        ...config,
+        method: 'POST',
+        body: JSON.stringify(data),
+      })
+      mutateUserFlowState()
+    },
+    [organizationId, userId, config, mutateUserFlowState]
+  )
 
   return {
     organizationId,

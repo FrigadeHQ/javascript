@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useCallback, useContext, useEffect } from 'react'
 import { FrigadeContext } from '../FrigadeProvider'
 import { API_PREFIX, useConfig } from './common'
 import { useUserFlowStates } from './user-flow-states'
@@ -18,8 +18,7 @@ interface UserEvent {
 export const GUEST_PREFIX = 'guest_'
 
 export function useUser() {
-  const { userId, organizationId, setUserId, setUserProperties, userProperties } =
-    useContext(FrigadeContext)
+  const { userId, organizationId, setUserId, setUserProperties } = useContext(FrigadeContext)
   const { config } = useConfig()
   const { mutateUserFlowState } = useUserFlowStates()
   // Use local storage to mark if user has already been registered in frigade
@@ -46,36 +45,42 @@ export function useUser() {
     }
   }, [userId, organizationId])
 
-  async function addPropertiesToUser(properties: EntityProperties) {
-    const data: AddPropertyToUserDTO = {
-      foreignId: userId,
-      properties,
-    }
-    await fetch(`${API_PREFIX}users`, {
-      ...config,
-      method: 'POST',
-      body: JSON.stringify(data),
-    })
-    setUserProperties({ ...userProperties, ...properties })
-    mutateUserFlowState()
-  }
+  const addPropertiesToUser = useCallback(
+    async (properties: EntityProperties) => {
+      const data: AddPropertyToUserDTO = {
+        foreignId: userId,
+        properties,
+      }
+      await fetch(`${API_PREFIX}users`, {
+        ...config,
+        method: 'POST',
+        body: JSON.stringify(data),
+      })
+      setUserProperties((userProperties) => ({ ...userProperties, ...properties }))
+      mutateUserFlowState()
+    },
+    [userId, config, mutateUserFlowState]
+  )
 
-  async function trackEventForUser(event: string, properties?: EntityProperties) {
-    const eventData: UserEvent = {
-      event,
-      properties,
-    }
-    const data: AddPropertyToUserDTO = {
-      foreignId: userId,
-      events: [eventData],
-    }
-    await fetch(`${API_PREFIX}users`, {
-      ...config,
-      method: 'POST',
-      body: JSON.stringify(data),
-    })
-    mutateUserFlowState()
-  }
+  const trackEventForUser = useCallback(
+    async (event: string, properties?: EntityProperties) => {
+      const eventData: UserEvent = {
+        event,
+        properties,
+      }
+      const data: AddPropertyToUserDTO = {
+        foreignId: userId,
+        events: [eventData],
+      }
+      await fetch(`${API_PREFIX}users`, {
+        ...config,
+        method: 'POST',
+        body: JSON.stringify(data),
+      })
+      mutateUserFlowState()
+    },
+    [userId, config, mutateUserFlowState]
+  )
 
   return { userId, setUserId, addPropertiesToUser, trackEventForUser }
 }

@@ -31,7 +31,6 @@ export interface PublicStepState {
 
 export function useFlowResponses() {
   const { config } = useConfig()
-  const { userId, setUserId, organizationId } = useContext(FrigadeContext)
   const { userFlowStatesData } = useUserFlowStates()
   const { failedFlowResponses, setFailedFlowResponses, flowResponses, setFlowResponses } =
     useContext(FrigadeContext)
