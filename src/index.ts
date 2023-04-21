@@ -7,6 +7,7 @@ export { FrigadeGuide } from './FrigadeGuide'
 export { FrigadeTour } from './FrigadeTour'
 export { FrigadeSupportWidget } from './FrigadeSupportWidget'
 export { FrigadeEmbeddedTip } from './FrigadeEmbeddedTip'
+export { FrigadeBanner } from './FrigadeBanner'
 
 export type { BaseTheme as FrigadeTheme } from './types'
 
