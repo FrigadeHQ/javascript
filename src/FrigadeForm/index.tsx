@@ -1,4 +1,4 @@
-import React, { CSSProperties, FC, useState } from 'react'
+import React, { CSSProperties, FC, useEffect, useState } from 'react'
 
 import { DefaultFrigadeFlowProps, StepData } from '../types'
 import { useFlows } from '../api/flows'
@@ -43,6 +43,7 @@ export const FrigadeForm: FC<FormProps> = ({
   dismissible = true,
   endFlowOnDismiss = false,
   modalPosition = 'center',
+  repeatable = false,
 }) => {
   const {
     getFlow,
@@ -52,14 +53,26 @@ export const FrigadeForm: FC<FormProps> = ({
     getFlowStatus,
     getCurrentStepIndex,
     markFlowCompleted,
+    markFlowNotStarted,
   } = useFlows()
   const selectedStep = getCurrentStepIndex(flowId)
   const { mergeAppearanceWithDefault } = useTheme()
+  const [hasFinishedInitialLoad, setHasFinishedInitialLoad] = useState(false)
 
   appearance = mergeAppearanceWithDefault(appearance)
 
   const [showModal, setShowModal] =
     visible !== undefined && setVisible !== undefined ? [visible, setVisible] : useState(true)
+
+  useEffect(() => {
+    if (!hasFinishedInitialLoad && !isLoading) {
+      setHasFinishedInitialLoad(true)
+      if (getFlowStatus(flowId) === COMPLETED_FLOW && repeatable) {
+        markFlowNotStarted(flowId)
+      }
+      setHasFinishedInitialLoad(true)
+    }
+  }, [hasFinishedInitialLoad, setHasFinishedInitialLoad, isLoading])
 
   if (isLoading) {
     return null
