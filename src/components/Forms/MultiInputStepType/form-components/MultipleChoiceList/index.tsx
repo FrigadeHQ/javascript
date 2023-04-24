@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 
 import styled from 'styled-components'
-import { FormInputProps, MultipleChoiceListProps } from '../../../FrigadeForm/types'
-import { getCustomClassOverrides } from '../../../shared/appearance'
+import { FormInputProps, MultipleChoiceListProps } from '../../../../../FrigadeForm/types'
+import { getCustomClassOverrides } from '../../../../../shared/appearance'
 import { Label } from '../shared/Label'
 
 const MultipleChoiceListWrapper = styled.div`

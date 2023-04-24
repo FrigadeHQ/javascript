@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { getCustomClassOverrides } from '../../../shared/appearance'
+import { getCustomClassOverrides } from '../../../../../shared/appearance'
 
 export const FormLabel = styled.label`
   :not(${(props) => getCustomClassOverrides(props)}) {

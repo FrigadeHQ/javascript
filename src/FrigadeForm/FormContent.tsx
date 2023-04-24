@@ -170,6 +170,7 @@ export const FormContent: FC<FormContentProps> = ({
               if (type !== 'large-modal') {
                 return (
                   <FormContainerWrapper
+                    key={step.id}
                     type={type}
                     className={getClassName('formContent', appearance)}
                   >

@@ -1,7 +1,7 @@
 import { FormLabel, LabelWrapper, RequiredSymbol } from './styled'
-import { getClassName } from '../../../shared/appearance'
+import { getClassName } from '../../../../../shared/appearance'
 import React from 'react'
-import { Appearance } from '../../../types'
+import { Appearance } from '../../../../../types'
 
 export function Label({
   title,

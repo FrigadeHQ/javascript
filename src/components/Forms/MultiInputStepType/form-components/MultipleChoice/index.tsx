@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 
 import styled from 'styled-components'
-import { FormInputProps, FormInputType } from '../../../FrigadeForm/types'
-import { getClassName, getCustomClassOverrides } from '../../../shared/appearance'
+import { FormInputProps, FormInputType } from '../../../../../FrigadeForm/types'
+import { getClassName, getCustomClassOverrides } from '../../../../../shared/appearance'
 import { Label } from '../shared/Label'
 import { TextInput } from '../TextField'
 
@@ -11,6 +11,7 @@ interface MultipleChoiceProps extends FormInputType {
   title?: string
   placeholder?: string
   defaultValue?: string
+  requireSelection?: boolean
   props: {
     options?: MultipleChoiceOption[]
   }
@@ -57,10 +58,13 @@ const MultipleChoiceSelect = styled.select`
   -webkit-print-color-adjust: exact;
 `
 
+const NULL_VALUE = 'null'
+
 export function MultipleChoice({
   formInput,
   customFormTypeProps,
   onSaveInputData,
+  setFormValidationErrors,
 }: FormInputProps) {
   const input = formInput as MultipleChoiceProps
   const [data, setData] = useState('')
@@ -69,6 +73,10 @@ export function MultipleChoice({
   useEffect(() => {
     if (data === '' && !hasLoaded) {
       setHasLoaded(true)
+      if (input.requireSelection) {
+        setData(NULL_VALUE)
+        return
+      }
       if (
         input.defaultValue &&
         input.props.options?.find((option) => option.id === input.defaultValue)
@@ -83,6 +91,19 @@ export function MultipleChoice({
       }
     }
   }, [])
+
+  useEffect(() => {
+    if (input.requireSelection && data === NULL_VALUE) {
+      setFormValidationErrors([
+        {
+          message: 'Please select an option',
+          id: input.id,
+        },
+      ])
+    } else {
+      setFormValidationErrors([])
+    }
+  }, [data])
 
   return (
     <MultipleChoiceWrapper>
@@ -101,6 +122,11 @@ export function MultipleChoice({
         appearance={customFormTypeProps.appearance}
         className={getClassName('multipleChoiceSelect', customFormTypeProps.appearance)}
       >
+        {input.requireSelection && (
+          <option key={NULL_VALUE} value={NULL_VALUE}>
+            Select an option
+          </option>
+        )}
         {input.props.options?.map((option) => {
           return (
             <option key={option.id} value={option.id}>

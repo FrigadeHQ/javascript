@@ -6,9 +6,9 @@ import {
   FormInputType,
   FormValidationError,
 } from '../../../FrigadeForm/types'
-import { TextField } from '../../form-components/TextField'
-import { MultipleChoice } from '../../form-components/MultipleChoice'
-import { MultipleChoiceList } from '../../form-components/MultipleChoiceList'
+import { TextField } from './form-components/TextField'
+import { MultipleChoice } from './form-components/MultipleChoice'
+import { MultipleChoiceList } from './form-components/MultipleChoiceList'
 import { TitleSubtitle } from '../../TitleSubtitle/TitleSubtitle'
 import { getClassName } from '../../../shared/appearance'
 

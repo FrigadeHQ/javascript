@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 
 import styled from 'styled-components'
-import { FormInputProps, FormInputType } from '../../../FrigadeForm/types'
-import { getClassName, getCustomClassOverrides } from '../../../shared/appearance'
+import { FormInputProps, FormInputType } from '../../../../../FrigadeForm/types'
+import { getClassName, getCustomClassOverrides } from '../../../../../shared/appearance'
 import { Label } from '../shared/Label'
 
 interface TextFieldProps extends FormInputType {
