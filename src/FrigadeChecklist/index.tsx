@@ -325,7 +325,8 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
     case 'with-guide':
       return getChecklistWithGuide()
     case 'default':
+      return getDefaultChecklist()
     default:
-      return getCondensedChecklist()
+      return getDefaultChecklist()
   }
 }
