@@ -115,12 +115,16 @@ export interface DefaultFrigadeFlowProps {
   hideOnFlowCompletion?: boolean
   /**
    * Handler for when a step is completed.
-   * Return true if your app performs an action (e.g. open other modal or page transition).
-   * This will dismiss any Frigade modals.
    * @param step
    * @param index
    */
-  onStepCompletion?: (step: StepData, index: number, nextStep?: StepData, data?: any, stepData?: object) => boolean
+  onStepCompletion?: (
+    step: StepData,
+    index: number,
+    nextStep?: StepData,
+    allFormData?: any,
+    stepSpecificFormData?: object
+  ) => boolean
   /**
    * Handler for when a primary or secondary CTA is clicked (regardless if step is completed or not).
    * Return true if your app performs an action (e.g. open other modal or page transition).
