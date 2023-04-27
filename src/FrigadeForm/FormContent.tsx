@@ -211,7 +211,7 @@ export const FormContent: FC<FormContentProps> = ({
                     top: 0,
                     left: 0,
                     zIndex: 1,
-                    overflowY: 'scroll',
+                    overflowY: 'auto',
                   }}
                 >
                   <FormContainerWrapper

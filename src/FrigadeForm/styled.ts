@@ -24,7 +24,7 @@ export const FormContainerMain = styled.div`
 export const FormContainerWrapper = styled.div`
   padding: ${(props) => (props.type === 'large-modal' ? '50px' : '0px')};
   position: relative;
-  overflow-y: scroll;
+  overflow-y: auto;
 `
 
 export const FormContainerSidebarImage = styled.div`
