@@ -61,7 +61,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
   hideOnFlowCompletion,
   setVisible,
   customStepTypes,
-  checklistStyle,
+  checklistStyle = 'default',
   ...guideProps
 }) => {
   const {
@@ -90,6 +90,10 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
   const { mergeAppearanceWithDefault } = useTheme()
 
   appearance = mergeAppearanceWithDefault(appearance)
+
+  if (type === 'modal' && checklistStyle === 'default') {
+    checklistStyle = 'condensed'
+  }
 
   useEffect(() => {
     if (
