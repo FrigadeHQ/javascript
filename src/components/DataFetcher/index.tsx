@@ -7,6 +7,7 @@ import { useFlowResponses } from '../../api/flow-responses'
 import { useUserFlowStates } from '../../api/user-flow-states'
 import FrigadeForm from '../../FrigadeForm'
 import { NOT_STARTED_FLOW } from '../../api/common'
+import { useOrganization } from '../../api/organizations'
 
 interface DataFetcherProps {}
 
@@ -23,6 +24,7 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
   const [automaticFlowIdsToTrigger, setAutomaticFlowIdsToTrigger] = useState<Flow[]>([])
   // Add list of flows already triggered
   const [triggeredFlows, setTriggeredFlows] = useState<string[]>([])
+  const {} = useOrganization()
 
   useEffect(() => {
     if (!isLoadingUserFlowStateData) {

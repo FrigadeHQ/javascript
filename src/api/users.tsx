@@ -24,7 +24,6 @@ export function useUser() {
   // Use local storage to mark if user has already been registered in frigade
   useEffect(() => {
     // Check if user is not a guest
-
     if (userId && !organizationId) {
       // Check if userid begins with the guest prefix
       if (userId.startsWith(GUEST_PREFIX)) {
