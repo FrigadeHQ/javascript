@@ -43,6 +43,7 @@ export const FrigadeForm: FC<FormProps> = ({
   endFlowOnDismiss = false,
   modalPosition = 'center',
   repeatable = false,
+  onDismiss,
 }) => {
   const {
     getFlow,
@@ -100,6 +101,9 @@ export const FrigadeForm: FC<FormProps> = ({
 
   const handleClose = () => {
     setShowModal(false)
+    if (onDismiss) {
+      onDismiss()
+    }
     if (endFlowOnDismiss === true) {
       markFlowCompleted(flowId)
     }
@@ -140,6 +144,7 @@ export const FrigadeForm: FC<FormProps> = ({
           onComplete={onComplete}
           setVisible={setVisible}
           setShowModal={setShowModal}
+          onDismiss={onDismiss}
         />
       </Modal>
     )
@@ -162,6 +167,7 @@ export const FrigadeForm: FC<FormProps> = ({
           onComplete={onComplete}
           setVisible={setVisible}
           setShowModal={setShowModal}
+          onDismiss={onDismiss}
         />
       </CornerModal>
     )
@@ -182,6 +188,7 @@ export const FrigadeForm: FC<FormProps> = ({
       onComplete={onComplete}
       setVisible={setVisible}
       setShowModal={setShowModal}
+      onDismiss={onDismiss}
     />
   )
 }

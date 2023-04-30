@@ -42,6 +42,7 @@ export const FormContent: FC<FormContentProps> = ({
   onComplete,
   setVisible,
   setShowModal,
+  onDismiss,
 }) => {
   const DEFAULT_CUSTOM_STEP_TYPES = {
     linkCollection: LinkCollectionStepType,
@@ -136,6 +137,9 @@ export const FormContent: FC<FormContentProps> = ({
         if (selectedStep + 1 >= steps.length) {
           if (onComplete) {
             onComplete()
+          }
+          if (onDismiss) {
+            onDismiss()
           }
           if (hideOnFlowCompletion) {
             if (setVisible) {
