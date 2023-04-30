@@ -1,6 +1,6 @@
 import React, { CSSProperties, FC, useEffect, useState } from 'react'
 
-import { DefaultFrigadeFlowProps, StepData } from '../types'
+import { DefaultFrigadeFlowProps } from '../types'
 import { useFlows } from '../api/flows'
 import { COMPLETED_FLOW } from '../api/common'
 import { Modal, ModalPosition } from '../components/Modal'
@@ -15,7 +15,6 @@ export interface FormProps extends DefaultFrigadeFlowProps {
   title?: string
   subtitle?: string
   type?: FrigadeFormType
-  onCompleteStep?: (index: number, stepData: StepData) => void
   customStepTypes?: { [key: string]: (params: CustomFormTypeProps) => React.ReactNode }
   visible?: boolean
   setVisible?: (visible: boolean) => void
