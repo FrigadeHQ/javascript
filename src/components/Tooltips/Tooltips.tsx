@@ -98,6 +98,10 @@ const HighlightInner = styled.div<{ primaryColor: string }>`
   opacity: 1;
 `
 
+const TooltipWrapper = styled.div`
+  pointer-events: all;
+`
+
 const HiglightContainer = styled.div<{ primaryColor: string }>`
   width: ${HIGHLIGHT_RADIUS + 12}px;
   height: ${HIGHLIGHT_RADIUS + 12}px;
@@ -353,7 +357,7 @@ const Tooltips: FC<ToolTipProps> = ({
   }
 
   return (
-    <>
+    <TooltipWrapper>
       {showHighlight && steps[selectedStep].showHighlight !== false && (
         <HiglightContainer
           style={{
@@ -407,7 +411,7 @@ const Tooltips: FC<ToolTipProps> = ({
           <StepContent />
         </TooltipContainer>
       )}
-    </>
+    </TooltipWrapper>
   )
 }
 
