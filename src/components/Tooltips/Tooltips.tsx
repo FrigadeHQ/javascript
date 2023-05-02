@@ -218,6 +218,17 @@ const Tooltips: FC<ToolTipProps> = ({
     return () => observer.disconnect()
   }, [handleRefreshPosition])
 
+  useEffect(() => {
+    const observer = new MutationObserver(() => handleRefreshPosition)
+    observer.observe(document.body, {
+      subtree: true,
+      childList: true,
+      attributes: true,
+      attributeFilter: ['style', 'class'],
+    })
+    return () => observer.disconnect()
+  }, [handleRefreshPosition])
+
   useLayoutEffect(() => {
     setTimeout(() => {
       handleRefreshPosition()
