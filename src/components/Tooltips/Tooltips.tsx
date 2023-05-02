@@ -153,6 +153,7 @@ const Tooltips: FC<ToolTipProps> = ({
   const selfRef = useRef(null)
 
   const [elem, setElem] = useState(document.querySelector(steps[selectedStep].selector))
+  const [intervalId, setIntervalId] = useState<number | null>(null)
   const boundingRect = useElemRect(elem, needsUpdate)
   const [lastBoundingRect, setLastBoundingRect] = useState<string>()
   const [showTooltipContainer, setShowTooltipContainer] = useState(!showHighlightOnly)
@@ -229,6 +230,17 @@ const Tooltips: FC<ToolTipProps> = ({
     })
     return () => observer.disconnect()
   }, [handleRefreshPosition])
+
+  useEffect(() => {
+    if (intervalId) {
+      return
+    }
+    const iId = setInterval(() => {
+      handleRefreshPosition()
+    }, 10)
+    setIntervalId(iId)
+    return () => clearInterval(intervalId)
+  }, [handleRefreshPosition, intervalId, setIntervalId])
 
   useLayoutEffect(() => {
     setTimeout(() => {
