@@ -201,6 +201,7 @@ const Tooltips: FC<ToolTipProps> = ({
     if (positionStyle === 'fixed') {
       return
     }
+
     const elem = document.querySelector(steps[selectedStep].selector)
     if (lastBoundingRect && lastBoundingRect === JSON.stringify(elem?.getBoundingClientRect())) {
       return
@@ -219,7 +220,7 @@ const Tooltips: FC<ToolTipProps> = ({
   }, [handleRefreshPosition])
 
   useEffect(() => {
-    const observer = new MutationObserver(() => handleRefreshPosition)
+    const observer = new MutationObserver(handleRefreshPosition)
     observer.observe(document.body, {
       subtree: true,
       childList: true,
