@@ -108,26 +108,6 @@ const HiglightContainer = styled.div<{ primaryColor: string }>`
   z-index: ${(props) => (props.zIndex ? props.zIndex : 90)};
 `
 
-function useInterval(param: () => void, number: number) {
-  const callback = useRef(param)
-
-  // Remember the latest callback.
-  useEffect(() => {
-    callback.current = param
-  }, [param])
-
-  // Set up the interval.
-  useEffect(() => {
-    function tick() {
-      callback.current()
-    }
-    if (number !== null) {
-      let id = setInterval(tick, number)
-      return () => clearInterval(id)
-    }
-  }, [number])
-}
-
 const Tooltips: FC<ToolTipProps> = ({
   steps = [],
   onDismiss,
@@ -153,7 +133,6 @@ const Tooltips: FC<ToolTipProps> = ({
   const selfRef = useRef(null)
 
   const [elem, setElem] = useState(document.querySelector(steps[selectedStep].selector))
-  const [intervalId, setIntervalId] = useState<number | null>(null)
   const boundingRect = useElemRect(elem, needsUpdate)
   const [lastBoundingRect, setLastBoundingRect] = useState<string>()
   const [showTooltipContainer, setShowTooltipContainer] = useState(!showHighlightOnly)
@@ -232,15 +211,11 @@ const Tooltips: FC<ToolTipProps> = ({
   }, [handleRefreshPosition])
 
   useEffect(() => {
-    if (intervalId) {
-      return
-    }
-    const iId = setInterval(() => {
+    const intervalId = setInterval(() => {
       handleRefreshPosition()
     }, 10)
-    setIntervalId(iId)
     return () => clearInterval(intervalId)
-  }, [handleRefreshPosition, intervalId, setIntervalId])
+  }, [handleRefreshPosition])
 
   useLayoutEffect(() => {
     setTimeout(() => {
