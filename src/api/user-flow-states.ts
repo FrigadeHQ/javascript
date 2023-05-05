@@ -26,7 +26,18 @@ export function useUserFlowStates(): {
   const { config } = useConfig()
   const { publicApiKey, userId, flows, isNewGuestUser } = useContext(FrigadeContext)
   const [hasFinishedInitialLoad, setHasFinishedInitialLoad] = useState(false)
-  const fetcher = (url) => fetch(url, config).then((r) => r.json())
+  const emptyResponse = {
+    data: [],
+  }
+  const fetcher = (url) =>
+    fetch(url, config).then((response) => {
+      if (response.ok) {
+        return response.json()
+      }
+      console.error(`Error fetching ${url} (${response.status}): ${response.statusText}`)
+      return emptyResponse
+    })
+
   const {
     data,
     isLoading: isLoadingUserFlowStateData,

@@ -58,8 +58,18 @@ export function useFlows() {
     setHasActiveFullPageFlow,
     setFlowResponses,
   } = useContext(FrigadeContext)
+  const emptyResponse = {
+    data: [],
+  }
   const { addResponse, getFlowResponses } = useFlowResponses()
-  const fetcher = (url) => fetch(url, config).then((r) => r.json())
+  const fetcher = (url) =>
+    fetch(url, config).then((response) => {
+      if (response.ok) {
+        return response.json()
+      }
+      console.error(`Error fetching ${url} (${response.status}): ${response.statusText}`)
+      return emptyResponse
+    })
   const {
     userFlowStatesData,
     isLoadingUserFlowStateData,
