@@ -54,6 +54,8 @@ export const FrigadeBanner: React.FC<FrigadeBannerProps> = ({
     customVariables: existingCustomVariables,
     getFlowMetadata,
     getFlowStatus,
+    getFlowSteps,
+    getCurrentStepIndex,
   } = useFlows()
   const { primaryCTAClickSideEffects } = useCTAClickSideEffects()
   const { mergeAppearanceWithDefault } = useTheme()
@@ -90,7 +92,12 @@ export const FrigadeBanner: React.FC<FrigadeBannerProps> = ({
     return null
   }
 
-  const metaData = getFlowMetadata(flowId) as StepData
+  const steps = getFlowSteps(flowId)
+
+  const metaData = (
+    steps.length > 0 ? steps[getCurrentStepIndex(flowId)] : getFlowMetadata(flowId)
+  ) as StepData
+
   if (metaData?.title) {
     title = metaData.title
   }
