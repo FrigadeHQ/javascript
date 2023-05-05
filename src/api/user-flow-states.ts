@@ -1,4 +1,4 @@
-import { API_PREFIX, COMPLETED_FLOW, STARTED_FLOW, useConfig } from './common'
+import { API_PREFIX, COMPLETED_FLOW, NOT_STARTED_FLOW, STARTED_FLOW, useConfig } from './common'
 import { useContext, useEffect, useState } from 'react'
 import { FrigadeContext } from '../FrigadeProvider'
 import useSWR from 'swr'
@@ -20,6 +20,7 @@ export function useUserFlowStates(): {
   optimisticallyMarkFlowCompleted: (flowId: string) => void
   optimisticallyMarkFlowStarted: (flowId: string) => void
   optimisticallySetLastStepId: (flowId: string, stepId: string) => void
+  optimisticallyMarkFlowNotStarted: (flowId: string) => void
   error: any
 } {
   const { config } = useConfig()
@@ -66,6 +67,15 @@ export function useUserFlowStates(): {
     }
   }
 
+  function optimisticallyMarkFlowNotStarted(flowId: string) {
+    if (userFlowStatesData) {
+      const flowState = userFlowStatesData.find((state) => state.flowId === flowId)
+      if (flowState && flowState.flowState !== NOT_STARTED_FLOW) {
+        flowState.flowState = NOT_STARTED_FLOW
+      }
+    }
+  }
+
   function optimisticallySetLastStepId(flowId: string, stepId: string) {
     if (userFlowStatesData) {
       const flowState = userFlowStatesData.find((state) => state.flowId === flowId)
@@ -82,6 +92,7 @@ export function useUserFlowStates(): {
     optimisticallyMarkFlowCompleted,
     optimisticallyMarkFlowStarted,
     optimisticallySetLastStepId,
+    optimisticallyMarkFlowNotStarted,
     error,
   }
 }
