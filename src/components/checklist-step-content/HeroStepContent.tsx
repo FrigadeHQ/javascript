@@ -1,9 +1,10 @@
 import { HeroChecklistStepContent } from '../Checklists/HeroChecklist/styled'
-import { VideoPlayer } from '../Checklists/HeroChecklist/VideoPlayer'
+
 import React, { FC } from 'react'
 import { StepContentProps } from '../../FrigadeForm/types'
 import styled from 'styled-components'
 import { TitleSubtitleWithCTA } from './shared/TitleSubtitleWithCTA'
+import { VideoPlayer } from '../Video/VideoPlayer'
 
 export const HERO_STEP_CONTENT_TYPE = 'default'
 const StepImage = styled.img`

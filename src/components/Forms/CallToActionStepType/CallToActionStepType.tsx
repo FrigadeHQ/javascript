@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { CustomFormTypeProps, FormInputType } from '../../../FrigadeForm/types'
 import { getClassName, getCustomClassOverrides } from '../../../shared/appearance'
 import { TitleSubtitle } from '../../TitleSubtitle/TitleSubtitle'
+import { VideoCard } from '../../Video/VideoCard'
 
 interface CallToActionStepProps {
   data?: FormInputType[]
@@ -32,6 +33,15 @@ const CallToActionTextContainer = styled.div`
   }
 `
 
+const CallToActionVideo = styled.div`
+  :not(${(props) => getCustomClassOverrides(props)}) {
+    width: 100%;
+    height: auto;
+    max-height: 250px;
+    margin-bottom: 24px;
+  }
+`
+
 export function CallToActionStepType({
   stepData,
   appearance,
@@ -55,6 +65,14 @@ export function CallToActionStepType({
           className={getClassName('callToActionImage', appearance)}
           src={stepData.imageUri}
         />
+      )}
+      {!stepData.imageUri && stepData.videoUri && (
+        <CallToActionVideo
+          appearance={appearance}
+          className={getClassName('callToActionVideo', appearance)}
+        >
+          <VideoCard appearance={appearance} videoUri={stepData.videoUri} />
+        </CallToActionVideo>
       )}
     </CallToActionStepContainer>
   )
