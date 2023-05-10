@@ -1,33 +1,180 @@
-import * as React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
-import { Body, Body2, CarouselCard, CarouselContainer, CarouselFade, CarouselItems, CarouselScroll, H3, H4 } from './styled'
+import {
+  Body,
+  CarouselCard,
+  CarouselContainer,
+  StyledCarouselFade,
+  CarouselItems,
+  CarouselScroll,
+  CarouselScrollGroup,
+  StyledScrollButton,
+  H3,
+  H4,
+} from './styled'
 import { Placeholder } from './Placeholder'
-
-// Modes - 2 up, 3 up, 3 with overflow
 
 const PlaceholderCard = () => (
   <CarouselCard>
     <Placeholder />
-    <H4 style={{ marginBottom: "4px" }}>Action title</H4>
-    <Body2>Copy about the action, why a user should take the time to complete it and what value it adds to the product. In this larger size card leverage the space and provide more explanation.</Body2>
+    <H4 style={{ marginBottom: 4 }}>Action title</H4>
+    <Body.Quiet>
+      Copy about the action, why a user should take the time to complete it and what value it adds
+      to the product. In this larger size card leverage the space and provide more explanation.
+    </Body.Quiet>
   </CarouselCard>
 )
 
+const RightArrow = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M14 6L20 12" stroke="#0B93FF" strokeWidth="2.5" strokeLinecap="round" />
+    <path d="M14 18L20 12" stroke="#0B93FF" strokeWidth="2.5" strokeLinecap="round" />
+    <path d="M4 12H20" stroke="#0B93FF" strokeWidth="2.5" strokeLinecap="round" />
+  </svg>
+)
+
+const CarouselFade: React.FC<{ side?: string; show?: boolean; onClick?: any }> = ({
+  side = 'left',
+  show = false,
+  onClick = () => {},
+}) => {
+  const [mounted, setMounted] = useState(false)
+  const [reversed, setReversed] = useState(false)
+
+  useEffect(() => {
+    if (show === true && mounted === false) {
+      setMounted(true)
+    } else if (show === false && mounted === true) {
+      setReversed(true)
+    }
+  }, [show])
+
+  const handleFadeOutEnd = () => {
+    setMounted(false)
+    setReversed(false)
+  }
+
+  const style: React.CSSProperties =
+    side == 'left'
+      ? { top: 0, bottom: 0, left: -20, transform: 'rotate(180deg)' }
+      : { top: 0, bottom: 0, right: -20 }
+
+  return mounted ? (
+    <StyledCarouselFade
+      style={style}
+      reversed={reversed}
+      onAnimationEnd={reversed ? handleFadeOutEnd : null}
+    >
+      <StyledScrollButton onClick={() => onClick()} style={{ right: 16, top: 'calc(50% - 24px)' }}>
+        <RightArrow />
+      </StyledScrollButton>
+    </StyledCarouselFade>
+  ) : null
+}
+
 export const FrigadeCarousel: React.FC<{}> = () => {
-  const cards = [1, 2, 3, 4, 5, 6];
+  // TODO: Wire in live data
+  const cards = Array(6).fill(null)
 
-  return <CarouselContainer>
-    <H3 style={{ marginBottom: "4px" }}>Checklist title</H3>
-    <Body style={{ marginBottom: "20px" }}>Checklist supplementary body copy</Body>
+  /* 
+    TODO:
+      - Scroll container size is slightly off (width of each item changes when total number of items changes)
+      - Need to defeat batching of state updates when showing/hiding controls
+        - Currently it'll show controls immediately when starting to scroll, but will wait until animation is done to hide controls
+        - I suspect this is because it's waiting until it can grab an idle frame after scrolling is done
+  */
 
-    <div style={{ position: "relative" }}>
-    <CarouselFade style={{ top: 0, bottom: 0, left: -20, transform: "rotate(180deg)" }} />
-      <CarouselFade style={{ top: 0, bottom: 0, right: -20 }} />
-      <CarouselScroll>
-        <CarouselItems style={{ width: `calc(33% * ${cards.length} - 40px)` }}>
-          {[1, 2, 3, 4, 5, 6].map((_, i) => <PlaceholderCard key={i} />)}
+  const scrollContainerRef = useRef<HTMLDivElement>(null)
+  const [showLeftFade, setShowLeftFade] = useState(false)
+  const [showRightFade, setShowRightFade] = useState(cards.length < 4 ? false : true)
+
+  const scrollGroups = []
+  for (let i = 0; i < cards.length; i += 3) {
+    scrollGroups.push(cards.slice(i, i + 3))
+  }
+
+  const handleScroll = (e) => {
+    const maxScroll = e.target.scrollWidth - e.target.clientWidth
+    // Round up to avoid issues with fractional pixels
+    const currentScroll = Math.ceil(e.target.scrollLeft)
+
+    if (currentScroll > 0 && showLeftFade === false) {
+      setShowLeftFade(true)
+    }
+
+    if (currentScroll === 0 && showLeftFade === true) {
+      setShowLeftFade(false)
+    }
+
+    if (currentScroll < maxScroll && showRightFade === false) {
+      setShowRightFade(true)
+    }
+
+    if (currentScroll === maxScroll && showRightFade === true) {
+      setShowRightFade(false)
+    }
+  }
+
+  const handleScrollByPage = (forward = true) => {
+    const direction = forward ? 1 : -1
+
+    if (scrollContainerRef.current === null) return
+
+    scrollContainerRef.current.scrollBy({
+      left: scrollContainerRef.current.clientWidth * direction,
+      behavior: 'smooth',
+    })
+  }
+
+  let scrollTimeout = null
+  const throttledScroll = (e) => {
+    if (scrollTimeout !== null) {
+      clearTimeout(scrollTimeout)
+    } else {
+      // Invoke once before starting to throttle
+      handleScroll(e)
+    }
+
+    scrollTimeout = setTimeout(() => {
+      handleScroll(e)
+    }, 16)
+  }
+
+  return (
+    <CarouselContainer>
+      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 20 }}>
+        <div>
+          <H3 style={{ marginBottom: 4 }}>Checklist title</H3>
+          <Body.Quiet>Checklist supplementary body copy</Body.Quiet>
+        </div>
+
+        <div style={{ display: 'flex', flexFlow: 'row nowrap', alignItems: 'center' }}>
+          <Body.Loud style={{ marginRight: 8 }}>0 of 2</Body.Loud>
+          <svg height={10} width={200}>
+            <rect x={0} y={0} rx={5} width={200} height={10} fill="#E6E6E6" />
+            <circle cx={5} cy={5} r={5} fill="#0B93FF" />
+          </svg>
+        </div>
+      </div>
+
+      <div style={{ position: 'relative' }}>
+        <CarouselFade show={showLeftFade} onClick={() => handleScrollByPage(false)} />
+        <CarouselFade side="right" show={showRightFade} onClick={handleScrollByPage} />
+
+        <CarouselScroll ref={scrollContainerRef} onScroll={throttledScroll}>
+          <CarouselItems
+            style={{ width: cards.length > 3 ? `calc(33% * ${cards.length} - 40px)` : '100%' }}
+          >
+            {scrollGroups.map((group, i) => (
+              <CarouselScrollGroup key={i}>
+                {group.map((_, j) => (
+                  <PlaceholderCard key={j} />
+                ))}
+              </CarouselScrollGroup>
+            ))}
           </CarouselItems>
-      </CarouselScroll>
-    </div>
-  </CarouselContainer>
+        </CarouselScroll>
+      </div>
+    </CarouselContainer>
+  )
 }
