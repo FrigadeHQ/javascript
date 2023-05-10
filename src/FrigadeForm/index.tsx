@@ -8,6 +8,7 @@ import { CornerModal } from '../components/CornerModal'
 import { CustomFormTypeProps } from './types'
 import { useTheme } from '../hooks/useTheme'
 import { FormContent } from './FormContent'
+import { RenderInlineStyles } from '../components/RenderInlineStyles'
 
 export type FrigadeFormType = 'inline' | 'modal' | 'large-modal' | 'corner-modal'
 
@@ -130,6 +131,7 @@ export const FrigadeForm: FC<FormProps> = ({
         style={overrideStyle}
         dismissible={dismissible}
       >
+        <RenderInlineStyles appearance={appearance} />
         <FormContent
           appearance={appearance}
           steps={steps}
@@ -153,6 +155,7 @@ export const FrigadeForm: FC<FormProps> = ({
   if (type === 'modal' && modalPosition !== 'center') {
     return (
       <CornerModal appearance={appearance} onClose={handleClose} visible={showModal}>
+        <RenderInlineStyles appearance={appearance} />
         <FormContent
           appearance={appearance}
           steps={steps}
@@ -174,22 +177,25 @@ export const FrigadeForm: FC<FormProps> = ({
   }
 
   return (
-    <FormContent
-      appearance={appearance}
-      steps={steps}
-      selectedStep={selectedStep}
-      customStepTypes={customStepTypes}
-      customVariables={customVariables}
-      onButtonClick={onButtonClick}
-      onStepCompletion={onStepCompletion}
-      flowId={flowId}
-      type={type}
-      hideOnFlowCompletion={hideOnFlowCompletion}
-      onComplete={onComplete}
-      setVisible={setVisible}
-      setShowModal={setShowModal}
-      onDismiss={onDismiss}
-    />
+    <>
+      <RenderInlineStyles appearance={appearance} />
+      <FormContent
+        appearance={appearance}
+        steps={steps}
+        selectedStep={selectedStep}
+        customStepTypes={customStepTypes}
+        customVariables={customVariables}
+        onButtonClick={onButtonClick}
+        onStepCompletion={onStepCompletion}
+        flowId={flowId}
+        type={type}
+        hideOnFlowCompletion={hideOnFlowCompletion}
+        onComplete={onComplete}
+        setVisible={setVisible}
+        setShowModal={setShowModal}
+        onDismiss={onDismiss}
+      />{' '}
+    </>
   )
 }
 

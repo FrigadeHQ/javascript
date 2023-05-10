@@ -1,6 +1,5 @@
 import { MultiInputStepType } from '../components/Forms/MultiInputStepType/MultiInputStepType'
 import { Appearance, DefaultFrigadeFlowProps, StepData } from '../types'
-import { RenderInlineStyles } from '../components/RenderInlineStyles'
 import {
   FormContainer,
   FormContainerMain,
@@ -162,7 +161,6 @@ export const FormContent: FC<FormContentProps> = ({
 
   return (
     <>
-      <RenderInlineStyles appearance={appearance} />
       <FormContainer className={getClassName('formContainer', appearance)}>
         <FormContainerMain>
           <AnimatePresence initial={false}>

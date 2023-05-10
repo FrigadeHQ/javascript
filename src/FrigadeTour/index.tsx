@@ -39,6 +39,7 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
     isStepBlocked,
     getFlowStatus,
     customVariables: existingCustomVariables,
+    getNumberOfStepsCompleted,
   } = useFlows()
   const { isLoadingUserFlowStateData } = useUserFlowStates()
   const { primaryCTAClickSideEffects, secondaryCTAClickSideEffects } = useCTAClickSideEffects()
@@ -180,6 +181,7 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
               onDismiss={() => onDismissTooltip(step)}
               tooltipPosition={tooltipPosition}
               showHighlightOnly={showHighlightOnly}
+              completedStepsCount={getNumberOfStepsCompleted(flowId)}
               {...props}
             />
           )
@@ -193,6 +195,7 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
           dismissible={dismissible}
           onDismiss={() => onDismissTooltip(steps[selectedStep])}
           tooltipPosition={tooltipPosition}
+          completedStepsCount={getNumberOfStepsCompleted(flowId)}
           {...props}
         />
       )}

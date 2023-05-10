@@ -64,6 +64,10 @@ export interface ToolTipProps extends Omit<DefaultFrigadeFlowProps, 'flowId'> {
   dismissBehavior?: 'complete-flow' | 'complete-step'
 }
 
+interface ToolTipPropsInternal extends ToolTipProps {
+  completedStepsCount: number
+}
+
 const HighlightOuter = styled.div<{ primaryColor: string }>`
   width: 100%;
   height: 100%;
@@ -112,7 +116,7 @@ const HiglightContainer = styled.div<{ primaryColor: string }>`
   z-index: ${(props) => (props.zIndex ? props.zIndex : 90)};
 `
 
-const Tooltips: FC<ToolTipProps> = ({
+const Tooltips: FC<ToolTipPropsInternal> = ({
   steps = [],
   onDismiss,
   onComplete = () => {},
@@ -131,6 +135,7 @@ const Tooltips: FC<ToolTipProps> = ({
   dismissible = false,
   showHighlightOnly,
   showStepCount = true,
+  completedStepsCount = 0,
 }) => {
   const [selfBounds, setSelfBounds] = useState<undefined | Partial<DOMRect>>(undefined)
   const [needsUpdate, setNeedsUpdate] = useState(new Date())
@@ -248,7 +253,7 @@ const Tooltips: FC<ToolTipProps> = ({
           setShowTooltipContainer(false)
         }
       }
-      if (selectedStep === steps.length - 1) {
+      if (completedStepsCount === steps.length - 1) {
         return onComplete()
       }
     }
