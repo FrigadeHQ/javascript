@@ -47,6 +47,7 @@ export const CarouselScroll = styled.div`
 
 export const CarouselScrollGroup = styled.div`
   display: flex;
+  flex: 1;
   flex-flow: row nowrap;
   gap: 0 16px;
   scroll-snap-align: center;
@@ -79,7 +80,7 @@ export const Card = styled.div`
   padding: 20px;
 `
 
-export const CarouselCard = styled(Card)`
+export const StyledCarouselCard = styled(Card)`
   flex: 1;
 `
 

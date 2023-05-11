@@ -1,8 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
+import { useFlows } from '../api/flows'
+
+import { CarouselCard } from './CarouselCard'
 
 import {
   Body,
-  CarouselCard,
   CarouselContainer,
   StyledCarouselFade,
   CarouselItems,
@@ -12,18 +14,6 @@ import {
   H3,
   H4,
 } from './styled'
-import { Placeholder } from './Placeholder'
-
-const PlaceholderCard = () => (
-  <CarouselCard>
-    <Placeholder />
-    <H4 style={{ marginBottom: 4 }}>Action title</H4>
-    <Body.Quiet>
-      Copy about the action, why a user should take the time to complete it and what value it adds
-      to the product. In this larger size card leverage the space and provide more explanation.
-    </Body.Quiet>
-  </CarouselCard>
-)
 
 const RightArrow = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -72,9 +62,28 @@ const CarouselFade: React.FC<{ side?: string; show?: boolean; onClick?: any }> =
   ) : null
 }
 
-export const FrigadeCarousel: React.FC<{}> = () => {
-  // TODO: Wire in live data
-  const cards = Array(6).fill(null)
+export interface FrigadeCarouselProps {
+  flowId: string
+}
+
+export const FrigadeCarousel: React.FC<FrigadeCarouselProps> = ({ flowId }) => {
+  const scrollContainerRef = useRef<HTMLDivElement>(null)
+  const [showLeftFade, setShowLeftFade] = useState(false)
+  const [showRightFade, setShowRightFade] = useState(false)
+  const [flowMetadata, setFlowMetadata] = useState(null)
+  const [flowSteps, setFlowSteps] = useState([])
+  const { getFlowMetadata, isLoading } = useFlows()
+
+  useEffect(() => {
+    if (isLoading) return
+
+    const metadata = getFlowMetadata(flowId)
+    setFlowMetadata(metadata)
+    if (metadata.data !== null) {
+      setFlowSteps(metadata.data)
+      setShowRightFade(metadata.data.length > 3 ? true : false)
+    }
+  }, [isLoading])
 
   /* 
     TODO:
@@ -84,13 +93,9 @@ export const FrigadeCarousel: React.FC<{}> = () => {
         - I suspect this is because it's waiting until it can grab an idle frame after scrolling is done
   */
 
-  const scrollContainerRef = useRef<HTMLDivElement>(null)
-  const [showLeftFade, setShowLeftFade] = useState(false)
-  const [showRightFade, setShowRightFade] = useState(cards.length < 4 ? false : true)
-
   const scrollGroups = []
-  for (let i = 0; i < cards.length; i += 3) {
-    scrollGroups.push(cards.slice(i, i + 3))
+  for (let i = 0; i < flowSteps.length; i += 3) {
+    scrollGroups.push(flowSteps.slice(i, i + 3))
   }
 
   const handleScroll = (e) => {
@@ -140,12 +145,14 @@ export const FrigadeCarousel: React.FC<{}> = () => {
     }, 16)
   }
 
+  if (isLoading) return <div>Loading...</div>
+
   return (
     <CarouselContainer>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 20 }}>
         <div>
-          <H3 style={{ marginBottom: 4 }}>Checklist title</H3>
-          <Body.Quiet>Checklist supplementary body copy</Body.Quiet>
+          <H3 style={{ marginBottom: 4 }}>{flowMetadata?.title}</H3>
+          <Body.Quiet>{flowMetadata?.description}</Body.Quiet>
         </div>
 
         <div style={{ display: 'flex', flexFlow: 'row nowrap', alignItems: 'center' }}>
@@ -163,12 +170,14 @@ export const FrigadeCarousel: React.FC<{}> = () => {
 
         <CarouselScroll ref={scrollContainerRef} onScroll={throttledScroll}>
           <CarouselItems
-            style={{ width: cards.length > 3 ? `calc(33% * ${cards.length} - 40px)` : '100%' }}
+            style={{
+              width: flowSteps.length > 3 ? `calc(33% * ${flowSteps.length} - 40px)` : '100%',
+            }}
           >
             {scrollGroups.map((group, i) => (
               <CarouselScrollGroup key={i}>
-                {group.map((_, j) => (
-                  <PlaceholderCard key={j} />
+                {group.map((item, j) => (
+                  <CarouselCard key={j} title={item.title} subtitle={item.subtitle} />
                 ))}
               </CarouselScrollGroup>
             ))}
