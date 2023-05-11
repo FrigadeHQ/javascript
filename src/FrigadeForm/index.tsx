@@ -28,8 +28,6 @@ export interface FormProps extends DefaultFrigadeFlowProps {
 
 export const FrigadeForm: FC<FormProps> = ({
   flowId,
-  style = {},
-  className = '',
   customStepTypes = {},
   type = 'inline',
   visible,

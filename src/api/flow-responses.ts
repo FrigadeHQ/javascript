@@ -45,13 +45,13 @@ export function useFlowResponses() {
     const flowResponseString = JSON.stringify(flowResponse)
 
     if (successfulFlowResponsesStrings.has(flowResponseString)) {
-      return
+      return null
     }
     // For step completions, do not send data to the API if the step is already completed
     if (flowResponse.actionType === COMPLETED_STEP && userFlowStatesData) {
       const flowState = userFlowStatesData.find((state) => state.flowId === flowResponse.flowSlug)
       if (flowState && flowState.stepStates[flowResponse.stepId]?.actionType === COMPLETED_STEP) {
-        return
+        return null
       }
     }
     successfulFlowResponsesStrings.add(flowResponseString)

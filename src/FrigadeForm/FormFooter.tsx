@@ -23,10 +23,7 @@ export const FormFooter: FC<FormFooterProps> = ({
   appearance,
   onPrimaryClick,
   onSecondaryClick,
-  onBack,
   formType,
-  steps,
-  selectedStep,
 }) => {
   const buttonType = formType === 'inline' ? 'inline' : 'full-width'
 

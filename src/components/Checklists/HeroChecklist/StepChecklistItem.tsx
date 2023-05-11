@@ -19,7 +19,6 @@ interface StepItemProps {
 export const StepChecklistItem: FC<StepItemProps> = ({
   data,
   index,
-  listLength,
   isSelected,
   primaryColor,
   style,

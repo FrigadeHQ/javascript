@@ -70,7 +70,6 @@ export const Button: FC<ButtonProps> = ({
   title,
   style,
   disabled,
-  textStyle = {},
   type = 'inline',
   size = 'medium',
   secondary = false,

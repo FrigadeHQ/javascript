@@ -10,7 +10,7 @@ export const getSubFlowFromCompletionCriteria = (completionCriteria: string) => 
    *  - get the flowId slug from within the completion criteria
    */
   let flow = null
-  flowMatch.forEach((match, groupIndex) => {
+  flowMatch.forEach((match, _) => {
     let trimmed = match.replaceAll("'", '')
     if (trimmed.startsWith('flow_')) {
       flow = trimmed

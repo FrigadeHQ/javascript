@@ -7,7 +7,7 @@ export function RenderInlineStyles({ appearance }: { appearance?: Appearance }) 
   if (!appearance || !appearance.styleOverrides) {
     return <></>
   }
-  const inlineStyles = Object.entries(appearance.styleOverrides).filter(([key, value]) => {
+  const inlineStyles = Object.entries(appearance.styleOverrides).filter(([_, value]) => {
     return typeof value === 'object'
   })
 

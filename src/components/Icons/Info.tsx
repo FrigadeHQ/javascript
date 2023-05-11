@@ -1,7 +1,6 @@
 import React, { CSSProperties } from 'react'
 
 export const Info = ({
-  color = '#000000',
   style,
   className,
 }: {

@@ -150,7 +150,7 @@ export function useFlows() {
   }
 
   function substituteVariables(flowData: string) {
-    return flowData.replace(/\${(.*?)}/g, (match, variableName) => {
+    return flowData.replace(/\${(.*?)}/g, (_, variableName) => {
       return customVariables[variableName] !== undefined
         ? String(customVariables[variableName])
         : ''

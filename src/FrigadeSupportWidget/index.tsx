@@ -28,7 +28,6 @@ export interface FloatingWidgetProps extends DefaultFrigadeFlowProps {
 export const FrigadeSupportWidget: FC<FloatingWidgetProps> = ({
   flowId,
   style,
-  className = '',
   onStepCompletion,
   visible = true,
   type = 'inline',
@@ -130,6 +129,7 @@ export const FrigadeSupportWidget: FC<FloatingWidgetProps> = ({
     return (
       <span ref={wrapperRef}>
         <SupportButton
+          style={style}
           onClick={() => {
             setShowMenu(!showMenu)
           }}
@@ -154,7 +154,7 @@ export const FrigadeSupportWidget: FC<FloatingWidgetProps> = ({
 
   return (
     <Portal>
-      <FloatingWidgetContainer ref={wrapperRef}>
+      <FloatingWidgetContainer style={style} ref={wrapperRef}>
         <AnimatePresence>
           <Menu />
         </AnimatePresence>

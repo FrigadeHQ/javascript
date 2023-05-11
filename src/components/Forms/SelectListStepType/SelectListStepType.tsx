@@ -15,7 +15,6 @@ import { CustomFormTypeProps, MultipleChoiceProps } from '../../../FrigadeForm/t
 
 export const SelectListStepType = ({
   stepData,
-  canContinue,
   setCanContinue,
   onSaveData,
   appearance,

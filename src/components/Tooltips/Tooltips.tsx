@@ -123,15 +123,12 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
   tooltipPosition = 'auto',
   showHighlight = true,
   primaryColor = '#000000',
-  buttonStyle = {},
   offset = { x: 0, y: 0 },
   visible = true,
   containerStyle = {},
   selectedStep = 0,
   customStepTypes,
-  onStepCompletion,
   appearance,
-  showTooltipsSimultaneously = false,
   dismissible = false,
   showHighlightOnly,
   showStepCount = true,
@@ -334,7 +331,7 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
   }
 
   const DEFAULT_CUSTOM_STEP_TYPES = {
-    default: (stepData: StepData) => {
+    default: (_: StepData) => {
       if (steps[selectedStep]?.StepContent) {
         const Content: React.ReactNode = steps[selectedStep].StepContent
         return <div>{Content}</div>

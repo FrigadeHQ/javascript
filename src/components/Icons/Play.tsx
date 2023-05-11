@@ -1,7 +1,6 @@
 import React, { CSSProperties } from 'react'
 
 export const Play = ({
-  color = '#000000',
   style,
   className,
 }: {

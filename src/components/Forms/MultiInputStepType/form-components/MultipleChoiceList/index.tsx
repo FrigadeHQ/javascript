@@ -71,7 +71,7 @@ export function MultipleChoiceList({
             key={option.id}
             value={option.id}
             data-selected={selectedIds.includes(option.id)}
-            onClick={(e) => {
+            onClick={() => {
               // If the option is already selected, remove it from the selectedIds
               if (selectedIds.includes(option.id)) {
                 setSelectedIds(selectedIds.filter((id) => id !== option.id))
