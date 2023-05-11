@@ -24,7 +24,7 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
   const [automaticFlowIdsToTrigger, setAutomaticFlowIdsToTrigger] = useState<Flow[]>([])
   // Add list of flows already triggered
   const [triggeredFlows, setTriggeredFlows] = useState<string[]>([])
-  const {} = useOrganization()
+  const { organizationId } = useOrganization()
 
   useEffect(() => {
     if (!isLoadingUserFlowStateData) {
