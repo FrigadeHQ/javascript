@@ -1,25 +1,14 @@
 {
-  // see https://www.typescriptlang.org/tsconfig to better understand tsconfigs
-  "include": ["src"],
-  "exclude": [
-    "**/__tests__/*",
-    "node_modules",
-    "babel.config.js",
-    "jest.config.js",
-    "jest.setup.js",
-    ".eslintrc.js"
-  ],
-  "outDir": "./lib",
   "compilerOptions": {
     "module": "esnext",
-    "types": ["jest"],
     "lib": ["dom", "esnext"],
+    "allowJs": true,
+    "isolatedModules": true,
     // output .d.ts declaration files for consumers
     "declaration": true,
     // output .js.map sourcemap files for consumers
     "sourceMap": true,
     // match output dir to input dir. e.g. dist/index instead of dist/src/index
-    "rootDir": "./src",
     // stricter type-checking for stronger correctness. Recommended by TS
     "strict": true,
     "strictNullChecks": false,
@@ -31,6 +20,8 @@
     "noUnusedParameters": true,
     // use Node's module resolution algorithm, instead of the legacy TS one
     "moduleResolution": "node",
+    "outDir": "./lib",
+    "rootDir": "./src",
     // transpile JSX to React.createElement
     "jsx": "react",
     // interop between ESM and CJS modules. Recommended by TS
@@ -39,6 +30,14 @@
     "skipLibCheck": true,
     // error out if import and file system have a casing mismatch. Recommended by TS
     "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
-  }
+  },
+  "include": ["src"],
+  "exclude": [
+    "**/__tests__/*",
+    "node_modules",
+    "babel.config.js",
+    "jest.config.js",
+    "jest.setup.js",
+    ".eslintrc.js"
+  ],
 }
