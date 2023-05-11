@@ -8,7 +8,6 @@ import {
   HERO_STEP_CONTENT_TYPE,
   HeroStepContent,
 } from '../../checklist-step-content/HeroStepContent'
-import { StepContentProps } from '../../../FrigadeForm/types'
 import { VIDEO_CAROUSEL_TYPE, VideoCarousel } from '../../checklist-step-content/VideoCarousel'
 import {
   CODE_SNIPPET_CONTENT_TYPE,
@@ -97,16 +96,16 @@ const HeroChecklist: FC<HeroChecklistProps> = ({
   const { mergeAppearanceWithDefault } = useTheme()
   appearance = mergeAppearanceWithDefault(appearance)
 
-  const DEFAULT_CUSTOM_STEP_TYPES = new Map([
-    [HERO_STEP_CONTENT_TYPE, HeroStepContent],
-    [VIDEO_CAROUSEL_TYPE, VideoCarousel],
-    [CODE_SNIPPET_CONTENT_TYPE, CodeSnippetContent],
-  ])
+  const DEFAULT_CUSTOM_STEP_TYPES = {
+    [HERO_STEP_CONTENT_TYPE]: HeroStepContent,
+    [VIDEO_CAROUSEL_TYPE]: VideoCarousel,
+    [CODE_SNIPPET_CONTENT_TYPE]: CodeSnippetContent,
+  }
 
-  const mergedCustomStepTypes = new Map<string, FC<StepContentProps>>([
+  const mergedCustomStepTypes = {
     ...DEFAULT_CUSTOM_STEP_TYPES,
     ...customStepTypes,
-  ])
+  }
 
   const [selectedStepInternal, setSelectedStepInternal] = useState(0)
 
@@ -116,16 +115,13 @@ const HeroChecklist: FC<HeroChecklistProps> = ({
   const completeCount = steps.filter((s) => s.complete === true).length
 
   const StepContent = () => {
-    if (
-      !steps[selectedStepValue]?.type ||
-      !mergedCustomStepTypes.has(steps[selectedStepValue].type)
-    ) {
-      return mergedCustomStepTypes.get(HERO_STEP_CONTENT_TYPE)({
+    if (!steps[selectedStepValue]?.type || !mergedCustomStepTypes[steps[selectedStepValue].type]) {
+      return mergedCustomStepTypes[HERO_STEP_CONTENT_TYPE]({
         stepData: steps[selectedStepValue],
         appearance: appearance,
       })
     }
-    return mergedCustomStepTypes.get(steps[selectedStepValue].type)({
+    return mergedCustomStepTypes[steps[selectedStepValue].type]({
       stepData: steps[selectedStepValue],
       appearance: appearance,
     })
