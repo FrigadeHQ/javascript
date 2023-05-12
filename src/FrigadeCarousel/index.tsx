@@ -176,8 +176,8 @@ export const FrigadeCarousel: React.FC<FrigadeCarouselProps> = ({ flowId }) => {
           >
             {scrollGroups.map((group, i) => (
               <CarouselScrollGroup key={i}>
-                {group.map((item, j) => (
-                  <CarouselCard key={j} title={item.title} subtitle={item.subtitle} />
+                {group.map((stepData, j) => (
+                  <CarouselCard key={j} stepData={stepData} />
                 ))}
               </CarouselScrollGroup>
             ))}

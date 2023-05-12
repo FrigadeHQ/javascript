@@ -1,19 +1,27 @@
 import React, { FC } from 'react'
+import { StepData } from '../types'
+import { useCTAClickSideEffects } from '../hooks/useCTAClickSideEffects'
 
-import { Placeholder } from './Placeholder'
-import { StyledCarouselCard, H4, Body } from './styled'
+import { StyledCarouselCard, StyledCarouselCardImage, H4, Body } from './styled'
 
 interface CarouselCardProps {
-  title: string
-  subtitle: string
+  stepData: StepData
 }
 
-export const CarouselCard: FC<CarouselCardProps> = ({ title, subtitle }) => {
+export const CarouselCard: FC<CarouselCardProps> = ({ stepData }) => {
+  const { primaryCTAClickSideEffects } = useCTAClickSideEffects()
+
+  const { imageUri = null, subtitle = null, title = null, primaryButtonUri = null } = stepData
+
+  const handleClick = () => {
+    primaryCTAClickSideEffects(stepData)
+  }
+
   return (
-    <StyledCarouselCard>
-      <Placeholder />
-      <H4 style={{ marginBottom: 4 }}>{title}</H4>
-      <Body.Quiet>{subtitle}</Body.Quiet>
+    <StyledCarouselCard onClick={handleClick}>
+      {imageUri && <StyledCarouselCardImage src={imageUri} alt={title} />}
+      {title && <H4 style={{ marginBottom: 4 }}>{title}</H4>}
+      {subtitle && <Body.Quiet>{subtitle}</Body.Quiet>}
     </StyledCarouselCard>
   )
 }

@@ -82,6 +82,21 @@ export const Card = styled.div`
 
 export const StyledCarouselCard = styled(Card)`
   flex: 1;
+
+  &:active {
+    background: #fafdff;
+  }
+  &:hover {
+    border: 1px solid #0b93ff;
+    cursor: pointer;
+  }
+`
+
+export const StyledCarouselCardImage = styled.img`
+  border-radius: 20px;
+  height: 40px;
+  margin-bottom: 12px;
+  width: 40px;
 `
 
 export const CarouselContainer = styled(Card)`
