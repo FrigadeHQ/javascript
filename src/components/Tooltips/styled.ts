@@ -11,7 +11,7 @@ export const TooltipContainer = styled.div<{ maxWidth: number; appearance: Appea
   border-radius: 20px;
   max-width: ${(props) => props.maxWidth}px;
   min-width: 300px;
-  padding: 22px 30px 12px 22px;
+  padding: 22px 22px 12px;
   z-index: ${(props) => props.zIndex};
 `
 
@@ -19,7 +19,30 @@ export const TooltipDismissContainer = styled.div`
   display: block;
   cursor: pointer;
   position: absolute;
+  top: 25px;
   right: 22px;
+`
+
+export const TooltipImageContainer = styled.img`
+  :not(${(props) => getCustomClassOverrides(props)}) {
+    display: block;
+    width: 100%;
+    height: auto;
+    min-height: 200px;
+    margin-top: ${(props) => (props.dismissible ? '24px' : '0px')};
+    margin-bottom: 16px;
+  }
+`
+
+export const TooltipVideoContainer = styled.div`
+  :not(${(props) => getCustomClassOverrides(props)}) {
+    display: block;
+    width: 100%;
+    height: auto;
+    min-height: 200px;
+    margin-top: ${(props) => (props.dismissible ? '24px' : '0px')};
+    margin-bottom: 16px;
+  }
 `
 
 export const TooltipFooter = styled.div`

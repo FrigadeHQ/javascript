@@ -9,13 +9,16 @@ import {
   TooltipCTAContainer,
   TooltipDismissContainer,
   TooltipFooter,
+  TooltipImageContainer,
   TooltipStepCountContainer,
   TooltipStepCounter,
+  TooltipVideoContainer,
 } from './styled'
 import { Appearance, DefaultFrigadeFlowProps, StepData } from '../../types'
 
 import { getClassName } from '../../shared/appearance'
 import { TitleSubtitle } from '../TitleSubtitle/TitleSubtitle'
+import { VideoCard } from '../Video/VideoCard'
 
 export type ToolTipPosition = 'left' | 'right' | 'auto'
 
@@ -316,6 +319,23 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
           >
             <Close />
           </TooltipDismissContainer>
+        )}
+        {steps[selectedStep].imageUri && (
+          <TooltipImageContainer
+            dismissible={dismissible}
+            appearance={appearance}
+            src={steps[selectedStep].imageUri}
+            className={getClassName('tooltipImageContainer', appearance)}
+          />
+        )}
+        {steps[selectedStep].videoUri && !steps[selectedStep].imageUri && (
+          <TooltipVideoContainer
+            dismissible={dismissible}
+            appearance={appearance}
+            className={getClassName('tooltipVideoContainer', appearance)}
+          >
+            <VideoCard appearance={appearance} videoUri={steps[selectedStep].videoUri} />
+          </TooltipVideoContainer>
         )}
         <TitleSubtitle
           appearance={appearance}
