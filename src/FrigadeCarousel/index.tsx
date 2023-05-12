@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useFlows } from '../api/flows'
 
 import { CarouselCard } from './CarouselCard'
+import { ProgressBar } from './ProgressBar'
 
 import {
   Body,
@@ -12,7 +13,6 @@ import {
   CarouselScrollGroup,
   StyledScrollButton,
   H3,
-  H4,
 } from './styled'
 
 const RightArrow = () => (
@@ -72,16 +72,21 @@ export const FrigadeCarousel: React.FC<FrigadeCarouselProps> = ({ flowId }) => {
   const [showRightFade, setShowRightFade] = useState(false)
   const [flowMetadata, setFlowMetadata] = useState(null)
   const [flowSteps, setFlowSteps] = useState([])
-  const { getFlowMetadata, isLoading } = useFlows()
+  const [numberOfStepsCompleted, setNumberOfStepsCompleted] = useState(0)
+
+  const { getFlowMetadata, getNumberOfStepsCompleted, isLoading } = useFlows()
 
   useEffect(() => {
     if (isLoading) return
 
     const metadata = getFlowMetadata(flowId)
+    const completedStepCount = getNumberOfStepsCompleted(flowId)
+
     setFlowMetadata(metadata)
     if (metadata.data !== null) {
       setFlowSteps(metadata.data)
       setShowRightFade(metadata.data.length > 3 ? true : false)
+      setNumberOfStepsCompleted(completedStepCount)
     }
   }, [isLoading])
 
@@ -156,13 +161,10 @@ export const FrigadeCarousel: React.FC<FrigadeCarouselProps> = ({ flowId }) => {
           <Body.Quiet>{flowMetadata?.description}</Body.Quiet>
         </div>
 
-        <div style={{ display: 'flex', flexFlow: 'row nowrap', alignItems: 'center' }}>
-          <Body.Loud style={{ marginRight: 8 }}>0 of 2</Body.Loud>
-          <svg height={10} width={200}>
-            <rect x={0} y={0} rx={5} width={200} height={10} fill="#E6E6E6" />
-            <circle cx={5} cy={5} r={5} fill="#0B93FF" />
-          </svg>
-        </div>
+        <ProgressBar
+          numberOfStepsCompleted={numberOfStepsCompleted}
+          numberOfSteps={flowSteps.length}
+        />
       </div>
 
       <div style={{ position: 'relative' }}>
