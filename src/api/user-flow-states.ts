@@ -27,15 +27,22 @@ export function useUserFlowStates(): {
   const { publicApiKey, userId, flows, isNewGuestUser } = useContext(FrigadeContext)
   const [hasFinishedInitialLoad, setHasFinishedInitialLoad] = useState(false)
   const emptyResponse = {
-    data: [],
+    data: flows.map((flow) => ({
+      flowId: flow.id,
+      flowState: COMPLETED_FLOW,
+      lastStepId: null,
+      userId,
+      foreignUserId: userId,
+      stepStates: {},
+      shouldTrigger: false,
+    })),
   }
   const fetcher = (url) =>
     fetch(url, config).then((response) => {
       if (response.ok) {
         return response.json()
       }
-      console.error(`Error fetching ${url} (${response.status}): ${response.statusText}`)
-      return emptyResponse
+      throw new Error('Failed to fetch user flow states')
     })
 
   const {
@@ -50,6 +57,15 @@ export function useUserFlowStates(): {
     fetcher,
     {
       keepPreviousData: true,
+      errorRetryInterval: 10000,
+      errorRetryCount: 3,
+      onError: () => {
+        // In case of errors fetching the user flow states, hide all Frigade flow by setting shouldTrigger to false
+        return emptyResponse
+      },
+      onLoadingSlow: () => {
+        return emptyResponse
+      },
     }
   )
   const userFlowStatesData = data?.data
