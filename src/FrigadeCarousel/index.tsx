@@ -93,15 +93,16 @@ export const FrigadeCarousel: React.FC<FrigadeCarouselProps> = ({ flowId }) => {
         - I suspect this is because it's waiting until it can grab an idle frame after scrolling is done
   */
 
-  const scrollGroups = []
+  const scrollGroups: any[][] = []
   for (let i = 0; i < flowSteps.length; i += 3) {
     scrollGroups.push(flowSteps.slice(i, i + 3))
   }
 
-  const handleScroll = (e) => {
-    const maxScroll = e.target.scrollWidth - e.target.clientWidth
+  const handleScroll = (e: React.UIEvent<HTMLElement>) => {
+    const target = e.target as HTMLElement
+    const maxScroll = target.scrollWidth - target.clientWidth
     // Round up to avoid issues with fractional pixels
-    const currentScroll = Math.ceil(e.target.scrollLeft)
+    const currentScroll = Math.ceil(target.scrollLeft)
 
     if (currentScroll > 0 && showLeftFade === false) {
       setShowLeftFade(true)
@@ -132,7 +133,7 @@ export const FrigadeCarousel: React.FC<FrigadeCarouselProps> = ({ flowId }) => {
   }
 
   let scrollTimeout = null
-  const throttledScroll = (e) => {
+  const throttledScroll = (e: React.UIEvent<HTMLElement>) => {
     if (scrollTimeout !== null) {
       clearTimeout(scrollTimeout)
     } else {
