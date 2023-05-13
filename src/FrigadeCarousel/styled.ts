@@ -24,18 +24,16 @@ const fadeOut = keyframes`
   }
 `
 
-export const CarouselItems = styled.div`
-  display: flex;
-  flex-flow: row nowrap;
-  gap: 0 16px;
-`
-
 export const CarouselScroll = styled.div`
   margin: 0 -20px;
   overflow-x: auto;
   padding-left: 20px;
   padding-right: 20px;
   scroll-snap-type: x mandatory;
+
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 0 16px;
 
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -47,7 +45,6 @@ export const CarouselScroll = styled.div`
 
 export const CarouselScrollGroup = styled.div`
   display: flex;
-  flex: 1;
   flex-flow: row nowrap;
   gap: 0 16px;
   scroll-snap-align: center;
@@ -75,13 +72,12 @@ export const StyledScrollButton = styled.button`
 `
 
 export const Card = styled.div`
-  ${defaultBorder}
   border-radius: 8px;
   padding: 20px;
 `
 
 export const StyledCarouselCard = styled(Card)`
-  flex: 1;
+  ${defaultBorder}
 
   &:active {
     background: #fafdff;
@@ -103,6 +99,13 @@ export const CarouselContainer = styled(Card)`
   ${defaultShadow}
 `
 
+export const CompletedPill = styled.div`
+  background: #d8fed8;
+  border-radius: 6px;
+  margin-bottom: 12px;
+  padding: 4px 10px;
+`
+
 export const H3 = styled.p`
   font: bold 18px/22px Inter;
   letter-spacing: calc(18px * -0.01);
@@ -121,10 +124,16 @@ export const Body = styled.p`
   margin: 0;
 `
 
+export const Small = styled.p`
+  color: #000;
+  font: 600 12px/16px Inter;
+  margin: 0;
+`
+
 Body.Loud = styled(Body)`
   font-weight: 600;
 `
 
 Body.Quiet = styled(Body)`
-  color: #808080;
+  color: #666;
 `

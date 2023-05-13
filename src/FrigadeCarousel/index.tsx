@@ -8,7 +8,6 @@ import {
   Body,
   CarouselContainer,
   StyledCarouselFade,
-  CarouselItems,
   CarouselScroll,
   CarouselScrollGroup,
   StyledScrollButton,
@@ -74,29 +73,22 @@ export const FrigadeCarousel: React.FC<FrigadeCarouselProps> = ({ flowId }) => {
   const [flowSteps, setFlowSteps] = useState([])
   const [numberOfStepsCompleted, setNumberOfStepsCompleted] = useState(0)
 
-  const { getFlowMetadata, getNumberOfStepsCompleted, isLoading } = useFlows()
+  const { getFlowMetadata, getFlowSteps, getNumberOfStepsCompleted, isLoading } = useFlows()
 
   useEffect(() => {
     if (isLoading) return
 
     const metadata = getFlowMetadata(flowId)
     const completedStepCount = getNumberOfStepsCompleted(flowId)
+    const steps = getFlowSteps(flowId)
 
     setFlowMetadata(metadata)
     if (metadata.data !== null) {
-      setFlowSteps(metadata.data)
-      setShowRightFade(metadata.data.length > 3 ? true : false)
+      setFlowSteps(steps.sort((a, b) => Number(a.complete) - Number(b.complete)))
+      setShowRightFade(steps.length > 3 ? true : false)
       setNumberOfStepsCompleted(completedStepCount)
     }
   }, [isLoading])
-
-  /* 
-    TODO:
-      - Scroll container size is slightly off (width of each item changes when total number of items changes)
-      - Need to defeat batching of state updates when showing/hiding controls
-        - Currently it'll show controls immediately when starting to scroll, but will wait until animation is done to hide controls
-        - I suspect this is because it's waiting until it can grab an idle frame after scrolling is done
-  */
 
   const scrollGroups: any[][] = []
   for (let i = 0; i < flowSteps.length; i += 3) {
@@ -151,7 +143,7 @@ export const FrigadeCarousel: React.FC<FrigadeCarouselProps> = ({ flowId }) => {
     }, 16)
   }
 
-  if (isLoading) return <div>Loading...</div>
+  if (isLoading) return null
 
   return (
     <CarouselContainer>
@@ -172,19 +164,22 @@ export const FrigadeCarousel: React.FC<FrigadeCarouselProps> = ({ flowId }) => {
         <CarouselFade side="right" show={showRightFade} onClick={handleScrollByPage} />
 
         <CarouselScroll ref={scrollContainerRef} onScroll={throttledScroll}>
-          <CarouselItems
-            style={{
-              width: flowSteps.length > 3 ? `calc(33% * ${flowSteps.length} - 40px)` : '100%',
-            }}
-          >
-            {scrollGroups.map((group, i) => (
-              <CarouselScrollGroup key={i}>
-                {group.map((stepData, j) => (
-                  <CarouselCard key={j} stepData={stepData} />
-                ))}
-              </CarouselScrollGroup>
-            ))}
-          </CarouselItems>
+          {scrollGroups.map((group, i) => (
+            <CarouselScrollGroup
+              key={i}
+              style={{
+                flex: `0 0 calc(100% - ${flowSteps.length > 3 ? 36 : 0}px)`,
+              }}
+            >
+              {group.map((stepData, j) => (
+                <CarouselCard
+                  key={j}
+                  stepData={stepData}
+                  style={{ flex: flowSteps.length > 3 ? `0 1 calc(33% - 16px * 2 / 3)` : 1 }}
+                />
+              ))}
+            </CarouselScrollGroup>
+          ))}
         </CarouselScroll>
       </div>
     </CarouselContainer>
