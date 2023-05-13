@@ -14,7 +14,9 @@
     "lint": "eslint --fix --ext .ts,.tsx .",
     "copy-files": "copyfiles -u 1 src/**/*.html src/**/*.css ./lib",
     "build": "yarn clean && npx tsc && yarn copy-files",
-    "local-release": "npx tsc"
+    "local-release": "npx tsc",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "repository": {
     "type": "git",
@@ -41,10 +43,17 @@
     "@babel/preset-env": "^7.20.2",
     "@babel/preset-react": "^7.18.6",
     "@babel/preset-typescript": "^7.18.6",
+    "@storybook/addon-essentials": "^7.0.9",
+    "@storybook/addon-interactions": "^7.0.9",
+    "@storybook/addon-links": "^7.0.9",
+    "@storybook/blocks": "^7.0.9",
+    "@storybook/react": "^7.0.9",
+    "@storybook/react-webpack5": "^7.0.9",
+    "@storybook/testing-library": "^0.0.14-next.2",
     "@testing-library/react": "12.0.0",
+    "@types/jest": "^23.3.1",
     "@types/react": "^18.0.37",
     "@types/react-dom": "^18.0.11",
-    "@types/jest": "^23.3.1",
     "babel-jest": "^29.4.1",
     "copyfiles": "^2.4.1",
     "eslint-config-backpacker-react-ts": "^0.3.0",
@@ -53,10 +62,12 @@
     "jest-environment-jsdom": "^29.4.1",
     "lint-staged": "^13.0.0",
     "prettier": "^2.4.1",
+    "prop-types": "^15.8.1",
     "react": "17.0.2",
     "react-test-renderer": "17.0.2",
     "rimraf": "^4.1.2",
     "semantic-release": "^19.0.3",
+    "storybook": "^7.0.9",
     "typescript": "^4.9.4"
   },
   "release": {
