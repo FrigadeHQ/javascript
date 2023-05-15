@@ -114,26 +114,26 @@ export const CompletedPill = styled.div`
 `
 
 export const H3 = styled.p`
-  font: bold 18px/22px Inter;
+  font: bold 18px/22px sans-serif;
   letter-spacing: calc(18px * -0.01);
   margin: 0;
 `
 
 export const H4 = styled.p`
-  font: bold 16px/20px Inter;
+  font: bold 16px/20px sans-serif;
   letter-spacing: calc(16px * -0.01);
   margin: 0;
 `
 
 export const Body = styled.p`
   color: ${({ theme }) => theme.colorText};
-  font: normal 14px/22px Inter;
+  font: normal 14px/22px sans-serif;
   margin: 0;
 `
 
 export const Small = styled.p`
   color: ${({ theme }) => theme.colorText};
-  font: 600 12px/16px Inter;
+  font: 600 12px/16px sans-serif;
   margin: 0;
 `
 
