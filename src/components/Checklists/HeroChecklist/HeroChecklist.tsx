@@ -14,6 +14,7 @@ import {
   CodeSnippetContent,
 } from '../../checklist-step-content/CodeSnippetContent'
 import { useTheme } from '../../../hooks/useTheme'
+import { FrigadeChecklistProps } from '../../../FrigadeChecklist'
 
 export interface HeroChecklistProps extends Omit<DefaultFrigadeFlowProps, 'flowId'> {
   title?: string
@@ -40,9 +41,9 @@ export interface HeroChecklistProps extends Omit<DefaultFrigadeFlowProps, 'flowI
 const HeroChecklistContainer = styled.div<{ appearance }>`
   display: flex;
   flex-direction: row;
-  min-width: 1000px;
+  min-width: ${(props) => (props.type != 'modal' ? '1000px' : '100%')};
   background: ${(props) => props.appearance?.theme.colorBackground};
-  box-shadow: 0px 6px 25px rgba(0, 0, 0, 0.06);
+  box-shadow: ${(props) => (props.type != 'modal' ? '0px 6px 25px rgba(0, 0, 0, 0.06)' : 'none')};
   border-radius: 8px;
 `
 
@@ -82,7 +83,7 @@ const HeroChecklistStepContentContainer = styled.div`
   padding: 2rem;
 `
 
-const HeroChecklist: FC<HeroChecklistProps> = ({
+const HeroChecklist: FC<FrigadeChecklistProps> = ({
   title,
   subtitle,
   steps = [],
@@ -92,6 +93,7 @@ const HeroChecklist: FC<HeroChecklistProps> = ({
   className = '',
   customStepTypes = new Map(),
   appearance,
+  type,
 }) => {
   const { mergeAppearanceWithDefault } = useTheme()
   appearance = mergeAppearanceWithDefault(appearance)
@@ -128,7 +130,7 @@ const HeroChecklist: FC<HeroChecklistProps> = ({
   }
 
   return (
-    <HeroChecklistContainer style={style} className={className} appearance={appearance}>
+    <HeroChecklistContainer type={type} style={style} className={className} appearance={appearance}>
       <ChecklistHeader style={{ flex: 1 }}>
         <ChecklistHeader style={{ padding: '30px 0px 30px 30px', borderBottom: 'none' }}>
           <HeroChecklistTitle appearance={appearance}>{title}</HeroChecklistTitle>

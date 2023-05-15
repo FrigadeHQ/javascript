@@ -11,6 +11,7 @@ import { ChecklistWithGuide } from '../components/Checklists/ChecklistWithGuide'
 import { useCTAClickSideEffects } from '../hooks/useCTAClickSideEffects'
 import { useTheme } from '../hooks/useTheme'
 import { CondensedChecklist } from '../components/Checklists/ModalChecklist'
+import { Modal } from '../components/Modal'
 
 export type FrigadeChecklistType = 'inline' | 'modal'
 export type FrigadeChecklistStyle = 'with-guide' | 'default' | 'condensed'
@@ -61,7 +62,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
   hideOnFlowCompletion,
   setVisible,
   customStepTypes,
-  checklistStyle = 'default',
+  checklistStyle = 'condensed',
   ...guideProps
 }) => {
   const {
@@ -91,8 +92,8 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
 
   appearance = mergeAppearanceWithDefault(appearance)
 
-  if (type === 'modal' && checklistStyle === 'default') {
-    checklistStyle = 'condensed'
+  if (type !== 'modal' && checklistStyle === 'condensed') {
+    checklistStyle = 'default'
   }
 
   useEffect(() => {
@@ -308,18 +309,42 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
   }
 
   function getDefaultChecklist() {
+    const checklist = (
+      <HeroChecklist
+        flowId={flowId}
+        style={style}
+        selectedStep={selectedStep}
+        setSelectedStep={setSelectedStep}
+        className={className}
+        appearance={appearance}
+        type={type}
+        {...commonProps}
+      />
+    )
+
+    if (!isModal) {
+      return (
+        <>
+          <CommonDom />
+          {checklist}
+        </>
+      )
+    }
+
     return (
-      <>
+      <Modal
+        onClose={onDismiss}
+        visible={showModal}
+        appearance={appearance}
+        style={{
+          paddingTop: '0px',
+          padding: '12px',
+          paddingLeft: 0,
+        }}
+      >
         <CommonDom />
-        <HeroChecklist
-          style={style}
-          selectedStep={selectedStep}
-          setSelectedStep={setSelectedStep}
-          className={className}
-          appearance={appearance}
-          {...commonProps}
-        />
-      </>
+        {checklist}
+      </Modal>
     )
   }
 
