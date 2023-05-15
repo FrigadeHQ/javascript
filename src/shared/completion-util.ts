@@ -11,10 +11,14 @@ export const getSubFlowFromCompletionCriteria = (completionCriteria: string) => 
    */
   let flow = null
   flowMatch.forEach((match, _) => {
-    let trimmed = match.replaceAll("'", '')
+    let trimmed = replaceAll(match, "'", '')
     if (trimmed.startsWith('flow_')) {
       flow = trimmed
     }
   })
   return flow
+}
+
+export const replaceAll = function (target, search, replacement) {
+  return target.replace(new RegExp(search, 'g'), replacement)
 }
