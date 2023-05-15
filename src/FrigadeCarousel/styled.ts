@@ -1,7 +1,7 @@
 import styled, { css, keyframes } from 'styled-components'
 
 const defaultBorder = css`
-  border: 1px solid #e6e6e6;
+  border: 1px solid ${({ theme }) => theme.colorBorder};
 `
 
 const defaultShadow = css`
@@ -53,7 +53,11 @@ export const CarouselScrollGroup = styled.div`
 
 export const StyledCarouselFade = styled.div`
   animation: ${(props) => (props.reversed ? fadeOut : fadeIn)} 0.25s ease-out;
-  background: linear-gradient(to right, rgba(255, 255, 255, 0), #fff 100%);
+  background: linear-gradient(
+    to right,
+    ${({ theme }) => theme.colorBackground}00,
+    ${({ theme }) => theme.colorBackground} 100%
+  );
   position: absolute;
   width: 64px;
 `
@@ -63,7 +67,7 @@ export const StyledScrollButton = styled.button`
   box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.1);
   align-items: center;
   border-radius: 50%;
-  background: #fff;
+  background: ${({ theme }) => theme.colorBackground};
   display: flex;
   height: 48px;
   justify-content: center;
@@ -72,12 +76,13 @@ export const StyledScrollButton = styled.button`
 `
 
 export const Card = styled.div`
-  border-radius: 8px;
+  border-radius: ${({ theme }) => theme.borderRadius}px;
   padding: 20px;
 `
 
 export const StyledCarouselCard = styled(Card)`
   ${defaultBorder}
+  background: ${({ theme }) => theme.colorBackground};
 
   &:active {
     background: #fafdff;
@@ -89,7 +94,7 @@ export const StyledCarouselCard = styled(Card)`
 `
 
 export const StyledCarouselCardImage = styled.img`
-  border-radius: 20px;
+  border-radius: 50%;
   height: 40px;
   margin-bottom: 12px;
   width: 40px;
@@ -97,6 +102,8 @@ export const StyledCarouselCardImage = styled.img`
 
 export const CarouselContainer = styled(Card)`
   ${defaultShadow}
+
+  background: ${({ theme }) => theme.colorBackground};
 `
 
 export const CompletedPill = styled.div`
@@ -119,13 +126,13 @@ export const H4 = styled.p`
 `
 
 export const Body = styled.p`
-  color: #000;
+  color: ${({ theme }) => theme.colorText};
   font: normal 14px/22px Inter;
   margin: 0;
 `
 
 export const Small = styled.p`
-  color: #000;
+  color: ${({ theme }) => theme.colorText};
   font: 600 12px/16px Inter;
   margin: 0;
 `
@@ -135,5 +142,5 @@ Body.Loud = styled(Body)`
 `
 
 Body.Quiet = styled(Body)`
-  color: #666;
+  color: ${({ theme }) => theme.colorTextSecondary};
 `
