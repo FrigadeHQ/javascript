@@ -11,7 +11,9 @@ import { Close } from '../components/Icons/Close'
 import { TitleSubtitle } from '../components/TitleSubtitle/TitleSubtitle'
 import { Button } from '../components/Button'
 
-export interface FrigadeEmbeddedTipProps extends DefaultFrigadeFlowProps {}
+export interface FrigadeEmbeddedTipProps extends DefaultFrigadeFlowProps {
+  dismissible?: boolean
+}
 
 export const FrigadeEmbeddedTip: React.FC<FrigadeEmbeddedTipProps> = ({
   flowId,
@@ -21,10 +23,12 @@ export const FrigadeEmbeddedTip: React.FC<FrigadeEmbeddedTipProps> = ({
   appearance,
   className,
   style,
+  dismissible,
 }) => {
   const {
     getFlow,
     markFlowCompleted,
+    markStepCompleted,
     isLoading,
     targetingLogicShouldHideFlow,
     setCustomVariable,
@@ -80,7 +84,7 @@ export const FrigadeEmbeddedTip: React.FC<FrigadeEmbeddedTipProps> = ({
         className={mergeClasses(getClassName('embeddedTipContainer', appearance), className)}
         style={style}
       >
-        {currentStep.dismissible && (
+        {(dismissible === true || currentStep.dismissible) && (
           <DismissButton
             onClick={() => {
               markFlowCompleted(flowId)
@@ -116,8 +120,12 @@ export const FrigadeEmbeddedTip: React.FC<FrigadeEmbeddedTipProps> = ({
                 currentStep.handlePrimaryButtonClick()
                 primaryCTAClickSideEffects(currentStep)
                 if (onButtonClick) {
-                  onButtonClick(currentStep, getCurrentStepIndex(flowId), 'primary')
+                  const result = onButtonClick(currentStep, getCurrentStepIndex(flowId), 'primary')
+                  if (result === false) {
+                    return
+                  }
                 }
+                markStepCompleted(flowId, currentStep.id)
                 markFlowCompleted(flowId)
               }}
             />

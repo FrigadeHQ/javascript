@@ -1,5 +1,6 @@
 import { useContext, useState } from 'react'
 import {
+  ABORTED_FLOW,
   API_PREFIX,
   COMPLETED_FLOW,
   COMPLETED_STEP,
@@ -87,6 +88,8 @@ export function useFlowResponses() {
     } else if (flowResponse.actionType === STARTED_STEP) {
       await postFlowResponse(flowResponse)
     } else if (flowResponse.actionType === COMPLETED_STEP) {
+      await postFlowResponse(flowResponse)
+    } else if (flowResponse.actionType === ABORTED_FLOW) {
       await postFlowResponse(flowResponse)
     }
   }
