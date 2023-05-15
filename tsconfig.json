@@ -1,10 +1,8 @@
 {
   "compilerOptions": {
-    "target": "esnext",
-    "module": "commonjs",
-    "lib": [
-      "ESNext"
-    ],
+    "target": "ES2015",
+    "lib": ["DOM", "ESNext"],
+    "module": "ESNext",
     "allowJs": true,
     "declaration": true,
     "outDir": "./lib",
@@ -38,12 +36,5 @@
     "jest.config.js",
     "jest.setup.js",
     ".eslintrc.js"
-  ],
-  "ts-node": {
-    "files": true,
-    "transpileOnly": true,
-    "compilerOptions": {
-      "module": "commonjs"
-    }
-  }
+  ]
 }
