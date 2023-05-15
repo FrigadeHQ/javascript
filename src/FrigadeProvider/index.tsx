@@ -1,4 +1,5 @@
 import React, { createContext, FC, useEffect, useState } from 'react'
+import { ThemeProvider } from 'styled-components'
 import { DataFetcher } from '../components/DataFetcher'
 import { Flow } from '../api/flows'
 import { FlowResponse } from '../api/flow-responses'
@@ -120,6 +121,14 @@ export const FrigadeProvider: FC<FrigadeProviderProps> = ({
     }, 50)
   }
 
+  const appearance: Appearance = {
+    theme: { ...DefaultAppearance.theme, ...(config?.defaultAppearance?.theme ?? {}) },
+    styleOverrides: {
+      ...DefaultAppearance.styleOverrides,
+      ...(config?.defaultAppearance?.styleOverrides ?? {}),
+    },
+  }
+
   useEffect(() => {
     if (userId) {
       setUserIdValue(userId)
@@ -169,20 +178,13 @@ export const FrigadeProvider: FC<FrigadeProviderProps> = ({
         organizationId: organizationIdValue,
         setOrganizationId: setOrganizationIdValue,
         navigate: config && config.navigate ? config.navigate : internalNavigate,
-        defaultAppearance:
-          config && config.defaultAppearance
-            ? {
-                theme: { ...DefaultAppearance.theme, ...(config.defaultAppearance?.theme ?? {}) },
-                styleOverrides: {
-                  ...DefaultAppearance.styleOverrides,
-                  ...(config.defaultAppearance?.styleOverrides ?? {}),
-                },
-              }
-            : DefaultAppearance,
+        defaultAppearance: appearance,
       }}
     >
-      {children}
-      <DataFetcher />
+      <ThemeProvider theme={appearance.theme}>
+        {children}
+        <DataFetcher />
+      </ThemeProvider>
     </FrigadeContext.Provider>
   )
 }

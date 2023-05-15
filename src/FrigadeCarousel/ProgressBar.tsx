@@ -8,13 +8,10 @@ interface ProgressBarProps {
 }
 
 export const ProgressBar: FC<ProgressBarProps> = ({ numberOfStepsCompleted, numberOfSteps }) => {
-  console.log(numberOfStepsCompleted, numberOfSteps)
-
   const completionPercentage = numberOfSteps > 0 ? numberOfStepsCompleted / numberOfSteps : 0
   const trackWidth = 200
   const barWidth = Math.min(trackWidth, Math.max(10, Math.round(trackWidth * completionPercentage)))
 
-  console.log(completionPercentage)
   return (
     <div style={{ display: 'flex', flexFlow: 'row nowrap', alignItems: 'center' }}>
       <Body.Loud style={{ marginRight: 8 }}>

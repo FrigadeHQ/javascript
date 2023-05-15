@@ -10,6 +10,7 @@ import {
   Body,
   Small,
 } from './styled'
+import { useTheme } from '../hooks/useTheme'
 
 interface CarouselCardProps {
   stepData: StepData
@@ -17,7 +18,10 @@ interface CarouselCardProps {
 }
 
 export const CarouselCard: FC<CarouselCardProps> = ({ stepData, style = {} }) => {
+  const { mergeAppearanceWithDefault } = useTheme()
   const { primaryCTAClickSideEffects } = useCTAClickSideEffects()
+
+  const { theme } = mergeAppearanceWithDefault({})
 
   const { imageUri = null, subtitle = null, title = null, complete = false } = stepData
 
@@ -41,8 +45,16 @@ export const CarouselCard: FC<CarouselCardProps> = ({ stepData, style = {} }) =>
           </CompletedPill>
         )}
       </div>
-      {title && <H4 style={{ marginBottom: 4, color: complete ? '#999' : null }}>{title}</H4>}
-      {subtitle && <Body.Quiet style={{ color: complete ? '#999' : null }}>{subtitle}</Body.Quiet>}
+      {title && (
+        <H4 style={{ marginBottom: 4, color: complete ? theme.colorTextDisabled : null }}>
+          {title}
+        </H4>
+      )}
+      {subtitle && (
+        <Body.Quiet style={{ color: complete ? theme.colorTextDisabled : null }}>
+          {subtitle}
+        </Body.Quiet>
+      )}
     </StyledCarouselCard>
   )
 }
