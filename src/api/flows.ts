@@ -1,5 +1,6 @@
 import { useContext, useEffect } from 'react'
 import {
+  ABORTED_FLOW,
   API_PREFIX,
   COMPLETED_FLOW,
   COMPLETED_STEP,
@@ -260,6 +261,22 @@ export function useFlows() {
     })
   }
 
+  function markFlowAborted(flowSlug: string, data?: any) {
+    optimisticallyMarkFlowCompleted(flowSlug)
+    addResponse({
+      foreignUserId: userId,
+      flowSlug,
+      stepId: 'unknown',
+      actionType: ABORTED_FLOW,
+      data: data ?? {},
+      createdAt: new Date(),
+      blocked: false,
+      hidden: false,
+    }).then(() => {
+      mutateUserFlowState()
+    })
+  }
+
   function getStepStatus(flowSlug: string, stepId: string): StepActionType | null {
     const maybeFlowResponse = getLastFlowResponseForStep(flowSlug, stepId)
 
@@ -417,6 +434,7 @@ export function useFlows() {
     markFlowNotStarted,
     markFlowStarted,
     markFlowCompleted,
+    markFlowAborted,
     getFlowStatus,
     getNumberOfStepsCompleted,
     getNumberOfSteps,

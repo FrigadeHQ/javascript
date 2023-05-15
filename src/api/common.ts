@@ -5,6 +5,7 @@ export const API_PREFIX = 'https://api.frigade.com/v1/public/'
 
 export const NOT_STARTED_STEP = 'NOT_STARTED_STEP'
 export const COMPLETED_FLOW = 'COMPLETED_FLOW'
+export const ABORTED_FLOW = 'ABORTED_FLOW'
 export const STARTED_FLOW = 'STARTED_FLOW'
 export const NOT_STARTED_FLOW = 'NOT_STARTED_FLOW'
 export const COMPLETED_STEP = 'COMPLETED_STEP'
