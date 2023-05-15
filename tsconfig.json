@@ -1,8 +1,10 @@
 {
   "compilerOptions": {
-    "target": "ES2019",
+    "target": "esnext",
     "module": "commonjs",
-    "lib": ["es6"],
+    "lib": [
+      "ESNext"
+    ],
     "allowJs": true,
     "isolatedModules": true,
     // output .d.ts declaration files for consumers
@@ -30,7 +32,7 @@
     // significant perf increase by skipping checking .d.ts files, particularly those in node_modules. Recommended by TS
     "skipLibCheck": true,
     // error out if import and file system have a casing mismatch. Recommended by TS
-    "forceConsistentCasingInFileNames": true,
+    "forceConsistentCasingInFileNames": true
   },
   "include": ["src"],
   "exclude": [
@@ -41,4 +43,11 @@
     "jest.setup.js",
     ".eslintrc.js"
   ],
+  "ts-node": {
+    "files": true,
+    "transpileOnly": true,
+    "compilerOptions": {
+      "module": "commonjs"
+    }
+  }
 }
