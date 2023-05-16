@@ -414,6 +414,9 @@ export function useFlows() {
         return matchingUserFlowState.shouldTrigger === false
       }
     }
+    if (flow?.targetingLogic && userId && userId.startsWith('guest_')) {
+      return true
+    }
 
     return false
   }
