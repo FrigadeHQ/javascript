@@ -1,36 +1,35 @@
 {
   "compilerOptions": {
-    "target": "esnext",
-    "module": "commonjs",
-    "lib": [
-      "ESNext"
-    ],
-    "allowJs": true,
-    "jsx": "react",
-    "declaration": true,
     "outDir": "./lib",
     "rootDir": "./src",
-    "isolatedModules": true,
-    "strict": false,
+    "module": "esnext",
+    "types": ["jest"],
+    "lib": ["dom", "esnext"],
+    "declaration": true,
+    // output .js.map sourcemap files for consumers
+    "sourceMap": true,
+    // match output dir to input dir. e.g. dist/index instead of dist/src/index
+    // stricter type-checking for stronger correctness. Recommended by TS
+    "strict": true,
+    "strictNullChecks": false,
+    // linter checks for common issues
+    "noImplicitReturns": false,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": false,
+    // noUnused* overlap with @typescript-eslint/no-unused-vars, can disable if duplicative
+    "noUnusedParameters": true,
+    // use Node's module resolution algorithm, instead of the legacy TS one
     "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
+    // transpile JSX to React.createElement
+    "jsx": "react",
+    // interop between ESM and CJS modules. Recommended by TS
     "esModuleInterop": true,
+    // significant perf increase by skipping checking .d.ts files, particularly those in node_modules. Recommended by TS
     "skipLibCheck": true,
+    // error out if import and file system have a casing mismatch. Recommended by TS
+    "forceConsistentCasingInFileNames": true,
+    "alwaysStrict": false
   },
   "include": ["src"],
-  "exclude": [
-    "**/__tests__/*",
-    "node_modules",
-    "babel.config.js",
-    "jest.config.js",
-    "jest.setup.js",
-    ".eslintrc.js"
-  ],
-  "ts-node": {
-    "files": true,
-    "transpileOnly": true,
-    "compilerOptions": {
-      "module": "commonjs"
-    }
-  }
+  "exclude": ["**/__tests__/*"]
 }
