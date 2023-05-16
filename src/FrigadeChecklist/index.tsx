@@ -333,7 +333,9 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
 
     return (
       <Modal
-        onClose={onDismiss}
+        onClose={() => {
+          handleClose()
+        }}
         visible={showModal}
         appearance={appearance}
         style={{
