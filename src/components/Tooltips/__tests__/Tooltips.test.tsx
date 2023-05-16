@@ -40,6 +40,7 @@ describe.skip('Tooltip', () => {
     return (
       <div>
         <Tooltips
+          completedStepsCount={0}
           steps={data}
           onComplete={onComplete}
           onDismiss={onDismiss}
@@ -57,6 +58,7 @@ describe.skip('Tooltip', () => {
       return (
         <div>
           <Tooltips
+            completedStepsCount={0}
             steps={data}
             onComplete={onComplete}
             onDismiss={onDismiss}

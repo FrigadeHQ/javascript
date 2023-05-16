@@ -13,6 +13,8 @@ describe('CollapsibleStep', () => {
     collapsed: true,
     onClick: onClick,
     onComplete: jest.fn(),
+    onPrimaryButtonClick: jest.fn(),
+    onSecondaryButtonClick: jest.fn(),
   }
 
   test('handles on click on entire step', () => {

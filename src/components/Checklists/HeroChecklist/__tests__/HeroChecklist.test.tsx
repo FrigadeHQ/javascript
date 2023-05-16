@@ -25,6 +25,7 @@ describe('HeroChecklist', () => {
   }
 
   const HeroChecklistProps = {
+    flowId: 'flow_abc',
     title: 'My Checklist',
     subtitle: 'Hero Checklist for your website',
     steps: [stepData],

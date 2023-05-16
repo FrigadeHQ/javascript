@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react'
 
 import { Guide } from '../index'
 import { GuideStepData } from '../Guide'
+import { DefaultAppearance } from '../../../types'
 
 describe('Guide', () => {
   const title = 'Test onboarding guide'
@@ -27,7 +28,7 @@ describe('Guide', () => {
   ]
 
   test('renders content', () => {
-    render(<Guide steps={steps} title={title} />)
+    render(<Guide appearance={DefaultAppearance} steps={steps} title={title} />)
     expect(screen.getByText(title)).toBeDefined()
     steps.forEach((s: GuideStepData) => {
       expect(screen.getByText(s.icon as string)).toBeDefined()
