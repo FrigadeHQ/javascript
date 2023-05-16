@@ -1,32 +1,21 @@
 {
   "compilerOptions": {
-    "target": "ES2015",
-    "lib": ["DOM", "ESNext"],
-    "module": "ESNext",
+    "target": "esnext",
+    "module": "commonjs",
+    "lib": [
+      "ESNext"
+    ],
     "allowJs": true,
+    "jsx": "react",
     "declaration": true,
     "outDir": "./lib",
     "rootDir": "./src",
     "isolatedModules": true,
-    "strict": true,
+    "strict": false,
     "moduleResolution": "node",
-    "strictNullChecks": false,
-    "noImplicitAny": false,
-    // linter checks for common issues
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    // noUnused* overlap with @typescript-eslint/no-unused-vars, can disable if duplicative
-    "noUnusedParameters": true,
-    // use Node's module resolution algorithm, instead of the legacy TS one
-    // transpile JSX to React.createElement
-    "jsx": "react",
-    // interop between ESM and CJS modules. Recommended by TS
+    "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    // significant perf increase by skipping checking .d.ts files, particularly those in node_modules. Recommended by TS
     "skipLibCheck": true,
-    // error out if import and file system have a casing mismatch. Recommended by TS
-    "forceConsistentCasingInFileNames": true,
-    "allowSyntheticDefaultImports": true
   },
   "include": ["src"],
   "exclude": [
@@ -36,5 +25,12 @@
     "jest.config.js",
     "jest.setup.js",
     ".eslintrc.js"
-  ]
+  ],
+  "ts-node": {
+    "files": true,
+    "transpileOnly": true,
+    "compilerOptions": {
+      "module": "commonjs"
+    }
+  }
 }
