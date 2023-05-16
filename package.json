@@ -13,8 +13,8 @@
     "semantic-release": "semantic-release",
     "lint": "eslint --fix --ext .ts,.tsx .",
     "copy-files": "copyfiles -u 1 src/**/*.html src/**/*.css ./lib",
-    "build": "yarn clean && npx tsc && yarn copy-files",
-    "local-release": "npx tsc",
+    "build": "yarn clean && tsup && yarn copy-files",
+    "local-release": "tsup",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
@@ -69,6 +69,7 @@
     "semantic-release": "^19.0.3",
     "storybook": "^7.0.9",
     "ts-jest": "^29.1.0",
+    "tsup": "^6.7.0",
     "typescript": "^4.9.4"
   },
   "release": {
