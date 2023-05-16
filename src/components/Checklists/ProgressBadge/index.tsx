@@ -65,7 +65,12 @@ export const ProgressBadge: FC<ProgressBadgeProps> = ({
           >
             {title}
           </BadgeTitle>
-          {onClick !== undefined && <Chevron color={appearance.theme.colorPrimary} />}
+          {onClick !== undefined && (
+            <Chevron
+              className={getClassName('badgeChevron', appearance)}
+              color={appearance.theme.colorPrimary}
+            />
+          )}
         </BadgeRow>
         {type == 'default' && total && total !== 0 && (
           <ProgressBar
