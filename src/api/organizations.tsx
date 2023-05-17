@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useEffect } from 'react'
 import { FrigadeContext } from '../FrigadeProvider'
-import { API_PREFIX, gracefullyFetch, useConfig } from './common'
+import { API_PREFIX, useConfig, useGracefulFetch } from './common'
 import { useUserFlowStates } from './user-flow-states'
 import { GUEST_PREFIX } from './users'
 import { EntityProperties } from '../FrigadeForm/types'
@@ -21,6 +21,7 @@ export function useOrganization() {
   const { organizationId, userId, setOrganizationId } = useContext(FrigadeContext)
   const { mutateUserFlowState } = useUserFlowStates()
   const { config } = useConfig()
+  const gracefullyFetch = useGracefulFetch()
 
   useEffect(() => {
     // Check if user is not a guest

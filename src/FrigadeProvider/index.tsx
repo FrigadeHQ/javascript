@@ -4,6 +4,7 @@ import { DataFetcher } from '../components/DataFetcher'
 import { Flow } from '../api/flows'
 import { FlowResponse } from '../api/flow-responses'
 import { Appearance, DefaultAppearance } from '../types'
+import { ErrorBoundary } from 'react-error-boundary'
 
 export interface IFrigadeContext {
   publicApiKey: string
@@ -154,37 +155,39 @@ export const FrigadeProvider: FC<FrigadeProviderProps> = ({
   }, [publicApiKey])
 
   return (
-    <FrigadeContext.Provider
-      value={{
-        publicApiKey,
-        userId: userIdValue,
-        setUserId: setUserIdValue,
-        setFlows,
-        flows: flows,
-        failedFlowResponses,
-        setFailedFlowResponses,
-        flowResponses,
-        setFlowResponses,
-        userProperties,
-        setUserProperties,
-        openFlowStates,
-        setOpenFlowStates,
-        customVariables,
-        setCustomVariables,
-        isNewGuestUser,
-        setIsNewGuestUser,
-        hasActiveFullPageFlow,
-        setHasActiveFullPageFlow,
-        organizationId: organizationIdValue,
-        setOrganizationId: setOrganizationIdValue,
-        navigate: config && config.navigate ? config.navigate : internalNavigate,
-        defaultAppearance: appearance,
-      }}
-    >
-      <ThemeProvider theme={appearance.theme}>
-        {children}
-        <DataFetcher />
-      </ThemeProvider>
-    </FrigadeContext.Provider>
+    <ErrorBoundary fallback={<>{children}</>}>
+      <FrigadeContext.Provider
+        value={{
+          publicApiKey,
+          userId: userIdValue,
+          setUserId: setUserIdValue,
+          setFlows,
+          flows: flows,
+          failedFlowResponses,
+          setFailedFlowResponses,
+          flowResponses,
+          setFlowResponses,
+          userProperties,
+          setUserProperties,
+          openFlowStates,
+          setOpenFlowStates,
+          customVariables,
+          setCustomVariables,
+          isNewGuestUser,
+          setIsNewGuestUser,
+          hasActiveFullPageFlow,
+          setHasActiveFullPageFlow,
+          organizationId: organizationIdValue,
+          setOrganizationId: setOrganizationIdValue,
+          navigate: config && config.navigate ? config.navigate : internalNavigate,
+          defaultAppearance: appearance,
+        }}
+      >
+        <ThemeProvider theme={appearance.theme}>
+          {children}
+          <DataFetcher />
+        </ThemeProvider>
+      </FrigadeContext.Provider>
+    </ErrorBoundary>
   )
 }

@@ -4,11 +4,11 @@ import {
   API_PREFIX,
   COMPLETED_FLOW,
   COMPLETED_STEP,
-  gracefullyFetch,
   NOT_STARTED_FLOW,
   STARTED_FLOW,
   STARTED_STEP,
   useConfig,
+  useGracefulFetch,
 } from './common'
 import { FrigadeContext } from '../FrigadeProvider'
 import { useUserFlowStates } from './user-flow-states'
@@ -42,6 +42,7 @@ export function useFlowResponses() {
   const [successfulFlowResponses, setSuccessfulFlowResponses] = useState<Set<FlowResponse>>(
     new Set()
   )
+  const gracefullyFetch = useGracefulFetch()
 
   function postFlowResponse(flowResponse: FlowResponse) {
     const flowResponseString = JSON.stringify(flowResponse)

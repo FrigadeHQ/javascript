@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useEffect } from 'react'
 import { FrigadeContext } from '../FrigadeProvider'
-import { API_PREFIX, gracefullyFetch, useConfig } from './common'
+import { API_PREFIX, useConfig, useGracefulFetch } from './common'
 import { useUserFlowStates } from './user-flow-states'
 import { EntityProperties } from '../FrigadeForm/types'
 
@@ -21,6 +21,7 @@ export function useUser() {
   const { userId, organizationId, setUserId, setUserProperties } = useContext(FrigadeContext)
   const { config } = useConfig()
   const { mutateUserFlowState } = useUserFlowStates()
+  const gracefullyFetch = useGracefulFetch()
   // Use local storage to mark if user has already been registered in frigade
   useEffect(() => {
     // Check if user is not a guest

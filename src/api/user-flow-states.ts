@@ -38,12 +38,17 @@ export function useUserFlowStates(): {
     })),
   }
   const fetcher = (url) =>
-    fetch(url, config).then((response) => {
-      if (response.ok) {
-        return response.json()
-      }
-      throw new Error('Failed to fetch user flow states')
-    })
+    fetch(url, config)
+      .then((response) => {
+        if (response.ok) {
+          return response.json()
+        }
+        throw new Error('Failed to fetch user flow states')
+      })
+      .catch((error) => {
+        console.error(`Error fetching ${url}: ${error}`)
+        return emptyResponse
+      })
 
   const {
     data,
