@@ -106,6 +106,12 @@ export const CarouselContainer = styled(Card)`
   background: ${({ theme }) => theme.colorBackground};
 `
 
+export const CarouselProgressBar = styled.div`
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+`
+
 export const CompletedPill = styled.div`
   background: #d8fed8;
   border-radius: 6px;

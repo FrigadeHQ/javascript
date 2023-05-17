@@ -73,11 +73,9 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
     getNumberOfStepsCompleted,
     isLoading,
     targetingLogicShouldHideFlow,
-    setCustomVariable,
-    customVariables: existingCustomVariables,
+    updateCustomVariables,
     getFlowMetadata,
     isStepBlocked,
-    markFlowStarted,
     getFlowStatus,
     hasActiveFullPageFlow,
     setHasActiveFullPageFlow,
@@ -97,17 +95,8 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
   }
 
   useEffect(() => {
-    if (
-      !isLoading &&
-      customVariables &&
-      JSON.stringify(existingCustomVariables) !=
-        JSON.stringify({ ...existingCustomVariables, ...customVariables })
-    ) {
-      Object.keys(customVariables).forEach((key) => {
-        setCustomVariable(key, customVariables[key])
-      })
-    }
-  }, [isLoading, customVariables, setCustomVariable, existingCustomVariables])
+    updateCustomVariables(customVariables)
+  }, [customVariables, isLoading])
 
   useEffect(() => {
     if (visible !== undefined) {

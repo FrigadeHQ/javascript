@@ -7,12 +7,14 @@ import { ProgressBar } from './ProgressBar'
 import {
   Body,
   CarouselContainer,
-  StyledCarouselFade,
   CarouselScroll,
   CarouselScrollGroup,
-  StyledScrollButton,
   H3,
+  StyledCarouselFade,
+  StyledScrollButton,
 } from './styled'
+import { DefaultFrigadeFlowProps } from '../types'
+import { getClassName } from '../shared/appearance'
 
 const RightArrow = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -61,11 +63,15 @@ const CarouselFade: React.FC<{ side?: string; show?: boolean; onClick?: any }> =
   ) : null
 }
 
-export interface FrigadeCarouselProps {
+export interface FrigadeCarouselProps extends DefaultFrigadeFlowProps {
   flowId: string
 }
 
-export const FrigadeCarousel: React.FC<FrigadeCarouselProps> = ({ flowId }) => {
+export const FrigadeCarousel: React.FC<FrigadeCarouselProps> = ({
+  flowId,
+  appearance,
+  customVariables,
+}) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null)
   const [showLeftFade, setShowLeftFade] = useState(false)
   const [showRightFade, setShowRightFade] = useState(false)
@@ -73,7 +79,17 @@ export const FrigadeCarousel: React.FC<FrigadeCarouselProps> = ({ flowId }) => {
   const [flowSteps, setFlowSteps] = useState([])
   const [numberOfStepsCompleted, setNumberOfStepsCompleted] = useState(0)
 
-  const { getFlowMetadata, getFlowSteps, getNumberOfStepsCompleted, isLoading } = useFlows()
+  const {
+    getFlowMetadata,
+    getFlowSteps,
+    getNumberOfStepsCompleted,
+    updateCustomVariables,
+    isLoading,
+  } = useFlows()
+
+  useEffect(() => {
+    updateCustomVariables(customVariables)
+  }, [customVariables, isLoading])
 
   useEffect(() => {
     if (isLoading) return
@@ -85,7 +101,7 @@ export const FrigadeCarousel: React.FC<FrigadeCarouselProps> = ({ flowId }) => {
     setFlowMetadata(metadata)
     if (metadata.data !== null) {
       setFlowSteps(steps.sort((a, b) => Number(a.complete) - Number(b.complete)))
-      setShowRightFade(steps.length > 3 ? true : false)
+      setShowRightFade(steps.length > 3)
       setNumberOfStepsCompleted(completedStepCount)
     }
   }, [isLoading])
@@ -146,7 +162,7 @@ export const FrigadeCarousel: React.FC<FrigadeCarouselProps> = ({ flowId }) => {
   if (isLoading) return null
 
   return (
-    <CarouselContainer>
+    <CarouselContainer className={getClassName('carouselContainer', appearance)}>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 20 }}>
         <div>
           <H3 style={{ marginBottom: 4 }}>{flowMetadata?.title}</H3>
@@ -176,6 +192,7 @@ export const FrigadeCarousel: React.FC<FrigadeCarouselProps> = ({ flowId }) => {
                   key={j}
                   stepData={stepData}
                   style={{ flex: flowSteps.length > 3 ? `0 1 calc(33% - 16px * 2 / 3)` : 1 }}
+                  appearance={appearance}
                 />
               ))}
             </CarouselScrollGroup>

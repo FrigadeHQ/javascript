@@ -35,8 +35,7 @@ export const FrigadeProgressBadge: React.FC<FrigadeProgressBadgeProps> = ({
     getNumberOfStepsCompleted,
     isLoading,
     targetingLogicShouldHideFlow,
-    setCustomVariable,
-    customVariables: existingCustomVariables,
+    updateCustomVariables,
   } = useFlows()
   const { mergeAppearanceWithDefault } = useTheme()
 
@@ -45,17 +44,8 @@ export const FrigadeProgressBadge: React.FC<FrigadeProgressBadgeProps> = ({
   const { setOpenFlowState, getOpenFlowState } = useFlowOpens()
 
   useEffect(() => {
-    if (
-      !isLoading &&
-      customVariables &&
-      JSON.stringify(existingCustomVariables) !=
-        JSON.stringify({ ...existingCustomVariables, ...customVariables })
-    ) {
-      Object.keys(customVariables).forEach((key) => {
-        setCustomVariable(key, customVariables[key])
-      })
-    }
-  }, [isLoading, customVariables, setCustomVariable, existingCustomVariables])
+    updateCustomVariables(customVariables)
+  }, [customVariables, isLoading])
 
   if (isLoading) {
     return null

@@ -33,12 +33,11 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
     markStepCompleted,
     markStepStarted,
     markFlowCompleted,
-    setCustomVariable,
+    updateCustomVariables,
     getCurrentStepIndex,
     getStepStatus,
     isStepBlocked,
     getFlowStatus,
-    customVariables: existingCustomVariables,
     getNumberOfStepsCompleted,
   } = useFlows()
   const { isLoadingUserFlowStateData } = useUserFlowStates()
@@ -52,17 +51,8 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
   appearance = mergeAppearanceWithDefault(appearance)
 
   useEffect(() => {
-    if (
-      !isLoading &&
-      customVariables &&
-      JSON.stringify(existingCustomVariables) !=
-        JSON.stringify({ ...existingCustomVariables, ...customVariables })
-    ) {
-      Object.keys(customVariables).forEach((key) => {
-        setCustomVariable(key, customVariables[key])
-      })
-    }
-  }, [isLoading, customVariables, setCustomVariable, existingCustomVariables])
+    updateCustomVariables(customVariables)
+  }, [customVariables, isLoading])
 
   if (isLoadingUserFlowStateData) {
     return null

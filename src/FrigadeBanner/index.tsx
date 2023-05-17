@@ -50,8 +50,7 @@ export const FrigadeBanner: React.FC<FrigadeBannerProps> = ({
     markFlowCompleted,
     isLoading,
     targetingLogicShouldHideFlow,
-    setCustomVariable,
-    customVariables: existingCustomVariables,
+    updateCustomVariables,
     getFlowMetadata,
     getFlowStatus,
     getFlowSteps,
@@ -63,17 +62,8 @@ export const FrigadeBanner: React.FC<FrigadeBannerProps> = ({
   appearance = mergeAppearanceWithDefault(appearance)
 
   useEffect(() => {
-    if (
-      !isLoading &&
-      customVariables &&
-      JSON.stringify(existingCustomVariables) !=
-        JSON.stringify({ ...existingCustomVariables, ...customVariables })
-    ) {
-      Object.keys(customVariables).forEach((key) => {
-        setCustomVariable(key, customVariables[key])
-      })
-    }
-  }, [isLoading, customVariables, setCustomVariable, existingCustomVariables])
+    updateCustomVariables(customVariables)
+  }, [customVariables, isLoading])
 
   if (isLoading) {
     return null

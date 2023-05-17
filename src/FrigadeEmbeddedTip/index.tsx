@@ -31,8 +31,7 @@ export const FrigadeEmbeddedTip: React.FC<FrigadeEmbeddedTipProps> = ({
     markStepCompleted,
     isLoading,
     targetingLogicShouldHideFlow,
-    setCustomVariable,
-    customVariables: existingCustomVariables,
+    updateCustomVariables,
     getFlowSteps,
     getFlowStatus,
     getCurrentStepIndex,
@@ -43,17 +42,8 @@ export const FrigadeEmbeddedTip: React.FC<FrigadeEmbeddedTipProps> = ({
   appearance = mergeAppearanceWithDefault(appearance)
 
   useEffect(() => {
-    if (
-      !isLoading &&
-      customVariables &&
-      JSON.stringify(existingCustomVariables) !=
-        JSON.stringify({ ...existingCustomVariables, ...customVariables })
-    ) {
-      Object.keys(customVariables).forEach((key) => {
-        setCustomVariable(key, customVariables[key])
-      })
-    }
-  }, [isLoading, customVariables, setCustomVariable, existingCustomVariables])
+    updateCustomVariables(customVariables)
+  }, [customVariables, isLoading])
 
   if (isLoading) {
     return null

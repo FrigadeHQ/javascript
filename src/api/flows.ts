@@ -180,6 +180,22 @@ export function useFlows() {
     setCustomVariables((prev) => ({ ...prev, [key]: value }))
   }
 
+  function updateCustomVariables(newCustomVariables?: {
+    [key: string]: string | number | boolean
+  }) {
+    if (
+      !isLoadingUserFlowStateData &&
+      !isLoadingFlows &&
+      newCustomVariables &&
+      JSON.stringify(customVariables) !=
+        JSON.stringify({ ...customVariables, ...newCustomVariables })
+    ) {
+      Object.keys(newCustomVariables).forEach((key) => {
+        setCustomVariable(key, newCustomVariables[key])
+      })
+    }
+  }
+
   function markStepStarted(flowSlug: string, stepId: string, data?: any) {
     optimisticallyMarkFlowStarted(flowSlug)
     optimisticallySetLastStepId(flowSlug, stepId)
@@ -443,6 +459,7 @@ export function useFlows() {
     getNumberOfSteps,
     targetingLogicShouldHideFlow,
     setCustomVariable,
+    updateCustomVariables,
     customVariables,
     getStepOptionalProgress,
     getFlowMetadata,

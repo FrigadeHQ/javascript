@@ -59,23 +59,13 @@ export const FormContent: FC<FormContentProps> = ({
     markStepCompleted,
     markStepStarted,
     isLoading,
-    setCustomVariable,
-    customVariables: existingCustomVariables,
+    updateCustomVariables,
     markFlowCompleted,
   } = useFlows()
 
   useEffect(() => {
-    if (
-      !isLoading &&
-      customVariables &&
-      JSON.stringify(existingCustomVariables) !=
-        JSON.stringify({ ...existingCustomVariables, ...customVariables })
-    ) {
-      Object.keys(customVariables).forEach((key) => {
-        setCustomVariable(key, customVariables[key])
-      })
-    }
-  }, [isLoading, customVariables, setCustomVariable, existingCustomVariables])
+    updateCustomVariables(customVariables)
+  }, [customVariables, isLoading])
 
   function getDataPayload() {
     const data = formData[steps[selectedStep].id] ?? {}
