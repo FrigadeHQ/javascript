@@ -81,7 +81,7 @@ interface FrigadeConfig {
    * This is useful if you are using a router and want to avoid doing a full page refresh on navigation.
    * @param url The url to navigate to.
    */
-  navigate: (url: string, target: string) => void
+  navigate?: (url: string, target: string) => void
   /**
    * Default Appearance for all flows.
    */
