@@ -15,6 +15,7 @@ import {
 } from './styled'
 import { DefaultFrigadeFlowProps } from '../types'
 import { getClassName, mergeClasses } from '../shared/appearance'
+import { COMPLETED_FLOW } from '../api/common'
 
 const RightArrow = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -72,6 +73,7 @@ export const FrigadeCarousel: React.FC<FrigadeCarouselProps> = ({
   appearance,
   customVariables,
   className,
+  hideOnFlowCompletion,
 }) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null)
   const [showLeftFade, setShowLeftFade] = useState(false)
@@ -85,6 +87,7 @@ export const FrigadeCarousel: React.FC<FrigadeCarouselProps> = ({
     getFlowSteps,
     getNumberOfStepsCompleted,
     updateCustomVariables,
+    getFlowStatus,
     isLoading,
   } = useFlows()
 
@@ -160,7 +163,13 @@ export const FrigadeCarousel: React.FC<FrigadeCarouselProps> = ({
     }, 16)
   }
 
-  if (isLoading) return null
+  if (isLoading) {
+    return null
+  }
+
+  if (getFlowStatus(flowId) === COMPLETED_FLOW && hideOnFlowCompletion === true) {
+    return null
+  }
 
   return (
     <CarouselContainer
