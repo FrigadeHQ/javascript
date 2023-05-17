@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react'
 import { FrigadeContext } from '../FrigadeProvider'
+import { useErrorBoundary } from 'react-error-boundary'
 
 export const API_PREFIX = 'https://api.frigade.com/v1/public/'
 
@@ -29,14 +30,24 @@ export function useConfig() {
   }
 }
 
-// Create wrapper around fetch that fails gracefully if the response is not 200/201
-export const gracefullyFetch = async (url: string, options: any) => {
-  const response = await fetch(url, options)
-  if (!response.ok) {
-    const error = await response.json()
-    console.log('Failed to call Frigade', error)
+export function useGracefulFetch() {
+  const { showBoundary } = useErrorBoundary()
+
+  return async (url: string, options: any) => {
+    const response = await fetch(url, options).catch((error) => {
+      showBoundary(error)
+    })
+
+    if (!response) {
+      return
+    }
+
+    if (!response.ok) {
+      showBoundary(new Error(`Failed to call Frigade: ${url}`))
+    }
+
+    return response
   }
-  return response
 }
 
 export interface PaginatedResult<T> {

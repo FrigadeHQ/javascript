@@ -64,13 +64,18 @@ export function useFlows() {
   }
   const { addResponse, getFlowResponses } = useFlowResponses()
   const fetcher = (url) =>
-    fetch(url, config).then((response) => {
-      if (response.ok) {
-        return response.json()
-      }
-      console.error(`Error fetching ${url} (${response.status}): ${response.statusText}`)
-      return emptyResponse
-    })
+    fetch(url, config)
+      .then((response) => {
+        if (response.ok) {
+          return response.json()
+        }
+        console.error(`Error fetching ${url} (${response.status}): ${response.statusText}`)
+        return emptyResponse
+      })
+      .catch((error) => {
+        console.error(`Error fetching ${url}: ${error}`)
+        return emptyResponse
+      })
   const {
     userFlowStatesData,
     isLoadingUserFlowStateData,
