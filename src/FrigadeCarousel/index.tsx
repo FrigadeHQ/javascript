@@ -14,7 +14,7 @@ import {
   StyledScrollButton,
 } from './styled'
 import { DefaultFrigadeFlowProps } from '../types'
-import { getClassName } from '../shared/appearance'
+import { getClassName, mergeClasses } from '../shared/appearance'
 
 const RightArrow = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -71,6 +71,7 @@ export const FrigadeCarousel: React.FC<FrigadeCarouselProps> = ({
   flowId,
   appearance,
   customVariables,
+  className,
 }) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null)
   const [showLeftFade, setShowLeftFade] = useState(false)
@@ -162,7 +163,9 @@ export const FrigadeCarousel: React.FC<FrigadeCarouselProps> = ({
   if (isLoading) return null
 
   return (
-    <CarouselContainer className={getClassName('carouselContainer', appearance)}>
+    <CarouselContainer
+      className={mergeClasses(getClassName('carouselContainer', appearance), className)}
+    >
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 20 }}>
         <div>
           <H3 style={{ marginBottom: 4 }}>{flowMetadata?.title}</H3>

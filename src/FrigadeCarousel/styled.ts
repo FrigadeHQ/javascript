@@ -1,4 +1,5 @@
 import styled, { css, keyframes } from 'styled-components'
+import { getCustomClassOverrides } from '../shared/appearance'
 
 const defaultBorder = css`
   border: 1px solid ${({ theme }) => theme.colorBorder};
@@ -101,9 +102,11 @@ export const StyledCarouselCardImage = styled.img`
 `
 
 export const CarouselContainer = styled(Card)`
-  ${defaultShadow}
+  :not(${(props) => getCustomClassOverrides(props)}) {
+    ${defaultShadow}
 
-  background: ${({ theme }) => theme.colorBackground};
+    background: ${({ theme }) => theme.colorBackground};
+  }
 `
 
 export const CarouselProgressBar = styled.div`
