@@ -29,6 +29,16 @@ export function useConfig() {
   }
 }
 
+// Create wrapper around fetch that fails gracefully if the response is not 200/201
+export const gracefullyFetch = async (url: string, options: any) => {
+  const response = await fetch(url, options)
+  if (!response.ok) {
+    const error = await response.json()
+    console.log('Failed to call Frigade', error)
+  }
+  return response
+}
+
 export interface PaginatedResult<T> {
   data: T[]
   offset: number

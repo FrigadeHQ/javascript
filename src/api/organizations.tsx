@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useEffect } from 'react'
 import { FrigadeContext } from '../FrigadeProvider'
-import { API_PREFIX, useConfig } from './common'
+import { API_PREFIX, gracefullyFetch, useConfig } from './common'
 import { useUserFlowStates } from './user-flow-states'
 import { GUEST_PREFIX } from './users'
 import { EntityProperties } from '../FrigadeForm/types'
@@ -34,7 +34,7 @@ export function useOrganization() {
       // Check if user has already been registered in frigade
       if (!localStorage.getItem(userRegisteredKey)) {
         // Register user in frigade
-        fetch(`${API_PREFIX}userGroups`, {
+        gracefullyFetch(`${API_PREFIX}userGroups`, {
           ...config,
           method: 'POST',
           body: JSON.stringify({ foreignUserId: userId, foreignUserGroupId: organizationId }),
@@ -60,7 +60,7 @@ export function useOrganization() {
         foreignUserGroupId: organizationId,
         properties,
       }
-      await fetch(`${API_PREFIX}userGroups`, {
+      await gracefullyFetch(`${API_PREFIX}userGroups`, {
         ...config,
         method: 'POST',
         body: JSON.stringify(data),
@@ -88,7 +88,7 @@ export function useOrganization() {
         foreignUserGroupId: organizationId,
         events: [eventData],
       }
-      await fetch(`${API_PREFIX}userGroups`, {
+      await gracefullyFetch(`${API_PREFIX}userGroups`, {
         ...config,
         method: 'POST',
         body: JSON.stringify(data),

@@ -4,6 +4,7 @@ import {
   API_PREFIX,
   COMPLETED_FLOW,
   COMPLETED_STEP,
+  gracefullyFetch,
   NOT_STARTED_FLOW,
   STARTED_FLOW,
   STARTED_STEP,
@@ -61,7 +62,7 @@ export function useFlowResponses() {
     setSuccessfulFlowResponses(successfulFlowResponses)
     setFlowResponses((prev) => [...(prev ?? []), flowResponse])
 
-    return fetch(`${API_PREFIX}flowResponses`, {
+    return gracefullyFetch(`${API_PREFIX}flowResponses`, {
       ...config,
       method: 'POST',
       body: flowResponseString,
