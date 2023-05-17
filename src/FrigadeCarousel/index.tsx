@@ -169,7 +169,7 @@ export const FrigadeCarousel: React.FC<FrigadeCarouselProps> = ({
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 20 }}>
         <div>
           <H3 style={{ marginBottom: 4 }}>{flowMetadata?.title}</H3>
-          <Body.Quiet>{flowMetadata?.description}</Body.Quiet>
+          <Body.Quiet>{flowMetadata?.subtitle}</Body.Quiet>
         </div>
 
         <ProgressBar
