@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react'
+import { useCallback, useContext, useEffect } from 'react'
 import {
   ABORTED_FLOW,
   API_PREFIX,
@@ -218,71 +218,83 @@ export function useFlows() {
     })
   }
 
-  function markStepCompleted(flowSlug: string, stepId: string, data?: any) {
-    optimisticallyMarkFlowStarted(flowSlug)
-    addResponse({
-      foreignUserId: userId,
-      flowSlug,
-      stepId,
-      actionType: COMPLETED_STEP,
-      data: data ?? {},
-      createdAt: new Date(),
-      blocked: false,
-      hidden: false,
-    }).then(() => {
-      mutateUserFlowState()
-    })
-  }
+  const markStepCompleted = useCallback(
+    (flowSlug: string, stepId: string, data?: any) => {
+      optimisticallyMarkFlowStarted(flowSlug)
+      addResponse({
+        foreignUserId: userId,
+        flowSlug,
+        stepId,
+        actionType: COMPLETED_STEP,
+        data: data ?? {},
+        createdAt: new Date(),
+        blocked: false,
+        hidden: false,
+      }).then(() => {
+        mutateUserFlowState()
+      })
+    },
+    [userId]
+  )
 
-  function markFlowNotStarted(flowSlug: string, data?: any) {
-    optimisticallyMarkFlowNotStarted(flowSlug)
-    setFlowResponses([])
-    addResponse({
-      foreignUserId: userId,
-      flowSlug,
-      stepId: 'unknown',
-      actionType: NOT_STARTED_FLOW,
-      data: data ?? {},
-      createdAt: new Date(),
-      blocked: false,
-      hidden: false,
-    }).then(() => {
-      mutateUserFlowState()
-    })
-  }
+  const markFlowNotStarted = useCallback(
+    (flowSlug: string, data?: any) => {
+      optimisticallyMarkFlowNotStarted(flowSlug)
+      setFlowResponses([])
+      addResponse({
+        foreignUserId: userId,
+        flowSlug,
+        stepId: 'unknown',
+        actionType: NOT_STARTED_FLOW,
+        data: data ?? {},
+        createdAt: new Date(),
+        blocked: false,
+        hidden: false,
+      }).then(() => {
+        mutateUserFlowState()
+      })
+    },
+    [userId]
+  )
 
-  function markFlowStarted(flowSlug: string, data?: any) {
-    addResponse({
-      foreignUserId: userId,
-      flowSlug,
-      stepId: 'unknown',
-      actionType: STARTED_FLOW,
-      data: data ?? {},
-      createdAt: new Date(),
-      blocked: false,
-      hidden: false,
-    }).then(() => {
-      mutateUserFlowState()
-    })
-  }
+  const markFlowStarted = useCallback(
+    (flowSlug: string, data?: any) => {
+      addResponse({
+        foreignUserId: userId,
+        flowSlug,
+        stepId: 'unknown',
+        actionType: STARTED_FLOW,
+        data: data ?? {},
+        createdAt: new Date(),
+        blocked: false,
+        hidden: false,
+      }).then(() => {
+        mutateUserFlowState()
+      })
+    },
+    [userId]
+  )
 
-  function markFlowCompleted(flowSlug: string, data?: any) {
-    optimisticallyMarkFlowCompleted(flowSlug)
-    addResponse({
-      foreignUserId: userId,
-      flowSlug,
-      stepId: 'unknown',
-      actionType: COMPLETED_FLOW,
-      data: data ?? {},
-      createdAt: new Date(),
-      blocked: false,
-      hidden: false,
-    }).then(() => {
-      mutateUserFlowState()
-    })
-  }
+  const markFlowCompleted = useCallback(
+    (flowSlug: string, data?: any) => {
+      optimisticallyMarkFlowCompleted(flowSlug)
+      addResponse({
+        foreignUserId: userId,
+        flowSlug,
+        stepId: 'unknown',
+        actionType: COMPLETED_FLOW,
+        data: data ?? {},
+        createdAt: new Date(),
+        blocked: false,
+        hidden: false,
+      }).then(() => {
+        mutateUserFlowState()
+      })
+    },
+    [userId]
+  )
 
-  function markFlowAborted(flowSlug: string, data?: any) {
+  const markFlowAborted = useCallback((flowSlug: string, data?: any) => {
     optimisticallyMarkFlowCompleted(flowSlug)
     addResponse({
       foreignUserId: userId,
@@ -296,7 +308,7 @@ export function useFlows() {
     }).then(() => {
       mutateUserFlowState()
     })
-  }
+  }, [])
 
   function getStepStatus(flowSlug: string, stepId: string): StepActionType | null {
     const maybeFlowResponse = getLastFlowResponseForStep(flowSlug, stepId)
