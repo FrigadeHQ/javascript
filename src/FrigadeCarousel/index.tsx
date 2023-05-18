@@ -9,7 +9,7 @@ import {
   CarouselContainer,
   CarouselScroll,
   CarouselScrollGroup,
-  H3,
+  CarouselTitle,
   StyledCarouselFade,
   StyledScrollButton,
 } from './styled'
@@ -177,8 +177,12 @@ export const FrigadeCarousel: React.FC<FrigadeCarouselProps> = ({
     >
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 20 }}>
         <div>
-          <H3 style={{ marginBottom: 4 }}>{flowMetadata?.title}</H3>
-          <Body.Quiet>{flowMetadata?.subtitle}</Body.Quiet>
+          <CarouselTitle className={getClassName('carouselTitle', appearance)}>
+            {flowMetadata?.title}
+          </CarouselTitle>
+          <Body.Quiet className={getClassName('carouselSubtitle', appearance)}>
+            {flowMetadata?.subtitle}
+          </Body.Quiet>
         </div>
 
         <ProgressBar

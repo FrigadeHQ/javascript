@@ -130,6 +130,10 @@ export const H3 = styled.p`
   margin: 0;
 `
 
+export const CarouselTitle = styled(H3)`
+  margin-bottom: 4px;
+`
+
 export const H4 = styled.p`
   font-weight: bold;
   font-size: 16px;

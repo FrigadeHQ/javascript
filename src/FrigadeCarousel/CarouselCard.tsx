@@ -55,7 +55,7 @@ export const CarouselCard: FC<CarouselCardProps> = ({ stepData, style = {}, appe
       {title && (
         <H4
           style={{ marginBottom: 4, color: complete ? theme.colorTextDisabled : null }}
-          className={getClassName('carouselTitle', appearance)}
+          className={getClassName('carouselCardTitle', appearance)}
         >
           {title}
         </H4>
@@ -63,7 +63,7 @@ export const CarouselCard: FC<CarouselCardProps> = ({ stepData, style = {}, appe
       {subtitle && (
         <Body.Quiet
           style={{ color: complete ? theme.colorTextDisabled : null }}
-          className={getClassName('carouselSubtitle', appearance)}
+          className={getClassName('carouselCardSubtitle', appearance)}
         >
           {subtitle}
         </Body.Quiet>
