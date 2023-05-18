@@ -89,6 +89,8 @@ export const FrigadeCarousel: React.FC<FrigadeCarouselProps> = ({
     updateCustomVariables,
     getFlowStatus,
     isLoading,
+    targetingLogicShouldHideFlow,
+    getFlow,
   } = useFlows()
 
   useEffect(() => {
@@ -168,6 +170,10 @@ export const FrigadeCarousel: React.FC<FrigadeCarouselProps> = ({
   }
 
   if (getFlowStatus(flowId) === COMPLETED_FLOW && hideOnFlowCompletion === true) {
+    return null
+  }
+
+  if (targetingLogicShouldHideFlow(getFlow(flowId))) {
     return null
   }
 
