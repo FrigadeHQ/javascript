@@ -2,6 +2,7 @@ import React, { CSSProperties, FC } from 'react'
 import styled from 'styled-components'
 import { CheckBox, CheckBoxType } from '../CheckBox'
 import { Appearance } from '../../types'
+import { getClassName } from '../../shared/appearance'
 
 interface CheckBoxRowProps {
   label?: string
@@ -32,7 +33,7 @@ const CheckBoxRowContainer = styled.div`
   display: flex;
   padding-top: 20px;
   padding-bottom: 20px;
-  border-top: 1px solid #e6e6e6;
+  border-top: 1px solid ${(props) => props.theme.colorBorder};
   width: 100%;
 `
 
@@ -47,15 +48,27 @@ export const CheckBoxRow: FC<CheckBoxRowProps> = ({
   appearance,
 }) => {
   return (
-    <CheckBoxRowContainer style={{ ...style }}>
-      {labelPosition === 'left' && label && <Label style={labelStyle}>{label}</Label>}
+    <CheckBoxRowContainer
+      className={getClassName('checklistStepsContainer', appearance)}
+      appearance={appearance}
+      style={{ ...style }}
+    >
+      {labelPosition === 'left' && label && (
+        <Label className={getClassName('checklistStepLabel', appearance)} style={labelStyle}>
+          {label}
+        </Label>
+      )}
       <CheckBox
         appearance={appearance}
         value={value}
         type={checkBoxType}
         primaryColor={primaryColor}
       />
-      {labelPosition === 'right' && label && <Label style={labelStyle}>{label}</Label>}
+      {labelPosition === 'right' && label && (
+        <Label className={getClassName('checklistStepLabel', appearance)} style={labelStyle}>
+          {label}
+        </Label>
+      )}
     </CheckBoxRowContainer>
   )
 }

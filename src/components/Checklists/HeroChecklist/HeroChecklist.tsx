@@ -15,6 +15,7 @@ import {
 } from '../../checklist-step-content/CodeSnippetContent'
 import { useTheme } from '../../../hooks/useTheme'
 import { FrigadeChecklistProps } from '../../../FrigadeChecklist'
+import { getClassName } from '../../../shared/appearance'
 
 export interface HeroChecklistProps extends Omit<DefaultFrigadeFlowProps, 'flowId'> {
   title?: string
@@ -75,7 +76,7 @@ const ChecklistStepsContainer = styled.div`
 const Divider = styled.div`
   width: 1px;
   margin: 40px;
-  background: #e6e6e6;
+  background: ${(props) => props.appearance?.theme?.colorBorder};
 `
 
 const HeroChecklistStepContentContainer = styled.div`
@@ -133,8 +134,18 @@ const HeroChecklist: FC<FrigadeChecklistProps> = ({
     <HeroChecklistContainer type={type} style={style} className={className} appearance={appearance}>
       <ChecklistHeader style={{ flex: 1 }}>
         <ChecklistHeader style={{ padding: '30px 0px 30px 30px', borderBottom: 'none' }}>
-          <HeroChecklistTitle appearance={appearance}>{title}</HeroChecklistTitle>
-          <HeroChecklistSubtitle appearance={appearance}>{subtitle}</HeroChecklistSubtitle>
+          <HeroChecklistTitle
+            className={getClassName('checklistTitle', appearance)}
+            appearance={appearance}
+          >
+            {title}
+          </HeroChecklistTitle>
+          <HeroChecklistSubtitle
+            className={getClassName('checklistSubtitle', appearance)}
+            appearance={appearance}
+          >
+            {subtitle}
+          </HeroChecklistSubtitle>
           <ProgressBar
             total={steps.length}
             count={completeCount}
@@ -143,7 +154,7 @@ const HeroChecklist: FC<FrigadeChecklistProps> = ({
             appearance={appearance}
           />
         </ChecklistHeader>
-        <ChecklistStepsContainer>
+        <ChecklistStepsContainer className={getClassName('checklistStepsContainer', appearance)}>
           {steps.map((s: StepData, idx: number) => {
             return (
               <StepChecklistItem
@@ -162,7 +173,7 @@ const HeroChecklist: FC<FrigadeChecklistProps> = ({
           })}
         </ChecklistStepsContainer>
       </ChecklistHeader>
-      <Divider />
+      <Divider appearance={appearance} className={getClassName('checklistDivider', appearance)} />
       <HeroChecklistStepContentContainer>
         <StepContent />
       </HeroChecklistStepContentContainer>

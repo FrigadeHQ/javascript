@@ -40,7 +40,11 @@ export const StepChecklistItem: FC<StepItemProps> = ({
           style={{ backgroundColor: appearance?.theme?.colorPrimary ?? primaryColor }}
         ></StepItemSelectedIndicator>
       )}
-      <ChecklistStepItem key={`hero-checklist-step-${index}`} role="listitem">
+      <ChecklistStepItem
+        className={getClassName('checklistStepItem', appearance)}
+        key={`hero-checklist-step-${index}`}
+        role="listitem"
+      >
         <CheckBoxRow
           value={data.complete}
           labelPosition="left"
