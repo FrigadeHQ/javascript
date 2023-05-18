@@ -69,6 +69,7 @@ export const StyledScrollButton = styled.button`
   align-items: center;
   border-radius: 50%;
   background: ${({ theme }) => theme.colorBackground};
+  color: ${({ theme }) => theme.colorPrimary};
   display: flex;
   height: 48px;
   justify-content: center;

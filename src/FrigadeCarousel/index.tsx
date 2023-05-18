@@ -19,9 +19,9 @@ import { COMPLETED_FLOW } from '../api/common'
 
 const RightArrow = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M14 6L20 12" stroke="#0B93FF" strokeWidth="2.5" strokeLinecap="round" />
-    <path d="M14 18L20 12" stroke="#0B93FF" strokeWidth="2.5" strokeLinecap="round" />
-    <path d="M4 12H20" stroke="#0B93FF" strokeWidth="2.5" strokeLinecap="round" />
+    <path d="M14 6L20 12" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+    <path d="M14 18L20 12" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+    <path d="M4 12H20" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
   </svg>
 )
 
