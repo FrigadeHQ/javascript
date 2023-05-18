@@ -86,10 +86,10 @@ export const StyledCarouselCard = styled(Card)`
   background: ${({ theme }) => theme.colorBackground};
 
   &:active {
-    background: #fafdff;
+    background: ${({ theme }) => theme.colorBackgroundSecondary};
   }
   &:hover {
-    border: 1px solid #0b93ff;
+    border: 1px solid ${({ theme }) => theme.colorPrimary};
     cursor: pointer;
   }
 `
@@ -123,26 +123,34 @@ export const CompletedPill = styled.div`
 `
 
 export const H3 = styled.p`
-  font: bold 18px/22px sans-serif;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 22px;
   letter-spacing: calc(18px * -0.01);
   margin: 0;
 `
 
 export const H4 = styled.p`
-  font: bold 16px/20px sans-serif;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 20px;
   letter-spacing: calc(16px * -0.01);
   margin: 0;
 `
 
 export const Body = styled.p`
   color: ${({ theme }) => theme.colorText};
-  font: normal 14px/22px sans-serif;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 22px;
   margin: 0;
 `
 
 export const Small = styled.p`
   color: ${({ theme }) => theme.colorText};
-  font: 600 12px/16px sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
   margin: 0;
 `
 
