@@ -43,6 +43,8 @@ const ButtonContainer = styled.button`
     font-weight: 500;
   }
 
+  font-family: inherit;
+
   cursor: pointer;
   :hover {
     opacity: 0.8;
