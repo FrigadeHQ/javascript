@@ -92,7 +92,7 @@ export const StyledCarouselCard = styled(Card)`
 
   &:hover {
     ${(props) => (!props.blocked ? `border: 1px solid ${props.theme.colorPrimary};` : ``)}
-    ${(props) => (!props.blocked ? `cursor: pointer` : `cursor: clicker`)}
+    ${(props) => (!props.blocked ? `cursor: pointer` : `cursor: default`)}
   }
 `
 
