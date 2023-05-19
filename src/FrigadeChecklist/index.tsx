@@ -12,9 +12,10 @@ import { useCTAClickSideEffects } from '../hooks/useCTAClickSideEffects'
 import { useTheme } from '../hooks/useTheme'
 import { CondensedChecklist } from '../components/Checklists/ModalChecklist'
 import { Modal } from '../components/Modal'
+import { CarouselChecklist } from '../components/Checklists/CarouselChecklist'
 
 export type FrigadeChecklistType = 'inline' | 'modal'
-export type FrigadeChecklistStyle = 'with-guide' | 'default' | 'condensed'
+export type FrigadeChecklistStyle = 'with-guide' | 'default' | 'condensed' | 'carousel'
 
 export interface FrigadeChecklistProps extends HeroChecklistProps {
   flowId: string
@@ -240,6 +241,20 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
     }
   }
 
+  function getCarouselChecklist() {
+    return (
+      <>
+        <CommonDom />
+        <CarouselChecklist
+          flowId={flowId}
+          appearance={appearance}
+          customVariables={customVariables}
+          className={className}
+        />
+      </>
+    )
+  }
+
   function getCondensedChecklist() {
     return (
       <>
@@ -342,6 +357,8 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
       return getChecklistWithGuide()
     case 'default':
       return getDefaultChecklist()
+    case 'carousel':
+      return getCarouselChecklist()
     default:
       return getDefaultChecklist()
   }

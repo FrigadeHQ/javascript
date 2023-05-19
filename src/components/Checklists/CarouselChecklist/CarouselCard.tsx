@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
-import { Appearance, StepData } from '../types'
-import { useCTAClickSideEffects } from '../hooks/useCTAClickSideEffects'
+import { Appearance, StepData } from '../../../types'
+import { useCTAClickSideEffects } from '../../../hooks/useCTAClickSideEffects'
 
 import {
   Body,
@@ -10,8 +10,8 @@ import {
   StyledCarouselCard,
   StyledCarouselCardImage,
 } from './styled'
-import { useTheme } from '../hooks/useTheme'
-import { getClassName } from '../shared/appearance'
+import { useTheme } from '../../../hooks/useTheme'
+import { getClassName } from '../../../shared/appearance'
 
 interface CarouselCardProps {
   stepData: StepData
@@ -25,7 +25,13 @@ export const CarouselCard: FC<CarouselCardProps> = ({ stepData, style = {}, appe
 
   const { theme, styleOverrides } = mergeAppearanceWithDefault(appearance)
 
-  const { imageUri = null, subtitle = null, title = null, complete = false } = stepData
+  const {
+    imageUri = null,
+    subtitle = null,
+    title = null,
+    complete = false,
+    blocked = false,
+  } = stepData
 
   const handleClick = () => {
     primaryCTAClickSideEffects(stepData)
@@ -34,8 +40,9 @@ export const CarouselCard: FC<CarouselCardProps> = ({ stepData, style = {}, appe
   return (
     <StyledCarouselCard
       className={getClassName('carouselCard', appearance)}
-      onClick={handleClick}
+      onClick={blocked ? null : handleClick}
       style={style}
+      blocked={blocked}
     >
       <div style={{ alignItems: 'flex-start', display: 'flex', justifyContent: 'space-between' }}>
         {imageUri && (

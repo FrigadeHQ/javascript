@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useFlows } from '../api/flows'
+import { useFlows } from '../../../api/flows'
 
 import { CarouselCard } from './CarouselCard'
 import { ProgressBar } from './ProgressBar'
@@ -13,9 +13,8 @@ import {
   StyledCarouselFade,
   StyledScrollButton,
 } from './styled'
-import { DefaultFrigadeFlowProps } from '../types'
-import { getClassName, mergeClasses } from '../shared/appearance'
-import { COMPLETED_FLOW } from '../api/common'
+import { DefaultFrigadeFlowProps } from '../../../types'
+import { getClassName, mergeClasses } from '../../../shared/appearance'
 
 const RightArrow = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -64,16 +63,15 @@ const CarouselFade: React.FC<{ side?: string; show?: boolean; onClick?: any }> =
   ) : null
 }
 
-export interface FrigadeCarouselProps extends DefaultFrigadeFlowProps {
+export interface CarouselChecklistProps extends DefaultFrigadeFlowProps {
   flowId: string
 }
 
-export const FrigadeCarousel: React.FC<FrigadeCarouselProps> = ({
+export const CarouselChecklist: React.FC<CarouselChecklistProps> = ({
   flowId,
   appearance,
   customVariables,
   className,
-  hideOnFlowCompletion,
 }) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null)
   const [showLeftFade, setShowLeftFade] = useState(false)
@@ -166,14 +164,6 @@ export const FrigadeCarousel: React.FC<FrigadeCarouselProps> = ({
   }
 
   if (isLoading) {
-    return null
-  }
-
-  if (getFlowStatus(flowId) === COMPLETED_FLOW && hideOnFlowCompletion === true) {
-    return null
-  }
-
-  if (targetingLogicShouldHideFlow(getFlow(flowId))) {
     return null
   }
 

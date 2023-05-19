@@ -1,5 +1,5 @@
 import styled, { css, keyframes } from 'styled-components'
-import { getCustomClassOverrides } from '../shared/appearance'
+import { getCustomClassOverrides } from '../../../shared/appearance'
 
 const defaultBorder = css`
   border: 1px solid ${({ theme }) => theme.colorBorder};
@@ -86,13 +86,21 @@ export const StyledCarouselCard = styled(Card)`
   ${defaultBorder}
   background: ${({ theme }) => theme.colorBackground};
 
+  ${(props) =>
+    props.blocked
+      ? ``
+      : `
   &:active {
     background: ${({ theme }) => theme.colorBackgroundSecondary};
   }
+  
   &:hover {
     border: 1px solid ${({ theme }) => theme.colorPrimary};
     cursor: pointer;
   }
+  `}
+
+  ${(props) => (props.blocked ? `opacity: 0.4;` : ``)}
 `
 
 export const StyledCarouselCardImage = styled.img`

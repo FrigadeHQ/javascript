@@ -1,8 +1,8 @@
 import React, { FC } from 'react'
 
 import { Body, CarouselProgressBar } from './styled'
-import { getClassName } from '../shared/appearance'
-import { Appearance } from '../types'
+import { getClassName } from '../../../shared/appearance'
+import { Appearance } from '../../../types'
 
 interface ProgressBarProps {
   numberOfStepsCompleted: number

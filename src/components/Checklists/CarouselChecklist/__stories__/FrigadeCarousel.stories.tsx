@@ -1,8 +1,8 @@
-import { FrigadeCarousel, FrigadeCarouselProps } from '..'
+import { CarouselChecklist } from '../index'
 
 export default {
   title: 'Carousel',
-  component: FrigadeCarousel,
+  component: CarouselChecklist,
 }
 
 export const Default = {
