@@ -90,10 +90,6 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
 
   appearance = mergeAppearanceWithDefault(appearance)
 
-  if (type !== 'modal' && checklistStyle === 'condensed') {
-    checklistStyle = 'default'
-  }
-
   useEffect(() => {
     updateCustomVariables(customVariables)
   }, [customVariables, isLoading])
@@ -231,6 +227,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
     appearance,
     customStepTypes,
     type,
+    className,
   }
 
   function handleClose() {
@@ -304,7 +301,6 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
         style={style}
         selectedStep={selectedStep}
         setSelectedStep={setSelectedStep}
-        className={className}
         appearance={appearance}
         type={type}
         {...commonProps}

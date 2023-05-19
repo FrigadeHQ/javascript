@@ -6,13 +6,13 @@ import { CollapsibleStep } from './CollapsibleStep'
 
 import {
   ChecklistContainer,
-  CondensedChecklistContainer,
+  CondensedInlineChecklistContainer,
   HeaderContent,
   ModalChecklistSubtitle,
   ModalChecklistTitle,
 } from './styled'
 import { sanitize } from '../../../shared/sanitizer'
-import { getClassName } from '../../../shared/appearance'
+import { getClassName, mergeClasses } from '../../../shared/appearance'
 import { FrigadeChecklistProps } from '../../../FrigadeChecklist'
 
 export interface CondensedChecklistProps extends Omit<FrigadeChecklistProps, 'flowId'> {
@@ -37,6 +37,7 @@ const CondensedChecklist: FC<CondensedChecklistProps> = ({
   setSelectedStep,
   appearance,
   type,
+  className,
 }) => {
   const completeCount = steps.filter((s) => s.complete).length
   const [collapsedSteps, setCollapsedSteps] = useState<boolean[]>(Array(steps.length).fill(true))
@@ -70,7 +71,7 @@ const CondensedChecklist: FC<CondensedChecklistProps> = ({
     setCollapsedSteps(newCollapsedState)
   }
 
-  if (!visible) return <></>
+  if (!visible && type == 'modal') return <></>
 
   const headerContent = (
     <>
@@ -93,7 +94,9 @@ const CondensedChecklist: FC<CondensedChecklistProps> = ({
   )
 
   const checklistContent = (
-    <ChecklistContainer className={getClassName('checklistContainer', appearance)}>
+    <ChecklistContainer
+      className={mergeClasses(getClassName('checklistContainer', appearance), className)}
+    >
       {steps.map((step: StepData, idx: number) => {
         const isCollapsed = collapsedSteps[idx]
         return (
@@ -140,13 +143,13 @@ const CondensedChecklist: FC<CondensedChecklistProps> = ({
 
   if (type === 'inline') {
     return (
-      <CondensedChecklistContainer
+      <CondensedInlineChecklistContainer
         appearance={appearance}
-        className={getClassName('condensedChecklistContainer', appearance)}
+        className={mergeClasses(getClassName('checklistContainer', appearance), className)}
       >
         {headerContent}
         {checklistContent}
-      </CondensedChecklistContainer>
+      </CondensedInlineChecklistContainer>
     )
   }
 
