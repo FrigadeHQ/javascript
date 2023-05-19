@@ -186,6 +186,7 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
           onDismiss={() => onDismissTooltip(steps[selectedStep])}
           tooltipPosition={tooltipPosition}
           completedStepsCount={getNumberOfStepsCompleted(flowId)}
+          showHighlightOnly={showHighlightOnly}
           {...props}
         />
       )}

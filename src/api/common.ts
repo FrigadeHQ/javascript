@@ -43,7 +43,7 @@ export function useGracefulFetch() {
     }
 
     if (!response.ok) {
-      showBoundary(new Error(`Failed to call Frigade: ${url}`))
+      new Error(`Failed to call Frigade: ${url}`)
     }
 
     return response
