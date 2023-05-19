@@ -35,6 +35,8 @@ export interface IFrigadeContext {
   setOrganizationId?: React.Dispatch<React.SetStateAction<string>>
   navigate: (url: string, target: string) => void
   defaultAppearance: Appearance
+  shouldGracefullyDegrade: boolean
+  setShouldGracefullyDegrade: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export interface FrigadeProviderProps {
@@ -74,6 +76,8 @@ export const FrigadeContext = createContext<IFrigadeContext>({
   setOrganizationId: () => {},
   navigate: () => {},
   defaultAppearance: DefaultAppearance,
+  shouldGracefullyDegrade: false,
+  setShouldGracefullyDegrade: () => {},
 })
 
 interface FrigadeConfig {
@@ -112,6 +116,7 @@ export const FrigadeProvider: FC<FrigadeProviderProps> = ({
   }>({})
   const [isNewGuestUser, setIsNewGuestUser] = useState(false)
   const [hasActiveFullPageFlow, setHasActiveFullPageFlow] = useState(false)
+  const [shouldGracefullyDegrade, setShouldGracefullyDegrade] = useState(false)
   const internalNavigate = (url: string, target: string) => {
     if (target === '_blank') {
       window.open(url, '_blank')
@@ -154,6 +159,10 @@ export const FrigadeProvider: FC<FrigadeProviderProps> = ({
     }
   }, [publicApiKey])
 
+  if (shouldGracefullyDegrade) {
+    return <>{children}</>
+  }
+
   return (
     <ErrorBoundary fallback={<>{children}</>}>
       <FrigadeContext.Provider
@@ -181,6 +190,8 @@ export const FrigadeProvider: FC<FrigadeProviderProps> = ({
           setOrganizationId: setOrganizationIdValue,
           navigate: config && config.navigate ? config.navigate : internalNavigate,
           defaultAppearance: appearance,
+          shouldGracefullyDegrade,
+          setShouldGracefullyDegrade,
         }}
       >
         <ThemeProvider theme={appearance.theme}>

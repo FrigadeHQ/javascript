@@ -58,6 +58,7 @@ export function useFlows() {
     hasActiveFullPageFlow,
     setHasActiveFullPageFlow,
     setFlowResponses,
+    setShouldGracefullyDegrade,
   } = useContext(FrigadeContext)
   const emptyResponse = {
     data: [],
@@ -69,11 +70,15 @@ export function useFlows() {
         if (response.ok) {
           return response.json()
         }
-        console.error(`Error fetching ${url} (${response.status}): ${response.statusText}`)
+        console.log(
+          `Error fetching ${url} (${response.status}): ${response.statusText}. .Will gracefully degrade and hide Frigade`
+        )
+        setShouldGracefullyDegrade(true)
         return emptyResponse
       })
       .catch((error) => {
-        console.error(`Error fetching ${url}: ${error}`)
+        console.log(`Error fetching ${url}: ${error}. Will gracefully degrade and hide Frigade`)
+        setShouldGracefullyDegrade(true)
         return emptyResponse
       })
   const {
@@ -108,7 +113,7 @@ export function useFlows() {
   function getFlow(slug: string): Flow {
     const flow = flows.find((f) => f.slug === slug)
     if (!flow && flows.length > 0 && !isLoadingUserFlowStateData && !isLoadingFlows) {
-      console.error(`Flow with slug ${slug} not found`)
+      console.log(`Flow with slug ${slug} not found`)
     }
     return flow
   }

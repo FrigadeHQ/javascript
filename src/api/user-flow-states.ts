@@ -24,7 +24,7 @@ export function useUserFlowStates(): {
   error: any
 } {
   const { config } = useConfig()
-  const { publicApiKey, userId, flows, isNewGuestUser } = useContext(FrigadeContext)
+  const { publicApiKey, userId, flows, setShouldGracefullyDegrade } = useContext(FrigadeContext)
   const [hasFinishedInitialLoad, setHasFinishedInitialLoad] = useState(false)
   const emptyResponse = {
     data: flows.map((flow) => ({
@@ -46,7 +46,8 @@ export function useUserFlowStates(): {
         throw new Error('Failed to fetch user flow states')
       })
       .catch((error) => {
-        console.error(`Error fetching ${url}: ${error}`)
+        console.log(`Error fetching ${url}: ${error}. Will gracefully degrade and hide Frigade`)
+        setShouldGracefullyDegrade(true)
         return emptyResponse
       })
 

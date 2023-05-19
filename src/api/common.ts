@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react'
 import { FrigadeContext } from '../FrigadeProvider'
-import { useErrorBoundary } from 'react-error-boundary'
 
 export const API_PREFIX = 'https://api.frigade.com/v1/public/'
 
@@ -31,22 +30,36 @@ export function useConfig() {
 }
 
 export function useGracefulFetch() {
-  const { showBoundary } = useErrorBoundary()
-
   return async (url: string, options: any) => {
-    const response = await fetch(url, options).catch((error) => {
-      showBoundary(error)
-    })
+    let response
+    try {
+      response = await fetch(url, options)
+    } catch (error) {
+      return getEmptyResponse(error)
+    }
 
     if (!response) {
-      return
+      return getEmptyResponse()
     }
 
     if (!response.ok) {
-      new Error(`Failed to call Frigade: ${url}`)
+      return getEmptyResponse(response.statusText)
     }
 
     return response
+  }
+}
+
+function getEmptyResponse(error?: any) {
+  if (error) {
+    console.log('Call to Frigade failed', error)
+  } else {
+    console.log('Call to Frigade failed')
+  }
+
+  // Create empty response that contains the .json method and returns an empty object
+  return {
+    json: () => ({}),
   }
 }
 
