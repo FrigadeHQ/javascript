@@ -88,19 +88,18 @@ export const StyledCarouselCard = styled(Card)`
 
   ${(props) =>
     props.blocked
-      ? ``
+      ? `opacity: 0.4;`
       : `
-  &:active {
-    background: ${({ theme }) => theme.colorBackgroundSecondary};
-  }
-  
-  &:hover {
-    border: 1px solid ${({ theme }) => theme.colorPrimary};
-    cursor: pointer;
-  }
   `}
 
-  ${(props) => (props.blocked ? `opacity: 0.4;` : ``)}
+  &:active {
+    ${(props) => (!props.blocked ? `background: ${props.theme.colorBackgroundSecondary};` : ``)}
+  }
+
+  &:hover {
+    ${(props) => (!props.blocked ? `border: 1px solid ${props.theme.colorPrimary};` : ``)}
+    ${(props) => (!props.blocked ? `cursor: pointer` : ``)}
+  }
 `
 
 export const StyledCarouselCardImage = styled.img`
