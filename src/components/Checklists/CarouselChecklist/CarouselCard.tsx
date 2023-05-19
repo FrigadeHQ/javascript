@@ -51,7 +51,7 @@ export const CarouselCard: FC<CarouselCardProps> = ({ stepData, style = {}, appe
             className={getClassName('carouselCardImage', appearance)}
             src={imageUri}
             alt={title}
-            style={{ opacity: complete ? 0.6 : 1 }}
+            style={{ opacity: complete || blocked ? 0.4 : 1 }}
           />
         )}
         {complete && (
