@@ -52,7 +52,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
   style,
   initialSelectedStep,
   className,
-  type,
+  type = 'inline',
   onDismiss,
   visible,
   customVariables,
@@ -62,7 +62,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
   hideOnFlowCompletion,
   setVisible,
   customStepTypes,
-  checklistStyle = 'condensed',
+  checklistStyle = 'default',
   ...guideProps
 }) => {
   const {
