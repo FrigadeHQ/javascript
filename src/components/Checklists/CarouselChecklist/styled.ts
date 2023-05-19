@@ -86,19 +86,13 @@ export const StyledCarouselCard = styled(Card)`
   ${defaultBorder}
   background: ${({ theme }) => theme.colorBackground};
 
-  ${(props) =>
-    props.blocked
-      ? `opacity: 0.4;`
-      : `
-  `}
-
   &:active {
     ${(props) => (!props.blocked ? `background: ${props.theme.colorBackgroundSecondary};` : ``)}
   }
 
   &:hover {
     ${(props) => (!props.blocked ? `border: 1px solid ${props.theme.colorPrimary};` : ``)}
-    ${(props) => (!props.blocked ? `cursor: pointer` : ``)}
+    ${(props) => (!props.blocked ? `cursor: pointer` : `cursor: clicker`)}
   }
 `
 
@@ -150,6 +144,15 @@ export const H4 = styled.p`
   margin: 0;
 `
 
+export const CardTitle = styled(H4)`
+  margin-bottom: 4px;
+  ${(props) =>
+    props.blocked || props.complete
+      ? `opacity: 0.4;`
+      : `
+  `}
+`
+
 export const Body = styled.p`
   color: ${({ theme }) => theme.colorText};
   font-weight: normal;
@@ -172,4 +175,9 @@ Body.Loud = styled(Body)`
 
 Body.Quiet = styled(Body)`
   color: ${({ theme }) => theme.colorTextSecondary};
+  ${(props) =>
+    props.blocked || props.complete
+      ? `opacity: 0.4;`
+      : `
+  `}
 `

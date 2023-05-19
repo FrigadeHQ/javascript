@@ -4,8 +4,8 @@ import { useCTAClickSideEffects } from '../../../hooks/useCTAClickSideEffects'
 
 import {
   Body,
+  CardTitle,
   CompletedPill,
-  H4,
   Small,
   StyledCarouselCard,
   StyledCarouselCardImage,
@@ -43,6 +43,7 @@ export const CarouselCard: FC<CarouselCardProps> = ({ stepData, style = {}, appe
       onClick={blocked ? null : handleClick}
       style={style}
       blocked={blocked}
+      complete={complete}
     >
       <div style={{ alignItems: 'flex-start', display: 'flex', justifyContent: 'space-between' }}>
         {imageUri && (
@@ -60,16 +61,18 @@ export const CarouselCard: FC<CarouselCardProps> = ({ stepData, style = {}, appe
         )}
       </div>
       {title && (
-        <H4
-          style={{ marginBottom: 4, color: complete ? theme.colorTextDisabled : null }}
+        <CardTitle
+          blocked={blocked}
+          complete={complete}
           className={getClassName('carouselCardTitle', appearance)}
         >
           {title}
-        </H4>
+        </CardTitle>
       )}
       {subtitle && (
         <Body.Quiet
-          style={{ color: complete ? theme.colorTextDisabled : null }}
+          blocked={blocked}
+          complete={complete}
           className={getClassName('carouselCardSubtitle', appearance)}
         >
           {subtitle}
