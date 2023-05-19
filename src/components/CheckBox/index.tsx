@@ -1,7 +1,8 @@
 import React, { CSSProperties, FC } from 'react'
 import { ProgressRing } from '../Progress/ProgressRing'
-import { getClassName } from '../../shared/appearance'
+import { getClassName, styleOverridesToCSS } from '../../shared/appearance'
 import { Appearance } from '../../types'
+import styled from 'styled-components'
 
 const CheckIcon = ({ color = '#FFFFFF' }) => (
   <svg width={10} height={8} viewBox="0 0 10 8" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -18,7 +19,7 @@ const CheckIcon = ({ color = '#FFFFFF' }) => (
 const BASE_CHECKBOX_STYLES_SQUARE: CSSProperties = {
   width: '22px',
   height: '22px',
-  borderRadius: 8,
+  borderRadius: '8px',
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
@@ -27,7 +28,7 @@ const BASE_CHECKBOX_STYLES_SQUARE: CSSProperties = {
 const BASE_CHECKBOX_STYLES_ROUND: CSSProperties = {
   width: '22px',
   height: '22px',
-  borderRadius: 40,
+  borderRadius: '40px',
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
@@ -71,6 +72,10 @@ export interface CheckBoxProps {
   appearance?: Appearance
 }
 
+const CheckIconContainer = styled.div`
+  ${(props) => styleOverridesToCSS(props)}
+`
+
 export const CheckBox: FC<CheckBoxProps> = ({
   value,
   type = 'square',
@@ -100,12 +105,12 @@ export const CheckBox: FC<CheckBoxProps> = ({
   }
 
   return (
-    <div
-      style={checkBoxStyle}
+    <CheckIconContainer
+      styleOverrides={checkBoxStyle}
       role="checkbox"
       className={getClassName('checkIconContainer', appearance)}
     >
       {value && <CheckIcon color={'#FFFFFF'} />}
-    </div>
+    </CheckIconContainer>
   )
 }
