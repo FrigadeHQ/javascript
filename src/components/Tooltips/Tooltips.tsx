@@ -22,7 +22,7 @@ import { VideoCard } from '../Video/VideoCard'
 
 export type ToolTipPosition = 'left' | 'right' | 'auto'
 
-const CARD_WIDTH = 300
+const DEFAULT_CARD_WIDTH = 300
 const CARD_HEIGHT = 50
 const DEFAULT_REFRESH_DELAY = 500
 const HIGHLIGHT_RADIUS = 12
@@ -149,6 +149,7 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
     ? steps[selectedStep].props.position
     : 'absolute'
   const zIndex = steps[selectedStep]?.props?.zIndex ?? 90
+  const cardWidth = selfBounds?.width ?? DEFAULT_CARD_WIDTH
 
   useLayoutEffect(() => {
     if (positionStyle === 'fixed') {
@@ -168,19 +169,19 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
   let position = getPosition(
     boundingRect,
     tooltipPositionValue,
-    selfBounds?.width ?? CARD_WIDTH,
+    selfBounds?.width,
     offset,
     positionStyle
   )
 
   const rightSideIsCropped =
-    boundingRect.right + CARD_WIDTH > (window.innerWidth || document.documentElement.clientWidth)
+    boundingRect.right + cardWidth > (window.innerWidth || document.documentElement.clientWidth)
   const bottomIsCropped =
     boundingRect.bottom + CARD_HEIGHT >
     (window.innerHeight || document.documentElement.clientHeight)
 
   if (rightSideIsCropped && tooltipPosition === 'auto') {
-    position = getPosition(boundingRect, 'left', CARD_WIDTH, offset, positionStyle)
+    position = getPosition(boundingRect, 'left', cardWidth, offset, positionStyle)
     tooltipPositionValue = 'left'
   }
 
@@ -392,6 +393,7 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
           }}
           onClick={() => {
             if (showHighlightOnly) {
+              setNeedsUpdate(new Date())
               setShowTooltipContainer(!showTooltipContainer)
             }
           }}
@@ -427,7 +429,7 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
           }}
           appearance={appearance}
           className={getClassName('tooltipContainer', appearance)}
-          maxWidth={CARD_WIDTH}
+          maxWidth={DEFAULT_CARD_WIDTH}
           zIndex={zIndex + 10}
         >
           <StepContent />

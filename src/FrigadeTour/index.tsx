@@ -23,6 +23,7 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
   tooltipPosition = 'auto',
   showHighlightOnly = false,
   dismissBehavior = 'complete-flow',
+  onComplete,
   ...props
 }) => {
   const {
@@ -155,6 +156,13 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
     }
   }
 
+  function handleComplete() {
+    if (onComplete) {
+      onComplete()
+    }
+    markFlowCompleted(flowId)
+  }
+
   return (
     <Portal>
       <RenderInlineStyles appearance={appearance} />
@@ -172,6 +180,7 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
               tooltipPosition={tooltipPosition}
               showHighlightOnly={showHighlightOnly}
               completedStepsCount={getNumberOfStepsCompleted(flowId)}
+              onComplete={handleComplete}
               {...props}
             />
           )
@@ -187,6 +196,7 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
           tooltipPosition={tooltipPosition}
           completedStepsCount={getNumberOfStepsCompleted(flowId)}
           showHighlightOnly={showHighlightOnly}
+          onComplete={handleComplete}
           {...props}
         />
       )}
