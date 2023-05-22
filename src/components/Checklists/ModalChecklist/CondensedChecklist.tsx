@@ -145,7 +145,7 @@ const CondensedChecklist: FC<CondensedChecklistProps> = ({
     return (
       <CondensedInlineChecklistContainer
         appearance={appearance}
-        className={mergeClasses(getClassName('checklistContainer', appearance), className)}
+        className={mergeClasses(getClassName('checklistInlineContainer', appearance), className)}
       >
         {headerContent}
         {checklistContent}
