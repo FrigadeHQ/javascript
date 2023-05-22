@@ -1,6 +1,6 @@
 import React, { CSSProperties, FC } from 'react'
 import { ProgressRing } from '../Progress/ProgressRing'
-import { getClassName, styleOverridesToCSS } from '../../shared/appearance'
+import { getClassName, mergeClasses, styleOverridesToCSS } from '../../shared/appearance'
 import { Appearance } from '../../types'
 import styled from 'styled-components'
 
@@ -108,7 +108,10 @@ export const CheckBox: FC<CheckBoxProps> = ({
     <CheckIconContainer
       styleOverrides={checkBoxStyle}
       role="checkbox"
-      className={getClassName('checkIconContainer', appearance)}
+      className={mergeClasses(
+        getClassName('checkIconContainer', appearance),
+        value ? 'checkIconContainerChecked' : 'checkIconContainerUnchecked'
+      )}
     >
       {value && <CheckIcon color={'#FFFFFF'} />}
     </CheckIconContainer>
