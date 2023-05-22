@@ -139,6 +139,7 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
 }) => {
   const [selfBounds, setSelfBounds] = useState<undefined | Partial<DOMRect>>()
   const [needsUpdate, setNeedsUpdate] = useState(new Date())
+  const [isTemporarilyHidden, setIsTemporarilyHidden] = useState(true)
   const selfRef = useRef(null)
 
   const [elem, setElem] = useState(document.querySelector(steps[selectedStep].selector))
@@ -157,12 +158,18 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
         width: selfRef.current.clientWidth,
         height: selfRef.current.clientHeight,
       })
+      setIsTemporarilyHidden(false)
     }
   }, [selectedStep, needsUpdate, positionStyle])
 
   useEffect(() => {
     if (!showHighlightOnly) {
       setShowTooltipContainer(true)
+      // Temporarily hide the tooltip on change as we need to measure it's position and width in the DOM.
+      setIsTemporarilyHidden(true)
+      setTimeout(() => {
+        setIsTemporarilyHidden(false)
+      }, 20)
     }
   }, [selectedStep])
 
@@ -370,7 +377,11 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
   }
 
   return (
-    <TooltipWrapper>
+    <TooltipWrapper
+      style={{
+        visibility: isTemporarilyHidden ? 'hidden' : 'visible',
+      }}
+    >
       {showHighlight && steps[selectedStep].showHighlight !== false && (
         <HiglightContainer
           style={{
