@@ -105,7 +105,7 @@ dist
 
 .dccache
 .DS_Store
-lib
+dist
 *.tgz
 .idea
 .watchmanconfig

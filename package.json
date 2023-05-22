@@ -2,17 +2,17 @@
   "name": "@frigade/react",
   "version": "0.0.1",
   "description": "The official React SDK for Frigade.",
-  "main": "./lib/index.js",
-  "types": "./lib/index.d.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "files": [
-    "./lib"
+    "./dist"
   ],
   "scripts": {
-    "clean": "rimraf ./lib",
+    "clean": "rimraf ./dist",
     "test": "jest",
     "semantic-release": "semantic-release",
     "lint": "eslint --fix --ext .ts,.tsx .",
-    "copy-files": "copyfiles -u 1 src/**/*.html src/**/*.css ./lib",
+    "copy-files": "copyfiles -u 1 src/**/*.html src/**/*.css ./dist",
     "build": "yarn clean && tsup && yarn copy-files",
     "local-release": "tsup",
     "storybook": "storybook dev -p 6006",
