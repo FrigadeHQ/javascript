@@ -137,7 +137,7 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
   showStepCount = true,
   completedStepsCount = 0,
 }) => {
-  const [selfBounds, setSelfBounds] = useState<undefined | Partial<DOMRect>>(undefined)
+  const [selfBounds, setSelfBounds] = useState<undefined | Partial<DOMRect>>()
   const [needsUpdate, setNeedsUpdate] = useState(new Date())
   const selfRef = useRef(null)
 
@@ -152,10 +152,6 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
   const cardWidth = selfBounds?.width ?? DEFAULT_CARD_WIDTH
 
   useLayoutEffect(() => {
-    if (positionStyle === 'fixed') {
-      return
-    }
-
     if (selfRef.current) {
       setSelfBounds({
         width: selfRef.current.clientWidth,
@@ -164,15 +160,15 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
     }
   }, [selectedStep, needsUpdate, positionStyle])
 
+  useEffect(() => {
+    if (!showHighlightOnly) {
+      setShowTooltipContainer(true)
+    }
+  }, [selectedStep])
+
   let tooltipPositionValue: ToolTipPosition =
     tooltipPosition === 'auto' ? 'right' : (tooltipPosition as ToolTipPosition)
-  let position = getPosition(
-    boundingRect,
-    tooltipPositionValue,
-    selfBounds?.width,
-    offset,
-    positionStyle
-  )
+  let position = getPosition(boundingRect, tooltipPositionValue, cardWidth, offset, positionStyle)
 
   const rightSideIsCropped =
     boundingRect.right + cardWidth > (window.innerWidth || document.documentElement.clientWidth)
@@ -188,10 +184,6 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
   const url = window.location.pathname.split('/').pop()
 
   const handleRefreshPosition = () => {
-    if (positionStyle === 'fixed') {
-      return
-    }
-
     const elem = document.querySelector(steps[selectedStep].selector)
     if (lastBoundingRect && lastBoundingRect === JSON.stringify(elem?.getBoundingClientRect())) {
       return
@@ -250,9 +242,7 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
     const handleOnCTAClick = () => {
       if (steps[selectedStep].handlePrimaryButtonClick) {
         steps[selectedStep].handlePrimaryButtonClick()
-        if (showHighlightOnly) {
-          setShowTooltipContainer(false)
-        }
+        setShowTooltipContainer(false)
       }
       if (completedStepsCount === steps.length - 1) {
         return onComplete()
