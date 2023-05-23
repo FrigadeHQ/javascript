@@ -247,6 +247,9 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
       if (steps[selectedStep].handlePrimaryButtonClick) {
         steps[selectedStep].handlePrimaryButtonClick()
         setShowTooltipContainer(false)
+        setTimeout(() => {
+          handleRefreshPosition()
+        }, 30)
       }
       if (completedStepsCount === steps.length - 1) {
         return onComplete()

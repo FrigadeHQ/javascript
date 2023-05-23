@@ -14,6 +14,8 @@
 <span> · </span>
 <a href="https://docs.frigade.com">Docs</a></div>
 
+<br />
+
 ![Frigade iamge](https://frigade.com/img/frigademetaimage.png)
 
 
@@ -48,11 +50,11 @@ Frigade supports a series of use cases such as:
 
 **Component Library**
 
-Unstyled, ready-made components for building high‑quality user onboarding, faster. From product checklists to tours, we've got you covered. [See components](<https://%5Bhttps://frigade.com/componets%5D(https://frigade.com/componets)>)
+Unstyled, ready-made components for building high‑quality user onboarding, faster. Onboarding checklists, tooltips, product walkthroughs, and much more. [See components](<https://frigade.com/components)>)
 
 **Integrations**
 
-Integrations with Segment, Mixpanel, Sendgrid, and more to power targeting, analytics, and communications.
+Integrations with Segment, Mixpanel, Posthog, and more to power targeting, analytics, and communications.
 
 **Content Management**
 

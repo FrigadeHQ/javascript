@@ -29,8 +29,9 @@
     "Intro",
     "Checklist",
     "Welcome",
-    "Introduction",
-    "Instructions",
+    "Tooltips",
+    "Tour",
+    "React-component",
     "Walkthrough"
   ],
   "peerDependencies": {
