@@ -109,14 +109,17 @@ const TooltipWrapper = styled.div`
   pointer-events: all;
 `
 
-const HiglightContainer = styled.div<{ primaryColor: string }>`
-  width: ${HIGHLIGHT_RADIUS + 12}px;
-  height: ${HIGHLIGHT_RADIUS + 12}px;
+const PositionWrapper = styled.div<{ primaryColor: string }>`
   display: flex;
   align-content: center;
   justify-content: center;
   align-items: center;
   z-index: ${(props) => (props.zIndex ? props.zIndex : 90)};
+`
+
+const HighlightContainer = styled(PositionWrapper)`
+  width: ${HIGHLIGHT_RADIUS + 12}px;
+  height: ${HIGHLIGHT_RADIUS + 12}px;
 `
 
 const Tooltips: FC<ToolTipPropsInternal> = ({
@@ -370,40 +373,43 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
     return null
   }
 
+  const cssPos = {
+    top: position?.y - HIGHLIGHT_RADIUS ?? 0,
+    left: (tooltipPositionValue == 'left' ? boundingRect.x : position?.x - HIGHLIGHT_RADIUS) ?? 0,
+    cursor: showHighlightOnly ? 'pointer' : 'default',
+    position: positionStyle,
+  }
+
+  const handleClick = () => {
+    if (showHighlightOnly) {
+      setNeedsUpdate(new Date())
+      setShowTooltipContainer(!showTooltipContainer)
+    }
+  }
+
   return (
     <TooltipWrapper>
-      <HiglightContainer
-        style={{
-          top: position?.y - HIGHLIGHT_RADIUS ?? 0,
-          left:
-            (tooltipPositionValue == 'left' ? boundingRect.x : position?.x - HIGHLIGHT_RADIUS) ?? 0,
-          cursor: showHighlightOnly ? 'pointer' : 'default',
-          position: positionStyle,
-        }}
-        onClick={() => {
-          if (showHighlightOnly) {
-            setNeedsUpdate(new Date())
-            setShowTooltipContainer(!showTooltipContainer)
-          }
-        }}
-        zIndex={zIndex}
-      >
+      <HighlightContainer style={cssPos} zIndex={zIndex}>
         {showHighlight && steps[selectedStep].showHighlight !== false && (
           <>
             <HighlightInner
               style={{
                 position: positionStyle,
               }}
+              onClick={handleClick}
               primaryColor={appearance.theme.colorPrimary}
             ></HighlightInner>
             <HighlightOuter
               style={{
                 position: 'absolute',
               }}
+              onClick={handleClick}
               primaryColor={appearance.theme.colorPrimary}
             ></HighlightOuter>
           </>
         )}
+      </HighlightContainer>
+      <PositionWrapper style={cssPos} zIndex={zIndex - 1}>
         {showTooltipContainer && (
           <TooltipContainer
             ref={selfRef}
@@ -411,9 +417,9 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
             style={{
               position: 'relative',
               width: 'max-content',
-              left: tooltipPositionValue == 'left' ? -(cardWidth / 2 + 10) : cardWidth / 2 + 10,
+              left: tooltipPositionValue == 'left' ? -cardWidth : 24, //tooltipPositionValue == 'left' ? -(cardWidth / 2 + 10) : cardWidth / 2 + 10,
               right: 0,
-              top: cardHeight / 2,
+              top: 12,
               ...containerStyle,
             }}
             appearance={appearance}
@@ -424,7 +430,7 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
             <StepContent />
           </TooltipContainer>
         )}
-      </HiglightContainer>
+      </PositionWrapper>
     </TooltipWrapper>
   )
 }
