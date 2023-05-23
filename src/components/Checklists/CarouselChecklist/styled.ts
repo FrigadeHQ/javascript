@@ -118,6 +118,10 @@ export const CarouselProgressBar = styled.div`
   align-items: center;
 `
 
+export const ProgressBarLabel = styled.div`
+  white-space: nowrap;
+`
+
 export const CompletedPill = styled.div`
   background: #d8fed8;
   border-radius: 6px;

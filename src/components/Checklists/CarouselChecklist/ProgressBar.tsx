@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 
-import { Body, CarouselProgressBar } from './styled'
+import { Body, CarouselProgressBar, ProgressBarLabel } from './styled'
 import { getClassName } from '../../../shared/appearance'
 import { Appearance } from '../../../types'
 
@@ -21,9 +21,9 @@ export const ProgressBar: FC<ProgressBarProps> = ({
 
   return (
     <CarouselProgressBar className={getClassName('carouselProgressBar', appearance)}>
-      <Body.Loud style={{ marginRight: 8 }}>
+      <ProgressBarLabel as={Body.Loud} style={{ marginRight: 8 }}>
         {numberOfStepsCompleted} of {numberOfSteps}
-      </Body.Loud>
+      </ProgressBarLabel>
       <svg height={10} width={trackWidth}>
         <rect x={0} y={0} rx={5} width={trackWidth} height={10} fill="#E6E6E6" />
         <rect x={0} y={0} rx={5} width={barWidth} height={10} fill="currentColor" />
