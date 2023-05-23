@@ -417,7 +417,7 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
             style={{
               position: 'relative',
               width: 'max-content',
-              left: tooltipPositionValue == 'left' ? -cardWidth : 24, //tooltipPositionValue == 'left' ? -(cardWidth / 2 + 10) : cardWidth / 2 + 10,
+              marginLeft: tooltipPositionValue == 'left' ? -cardWidth : 24, //tooltipPositionValue == 'left' ? -(cardWidth / 2 + 10) : cardWidth / 2 + 10,
               right: 0,
               top: 12,
               ...containerStyle,
