@@ -1,0 +1,23 @@
+{
+  "component": {
+    "Text": {
+      "Display 1": {
+        "type": "typography",
+        "value": {
+          "fontFamily": "{font.family.default}",
+          "fontWeight": "{font.weight.bold}",
+          "lineHeight": "{font.lineHeight.4xl}",
+          "fontSize": "{font.size.5xl}"
+        }
+      },
+      "Display 2": {},
+      "H1": {},
+      "H2": {},
+      "H3": {},
+      "H4": {},
+      "Body 1": {},
+      "Body 2": {},
+      "Caption": {}
+    }
+  }
+}

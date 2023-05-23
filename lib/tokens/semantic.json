@@ -1,0 +1,243 @@
+{
+  "color": {
+    "type": "color",
+    "neutral": {
+      "background": {
+        "lowest": { "value": "{color.white}" },
+        "low": { "value": "{color.white}" },
+        "default": { "value": "{color.white}" },
+        "high": { "value": "{color.white}" },
+        "highest": { "value": "{color.white}" },
+        "inverted": { "value": "{color.white}" }
+      },
+      "surface": {
+        "lowest": { "value": "{color.white}" },
+        "low": { "value": "{color.white}" },
+        "default": { "value": "{color.gray800}" },
+        "high": { "value": "{color.white}" },
+        "highest": { "value": "{color.white}" },
+        "inverted": { "value": "{color.white}" }
+      },
+      "foreground": {
+        "lowest": { "value": "{color.white}" },
+        "low": { "value": "{color.white}" },
+        "default": { "value": "{color.black}" },
+        "high": { "value": "{color.white}" },
+        "highest": { "value": "{color.white}" },
+        "inverted": { "value": "{color.white}" }
+      },
+      "border": {
+        "lowest": { "value": "{color.white}" },
+        "low": { "value": "{color.white}" },
+        "default": { "value": "{color.gray600}" },
+        "high": { "value": "{color.white}" },
+        "highest": { "value": "{color.white}" },
+        "inverted": { "value": "{color.white}" }
+      }
+    },
+    "primary": {
+      "background": {
+        "lowest": { "value": "{color.white}" },
+        "low": { "value": "{color.white}" },
+        "default": { "value": "{color.white}" },
+        "high": { "value": "{color.white}" },
+        "highest": { "value": "{color.white}" },
+        "inverted": { "value": "{color.white}" }
+      },
+      "surface": {
+        "lowest": { "value": "{color.white}" },
+        "low": { "value": "{color.white}" },
+        "default": { "value": "{color.white}" },
+        "high": { "value": "{color.white}" },
+        "highest": { "value": "{color.white}" },
+        "inverted": { "value": "{color.white}" }
+      },
+      "foreground": {
+        "lowest": { "value": "{color.white}" },
+        "low": { "value": "{color.white}" },
+        "default": { "value": "{color.white}" },
+        "high": { "value": "{color.white}" },
+        "highest": { "value": "{color.white}" },
+        "inverted": { "value": "{color.white}" }
+      },
+      "border": {
+        "lowest": { "value": "{color.white}" },
+        "low": { "value": "{color.white}" },
+        "default": { "value": "{color.white}" },
+        "high": { "value": "{color.white}" },
+        "highest": { "value": "{color.white}" },
+        "inverted": { "value": "{color.white}" }
+      }
+    },
+    "secondary": {
+      "background": {
+        "lowest": { "value": "{color.white}" },
+        "low": { "value": "{color.white}" },
+        "default": { "value": "{color.white}" },
+        "high": { "value": "{color.white}" },
+        "highest": { "value": "{color.white}" },
+        "inverted": { "value": "{color.white}" }
+      },
+      "surface": {
+        "lowest": { "value": "{color.white}" },
+        "low": { "value": "{color.white}" },
+        "default": { "value": "{color.white}" },
+        "high": { "value": "{color.white}" },
+        "highest": { "value": "{color.white}" },
+        "inverted": { "value": "{color.white}" }
+      },
+      "foreground": {
+        "lowest": { "value": "{color.white}" },
+        "low": { "value": "{color.white}" },
+        "default": { "value": "{color.white}" },
+        "high": { "value": "{color.white}" },
+        "highest": { "value": "{color.white}" },
+        "inverted": { "value": "{color.white}" }
+      },
+      "border": {
+        "lowest": { "value": "{color.white}" },
+        "low": { "value": "{color.white}" },
+        "default": { "value": "{color.white}" },
+        "high": { "value": "{color.white}" },
+        "highest": { "value": "{color.white}" },
+        "inverted": { "value": "{color.white}" }
+      }
+    },
+    "accent": {
+      "background": {
+        "lowest": { "value": "{color.white}" },
+        "low": { "value": "{color.white}" },
+        "default": { "value": "{color.white}" },
+        "high": { "value": "{color.white}" },
+        "highest": { "value": "{color.white}" },
+        "inverted": { "value": "{color.white}" }
+      },
+      "surface": {
+        "lowest": { "value": "{color.white}" },
+        "low": { "value": "{color.white}" },
+        "default": { "value": "{color.white}" },
+        "high": { "value": "{color.white}" },
+        "highest": { "value": "{color.white}" },
+        "inverted": { "value": "{color.white}" }
+      },
+      "foreground": {
+        "lowest": { "value": "{color.white}" },
+        "low": { "value": "{color.white}" },
+        "default": { "value": "{color.white}" },
+        "high": { "value": "{color.white}" },
+        "highest": { "value": "{color.white}" },
+        "inverted": { "value": "{color.white}" }
+      },
+      "border": {
+        "lowest": { "value": "{color.white}" },
+        "low": { "value": "{color.white}" },
+        "default": { "value": "{color.white}" },
+        "high": { "value": "{color.white}" },
+        "highest": { "value": "{color.white}" },
+        "inverted": { "value": "{color.white}" }
+      }
+    },
+    "positive": {
+      "background": {
+        "lowest": { "value": "{color.white}" },
+        "low": { "value": "{color.white}" },
+        "default": { "value": "{color.white}" },
+        "high": { "value": "{color.white}" },
+        "highest": { "value": "{color.white}" },
+        "inverted": { "value": "{color.white}" }
+      },
+      "surface": {
+        "lowest": { "value": "{color.white}" },
+        "low": { "value": "{color.white}" },
+        "default": { "value": "{color.white}" },
+        "high": { "value": "{color.white}" },
+        "highest": { "value": "{color.white}" },
+        "inverted": { "value": "{color.white}" }
+      },
+      "foreground": {
+        "lowest": { "value": "{color.white}" },
+        "low": { "value": "{color.white}" },
+        "default": { "value": "{color.white}" },
+        "high": { "value": "{color.white}" },
+        "highest": { "value": "{color.white}" },
+        "inverted": { "value": "{color.white}" }
+      },
+      "border": {
+        "lowest": { "value": "{color.white}" },
+        "low": { "value": "{color.white}" },
+        "default": { "value": "{color.white}" },
+        "high": { "value": "{color.white}" },
+        "highest": { "value": "{color.white}" },
+        "inverted": { "value": "{color.white}" }
+      }
+    },
+    "negative": {
+      "background": {
+        "lowest": { "value": "{color.white}" },
+        "low": { "value": "{color.white}" },
+        "default": { "value": "{color.white}" },
+        "high": { "value": "{color.white}" },
+        "highest": { "value": "{color.white}" },
+        "inverted": { "value": "{color.white}" }
+      },
+      "surface": {
+        "lowest": { "value": "{color.white}" },
+        "low": { "value": "{color.white}" },
+        "default": { "value": "{color.white}" },
+        "high": { "value": "{color.white}" },
+        "highest": { "value": "{color.white}" },
+        "inverted": { "value": "{color.white}" }
+      },
+      "foreground": {
+        "lowest": { "value": "{color.white}" },
+        "low": { "value": "{color.white}" },
+        "default": { "value": "{color.white}" },
+        "high": { "value": "{color.white}" },
+        "highest": { "value": "{color.white}" },
+        "inverted": { "value": "{color.white}" }
+      },
+      "border": {
+        "lowest": { "value": "{color.white}" },
+        "low": { "value": "{color.white}" },
+        "default": { "value": "{color.white}" },
+        "high": { "value": "{color.white}" },
+        "highest": { "value": "{color.white}" },
+        "inverted": { "value": "{color.white}" }
+      }
+    },
+    "warning": {
+      "background": {
+        "lowest": { "value": "{color.white}" },
+        "low": { "value": "{color.white}" },
+        "default": { "value": "{color.white}" },
+        "high": { "value": "{color.white}" },
+        "highest": { "value": "{color.white}" },
+        "inverted": { "value": "{color.white}" }
+      },
+      "surface": {
+        "lowest": { "value": "{color.white}" },
+        "low": { "value": "{color.white}" },
+        "default": { "value": "{color.white}" },
+        "high": { "value": "{color.white}" },
+        "highest": { "value": "{color.white}" },
+        "inverted": { "value": "{color.white}" }
+      },
+      "foreground": {
+        "lowest": { "value": "{color.white}" },
+        "low": { "value": "{color.white}" },
+        "default": { "value": "{color.white}" },
+        "high": { "value": "{color.white}" },
+        "highest": { "value": "{color.white}" },
+        "inverted": { "value": "{color.white}" }
+      },
+      "border": {
+        "lowest": { "value": "{color.white}" },
+        "low": { "value": "{color.white}" },
+        "default": { "value": "{color.white}" },
+        "high": { "value": "{color.white}" },
+        "highest": { "value": "{color.white}" },
+        "inverted": { "value": "{color.white}" }
+      }
+    }
+  }
+}
