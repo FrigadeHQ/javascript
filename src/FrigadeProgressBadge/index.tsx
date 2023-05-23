@@ -1,16 +1,17 @@
 import React, { CSSProperties, useEffect } from 'react'
 import { useFlows } from '../api/flows'
-import { ProgressBadge, ProgressBadgeType } from '../components/Checklists/ProgressBadge'
+import { MiniProgressBadge, ProgressBadgeType } from '../components/Checklists/MiniProgressBadge'
 import { useFlowOpens } from '../api/flow-opens'
 import { DefaultFrigadeFlowProps } from '../types'
 import { COMPLETED_FLOW } from '../api/common'
 import { RenderInlineStyles } from '../components/RenderInlineStyles'
 import { useTheme } from '../hooks/useTheme'
+import { FullWidthProgressBadge } from '../components/Checklists/FullWidthProgressBadge'
 
 interface FrigadeProgressBadgeProps extends DefaultFrigadeFlowProps {
   title: string
-  primaryColor?: string
-  secondaryColor?: string
+  subtitle?: string
+  icon?: React.ReactNode
   textStyle?: CSSProperties
   onClick?: () => void
   hideOnFlowCompletion?: boolean
@@ -20,6 +21,8 @@ interface FrigadeProgressBadgeProps extends DefaultFrigadeFlowProps {
 export const FrigadeProgressBadge: React.FC<FrigadeProgressBadgeProps> = ({
   flowId,
   title,
+  subtitle,
+  icon,
   style,
   onClick,
   className,
@@ -67,10 +70,29 @@ export const FrigadeProgressBadge: React.FC<FrigadeProgressBadgeProps> = ({
   const steps = getFlowSteps(flowId)
   const completedCount = getNumberOfStepsCompleted(flowId)
 
+  if (type === 'full-width') {
+    return (
+      <>
+        <RenderInlineStyles appearance={appearance} />
+        <FullWidthProgressBadge
+          title={title}
+          subtitle={subtitle}
+          count={completedCount}
+          total={steps.length}
+          style={style}
+          className={className}
+          appearance={appearance}
+          icon={icon}
+          onClick={() => {}}
+        />
+      </>
+    )
+  }
+
   return (
     <>
       <RenderInlineStyles appearance={appearance} />
-      <ProgressBadge
+      <MiniProgressBadge
         count={completedCount}
         total={steps.length}
         title={title}

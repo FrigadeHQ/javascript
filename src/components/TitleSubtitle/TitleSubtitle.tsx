@@ -13,7 +13,7 @@ const HeaderTitle = styled.h1`
     line-height: ${(props) => (props.size == 'small' ? '20px' : '22px')};
     display: flex;
     align-items: center;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
     color: ${(props) => props.appearance.theme.colorText};
   }
 `

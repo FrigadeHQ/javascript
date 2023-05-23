@@ -8,21 +8,22 @@ import ProgressRing from '../../Progress/ProgressRing/ProgressRing'
 import { getClassName, mergeClasses } from '../../../shared/appearance'
 import { RenderInlineStyles } from '../../RenderInlineStyles'
 
-export type ProgressBadgeType = 'condensed' | 'default'
-interface ProgressBadgeProps {
+export type ProgressBadgeType = 'condensed' | 'default' | 'full-width'
+
+export interface ProgressBadgeProps {
   title: string
+  subtitle?: string
+  icon?: React.ReactNode
   count: number
   total: number
   style?: CSSProperties
   onClick: () => void
-  primaryColor?: string
-  secondaryColor?: string
   className?: string
   type?: ProgressBadgeType
   appearance?: Appearance
 }
 
-export const ProgressBadge: FC<ProgressBadgeProps> = ({
+export const MiniProgressBadge: FC<ProgressBadgeProps> = ({
   title,
   count,
   total,

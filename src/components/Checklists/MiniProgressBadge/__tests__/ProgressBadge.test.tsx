@@ -1,5 +1,5 @@
 import React from 'react'
-import { ProgressBadge } from '../index'
+import { MiniProgressBadge } from '../index'
 import { fireEvent, render, screen } from '@testing-library/react'
 import { DefaultAppearance } from '../../../../types'
 
@@ -17,13 +17,13 @@ describe('ChecklistProgressBadge', () => {
   })
 
   test('renders', () => {
-    render(<ProgressBadge {...checklistProgressProps} />)
+    render(<MiniProgressBadge {...checklistProgressProps} />)
     expect(screen.getByText(checklistProgressProps.title)).toBeDefined()
     expect(screen.getByText('20%')).toBeDefined()
   })
 
   test('calls onClick on clicking', () => {
-    render(<ProgressBadge {...checklistProgressProps} />)
+    render(<MiniProgressBadge {...checklistProgressProps} />)
     fireEvent.click(screen.getByText(checklistProgressProps.title))
     expect(checklistProgressProps.onClick).toHaveBeenCalledTimes(1)
   })

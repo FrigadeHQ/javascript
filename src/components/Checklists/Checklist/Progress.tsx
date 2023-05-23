@@ -2,7 +2,7 @@ import React, { CSSProperties } from 'react'
 import { motion } from 'framer-motion'
 import styled from 'styled-components'
 import { Appearance } from '../../../types'
-import { getClassName } from '../../../shared/appearance'
+import { getClassName, styleOverridesToCSS } from '../../../shared/appearance'
 
 // TODO: remove once secondary color is passed from theme
 const PROGRESS_BAR_COLOR_STYLES = {
@@ -11,13 +11,16 @@ const PROGRESS_BAR_COLOR_STYLES = {
 
 const ChecklistProgressContainer = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: ${(props) => (props.textLocation == 'top' ? 'column' : 'row')};
   justify-content: flex-start;
-  align-items: center;
+  align-items: ${(props) => (props.textLocation == 'top' ? 'flex-end' : 'center')};
+
+  ${(props) => styleOverridesToCSS(props)}
 `
 const ChecklistProgressProgressBar = styled.div`
   flex-grow: 1;
   position: relative;
+  ${(props) => (props.textLocation == 'top' ? `width: 100%;` : ``)}
 `
 
 const StepText = styled.p<{ padding; appearance }>`
@@ -26,7 +29,8 @@ const StepText = styled.p<{ padding; appearance }>`
   line-height: 18px;
   padding-right: ${(props) => props.padding};
   color: ${(props) => props.appearance?.theme?.colorTextSecondary};
-  margin: 0;
+  margin-bottom: ${(props) => (props.textLocation == 'top' ? '8px' : '0px')};
+  ${(props) => styleOverridesToCSS(props)}
 `
 
 const progressBgStyle: CSSProperties = {
@@ -53,6 +57,7 @@ export const ProgressBar = ({
   fillColor,
   bgColor = PROGRESS_BAR_COLOR_STYLES.backgroundColor,
   display = 'count',
+  textLocation = 'left',
   style = {},
   textStyle = {},
   appearance,
@@ -62,6 +67,7 @@ export const ProgressBar = ({
   fillColor?: string
   bgColor?: string
   display?: 'count' | 'percent' | 'compact'
+  textLocation?: 'top' | 'left'
   style?: CSSProperties
   textStyle?: CSSProperties
   appearance?: Appearance
@@ -71,7 +77,7 @@ export const ProgressBar = ({
   const fgWidth = count === 0 ? '10px' : `${(count / total) * 100}%`
   const barHeight = display === 'compact' ? '5px' : '10px'
   const percentComplete = Math.round((count / total) * 100)
-  const padding = display === 'compact' ? '5px' : '20px'
+  let padding = display === 'compact' ? '5px' : '20px'
 
   let stepText
   if (display === 'count') {
@@ -81,11 +87,15 @@ export const ProgressBar = ({
   } else if (display === 'percent') {
     stepText = `${percentComplete}% complete`
   }
+  if (textLocation === 'top') {
+    padding = '0px'
+  }
 
   return (
     <ChecklistProgressContainer
       className={getClassName('progressBarContainer', appearance)}
-      style={style}
+      textLocation={textLocation}
+      styleOverrides={style}
     >
       <StepText
         className={getClassName('progressBarStepText', appearance)}
@@ -96,10 +106,14 @@ export const ProgressBar = ({
         }}
         appearance={appearance}
         padding={padding}
+        textLocation={textLocation}
       >
         {stepText}
       </StepText>
-      <ChecklistProgressProgressBar className={getClassName('progressBar', appearance)}>
+      <ChecklistProgressProgressBar
+        textLocation={textLocation}
+        className={getClassName('progressBar', appearance)}
+      >
         <motion.div
           style={{
             ...progressFgStyle,
