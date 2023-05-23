@@ -26,7 +26,7 @@ export const ProgressBar: FC<ProgressBarProps> = ({
       </Body.Loud>
       <svg height={10} width={trackWidth}>
         <rect x={0} y={0} rx={5} width={trackWidth} height={10} fill="#E6E6E6" />
-        <rect x={0} y={0} rx={5} width={barWidth} height={10} fill="#0B93FF" />
+        <rect x={0} y={0} rx={5} width={barWidth} height={10} fill="currentColor" />
       </svg>
     </CarouselProgressBar>
   )

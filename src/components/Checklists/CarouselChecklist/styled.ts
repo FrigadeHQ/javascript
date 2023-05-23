@@ -112,6 +112,7 @@ export const CarouselContainer = styled(Card)`
 `
 
 export const CarouselProgressBar = styled.div`
+  color: ${({ theme }) => theme.colorPrimary};
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
