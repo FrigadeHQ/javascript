@@ -20,7 +20,7 @@ export const GuideItems = styled.div`
 `
 
 export const GuideTitle = styled.div`
-  :not(${(props) => getCustomClassOverrides(props)}) {
+  ${(props) => getCustomClassOverrides(props)} {
     color: #595959;
   }
   text-transform: uppercase;
@@ -32,7 +32,7 @@ export const GuideTitle = styled.div`
 `
 
 export const GuideItem = styled.div`
-  :not(${(props) => getCustomClassOverrides(props)}) {
+  ${(props) => getCustomClassOverrides(props)} {
     // Anything inside this block will be ignored if the user provides a custom class
     background: #ffffff;
     border: 1px solid #fafafa;
@@ -47,7 +47,7 @@ export const GuideItem = styled.div`
 `
 
 export const GuideIconWrapper = styled.div`
-  :not(${(props) => getCustomClassOverrides(props)}) {
+  ${(props) => getCustomClassOverrides(props)} {
     background: radial-gradient(50% 50% at 50% 50%, #ffffff 0%, #f7f7f7 100%);
   }
   width: 40px;
@@ -69,7 +69,7 @@ export const GuideIcon = styled.div`
 `
 
 export const GuideItemTitle = styled.div`
-  :not(${(props) => getCustomClassOverrides(props)}) {
+  ${(props) => getCustomClassOverrides(props)} {
     color: #434343;
   }
   font-weight: 600;
@@ -80,7 +80,7 @@ export const GuideItemTitle = styled.div`
 `
 
 export const GuideItemSubtitle = styled.div`
-  :not(${(props) => getCustomClassOverrides(props)}) {
+  ${(props) => getCustomClassOverrides(props)} {
     color: #8c8c8c;
   }
   font-weight: 400;

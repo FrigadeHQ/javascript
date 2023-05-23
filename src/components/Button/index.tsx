@@ -20,7 +20,7 @@ interface ButtonProps {
 const ButtonContainer = styled.button`
   justify-content: center;
   align-content: center;
-  :not(${(props) => getCustomClassOverrides(props)}) {
+  ${(props) => getCustomClassOverrides(props)} {
     display: flex;
     // Anything inside this block will be ignored if the user provides a custom class
     width: ${(props) => (props.type === 'full-width' ? '100%' : 'auto')};
@@ -56,7 +56,7 @@ const ButtonContainer = styled.button`
 `
 
 export const MultipleButtonContainer = styled.div`
-  :not(${(props) => getCustomClassOverrides(props)}) {
+  ${(props) => getCustomClassOverrides(props)} {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;

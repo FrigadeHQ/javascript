@@ -23,7 +23,7 @@ import { VideoCard } from '../Video/VideoCard'
 export type ToolTipPosition = 'left' | 'right' | 'auto'
 
 const DEFAULT_CARD_WIDTH = 300
-const CARD_HEIGHT = 50
+const DEFAULT_CARD_HEIGHT = 100
 const DEFAULT_REFRESH_DELAY = 500
 const HIGHLIGHT_RADIUS = 12
 
@@ -139,7 +139,6 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
 }) => {
   const [selfBounds, setSelfBounds] = useState<undefined | Partial<DOMRect>>()
   const [needsUpdate, setNeedsUpdate] = useState(new Date())
-  const [isTemporarilyHidden, setIsTemporarilyHidden] = useState(true)
   const selfRef = useRef(null)
 
   const [elem, setElem] = useState(document.querySelector(steps[selectedStep].selector))
@@ -151,6 +150,7 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
     : 'absolute'
   const zIndex = steps[selectedStep]?.props?.zIndex ?? 90
   const cardWidth = selfBounds?.width ?? DEFAULT_CARD_WIDTH
+  const cardHeight = selfBounds?.height ?? DEFAULT_CARD_HEIGHT
 
   useLayoutEffect(() => {
     if (selfRef.current) {
@@ -158,18 +158,12 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
         width: selfRef.current.clientWidth,
         height: selfRef.current.clientHeight,
       })
-      setIsTemporarilyHidden(false)
     }
   }, [selectedStep, needsUpdate, positionStyle])
 
   useEffect(() => {
     if (!showHighlightOnly) {
       setShowTooltipContainer(true)
-      // Temporarily hide the tooltip on change as we need to measure it's position and width in the DOM.
-      setIsTemporarilyHidden(true)
-      setTimeout(() => {
-        setIsTemporarilyHidden(false)
-      }, 20)
     }
   }, [selectedStep])
 
@@ -180,7 +174,7 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
   const rightSideIsCropped =
     boundingRect.right + cardWidth > (window.innerWidth || document.documentElement.clientWidth)
   const bottomIsCropped =
-    boundingRect.bottom + CARD_HEIGHT >
+    boundingRect.bottom + DEFAULT_CARD_HEIGHT >
     (window.innerHeight || document.documentElement.clientHeight)
 
   if (rightSideIsCropped && tooltipPosition === 'auto') {
@@ -377,65 +371,60 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
   }
 
   return (
-    <TooltipWrapper
-      style={{
-        visibility: isTemporarilyHidden ? 'hidden' : 'visible',
-      }}
-    >
-      {showHighlight && steps[selectedStep].showHighlight !== false && (
-        <HiglightContainer
-          style={{
-            top: position?.y - HIGHLIGHT_RADIUS ?? 0,
-            left:
-              (tooltipPositionValue == 'left' ? boundingRect.x : position?.x - HIGHLIGHT_RADIUS) ??
-              0,
-            cursor: showHighlightOnly ? 'pointer' : 'default',
-            position: positionStyle,
-          }}
-          onClick={() => {
-            if (showHighlightOnly) {
-              setNeedsUpdate(new Date())
-              setShowTooltipContainer(!showTooltipContainer)
-            }
-          }}
-          zIndex={zIndex}
-        >
-          <HighlightInner
-            style={{
-              position: positionStyle,
-            }}
-            primaryColor={appearance.theme.colorPrimary}
-          ></HighlightInner>
-          <HighlightOuter
+    <TooltipWrapper>
+      <HiglightContainer
+        style={{
+          top: position?.y - HIGHLIGHT_RADIUS ?? 0,
+          left:
+            (tooltipPositionValue == 'left' ? boundingRect.x : position?.x - HIGHLIGHT_RADIUS) ?? 0,
+          cursor: showHighlightOnly ? 'pointer' : 'default',
+          position: positionStyle,
+        }}
+        onClick={() => {
+          if (showHighlightOnly) {
+            setNeedsUpdate(new Date())
+            setShowTooltipContainer(!showTooltipContainer)
+          }
+        }}
+        zIndex={zIndex}
+      >
+        {showHighlight && steps[selectedStep].showHighlight !== false && (
+          <>
+            <HighlightInner
+              style={{
+                position: positionStyle,
+              }}
+              primaryColor={appearance.theme.colorPrimary}
+            ></HighlightInner>
+            <HighlightOuter
+              style={{
+                position: 'absolute',
+              }}
+              primaryColor={appearance.theme.colorPrimary}
+            ></HighlightOuter>
+          </>
+        )}
+        {showTooltipContainer && (
+          <TooltipContainer
+            ref={selfRef}
+            layoutId="tooltip-container"
             style={{
               position: 'relative',
+              width: 'max-content',
+              left: tooltipPositionValue == 'left' ? -(cardWidth / 2 + 10) : cardWidth / 2 + 10,
+              right: 0,
+              top: cardHeight / 2,
+              ...containerStyle,
             }}
-            primaryColor={appearance.theme.colorPrimary}
-          ></HighlightOuter>
-        </HiglightContainer>
-      )}
-      {showTooltipContainer && (
-        <TooltipContainer
-          ref={selfRef}
-          layoutId="tooltip-container"
-          style={{
-            position: positionStyle,
-            width: 'max-content',
-            left:
-              `${
-                tooltipPositionValue == 'right' ? position?.x + HIGHLIGHT_RADIUS : position?.x
-              }px` ?? 0,
-            top: `${position?.y}px` ?? 0,
-            ...containerStyle,
-          }}
-          appearance={appearance}
-          className={getClassName('tooltipContainer', appearance)}
-          maxWidth={DEFAULT_CARD_WIDTH}
-          zIndex={zIndex + 10}
-        >
-          <StepContent />
-        </TooltipContainer>
-      )}
+            appearance={appearance}
+            className={getClassName('tooltipContainer', appearance)}
+            maxWidth={DEFAULT_CARD_WIDTH}
+            zIndex={zIndex + 10}
+          >
+            <StepContent />
+          </TooltipContainer>
+        )}
+      </HiglightContainer>
     </TooltipWrapper>
   )
 }

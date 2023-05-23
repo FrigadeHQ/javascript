@@ -3,7 +3,7 @@ import { Appearance } from '../../types'
 import { getCustomClassOverrides } from '../../shared/appearance'
 
 export const TooltipContainer = styled.div<{ maxWidth: number; appearance: Appearance }>`
-  :not(${(props) => getCustomClassOverrides(props)}) {
+  ${(props) => getCustomClassOverrides(props)} {
     background: ${(props) => props.appearance.theme.colorBackground};
   }
 
@@ -24,7 +24,7 @@ export const TooltipDismissContainer = styled.div`
 `
 
 export const TooltipImageContainer = styled.img`
-  :not(${(props) => getCustomClassOverrides(props)}) {
+  ${(props) => getCustomClassOverrides(props)} {
     display: block;
     width: 100%;
     height: auto;
@@ -35,7 +35,7 @@ export const TooltipImageContainer = styled.img`
 `
 
 export const TooltipVideoContainer = styled.div`
-  :not(${(props) => getCustomClassOverrides(props)}) {
+  ${(props) => getCustomClassOverrides(props)} {
     display: block;
     width: 100%;
     height: auto;
@@ -65,7 +65,7 @@ export const TooltipCTAContainer = styled.div`
   flex-shrink: 1;
   gap: 8px;
   height: 64px;
-  :not(${(props) => getCustomClassOverrides(props)}) {
+  ${(props) => getCustomClassOverrides(props)} {
     flex-direction: row;
     justify-content: ${(props) => (props.showStepCount ? 'flex-end' : 'flex-start')};
     align-content: center;
@@ -74,7 +74,7 @@ export const TooltipCTAContainer = styled.div`
 `
 
 export const TooltipStepCounter = styled.p`
-  :not(${(props) => getCustomClassOverrides(props)}) {
+  ${(props) => getCustomClassOverrides(props)} {
     font-style: normal;
     font-weight: 600;
     font-size: 15px;

@@ -11,7 +11,7 @@ interface CallToActionStepProps {
 
 // create flex that wraps if not enoug space
 const CallToActionStepContainer = styled.div`
-  :not(${(props) => getCustomClassOverrides(props)}) {
+  ${(props) => getCustomClassOverrides(props)} {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -19,7 +19,7 @@ const CallToActionStepContainer = styled.div`
 `
 
 const CallToActionImage = styled.img`
-  :not(${(props) => getCustomClassOverrides(props)}) {
+  ${(props) => getCustomClassOverrides(props)} {
     width: 100%;
     height: auto;
     max-height: 250px;
@@ -28,13 +28,13 @@ const CallToActionImage = styled.img`
 `
 
 const CallToActionTextContainer = styled.div`
-  :not(${(props) => getCustomClassOverrides(props)}) {
+  ${(props) => getCustomClassOverrides(props)} {
     margin-bottom: 24px;
   }
 `
 
 const CallToActionVideo = styled.div`
-  :not(${(props) => getCustomClassOverrides(props)}) {
+  ${(props) => getCustomClassOverrides(props)} {
     width: 100%;
     height: auto;
     max-height: 250px;

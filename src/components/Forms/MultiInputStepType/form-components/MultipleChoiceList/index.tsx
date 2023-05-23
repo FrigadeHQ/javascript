@@ -14,7 +14,7 @@ const MultipleChoiceListWrapper = styled.div`
 `
 
 const MultipleChoiceListItem = styled.button`
-  :not(${(props) => getCustomClassOverrides(props)}) {
+  ${(props) => getCustomClassOverrides(props)} {
     // Anything inside this block will be ignored if the user provides a custom class
     border: 1px solid ${(props) => props.appearance?.theme?.colorBorder};
     font-size: 14px;

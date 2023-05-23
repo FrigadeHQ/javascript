@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import { sanitize } from '../../shared/sanitizer'
 
 const HeaderTitle = styled.h1`
-  :not(${(props) => getCustomClassOverrides(props)}) {
+  ${(props) => getCustomClassOverrides(props)} {
     font-style: normal;
     font-weight: 600;
     font-size: ${(props) => (props.size == 'small' ? '15px' : '18px')};
@@ -19,7 +19,7 @@ const HeaderTitle = styled.h1`
 `
 
 const HeaderSubtitle = styled.h2`
-  :not(${(props) => getCustomClassOverrides(props)}) {
+  ${(props) => getCustomClassOverrides(props)} {
     font-style: normal;
     font-weight: 400;
     font-size: 15px;

@@ -6,7 +6,7 @@ import { getClassName, getCustomClassOverrides } from '../../shared/appearance'
 import { Close } from '../Icons/Close'
 
 const CornerModalContainer = styled.div`
-  :not(${(props) => getCustomClassOverrides(props)}) {
+  ${(props) => getCustomClassOverrides(props)} {
     // Anything inside this block will be ignored if the user provides a custom class
     background: ${(props) => props.appearance?.theme?.colorBackground};
     position: fixed;
@@ -36,7 +36,7 @@ const CornerModalClose = styled.div`
   right: 24px;
   cursor: pointer;
   z-index: 1501;
-  :not(${(props) => getCustomClassOverrides(props)}) {
+  ${(props) => getCustomClassOverrides(props)} {
     // Anything inside this block will be ignored if the user provides a custom class
     color: ${(props) => props.appearance?.theme?.colorText};
   }

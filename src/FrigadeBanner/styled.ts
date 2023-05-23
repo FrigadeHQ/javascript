@@ -3,7 +3,7 @@ import { getCustomClassOverrides } from '../shared/appearance'
 
 export const BannerContainer = styled.div`
   // use the :not annotation
-  :not(${(props) => getCustomClassOverrides(props)}) {
+  ${(props) => getCustomClassOverrides(props)} {
     display: flex;
     flex-direction: ${(props) => (props.type === 'square' ? 'column' : 'row')};
     width: 100%;
@@ -18,7 +18,7 @@ export const BannerContainer = styled.div`
 `
 
 export const IconContainer = styled.div`
-  :not(${(props) => getCustomClassOverrides(props)}) {
+  ${(props) => getCustomClassOverrides(props)} {
     display: flex;
     width: 36px;
     height: 36px;

@@ -43,7 +43,7 @@ export const ChecklistSubtitle = styled.h2<{ appearance }>`
 `
 
 export const StepsContainer = styled.div`
-  :not(${(props) => getCustomClassOverrides(props)}) {
+  ${(props) => getCustomClassOverrides(props)} {
     border: 1px solid #fafafa;
   }
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.05);
@@ -61,7 +61,7 @@ export const StepsHeader = styled.div`
 `
 
 export const StepsTitle = styled.p`
-  :not(${(props) => getCustomClassOverrides(props)}) {
+  ${(props) => getCustomClassOverrides(props)} {
     font-weight: 400;
     font-size: 10px;
     line-height: 12px;
@@ -83,7 +83,7 @@ export const StepListContainer = styled.div`
 // Styles for Step content
 
 export const StepContainer = styled.div`
-  :not(${(props) => getCustomClassOverrides(props)}) {
+  ${(props) => getCustomClassOverrides(props)} {
     display: flex;
     justify-content: center;
     align-content: center;
@@ -95,7 +95,7 @@ export const StepContainer = styled.div`
 `
 
 export const StepTitle = styled.p`
-  :not(${(props) => getCustomClassOverrides(props)}) {
+  ${(props) => getCustomClassOverrides(props)} {
     font-style: normal;
     font-weight: 600;
     font-size: 22px;
@@ -109,7 +109,7 @@ export const StepTitle = styled.p`
 `
 
 export const StepSubtitle = styled.p`
-  :not(${(props) => getCustomClassOverrides(props)}) {
+  ${(props) => getCustomClassOverrides(props)} {
     font-weight: 400;
     font-size: 14px;
     line-height: 18px;
@@ -120,7 +120,7 @@ export const StepSubtitle = styled.p`
 `
 
 export const MultipleButtonContainer = styled.div`
-  :not(${(props) => getCustomClassOverrides(props)}) {
+  ${(props) => getCustomClassOverrides(props)} {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -129,7 +129,7 @@ export const MultipleButtonContainer = styled.div`
 `
 
 export const StepListItem = styled.div<{ selected: boolean }>`
-  :not(${(props) => getCustomClassOverrides(props)}) {
+  ${(props) => getCustomClassOverrides(props)} {
     // Anything inside this block will be ignored if the user provides a custom class
     background-color: ${(props) => (props.selected ? '#FAFAFA' : '#FFFFFF')};
     :hover {
@@ -151,7 +151,7 @@ export const StepListItem = styled.div<{ selected: boolean }>`
 `
 
 export const StepListStepName = styled.p<{ selected: boolean }>`
-  :not(${(props) => getCustomClassOverrides(props)}) {
+  ${(props) => getCustomClassOverrides(props)} {
     // Anything inside this block will be ignored if the user provides a custom class
     color: ${(props) => (props.selected ? '#434343' : '#BFBFBF')};
   }

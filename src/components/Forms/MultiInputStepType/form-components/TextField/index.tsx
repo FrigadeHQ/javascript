@@ -19,7 +19,7 @@ const TextInputWrapper = styled.div`
 `
 
 export const TextInput = styled.input`
-  :not(${(props) => getCustomClassOverrides(props)}) {
+  ${(props) => getCustomClassOverrides(props)} {
     // Anything inside this block will be ignored if the user provides a custom class
     border: 1px solid ${(props) => props.appearance?.theme?.colorBorder};
     font-size: 14px;
@@ -36,7 +36,7 @@ export const TextInput = styled.input`
   margin-bottom: 10px;
 `
 const TextArea = styled.textarea`
-  :not(${(props) => getCustomClassOverrides(props)}) {
+  ${(props) => getCustomClassOverrides(props)} {
     // Anything inside this block will be ignored if the user provides a custom class
     border: 1px solid ${(props) => props.appearance?.theme?.colorBorder};
     font-size: 14px;

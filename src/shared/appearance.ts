@@ -25,23 +25,23 @@ export function getClassName(className: string, appearance?: Appearance) {
 
 export function getCustomClassOverrides(props: any) {
   if (!props.className) {
-    return defaultClass
+    return ''
   }
   if (props.className.indexOf(CUSTOM_CSS_STYLES_PREFIX) !== -1) {
-    return defaultClass
+    return ''
   }
 
   // Remove any extra spaces from props.customClasses. Only allow one space per class.
   const customClasses = props.className.replace(/\s+/g, ' ')
   const customClassesArray = customClasses.split(' ')
   if (customClassesArray.length == 1 && customClassesArray[0].startsWith(CSS_CLASS_PREFIX)) {
-    return defaultClass
+    return ''
   }
-  return customClassesArray
+  return `:not(${customClassesArray
     .map((className: string) => {
       return `.${className}`
     })
-    .join(', ')
+    .join(', ')})`
 }
 
 export function toKebabKey(key: string) {

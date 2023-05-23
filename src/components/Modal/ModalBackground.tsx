@@ -10,7 +10,7 @@ const Background = styled.div`
   left: 0;
   bottom: 0;
   right: 0;
-  :not(${(props) => getCustomClassOverrides(props)}) {
+  ${(props) => getCustomClassOverrides(props)} {
     background-color: rgba(0, 0, 0, 0.6);
     z-index: 1400;
   }

@@ -104,7 +104,7 @@ export const StyledCarouselCardImage = styled.img`
 `
 
 export const CarouselContainer = styled(Card)`
-  :not(${(props) => getCustomClassOverrides(props)}) {
+  ${(props) => getCustomClassOverrides(props)} {
     ${defaultShadow}
 
     background: ${({ theme }) => theme.colorBackground};

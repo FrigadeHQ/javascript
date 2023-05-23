@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { getCustomClassOverrides } from '../shared/appearance'
 
 export const EmbeddedTipContainer = styled.div`
-  :not(${(props) => getCustomClassOverrides(props)}) {
+  ${(props) => getCustomClassOverrides(props)} {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -31,7 +31,7 @@ export const CallToActionContainer = styled.div`
 `
 
 export const DismissButton = styled.div`
-  :not(${(props) => getCustomClassOverrides(props)}) {
+  ${(props) => getCustomClassOverrides(props)} {
     position: absolute;
     top: 16px;
     right: 16px;
