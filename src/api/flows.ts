@@ -227,7 +227,7 @@ export function useFlows() {
       optimisticallySetLastStepId(flowSlug, stepId)
       addResponse(flowResponse)
     },
-    [userId]
+    [userId, shouldSendServerSideCall]
   )
 
   const markStepNotStarted = useCallback(
@@ -248,7 +248,7 @@ export function useFlows() {
       }
       addResponse(flowResponse)
     },
-    [userId]
+    [userId, shouldSendServerSideCall]
   )
 
   const markStepCompleted = useCallback(
@@ -270,7 +270,7 @@ export function useFlows() {
       optimisticallyMarkStepCompleted(flowSlug, stepId)
       addResponse(flowResponse)
     },
-    [userId, userFlowStatesData]
+    [userId, shouldSendServerSideCall]
   )
 
   const markFlowNotStarted = useCallback(
@@ -294,7 +294,7 @@ export function useFlows() {
       }
       addResponse(flowResponse)
     },
-    [userId, userFlowStatesData]
+    [userId, shouldSendServerSideCall]
   )
 
   const markFlowStarted = useCallback(
@@ -314,7 +314,7 @@ export function useFlows() {
       }
       addResponse(flowResponse)
     },
-    [userId, userFlowStatesData]
+    [userId, shouldSendServerSideCall]
   )
 
   const markFlowCompleted = useCallback(
@@ -336,7 +336,7 @@ export function useFlows() {
       optimisticallyMarkFlowCompleted(flowSlug)
       addResponse(flowResponse)
     },
-    [userId, userFlowStatesData]
+    [userId, shouldSendServerSideCall]
   )
 
   const markFlowAborted = useCallback(
@@ -357,7 +357,7 @@ export function useFlows() {
       optimisticallyMarkFlowCompleted(flowSlug)
       addResponse(flowResponse)
     },
-    [userId, userFlowStatesData]
+    [userId, shouldSendServerSideCall]
   )
 
   function shouldSendServerSideCall(flowResponse: FlowResponse) {
