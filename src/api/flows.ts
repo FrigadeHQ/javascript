@@ -364,10 +364,15 @@ export function useFlows() {
     if (userFlowStatesData) {
       const flowState = userFlowStatesData.find((state) => state.flowId === flowResponse.flowSlug)
       if (
-        (flowState &&
-          flowState.stepStates[flowResponse.stepId]?.actionType === flowResponse.actionType) ||
-        (!flowState?.stepStates[flowResponse.stepId] &&
-          flowResponse.actionType === NOT_STARTED_STEP)
+        flowResponse.actionType === NOT_STARTED_STEP &&
+        (!flowState?.stepStates[flowResponse.stepId] ||
+          flowState.stepStates[flowResponse.stepId].actionType === NOT_STARTED_STEP)
+      ) {
+        return false
+      }
+      if (
+        flowState &&
+        flowState.stepStates[flowResponse.stepId]?.actionType === flowResponse.actionType
       ) {
         return false
       }

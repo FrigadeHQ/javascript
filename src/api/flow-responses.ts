@@ -43,6 +43,7 @@ export function useFlowResponses() {
   const [successfulFlowResponses, setSuccessfulFlowResponses] = useState<Set<FlowResponse>>(
     new Set()
   )
+  const { mutateUserFlowState } = useUserFlowStates()
   const gracefullyFetch = useGracefulFetch()
 
   function postFlowResponse(flowResponse: FlowResponse) {
@@ -70,6 +71,8 @@ export function useFlowResponses() {
             '. Will retry again later.'
         )
         setFailedFlowResponses([...failedFlowResponses, flowResponse])
+      } else {
+        mutateUserFlowState()
       }
     })
   }
