@@ -366,7 +366,8 @@ export function useFlows() {
       if (
         (flowState &&
           flowState.stepStates[flowResponse.stepId]?.actionType === flowResponse.actionType) ||
-        (flowState?.stepStates[flowResponse.stepId] && flowResponse.actionType === NOT_STARTED_STEP)
+        (!flowState?.stepStates[flowResponse.stepId] &&
+          flowResponse.actionType === NOT_STARTED_STEP)
       ) {
         return false
       }
