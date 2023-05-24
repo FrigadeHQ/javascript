@@ -17,8 +17,8 @@ export const FullWidthProgressBadgeContainer = styled.div`
 export const IconContainer = styled.div`
   ${(props) => getCustomClassOverrides(props)} {
     display: flex;
-    width: 36px;
-    height: 36px;
+    justify-content: center;
+    align-items: center;
     margin-right: 16px;
   }
 `

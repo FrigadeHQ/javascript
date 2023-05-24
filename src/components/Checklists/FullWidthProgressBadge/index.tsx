@@ -31,7 +31,11 @@ export const FullWidthProgressBadge: React.FC<ProgressBadgeProps> = ({
         )}
         style={style}
       >
-        {icon && <IconContainer>{icon}</IconContainer>}
+        {icon && (
+          <IconContainer className={getClassName('fullWidthProgressBadgeIcon', appearance)}>
+            {icon}
+          </IconContainer>
+        )}
         <TextContainer>
           <TitleSubtitle size={'small'} appearance={appearance} title={title} subtitle={subtitle} />
         </TextContainer>
