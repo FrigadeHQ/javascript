@@ -229,8 +229,6 @@ export function useFlows() {
 
   const markStepNotStarted = useCallback(
     (flowSlug: string, stepId: string, data?: any) => {
-      optimisticallyMarkFlowStarted(flowSlug)
-      optimisticallySetLastStepId(flowSlug, stepId)
       addResponse({
         foreignUserId: userId,
         flowSlug,

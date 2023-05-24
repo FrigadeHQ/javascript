@@ -55,8 +55,9 @@ export function useFlowResponses() {
     if (userFlowStatesData) {
       const flowState = userFlowStatesData.find((state) => state.flowId === flowResponse.flowSlug)
       if (
-        flowState &&
-        flowState.stepStates[flowResponse.stepId]?.actionType === flowResponse.actionType
+        (flowState &&
+          flowState.stepStates[flowResponse.stepId]?.actionType === flowResponse.actionType) ||
+        (flowState?.stepStates[flowResponse.stepId] && flowResponse.actionType === NOT_STARTED_STEP)
       ) {
         return null
       }
