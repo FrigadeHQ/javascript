@@ -2,19 +2,16 @@ import styled from 'styled-components'
 import { getCustomClassOverrides } from '../../../shared/appearance'
 
 export const FullWidthProgressBadgeContainer = styled.div`
-  // use the :not annotation
-  ${(props) => getCustomClassOverrides(props)} {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    padding: 16px;
-    box-sizing: border-box;
-    align-items: center;
-    background-color: ${(props) => props.appearance.theme.colorBackground};
-    border-width: 1px;
-    border-color: ${(props) => props.appearance.theme.colorPrimary};
-    border-radius: 12px;
-  }
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  padding: 16px;
+  box-sizing: border-box;
+  align-items: center;
+  background-color: ${(props) => props.appearance.theme.colorBackground};
+  border-width: 1px;
+  border-color: ${(props) => props.appearance.theme.colorPrimary};
+  border-radius: 12px;
 `
 
 export const IconContainer = styled.div`

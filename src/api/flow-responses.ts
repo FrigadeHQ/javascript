@@ -52,16 +52,6 @@ export function useFlowResponses() {
       return null
     }
     // For steps that are already in the same state, do not update the API.
-    if (userFlowStatesData) {
-      const flowState = userFlowStatesData.find((state) => state.flowId === flowResponse.flowSlug)
-      if (
-        (flowState &&
-          flowState.stepStates[flowResponse.stepId]?.actionType === flowResponse.actionType) ||
-        (flowState?.stepStates[flowResponse.stepId] && flowResponse.actionType === NOT_STARTED_STEP)
-      ) {
-        return null
-      }
-    }
     successfulFlowResponsesStrings.add(flowResponseString)
     setSuccessfulFlowResponsesStrings(successfulFlowResponsesStrings)
     successfulFlowResponses.add(flowResponse)
