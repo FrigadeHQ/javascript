@@ -89,6 +89,7 @@ export function useFlows() {
     optimisticallySetLastStepId,
     optimisticallyMarkFlowNotStarted,
     optimisticallyMarkStepCompleted,
+    optimisticallyMarkStepNotStarted,
   } = useUserFlowStates()
 
   const flowResponses = getFlowResponses()
@@ -227,7 +228,7 @@ export function useFlows() {
       optimisticallySetLastStepId(flowSlug, stepId)
       addResponse(flowResponse)
     },
-    [userId, shouldSendServerSideCall]
+    [userId, userFlowStatesData]
   )
 
   const markStepNotStarted = useCallback(
@@ -246,9 +247,10 @@ export function useFlows() {
       if (!shouldSendServerSideCall(flowResponse)) {
         return
       }
+      optimisticallyMarkStepNotStarted(flowSlug, stepId)
       addResponse(flowResponse)
     },
-    [userId, shouldSendServerSideCall]
+    [userId, userFlowStatesData]
   )
 
   const markStepCompleted = useCallback(
@@ -270,7 +272,7 @@ export function useFlows() {
       optimisticallyMarkStepCompleted(flowSlug, stepId)
       addResponse(flowResponse)
     },
-    [userId, shouldSendServerSideCall]
+    [userId, userFlowStatesData]
   )
 
   const markFlowNotStarted = useCallback(
@@ -294,7 +296,7 @@ export function useFlows() {
       }
       addResponse(flowResponse)
     },
-    [userId, shouldSendServerSideCall]
+    [userId, userFlowStatesData]
   )
 
   const markFlowStarted = useCallback(
@@ -314,7 +316,7 @@ export function useFlows() {
       }
       addResponse(flowResponse)
     },
-    [userId, shouldSendServerSideCall]
+    [userId, userFlowStatesData]
   )
 
   const markFlowCompleted = useCallback(
@@ -336,7 +338,7 @@ export function useFlows() {
       optimisticallyMarkFlowCompleted(flowSlug)
       addResponse(flowResponse)
     },
-    [userId, shouldSendServerSideCall]
+    [userId, userFlowStatesData]
   )
 
   const markFlowAborted = useCallback(
@@ -357,10 +359,13 @@ export function useFlows() {
       optimisticallyMarkFlowCompleted(flowSlug)
       addResponse(flowResponse)
     },
-    [userId, shouldSendServerSideCall]
+    [userId, userFlowStatesData]
   )
 
   function shouldSendServerSideCall(flowResponse: FlowResponse) {
+    if (!userFlowStatesData && flowResponse.actionType === NOT_STARTED_STEP) {
+      return false
+    }
     if (userFlowStatesData) {
       const flowState = userFlowStatesData.find((state) => state.flowId === flowResponse.flowSlug)
       if (
@@ -477,26 +482,14 @@ export function useFlows() {
   }
 
   function getNumberOfStepsCompleted(flowSlug: string): number {
-    // Filter flowResponses for the flowSlug + id and return the length
-    let flowResponsesFound = []
-    if (flowResponses) {
-      // Add all unique flowResponses by stepId to flowResponsesFound
-      flowResponses.forEach((r) => {
-        if (r.flowSlug === flowSlug && r.actionType === COMPLETED_STEP) {
-          const found = flowResponsesFound.find(
-            (fr) => fr.stepId === r.stepId && fr.flowSlug === r.flowSlug
-          )
-          if (!found) {
-            flowResponsesFound.push(r)
-          }
-        }
-      })
+    const steps = getFlowSteps(flowSlug)
+    if (steps.length === 0) {
+      return 0
     }
 
-    return (
-      flowResponsesFound?.filter((r) => r.flowSlug === flowSlug && r.actionType === COMPLETED_STEP)
-        .length ?? 0
-    )
+    const completedSteps = steps.filter((s) => getStepStatus(flowSlug, s.id) === COMPLETED_STEP)
+
+    return completedSteps.length
   }
 
   function getNumberOfSteps(flowSlug: string) {

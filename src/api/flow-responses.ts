@@ -34,7 +34,7 @@ export interface PublicStepState {
 
 export function useFlowResponses() {
   const { config } = useConfig()
-  const { userFlowStatesData } = useUserFlowStates()
+  const { userFlowStatesData, mutateUserFlowState } = useUserFlowStates()
   const { failedFlowResponses, setFailedFlowResponses, flowResponses, setFlowResponses } =
     useContext(FrigadeContext)
   const [successfulFlowResponsesStrings, setSuccessfulFlowResponsesStrings] = useState<Set<String>>(
@@ -43,7 +43,7 @@ export function useFlowResponses() {
   const [successfulFlowResponses, setSuccessfulFlowResponses] = useState<Set<FlowResponse>>(
     new Set()
   )
-  const { mutateUserFlowState } = useUserFlowStates()
+
   const gracefullyFetch = useGracefulFetch()
 
   function postFlowResponse(flowResponse: FlowResponse) {
@@ -57,7 +57,18 @@ export function useFlowResponses() {
     setSuccessfulFlowResponsesStrings(successfulFlowResponsesStrings)
     successfulFlowResponses.add(flowResponse)
     setSuccessfulFlowResponses(successfulFlowResponses)
-    setFlowResponses((prev) => [...(prev ?? []), flowResponse])
+    // Only update flow responses if there is not already an entry for this step.
+    // Check for flow id, step id, and action type, and date
+    const existingFlowResponse = flowResponses?.find(
+      (r) =>
+        r.flowSlug === flowResponse.flowSlug &&
+        r.stepId === flowResponse.stepId &&
+        r.actionType === flowResponse.actionType &&
+        r.createdAt === flowResponse.createdAt
+    )
+    if (!existingFlowResponse) {
+      setFlowResponses((prev) => [...(prev ?? []), flowResponse])
+    }
 
     return gracefullyFetch(`${API_PREFIX}flowResponses`, {
       ...config,
@@ -71,8 +82,6 @@ export function useFlowResponses() {
             '. Will retry again later.'
         )
         setFailedFlowResponses([...failedFlowResponses, flowResponse])
-      } else {
-        mutateUserFlowState()
       }
     })
   }
@@ -81,6 +90,7 @@ export function useFlowResponses() {
     if (!flowResponse.foreignUserId) {
       return
     }
+
     if (flowResponse.actionType === STARTED_FLOW || flowResponse.actionType === NOT_STARTED_FLOW) {
       await postFlowResponse(flowResponse)
     } else if (flowResponse.actionType === COMPLETED_FLOW) {

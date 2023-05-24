@@ -16,11 +16,12 @@ const realUserIdField = 'xFrigade_userId'
 
 export const DataFetcher: FC<DataFetcherProps> = ({}) => {
   const { setFlowResponses } = useFlowResponses()
-  const { userFlowStatesData, isLoadingUserFlowStateData } = useUserFlowStates()
+  const { userFlowStatesData, isLoadingUserFlowStateData, mutateUserFlowState } =
+    useUserFlowStates()
   const { userId, setUserId } = useUser()
   const [lastUserId, setLastUserId] = useState<string | null>(null)
   const { getFlowStatus } = useFlows()
-  const { flows, userProperties, setIsNewGuestUser } = useContext(FrigadeContext)
+  const { flows, userProperties, setIsNewGuestUser, flowResponses } = useContext(FrigadeContext)
   const [automaticFlowIdsToTrigger, setAutomaticFlowIdsToTrigger] = useState<Flow[]>([])
   // Add list of flows already triggered
   const [triggeredFlows, setTriggeredFlows] = useState<string[]>([])
@@ -53,6 +54,12 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
       }
     }
   }, [isLoadingUserFlowStateData, userFlowStatesData])
+
+  useEffect(() => {
+    if (flowResponses.length > 0) {
+      mutateUserFlowState()
+    }
+  }, [flowResponses])
 
   function triggerFlow(flowId: string) {
     const flow = flows.find((flow) => flow.slug === flowId)

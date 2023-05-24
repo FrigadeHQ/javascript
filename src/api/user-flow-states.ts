@@ -1,4 +1,12 @@
-import { API_PREFIX, COMPLETED_FLOW, NOT_STARTED_FLOW, STARTED_FLOW, useConfig } from './common'
+import {
+  API_PREFIX,
+  COMPLETED_FLOW,
+  COMPLETED_STEP,
+  NOT_STARTED_FLOW,
+  NOT_STARTED_STEP,
+  STARTED_FLOW,
+  useConfig,
+} from './common'
 import { useContext, useEffect, useState } from 'react'
 import { FrigadeContext } from '../FrigadeProvider'
 import useSWR from 'swr'
@@ -22,6 +30,7 @@ export function useUserFlowStates(): {
   optimisticallySetLastStepId: (flowId: string, stepId: string) => void
   optimisticallyMarkFlowNotStarted: (flowId: string) => void
   optimisticallyMarkStepCompleted: (flowId: string, stepId: string) => void
+  optimisticallyMarkStepNotStarted: (flowId: string, stepId: string) => void
   error: any
 } {
   const { config } = useConfig()
@@ -96,7 +105,7 @@ export function useUserFlowStates(): {
     if (userFlowStatesData) {
       const flowState = userFlowStatesData.find((state) => state.flowId === flowId)
       if (flowState && flowState.stepStates[stepId] !== COMPLETED_FLOW) {
-        flowState.stepStates[stepId] = COMPLETED_FLOW
+        flowState.stepStates[stepId] = COMPLETED_STEP
       }
     }
   }
@@ -128,6 +137,15 @@ export function useUserFlowStates(): {
     }
   }
 
+  function optimisticallyMarkStepNotStarted(flowId: string, stepId: string) {
+    if (userFlowStatesData) {
+      const flowState = userFlowStatesData.find((state) => state.flowId === flowId)
+      if (flowState && flowState.stepStates[stepId] !== NOT_STARTED_STEP) {
+        flowState.stepStates[stepId] = NOT_STARTED_STEP
+      }
+    }
+  }
+
   return {
     userFlowStatesData,
     isLoadingUserFlowStateData: !hasFinishedInitialLoad,
@@ -137,6 +155,7 @@ export function useUserFlowStates(): {
     optimisticallySetLastStepId,
     optimisticallyMarkFlowNotStarted,
     optimisticallyMarkStepCompleted,
+    optimisticallyMarkStepNotStarted,
     error,
   }
 }
