@@ -84,7 +84,6 @@ export function useFlows() {
   const {
     userFlowStatesData,
     isLoadingUserFlowStateData,
-    mutateUserFlowState,
     optimisticallyMarkFlowCompleted,
     optimisticallyMarkFlowStarted,
     optimisticallySetLastStepId,
@@ -226,9 +225,7 @@ export function useFlows() {
 
       optimisticallyMarkFlowStarted(flowSlug)
       optimisticallySetLastStepId(flowSlug, stepId)
-      addResponse(flowResponse).then(() => {
-        mutateUserFlowState()
-      })
+      addResponse(flowResponse)
     },
     [userId]
   )
@@ -249,9 +246,7 @@ export function useFlows() {
       if (!shouldSendServerSideCall(flowResponse)) {
         return
       }
-      addResponse(flowResponse).then(() => {
-        mutateUserFlowState()
-      })
+      addResponse(flowResponse)
     },
     [userId]
   )
@@ -273,9 +268,7 @@ export function useFlows() {
       }
       optimisticallyMarkFlowStarted(flowSlug)
       optimisticallyMarkStepCompleted(flowSlug, stepId)
-      addResponse(flowResponse).then(() => {
-        mutateUserFlowState()
-      })
+      addResponse(flowResponse)
     },
     [userId, userFlowStatesData]
   )
@@ -299,9 +292,7 @@ export function useFlows() {
       if (!shouldSendServerSideCall(flowResponse)) {
         return
       }
-      addResponse(flowResponse).then(() => {
-        mutateUserFlowState()
-      })
+      addResponse(flowResponse)
     },
     [userId, userFlowStatesData]
   )
@@ -321,9 +312,7 @@ export function useFlows() {
       if (!shouldSendServerSideCall(flowResponse)) {
         return
       }
-      addResponse(flowResponse).then(() => {
-        mutateUserFlowState()
-      })
+      addResponse(flowResponse)
     },
     [userId, userFlowStatesData]
   )
@@ -345,9 +334,7 @@ export function useFlows() {
       }
 
       optimisticallyMarkFlowCompleted(flowSlug)
-      addResponse(flowResponse).then(() => {
-        mutateUserFlowState()
-      })
+      addResponse(flowResponse)
     },
     [userId, userFlowStatesData]
   )
@@ -368,9 +355,7 @@ export function useFlows() {
         return
       }
       optimisticallyMarkFlowCompleted(flowSlug)
-      addResponse(flowResponse).then(() => {
-        mutateUserFlowState()
-      })
+      addResponse(flowResponse)
     },
     [userId, userFlowStatesData]
   )
