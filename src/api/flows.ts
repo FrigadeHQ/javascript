@@ -207,22 +207,45 @@ export function useFlows() {
     }
   }
 
-  function markStepStarted(flowSlug: string, stepId: string, data?: any) {
-    optimisticallyMarkFlowStarted(flowSlug)
-    optimisticallySetLastStepId(flowSlug, stepId)
-    addResponse({
-      foreignUserId: userId,
-      flowSlug,
-      stepId,
-      actionType: STARTED_STEP,
-      data: data ?? {},
-      createdAt: new Date(),
-      blocked: false,
-      hidden: false,
-    }).then(() => {
-      mutateUserFlowState()
-    })
-  }
+  const markStepStarted = useCallback(
+    (flowSlug: string, stepId: string, data?: any) => {
+      optimisticallyMarkFlowStarted(flowSlug)
+      optimisticallySetLastStepId(flowSlug, stepId)
+      addResponse({
+        foreignUserId: userId,
+        flowSlug,
+        stepId,
+        actionType: STARTED_STEP,
+        data: data ?? {},
+        createdAt: new Date(),
+        blocked: false,
+        hidden: false,
+      }).then(() => {
+        mutateUserFlowState()
+      })
+    },
+    [userId]
+  )
+
+  const markStepNotStarted = useCallback(
+    (flowSlug: string, stepId: string, data?: any) => {
+      optimisticallyMarkFlowStarted(flowSlug)
+      optimisticallySetLastStepId(flowSlug, stepId)
+      addResponse({
+        foreignUserId: userId,
+        flowSlug,
+        stepId,
+        actionType: NOT_STARTED_STEP,
+        data: data ?? {},
+        createdAt: new Date(),
+        blocked: false,
+        hidden: false,
+      }).then(() => {
+        mutateUserFlowState()
+      })
+    },
+    [userId]
+  )
 
   const markStepCompleted = useCallback(
     (flowSlug: string, stepId: string, data?: any) => {
@@ -478,6 +501,7 @@ export function useFlows() {
     markFlowStarted,
     markFlowCompleted,
     markFlowAborted,
+    markStepNotStarted,
     getFlowStatus,
     getNumberOfStepsCompleted,
     getNumberOfSteps,

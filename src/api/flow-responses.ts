@@ -5,6 +5,7 @@ import {
   COMPLETED_FLOW,
   COMPLETED_STEP,
   NOT_STARTED_FLOW,
+  NOT_STARTED_STEP,
   STARTED_FLOW,
   STARTED_STEP,
   useConfig,
@@ -50,10 +51,13 @@ export function useFlowResponses() {
     if (successfulFlowResponsesStrings.has(flowResponseString)) {
       return null
     }
-    // For step completions, do not send data to the API if the step is already completed
-    if (flowResponse.actionType === COMPLETED_STEP && userFlowStatesData) {
+    // For steps that are already in the same state, do not update the API.
+    if (userFlowStatesData) {
       const flowState = userFlowStatesData.find((state) => state.flowId === flowResponse.flowSlug)
-      if (flowState && flowState.stepStates[flowResponse.stepId]?.actionType === COMPLETED_STEP) {
+      if (
+        flowState &&
+        flowState.stepStates[flowResponse.stepId]?.actionType === flowResponse.actionType
+      ) {
         return null
       }
     }
@@ -84,14 +88,16 @@ export function useFlowResponses() {
       return
     }
     if (flowResponse.actionType === STARTED_FLOW || flowResponse.actionType === NOT_STARTED_FLOW) {
-      await postFlowResponse(flowResponse) // Send previous step data to backend
+      await postFlowResponse(flowResponse)
     } else if (flowResponse.actionType === COMPLETED_FLOW) {
-      await postFlowResponse(flowResponse) // Send previous step data to backend
+      await postFlowResponse(flowResponse)
     } else if (flowResponse.actionType === STARTED_STEP) {
       await postFlowResponse(flowResponse)
     } else if (flowResponse.actionType === COMPLETED_STEP) {
       await postFlowResponse(flowResponse)
     } else if (flowResponse.actionType === ABORTED_FLOW) {
+      await postFlowResponse(flowResponse)
+    } else if (flowResponse.actionType === NOT_STARTED_STEP) {
       await postFlowResponse(flowResponse)
     }
   }
