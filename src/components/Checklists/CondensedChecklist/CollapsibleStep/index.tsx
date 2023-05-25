@@ -10,11 +10,14 @@ import {
   HeaderLeft,
   StepContainer,
   StepHeader,
+  StepImage,
+  StepMediaContainer,
   StepSubtitle,
   StepTitle,
 } from './styled'
 import { sanitize } from '../../../../shared/sanitizer'
 import { getClassName } from '../../../../shared/appearance'
+import { VideoCard } from '../../../Video/VideoCard'
 
 interface CollapsibleStepProps {
   stepData: StepData
@@ -77,6 +80,21 @@ export const CollapsibleStep: FC<CollapsibleStepProps> = ({
             key={stepData.id}
             style={{ overflow: 'hidden' }}
           >
+            {stepData.imageUri ||
+              (stepData.videoUri && (
+                <StepMediaContainer className={getClassName('stepMediaContainer', appearance)}>
+                  {stepData.imageUri ? (
+                    <StepImage
+                      className={getClassName('stepImage', appearance)}
+                      src={stepData.imageUri}
+                      style={stepData.imageStyle}
+                    />
+                  ) : null}
+                  {stepData.videoUri ? (
+                    <VideoCard appearance={appearance} videoUri={stepData.videoUri} />
+                  ) : null}
+                </StepMediaContainer>
+              ))}
             <StepSubtitle
               className={getClassName('stepSubtitle', appearance)}
               appearance={appearance}

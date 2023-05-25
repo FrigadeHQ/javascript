@@ -14,6 +14,16 @@ export const StepContainer = styled.div<{ appearance }>`
   transition: max-height 0.25s;
 `
 
+export const StepMediaContainer = styled.div`
+  display: flex;
+  margin-bottom: 20px;
+`
+
+export const StepImage = styled.img`
+  border-radius: 4px;
+  max-height: 260px;
+  min-height: 200px;
+`
 export const StepHeader = styled.div`
   display: flex;
   flex-direction: row;

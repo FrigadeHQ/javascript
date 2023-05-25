@@ -10,7 +10,7 @@ import { RenderInlineStyles } from '../components/RenderInlineStyles'
 import { ChecklistWithGuide } from '../components/Checklists/ChecklistWithGuide'
 import { useCTAClickSideEffects } from '../hooks/useCTAClickSideEffects'
 import { useTheme } from '../hooks/useTheme'
-import { CondensedChecklist } from '../components/Checklists/ModalChecklist'
+import { CondensedChecklist } from '../components/Checklists/CondensedChecklist'
 import { Modal } from '../components/Modal'
 import { CarouselChecklist } from '../components/Checklists/CarouselChecklist'
 
