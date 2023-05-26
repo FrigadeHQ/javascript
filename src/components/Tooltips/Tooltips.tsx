@@ -378,7 +378,10 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
 
   const cssPos = {
     top: position?.y - HIGHLIGHT_RADIUS ?? 0,
-    left: (tooltipPositionValue == 'left' ? boundingRect.x : position?.x - HIGHLIGHT_RADIUS) ?? 0,
+    left:
+      (tooltipPositionValue == 'left'
+        ? boundingRect.x + offset.x
+        : position?.x - HIGHLIGHT_RADIUS) ?? 0,
     cursor: showHighlightOnly ? 'pointer' : 'default',
     position: positionStyle,
   }
