@@ -5,6 +5,7 @@ import { StepContentProps } from '../../FrigadeForm/types'
 import styled from 'styled-components'
 import { TitleSubtitleWithCTA } from './shared/TitleSubtitleWithCTA'
 import { VideoPlayer } from '../Video/VideoPlayer'
+import { getClassName } from '../../shared/appearance'
 
 export const HERO_STEP_CONTENT_TYPE = 'default'
 const StepImage = styled.img`
@@ -19,9 +20,17 @@ export const HeroStepContent: FC<StepContentProps> = ({ stepData, appearance }) 
   }
 
   return (
-    <HeroChecklistStepContent>
-      {stepData.imageUri ? <StepImage src={stepData.imageUri} style={stepData.imageStyle} /> : null}
-      {stepData.videoUri ? <VideoPlayer videoUri={stepData.videoUri} /> : null}
+    <HeroChecklistStepContent className={getClassName('checklistStepContent', appearance)}>
+      {stepData.imageUri ? (
+        <StepImage
+          className={getClassName('checklistStepImage', appearance)}
+          src={stepData.imageUri}
+          style={stepData.imageStyle}
+        />
+      ) : null}
+      {stepData.videoUri ? (
+        <VideoPlayer videoUri={stepData.videoUri} appearance={appearance} />
+      ) : null}
       <TitleSubtitleWithCTA stepData={stepData} appearance={appearance} />
     </HeroChecklistStepContent>
   )

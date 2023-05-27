@@ -1,6 +1,8 @@
 import React from 'react'
+import { getClassName } from '../../shared/appearance'
+import { Appearance } from '../../types'
 
-export function VideoPlayer(props: { videoUri: string }) {
+export function VideoPlayer(props: { videoUri: string; appearance?: Appearance }) {
   if (props.videoUri.includes('youtube')) {
     let videoId = props.videoUri.split('v=')[1]
     const ampersandPosition = videoId.indexOf('&')
@@ -15,6 +17,7 @@ export function VideoPlayer(props: { videoUri: string }) {
         frameBorder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowFullScreen
+        className={getClassName('checklistStepVideo', props.appearance)}
       />
     )
   } else {
