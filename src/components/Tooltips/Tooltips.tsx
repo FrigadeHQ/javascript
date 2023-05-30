@@ -64,6 +64,10 @@ export interface ToolTipProps extends Omit<DefaultFrigadeFlowProps, 'flowId'> {
    * If true, a step counter will show up in the tooltip.
    */
   showStepCount?: boolean
+  /**
+   * 'complete-flow' (default): Completes the entire flow/tour when a single tooltip is dismissed.
+   * 'complete-step': Completes the current step when a tooltip is dismissed.
+   */
   dismissBehavior?: 'complete-flow' | 'complete-step'
 }
 
@@ -395,7 +399,11 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
 
   return (
     <TooltipWrapper>
-      <HighlightContainer style={cssPos} zIndex={zIndex}>
+      <HighlightContainer
+        style={cssPos}
+        zIndex={zIndex}
+        className={getClassName('tourHighlightContainer', appearance)}
+      >
         {showHighlight && steps[selectedStep].showHighlight !== false && (
           <>
             <HighlightInner
@@ -415,7 +423,11 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
           </>
         )}
       </HighlightContainer>
-      <PositionWrapper style={cssPos} zIndex={zIndex - 1}>
+      <PositionWrapper
+        style={cssPos}
+        zIndex={zIndex - 1}
+        className={getClassName('tooltipContainerWrapper', appearance)}
+      >
         {showTooltipContainer && (
           <TooltipContainer
             ref={selfRef}
