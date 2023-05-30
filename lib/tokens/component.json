@@ -2,7 +2,7 @@
   "component": {
     "Text": {
       "type": "typography",
-      "Display1": {
+      "Display 1": {
         "value": {
           "fontFamily": "{font.family.default}",
           "fontSize": "{font.size.5xl}",
@@ -11,7 +11,7 @@
           "lineHeight": "{font.lineHeight.4xl}"
         }
       },
-      "Display2": {
+      "Display 2": {
         "value": {
           "fontFamily": "{font.family.default}",
           "fontSize": "{font.size.4xl}",
@@ -56,7 +56,7 @@
           "lineHeight": "{font.lineHeight.md}"
         }
       },
-      "Body1 - Bold": {
+      "Body 1 Bold": {
         "value": {
           "fontFamily": "{font.family.default}",
           "fontSize": "{font.size.md}",
@@ -65,7 +65,7 @@
           "lineHeight": "{font.lineHeight.md}"
         }
       },
-      "Body1 - Demibold": {
+      "Body 1 Demibold": {
         "value": {
           "fontFamily": "{font.family.default}",
           "fontSize": "{font.size.md}",
@@ -74,7 +74,7 @@
           "lineHeight": "{font.lineHeight.md}"
         }
       },
-      "Body1 - Regular": {
+      "Body 1 Regular": {
         "value": {
           "fontFamily": "{font.family.default}",
           "fontSize": "{font.size.md}",
@@ -83,7 +83,7 @@
           "lineHeight": "{font.lineHeight.md}"
         }
       },
-      "Body2 - Bold": {
+      "Body 2 Bold": {
         "value": {
           "fontFamily": "{font.family.default}",
           "fontSize": "{font.size.sm}",
@@ -92,7 +92,7 @@
           "lineHeight": "{font.lineHeight.sm}"
         }
       },
-      "Body2 - Demibold": {
+      "Body 2 Demibold": {
         "value": {
           "fontFamily": "{font.family.default}",
           "fontSize": "{font.size.sm}",
@@ -101,7 +101,7 @@
           "lineHeight": "{font.lineHeight.sm}"
         }
       },
-      "Body2 - Regular": {
+      "Body 2 Regular": {
         "value": {
           "fontFamily": "{font.family.default}",
           "fontSize": "{font.size.sm}",
@@ -110,7 +110,7 @@
           "lineHeight": "{font.lineHeight.sm}"
         }
       },
-      "Caption - Demibold": {
+      "Caption Demibold": {
         "value": {
           "fontFamily": "{font.family.default}",
           "fontSize": "{font.size.xs}",
@@ -119,7 +119,7 @@
           "lineHeight": "{font.lineHeight.xs}"
         }
       },
-      "Caption - Regular": {
+      "Caption Regular": {
         "value": {
           "fontFamily": "{font.family.default}",
           "fontSize": "{font.size.xs}",
