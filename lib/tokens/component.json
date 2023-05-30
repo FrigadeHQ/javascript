@@ -1,23 +1,133 @@
 {
   "component": {
     "Text": {
-      "Display 1": {
-        "type": "typography",
+      "type": "typography",
+      "Display1": {
         "value": {
           "fontFamily": "{font.family.default}",
+          "fontSize": "{font.size.5xl}",
           "fontWeight": "{font.weight.bold}",
-          "lineHeight": "{font.lineHeight.4xl}",
-          "fontSize": "{font.size.5xl}"
+          "letterSpacing": "{font.letterSpacing.md}",
+          "lineHeight": "{font.lineHeight.4xl}"
         }
       },
-      "Display 2": {},
-      "H1": {},
-      "H2": {},
-      "H3": {},
-      "H4": {},
-      "Body 1": {},
-      "Body 2": {},
-      "Caption": {}
+      "Display2": {
+        "value": {
+          "fontFamily": "{font.family.default}",
+          "fontSize": "{font.size.4xl}",
+          "fontWeight": "{font.weight.bold}",
+          "letterSpacing": "{font.letterSpacing.md}",
+          "lineHeight": "{font.lineHeight.3xl}"
+        }
+      },
+      "H1": {
+        "value": {
+          "fontFamily": "{font.family.default}",
+          "fontSize": "{font.size.3xl}",
+          "fontWeight": "{font.weight.bold}",
+          "letterSpacing": "{font.letterSpacing.md}",
+          "lineHeight": "{font.lineHeight.2xl}"
+        }
+      },
+      "H2": {
+        "value": {
+          "fontFamily": "{font.family.default}",
+          "fontSize": "{font.size.2xl}",
+          "fontWeight": "{font.weight.bold}",
+          "letterSpacing": "{font.letterSpacing.md}",
+          "lineHeight": "{font.lineHeight.xl}"
+        }
+      },
+      "H3": {
+        "value": {
+          "fontFamily": "{font.family.default}",
+          "fontSize": "{font.size.xl}",
+          "fontWeight": "{font.weight.bold}",
+          "letterSpacing": "{font.letterSpacing.md}",
+          "lineHeight": "{font.lineHeight.lg}"
+        }
+      },
+      "H4": {
+        "value": {
+          "fontFamily": "{font.family.default}",
+          "fontSize": "{font.size.lg}",
+          "fontWeight": "{font.weight.bold}",
+          "letterSpacing": "{font.letterSpacing.md}",
+          "lineHeight": "{font.lineHeight.md}"
+        }
+      },
+      "Body1 - Bold": {
+        "value": {
+          "fontFamily": "{font.family.default}",
+          "fontSize": "{font.size.md}",
+          "fontWeight": "{font.weight.bold}",
+          "letterSpacing": "{font.letterSpacing.md}",
+          "lineHeight": "{font.lineHeight.md}"
+        }
+      },
+      "Body1 - Demibold": {
+        "value": {
+          "fontFamily": "{font.family.default}",
+          "fontSize": "{font.size.md}",
+          "fontWeight": "{font.weight.demibold}",
+          "letterSpacing": "{font.letterSpacing.md}",
+          "lineHeight": "{font.lineHeight.md}"
+        }
+      },
+      "Body1 - Regular": {
+        "value": {
+          "fontFamily": "{font.family.default}",
+          "fontSize": "{font.size.md}",
+          "fontWeight": "{font.weight.regular}",
+          "letterSpacing": "{font.letterSpacing.md}",
+          "lineHeight": "{font.lineHeight.md}"
+        }
+      },
+      "Body2 - Bold": {
+        "value": {
+          "fontFamily": "{font.family.default}",
+          "fontSize": "{font.size.sm}",
+          "fontWeight": "{font.weight.bold}",
+          "letterSpacing": "{font.letterSpacing.md}",
+          "lineHeight": "{font.lineHeight.sm}"
+        }
+      },
+      "Body2 - Demibold": {
+        "value": {
+          "fontFamily": "{font.family.default}",
+          "fontSize": "{font.size.sm}",
+          "fontWeight": "{font.weight.demibold}",
+          "letterSpacing": "{font.letterSpacing.md}",
+          "lineHeight": "{font.lineHeight.sm}"
+        }
+      },
+      "Body2 - Regular": {
+        "value": {
+          "fontFamily": "{font.family.default}",
+          "fontSize": "{font.size.sm}",
+          "fontWeight": "{font.weight.regular}",
+          "letterSpacing": "{font.letterSpacing.md}",
+          "lineHeight": "{font.lineHeight.sm}"
+        }
+      },
+      "Caption - Demibold": {
+        "value": {
+          "fontFamily": "{font.family.default}",
+          "fontSize": "{font.size.xs}",
+          "fontWeight": "{font.weight.demibold}",
+          "letterSpacing": "{font.letterSpacing.md}",
+          "lineHeight": "{font.lineHeight.xs}"
+        }
+      },
+      "Caption - Regular": {
+        "value": {
+          "fontFamily": "{font.family.default}",
+          "fontSize": "{font.size.xs}",
+          "fontWeight": "{font.weight.demibold}",
+          "letterSpacing": "{font.letterSpacing.md}",
+          "lineHeight": "{font.lineHeight.xs}"
+        }
+      }
     }
   }
 }
