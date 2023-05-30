@@ -8,6 +8,7 @@ import {
 } from './styled'
 import { getClassName } from '../shared/appearance'
 import { FormFooter } from './FormFooter'
+import { FormPagination } from './FormPagination'
 import { LinkCollectionStepType } from '../components/Forms/LinkCollectionStepType'
 import { CallToActionStepType } from '../components/Forms/CallToActionStepType/CallToActionStepType'
 import { SelectListStepType } from '../components/Forms/SelectListStepType/SelectListStepType'
@@ -18,6 +19,46 @@ import { CustomFormTypeProps } from './types'
 import { useFlows } from '../api/flows'
 import { AnimatePresence, motion } from 'framer-motion'
 
+const AnimationWrapper = ({ children, id, shouldWrap = false }) => {
+  return (
+    <>
+      {shouldWrap ? (
+        <AnimatePresence initial={false}>
+          <motion.div
+            key={id}
+            initial={{
+              opacity: 1,
+              y: '100%',
+            }}
+            animate={{
+              opacity: 1,
+              y: 0,
+            }}
+            exit={{
+              opacity: 0,
+              y: '-100%',
+            }}
+            transition={{ duration: 0.5, ease: 'easeInOut' }}
+            style={{
+              width: '100%',
+              height: '100%',
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              zIndex: 1,
+              overflowY: 'auto',
+            }}
+          >
+            {children}
+          </motion.div>
+        </AnimatePresence>
+      ) : (
+        children
+      )}
+    </>
+  )
+}
+
 interface FormContentProps extends DefaultFrigadeFlowProps {
   appearance: Appearance
   steps: StepData[]
@@ -26,6 +67,7 @@ interface FormContentProps extends DefaultFrigadeFlowProps {
   type: FrigadeFormType
   setShowModal: (showModal: boolean) => void
   setVisible?: (visible: boolean) => void
+  showPagination?: boolean
 }
 export const FormContent: FC<FormContentProps> = ({
   appearance,
@@ -42,6 +84,7 @@ export const FormContent: FC<FormContentProps> = ({
   setVisible,
   setShowModal,
   onDismiss,
+  showPagination = false,
 }) => {
   const DEFAULT_CUSTOM_STEP_TYPES = {
     linkCollection: LinkCollectionStepType,
@@ -149,82 +192,40 @@ export const FormContent: FC<FormContentProps> = ({
     />
   )
 
+  const currentStep = steps[selectedStep] ?? null
+
   return (
     <>
       <FormContainer className={getClassName('formContainer', appearance)}>
         <FormContainerMain>
-          <AnimatePresence initial={false}>
-            {steps.map((step, idx) => {
-              if (idx !== selectedStep) {
-                return null
-              }
+          <AnimationWrapper id={selectedStep} shouldWrap={type === 'large-modal'}>
+            <FormContainerWrapper
+              key={currentStep.id}
+              type={type}
+              className={getClassName('formContent', appearance)}
+            >
+              {mergedCustomStepTypes[currentStep.type]({
+                stepData: currentStep,
+                canContinue: canContinue,
+                setCanContinue: setCanContinue,
+                onSaveData: (data) => {
+                  updateData(currentStep, data)
+                },
+                appearance: appearance,
+              })}
 
-              if (type !== 'large-modal') {
-                return (
-                  <FormContainerWrapper
-                    key={step.id}
-                    type={type}
-                    className={getClassName('formContent', appearance)}
-                  >
-                    {mergedCustomStepTypes[steps[idx]?.type]({
-                      stepData: steps[idx],
-                      canContinue: canContinue,
-                      setCanContinue: setCanContinue,
-                      onSaveData: (data) => {
-                        updateData(steps[idx], data)
-                      },
-                      appearance: appearance,
-                    })}
-                    {formFooter}
-                  </FormContainerWrapper>
-                )
-              }
+              {showPagination && (
+                <FormPagination
+                  className={getClassName('formPagination', appearance)}
+                  appearance={appearance}
+                  stepCount={steps.length}
+                  currentStep={selectedStep}
+                />
+              )}
 
-              return (
-                <motion.div
-                  key={step.id}
-                  initial={{
-                    opacity: 1,
-                    y: '-100%',
-                  }}
-                  animate={{
-                    opacity: 1,
-                    y: 0,
-                  }}
-                  exit={{
-                    opacity: 0,
-                    y: '100%',
-                  }}
-                  transition={{ duration: 0.4, ease: 'easeInOut' }}
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    zIndex: 1,
-                    overflowY: 'auto',
-                  }}
-                >
-                  <FormContainerWrapper
-                    type={type}
-                    className={getClassName('formContent', appearance)}
-                  >
-                    {mergedCustomStepTypes[steps[idx]?.type]({
-                      stepData: steps[idx],
-                      canContinue: canContinue,
-                      setCanContinue: setCanContinue,
-                      onSaveData: (data) => {
-                        updateData(steps[idx], data)
-                      },
-                      appearance: appearance,
-                    })}
-                    {formFooter}
-                  </FormContainerWrapper>
-                </motion.div>
-              )
-            })}
-          </AnimatePresence>
+              {formFooter}
+            </FormContainerWrapper>
+          </AnimationWrapper>
         </FormContainerMain>
         {type == 'large-modal' && <FormContainerSidebar selectedStep={steps[selectedStep]} />}
       </FormContainer>

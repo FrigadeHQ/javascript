@@ -24,6 +24,7 @@ export interface FormProps extends DefaultFrigadeFlowProps {
   repeatable?: boolean
   endFlowOnDismiss?: boolean
   modalPosition?: ModalPosition
+  showPagination?: boolean
 }
 
 export const FrigadeForm: FC<FormProps> = ({
@@ -43,6 +44,7 @@ export const FrigadeForm: FC<FormProps> = ({
   modalPosition = 'center',
   repeatable = false,
   onDismiss,
+  showPagination = false,
 }) => {
   const {
     getFlow,
@@ -145,6 +147,7 @@ export const FrigadeForm: FC<FormProps> = ({
           setVisible={setVisible}
           setShowModal={setShowModal}
           onDismiss={onDismiss}
+          showPagination={showPagination}
         />
       </Modal>
     )
@@ -169,6 +172,7 @@ export const FrigadeForm: FC<FormProps> = ({
           setVisible={setVisible}
           setShowModal={setShowModal}
           onDismiss={onDismiss}
+          showPagination={showPagination}
         />
       </CornerModal>
     )
@@ -192,6 +196,7 @@ export const FrigadeForm: FC<FormProps> = ({
         setVisible={setVisible}
         setShowModal={setShowModal}
         onDismiss={onDismiss}
+        showPagination={showPagination}
       />{' '}
     </>
   )
