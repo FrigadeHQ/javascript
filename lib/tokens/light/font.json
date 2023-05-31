@@ -34,7 +34,7 @@
     "weight": {
       "type": "fontWeight",
       "regular": { "value": "Regular" },
-      "demibold": { "value": "Demi Bold" },
+      "demibold": { "value": "DemiBold" },
       "bold": { "value": "Bold" }
     }
   }
