@@ -68,3 +68,17 @@ export interface PaginatedResult<T> {
   offset: number
   limit: number
 }
+
+export function useCheckHasInitiatedAPI() {
+  const { publicApiKey } = React.useContext(FrigadeContext)
+
+  function verifySDKInitiated() {
+    if (!publicApiKey) {
+      console.error('Frigade hooks cannot be used outside the scope of FrigadeProvider')
+    }
+  }
+
+  return {
+    verifySDKInitiated,
+  }
+}

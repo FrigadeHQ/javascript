@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useEffect } from 'react'
 import { FrigadeContext } from '../FrigadeProvider'
-import { API_PREFIX, useConfig, useGracefulFetch } from './common'
+import { API_PREFIX, useCheckHasInitiatedAPI, useConfig, useGracefulFetch } from './common'
 import { useUserFlowStates } from './user-flow-states'
 import { EntityProperties } from '../FrigadeForm/types'
 
@@ -22,6 +22,7 @@ export function useUser() {
   const { config } = useConfig()
   const { mutateUserFlowState } = useUserFlowStates()
   const gracefullyFetch = useGracefulFetch()
+  const { verifySDKInitiated } = useCheckHasInitiatedAPI()
   // Use local storage to mark if user has already been registered in frigade
   useEffect(() => {
     // Check if user is not a guest
@@ -47,6 +48,7 @@ export function useUser() {
 
   const addPropertiesToUser = useCallback(
     async (properties: EntityProperties) => {
+      verifySDKInitiated()
       const data: AddPropertyToUserDTO = {
         foreignId: userId,
         properties,
@@ -64,6 +66,7 @@ export function useUser() {
 
   const trackEventForUser = useCallback(
     async (event: string, properties?: EntityProperties) => {
+      verifySDKInitiated()
       const eventData: UserEvent = {
         event,
         properties,

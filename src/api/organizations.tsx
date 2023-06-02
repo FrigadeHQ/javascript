@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useEffect } from 'react'
 import { FrigadeContext } from '../FrigadeProvider'
-import { API_PREFIX, useConfig, useGracefulFetch } from './common'
+import { API_PREFIX, useCheckHasInitiatedAPI, useConfig, useGracefulFetch } from './common'
 import { useUserFlowStates } from './user-flow-states'
 import { GUEST_PREFIX } from './users'
 import { EntityProperties } from '../FrigadeForm/types'
@@ -22,6 +22,7 @@ export function useOrganization() {
   const { mutateUserFlowState } = useUserFlowStates()
   const { config } = useConfig()
   const gracefullyFetch = useGracefulFetch()
+  const { verifySDKInitiated } = useCheckHasInitiatedAPI()
 
   useEffect(() => {
     // Check if user is not a guest
@@ -48,6 +49,7 @@ export function useOrganization() {
 
   const addPropertiesToOrganization = useCallback(
     async (properties: EntityProperties) => {
+      verifySDKInitiated()
       if (!organizationId || !userId) {
         console.error(
           'Cannot add properties to organization: Organization ID and User ID must both be set.',
@@ -73,6 +75,7 @@ export function useOrganization() {
 
   const trackEventForOrganization = useCallback(
     async (event: string, properties?: EntityProperties) => {
+      verifySDKInitiated()
       if (!organizationId || !userId) {
         console.error(
           'Cannot track event for organization: Organization ID and User ID must both be set.',

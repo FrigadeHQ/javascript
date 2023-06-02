@@ -104,8 +104,13 @@ export function useUserFlowStates(): {
   function optimisticallyMarkStepCompleted(flowId: string, stepId: string) {
     if (userFlowStatesData) {
       const flowState = userFlowStatesData.find((state) => state.flowId === flowId)
-      if (flowState && flowState.stepStates[stepId] !== COMPLETED_FLOW) {
-        flowState.stepStates[stepId] = COMPLETED_STEP
+      console.log(flowState)
+      if (
+        flowState &&
+        flowState.stepStates[stepId] &&
+        flowState.stepStates[stepId] !== COMPLETED_FLOW
+      ) {
+        flowState.stepStates[stepId].actionType = COMPLETED_STEP
       }
     }
   }
@@ -124,6 +129,10 @@ export function useUserFlowStates(): {
       const flowState = userFlowStatesData.find((state) => state.flowId === flowId)
       if (flowState && flowState.flowState !== NOT_STARTED_FLOW) {
         flowState.flowState = NOT_STARTED_FLOW
+        // Update all sets to NOT_STARTED_STEP
+        Object.keys(flowState.stepStates).forEach((stepId) => {
+          flowState.stepStates[stepId].actionType = NOT_STARTED_STEP
+        })
       }
     }
   }

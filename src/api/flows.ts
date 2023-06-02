@@ -9,6 +9,7 @@ import {
   STARTED_FLOW,
   STARTED_STEP,
   StepActionType,
+  useCheckHasInitiatedAPI,
   useConfig,
 } from './common'
 import { FrigadeContext } from '../FrigadeProvider'
@@ -63,6 +64,7 @@ export function useFlows() {
   const emptyResponse = {
     data: [],
   }
+  const { verifySDKInitiated } = useCheckHasInitiatedAPI()
   const { addResponse, getFlowResponses } = useFlowResponses()
   const fetcher = (url) =>
     fetch(url, config)
@@ -210,6 +212,7 @@ export function useFlows() {
 
   const markStepStarted = useCallback(
     (flowSlug: string, stepId: string, data?: any) => {
+      verifySDKInitiated()
       const flowResponse = {
         foreignUserId: userId,
         flowSlug,
@@ -233,6 +236,7 @@ export function useFlows() {
 
   const markStepNotStarted = useCallback(
     (flowSlug: string, stepId: string, data?: any) => {
+      verifySDKInitiated()
       const flowResponse = {
         foreignUserId: userId,
         flowSlug,
@@ -255,6 +259,7 @@ export function useFlows() {
 
   const markStepCompleted = useCallback(
     (flowSlug: string, stepId: string, data?: any) => {
+      verifySDKInitiated()
       const flowResponse = {
         foreignUserId: userId,
         flowSlug,
@@ -277,6 +282,7 @@ export function useFlows() {
 
   const markFlowNotStarted = useCallback(
     (flowSlug: string, data?: any) => {
+      verifySDKInitiated()
       const flowResponse = {
         foreignUserId: userId,
         flowSlug,
@@ -289,7 +295,6 @@ export function useFlows() {
       }
 
       optimisticallyMarkFlowNotStarted(flowSlug)
-      setFlowResponses([])
 
       if (!shouldSendServerSideCall(flowResponse)) {
         return
@@ -301,6 +306,7 @@ export function useFlows() {
 
   const markFlowStarted = useCallback(
     (flowSlug: string, data?: any) => {
+      verifySDKInitiated()
       const flowResponse = {
         foreignUserId: userId,
         flowSlug,
@@ -321,6 +327,7 @@ export function useFlows() {
 
   const markFlowCompleted = useCallback(
     (flowSlug: string, data?: any) => {
+      verifySDKInitiated()
       const flowResponse = {
         foreignUserId: userId,
         flowSlug,
