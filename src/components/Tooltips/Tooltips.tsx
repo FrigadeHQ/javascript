@@ -424,8 +424,11 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
         )}
       </HighlightContainer>
       <PositionWrapper
-        style={cssPos}
-        zIndex={zIndex - 1}
+        style={{
+          ...cssPos,
+          left: cssPos.left + (tooltipPositionValue == 'left' ? -cardWidth : 24),
+        }}
+        zIndex={zIndex + 1}
         className={getClassName('tooltipContainerWrapper', appearance)}
       >
         {showTooltipContainer && (
@@ -435,7 +438,6 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
             style={{
               position: 'relative',
               width: 'max-content',
-              marginLeft: tooltipPositionValue == 'left' ? -cardWidth : 24, //tooltipPositionValue == 'left' ? -(cardWidth / 2 + 10) : cardWidth / 2 + 10,
               right: 0,
               top: 12,
               ...containerStyle,
