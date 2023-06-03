@@ -30,6 +30,7 @@ export interface PublicStepState {
   actionType: 'COMPLETED_STEP' | 'STARTED_STEP' | 'NOT_STARTED_STEP'
   blocked: boolean
   hidden: boolean
+  createdAt: Date
 }
 
 export function useFlowResponses() {
@@ -66,9 +67,6 @@ export function useFlowResponses() {
         r.actionType === flowResponse.actionType &&
         r.createdAt === flowResponse.createdAt
     )
-    if (!existingFlowResponse) {
-      setFlowResponses((prev) => [...(prev ?? []), flowResponse])
-    }
 
     return gracefullyFetch(`${API_PREFIX}flowResponses`, {
       ...config,
@@ -82,6 +80,10 @@ export function useFlowResponses() {
             '. Will retry again later.'
         )
         setFailedFlowResponses([...failedFlowResponses, flowResponse])
+      } else {
+        if (!existingFlowResponse) {
+          setFlowResponses((prev) => [...(prev ?? []), flowResponse])
+        }
       }
     })
   }
@@ -115,13 +117,14 @@ export function useFlowResponses() {
 
         for (const stepSlug in flowState.stepStates) {
           const stepState = flowState.stepStates[stepSlug] as PublicStepState
+
           apiFlowResponses.push({
             foreignUserId: flowState.foreignUserId,
             flowSlug: flowState.flowId,
             stepId: stepState.stepId,
             actionType: stepState.actionType,
             data: {},
-            createdAt: new Date(),
+            createdAt: new Date(stepState.createdAt),
             blocked: stepState.blocked,
             hidden: stepState.hidden,
           } as FlowResponse)

@@ -1,7 +1,6 @@
 import {
   API_PREFIX,
   COMPLETED_FLOW,
-  COMPLETED_STEP,
   NOT_STARTED_FLOW,
   NOT_STARTED_STEP,
   STARTED_FLOW,
@@ -10,6 +9,8 @@ import {
 import { useContext, useEffect, useState } from 'react'
 import { FrigadeContext } from '../FrigadeProvider'
 import useSWR from 'swr'
+import { useFlowOpens } from './flow-opens'
+import { FlowResponse } from './flow-responses'
 
 export interface PublicUserFlowState {
   flowId: string
@@ -21,20 +22,30 @@ export interface PublicUserFlowState {
   shouldTrigger: boolean
 }
 
+const UNKNOWN_STEP_ID = 'unknown'
+
 export function useUserFlowStates(): {
   userFlowStatesData: PublicUserFlowState[]
   isLoadingUserFlowStateData: boolean
   mutateUserFlowState: () => any
   optimisticallyMarkFlowCompleted: (flowId: string) => void
-  optimisticallyMarkFlowStarted: (flowId: string) => void
-  optimisticallySetLastStepId: (flowId: string, stepId: string) => void
   optimisticallyMarkFlowNotStarted: (flowId: string) => void
-  optimisticallyMarkStepCompleted: (flowId: string, stepId: string) => void
+  optimisticallyMarkStepCompleted: (
+    flowId: string,
+    stepId: string,
+    flowResponse: FlowResponse
+  ) => void
   optimisticallyMarkStepNotStarted: (flowId: string, stepId: string) => void
+  optimisticallyMarkStepStarted: (
+    flowId: string,
+    stepId: string,
+    flowResponse: FlowResponse
+  ) => void
   error: any
 } {
   const { config } = useConfig()
   const { publicApiKey, userId, flows, setShouldGracefullyDegrade } = useContext(FrigadeContext)
+  const { resetOpenFlowState } = useFlowOpens()
   const [hasFinishedInitialLoad, setHasFinishedInitialLoad] = useState(false)
   const emptyResponse = {
     data: flows.map((flow) => ({
@@ -92,66 +103,104 @@ export function useUserFlowStates(): {
     }
   }, [userFlowStatesData, hasFinishedInitialLoad, isLoadingUserFlowStateData])
 
-  function optimisticallyMarkFlowCompleted(flowId: string) {
+  async function optimisticallyMarkFlowCompleted(flowId: string) {
     if (userFlowStatesData) {
       const flowState = userFlowStatesData.find((state) => state.flowId === flowId)
       if (flowState && flowState.flowState !== COMPLETED_FLOW) {
         flowState.flowState = COMPLETED_FLOW
       }
+      await mutateUserFlowState(Promise.resolve({ ...data, data: userFlowStatesData }), {
+        optimisticData: { ...data, data: userFlowStatesData },
+        revalidate: false,
+        rollbackOnError: false,
+      })
     }
   }
 
-  function optimisticallyMarkStepCompleted(flowId: string, stepId: string) {
+  async function optimisticallyMarkStepCompleted(
+    flowId: string,
+    stepId: string,
+    flowResponse: FlowResponse
+  ) {
     if (userFlowStatesData) {
-      const flowState = userFlowStatesData.find((state) => state.flowId === flowId)
-      console.log(flowState)
-      if (
-        flowState &&
-        flowState.stepStates[stepId] &&
-        flowState.stepStates[stepId] !== COMPLETED_FLOW
-      ) {
-        flowState.stepStates[stepId].actionType = COMPLETED_STEP
-      }
-    }
-  }
-
-  function optimisticallyMarkFlowStarted(flowId: string) {
-    if (userFlowStatesData) {
-      const flowState = userFlowStatesData.find((state) => state.flowId === flowId)
-      if (flowState && flowState.flowState !== STARTED_FLOW) {
+      const flowState = userFlowStatesData.find(
+        (state) => state.flowId === flowId
+      ) as PublicUserFlowState
+      if (flowState) {
+        flowState.stepStates[stepId] = flowResponse
         flowState.flowState = STARTED_FLOW
       }
+      await mutateUserFlowState(Promise.resolve({ ...data, data: userFlowStatesData }), {
+        optimisticData: { ...data, data: userFlowStatesData },
+        revalidate: false,
+        rollbackOnError: false,
+      })
     }
   }
 
-  function optimisticallyMarkFlowNotStarted(flowId: string) {
+  async function optimisticallyMarkStepStarted(
+    flowId: string,
+    stepId: string,
+    flowResponse: FlowResponse
+  ) {
+    if (userFlowStatesData) {
+      const flowState = userFlowStatesData.find(
+        (state) => state.flowId === flowId
+      ) as PublicUserFlowState
+      if (flowState) {
+        flowState.lastStepId = stepId
+        flowState.stepStates[stepId] = flowResponse
+        flowState.flowState = STARTED_FLOW
+      }
+      await mutateUserFlowState(
+        { ...data, data: userFlowStatesData },
+        {
+          optimisticData: { ...data, data: userFlowStatesData },
+          revalidate: false,
+          rollbackOnError: false,
+        }
+      )
+    }
+  }
+
+  async function optimisticallyMarkFlowNotStarted(flowId: string) {
     if (userFlowStatesData) {
       const flowState = userFlowStatesData.find((state) => state.flowId === flowId)
       if (flowState && flowState.flowState !== NOT_STARTED_FLOW) {
         flowState.flowState = NOT_STARTED_FLOW
+        flowState.lastStepId = UNKNOWN_STEP_ID
         // Update all sets to NOT_STARTED_STEP
         Object.keys(flowState.stepStates).forEach((stepId) => {
           flowState.stepStates[stepId].actionType = NOT_STARTED_STEP
+          flowState.stepStates[stepId].createdAt = new Date().toISOString()
         })
+        await mutateUserFlowState(
+          { ...data, data: userFlowStatesData },
+          {
+            optimisticData: { ...data, data: userFlowStatesData },
+            revalidate: false,
+            rollbackOnError: false,
+          }
+        )
+        resetOpenFlowState(flowId)
       }
     }
   }
 
-  function optimisticallySetLastStepId(flowId: string, stepId: string) {
-    if (userFlowStatesData) {
-      const flowState = userFlowStatesData.find((state) => state.flowId === flowId)
-      if (flowState && flowState.lastStepId !== stepId) {
-        flowState.lastStepId = stepId
-      }
-    }
-  }
-
-  function optimisticallyMarkStepNotStarted(flowId: string, stepId: string) {
+  async function optimisticallyMarkStepNotStarted(flowId: string, stepId: string) {
     if (userFlowStatesData) {
       const flowState = userFlowStatesData.find((state) => state.flowId === flowId)
       if (flowState && flowState.stepStates[stepId] !== NOT_STARTED_STEP) {
         flowState.stepStates[stepId] = NOT_STARTED_STEP
       }
+      await mutateUserFlowState(
+        { ...data, data: userFlowStatesData },
+        {
+          optimisticData: { ...data, data: userFlowStatesData },
+          revalidate: false,
+          rollbackOnError: false,
+        }
+      )
     }
   }
 
@@ -160,11 +209,10 @@ export function useUserFlowStates(): {
     isLoadingUserFlowStateData: !hasFinishedInitialLoad,
     mutateUserFlowState,
     optimisticallyMarkFlowCompleted,
-    optimisticallyMarkFlowStarted,
-    optimisticallySetLastStepId,
     optimisticallyMarkFlowNotStarted,
     optimisticallyMarkStepCompleted,
     optimisticallyMarkStepNotStarted,
+    optimisticallyMarkStepStarted,
     error,
   }
 }

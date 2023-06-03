@@ -76,8 +76,8 @@ export const FrigadeEmbeddedTip: React.FC<FrigadeEmbeddedTipProps> = ({
       >
         {(dismissible === true || currentStep.dismissible) && (
           <DismissButton
-            onClick={() => {
-              markFlowCompleted(flowId)
+            onClick={async () => {
+              await markFlowCompleted(flowId)
               if (onDismiss) {
                 onDismiss()
               }
@@ -106,7 +106,7 @@ export const FrigadeEmbeddedTip: React.FC<FrigadeEmbeddedTipProps> = ({
               withMargin={false}
               size="small"
               type="inline"
-              onClick={() => {
+              onClick={async () => {
                 currentStep.handlePrimaryButtonClick()
                 primaryCTAClickSideEffects(currentStep)
                 if (onButtonClick) {
@@ -115,8 +115,8 @@ export const FrigadeEmbeddedTip: React.FC<FrigadeEmbeddedTipProps> = ({
                     return
                   }
                 }
-                markStepCompleted(flowId, currentStep.id)
-                markFlowCompleted(flowId)
+                await markStepCompleted(flowId, currentStep.id)
+                await markFlowCompleted(flowId)
               }}
             />
           </CallToActionContainer>

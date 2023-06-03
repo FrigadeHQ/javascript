@@ -160,11 +160,11 @@ export const FormContent: FC<FormContentProps> = ({
       formType={type}
       selectedStep={selectedStep}
       appearance={appearance}
-      onPrimaryClick={() => {
+      onPrimaryClick={async () => {
         if (selectedStep + 1 < steps.length) {
-          markStepStarted(flowId, steps[selectedStep + 1].id)
+          await markStepStarted(flowId, steps[selectedStep + 1].id)
         }
-        markStepCompleted(flowId, steps[selectedStep].id, getDataPayload())
+        await markStepCompleted(flowId, steps[selectedStep].id, getDataPayload())
         handleStepCompletionHandlers(steps[selectedStep], 'primary', selectedStep)
         if (selectedStep + 1 >= steps.length) {
           if (onComplete) {

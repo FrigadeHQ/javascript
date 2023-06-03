@@ -87,8 +87,8 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
     }
   }
 
-  function markTooltipCompleted(stepData: StepData) {
-    markStepCompleted(flowId, stepData.id)
+  async function markTooltipCompleted(stepData: StepData) {
+    await markStepCompleted(flowId, stepData.id)
 
     // Check if all steps are now completed
     if (
@@ -96,7 +96,7 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
         .map((step: StepData) => getStepStatus(flowId, step.id))
         .every((status) => status === COMPLETED_STEP)
     ) {
-      markFlowCompleted(flowId)
+      await markFlowCompleted(flowId)
       return
     }
     if (!showHighlightOnly && selectedStep + 1 < steps.length) {
@@ -104,7 +104,7 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
       if (isStepBlocked(flowId, steps[selectedStep + 1].id)) {
         return
       }
-      markStepStarted(flowId, steps[selectedStep + 1].id)
+      await markStepStarted(flowId, steps[selectedStep + 1].id)
     }
   }
 
@@ -122,21 +122,21 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
     return steps.map((step: StepData) => {
       return {
         ...step,
-        handleSecondaryButtonClick: () => {
+        handleSecondaryButtonClick: async () => {
           // Default to skip behavior for secondary click but allow for override
           secondaryCTAClickSideEffects(step)
           if (step.skippable === true) {
-            markStepCompleted(flowId, step.id, { skipped: true })
+            await markStepCompleted(flowId, step.id, { skipped: true })
           }
           handleStepCompletionHandlers(step, 'secondary', selectedStep)
         },
-        handlePrimaryButtonClick: () => {
+        handlePrimaryButtonClick: async () => {
           if (
             (!step.completionCriteria &&
               (step.autoMarkCompleted || step.autoMarkCompleted === undefined)) ||
             (step.completionCriteria && step.autoMarkCompleted === true)
           ) {
-            markTooltipCompleted(step)
+            await markTooltipCompleted(step)
           }
           handleStepCompletionHandlers(step, 'primary', selectedStep)
           primaryCTAClickSideEffects(step)
@@ -145,14 +145,14 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
     })
   }
 
-  function onDismissTooltip(stepData: StepData) {
+  async function onDismissTooltip(stepData: StepData) {
     if (onDismiss) {
       onDismiss()
     }
     if (dismissBehavior === 'complete-flow') {
-      markFlowCompleted(flowId)
+      await markFlowCompleted(flowId)
     } else {
-      markStepCompleted(flowId, stepData.id)
+      await markStepCompleted(flowId, stepData.id)
     }
   }
 

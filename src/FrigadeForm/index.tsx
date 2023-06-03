@@ -9,6 +9,7 @@ import { CustomFormTypeProps } from './types'
 import { useTheme } from '../hooks/useTheme'
 import { FormContent } from './FormContent'
 import { RenderInlineStyles } from '../components/RenderInlineStyles'
+import { useFlowOpens } from '../api/flow-opens'
 
 export type FrigadeFormType = 'inline' | 'modal' | 'large-modal' | 'corner-modal'
 
@@ -59,11 +60,14 @@ export const FrigadeForm: FC<FormProps> = ({
   const selectedStep = getCurrentStepIndex(flowId)
   const { mergeAppearanceWithDefault } = useTheme()
   const [hasFinishedInitialLoad, setHasFinishedInitialLoad] = useState(false)
+  const { setOpenFlowState, getOpenFlowState } = useFlowOpens()
 
   appearance = mergeAppearanceWithDefault(appearance)
 
   const [showModal, setShowModal] =
-    visible !== undefined && setVisible !== undefined ? [visible, setVisible] : useState(true)
+    visible !== undefined && setVisible !== undefined
+      ? [visible, setVisible]
+      : [getOpenFlowState(flowId, true), (value) => setOpenFlowState(flowId, value)]
 
   useEffect(() => {
     if (!hasFinishedInitialLoad && !isLoading) {

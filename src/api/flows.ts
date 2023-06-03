@@ -61,6 +61,7 @@ export function useFlows() {
     setFlowResponses,
     setShouldGracefullyDegrade,
   } = useContext(FrigadeContext)
+
   const emptyResponse = {
     data: [],
   }
@@ -87,11 +88,10 @@ export function useFlows() {
     userFlowStatesData,
     isLoadingUserFlowStateData,
     optimisticallyMarkFlowCompleted,
-    optimisticallyMarkFlowStarted,
-    optimisticallySetLastStepId,
     optimisticallyMarkFlowNotStarted,
     optimisticallyMarkStepCompleted,
     optimisticallyMarkStepNotStarted,
+    optimisticallyMarkStepStarted,
   } = useUserFlowStates()
 
   const flowResponses = getFlowResponses()
@@ -211,7 +211,7 @@ export function useFlows() {
   }
 
   const markStepStarted = useCallback(
-    (flowSlug: string, stepId: string, data?: any) => {
+    async (flowSlug: string, stepId: string, data?: any) => {
       verifySDKInitiated()
       const flowResponse = {
         foreignUserId: userId,
@@ -227,15 +227,14 @@ export function useFlows() {
         return
       }
 
-      optimisticallyMarkFlowStarted(flowSlug)
-      optimisticallySetLastStepId(flowSlug, stepId)
+      await optimisticallyMarkStepStarted(flowSlug, stepId, flowResponse)
       addResponse(flowResponse)
     },
     [userId, userFlowStatesData]
   )
 
   const markStepNotStarted = useCallback(
-    (flowSlug: string, stepId: string, data?: any) => {
+    async (flowSlug: string, stepId: string, data?: any) => {
       verifySDKInitiated()
       const flowResponse = {
         foreignUserId: userId,
@@ -251,14 +250,14 @@ export function useFlows() {
       if (!shouldSendServerSideCall(flowResponse)) {
         return
       }
-      optimisticallyMarkStepNotStarted(flowSlug, stepId)
+      await optimisticallyMarkStepNotStarted(flowSlug, stepId)
       addResponse(flowResponse)
     },
     [userId, userFlowStatesData]
   )
 
   const markStepCompleted = useCallback(
-    (flowSlug: string, stepId: string, data?: any) => {
+    async (flowSlug: string, stepId: string, data?: any) => {
       verifySDKInitiated()
       const flowResponse = {
         foreignUserId: userId,
@@ -273,15 +272,14 @@ export function useFlows() {
       if (!shouldSendServerSideCall(flowResponse)) {
         return
       }
-      optimisticallyMarkFlowStarted(flowSlug)
-      optimisticallyMarkStepCompleted(flowSlug, stepId)
+      await optimisticallyMarkStepCompleted(flowSlug, stepId, flowResponse)
       addResponse(flowResponse)
     },
     [userId, userFlowStatesData]
   )
 
   const markFlowNotStarted = useCallback(
-    (flowSlug: string, data?: any) => {
+    async (flowSlug: string, data?: any) => {
       verifySDKInitiated()
       const flowResponse = {
         foreignUserId: userId,
@@ -294,7 +292,7 @@ export function useFlows() {
         hidden: false,
       }
 
-      optimisticallyMarkFlowNotStarted(flowSlug)
+      await optimisticallyMarkFlowNotStarted(flowSlug)
 
       if (!shouldSendServerSideCall(flowResponse)) {
         return
@@ -305,7 +303,7 @@ export function useFlows() {
   )
 
   const markFlowStarted = useCallback(
-    (flowSlug: string, data?: any) => {
+    async (flowSlug: string, data?: any) => {
       verifySDKInitiated()
       const flowResponse = {
         foreignUserId: userId,
@@ -326,7 +324,7 @@ export function useFlows() {
   )
 
   const markFlowCompleted = useCallback(
-    (flowSlug: string, data?: any) => {
+    async (flowSlug: string, data?: any) => {
       verifySDKInitiated()
       const flowResponse = {
         foreignUserId: userId,
@@ -342,14 +340,14 @@ export function useFlows() {
         return
       }
 
-      optimisticallyMarkFlowCompleted(flowSlug)
+      await optimisticallyMarkFlowCompleted(flowSlug)
       addResponse(flowResponse)
     },
     [userId, userFlowStatesData]
   )
 
   const markFlowAborted = useCallback(
-    (flowSlug: string, data?: any) => {
+    async (flowSlug: string, data?: any) => {
       const flowResponse = {
         foreignUserId: userId,
         flowSlug,
@@ -363,7 +361,7 @@ export function useFlows() {
       if (!shouldSendServerSideCall(flowResponse)) {
         return
       }
-      optimisticallyMarkFlowCompleted(flowSlug)
+      await optimisticallyMarkFlowCompleted(flowSlug)
       addResponse(flowResponse)
     },
     [userId, userFlowStatesData]
@@ -394,7 +392,7 @@ export function useFlows() {
   }
 
   function getStepStatus(flowSlug: string, stepId: string): StepActionType | null {
-    const maybeFlowResponse = getLastFlowResponseForStep(flowSlug, stepId)
+    const maybeFlowResponse = getStepStateForFlow(flowSlug, stepId)
 
     if (maybeFlowResponse === null) {
       return null
@@ -404,7 +402,7 @@ export function useFlows() {
   }
 
   function isStepBlocked(flowSlug: string, stepId: string): boolean {
-    const maybeFlowResponse = getLastFlowResponseForStep(flowSlug, stepId)
+    const maybeFlowResponse = getStepStateForFlow(flowSlug, stepId)
 
     if (!maybeFlowResponse) {
       return false
@@ -414,7 +412,7 @@ export function useFlows() {
   }
 
   function isStepHidden(flowSlug: string, stepId: string): boolean {
-    const maybeFlowResponse = getLastFlowResponseForStep(flowSlug, stepId)
+    const maybeFlowResponse = getStepStateForFlow(flowSlug, stepId)
 
     if (!maybeFlowResponse) {
       return false
@@ -423,19 +421,17 @@ export function useFlows() {
     return maybeFlowResponse.hidden
   }
 
-  function getLastFlowResponseForStep(flowSlug: string, stepId: string): FlowResponse | null {
+  function getStepStateForFlow(flowSlug: string, stepId: string): FlowResponse | null {
     if (isLoadingUserFlowStateData) {
       return null
     }
-    if (flowResponses === null || flowResponses === undefined) {
+
+    const flowState = userFlowStatesData?.find((state) => state.flowId === flowSlug)
+    if (!flowState || !flowState.stepStates[stepId]) {
       return null
     }
 
-    const flowResponsesSorted = [...flowResponses].sort((a, b) => {
-      return b.createdAt.getTime() - a.createdAt.getTime()
-    })
-
-    return flowResponsesSorted.find((r) => r.stepId === stepId && r.flowSlug === flowSlug)
+    return flowState.stepStates[stepId] ?? null
   }
 
   function getCurrentStep(flowSlug: string): StepData | null {

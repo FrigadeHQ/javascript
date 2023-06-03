@@ -115,8 +115,8 @@ export const FrigadeBanner: React.FC<FrigadeBannerProps> = ({
           >
             <DismissButton
               type={type}
-              onClick={() => {
-                markFlowCompleted(flowId)
+              onClick={async () => {
+                await markFlowCompleted(flowId)
                 if (onDismiss) {
                   onDismiss()
                 }
@@ -152,8 +152,8 @@ export const FrigadeBanner: React.FC<FrigadeBannerProps> = ({
           >
             <DismissButton
               type={type}
-              onClick={() => {
-                markFlowCompleted(flowId)
+              onClick={async () => {
+                await markFlowCompleted(flowId)
                 if (onDismiss) {
                   onDismiss()
                 }
