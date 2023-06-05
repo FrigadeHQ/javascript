@@ -394,7 +394,7 @@ export function useFlows() {
   function getStepStatus(flowSlug: string, stepId: string): StepActionType | null {
     const maybeFlowResponse = getStepStateForFlow(flowSlug, stepId)
 
-    if (maybeFlowResponse === null) {
+    if (isLoadingUserFlowStateData) {
       return null
     }
 
