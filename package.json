@@ -98,7 +98,7 @@
     ],
     "@semantic-release/github",
     ["@semantic-release/exec", {
-      "prepareCmd": "./update-version.sh ${nextRelease.version}"
+      "prepareCmd": "./pre-release.sh ${nextRelease.version}"
     }]
   ],
   "author": "Frigade Inc.",

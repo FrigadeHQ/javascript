@@ -23,7 +23,8 @@ export function useConfig() {
         headers: {
           Authorization: `Bearer ${publicApiKey}`,
           'Content-Type': 'application/json',
-          'x-frigade-sdk': VERSION_NUMBER,
+          'X-Frigade-SDK-Version': VERSION_NUMBER,
+          'X-Frigade-SDK-Platform': 'React',
         },
       }),
       [publicApiKey, userId]
