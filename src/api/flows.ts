@@ -348,6 +348,7 @@ export function useFlows() {
 
   const markFlowAborted = useCallback(
     async (flowSlug: string, data?: any) => {
+      verifySDKInitiated()
       const flowResponse = {
         foreignUserId: userId,
         flowSlug,

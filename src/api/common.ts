@@ -30,7 +30,13 @@ export function useConfig() {
 }
 
 export function useGracefulFetch() {
+  const { shouldGracefullyDegrade } = React.useContext(FrigadeContext)
+
   return async (url: string, options: any) => {
+    if (shouldGracefullyDegrade) {
+      console.log(`Skipping ${url} call to Frigade due to error`)
+      return getEmptyResponse()
+    }
     let response
     try {
       response = await fetch(url, options)
@@ -53,8 +59,6 @@ export function useGracefulFetch() {
 function getEmptyResponse(error?: any) {
   if (error) {
     console.log('Call to Frigade failed', error)
-  } else {
-    console.log('Call to Frigade failed')
   }
 
   // Create empty response that contains the .json method and returns an empty object
@@ -70,9 +74,13 @@ export interface PaginatedResult<T> {
 }
 
 export function useCheckHasInitiatedAPI() {
-  const { publicApiKey } = React.useContext(FrigadeContext)
+  const { publicApiKey, shouldGracefullyDegrade } = React.useContext(FrigadeContext)
 
   function verifySDKInitiated() {
+    if (shouldGracefullyDegrade) {
+      console.error('Frigade hooks cannot be used when Frigade SDK has failed to initialize')
+      return
+    }
     if (!publicApiKey) {
       console.error('Frigade hooks cannot be used outside the scope of FrigadeProvider')
     }

@@ -18,7 +18,8 @@ interface UserEvent {
 export const GUEST_PREFIX = 'guest_'
 
 export function useUser() {
-  const { userId, organizationId, setUserId, setUserProperties } = useContext(FrigadeContext)
+  const { userId, organizationId, setUserId, setUserProperties, shouldGracefullyDegrade } =
+    useContext(FrigadeContext)
   const { config } = useConfig()
   const { mutateUserFlowState } = useUserFlowStates()
   const gracefullyFetch = useGracefulFetch()
@@ -44,7 +45,7 @@ export function useUser() {
         localStorage.setItem(userRegisteredKey, 'true')
       }
     }
-  }, [userId, organizationId])
+  }, [userId, shouldGracefullyDegrade, organizationId])
 
   const addPropertiesToUser = useCallback(
     async (properties: EntityProperties) => {
@@ -61,7 +62,7 @@ export function useUser() {
       setUserProperties((userProperties) => ({ ...userProperties, ...properties }))
       mutateUserFlowState()
     },
-    [userId, config, mutateUserFlowState]
+    [userId, config, shouldGracefullyDegrade, mutateUserFlowState]
   )
 
   const trackEventForUser = useCallback(

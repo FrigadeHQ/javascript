@@ -116,7 +116,9 @@ export const FrigadeProvider: FC<FrigadeProviderProps> = ({
   }>({})
   const [isNewGuestUser, setIsNewGuestUser] = useState(false)
   const [hasActiveFullPageFlow, setHasActiveFullPageFlow] = useState(false)
-  const [shouldGracefullyDegrade, setShouldGracefullyDegrade] = useState(false)
+  const [shouldGracefullyDegrade, setShouldGracefullyDegrade] = useState(
+    !isValidApiKey(publicApiKey)
+  )
   const internalNavigate = (url: string, target: string) => {
     if (target === '_blank') {
       window.open(url, '_blank')
@@ -135,6 +137,10 @@ export const FrigadeProvider: FC<FrigadeProviderProps> = ({
     },
   }
 
+  function isValidApiKey(apiKey: string): boolean {
+    return Boolean(apiKey && apiKey.length > 10 && apiKey.substring(0, 10) === 'api_public')
+  }
+
   useEffect(() => {
     if (userId) {
       setUserIdValue(userId)
@@ -148,24 +154,51 @@ export const FrigadeProvider: FC<FrigadeProviderProps> = ({
   }, [organizationId])
 
   useEffect(() => {
-    if (!publicApiKey) {
-      console.error('FrigadeProvider: publicApiKey is required')
+    if (!isValidApiKey(publicApiKey)) {
+      console.error(
+        'Frigade SDK failed to initialize. API key provided is either missing or valid.'
+      )
       setShouldGracefullyDegrade(true)
       return
-    }
-    if (
-      publicApiKey &&
-      (publicApiKey.length < 10 || publicApiKey.substring(0, 10) !== 'api_public')
-    ) {
-      console.error('FrigadeProvider: publicApiKey is invalid')
+    } else {
       setShouldGracefullyDegrade(true)
-      return
     }
-    setShouldGracefullyDegrade(false)
   }, [publicApiKey, setShouldGracefullyDegrade])
 
   if (shouldGracefullyDegrade) {
-    return <>{children}</>
+    return (
+      <FrigadeContext.Provider
+        value={{
+          publicApiKey,
+          userId: userIdValue,
+          setUserId: setUserIdValue,
+          setFlows,
+          flows: flows,
+          failedFlowResponses,
+          setFailedFlowResponses,
+          flowResponses,
+          setFlowResponses,
+          userProperties,
+          setUserProperties,
+          openFlowStates,
+          setOpenFlowStates,
+          customVariables,
+          setCustomVariables,
+          isNewGuestUser,
+          setIsNewGuestUser,
+          hasActiveFullPageFlow,
+          setHasActiveFullPageFlow,
+          organizationId: organizationIdValue,
+          setOrganizationId: setOrganizationIdValue,
+          navigate: config && config.navigate ? config.navigate : internalNavigate,
+          defaultAppearance: appearance,
+          shouldGracefullyDegrade,
+          setShouldGracefullyDegrade,
+        }}
+      >
+        {children}
+      </FrigadeContext.Provider>
+    )
   }
 
   return (
