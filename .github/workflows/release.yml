@@ -20,6 +20,8 @@ jobs:
           node-version: 'lts/*'
       - name: Install dependencies
         run: yarn install --frozen-lockfile
+      - name: Bump version file
+        run: npx semantic-release --dryRun | grep -oP 'Published release \K.*? ' | xargs -I{} pre-release.sh {}
       - name: Build
         run: yarn build
       - name: Release

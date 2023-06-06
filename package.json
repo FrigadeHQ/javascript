@@ -44,7 +44,6 @@
     "@babel/preset-env": "^7.21.5",
     "@babel/preset-react": "^7.18.6",
     "@babel/preset-typescript": "^7.21.5",
-    "@semantic-release/exec": "^6.0.3",
     "@storybook/addon-essentials": "^7.0.9",
     "@storybook/addon-interactions": "^7.0.9",
     "@storybook/addon-links": "^7.0.9",
@@ -82,12 +81,6 @@
   "plugins": [
     "@semantic-release/commit-analyzer",
     "@semantic-release/changelog",
-    [
-      "@semantic-release/exec",
-      {
-        "prepareCmd": "pre-release.sh ${nextRelease.version}"
-      }
-    ],
     [
       "@semantic-release/npm",
       {
