@@ -16,7 +16,7 @@
 
 <br />
 
-![Frigade iamge](https://frigade.com/img/frigademetaimage.png)
+![Frigade iamge](https://frigade.com/img/frigademetaimage-v2.png)
 
 
 ## Install
