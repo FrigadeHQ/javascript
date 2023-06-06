@@ -150,14 +150,19 @@ export const FrigadeProvider: FC<FrigadeProviderProps> = ({
   useEffect(() => {
     if (!publicApiKey) {
       console.error('FrigadeProvider: publicApiKey is required')
+      setShouldGracefullyDegrade(true)
+      return
     }
     if (
       publicApiKey &&
       (publicApiKey.length < 10 || publicApiKey.substring(0, 10) !== 'api_public')
     ) {
       console.error('FrigadeProvider: publicApiKey is invalid')
+      setShouldGracefullyDegrade(true)
+      return
     }
-  }, [publicApiKey])
+    setShouldGracefullyDegrade(false)
+  }, [publicApiKey, setShouldGracefullyDegrade])
 
   if (shouldGracefullyDegrade) {
     return <>{children}</>
