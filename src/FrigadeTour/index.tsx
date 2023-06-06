@@ -160,7 +160,6 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
     if (onComplete) {
       onComplete()
     }
-    markFlowCompleted(flowId)
   }
 
   return (

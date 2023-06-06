@@ -30,6 +30,7 @@ export interface Flow {
   type: FlowType
   triggerType: TriggerType
   targetingLogic?: string
+  active: boolean
 }
 
 export enum FlowType {
@@ -94,8 +95,6 @@ export function useFlows() {
     optimisticallyMarkStepStarted,
   } = useUserFlowStates()
 
-  const flowResponses = getFlowResponses()
-
   const {
     data: flowData,
     error,
@@ -118,6 +117,9 @@ export function useFlows() {
     const flow = flows.find((f) => f.slug === slug)
     if (!flow && flows.length > 0 && !isLoadingUserFlowStateData && !isLoadingFlows) {
       console.log(`Flow with slug ${slug} not found`)
+    }
+    if (flow.active === false) {
+      return null
     }
     return flow
   }
