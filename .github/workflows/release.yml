@@ -24,7 +24,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: yarn semantic-release --dryRun | grep -oP 'Published release \K.*? ' | xargs -I{} pre-release.sh {}
+        run: yarn semantic-release --dryRun | grep -oP 'Published release \K.*? ' | xargs -I{} ./pre-release.sh {}
       - name: Build
         run: yarn build
       - name: Release
