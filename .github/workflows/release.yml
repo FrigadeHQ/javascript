@@ -21,7 +21,10 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Bump version file
-        run: npx semantic-release --dryRun | grep -oP 'Published release \K.*? ' | xargs -I{} pre-release.sh {}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: yarn semantic-release --dryRun | grep -oP 'Published release \K.*? ' | xargs -I{} pre-release.sh {}
       - name: Build
         run: yarn build
       - name: Release
