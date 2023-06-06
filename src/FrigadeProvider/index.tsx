@@ -161,7 +161,7 @@ export const FrigadeProvider: FC<FrigadeProviderProps> = ({
       setShouldGracefullyDegrade(true)
       return
     } else {
-      setShouldGracefullyDegrade(true)
+      setShouldGracefullyDegrade(false)
     }
   }, [publicApiKey, setShouldGracefullyDegrade])
 
