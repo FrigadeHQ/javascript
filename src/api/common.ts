@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react'
 import { FrigadeContext } from '../FrigadeProvider'
+import { VERSION_NUMBER } from './version'
 
 export const API_PREFIX = 'https://api.frigade.com/v1/public/'
 
@@ -22,6 +23,7 @@ export function useConfig() {
         headers: {
           Authorization: `Bearer ${publicApiKey}`,
           'Content-Type': 'application/json',
+          'x-frigade-sdk': VERSION_NUMBER,
         },
       }),
       [publicApiKey, userId]
