@@ -10,6 +10,7 @@ import { RenderInlineStyles } from '../components/RenderInlineStyles'
 import { ChecklistWithGuide } from '../components/Checklists/ChecklistWithGuide'
 import { useCTAClickSideEffects } from '../hooks/useCTAClickSideEffects'
 import { useTheme } from '../hooks/useTheme'
+import { useMediaQuery } from '../hooks/useMediaQuery'
 import { CondensedChecklist } from '../components/Checklists/CondensedChecklist'
 import { Modal } from '../components/Modal'
 import { CarouselChecklist } from '../components/Checklists/CarouselChecklist'
@@ -88,6 +89,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
   const showModal = visible === undefined ? getOpenFlowState(flowId) : visible
   const isModal = type === 'modal'
   const { mergeAppearanceWithDefault } = useTheme()
+  const { isLarge } = useMediaQuery()
 
   appearance = mergeAppearanceWithDefault(appearance)
 
@@ -275,6 +277,10 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
   }
 
   function getChecklistWithGuide() {
+    if (!isLarge) {
+      return getCondensedChecklist()
+    }
+
     const guideFlowId = guideProps.guideFlowId
     let guideFlowSteps
     if (guideFlowId) {
@@ -310,6 +316,10 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
   }
 
   function getDefaultChecklist() {
+    if (!isLarge) {
+      return getCondensedChecklist()
+    }
+
     const checklist = (
       <HeroChecklist
         flowId={flowId}
