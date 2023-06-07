@@ -57,7 +57,7 @@ const ModalContainer = styled.div<{ appearance; maxWidth }>`
 
 const ModalHeader = styled.div`
   position: relative;
-  flex: 1;
+  flex: 0 1 auto;
 `
 
 const ModalClose = styled.div<{ appearance }>`

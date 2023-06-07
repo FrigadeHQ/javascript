@@ -23,7 +23,7 @@ const ChecklistProgressProgressBar = styled.div`
   ${(props) => (props.textLocation == 'top' ? `width: 100%;` : ``)}
 `
 
-const StepText = styled.p<{ padding; appearance }>`
+const StepText = styled.span<{ padding; appearance }>`
   font-weight: 500;
   font-size: 15px;
   line-height: 18px;
