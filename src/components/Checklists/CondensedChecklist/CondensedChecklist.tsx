@@ -76,9 +76,14 @@ const CondensedChecklist: FC<CondensedChecklistProps> = ({
   const headerContent = (
     <>
       <HeaderContent>
-        <ModalChecklistTitle appearance={appearance} dangerouslySetInnerHTML={sanitize(title)} />
+        <ModalChecklistTitle
+          appearance={appearance}
+          className={getClassName('checklistTitle', appearance)}
+          dangerouslySetInnerHTML={sanitize(title)}
+        />
         <ModalChecklistSubtitle
           appearance={appearance}
+          className={getClassName('checklistSubtitle', appearance)}
           dangerouslySetInnerHTML={sanitize(subtitle)}
         />
       </HeaderContent>
