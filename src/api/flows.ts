@@ -114,12 +114,15 @@ export function useFlows() {
   }, [flowData, error])
 
   function getFlow(slug: string): Flow {
+    if (isLoadingFlows) {
+      return null
+    }
     const flow = flows.find((f) => f.slug === slug)
     if (!flow && flows.length > 0 && !isLoadingUserFlowStateData && !isLoadingFlows) {
       console.log(`Flow with slug ${slug} not found`)
       return null
     }
-    if (flow.active === false) {
+    if (flow?.active === false) {
       return null
     }
     return flow
