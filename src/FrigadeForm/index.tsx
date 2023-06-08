@@ -5,7 +5,7 @@ import { useFlows } from '../api/flows'
 import { COMPLETED_FLOW } from '../api/common'
 import { Modal, ModalPosition } from '../components/Modal'
 import { CornerModal } from '../components/CornerModal'
-import { CustomFormTypeProps } from './types'
+import { CustomFormTypeProps, FormInputProps } from './types'
 import { useTheme } from '../hooks/useTheme'
 import { FormContent } from './FormContent'
 import { RenderInlineStyles } from '../components/RenderInlineStyles'
@@ -18,6 +18,7 @@ export interface FormProps extends DefaultFrigadeFlowProps {
   subtitle?: string
   type?: FrigadeFormType
   customStepTypes?: { [key: string]: (params: CustomFormTypeProps) => React.ReactNode }
+  customFormElements?: { [key: string]: (params: FormInputProps) => React.ReactNode }
   visible?: boolean
   setVisible?: (visible: boolean) => void
   onComplete?: () => void
@@ -35,6 +36,7 @@ export const FrigadeForm: FC<FormProps> = ({
   visible,
   setVisible,
   customVariables,
+  customFormElements,
   onComplete,
   appearance,
   hideOnFlowCompletion = true,
@@ -152,6 +154,7 @@ export const FrigadeForm: FC<FormProps> = ({
           setShowModal={setShowModal}
           onDismiss={onDismiss}
           showPagination={showPagination}
+          customFormElements={customFormElements}
         />
       </Modal>
     )
@@ -177,6 +180,7 @@ export const FrigadeForm: FC<FormProps> = ({
           setShowModal={setShowModal}
           onDismiss={onDismiss}
           showPagination={showPagination}
+          customFormElements={customFormElements}
         />
       </CornerModal>
     )
@@ -201,7 +205,8 @@ export const FrigadeForm: FC<FormProps> = ({
         setShowModal={setShowModal}
         onDismiss={onDismiss}
         showPagination={showPagination}
-      />{' '}
+        customFormElements={customFormElements}
+      />
     </>
   )
 }

@@ -41,12 +41,16 @@ export function MultiInputStepType({
   setCanContinue,
   onSaveData,
   appearance,
+  customFormElements,
 }: CustomFormTypeProps) {
   const formElements = stepData.props as MultiInputStepProps
   // Create map storing data from individual stepids
   // use state
   const [allFormData, setAllFormData] = useState({})
   const [formValidationErrors, setFormValidationErrors] = useState<FormValidationError[]>([])
+
+  // Merge DEFAULT_INPUT_TYPES and customFormElements
+  const mergedInputTypes = { ...DEFAULT_INPUT_TYPES, ...customFormElements }
 
   useEffect(() => {
     setCanContinue(formValidationErrors.length === 0)
@@ -63,9 +67,9 @@ export function MultiInputStepType({
       <TitleSubtitle appearance={appearance} title={stepData.title} subtitle={stepData.subtitle} />
       <MultiInputContainer className={getClassName('multiInputContainer', appearance)}>
         {formElements.data?.map((input: FormInputType) =>
-          DEFAULT_INPUT_TYPES[input.type] ? (
+          mergedInputTypes[input.type] ? (
             <span key={input.id}>
-              {DEFAULT_INPUT_TYPES[input.type]({
+              {mergedInputTypes[input.type]({
                 formInput: input,
                 customFormTypeProps: {
                   stepData,

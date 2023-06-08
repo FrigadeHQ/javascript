@@ -15,7 +15,7 @@ import { SelectListStepType } from '../components/Forms/SelectListStepType/Selec
 import { useCTAClickSideEffects } from '../hooks/useCTAClickSideEffects'
 import { FrigadeFormType } from './index'
 import React, { FC, useEffect, useState } from 'react'
-import { CustomFormTypeProps } from './types'
+import { CustomFormTypeProps, FormInputProps } from './types'
 import { useFlows } from '../api/flows'
 import { AnimatePresence, motion } from 'framer-motion'
 
@@ -68,6 +68,7 @@ interface FormContentProps extends DefaultFrigadeFlowProps {
   setShowModal: (showModal: boolean) => void
   setVisible?: (visible: boolean) => void
   showPagination?: boolean
+  customFormElements?: { [key: string]: (params: FormInputProps) => React.ReactNode }
 }
 export const FormContent: FC<FormContentProps> = ({
   appearance,
@@ -85,6 +86,7 @@ export const FormContent: FC<FormContentProps> = ({
   setShowModal,
   onDismiss,
   showPagination = false,
+  customFormElements,
 }) => {
   const DEFAULT_CUSTOM_STEP_TYPES = {
     linkCollection: LinkCollectionStepType,
@@ -212,6 +214,7 @@ export const FormContent: FC<FormContentProps> = ({
                   updateData(currentStep, data)
                 },
                 appearance: appearance,
+                customFormElements: customFormElements,
               })}
 
               {showPagination && (

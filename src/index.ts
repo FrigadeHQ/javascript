@@ -18,3 +18,12 @@ export { useUser } from './api/users'
 export { useOrganization } from './api/organizations'
 
 export type { StepData, Appearance } from './types'
+
+export type {
+  CustomFormTypeProps,
+  FormInputType,
+  FormInputProps,
+  FormValidationError,
+  StepContentProps,
+  EntityProperties,
+} from './FrigadeForm/types'

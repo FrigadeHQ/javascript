@@ -26,6 +26,7 @@ export interface CustomFormTypeProps {
   setCanContinue: (canContinue: boolean) => void
   onSaveData: (data: object) => void
   appearance?: Appearance
+  customFormElements?: { [key: string]: (params: FormInputProps) => React.ReactNode }
 }
 
 export interface StepContentProps {
