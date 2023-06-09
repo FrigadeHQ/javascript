@@ -100,6 +100,7 @@ export const FormContent: FC<FormContentProps> = ({
 
   const [canContinue, setCanContinue] = useState(false)
   const [formData, setFormData] = useState({})
+  const currentStep = steps[selectedStep] ?? null
   const {
     markStepCompleted,
     markStepStarted,
@@ -194,8 +195,6 @@ export const FormContent: FC<FormContentProps> = ({
     />
   )
 
-  const currentStep = steps[selectedStep] ?? null
-
   return (
     <>
       <FormContainer className={getClassName('formContainer', appearance)}>
@@ -206,17 +205,27 @@ export const FormContent: FC<FormContentProps> = ({
               type={type}
               className={getClassName('formContent', appearance)}
             >
-              {mergedCustomStepTypes[currentStep.type]({
-                stepData: currentStep,
-                canContinue: canContinue,
-                setCanContinue: setCanContinue,
-                onSaveData: (data) => {
-                  updateData(currentStep, data)
-                },
-                appearance: appearance,
-                customFormElements: customFormElements,
-              })}
+              {steps.map((step, idx) => {
+                const StepComponent = mergedCustomStepTypes[step.type]
 
+                if (currentStep.id !== step.id) {
+                  return null
+                }
+
+                return (
+                  <StepComponent
+                    key={step.id}
+                    stepData={step}
+                    canContinue={canContinue}
+                    setCanContinue={setCanContinue}
+                    onSaveData={(data) => {
+                      updateData(step, data)
+                    }}
+                    appearance={appearance}
+                    customFormElements={customFormElements}
+                  />
+                )
+              })}
               {showPagination && (
                 <FormPagination
                   className={getClassName('formPagination', appearance)}
