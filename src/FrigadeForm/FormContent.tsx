@@ -69,6 +69,7 @@ interface FormContentProps extends DefaultFrigadeFlowProps {
   setVisible?: (visible: boolean) => void
   showPagination?: boolean
   customFormElements?: { [key: string]: (params: FormInputProps) => React.ReactNode }
+  allowBackNavigation: boolean
 }
 export const FormContent: FC<FormContentProps> = ({
   appearance,
@@ -87,6 +88,7 @@ export const FormContent: FC<FormContentProps> = ({
   onDismiss,
   showPagination = false,
   customFormElements,
+  allowBackNavigation,
 }) => {
   const DEFAULT_CUSTOM_STEP_TYPES = {
     linkCollection: LinkCollectionStepType,
@@ -203,6 +205,7 @@ export const FormContent: FC<FormContentProps> = ({
         }
       }}
       steps={steps}
+      allowBackNavigation={allowBackNavigation}
     />
   )
 

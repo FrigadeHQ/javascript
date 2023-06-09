@@ -27,6 +27,7 @@ export interface FormProps extends DefaultFrigadeFlowProps {
   endFlowOnDismiss?: boolean
   modalPosition?: ModalPosition
   showPagination?: boolean
+  allowBackNavigation?: boolean
 }
 
 export const FrigadeForm: FC<FormProps> = ({
@@ -48,6 +49,7 @@ export const FrigadeForm: FC<FormProps> = ({
   repeatable = false,
   onDismiss,
   showPagination = false,
+  allowBackNavigation = false,
 }) => {
   const {
     getFlow,
@@ -155,6 +157,7 @@ export const FrigadeForm: FC<FormProps> = ({
           onDismiss={onDismiss}
           showPagination={showPagination}
           customFormElements={customFormElements}
+          allowBackNavigation={allowBackNavigation}
         />
       </Modal>
     )
@@ -181,6 +184,7 @@ export const FrigadeForm: FC<FormProps> = ({
           onDismiss={onDismiss}
           showPagination={showPagination}
           customFormElements={customFormElements}
+          allowBackNavigation={allowBackNavigation}
         />
       </CornerModal>
     )
@@ -206,6 +210,7 @@ export const FrigadeForm: FC<FormProps> = ({
         onDismiss={onDismiss}
         showPagination={showPagination}
         customFormElements={customFormElements}
+        allowBackNavigation={allowBackNavigation}
       />
     </>
   )

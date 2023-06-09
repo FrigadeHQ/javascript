@@ -3,7 +3,7 @@ import { FrigadeFormType } from '.'
 import { Button } from '../components/Button'
 import { getClassName } from '../shared/appearance'
 import { Appearance, StepData } from '../types'
-import { FormCTAContainer } from './styled'
+import { CTAWrapper, FormCTAContainer } from './styled'
 
 interface FormFooterProps {
   step: StepData
@@ -15,6 +15,7 @@ interface FormFooterProps {
   formType: FrigadeFormType
   steps: StepData[]
   selectedStep: number
+  allowBackNavigation: boolean
 }
 
 export const FormFooter: FC<FormFooterProps> = ({
@@ -27,43 +28,44 @@ export const FormFooter: FC<FormFooterProps> = ({
   selectedStep,
   steps,
   onBack,
+  allowBackNavigation,
 }) => {
   const buttonType = formType === 'inline' ? 'inline' : 'full-width'
 
   return (
     <FormCTAContainer className={getClassName('formCTAContainer', appearance)}>
-      {steps.length > 1 && selectedStep != 0 && (
+      {steps.length > 1 && selectedStep != 0 && allowBackNavigation && (
         <Button
           title="←"
           onClick={onBack}
           secondary={true}
+          withMargin={false}
           type={buttonType}
-          style={{
-            display: 'inline-block',
-          }}
           appearance={appearance}
         />
       )}
-      {step.secondaryButtonTitle ? (
-        <Button
-          title={step.secondaryButtonTitle}
-          onClick={onSecondaryClick}
-          secondary={true}
-          withMargin={false}
-          type={buttonType}
-          appearance={appearance}
-        />
-      ) : null}{' '}
-      {step.primaryButtonTitle ? (
-        <Button
-          disabled={!canContinue}
-          withMargin={false}
-          title={step.primaryButtonTitle}
-          onClick={onPrimaryClick}
-          type={buttonType}
-          appearance={appearance}
-        />
-      ) : null}
+      <CTAWrapper className={getClassName('ctaWrapper', appearance)}>
+        {step.secondaryButtonTitle ? (
+          <Button
+            title={step.secondaryButtonTitle}
+            onClick={onSecondaryClick}
+            secondary={true}
+            withMargin={false}
+            type={buttonType}
+            appearance={appearance}
+          />
+        ) : null}{' '}
+        {step.primaryButtonTitle ? (
+          <Button
+            disabled={!canContinue}
+            withMargin={false}
+            title={step.primaryButtonTitle}
+            onClick={onPrimaryClick}
+            type={buttonType}
+            appearance={appearance}
+          />
+        ) : null}
+      </CTAWrapper>
     </FormCTAContainer>
   )
 }

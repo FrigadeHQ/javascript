@@ -1,9 +1,15 @@
 import styled from 'styled-components'
 
 export const FormCTAContainer = styled.div`
-  align-content: flex-end;
-  text-align: right;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
   padding-top: 14px;
+`
+
+export const CTAWrapper = styled.div`
+  display: flex;
+  gap: 12px;
 `
 export const FormContainer = styled.div`
   display: flex;
