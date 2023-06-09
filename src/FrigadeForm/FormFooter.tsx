@@ -24,11 +24,26 @@ export const FormFooter: FC<FormFooterProps> = ({
   onPrimaryClick,
   onSecondaryClick,
   formType,
+  selectedStep,
+  steps,
+  onBack,
 }) => {
   const buttonType = formType === 'inline' ? 'inline' : 'full-width'
 
   return (
     <FormCTAContainer className={getClassName('formCTAContainer', appearance)}>
+      {steps.length > 1 && selectedStep != 0 && (
+        <Button
+          title="←"
+          onClick={onBack}
+          secondary={true}
+          type={buttonType}
+          style={{
+            display: 'inline-block',
+          }}
+          appearance={appearance}
+        />
+      )}
       {step.secondaryButtonTitle ? (
         <Button
           title={step.secondaryButtonTitle}
@@ -49,19 +64,6 @@ export const FormFooter: FC<FormFooterProps> = ({
           appearance={appearance}
         />
       ) : null}
-      {/*{steps.length > 1 && selectedStep != 0 && (*/}
-      {/*  <Button*/}
-      {/*    title="Back"*/}
-      {/*    onClick={onBack}*/}
-      {/*    secondary={true}*/}
-      {/*    type={buttonType}*/}
-      {/*    style={{*/}
-      {/*      display: 'inline-block',*/}
-      {/*      ...buttonStyleOverride,*/}
-      {/*    }}*/}
-      {/*    appearance={appearance}*/}
-      {/*  />*/}
-      {/*)}*/}
     </FormCTAContainer>
   )
 }

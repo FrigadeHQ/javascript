@@ -100,6 +100,8 @@ export const FormContent: FC<FormContentProps> = ({
 
   const [canContinue, setCanContinue] = useState(false)
   const [formData, setFormData] = useState({})
+  const [isSaving, setIsSaving] = useState(false)
+
   const currentStep = steps[selectedStep] ?? null
   const {
     markStepCompleted,
@@ -159,15 +161,17 @@ export const FormContent: FC<FormContentProps> = ({
   const formFooter = (
     <FormFooter
       step={steps[selectedStep]}
-      canContinue={canContinue}
+      canContinue={canContinue || !isSaving}
       formType={type}
       selectedStep={selectedStep}
       appearance={appearance}
       onPrimaryClick={async () => {
+        setIsSaving(true)
+        const payload = { ...getDataPayload() }
+        await markStepCompleted(flowId, steps[selectedStep].id, payload)
         if (selectedStep + 1 < steps.length) {
           await markStepStarted(flowId, steps[selectedStep + 1].id)
         }
-        await markStepCompleted(flowId, steps[selectedStep].id, getDataPayload())
         handleStepCompletionHandlers(steps[selectedStep], 'primary', selectedStep)
         if (selectedStep + 1 >= steps.length) {
           if (onComplete) {
@@ -182,15 +186,22 @@ export const FormContent: FC<FormContentProps> = ({
             }
             setShowModal(false)
           }
-          markFlowCompleted(flowId)
+          await markFlowCompleted(flowId)
         }
         primaryCTAClickSideEffects(steps[selectedStep])
+        setIsSaving(false)
       }}
       onSecondaryClick={() => {
         handleStepCompletionHandlers(steps[selectedStep], 'secondary', selectedStep)
         secondaryCTAClickSideEffects(steps[selectedStep])
       }}
-      onBack={() => {}}
+      onBack={async () => {
+        if (selectedStep - 1 >= 0) {
+          setIsSaving(true)
+          await markStepStarted(flowId, steps[selectedStep - 1].id)
+          setIsSaving(false)
+        }
+      }}
       steps={steps}
     />
   )
@@ -205,7 +216,7 @@ export const FormContent: FC<FormContentProps> = ({
               type={type}
               className={getClassName('formContent', appearance)}
             >
-              {steps.map((step, idx) => {
+              {steps.map((step) => {
                 const StepComponent = mergedCustomStepTypes[step.type]
 
                 if (currentStep.id !== step.id) {
