@@ -6,6 +6,20 @@ export interface FormInputType {
   title?: string
   type: string
   required?: boolean
+  validation?: InputValidation
+}
+
+export interface InputValidation {
+  type: string
+  requiredError?: string
+  invalidTypeError?: string
+  props?: InputValidationRuleProps[]
+}
+
+export interface InputValidationRuleProps {
+  requirement: string
+  value?: string | number
+  message?: string
 }
 
 export interface FormInputProps {

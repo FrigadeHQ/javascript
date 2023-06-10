@@ -90,6 +90,19 @@ export function TextField({
     InputComponent = TextArea
   }
 
+  function getType() {
+    switch (input?.validation?.type) {
+      case 'email':
+        return 'email'
+      case 'number':
+        return 'number'
+      case 'password':
+        return 'password'
+    }
+
+    return null
+  }
+
   return (
     <TextInputWrapper>
       <Label
@@ -105,6 +118,7 @@ export function TextField({
         }}
         appearance={customFormTypeProps.appearance}
         placeholder={input.placeholder}
+        type={getType()}
       ></InputComponent>
     </TextInputWrapper>
   )
