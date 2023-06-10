@@ -27,3 +27,5 @@ export type {
   StepContentProps,
   EntityProperties,
 } from './FrigadeForm/types'
+
+export { Label as FormLabel } from './components/Forms/MultiInputStepType/form-components/shared/Label'
