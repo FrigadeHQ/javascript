@@ -11,6 +11,15 @@ export const FormLabel = styled.label`
   display: flex;
 `
 
+export const FormSubLabel = styled.label`
+  ${(props) => getCustomClassOverrides(props)} {
+    font-size: 12px;
+    line-height: 20px;
+    margin-bottom: 5px;
+  }
+  display: flex;
+`
+
 export const RequiredSymbol = styled.span`
   font-weight: 400;
   font-size: 14px;

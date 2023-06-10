@@ -5,6 +5,7 @@ import { FormInputProps, FormInputType } from '../../../../../FrigadeForm/types'
 import { getClassName, getCustomClassOverrides } from '../../../../../shared/appearance'
 import { Label } from '../shared/Label'
 import { TextInput } from '../TextField'
+import { SubLabel } from '../shared/SubLabel'
 
 interface MultipleChoiceProps extends FormInputType {
   id: string
@@ -157,6 +158,7 @@ export function MultipleChoice({
           />
         </>
       )}
+      <SubLabel title={input.subtitle} appearance={customFormTypeProps.appearance} />
     </MultipleChoiceWrapper>
   )
 }

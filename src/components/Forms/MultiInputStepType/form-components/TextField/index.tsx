@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { FormInputProps, FormInputType } from '../../../../../FrigadeForm/types'
 import { getClassName, getCustomClassOverrides } from '../../../../../shared/appearance'
 import { Label } from '../shared/Label'
+import { SubLabel } from '../shared/SubLabel'
 
 interface TextFieldProps extends FormInputType {
   id: string
@@ -120,6 +121,7 @@ export function TextField({
         placeholder={input.placeholder}
         type={getType()}
       ></InputComponent>
+      <SubLabel title={input.subtitle} appearance={customFormTypeProps.appearance} />
     </TextInputWrapper>
   )
 }

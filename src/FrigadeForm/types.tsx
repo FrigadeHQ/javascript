@@ -4,6 +4,7 @@ import { Appearance, StepData } from '../types'
 export interface FormInputType {
   id: string
   title?: string
+  subtitle?: string
   type: string
   required?: boolean
   validation?: InputValidation

@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { FormInputProps, MultipleChoiceListProps } from '../../../../../FrigadeForm/types'
 import { getCustomClassOverrides } from '../../../../../shared/appearance'
 import { Label } from '../shared/Label'
+import { SubLabel } from '../shared/SubLabel'
 
 const MultipleChoiceListWrapper = styled.div`
   display: flex;
@@ -93,6 +94,7 @@ export function MultipleChoiceList({
           </MultipleChoiceListItem>
         )
       })}
+      <SubLabel title={input.subtitle} appearance={customFormTypeProps.appearance} />
     </MultipleChoiceListWrapper>
   )
 }
