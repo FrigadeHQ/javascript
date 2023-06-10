@@ -64,10 +64,11 @@ export function MultipleChoice({
   formInput,
   customFormTypeProps,
   onSaveInputData,
+  inputData,
   setFormValidationErrors,
 }: FormInputProps) {
   const input = formInput as MultipleChoiceProps
-  const [data, setData] = useState('')
+  const [data, setData] = useState(inputData?.choice?.[0] || '')
   const [hasLoaded, setHasLoaded] = useState(false)
 
   useEffect(() => {

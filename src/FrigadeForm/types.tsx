@@ -11,6 +11,7 @@ export interface FormInputType {
 export interface FormInputProps {
   formInput: FormInputType
   customFormTypeProps: CustomFormTypeProps
+  inputData: any
   onSaveInputData: (data: object) => void
   setFormValidationErrors: (errors: FormValidationError[]) => void
 }

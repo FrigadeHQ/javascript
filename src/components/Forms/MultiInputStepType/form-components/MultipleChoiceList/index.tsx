@@ -41,9 +41,10 @@ export function MultipleChoiceList({
   formInput,
   customFormTypeProps,
   onSaveInputData,
+  inputData,
 }: FormInputProps) {
   const input = formInput as MultipleChoiceListProps
-  const [selectedIds, setSelectedIds] = useState<string[]>([])
+  const [selectedIds, setSelectedIds] = useState<string[]>(inputData.choice || [])
   const [hasLoaded, setHasLoaded] = useState(false)
 
   useEffect(() => {

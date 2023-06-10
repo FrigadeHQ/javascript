@@ -46,7 +46,7 @@ export function MultiInputStepType({
   const formElements = stepData.props as MultiInputStepProps
   // Create map storing data from individual stepids
   // use state
-  const [allFormData, setAllFormData] = useState({})
+  const [allFormData, setAllFormData] = useState(loadFromLocalStorage() || {})
   const [formValidationErrors, setFormValidationErrors] = useState<FormValidationError[]>([])
 
   // Merge DEFAULT_INPUT_TYPES and customFormElements
@@ -60,6 +60,24 @@ export function MultiInputStepType({
     const newData = { ...allFormData, [input.id]: data }
     setAllFormData(newData)
     onSaveData(newData)
+
+    if (window && window.localStorage) {
+      window.localStorage.setItem(getLocalStorageKey(), JSON.stringify(newData))
+    }
+  }
+
+  function loadFromLocalStorage() {
+    if (window && window.localStorage) {
+      const data = window.localStorage.getItem(getLocalStorageKey())
+      if (data) {
+        return JSON.parse(data)
+      }
+    }
+    return {}
+  }
+
+  function getLocalStorageKey() {
+    return `frigade-multiInputStepTypeData-${stepData.id}`
   }
 
   return (
@@ -81,6 +99,7 @@ export function MultiInputStepType({
                 onSaveInputData: (data) => {
                   saveDataFromInputs(input, data)
                 },
+                inputData: allFormData[input.id],
                 setFormValidationErrors: (errors) => {
                   setFormValidationErrors((prev) => {
                     if (errors.length === 0) {

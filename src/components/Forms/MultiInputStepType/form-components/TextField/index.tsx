@@ -58,9 +58,10 @@ export function TextField({
   customFormTypeProps,
   onSaveInputData,
   setFormValidationErrors,
+  inputData,
 }: FormInputProps) {
   const input = formInput as TextFieldProps
-  const [data, setData] = useState('')
+  const [data, setData] = useState(inputData?.text || '')
   const [hasLoaded, setHasLoaded] = useState(false)
   let InputComponent = TextInput
   useEffect(() => {
