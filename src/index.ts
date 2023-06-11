@@ -30,3 +30,6 @@ export type {
 } from './FrigadeForm/types'
 
 export { Label as FormLabel } from './components/Forms/MultiInputStepType/form-components/shared/Label'
+
+export { ProgressRing } from './components/Progress/ProgressRing'
+export { CheckBox } from './components/CheckBox'

@@ -1,7 +1,7 @@
 import React, { CSSProperties, FC } from 'react'
 import { ProgressRing } from '../Progress/ProgressRing'
 import { getClassName, mergeClasses, styleOverridesToCSS } from '../../shared/appearance'
-import { Appearance } from '../../types'
+import { Appearance, DefaultAppearance } from '../../types'
 import styled from 'styled-components'
 
 const CheckIcon = ({ color = '#FFFFFF' }) => (
@@ -70,6 +70,8 @@ export interface CheckBoxProps {
   primaryColor?: string
   progress?: number // progress percentage our of 1. e.g. 0.5
   appearance?: Appearance
+  className?: string
+  style?: React.CSSProperties
 }
 
 const CheckIconContainer = styled.div`
@@ -81,7 +83,9 @@ export const CheckBox: FC<CheckBoxProps> = ({
   type = 'square',
   primaryColor = '#000000',
   progress,
-  appearance,
+  appearance = DefaultAppearance,
+  style,
+  className,
 }) => {
   let checkBoxStyle = getBaseStyle(type as CheckBoxType)
   let stateStyle = getStateStyle(type as CheckBoxType, value)
@@ -107,6 +111,7 @@ export const CheckBox: FC<CheckBoxProps> = ({
   return (
     <CheckIconContainer
       styleOverrides={checkBoxStyle}
+      style={style}
       role="checkbox"
       className={mergeClasses(
         getClassName('checkIconContainer', appearance),
@@ -114,7 +119,8 @@ export const CheckBox: FC<CheckBoxProps> = ({
           value ? 'checkIconContainerChecked' : 'checkIconContainerUnchecked',
           appearance
         ),
-        value ? 'checkIconContainerChecked' : 'checkIconContainerUnchecked'
+        value ? 'checkIconContainerChecked' : 'checkIconContainerUnchecked',
+        className
       )}
     >
       {value && <CheckIcon color={'#FFFFFF'} />}
