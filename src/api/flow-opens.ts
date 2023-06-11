@@ -2,7 +2,13 @@ import { useContext } from 'react'
 import { FrigadeContext } from '../FrigadeProvider'
 
 export function useFlowOpens() {
-  const { openFlowStates, setOpenFlowStates, hasActiveFullPageFlow } = useContext(FrigadeContext)
+  const {
+    openFlowStates,
+    setOpenFlowStates,
+    hasActiveFullPageFlow,
+    setCompletedFlowsToKeepOpenDuringSession,
+    completedFlowsToKeepOpenDuringSession,
+  } = useContext(FrigadeContext)
 
   function getOpenFlowState(flowSlug: string, defaultValue = false) {
     return openFlowStates[flowSlug] ?? defaultValue
@@ -19,6 +25,17 @@ export function useFlowOpens() {
     })
   }
 
+  function setKeepCompletedFlowOpenDuringSession(flowSlug: string) {
+    if (completedFlowsToKeepOpenDuringSession.includes(flowSlug)) {
+      return
+    }
+    setCompletedFlowsToKeepOpenDuringSession((prev) => [...prev, flowSlug])
+  }
+
+  function shouldKeepCompletedFlowOpenDuringSession(flowSlug: string): boolean {
+    return completedFlowsToKeepOpenDuringSession.includes(flowSlug)
+  }
+
   function hasOpenModals() {
     return Object.values(openFlowStates).some((isOpen) => isOpen) || hasActiveFullPageFlow
   }
@@ -28,5 +45,7 @@ export function useFlowOpens() {
     setOpenFlowState,
     resetOpenFlowState,
     hasOpenModals,
+    setKeepCompletedFlowOpenDuringSession,
+    shouldKeepCompletedFlowOpenDuringSession,
   }
 }

@@ -41,6 +41,7 @@ export enum FlowType {
   CUSTOM = 'CUSTOM',
   BANNER = 'BANNER',
   EMBEDDED_TIP = 'EMBEDDED_TIP',
+  NPS_SURVEY = 'NPS_SURVEY',
 }
 
 export enum TriggerType {
@@ -264,6 +265,7 @@ export function useFlows() {
 
   const markStepCompleted = useCallback(
     async (flowSlug: string, stepId: string, data?: any) => {
+      console.log('markStepCompleted', flowSlug, stepId, data)
       verifySDKInitiated()
       const flowResponse = {
         foreignUserId: userId,

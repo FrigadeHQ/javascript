@@ -23,6 +23,8 @@ export interface IFrigadeContext {
   >
   openFlowStates: { [key: string]: boolean }
   setOpenFlowStates: React.Dispatch<React.SetStateAction<{ [key: string]: boolean }>>
+  completedFlowsToKeepOpenDuringSession: string[]
+  setCompletedFlowsToKeepOpenDuringSession: React.Dispatch<React.SetStateAction<string[]>>
   customVariables?: { [key: string]: string | boolean | number | null }
   setCustomVariables?: React.Dispatch<
     React.SetStateAction<{ [key: string]: string | boolean | number | null }>
@@ -66,6 +68,8 @@ export const FrigadeContext = createContext<IFrigadeContext>({
   setUserProperties: () => {},
   openFlowStates: {},
   setOpenFlowStates: () => {},
+  completedFlowsToKeepOpenDuringSession: [],
+  setCompletedFlowsToKeepOpenDuringSession: () => {},
   customVariables: {},
   setCustomVariables: () => {},
   isNewGuestUser: false,
@@ -111,6 +115,8 @@ export const FrigadeProvider: FC<FrigadeProviderProps> = ({
     [key: string]: string | boolean | number | null
   }>({})
   const [openFlowStates, setOpenFlowStates] = useState<{ [key: string]: boolean }>({})
+  const [completedFlowsToKeepOpenDuringSession, setCompletedFlowsToKeepOpenDuringSession] =
+    useState<string[]>([])
   const [customVariables, setCustomVariables] = useState<{
     [key: string]: string | boolean | number | null
   }>({})
@@ -182,6 +188,8 @@ export const FrigadeProvider: FC<FrigadeProviderProps> = ({
           setUserProperties,
           openFlowStates,
           setOpenFlowStates,
+          completedFlowsToKeepOpenDuringSession,
+          setCompletedFlowsToKeepOpenDuringSession,
           customVariables,
           setCustomVariables,
           isNewGuestUser,
@@ -218,6 +226,8 @@ export const FrigadeProvider: FC<FrigadeProviderProps> = ({
           setUserProperties,
           openFlowStates,
           setOpenFlowStates,
+          completedFlowsToKeepOpenDuringSession,
+          setCompletedFlowsToKeepOpenDuringSession,
           customVariables,
           setCustomVariables,
           isNewGuestUser,

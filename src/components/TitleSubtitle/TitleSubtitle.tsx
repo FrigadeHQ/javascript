@@ -36,7 +36,7 @@ export function TitleSubtitle({
 }: {
   appearance: Appearance
   title: string
-  subtitle: string
+  subtitle?: string
   size?: 'small' | 'medium' | 'large'
 }) {
   return (
@@ -47,12 +47,14 @@ export function TitleSubtitle({
         dangerouslySetInnerHTML={sanitize(title)}
         size={size}
       />
-      <HeaderSubtitle
-        appearance={appearance}
-        className={getClassName(`${size}Subtitle`, appearance)}
-        dangerouslySetInnerHTML={sanitize(subtitle)}
-        size={size}
-      />
+      {subtitle && (
+        <HeaderSubtitle
+          appearance={appearance}
+          className={getClassName(`${size}Subtitle`, appearance)}
+          dangerouslySetInnerHTML={sanitize(subtitle)}
+          size={size}
+        />
+      )}
     </>
   )
 }
