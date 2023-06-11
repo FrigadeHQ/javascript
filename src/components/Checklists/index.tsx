@@ -15,7 +15,7 @@ export interface ChecklistProps {
   selectedStep?: number
   setSelectedStep?: (index: number) => void
 
-  customStepTypes?: Map<string, (stepData: StepData) => React.ReactNode>
+  customStepTypes?: Record<string, (stepData: StepData, appearance: Appearance) => React.ReactNode>
 
   appearance?: Appearance
 }

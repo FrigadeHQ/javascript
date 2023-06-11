@@ -26,6 +26,8 @@ interface CollapsibleStepProps {
   onSecondaryButtonClick: () => void
   onPrimaryButtonClick: () => void
   appearance?: Appearance
+  // Map from string to function with StepData returning React.ReactNode
+  customStepTypes?: Record<string, (stepData: StepData, appearance: Appearance) => React.ReactNode>
 }
 
 export const CollapsibleStep: FC<CollapsibleStepProps> = ({
@@ -35,8 +37,61 @@ export const CollapsibleStep: FC<CollapsibleStepProps> = ({
   onPrimaryButtonClick,
   onSecondaryButtonClick,
   appearance,
+  customStepTypes,
 }) => {
   const iconStyle = collapsed ? {} : { transform: 'rotate(90deg)' }
+
+  function getDefaultStepContent() {
+    return (
+      <>
+        {stepData.imageUri || stepData.videoUri ? (
+          <StepMediaContainer className={getClassName('stepMediaContainer', appearance)}>
+            {stepData.imageUri ? (
+              <StepImage
+                className={getClassName('stepImage', appearance)}
+                src={stepData.imageUri}
+                style={stepData.imageStyle}
+              />
+            ) : null}
+            {stepData.videoUri ? (
+              <VideoCard appearance={appearance} videoUri={stepData.videoUri} />
+            ) : null}
+          </StepMediaContainer>
+        ) : null}
+        <StepSubtitle
+          className={getClassName('stepSubtitle', appearance)}
+          appearance={appearance}
+          dangerouslySetInnerHTML={sanitize(stepData.subtitle)}
+        />
+        <MultipleButtonContainer className={getClassName('checklistCTAContainer', appearance)}>
+          {stepData.secondaryButtonTitle ? (
+            <Button
+              secondary
+              title={stepData.secondaryButtonTitle}
+              onClick={() => onSecondaryButtonClick()}
+              appearance={appearance}
+            />
+          ) : null}
+          <Button
+            title={stepData.primaryButtonTitle ?? 'Continue'}
+            onClick={() => onPrimaryButtonClick()}
+            appearance={appearance}
+          />
+        </MultipleButtonContainer>
+      </>
+    )
+  }
+
+  function getCustomStep() {
+    if (!customStepTypes) {
+      return null
+    }
+    const customStep = customStepTypes[stepData.type]
+    if (!customStep) {
+      return null
+    }
+    return customStep(stepData, appearance)
+  }
 
   return (
     <StepContainer
@@ -80,41 +135,7 @@ export const CollapsibleStep: FC<CollapsibleStepProps> = ({
             key={stepData.id}
             style={{ overflow: 'hidden' }}
           >
-            {stepData.imageUri ||
-              (stepData.videoUri && (
-                <StepMediaContainer className={getClassName('stepMediaContainer', appearance)}>
-                  {stepData.imageUri ? (
-                    <StepImage
-                      className={getClassName('stepImage', appearance)}
-                      src={stepData.imageUri}
-                      style={stepData.imageStyle}
-                    />
-                  ) : null}
-                  {stepData.videoUri ? (
-                    <VideoCard appearance={appearance} videoUri={stepData.videoUri} />
-                  ) : null}
-                </StepMediaContainer>
-              ))}
-            <StepSubtitle
-              className={getClassName('stepSubtitle', appearance)}
-              appearance={appearance}
-              dangerouslySetInnerHTML={sanitize(stepData.subtitle)}
-            />
-            <MultipleButtonContainer className={getClassName('checklistCTAContainer', appearance)}>
-              {stepData.secondaryButtonTitle ? (
-                <Button
-                  secondary
-                  title={stepData.secondaryButtonTitle}
-                  onClick={() => onSecondaryButtonClick()}
-                  appearance={appearance}
-                />
-              ) : null}
-              <Button
-                title={stepData.primaryButtonTitle ?? 'Continue'}
-                onClick={() => onPrimaryButtonClick()}
-                appearance={appearance}
-              />
-            </MultipleButtonContainer>
+            {getCustomStep() ?? getDefaultStepContent()}
           </motion.div>
         )}
       </AnimatePresence>

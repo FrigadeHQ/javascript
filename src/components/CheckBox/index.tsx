@@ -110,6 +110,10 @@ export const CheckBox: FC<CheckBoxProps> = ({
       role="checkbox"
       className={mergeClasses(
         getClassName('checkIconContainer', appearance),
+        getClassName(
+          value ? 'checkIconContainerChecked' : 'checkIconContainerUnchecked',
+          appearance
+        ),
         value ? 'checkIconContainerChecked' : 'checkIconContainerUnchecked'
       )}
     >

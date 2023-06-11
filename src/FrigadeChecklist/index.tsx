@@ -309,6 +309,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
           onGuideButtonClick={(step) => {
             handleStepCompletionHandlers(step, 'link', 0)
           }}
+          customStepTypes={customStepTypes}
           {...commonProps}
         />
       </>

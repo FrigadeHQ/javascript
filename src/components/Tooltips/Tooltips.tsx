@@ -48,7 +48,7 @@ export interface ToolTipProps extends Omit<DefaultFrigadeFlowProps, 'flowId'> {
   containerStyle?: CSSProperties
   customVariables?: { [key: string]: string | number | boolean }
   selectedStep?: number
-  customStepTypes?: Map<string, (stepData: StepData) => React.ReactNode>
+  customStepTypes?: Record<string, (stepData: StepData) => React.ReactNode>
   appearance?: Appearance
   /**
    * Shows a close button in the top right corner of the tooltip. This will end the flow.

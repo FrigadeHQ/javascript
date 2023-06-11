@@ -38,6 +38,7 @@ const CondensedChecklist: FC<CondensedChecklistProps> = ({
   appearance,
   type,
   className,
+  customStepTypes,
 }) => {
   const completeCount = steps.filter((s) => s.complete).length
   const [collapsedSteps, setCollapsedSteps] = useState<boolean[]>(Array(steps.length).fill(true))
@@ -140,6 +141,7 @@ const CondensedChecklist: FC<CondensedChecklistProps> = ({
                 step.handleSecondaryButtonClick()
               }
             }}
+            customStepTypes={customStepTypes}
           />
         )
       })}

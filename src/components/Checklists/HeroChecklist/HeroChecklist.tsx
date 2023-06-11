@@ -3,7 +3,7 @@ import React, { FC, useState } from 'react'
 import styled from 'styled-components'
 import { StepChecklistItem } from './StepChecklistItem'
 import { ProgressBar } from '../Checklist/Progress'
-import { DefaultFrigadeFlowProps, StepData } from '../../../types'
+import { Appearance, DefaultFrigadeFlowProps, StepData } from '../../../types'
 import {
   HERO_STEP_CONTENT_TYPE,
   HeroStepContent,
@@ -36,7 +36,7 @@ export interface HeroChecklistProps extends Omit<DefaultFrigadeFlowProps, 'flowI
   setSelectedStep?: (index: number) => void
 
   // Map from string to function with StepData returning React.ReactNode
-  customStepTypes?: Map<string, (stepData: StepData) => React.ReactNode>
+  customStepTypes?: Record<string, (stepData: StepData, appearance: Appearance) => React.ReactNode>
 }
 
 const HeroChecklistContainer = styled.div<{ appearance }>`
