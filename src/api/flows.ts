@@ -289,6 +289,9 @@ export function useFlows() {
   const markFlowNotStarted = useCallback(
     async (flowId: string, data?: any) => {
       verifySDKInitiated()
+      if (getFlowStatus(flowId) === NOT_STARTED_FLOW) {
+        return
+      }
       const flowResponse = {
         foreignUserId: userId,
         flowSlug: flowId,
