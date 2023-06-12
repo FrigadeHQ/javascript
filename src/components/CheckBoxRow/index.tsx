@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { CheckBox, CheckBoxType } from '../CheckBox'
 import { Appearance } from '../../types'
 import { getClassName } from '../../shared/appearance'
+import { RenderInlineStyles } from '../RenderInlineStyles'
 
 interface CheckBoxRowProps {
   label?: string
@@ -48,27 +49,30 @@ export const CheckBoxRow: FC<CheckBoxRowProps> = ({
   appearance,
 }) => {
   return (
-    <CheckBoxRowContainer
-      className={getClassName('checklistStepsContainer', appearance)}
-      appearance={appearance}
-      style={{ ...style }}
-    >
-      {labelPosition === 'left' && label && (
-        <Label className={getClassName('checklistStepLabel', appearance)} style={labelStyle}>
-          {label}
-        </Label>
-      )}
-      <CheckBox
+    <>
+      <CheckBoxRowContainer
+        className={getClassName('checklistStepsContainer', appearance)}
         appearance={appearance}
-        value={value}
-        type={checkBoxType}
-        primaryColor={primaryColor}
-      />
-      {labelPosition === 'right' && label && (
-        <Label className={getClassName('checklistStepLabel', appearance)} style={labelStyle}>
-          {label}
-        </Label>
-      )}
-    </CheckBoxRowContainer>
+        style={{ ...style }}
+      >
+        {labelPosition === 'left' && label && (
+          <Label className={getClassName('checklistStepLabel', appearance)} style={labelStyle}>
+            {label}
+          </Label>
+        )}
+        <CheckBox
+          appearance={appearance}
+          value={value}
+          type={checkBoxType}
+          primaryColor={primaryColor}
+        />
+        {labelPosition === 'right' && label && (
+          <Label className={getClassName('checklistStepLabel', appearance)} style={labelStyle}>
+            {label}
+          </Label>
+        )}
+      </CheckBoxRowContainer>
+      <RenderInlineStyles appearance={appearance} />
+    </>
   )
 }
