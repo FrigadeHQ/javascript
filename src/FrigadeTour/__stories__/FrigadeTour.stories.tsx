@@ -26,5 +26,6 @@ export const Tour = {
   args: {
     flowId: 'flow_bLdv0aEVsLgcDX1e',
     tooltipPosition: 'auto',
+    dismissible: true,
   },
 }

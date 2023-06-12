@@ -390,6 +390,17 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
     position: positionStyle,
   }
 
+  // Lock tooltip position to be within bounds of the window
+  const getBoundedLeftPosition = () => {
+    const spaceFromEdge = 20
+    const leftOffset = cssPos.left + (tooltipPositionValue == 'left' ? -cardWidth : 24)
+
+    return Math.min(
+      Math.max(leftOffset, spaceFromEdge),
+      window.innerWidth - cardWidth - spaceFromEdge
+    )
+  }
+
   const handleClick = () => {
     if (showHighlightOnly) {
       setNeedsUpdate(new Date())
@@ -426,7 +437,7 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
       <PositionWrapper
         style={{
           ...cssPos,
-          left: cssPos.left + (tooltipPositionValue == 'left' ? -cardWidth : 24),
+          left: getBoundedLeftPosition(),
         }}
         zIndex={zIndex + 1}
         className={getClassName('tooltipContainerWrapper', appearance)}
