@@ -17,8 +17,6 @@ import { FrigadeChecklistProps } from '../../../FrigadeChecklist'
 
 export interface CondensedChecklistProps extends Omit<FrigadeChecklistProps, 'flowId'> {
   autoCollapse?: boolean
-  autoExpandFirstIncompleteStep?: boolean
-  autoExpandNextStep?: boolean
   onClose: () => void
 }
 

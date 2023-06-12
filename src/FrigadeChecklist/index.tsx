@@ -45,6 +45,9 @@ export interface FrigadeChecklistProps extends HeroChecklistProps {
    */
   guideFlowId?: string
   guideTitle?: string
+
+  autoExpandFirstIncompleteStep?: boolean
+  autoExpandNextStep?: boolean
 }
 
 export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
@@ -65,6 +68,8 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
   setVisible,
   customStepTypes,
   checklistStyle = 'default',
+  autoExpandFirstIncompleteStep,
+  autoExpandNextStep,
   ...guideProps
 }) => {
   const {
@@ -231,6 +236,8 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
     customStepTypes,
     type,
     className,
+    autoExpandFirstIncompleteStep,
+    autoExpandNextStep,
   }
 
   function handleClose() {

@@ -10,30 +10,30 @@ export function useFlowOpens() {
     completedFlowsToKeepOpenDuringSession,
   } = useContext(FrigadeContext)
 
-  function getOpenFlowState(flowSlug: string, defaultValue = false) {
-    return openFlowStates[flowSlug] ?? defaultValue
+  function getOpenFlowState(flowId: string, defaultValue = false) {
+    return openFlowStates[flowId] ?? defaultValue
   }
 
-  function setOpenFlowState(flowSlug: string, isOpen: boolean) {
-    setOpenFlowStates((prev) => ({ ...prev, [flowSlug]: isOpen }))
+  function setOpenFlowState(flowId: string, isOpen: boolean) {
+    setOpenFlowStates((prev) => ({ ...prev, [flowId]: isOpen }))
   }
 
-  function resetOpenFlowState(flowSlug: string) {
+  function resetOpenFlowState(flowId: string) {
     setOpenFlowStates((prev) => {
-      const { [flowSlug]: _, ...rest } = prev
+      const { [flowId]: _, ...rest } = prev
       return { ...rest }
     })
   }
 
-  function setKeepCompletedFlowOpenDuringSession(flowSlug: string) {
-    if (completedFlowsToKeepOpenDuringSession.includes(flowSlug)) {
+  function setKeepCompletedFlowOpenDuringSession(flowId: string) {
+    if (completedFlowsToKeepOpenDuringSession.includes(flowId)) {
       return
     }
-    setCompletedFlowsToKeepOpenDuringSession((prev) => [...prev, flowSlug])
+    setCompletedFlowsToKeepOpenDuringSession((prev) => [...prev, flowId])
   }
 
-  function shouldKeepCompletedFlowOpenDuringSession(flowSlug: string): boolean {
-    return completedFlowsToKeepOpenDuringSession.includes(flowSlug)
+  function shouldKeepCompletedFlowOpenDuringSession(flowId: string): boolean {
+    return completedFlowsToKeepOpenDuringSession.includes(flowId)
   }
 
   function hasOpenModals() {
