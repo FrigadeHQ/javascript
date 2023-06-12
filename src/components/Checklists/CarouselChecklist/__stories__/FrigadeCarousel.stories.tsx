@@ -1,11 +1,11 @@
 import { CarouselChecklist } from '../index'
 
 export default {
-  title: 'Carousel',
+  title: 'Checklist',
   component: CarouselChecklist,
 }
 
-export const Default = {
+export const Carousel = {
   args: {
     flowId: 'flow_X4uJRSkq3ecFYYJi',
   },
