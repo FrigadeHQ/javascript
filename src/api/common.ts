@@ -32,6 +32,8 @@ export function useConfig() {
   }
 }
 
+const LAST_POST_CALL_AT = 'frigade-last-call-at-'
+const LAST_POST_CALL_DATA = 'frigade-last-call-data-'
 export function useGracefulFetch() {
   const { shouldGracefullyDegrade } = React.useContext(FrigadeContext)
 
@@ -40,6 +42,24 @@ export function useGracefulFetch() {
       console.log(`Skipping ${url} call to Frigade due to error`)
       return getEmptyResponse()
     }
+    const lastCallAtKey = LAST_POST_CALL_AT + url
+    const lastCallDataKey = LAST_POST_CALL_DATA + url
+    if (window && window.localStorage && options && options.body && options.method === 'POST') {
+      const lastCall = window.localStorage.getItem(lastCallAtKey)
+      const lastCallData = window.localStorage.getItem(lastCallDataKey)
+      if (lastCall && lastCallData && lastCallData == options.body) {
+        const lastCallDate = new Date(lastCall)
+        const now = new Date()
+        const diff = now.getTime() - lastCallDate.getTime()
+        // Throttle consecutive POST calls to 1 second
+        if (diff < 1000) {
+          return getEmptyResponse()
+        }
+      }
+      window.localStorage.setItem(lastCallAtKey, new Date().toISOString())
+      window.localStorage.setItem(lastCallDataKey, options.body)
+    }
+
     let response
     try {
       response = await fetch(url, options)

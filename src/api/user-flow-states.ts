@@ -83,7 +83,9 @@ export function useUserFlowStates(): {
       : null,
     fetcher,
     {
+      revalidateIfStale: true,
       keepPreviousData: true,
+      revalidateOnMount: true,
       errorRetryInterval: 10000,
       errorRetryCount: 3,
       onError: () => {

@@ -397,6 +397,13 @@ export function useFlows() {
       ) {
         return false
       }
+      if (
+        flowState &&
+        flowState.flowState === COMPLETED_FLOW &&
+        flowResponse.actionType === COMPLETED_FLOW
+      ) {
+        return false
+      }
     }
 
     return true
