@@ -33,6 +33,7 @@ export interface FrigadeBannerProps extends DefaultFrigadeFlowProps {
   title?: string
   subtitle?: string
   onDismiss?: () => void
+  icon?: React.ReactNode
 }
 
 export const FrigadeBanner: React.FC<FrigadeBannerProps> = ({
@@ -44,6 +45,7 @@ export const FrigadeBanner: React.FC<FrigadeBannerProps> = ({
   onButtonClick,
   appearance,
   type = 'full-width',
+  icon,
 }) => {
   const {
     getFlow,
@@ -104,8 +106,8 @@ export const FrigadeBanner: React.FC<FrigadeBannerProps> = ({
         className={getClassName('bannerContainer', appearance)}
       >
         {type != 'square' && (
-          <IconContainer>
-            <Info />
+          <IconContainer className={getClassName('bannerIconContainer', appearance)}>
+            {icon ? icon : <Info />}
           </IconContainer>
         )}
         {type === 'square' && metaData.dismissible && (
