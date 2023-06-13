@@ -50,7 +50,7 @@ Frigade supports a series of use cases such as:
 
 **Component Library**
 
-Unstyled, ready-made components for building high‑quality user onboarding, faster. Onboarding checklists, tooltips, product walkthroughs, and much more. [See components](<https://frigade.com/components)>)
+Unstyled, ready-made components for building high‑quality user onboarding, faster. Onboarding checklists, tooltips, product walkthroughs, and much more. [See components](https://frigade.com/components)
 
 **Integrations**
 
