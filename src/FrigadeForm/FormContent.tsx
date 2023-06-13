@@ -103,6 +103,7 @@ export const FormContent: FC<FormContentProps> = ({
   const [canContinue, setCanContinue] = useState(false)
   const [formData, setFormData] = useState({})
   const [isSaving, setIsSaving] = useState(false)
+  const [hasSetInitialHash, setHasSetInitialHash] = useState(false)
 
   const currentStep = steps[selectedStep] ?? null
   const {
@@ -116,6 +117,27 @@ export const FormContent: FC<FormContentProps> = ({
   useEffect(() => {
     updateCustomVariables(customVariables)
   }, [customVariables, isLoading])
+
+  useEffect(() => {
+    if (window && allowBackNavigation && !hasSetInitialHash) {
+      window.location.hash = steps[selectedStep].id
+      setHasSetInitialHash(true)
+    }
+  }, [allowBackNavigation, hasSetInitialHash, setHasSetInitialHash])
+
+  useEffect(() => {
+    if (
+      window &&
+      window?.location?.hash &&
+      window.location.hash.replace('#', '') !== steps[selectedStep].id
+    ) {
+      const stepIdToGoTo = window.location.hash.replace('#', '')
+      const newStepIndex = steps.findIndex((step) => step.id === stepIdToGoTo)
+      if (newStepIndex !== -1) {
+        markStepStarted(flowId, steps[newStepIndex].id)
+      }
+    }
+  }, [window?.location?.hash, markStepStarted, selectedStep, steps])
 
   function getDataPayload() {
     const data = formData[steps[selectedStep].id] ?? {}
@@ -163,7 +185,7 @@ export const FormContent: FC<FormContentProps> = ({
   const formFooter = (
     <FormFooter
       step={steps[selectedStep]}
-      canContinue={canContinue || !isSaving}
+      canContinue={canContinue && !isSaving}
       formType={type}
       selectedStep={selectedStep}
       appearance={appearance}
@@ -192,6 +214,10 @@ export const FormContent: FC<FormContentProps> = ({
         }
         primaryCTAClickSideEffects(steps[selectedStep])
         setIsSaving(false)
+        // Set hash to stepid
+        if (window && allowBackNavigation && selectedStep + 1 < steps.length) {
+          window.location.hash = steps[selectedStep + 1].id
+        }
       }}
       onSecondaryClick={() => {
         handleStepCompletionHandlers(steps[selectedStep], 'secondary', selectedStep)
