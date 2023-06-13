@@ -265,7 +265,6 @@ export function useFlows() {
 
   const markStepCompleted = useCallback(
     async (flowId: string, stepId: string, data?: any) => {
-      console.log('markStepCompleted', flowId, stepId, data)
       verifySDKInitiated()
       const flowResponse = {
         foreignUserId: userId,
