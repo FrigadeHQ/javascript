@@ -10,7 +10,7 @@ export function Label({
 }: {
   title: string
   required: boolean
-  appearance: Appearance
+  appearance?: Appearance
 }) {
   return (
     <LabelWrapper>
