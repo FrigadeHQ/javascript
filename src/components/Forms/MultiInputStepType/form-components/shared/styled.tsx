@@ -24,7 +24,7 @@ export const RequiredSymbol = styled.span`
   font-weight: 400;
   font-size: 14px;
   line-height: 22px;
-  color: #f5222d;
+  color: ${(props) => props.appearance?.theme?.colorTextError};
   display: flex;
   margin-right: 5px;
   margin-top: 10px;

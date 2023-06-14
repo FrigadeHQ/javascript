@@ -14,7 +14,14 @@ export function Label({
 }) {
   return (
     <LabelWrapper>
-      {required ? <RequiredSymbol>*</RequiredSymbol> : null}
+      {required ? (
+        <RequiredSymbol
+          className={getClassName('formLabelRequired', appearance)}
+          appearance={appearance}
+        >
+          *
+        </RequiredSymbol>
+      ) : null}
       <FormLabel className={getClassName('formLabel', appearance)}>{title}</FormLabel>
     </LabelWrapper>
   )
