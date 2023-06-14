@@ -1,12 +1,12 @@
 import { FormLabel, LabelWrapper, RequiredSymbol } from './styled'
 import { getClassName } from '../../../../../shared/appearance'
 import React from 'react'
-import { Appearance } from '../../../../../types'
+import { Appearance, DefaultAppearance } from '../../../../../types'
 
 export function Label({
   title,
   required,
-  appearance,
+  appearance = DefaultAppearance,
 }: {
   title: string
   required: boolean

@@ -11,6 +11,7 @@ export { FrigadeBanner } from './FrigadeBanner'
 export { FrigadeNPSSurvey } from './FrigadeNPSSurvey'
 
 export type { BaseTheme as FrigadeTheme } from './types'
+export { DefaultAppearance as FrigadeDefaultAppearance } from './types'
 
 export { useFlows } from './api/flows'
 export { useFlowOpens } from './api/flow-opens'
@@ -30,6 +31,7 @@ export type {
 } from './FrigadeForm/types'
 
 export { Label as FormLabel } from './components/Forms/MultiInputStepType/form-components/shared/Label'
+export { TextField as FormTextField } from './components/Forms/MultiInputStepType/form-components/TextField'
 
 export { ProgressRing } from './components/Progress/ProgressRing'
 export { CheckBox } from './components/CheckBox'
