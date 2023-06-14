@@ -5,7 +5,6 @@ export function getErrorsFromValidationResult(
   value?: string,
   validation?: InputValidation
 ): string | null {
-  // Use zod to validate the value
   try {
     if (validation) {
       if (validation.type == 'number') {
@@ -30,6 +29,30 @@ export function getErrorsFromValidationResult(
           }
         }
         validator.parse(Number(value))
+      }
+      if (validation.type == 'string') {
+        let validator = z.string()
+        if (validation.props) {
+          for (const validationProp of validation.props) {
+            if (validationProp.requirement == 'min') {
+              validator = validator.min(
+                Number(validationProp.value),
+                validationProp.message ?? 'Value is too short'
+              )
+            } else if (validationProp.requirement == 'max') {
+              validator = validator.max(
+                Number(validationProp.value),
+                validationProp.message ?? 'Value is too long'
+              )
+            } else if (validationProp.requirement == 'regex') {
+              validator = validator.regex(
+                new RegExp(String(validationProp.value)),
+                validationProp.message ?? 'Value does not match requirements'
+              )
+            }
+          }
+        }
+        validator.parse(value)
       }
 
       return

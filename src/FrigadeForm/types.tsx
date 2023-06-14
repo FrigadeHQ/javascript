@@ -37,7 +37,7 @@ export interface FormInputProps {
   formInput: FormInputType
   customFormTypeProps: CustomFormTypeProps
   inputData: any
-  onSaveInputData: (data: object) => void
+  onSaveInputData: (data: any) => void
   setFormValidationErrors: (errors: FormValidationError[]) => void
 }
 

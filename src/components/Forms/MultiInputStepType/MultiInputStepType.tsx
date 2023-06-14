@@ -106,7 +106,12 @@ export function MultiInputStepType({
                   appearance,
                 },
                 onSaveInputData: (data) => {
-                  if (!touchedInputs.includes(input.id)) {
+                  if (
+                    !touchedInputs.includes(input.id) &&
+                    // Ensure not empty string
+                    data &&
+                    data?.text !== ''
+                  ) {
                     setTouchedInputs((prev) => [...prev, input.id])
                   }
                   saveDataFromInputs(input, data)

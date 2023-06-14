@@ -75,6 +75,7 @@ export function TextField({
 
   function handleDataChange(value: string) {
     setData(value)
+    onSaveInputData({ text: value })
     if (input.required === true && value.trim() === '') {
       setFormValidationErrors([
         {
@@ -94,9 +95,7 @@ export function TextField({
       ])
       return
     }
-
     setFormValidationErrors([])
-    onSaveInputData({ text: value })
   }
 
   if (input.multiline) {
