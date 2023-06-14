@@ -70,6 +70,13 @@ interface FormContentProps extends DefaultFrigadeFlowProps {
   showPagination?: boolean
   customFormElements?: { [key: string]: (params: FormInputProps) => React.ReactNode }
   allowBackNavigation: boolean
+  validationHandler?: (
+    step: StepData,
+    index: number,
+    nextStep?: StepData,
+    allFormData?: any,
+    stepSpecificFormData?: object
+  ) => string | null | undefined
 }
 export const FormContent: FC<FormContentProps> = ({
   appearance,
@@ -89,6 +96,7 @@ export const FormContent: FC<FormContentProps> = ({
   showPagination = false,
   customFormElements,
   allowBackNavigation,
+  validationHandler,
 }) => {
   const DEFAULT_CUSTOM_STEP_TYPES = {
     linkCollection: LinkCollectionStepType,
@@ -104,6 +112,7 @@ export const FormContent: FC<FormContentProps> = ({
   const [formData, setFormData] = useState({})
   const [isSaving, setIsSaving] = useState(false)
   const [hasSetInitialHash, setHasSetInitialHash] = useState(false)
+  const [errorMessage, setErrorMessage] = useState<string | null | undefined>(null)
 
   const currentStep = steps[selectedStep] ?? null
   const {
@@ -191,6 +200,22 @@ export const FormContent: FC<FormContentProps> = ({
       appearance={appearance}
       onPrimaryClick={async () => {
         setIsSaving(true)
+        if (validationHandler) {
+          const validationError = validationHandler(
+            steps[selectedStep],
+            selectedStep,
+            steps[selectedStep + 1],
+            formData,
+            getDataPayload()
+          )
+          if (validationError) {
+            setErrorMessage(validationError)
+            setIsSaving(false)
+            return
+          } else {
+            setErrorMessage(null)
+          }
+        }
         const payload = { ...getDataPayload() }
         await markStepCompleted(flowId, steps[selectedStep].id, payload)
         if (selectedStep + 1 < steps.length) {
@@ -232,6 +257,7 @@ export const FormContent: FC<FormContentProps> = ({
       }}
       steps={steps}
       allowBackNavigation={allowBackNavigation}
+      errorMessage={errorMessage}
     />
   )
 
@@ -274,7 +300,6 @@ export const FormContent: FC<FormContentProps> = ({
                   currentStep={selectedStep}
                 />
               )}
-
               {formFooter}
             </FormContainerWrapper>
           </AnimationWrapper>

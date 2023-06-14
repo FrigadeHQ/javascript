@@ -1,6 +1,6 @@
 import React, { CSSProperties, FC, useEffect, useState } from 'react'
 
-import { DefaultFrigadeFlowProps } from '../types'
+import { DefaultFrigadeFlowProps, StepData } from '../types'
 import { useFlows } from '../api/flows'
 import { COMPLETED_FLOW } from '../api/common'
 import { Modal, ModalPosition } from '../components/Modal'
@@ -28,6 +28,17 @@ export interface FormProps extends DefaultFrigadeFlowProps {
   modalPosition?: ModalPosition
   showPagination?: boolean
   allowBackNavigation?: boolean
+  /**
+   * This function is called when the user submits data in a step.
+   * If it returns a string, the flow will not proceed to the next step and the string will be displayed as an error message.
+   */
+  validationHandler?: (
+    step: StepData,
+    index: number,
+    nextStep?: StepData,
+    allFormData?: any,
+    stepSpecificFormData?: object
+  ) => string | null | undefined
 }
 
 export const FrigadeForm: FC<FormProps> = ({
@@ -50,6 +61,7 @@ export const FrigadeForm: FC<FormProps> = ({
   onDismiss,
   showPagination = false,
   allowBackNavigation = false,
+  validationHandler,
 }) => {
   const {
     getFlow,
@@ -158,6 +170,7 @@ export const FrigadeForm: FC<FormProps> = ({
           showPagination={showPagination}
           customFormElements={customFormElements}
           allowBackNavigation={allowBackNavigation}
+          validationHandler={validationHandler}
         />
       </Modal>
     )
@@ -185,6 +198,7 @@ export const FrigadeForm: FC<FormProps> = ({
           showPagination={showPagination}
           customFormElements={customFormElements}
           allowBackNavigation={allowBackNavigation}
+          validationHandler={validationHandler}
         />
       </CornerModal>
     )
@@ -211,6 +225,7 @@ export const FrigadeForm: FC<FormProps> = ({
         showPagination={showPagination}
         customFormElements={customFormElements}
         allowBackNavigation={allowBackNavigation}
+        validationHandler={validationHandler}
       />
     </>
   )

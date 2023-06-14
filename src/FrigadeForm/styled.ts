@@ -7,6 +7,11 @@ export const FormCTAContainer = styled.div`
   padding-top: 14px;
 `
 
+export const FormCTAError = styled.div`
+  color: ${(props) => props.appearance.theme.colorTextError};
+  font-size: 12px;
+`
+
 export const CTAWrapper = styled.div`
   display: flex;
   gap: 12px;
