@@ -24,6 +24,12 @@ const MultiInputContainer = styled.div`
   overflow: visible;
 `
 
+const MultiInputValidationError = styled.div`
+  color: ${(props) => props.appearance?.theme?.colorTextError};
+  font-size: 12px;
+  margin-bottom: 12px;
+`
+
 const MultiInput = styled.div`
   padding-left: 1px;
   padding-right: 1px;
@@ -48,6 +54,8 @@ export function MultiInputStepType({
   // use state
   const [allFormData, setAllFormData] = useState(loadFromLocalStorage() || {})
   const [formValidationErrors, setFormValidationErrors] = useState<FormValidationError[]>([])
+  // Create map of inputs that have been touched as to not show error messages until they have been touched
+  const [touchedInputs, setTouchedInputs] = useState<string[]>([])
 
   // Merge DEFAULT_INPUT_TYPES and customFormElements
   const mergedInputTypes = { ...DEFAULT_INPUT_TYPES, ...customFormElements }
@@ -84,8 +92,9 @@ export function MultiInputStepType({
     <MultiInput className={getClassName('multiInput', appearance)}>
       <TitleSubtitle appearance={appearance} title={stepData.title} subtitle={stepData.subtitle} />
       <MultiInputContainer className={getClassName('multiInputContainer', appearance)}>
-        {formElements.data?.map((input: FormInputType) =>
-          mergedInputTypes[input.type] ? (
+        {formElements.data?.map((input: FormInputType) => {
+          const err = formValidationErrors.reverse().find((error) => error.id === input.id)?.message
+          return mergedInputTypes[input.type] ? (
             <span key={input.id}>
               {mergedInputTypes[input.type]({
                 formInput: input,
@@ -97,6 +106,9 @@ export function MultiInputStepType({
                   appearance,
                 },
                 onSaveInputData: (data) => {
+                  if (!touchedInputs.includes(input.id)) {
+                    setTouchedInputs((prev) => [...prev, input.id])
+                  }
                   saveDataFromInputs(input, data)
                 },
                 inputData: allFormData[input.id],
@@ -109,9 +121,17 @@ export function MultiInputStepType({
                   })
                 },
               })}
+              {err && touchedInputs.includes(input.id) && (
+                <MultiInputValidationError
+                  appearance={appearance}
+                  className={getClassName('multiInputValidationError', appearance)}
+                >
+                  {err}
+                </MultiInputValidationError>
+              )}
             </span>
           ) : null
-        )}
+        })}
       </MultiInputContainer>
     </MultiInput>
   )

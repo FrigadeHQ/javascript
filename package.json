@@ -113,6 +113,7 @@
     "react-portal": "^4.2.2",
     "styled-components": "5.3.6",
     "swr": "^2.0.3",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "zod": "^3.21.4"
   }
 }

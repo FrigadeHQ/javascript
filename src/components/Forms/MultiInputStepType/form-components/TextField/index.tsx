@@ -5,6 +5,7 @@ import { FormInputProps, FormInputType } from '../../../../../FrigadeForm/types'
 import { getClassName, getCustomClassOverrides } from '../../../../../shared/appearance'
 import { Label } from '../shared/Label'
 import { SubLabel } from '../shared/SubLabel'
+import { getErrorsFromValidationResult } from '../shared/validation'
 
 interface TextFieldProps extends FormInputType {
   id: string
@@ -83,6 +84,17 @@ export function TextField({
       ])
       return
     }
+    const validationError = getErrorsFromValidationResult(value, input.validation)
+    if (validationError) {
+      setFormValidationErrors([
+        {
+          id: input.id,
+          message: validationError,
+        },
+      ])
+      return
+    }
+
     setFormValidationErrors([])
     onSaveInputData({ text: value })
   }

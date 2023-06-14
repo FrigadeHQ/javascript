@@ -173,6 +173,7 @@ export interface BaseTheme {
   colorTextOnPrimaryBackground?: string
   colorTextSecondary?: string
   colorTextDisabled?: string
+  colorTextError?: string
   colorBorder?: string
   fontSize?: string | number
   fontSmoothing?: string
@@ -191,6 +192,7 @@ export const DefaultAppearance: Appearance = {
     colorTextSecondary: '#505050',
     colorTextDisabled: '#999999',
     colorBorder: '#E5E5E5',
+    colorTextError: '#c00000',
     borderRadius: 20,
   },
 }

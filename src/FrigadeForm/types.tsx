@@ -11,7 +11,17 @@ export interface FormInputType {
 }
 
 export interface InputValidation {
-  type: string
+  type:
+    | 'number'
+    | 'string'
+    | 'email'
+    | 'phone'
+    | 'date'
+    | 'time'
+    | 'datetime'
+    | 'url'
+    | 'custom'
+    | 'password'
   requiredError?: string
   invalidTypeError?: string
   props?: InputValidationRuleProps[]
