@@ -76,7 +76,7 @@ interface FormContentProps extends DefaultFrigadeFlowProps {
     nextStep?: StepData,
     allFormData?: any,
     stepSpecificFormData?: object
-  ) => string | null | undefined
+  ) => Promise<string | null | undefined>
 }
 export const FormContent: FC<FormContentProps> = ({
   appearance,
@@ -201,7 +201,7 @@ export const FormContent: FC<FormContentProps> = ({
       onPrimaryClick={async () => {
         setIsSaving(true)
         if (validationHandler) {
-          const validationError = validationHandler(
+          const validationError = await validationHandler(
             steps[selectedStep],
             selectedStep,
             steps[selectedStep + 1],

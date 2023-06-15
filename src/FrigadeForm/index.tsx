@@ -38,7 +38,7 @@ export interface FormProps extends DefaultFrigadeFlowProps {
     nextStep?: StepData,
     allFormData?: any,
     stepSpecificFormData?: object
-  ) => string | null | undefined
+  ) => Promise<string | null | undefined>
 }
 
 export const FrigadeForm: FC<FormProps> = ({
