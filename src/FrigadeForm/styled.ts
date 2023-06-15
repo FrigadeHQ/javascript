@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const FormCTAContainer = styled.div`
   align-items: center;
   display: flex;
-  justify-content: space-between;
+  justify-content: ${(props) => (props.showBackButton ? 'space-between' : 'flex-end')};
   padding-top: 14px;
 `
 

@@ -34,6 +34,7 @@ export const FormFooter: FC<FormFooterProps> = ({
 }) => {
   const buttonType = formType === 'inline' ? 'inline' : 'full-width'
 
+  const showBackButton = steps.length > 1 && selectedStep != 0 && allowBackNavigation
   return (
     <>
       {errorMessage && (
@@ -41,8 +42,11 @@ export const FormFooter: FC<FormFooterProps> = ({
           {errorMessage}
         </FormCTAError>
       )}
-      <FormCTAContainer className={getClassName('formCTAContainer', appearance)}>
-        {steps.length > 1 && selectedStep != 0 && allowBackNavigation && (
+      <FormCTAContainer
+        showBackButton={showBackButton}
+        className={getClassName('formCTAContainer', appearance)}
+      >
+        {showBackButton && (
           <Button
             title="←"
             onClick={onBack}
