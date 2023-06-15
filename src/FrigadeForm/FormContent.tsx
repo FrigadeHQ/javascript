@@ -289,6 +289,7 @@ export const FormContent: FC<FormContentProps> = ({
                     }}
                     appearance={appearance}
                     customFormElements={customFormElements}
+                    flowId={flowId}
                   />
                 )
               })}

@@ -11,6 +11,7 @@ import { MultipleChoice } from './form-components/MultipleChoice'
 import { MultipleChoiceList } from './form-components/MultipleChoiceList'
 import { TitleSubtitle } from '../../TitleSubtitle/TitleSubtitle'
 import { getClassName } from '../../../shared/appearance'
+import { useUser } from '../../../api/users'
 
 interface MultiInputStepProps {
   data?: FormInputType[]
@@ -42,6 +43,7 @@ const DEFAULT_INPUT_TYPES: { [key: string]: (params: FormInputProps) => React.Re
 }
 
 export function MultiInputStepType({
+  flowId,
   stepData,
   canContinue,
   setCanContinue,
@@ -52,10 +54,12 @@ export function MultiInputStepType({
   const formElements = stepData.props as MultiInputStepProps
   // Create map storing data from individual stepids
   // use state
-  const [allFormData, setAllFormData] = useState(loadFromLocalStorage() || {})
+
   const [formValidationErrors, setFormValidationErrors] = useState<FormValidationError[]>([])
   // Create map of inputs that have been touched as to not show error messages until they have been touched
   const [touchedInputs, setTouchedInputs] = useState<string[]>([])
+  const { userId } = useUser()
+  const [allFormData, setAllFormData] = useState(loadFromLocalStorage() || {})
 
   // Merge DEFAULT_INPUT_TYPES and customFormElements
   const mergedInputTypes = { ...DEFAULT_INPUT_TYPES, ...customFormElements }
@@ -85,7 +89,7 @@ export function MultiInputStepType({
   }
 
   function getLocalStorageKey() {
-    return `frigade-multiInputStepTypeData-${stepData.id}`
+    return `frigade-multiInputStepTypeData-${flowId}-${stepData.id}-${userId}`
   }
 
   return (
@@ -99,6 +103,7 @@ export function MultiInputStepType({
               {mergedInputTypes[input.type]({
                 formInput: input,
                 customFormTypeProps: {
+                  flowId,
                   stepData,
                   canContinue,
                   setCanContinue,

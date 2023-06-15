@@ -47,6 +47,7 @@ export interface FormValidationError {
 }
 
 export interface CustomFormTypeProps {
+  flowId: string
   stepData: StepData
   canContinue: boolean
   setCanContinue: (canContinue: boolean) => void
