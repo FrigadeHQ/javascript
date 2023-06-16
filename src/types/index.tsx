@@ -42,6 +42,10 @@ export interface StepData {
    */
   secondaryButtonUriTarget?: string
   /**
+   * Text on button if a back button is present
+   */
+  backButtonTitle?: string
+  /**
    * If true, the step will be marked as completed when the secondary button is clicked.
    */
   skippable?: boolean

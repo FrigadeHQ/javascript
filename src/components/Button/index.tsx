@@ -1,7 +1,12 @@
 import React, { CSSProperties, FC } from 'react'
 import styled from 'styled-components'
 import { Appearance } from '../../types'
-import { getClassName, getCustomClassOverrides, ucFirst } from '../../shared/appearance'
+import {
+  getClassName,
+  getCustomClassOverrides,
+  styleOverridesToCSS,
+  ucFirst,
+} from '../../shared/appearance'
 
 interface ButtonProps {
   onClick?: () => void
@@ -41,6 +46,7 @@ const ButtonContainer = styled.button`
     font-size: ${(props) => (props.size == 'small' ? '14px' : '15px')};
     line-height: 20px;
     font-weight: 500;
+    ${(props) => styleOverridesToCSS(props)}
   }
 
   font-family: inherit;
@@ -94,7 +100,7 @@ export const Button: FC<ButtonProps> = ({
       appearance={appearance}
       disabled={disabled}
       onClick={onClick}
-      style={style}
+      styleOverrides={style}
       type={type}
       withMargin={withMargin}
       size={size}

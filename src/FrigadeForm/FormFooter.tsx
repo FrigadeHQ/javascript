@@ -48,13 +48,14 @@ export const FormFooter: FC<FormFooterProps> = ({
       >
         {showBackButton && (
           <Button
-            title="←"
+            title={step.backButtonTitle ?? '←'}
             onClick={onBack}
             secondary={true}
             withMargin={false}
             type={buttonType}
             appearance={appearance}
-            style={{ maxWidth: '90px' }}
+            style={{ width: '90px', maxWidth: '90px' }}
+            classPrefix="back"
           />
         )}
         <CTAWrapper className={getClassName('ctaWrapper', appearance)}>

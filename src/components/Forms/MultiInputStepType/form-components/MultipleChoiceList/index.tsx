@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react'
 
 import styled from 'styled-components'
 import { FormInputProps, MultipleChoiceListProps } from '../../../../../FrigadeForm/types'
-import { getCustomClassOverrides, getClassName } from '../../../../../shared/appearance'
+import { getClassName, getCustomClassOverrides } from '../../../../../shared/appearance'
 import { Label } from '../shared/Label'
 import { SubLabel } from '../shared/SubLabel'
+import { CheckBox } from '../../../../CheckBox'
 
 const MultipleChoiceListWrapper = styled.div`
   display: flex;
@@ -31,6 +32,9 @@ const MultipleChoiceListItem = styled.button`
     text-align: left;
     border-radius: 6px;
   }
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
   cursor: pointer;
   width: 100%;
   height: 60px;
@@ -92,6 +96,12 @@ export function MultipleChoiceList({
             }}
           >
             {option.title}
+            <CheckBox
+              type="round"
+              primaryColor={customFormTypeProps.appearance.theme.colorPrimary}
+              value={selectedIds.includes(option.id)}
+              appearance={customFormTypeProps.appearance}
+            />
           </MultipleChoiceListItem>
         )
       })}
