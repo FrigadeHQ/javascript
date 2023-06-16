@@ -8,7 +8,7 @@ export const TooltipContainer = styled.div<{ maxWidth: number; appearance: Appea
   }
 
   box-shadow: 0px 6px 25px rgba(0, 0, 0, 0.06);
-  border-radius: 20px;
+  border-radius: ${(props) => props.appearance.theme.borderRadius}px;
   max-width: ${(props) => props.maxWidth}px;
   min-width: 300px;
   padding: 22px 22px 12px;

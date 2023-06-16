@@ -19,6 +19,8 @@ import { Appearance, DefaultFrigadeFlowProps, StepData } from '../../types'
 import { getClassName } from '../../shared/appearance'
 import { TitleSubtitle } from '../TitleSubtitle/TitleSubtitle'
 import { VideoCard } from '../Video/VideoCard'
+import { PoweredByFrigadeTooltipRibbon } from '../branding/styled'
+import { PoweredByFrigade } from '../branding/PoweredByFrigade'
 
 export type ToolTipPosition = 'left' | 'right' | 'auto'
 
@@ -69,6 +71,8 @@ export interface ToolTipProps extends Omit<DefaultFrigadeFlowProps, 'flowId'> {
    * 'complete-step': Completes the current step when a tooltip is dismissed.
    */
   dismissBehavior?: 'complete-flow' | 'complete-step'
+
+  showFrigadeBranding?: boolean
 }
 
 interface ToolTipPropsInternal extends ToolTipProps {
@@ -143,6 +147,7 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
   showHighlightOnly,
   showStepCount = true,
   completedStepsCount = 0,
+  showFrigadeBranding = false,
 }) => {
   const [selfBounds, setSelfBounds] = useState<undefined | Partial<DOMRect>>()
   const [needsUpdate, setNeedsUpdate] = useState(new Date())
@@ -459,6 +464,14 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
             zIndex={zIndex + 10}
           >
             <StepContent />
+            {showFrigadeBranding && (
+              <PoweredByFrigadeTooltipRibbon
+                className={getClassName('poweredByFrigadeTooltipRibbon', appearance)}
+                appearance={appearance}
+              >
+                <PoweredByFrigade appearance={appearance} />
+              </PoweredByFrigadeTooltipRibbon>
+            )}
           </TooltipContainer>
         )}
       </PositionWrapper>
