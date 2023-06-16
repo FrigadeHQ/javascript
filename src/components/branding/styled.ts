@@ -17,7 +17,7 @@ export const PoweredByFrigadeModalRibbon = styled.div`
 export const PoweredByFrigadeTooltipRibbon = styled(TooltipContainer)`
   background-color: ${(props) => props.appearance?.theme.colorBackground};
   position: absolute;
-  bottom: -47px;
+  bottom: -60px;
   left: 0;
   width: 100%;
   height: 40px;
@@ -26,6 +26,7 @@ export const PoweredByFrigadeTooltipRibbon = styled(TooltipContainer)`
   justify-content: center;
   border-radius: ${(props) => props.appearance?.theme.borderRadius}px;
   padding: 0;
+  z-index: ${(props) => props.zIndex};
 `
 
 export const PoweredByFrigadeContainer = styled.div`

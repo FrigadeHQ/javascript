@@ -448,31 +448,34 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
         className={getClassName('tooltipContainerWrapper', appearance)}
       >
         {showTooltipContainer && (
-          <TooltipContainer
-            ref={selfRef}
-            layoutId="tooltip-container"
-            style={{
-              position: 'relative',
-              width: 'max-content',
-              right: 0,
-              top: 12,
-              ...containerStyle,
-            }}
-            appearance={appearance}
-            className={getClassName('tooltipContainer', appearance)}
-            maxWidth={DEFAULT_CARD_WIDTH}
-            zIndex={zIndex + 10}
-          >
-            <StepContent />
+          <>
+            <TooltipContainer
+              ref={selfRef}
+              layoutId="tooltip-container"
+              style={{
+                position: 'relative',
+                width: 'max-content',
+                right: 0,
+                top: 12,
+                ...containerStyle,
+              }}
+              appearance={appearance}
+              className={getClassName('tooltipContainer', appearance)}
+              maxWidth={DEFAULT_CARD_WIDTH}
+              zIndex={zIndex + 10}
+            >
+              <StepContent />
+            </TooltipContainer>
             {showFrigadeBranding && (
               <PoweredByFrigadeTooltipRibbon
                 className={getClassName('poweredByFrigadeTooltipRibbon', appearance)}
                 appearance={appearance}
+                zIndex={zIndex + 10}
               >
                 <PoweredByFrigade appearance={appearance} />
               </PoweredByFrigadeTooltipRibbon>
             )}
-          </TooltipContainer>
+          </>
         )}
       </PositionWrapper>
     </TooltipWrapper>
