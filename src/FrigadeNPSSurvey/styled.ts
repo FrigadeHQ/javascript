@@ -26,7 +26,7 @@ export const NPSSurveyContainer = styled.div`
 
 export const NPSNumberButton = styled.button`
   border: 1px solid ${(props) => props.appearance.theme.colorBorder};
-  border-radius: ${(props) => props.appearance.theme.borderRadius}px;
+  border-radius: 8px;
   // If selected make border color primary and text color color priamry
   border-color: ${(props) =>
     props.selected ? props.appearance.theme.colorPrimary : props.appearance.theme.colorBorder};
@@ -52,14 +52,14 @@ export const NPSNumberButton = styled.button`
 export const NPSNumberButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
-  margin-top: 24px;
+  margin-top: 16px;
   gap: 8px;
 `
 
 export const NPSLabelContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-top: 24px;
+  margin-top: 8px;
 `
 
 export const NPSLabel = styled.div`
