@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import styled from 'styled-components'
 import { FormInputProps, MultipleChoiceListProps } from '../../../../../FrigadeForm/types'
-import { getCustomClassOverrides } from '../../../../../shared/appearance'
+import { getCustomClassOverrides, getClassName } from '../../../../../shared/appearance'
 import { Label } from '../shared/Label'
 import { SubLabel } from '../shared/SubLabel'
 
@@ -70,6 +70,7 @@ export function MultipleChoiceList({
         return (
           <MultipleChoiceListItem
             appearance={customFormTypeProps.appearance}
+            className={getClassName('multipleChoiceListItem', customFormTypeProps.appearance)}
             key={option.id}
             value={option.id}
             data-selected={selectedIds.includes(option.id)}
