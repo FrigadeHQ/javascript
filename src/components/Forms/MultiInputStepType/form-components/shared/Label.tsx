@@ -8,10 +8,14 @@ export function Label({
   required,
   appearance = DefaultAppearance,
 }: {
-  title: string
+  title?: string
   required: boolean
   appearance?: Appearance
 }) {
+  if (!title) {
+    return null
+  }
+
   return (
     <LabelWrapper>
       {required ? (
