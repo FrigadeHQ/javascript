@@ -6,6 +6,8 @@ import { Close } from '../Icons/Close'
 import { getClassName, getCustomClassOverrides, styleOverridesToCSS } from '../../shared/appearance'
 import { Appearance } from '../../types'
 import { Portal } from 'react-portal'
+import { PoweredByFrigade } from '../branding/PoweredByFrigade'
+import { PoweredByFrigadeModalRibbon } from '../branding/styled'
 
 export type ModalPosition = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' | 'center'
 
@@ -22,11 +24,8 @@ const ModalContainer = styled.div<{ appearance; maxWidth }>`
     }
 
     width: ${(props) => props.width ?? '1000px'};
-
     z-index: 1500;
-
     border-radius: ${(props) => props.appearance?.theme?.borderRadius ?? 8}px;
-
     ${(props) => styleOverridesToCSS(props)}
   }
 
@@ -90,6 +89,7 @@ interface ModalProps {
   style?: React.CSSProperties
   appearance?: Appearance
   dismissible?: boolean // defaults to true
+  showFrigadeBranding?: boolean
 }
 
 export const Modal: FC<ModalProps> = ({
@@ -100,6 +100,7 @@ export const Modal: FC<ModalProps> = ({
   children,
   appearance,
   dismissible = true,
+  showFrigadeBranding = false,
 }) => {
   // If user presses escape key, close modal
   useEffect(() => {
@@ -149,6 +150,15 @@ export const Modal: FC<ModalProps> = ({
         )}
         {headerContent && <ModalHeader>{headerContent}</ModalHeader>}
         <Body>{children}</Body>
+
+        {showFrigadeBranding && (
+          <PoweredByFrigadeModalRibbon
+            appearance={appearance}
+            className={getClassName('poweredByFrigadeRibbon', appearance)}
+          >
+            <PoweredByFrigade appearance={appearance} />
+          </PoweredByFrigadeModalRibbon>
+        )}
       </ModalContainer>
     </Portal>
   )

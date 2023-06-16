@@ -27,6 +27,7 @@ describe('SelectListStepType', () => {
         appearance={DefaultAppearance}
         onSaveData={jest.fn()}
         canContinue={false}
+        flowId={'flow_test'}
       />
     )
 

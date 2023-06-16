@@ -28,6 +28,7 @@ export interface FormProps extends DefaultFrigadeFlowProps {
   modalPosition?: ModalPosition
   showPagination?: boolean
   allowBackNavigation?: boolean
+  showFrigadeBranding?: boolean
   /**
    * This function is called when the user submits data in a step.
    * If it returns a string, the flow will not proceed to the next step and the string will be displayed as an error message.
@@ -62,6 +63,7 @@ export const FrigadeForm: FC<FormProps> = ({
   showPagination = false,
   allowBackNavigation = false,
   validationHandler,
+  showFrigadeBranding = false,
 }) => {
   const {
     getFlow,
@@ -150,6 +152,7 @@ export const FrigadeForm: FC<FormProps> = ({
         visible={showModal}
         style={overrideStyle}
         dismissible={dismissible}
+        showFrigadeBranding={showFrigadeBranding}
       >
         <RenderInlineStyles appearance={appearance} />
         <FormContent
