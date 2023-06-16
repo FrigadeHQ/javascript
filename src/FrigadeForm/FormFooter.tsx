@@ -54,6 +54,7 @@ export const FormFooter: FC<FormFooterProps> = ({
             withMargin={false}
             type={buttonType}
             appearance={appearance}
+            style={{ maxWidth: '90px' }}
           />
         )}
         <CTAWrapper className={getClassName('ctaWrapper', appearance)}>
