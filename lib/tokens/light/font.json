@@ -2,40 +2,84 @@
   "font": {
     "family": {
       "type": "fontFamily",
-      "default": { "value": "TT Interphases Pro" }
+      "default": {
+        "value": "TT Interphases Pro"
+      }
     },
     "letterSpacing": {
       "type": "letterSpacing",
-      "md": { "value": "0.02" }
+      "md": {
+        "value": "0.02"
+      }
     },
     "lineHeight": {
       "type": "lineHeight",
-      "xs": { "value": "18px" },
-      "sm": { "value": "22px" },
-      "md": { "value": "24px" },
-      "lg": { "value": "26px" },
-      "xl": { "value": "30px" },
-      "2xl": { "value": "38px" },
-      "3xl": { "value": "46px" },
-      "4xl": { "value": "60px" }
+      "xs": {
+        "value": "18px"
+      },
+      "sm": {
+        "value": "22px"
+      },
+      "md": {
+        "value": "24px"
+      },
+      "lg": {
+        "value": "26px"
+      },
+      "xl": {
+        "value": "30px"
+      },
+      "2xl": {
+        "value": "38px"
+      },
+      "3xl": {
+        "value": "46px"
+      },
+      "4xl": {
+        "value": "60px"
+      }
     },
     "size": {
       "type": "fontSize",
-      "xs": { "value": "12px" },
-      "sm": { "value": "14px" },
-      "md": { "value": "16px" },
-      "lg": { "value": "18px" },
-      "xl": { "value": "20px" },
-      "2xl": { "value": "24px" },
-      "3xl": { "value": "30px" },
-      "4xl": { "value": "36px" },
-      "5xl": { "value": "48px" }
+      "xs": {
+        "value": "12px"
+      },
+      "sm": {
+        "value": "14px"
+      },
+      "md": {
+        "value": "16px"
+      },
+      "lg": {
+        "value": "18px"
+      },
+      "xl": {
+        "value": "20px"
+      },
+      "2xl": {
+        "value": "24px"
+      },
+      "3xl": {
+        "value": "30px"
+      },
+      "4xl": {
+        "value": "36px"
+      },
+      "5xl": {
+        "value": "48px"
+      }
     },
     "weight": {
       "type": "fontWeight",
-      "regular": { "value": "Regular" },
-      "demibold": { "value": "DemiBold" },
-      "bold": { "value": "Bold" }
+      "regular": {
+        "value": "Regular"
+      },
+      "demibold": {
+        "value": "DemiBold"
+      },
+      "bold": {
+        "value": "Bold"
+      }
     }
   }
 }

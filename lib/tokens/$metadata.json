@@ -1,0 +1,13 @@
+{
+  "tokenSetOrder": [
+    "light/color/palette",
+    "light/color/semantic",
+    "light/component/text",
+    "light/component/card",
+    "light/component/button",
+    "light/font",
+    "light/radius",
+    "light/space",
+    "light/stroke"
+  ]
+}

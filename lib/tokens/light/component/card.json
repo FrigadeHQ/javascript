@@ -1,0 +1,12 @@
+{
+  "component": {
+    "card": {
+      "value": {
+        "boxShadow": "0 4px 20px 0 rgba(0 0 0 0.06)",
+        "borderRadius": "{radius.md}",
+        "fill": "{color.neutral.background.default}"
+      },
+      "type": "composition"
+    }
+  }
+}

@@ -3,240 +3,576 @@
     "type": "color",
     "neutral": {
       "background": {
-        "lowest": { "value": "{color.white}" },
-        "low": { "value": "{color.white}" },
-        "default": { "value": "{color.white}" },
-        "high": { "value": "{color.white}" },
-        "highest": { "value": "{color.white}" },
-        "inverted": { "value": "{color.white}" }
+        "lowest": {
+          "value": "{color.white}"
+        },
+        "low": {
+          "value": "{color.white}"
+        },
+        "default": {
+          "value": "{color.white}"
+        },
+        "high": {
+          "value": "{color.white}"
+        },
+        "highest": {
+          "value": "{color.white}"
+        },
+        "inverted": {
+          "value": "{color.white}"
+        }
       },
       "surface": {
-        "lowest": { "value": "{color.white}" },
-        "low": { "value": "{color.white}" },
-        "default": { "value": "{color.gray800}" },
-        "high": { "value": "{color.white}" },
-        "highest": { "value": "{color.white}" },
-        "inverted": { "value": "{color.white}" }
+        "lowest": {
+          "value": "{color.white}"
+        },
+        "low": {
+          "value": "{color.white}"
+        },
+        "default": {
+          "value": "{color.gray800}"
+        },
+        "high": {
+          "value": "{color.white}"
+        },
+        "highest": {
+          "value": "{color.white}"
+        },
+        "inverted": {
+          "value": "{color.white}"
+        }
       },
       "foreground": {
-        "lowest": { "value": "{color.white}" },
-        "low": { "value": "{color.white}" },
-        "default": { "value": "{color.black}" },
-        "high": { "value": "{color.white}" },
-        "highest": { "value": "{color.white}" },
-        "inverted": { "value": "{color.white}" }
+        "lowest": {
+          "value": "{color.gray700}"
+        },
+        "low": {
+          "value": "{color.gray600}"
+        },
+        "default": {
+          "value": "{color.black}"
+        },
+        "high": {
+          "value": "{color.white}"
+        },
+        "highest": {
+          "value": "{color.white}"
+        },
+        "inverted": {
+          "value": "{color.white}"
+        }
       },
       "border": {
-        "lowest": { "value": "{color.white}" },
-        "low": { "value": "{color.white}" },
-        "default": { "value": "{color.gray600}" },
-        "high": { "value": "{color.white}" },
-        "highest": { "value": "{color.white}" },
-        "inverted": { "value": "{color.white}" }
+        "lowest": {
+          "value": "{color.white}"
+        },
+        "low": {
+          "value": "{color.white}"
+        },
+        "default": {
+          "value": "{color.gray600}"
+        },
+        "high": {
+          "value": "{color.white}"
+        },
+        "highest": {
+          "value": "{color.white}"
+        },
+        "inverted": {
+          "value": "{color.white}"
+        }
       }
     },
     "primary": {
       "background": {
-        "lowest": { "value": "{color.white}" },
-        "low": { "value": "{color.white}" },
-        "default": { "value": "{color.white}" },
-        "high": { "value": "{color.white}" },
-        "highest": { "value": "{color.white}" },
-        "inverted": { "value": "{color.white}" }
+        "lowest": {
+          "value": "{color.white}"
+        },
+        "low": {
+          "value": "{color.white}"
+        },
+        "default": {
+          "value": "{color.white}"
+        },
+        "high": {
+          "value": "{color.white}"
+        },
+        "highest": {
+          "value": "{color.white}"
+        },
+        "inverted": {
+          "value": "{color.white}"
+        }
       },
       "surface": {
-        "lowest": { "value": "{color.white}" },
-        "low": { "value": "{color.white}" },
-        "default": { "value": "{color.white}" },
-        "high": { "value": "{color.white}" },
-        "highest": { "value": "{color.white}" },
-        "inverted": { "value": "{color.white}" }
+        "lowest": {
+          "value": "{color.blue900}"
+        },
+        "low": {
+          "value": "{color.blue800}"
+        },
+        "default": {
+          "value": "{color.blue500}"
+        },
+        "high": {
+          "value": "{color.blue400}"
+        },
+        "highest": {
+          "value": "{color.white}"
+        },
+        "inverted": {
+          "value": "{color.white}"
+        }
       },
       "foreground": {
-        "lowest": { "value": "{color.white}" },
-        "low": { "value": "{color.white}" },
-        "default": { "value": "{color.white}" },
-        "high": { "value": "{color.white}" },
-        "highest": { "value": "{color.white}" },
-        "inverted": { "value": "{color.white}" }
+        "lowest": {
+          "value": "{color.white}"
+        },
+        "low": {
+          "value": "{color.white}"
+        },
+        "default": {
+          "value": "{color.white}"
+        },
+        "high": {
+          "value": "{color.white}"
+        },
+        "highest": {
+          "value": "{color.white}"
+        },
+        "inverted": {
+          "value": "{color.gray500}"
+        }
       },
       "border": {
-        "lowest": { "value": "{color.white}" },
-        "low": { "value": "{color.white}" },
-        "default": { "value": "{color.white}" },
-        "high": { "value": "{color.white}" },
-        "highest": { "value": "{color.white}" },
-        "inverted": { "value": "{color.white}" }
+        "lowest": {
+          "value": "{color.white}"
+        },
+        "low": {
+          "value": "{color.white}"
+        },
+        "default": {
+          "value": "{color.white}"
+        },
+        "high": {
+          "value": "{color.white}"
+        },
+        "highest": {
+          "value": "{color.white}"
+        },
+        "inverted": {
+          "value": "{color.white}"
+        }
       }
     },
     "secondary": {
       "background": {
-        "lowest": { "value": "{color.white}" },
-        "low": { "value": "{color.white}" },
-        "default": { "value": "{color.white}" },
-        "high": { "value": "{color.white}" },
-        "highest": { "value": "{color.white}" },
-        "inverted": { "value": "{color.white}" }
+        "lowest": {
+          "value": "{color.white}"
+        },
+        "low": {
+          "value": "{color.white}"
+        },
+        "default": {
+          "value": "{color.white}"
+        },
+        "high": {
+          "value": "{color.white}"
+        },
+        "highest": {
+          "value": "{color.white}"
+        },
+        "inverted": {
+          "value": "{color.white}"
+        }
       },
       "surface": {
-        "lowest": { "value": "{color.white}" },
-        "low": { "value": "{color.white}" },
-        "default": { "value": "{color.white}" },
-        "high": { "value": "{color.white}" },
-        "highest": { "value": "{color.white}" },
-        "inverted": { "value": "{color.white}" }
+        "lowest": {
+          "value": "{color.white}"
+        },
+        "low": {
+          "value": "{color.white}"
+        },
+        "default": {
+          "value": "{color.white}"
+        },
+        "high": {
+          "value": "{color.white}"
+        },
+        "highest": {
+          "value": "{color.white}"
+        },
+        "inverted": {
+          "value": "{color.white}"
+        }
       },
       "foreground": {
-        "lowest": { "value": "{color.white}" },
-        "low": { "value": "{color.white}" },
-        "default": { "value": "{color.white}" },
-        "high": { "value": "{color.white}" },
-        "highest": { "value": "{color.white}" },
-        "inverted": { "value": "{color.white}" }
+        "lowest": {
+          "value": "{color.white}"
+        },
+        "low": {
+          "value": "{color.white}"
+        },
+        "default": {
+          "value": "{color.black}"
+        },
+        "high": {
+          "value": "{color.white}"
+        },
+        "highest": {
+          "value": "{color.white}"
+        },
+        "inverted": {
+          "value": "{color.white}"
+        }
       },
       "border": {
-        "lowest": { "value": "{color.white}" },
-        "low": { "value": "{color.white}" },
-        "default": { "value": "{color.white}" },
-        "high": { "value": "{color.white}" },
-        "highest": { "value": "{color.white}" },
-        "inverted": { "value": "{color.white}" }
+        "lowest": {
+          "value": "{color.white}"
+        },
+        "low": {
+          "value": "{color.white}"
+        },
+        "default": {
+          "value": "{color.gray800}"
+        },
+        "high": {
+          "value": "{color.white}"
+        },
+        "highest": {
+          "value": "{color.white}"
+        },
+        "inverted": {
+          "value": "{color.white}"
+        }
       }
     },
     "accent": {
       "background": {
-        "lowest": { "value": "{color.white}" },
-        "low": { "value": "{color.white}" },
-        "default": { "value": "{color.white}" },
-        "high": { "value": "{color.white}" },
-        "highest": { "value": "{color.white}" },
-        "inverted": { "value": "{color.white}" }
+        "lowest": {
+          "value": "{color.white}"
+        },
+        "low": {
+          "value": "{color.white}"
+        },
+        "default": {
+          "value": "{color.white}"
+        },
+        "high": {
+          "value": "{color.white}"
+        },
+        "highest": {
+          "value": "{color.white}"
+        },
+        "inverted": {
+          "value": "{color.white}"
+        }
       },
       "surface": {
-        "lowest": { "value": "{color.white}" },
-        "low": { "value": "{color.white}" },
-        "default": { "value": "{color.white}" },
-        "high": { "value": "{color.white}" },
-        "highest": { "value": "{color.white}" },
-        "inverted": { "value": "{color.white}" }
+        "lowest": {
+          "value": "{color.white}"
+        },
+        "low": {
+          "value": "{color.white}"
+        },
+        "default": {
+          "value": "{color.white}"
+        },
+        "high": {
+          "value": "{color.white}"
+        },
+        "highest": {
+          "value": "{color.white}"
+        },
+        "inverted": {
+          "value": "{color.white}"
+        }
       },
       "foreground": {
-        "lowest": { "value": "{color.white}" },
-        "low": { "value": "{color.white}" },
-        "default": { "value": "{color.white}" },
-        "high": { "value": "{color.white}" },
-        "highest": { "value": "{color.white}" },
-        "inverted": { "value": "{color.white}" }
+        "lowest": {
+          "value": "{color.white}"
+        },
+        "low": {
+          "value": "{color.white}"
+        },
+        "default": {
+          "value": "{color.white}"
+        },
+        "high": {
+          "value": "{color.white}"
+        },
+        "highest": {
+          "value": "{color.white}"
+        },
+        "inverted": {
+          "value": "{color.white}"
+        }
       },
       "border": {
-        "lowest": { "value": "{color.white}" },
-        "low": { "value": "{color.white}" },
-        "default": { "value": "{color.white}" },
-        "high": { "value": "{color.white}" },
-        "highest": { "value": "{color.white}" },
-        "inverted": { "value": "{color.white}" }
+        "lowest": {
+          "value": "{color.white}"
+        },
+        "low": {
+          "value": "{color.white}"
+        },
+        "default": {
+          "value": "{color.white}"
+        },
+        "high": {
+          "value": "{color.white}"
+        },
+        "highest": {
+          "value": "{color.white}"
+        },
+        "inverted": {
+          "value": "{color.white}"
+        }
       }
     },
     "positive": {
       "background": {
-        "lowest": { "value": "{color.white}" },
-        "low": { "value": "{color.white}" },
-        "default": { "value": "{color.white}" },
-        "high": { "value": "{color.white}" },
-        "highest": { "value": "{color.white}" },
-        "inverted": { "value": "{color.white}" }
+        "lowest": {
+          "value": "{color.white}"
+        },
+        "low": {
+          "value": "{color.white}"
+        },
+        "default": {
+          "value": "{color.white}"
+        },
+        "high": {
+          "value": "{color.white}"
+        },
+        "highest": {
+          "value": "{color.white}"
+        },
+        "inverted": {
+          "value": "{color.white}"
+        }
       },
       "surface": {
-        "lowest": { "value": "{color.white}" },
-        "low": { "value": "{color.white}" },
-        "default": { "value": "{color.white}" },
-        "high": { "value": "{color.white}" },
-        "highest": { "value": "{color.white}" },
-        "inverted": { "value": "{color.white}" }
+        "lowest": {
+          "value": "{color.white}"
+        },
+        "low": {
+          "value": "{color.white}"
+        },
+        "default": {
+          "value": "{color.white}"
+        },
+        "high": {
+          "value": "{color.white}"
+        },
+        "highest": {
+          "value": "{color.white}"
+        },
+        "inverted": {
+          "value": "{color.white}"
+        }
       },
       "foreground": {
-        "lowest": { "value": "{color.white}" },
-        "low": { "value": "{color.white}" },
-        "default": { "value": "{color.white}" },
-        "high": { "value": "{color.white}" },
-        "highest": { "value": "{color.white}" },
-        "inverted": { "value": "{color.white}" }
+        "lowest": {
+          "value": "{color.white}"
+        },
+        "low": {
+          "value": "{color.white}"
+        },
+        "default": {
+          "value": "{color.white}"
+        },
+        "high": {
+          "value": "{color.white}"
+        },
+        "highest": {
+          "value": "{color.white}"
+        },
+        "inverted": {
+          "value": "{color.white}"
+        }
       },
       "border": {
-        "lowest": { "value": "{color.white}" },
-        "low": { "value": "{color.white}" },
-        "default": { "value": "{color.white}" },
-        "high": { "value": "{color.white}" },
-        "highest": { "value": "{color.white}" },
-        "inverted": { "value": "{color.white}" }
+        "lowest": {
+          "value": "{color.white}"
+        },
+        "low": {
+          "value": "{color.white}"
+        },
+        "default": {
+          "value": "{color.white}"
+        },
+        "high": {
+          "value": "{color.white}"
+        },
+        "highest": {
+          "value": "{color.white}"
+        },
+        "inverted": {
+          "value": "{color.white}"
+        }
       }
     },
     "negative": {
       "background": {
-        "lowest": { "value": "{color.white}" },
-        "low": { "value": "{color.white}" },
-        "default": { "value": "{color.white}" },
-        "high": { "value": "{color.white}" },
-        "highest": { "value": "{color.white}" },
-        "inverted": { "value": "{color.white}" }
+        "lowest": {
+          "value": "{color.white}"
+        },
+        "low": {
+          "value": "{color.white}"
+        },
+        "default": {
+          "value": "{color.white}"
+        },
+        "high": {
+          "value": "{color.white}"
+        },
+        "highest": {
+          "value": "{color.white}"
+        },
+        "inverted": {
+          "value": "{color.white}"
+        }
       },
       "surface": {
-        "lowest": { "value": "{color.white}" },
-        "low": { "value": "{color.white}" },
-        "default": { "value": "{color.white}" },
-        "high": { "value": "{color.white}" },
-        "highest": { "value": "{color.white}" },
-        "inverted": { "value": "{color.white}" }
+        "lowest": {
+          "value": "{color.white}"
+        },
+        "low": {
+          "value": "{color.white}"
+        },
+        "default": {
+          "value": "{color.white}"
+        },
+        "high": {
+          "value": "{color.white}"
+        },
+        "highest": {
+          "value": "{color.white}"
+        },
+        "inverted": {
+          "value": "{color.white}"
+        }
       },
       "foreground": {
-        "lowest": { "value": "{color.white}" },
-        "low": { "value": "{color.white}" },
-        "default": { "value": "{color.white}" },
-        "high": { "value": "{color.white}" },
-        "highest": { "value": "{color.white}" },
-        "inverted": { "value": "{color.white}" }
+        "lowest": {
+          "value": "{color.white}"
+        },
+        "low": {
+          "value": "{color.white}"
+        },
+        "default": {
+          "value": "{color.white}"
+        },
+        "high": {
+          "value": "{color.white}"
+        },
+        "highest": {
+          "value": "{color.white}"
+        },
+        "inverted": {
+          "value": "{color.white}"
+        }
       },
       "border": {
-        "lowest": { "value": "{color.white}" },
-        "low": { "value": "{color.white}" },
-        "default": { "value": "{color.white}" },
-        "high": { "value": "{color.white}" },
-        "highest": { "value": "{color.white}" },
-        "inverted": { "value": "{color.white}" }
+        "lowest": {
+          "value": "{color.white}"
+        },
+        "low": {
+          "value": "{color.white}"
+        },
+        "default": {
+          "value": "{color.white}"
+        },
+        "high": {
+          "value": "{color.white}"
+        },
+        "highest": {
+          "value": "{color.white}"
+        },
+        "inverted": {
+          "value": "{color.white}"
+        }
       }
     },
     "warning": {
       "background": {
-        "lowest": { "value": "{color.white}" },
-        "low": { "value": "{color.white}" },
-        "default": { "value": "{color.white}" },
-        "high": { "value": "{color.white}" },
-        "highest": { "value": "{color.white}" },
-        "inverted": { "value": "{color.white}" }
+        "lowest": {
+          "value": "{color.white}"
+        },
+        "low": {
+          "value": "{color.white}"
+        },
+        "default": {
+          "value": "{color.white}"
+        },
+        "high": {
+          "value": "{color.white}"
+        },
+        "highest": {
+          "value": "{color.white}"
+        },
+        "inverted": {
+          "value": "{color.white}"
+        }
       },
       "surface": {
-        "lowest": { "value": "{color.white}" },
-        "low": { "value": "{color.white}" },
-        "default": { "value": "{color.white}" },
-        "high": { "value": "{color.white}" },
-        "highest": { "value": "{color.white}" },
-        "inverted": { "value": "{color.white}" }
+        "lowest": {
+          "value": "{color.white}"
+        },
+        "low": {
+          "value": "{color.white}"
+        },
+        "default": {
+          "value": "{color.white}"
+        },
+        "high": {
+          "value": "{color.white}"
+        },
+        "highest": {
+          "value": "{color.white}"
+        },
+        "inverted": {
+          "value": "{color.white}"
+        }
       },
       "foreground": {
-        "lowest": { "value": "{color.white}" },
-        "low": { "value": "{color.white}" },
-        "default": { "value": "{color.white}" },
-        "high": { "value": "{color.white}" },
-        "highest": { "value": "{color.white}" },
-        "inverted": { "value": "{color.white}" }
+        "lowest": {
+          "value": "{color.white}"
+        },
+        "low": {
+          "value": "{color.white}"
+        },
+        "default": {
+          "value": "{color.white}"
+        },
+        "high": {
+          "value": "{color.white}"
+        },
+        "highest": {
+          "value": "{color.white}"
+        },
+        "inverted": {
+          "value": "{color.white}"
+        }
       },
       "border": {
-        "lowest": { "value": "{color.white}" },
-        "low": { "value": "{color.white}" },
-        "default": { "value": "{color.white}" },
-        "high": { "value": "{color.white}" },
-        "highest": { "value": "{color.white}" },
-        "inverted": { "value": "{color.white}" }
+        "lowest": {
+          "value": "{color.white}"
+        },
+        "low": {
+          "value": "{color.white}"
+        },
+        "default": {
+          "value": "{color.white}"
+        },
+        "high": {
+          "value": "{color.white}"
+        },
+        "highest": {
+          "value": "{color.white}"
+        },
+        "inverted": {
+          "value": "{color.white}"
+        }
       }
     }
   }

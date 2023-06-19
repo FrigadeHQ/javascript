@@ -1,0 +1,45 @@
+{
+  "component": {
+    "button": {
+      "primary": {
+        "default": {
+          "value": {
+            "borderRadius": "{radius.md}",
+            "fill": "{color.primary.surface.default}"
+          },
+          "type": "composition"
+        },
+        "hover": {
+          "value": {
+            "borderRadius": "{radius.md}",
+            "fill": "{color.primary.surface.high}"
+          },
+          "type": "composition"
+        },
+        "active": {
+          "value": {
+            "borderRadius": "{radius.md}",
+            "fill": "{color.primary.surface.high}"
+          },
+          "type": "composition"
+        },
+        "disabled": {
+          "value": {
+            "borderRadius": "{radius.md}",
+            "fill": "{color.primary.surface.lowest}"
+          },
+          "type": "composition"
+        }
+      },
+      "secondary": {
+        "value": {
+          "borderRadius": "{radius.md}",
+          "fill": "{color.secondary.background.default}",
+          "borderWidth": "{stroke.md}",
+          "borderColor": "{color.secondary.border.default}"
+        },
+        "type": "composition"
+      }
+    }
+  }
+}
