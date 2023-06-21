@@ -44,7 +44,8 @@ export function useUserFlowStates(): {
   error: any
 } {
   const { config } = useConfig()
-  const { publicApiKey, userId, flows, setShouldGracefullyDegrade } = useContext(FrigadeContext)
+  const { publicApiKey, userId, organizationId, flows, setShouldGracefullyDegrade } =
+    useContext(FrigadeContext)
   const { resetOpenFlowState } = useFlowOpens()
   const [hasFinishedInitialLoad, setHasFinishedInitialLoad] = useState(false)
   const emptyResponse = {
@@ -79,7 +80,9 @@ export function useUserFlowStates(): {
     error,
   } = useSWR(
     publicApiKey && flows && userId
-      ? `${API_PREFIX}userFlowStates?foreignUserId=${encodeURIComponent(userId)}`
+      ? `${API_PREFIX}userFlowStates?foreignUserId=${encodeURIComponent(userId)}${
+          organizationId ? `&foreignUserGroupId=${encodeURIComponent(organizationId)}` : ''
+        }`
       : null,
     fetcher,
     {
