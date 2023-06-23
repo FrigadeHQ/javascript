@@ -9,23 +9,14 @@ const CloseContainer = styled.div`
 
 export const Close = () => (
   <CloseContainer>
-    <svg width="12" height="12" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect
-        y="1.39844"
-        width="1.97669"
-        height="17.8213"
-        rx="0.988346"
-        transform="rotate(-45 0 1.39844)"
-        fill="currentColor"
-      />
-      <rect
-        x="12.6023"
-        width="1.97669"
-        height="17.8213"
-        rx="0.988346"
-        transform="rotate(45 12.6023 0)"
-        fill="currentColor"
-      />
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 20 20">
+      <path
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1.5"
+        d="M5 15L15 5M5 5l10 10"
+      ></path>
     </svg>
   </CloseContainer>
 )

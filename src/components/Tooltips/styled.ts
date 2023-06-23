@@ -19,8 +19,8 @@ export const TooltipDismissContainer = styled.div`
   display: block;
   cursor: pointer;
   position: absolute;
-  top: 25px;
-  right: 22px;
+  top: 12px;
+  right: 12px;
 `
 
 export const TooltipImageContainer = styled.img`
