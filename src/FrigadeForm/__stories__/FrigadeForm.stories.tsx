@@ -7,7 +7,7 @@ export default {
 
 export const Announcement = {
   args: {
-    flowId: 'flow_qmd7eFmco9aTJmf8',
+    flowId: 'flow_cvWFczn1RMHp9ZcK',
     type: 'modal',
     modalPosition: 'center',
     showPagination: true,

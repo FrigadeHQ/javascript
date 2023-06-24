@@ -7,6 +7,6 @@ export default {
 
 export const Carousel = {
   args: {
-    flowId: 'flow_X4uJRSkq3ecFYYJi',
+    flowId: 'flow_Xqer5qrkMQ10gvJ3',
   },
 }

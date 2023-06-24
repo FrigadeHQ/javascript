@@ -1,5 +1,11 @@
+@font-face {
+  font-family: 'TT Interphases Pro';
+  src: local('TT Interphases Pro');
+}
+
 html,
 body,
 #storybook-root {
+  font-family: 'TT Interphases Pro', sans-serif;
   height: 100vh;
 }
