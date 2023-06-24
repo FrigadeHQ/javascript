@@ -1,6 +1,7 @@
 import React, { FC } from 'react'
 import { Appearance, StepData } from '../../../types'
 import { useCTAClickSideEffects } from '../../../hooks/useCTAClickSideEffects'
+import { CTA } from '../../checklist-step-content/shared/CTA'
 
 import {
   Body,
@@ -23,7 +24,7 @@ export const CarouselCard: FC<CarouselCardProps> = ({ stepData, style = {}, appe
   const { mergeAppearanceWithDefault } = useTheme()
   const { primaryCTAClickSideEffects } = useCTAClickSideEffects()
 
-  const { theme, styleOverrides } = mergeAppearanceWithDefault(appearance)
+  appearance = mergeAppearanceWithDefault(appearance)
 
   const {
     imageUri = null,
@@ -32,6 +33,8 @@ export const CarouselCard: FC<CarouselCardProps> = ({ stepData, style = {}, appe
     complete = false,
     blocked = false,
   } = stepData
+
+  const hasCTA = stepData.primaryButtonTitle || stepData.secondaryButtonTitle
 
   const handleClick = () => {
     primaryCTAClickSideEffects(stepData)
@@ -45,21 +48,19 @@ export const CarouselCard: FC<CarouselCardProps> = ({ stepData, style = {}, appe
       blocked={blocked}
       complete={complete}
     >
-      <div style={{ alignItems: 'flex-start', display: 'flex', justifyContent: 'space-between' }}>
-        {imageUri && (
-          <StyledCarouselCardImage
-            className={getClassName('carouselCardImage', appearance)}
-            src={imageUri}
-            alt={title}
-            style={{ opacity: complete || blocked ? 0.4 : 1 }}
-          />
-        )}
-        {complete && (
-          <CompletedPill className={getClassName('carouselCompletedPill', appearance)}>
-            <Small style={{ color: '#108E0B' }}>Complete</Small>
-          </CompletedPill>
-        )}
-      </div>
+      {imageUri && (
+        <StyledCarouselCardImage
+          className={getClassName('carouselCardImage', appearance)}
+          src={imageUri}
+          alt={title}
+          style={{ opacity: complete || blocked ? 0.4 : 1 }}
+        />
+      )}
+      {(complete || true) && (
+        <CompletedPill className={getClassName('carouselCompletedPill', appearance)}>
+          <Small style={{ color: '#108E0B' }}>Complete</Small>
+        </CompletedPill>
+      )}
       {title && (
         <CardTitle
           blocked={blocked}
@@ -78,6 +79,7 @@ export const CarouselCard: FC<CarouselCardProps> = ({ stepData, style = {}, appe
           {subtitle}
         </Body.Quiet>
       )}
+      {/* !(complete || blocked) && hasCTA && <CTA stepData={stepData} appearance={appearance} /> */}
     </StyledCarouselCard>
   )
 }

@@ -1,6 +1,7 @@
 import React, { FC } from 'react'
 import { Button, MultipleButtonContainer } from '../../Button'
 import { StepContentProps } from '../../../FrigadeForm/types'
+import { getClassName } from '../../../shared/appearance'
 
 export const CTA: FC<StepContentProps> = ({ stepData, appearance }) => {
   const handlePrimaryButtonClick = () => {
@@ -16,26 +17,24 @@ export const CTA: FC<StepContentProps> = ({ stepData, appearance }) => {
   }
 
   return (
-    <>
-      <MultipleButtonContainer>
-        {stepData.secondaryButtonTitle && (
-          <Button
-            appearance={appearance}
-            secondary
-            title={stepData.secondaryButtonTitle}
-            onClick={handleSecondaryButtonClick}
-            style={{
-              width: 'auto',
-              marginRight: '12px',
-            }}
-          />
-        )}
+    <MultipleButtonContainer className={getClassName('ctaContainer', appearance)}>
+      {stepData.secondaryButtonTitle && (
         <Button
           appearance={appearance}
-          title={stepData.primaryButtonTitle}
-          onClick={handlePrimaryButtonClick}
+          secondary
+          title={stepData.secondaryButtonTitle}
+          onClick={handleSecondaryButtonClick}
+          style={{
+            width: 'auto',
+            marginRight: '12px',
+          }}
         />
-      </MultipleButtonContainer>
-    </>
+      )}
+      <Button
+        appearance={appearance}
+        title={stepData.primaryButtonTitle}
+        onClick={handlePrimaryButtonClick}
+      />
+    </MultipleButtonContainer>
   )
 }

@@ -61,6 +61,7 @@ export const StyledCarouselFade = styled.div`
   );
   position: absolute;
   width: 64px;
+  z-index: 10;
 `
 
 export const StyledScrollButton = styled.button`
@@ -85,6 +86,7 @@ export const Card = styled.div`
 export const StyledCarouselCard = styled(Card)`
   ${defaultBorder}
   background: ${({ theme }) => theme.colorBackground};
+  position: relative;
 
   &:active {
     ${(props) => (!props.blocked ? `background: ${props.theme.colorBackgroundSecondary};` : ``)}
@@ -126,6 +128,7 @@ export const ProgressBarLabel = styled.div`
 export const CompletedPill = styled.div`
   background: #d8fed8;
   border-radius: 6px;
+  float: right;
   margin-bottom: 12px;
   padding: 4px 10px;
 `
