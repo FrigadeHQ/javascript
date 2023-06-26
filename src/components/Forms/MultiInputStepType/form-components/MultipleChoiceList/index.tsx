@@ -47,6 +47,7 @@ export function MultipleChoiceList({
   customFormTypeProps,
   onSaveInputData,
   inputData,
+  setFormValidationErrors,
 }: FormInputProps) {
   const input = formInput as MultipleChoiceListProps
   const [selectedIds, setSelectedIds] = useState<string[]>(inputData?.choice || [])
@@ -61,6 +62,23 @@ export function MultipleChoiceList({
 
   useEffect(() => {
     onSaveInputData({ choice: selectedIds })
+  }, [selectedIds])
+
+  useEffect(() => {
+    // Set errors if inputData does not meet min/max requirements and if field is required
+    if (
+      input.required &&
+      (selectedIds.length < input.props.minChoices || selectedIds.length > input.props.maxChoices)
+    ) {
+      setFormValidationErrors([
+        {
+          message: ``,
+          id: input.id,
+        },
+      ])
+    } else {
+      setFormValidationErrors([])
+    }
   }, [selectedIds])
 
   return (
