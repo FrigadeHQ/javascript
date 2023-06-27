@@ -1,4 +1,5 @@
 import { defineConfig, Options } from 'tsup'
+import { vanillaExtractPlugin } from '@vanilla-extract/esbuild-plugin'
 
 const commonConfig: Options = {
   minify: true,
@@ -16,6 +17,7 @@ export default defineConfig([
         js: '"use client";',
       }
     },
+    esbuildPlugins: [vanillaExtractPlugin()],
     entry: ['src/index.ts'],
     outDir: 'lib',
   },
