@@ -57,7 +57,17 @@ const textVariantStyles = {
   },
 }
 
-export const textVariantNames = Object.keys(textVariantStyles)
+const textWeightStyles = {
+  regular: {
+    fontWeight: 400,
+  },
+  semibold: {
+    fontWeight: 600,
+  },
+  bold: {
+    fontWeight: 700,
+  },
+}
 
 export const textRecipe = recipe({
   base: {
@@ -66,7 +76,12 @@ export const textRecipe = recipe({
 
   variants: {
     variant: textVariantStyles,
+    weight: textWeightStyles,
   },
 })
 
 export type TextRecipeVariants = RecipeVariants<typeof textRecipe>
+
+// Used internally for constructing variant components and Stories
+export const textVariantNames = Object.keys(textVariantStyles) as TextRecipeVariants['variant'][]
+export const textWeightNames = Object.keys(textWeightStyles) as TextRecipeVariants['weight'][]
