@@ -172,10 +172,23 @@ export function useFlows() {
   }
 
   function substituteVariables(flowData: string) {
-    return flowData.replace(/\${(.*?)}/g, (_, variableName) => {
-      return customVariables[variableName] !== undefined
-        ? String(customVariables[variableName])
-        : ''
+    return flowData.replaceAll(/\${(.*?)}/g, (_, variableName) => {
+      if (customVariables[variableName] === undefined) {
+        return ''
+      }
+
+      return String(customVariables[variableName])
+        .replace(/[\u00A0-\u9999<>\&]/g, function (i) {
+          return '&#' + i.charCodeAt(0) + ';'
+        })
+        .replaceAll(/[\\]/g, '\\\\')
+        .replaceAll(/[\"]/g, '\\"')
+        .replaceAll(/[\/]/g, '\\/')
+        .replaceAll(/[\b]/g, '\\b')
+        .replaceAll(/[\f]/g, '\\f')
+        .replaceAll(/[\n]/g, '\\n')
+        .replaceAll(/[\r]/g, '\\r')
+        .replaceAll(/[\t]/g, '\\t')
     })
   }
 
