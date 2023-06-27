@@ -147,8 +147,8 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
     initialSelectedStep === undefined &&
     getNumberOfStepsCompleted(flowId) > 0
   ) {
-    const completedSteps = Math.min(getNumberOfStepsCompleted(flowId), steps.length - 1)
-    setSelectedStep(completedSteps)
+    const firstIncompleteStep = steps.findIndex((step) => step.complete === false)
+    setSelectedStep(firstIncompleteStep > -1 ? firstIncompleteStep : steps.length - 1)
     setFinishedInitialLoad(true)
   }
 

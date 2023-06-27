@@ -8,8 +8,7 @@ export default {
 export const Hero = {
   args: {
     flowId: 'flow_Xqer5qrkMQ10gvJ3',
-    type: 'modal',
+    type: 'inline',
     checklistStyle: 'default',
-    visible: true,
   },
 }
