@@ -1,6 +1,6 @@
 import React, { createContext, FC, useEffect, useState } from 'react'
 import { ThemeProvider } from 'styled-components'
-import { DataFetcher } from '../components/DataFetcher'
+import { DataFetcher, realUserIdField } from '../components/DataFetcher'
 import { Flow } from '../api/flows'
 import { FlowResponse } from '../api/flow-responses'
 import { Appearance, DefaultAppearance } from '../types'
@@ -97,6 +97,14 @@ interface FrigadeConfig {
   defaultAppearance?: Appearance
 }
 
+function clearLocalStorage() {
+  Object.keys(localStorage).forEach((key) => {
+    if (key.startsWith('frigade-')) {
+      localStorage.removeItem(key)
+    }
+  })
+}
+
 export const FrigadeProvider: FC<FrigadeProviderProps> = ({
   publicApiKey,
   userId,
@@ -152,6 +160,16 @@ export const FrigadeProvider: FC<FrigadeProviderProps> = ({
       setUserIdValue(userId)
     }
   }, [userId])
+
+  useEffect(() => {
+    if (userIdValue) {
+      if (window && window.localStorage) {
+        if (window.localStorage.getItem(realUserIdField) !== userIdValue) {
+          clearLocalStorage()
+        }
+      }
+    }
+  }, [userIdValue])
 
   useEffect(() => {
     if (organizationId) {

@@ -11,8 +11,8 @@ import { useOrganization } from '../../api/organizations'
 
 interface DataFetcherProps {}
 
-const guestUserIdField = 'xFrigade_guestUserId'
-const realUserIdField = 'xFrigade_userId'
+export const guestUserIdField = 'frigade-xFrigade_guestUserId'
+export const realUserIdField = 'frigade-xFrigade_userId'
 
 export const DataFetcher: FC<DataFetcherProps> = ({}) => {
   const { setFlowResponses } = useFlowResponses()
