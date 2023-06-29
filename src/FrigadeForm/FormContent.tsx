@@ -159,12 +159,13 @@ export const FormContent: FC<FormContentProps> = ({
 
   function handleStepCompletionHandlers(step: StepData, cta: 'primary' | 'secondary', idx: number) {
     const maybeNextStep = selectedStep + 1 < steps.length ? steps[selectedStep + 1] : null
-    if (onButtonClick) {
-      onButtonClick(step, selectedStep, cta, maybeNextStep)
-    }
     if (onStepCompletion) {
       onStepCompletion(step, idx, maybeNextStep, formData, getDataPayload())
     }
+    if (onButtonClick) {
+      return onButtonClick(step, selectedStep, cta, maybeNextStep)
+    }
+    return true
   }
 
   function updateData(step: StepData, data: object) {
@@ -221,7 +222,11 @@ export const FormContent: FC<FormContentProps> = ({
         if (selectedStep + 1 < steps.length) {
           await markStepStarted(flowId, steps[selectedStep + 1].id)
         }
-        handleStepCompletionHandlers(steps[selectedStep], 'primary', selectedStep)
+        const shouldClose = handleStepCompletionHandlers(
+          steps[selectedStep],
+          'primary',
+          selectedStep
+        )
         if (selectedStep + 1 >= steps.length) {
           if (onComplete) {
             onComplete()
@@ -229,7 +234,7 @@ export const FormContent: FC<FormContentProps> = ({
           if (onDismiss) {
             onDismiss()
           }
-          if (hideOnFlowCompletion) {
+          if (hideOnFlowCompletion && shouldClose) {
             if (setVisible) {
               setVisible(false)
             }
