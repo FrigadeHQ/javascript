@@ -98,7 +98,7 @@ export function MultipleChoice({
     if (input.requireSelection && data === NULL_VALUE) {
       setFormValidationErrors([
         {
-          message: 'Please select an option',
+          message: input.placeholder ? input.placeholder : 'Please select an option',
           id: input.id,
         },
       ])
