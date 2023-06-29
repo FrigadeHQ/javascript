@@ -12,6 +12,8 @@ import { MultipleChoiceList } from './form-components/MultipleChoiceList'
 import { TitleSubtitle } from '../../TitleSubtitle/TitleSubtitle'
 import { getClassName } from '../../../shared/appearance'
 import { useUser } from '../../../api/users'
+import { Warning } from '../../Icons/Warning'
+import { AnimatePresence, motion } from 'framer-motion'
 
 interface MultiInputStepProps {
   data?: FormInputType[]
@@ -25,10 +27,17 @@ const MultiInputContainer = styled.div`
   overflow: visible;
 `
 
-const MultiInputValidationError = styled.div`
+const MultiInputValidationError = styled(motion.div)`
   color: ${(props) => props.appearance?.theme?.colorTextError};
   font-size: 12px;
   margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+`
+
+const MultiInputValidationErrorIcon = styled.div`
+  margin-right: 4px;
+  display: inline-flex;
 `
 
 const MultiInput = styled.div`
@@ -131,14 +140,28 @@ export function MultiInputStepType({
                   })
                 },
               })}
-              {err && touchedInputs.includes(input.id) && (
-                <MultiInputValidationError
-                  appearance={appearance}
-                  className={getClassName('multiInputValidationError', appearance)}
-                >
-                  {err}
-                </MultiInputValidationError>
-              )}
+              <AnimatePresence>
+                {err && touchedInputs.includes(input.id) && (
+                  <MultiInputValidationError
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    key={input.id}
+                    style={{ overflow: 'hidden' }}
+                    transition={{ duration: 0.1, ease: 'easeInOut' }}
+                    appearance={appearance}
+                    className={getClassName('multiInputValidationError', appearance)}
+                  >
+                    <MultiInputValidationErrorIcon
+                      appearance={appearance}
+                      className={getClassName('multiInputValidationErrorIcon', appearance)}
+                    >
+                      <Warning />
+                    </MultiInputValidationErrorIcon>
+                    {err}
+                  </MultiInputValidationError>
+                )}
+              </AnimatePresence>
             </span>
           ) : null
         })}
