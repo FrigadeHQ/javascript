@@ -126,7 +126,7 @@ export function MultipleChoice({
       >
         {input.requireSelection && (
           <option key={NULL_VALUE} value={NULL_VALUE}>
-            Select an option
+            {input.placeholder ?? `Select an option`}
           </option>
         )}
         {input.props.options?.map((option) => {
