@@ -143,12 +143,12 @@ export function MultiInputStepType({
               <AnimatePresence>
                 {err && touchedInputs.includes(input.id) && (
                   <MultiInputValidationError
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    exit={{ opacity: 0, height: 0 }}
+                    initial={{ opacity: 0, height: 0, marginBottom: 0 }}
+                    animate={{ opacity: 1, height: 'auto', marginBottom: 12 }}
+                    exit={{ opacity: 0, height: 0, marginBottom: 0 }}
                     key={input.id}
                     style={{ overflow: 'hidden' }}
-                    transition={{ duration: 0.1, ease: 'easeInOut' }}
+                    transition={{ duration: 0.1, ease: 'easeInOut', delay: 0.5 }}
                     appearance={appearance}
                     className={getClassName('multiInputValidationError', appearance)}
                   >
