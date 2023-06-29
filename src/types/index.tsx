@@ -127,7 +127,7 @@ export interface DefaultFrigadeFlowProps {
     index: number,
     nextStep?: StepData,
     allFormData?: any,
-    stepSpecificFormData?: object
+    stepSpecificFormData?: any
   ) => boolean
   /**
    * Handler for when a primary or secondary CTA is clicked (regardless if step is completed or not).

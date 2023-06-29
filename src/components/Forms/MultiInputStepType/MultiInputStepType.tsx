@@ -108,7 +108,11 @@ export function MultiInputStepType({
         {formElements.data?.map((input: FormInputType) => {
           const err = formValidationErrors.reverse().find((error) => error.id === input.id)?.message
           return mergedInputTypes[input.type] ? (
-            <span key={input.id}>
+            <span
+              key={input.id}
+              data-field-id={input.id}
+              className={getClassName('multiInputField', appearance)}
+            >
               {mergedInputTypes[input.type]({
                 formInput: input,
                 customFormTypeProps: {
