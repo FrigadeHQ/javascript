@@ -7,7 +7,7 @@ import { Label } from '../shared/Label'
 import { TextInput } from '../TextField'
 import { SubLabel } from '../shared/SubLabel'
 
-const NULL_VALUE = 'null'
+const NULL_VALUE = ''
 
 interface MultipleChoiceProps extends FormInputType {
   id: string
@@ -40,10 +40,6 @@ const MultipleChoiceSelect = styled.select`
     // Anything inside this block will be ignored if the user provides a custom class
     border: 1px solid ${(props) => props.appearance?.theme?.colorBorder};
     font-size: 14px;
-    ::placeholder {
-      color: ${(props) => props.appearance?.theme?.colorTextDisabled};
-      font-size: 14px;
-    }
     border-radius: 6px;
   }
   width: 100%;
@@ -52,6 +48,10 @@ const MultipleChoiceSelect = styled.select`
 
   padding: 0 10px;
   margin-bottom: 10px;
+  color: ${(props) =>
+    props.value == ''
+      ? props.appearance?.theme?.colorTextDisabled
+      : props.appearance?.theme?.colorText};
 
   appearance: none;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'><path stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/></svg>");
@@ -125,7 +125,7 @@ export function MultipleChoice({
         className={getClassName('multipleChoiceSelect', customFormTypeProps.appearance)}
       >
         {input.requireSelection && (
-          <option key={NULL_VALUE} value={NULL_VALUE} disabled hidden>
+          <option key="null-value" value={NULL_VALUE} disabled>
             {input.placeholder ?? `Select an option`}
           </option>
         )}
