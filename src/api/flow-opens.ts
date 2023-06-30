@@ -36,8 +36,12 @@ export function useFlowOpens() {
     return completedFlowsToKeepOpenDuringSession.includes(flowId)
   }
 
-  function hasOpenModals() {
-    return Object.values(openFlowStates).some((isOpen) => isOpen) || hasActiveFullPageFlow
+  function hasOpenModals(currentFlowId?: string) {
+    return (
+      Object.entries(openFlowStates).some(
+        ([flowId, isOpen]) => isOpen && flowId != currentFlowId
+      ) || hasActiveFullPageFlow
+    )
   }
 
   return {

@@ -78,7 +78,7 @@ export const FrigadeForm: FC<FormProps> = ({
   const selectedStep = getCurrentStepIndex(flowId)
   const { mergeAppearanceWithDefault } = useTheme()
   const [hasFinishedInitialLoad, setHasFinishedInitialLoad] = useState(false)
-  const { setOpenFlowState, getOpenFlowState } = useFlowOpens()
+  const { setOpenFlowState, getOpenFlowState, hasOpenModals } = useFlowOpens()
 
   appearance = mergeAppearanceWithDefault(appearance)
 
@@ -119,6 +119,10 @@ export const FrigadeForm: FC<FormProps> = ({
   }
 
   if (getFlowStatus(flowId) === COMPLETED_FLOW && hideOnFlowCompletion) {
+    return null
+  }
+
+  if ((type == 'modal' || type == 'corner-modal') && hasOpenModals(flowId)) {
     return null
   }
 
