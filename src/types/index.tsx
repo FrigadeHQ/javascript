@@ -194,7 +194,7 @@ export const DefaultAppearance: Appearance = {
     colorBackgroundSecondary: '#d2d2d2',
     colorTextOnPrimaryBackground: '#ffffff',
     colorTextSecondary: '#505050',
-    colorTextDisabled: '#999999',
+    colorTextDisabled: '#C7C7C7',
     colorBorder: '#E5E5E5',
     colorTextError: '#c00000',
     borderRadius: 20,

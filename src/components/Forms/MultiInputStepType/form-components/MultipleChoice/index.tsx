@@ -7,6 +7,8 @@ import { Label } from '../shared/Label'
 import { TextInput } from '../TextField'
 import { SubLabel } from '../shared/SubLabel'
 
+const NULL_VALUE = 'null'
+
 interface MultipleChoiceProps extends FormInputType {
   id: string
   title?: string
@@ -39,7 +41,7 @@ const MultipleChoiceSelect = styled.select`
     border: 1px solid ${(props) => props.appearance?.theme?.colorBorder};
     font-size: 14px;
     ::placeholder {
-      color: #c7c7c7;
+      color: ${(props) => props.appearance?.theme?.colorTextDisabled};
       font-size: 14px;
     }
     border-radius: 6px;
@@ -58,8 +60,6 @@ const MultipleChoiceSelect = styled.select`
   background-size: 1.5em 1.5em;
   -webkit-print-color-adjust: exact;
 `
-
-const NULL_VALUE = 'null'
 
 export function MultipleChoice({
   formInput,
@@ -125,7 +125,7 @@ export function MultipleChoice({
         className={getClassName('multipleChoiceSelect', customFormTypeProps.appearance)}
       >
         {input.requireSelection && (
-          <option key={NULL_VALUE} value={NULL_VALUE}>
+          <option key={NULL_VALUE} value={NULL_VALUE} disabled hidden>
             {input.placeholder ?? `Select an option`}
           </option>
         )}

@@ -26,7 +26,7 @@ export const TextInput = styled.input`
     border: 1px solid ${(props) => props.appearance?.theme?.colorBorder};
     font-size: 14px;
     ::placeholder {
-      color: #c7c7c7;
+      color: ${(props) => props.appearance?.theme?.colorTextDisabled};
       font-size: 14px;
     }
     border-radius: 6px;
