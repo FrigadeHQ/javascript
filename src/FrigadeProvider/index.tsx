@@ -163,7 +163,7 @@ export const FrigadeProvider: FC<FrigadeProviderProps> = ({
 
   useEffect(() => {
     if (userIdValue) {
-      if (window && window.localStorage) {
+      if (window && window.localStorage && window.localStorage.getItem(realUserIdField)) {
         if (window.localStorage.getItem(realUserIdField) !== userIdValue) {
           clearLocalStorage()
         }
