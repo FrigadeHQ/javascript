@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { Appearance } from '../../types'
-import { getClassName, getCustomClassOverrides } from '../../shared/appearance'
+import { getClassName, getCustomClassOverrides, ucFirst } from '../../shared/appearance'
 import styled from 'styled-components'
 import { sanitize } from '../../shared/sanitizer'
 
@@ -33,24 +33,32 @@ export function TitleSubtitle({
   title,
   subtitle,
   size = 'medium',
+  classPrefix = '',
 }: {
   appearance: Appearance
   title: string
   subtitle?: string
   size?: 'small' | 'medium' | 'large'
+  classPrefix?: string
 }) {
   return (
     <>
       <HeaderTitle
         appearance={appearance}
-        className={getClassName(`${size}Title`, appearance)}
+        className={getClassName(
+          `${classPrefix}${classPrefix ? ucFirst(size) : size}Title`,
+          appearance
+        )}
         dangerouslySetInnerHTML={sanitize(title)}
         size={size}
       />
       {subtitle && (
         <HeaderSubtitle
           appearance={appearance}
-          className={getClassName(`${size}Subtitle`, appearance)}
+          className={getClassName(
+            `${classPrefix}${classPrefix ? ucFirst(size) : size}Subtitle`,
+            appearance
+          )}
           dangerouslySetInnerHTML={sanitize(subtitle)}
           size={size}
         />

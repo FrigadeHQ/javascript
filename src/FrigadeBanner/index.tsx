@@ -130,7 +130,12 @@ export const FrigadeBanner: React.FC<FrigadeBannerProps> = ({
           </DismissButtonContainer>
         )}
         <TextContainer type={type}>
-          <TitleSubtitle appearance={appearance} title={title} subtitle={subtitle} />
+          <TitleSubtitle
+            appearance={appearance}
+            title={title}
+            subtitle={subtitle}
+            classPrefix="banner"
+          />
         </TextContainer>
         <CallToActionContainer
           type={type}
@@ -145,6 +150,7 @@ export const FrigadeBanner: React.FC<FrigadeBannerProps> = ({
                 onButtonClick(metaData, 0, 'primary')
               }
             }}
+            classPrefix="banner"
           />
         </CallToActionContainer>
         {type !== 'square' && metaData.dismissible && (
