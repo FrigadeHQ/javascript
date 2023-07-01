@@ -6,6 +6,10 @@ import { FlowResponse } from '../api/flow-responses'
 import { Appearance, DefaultAppearance } from '../types'
 import { ErrorBoundary } from 'react-error-boundary'
 
+import { updateTheme } from '../hooks/useVanillaTheme'
+
+import '../shared/theme.css'
+
 export interface IFrigadeContext {
   publicApiKey: string
   userId?: string | null
@@ -109,6 +113,8 @@ interface FrigadeConfig {
    * Used mostly for demo purposes.
    */
   readonly?: boolean
+
+  theme?: Record<string, any>
 }
 
 function clearLocalStorage() {
@@ -168,6 +174,12 @@ export const FrigadeProvider: FC<FrigadeProviderProps> = ({
   function isValidApiKey(apiKey: string): boolean {
     return Boolean(apiKey && apiKey.length > 10 && apiKey.substring(0, 10) === 'api_public')
   }
+
+  useEffect(() => {
+    if (config?.theme) {
+      updateTheme(config?.theme)
+    }
+  }, [config?.theme])
 
   useEffect(() => {
     if (userId) {

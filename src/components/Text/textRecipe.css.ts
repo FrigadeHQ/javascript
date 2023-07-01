@@ -1,5 +1,7 @@
 import { recipe, RecipeVariants } from '@vanilla-extract/recipes'
 
+import { theme } from '../../shared/theme.css'
+
 const textVariantStyles = {
   Display1: {
     fontSize: '48px',
@@ -71,12 +73,17 @@ const textWeightStyles = {
 
 export const textRecipe = recipe({
   base: {
+    color: theme.color.black,
     fontSize: '16px',
   },
 
   variants: {
-    variant: textVariantStyles,
+    variant: theme.components.Text,
     weight: textWeightStyles,
+  },
+
+  defaultVariants: {
+    variant: 'Body1',
   },
 })
 

@@ -1,15 +1,19 @@
 import React from 'react'
+import { Box, BoxProps } from '../Box'
+
 import { textRecipe, TextRecipeVariants, textVariantNames, textWeightNames } from './textRecipe.css'
 
-type TextVariantName = (typeof textVariantNames)[number]
-type TextWeightName = (typeof textWeightNames)[number]
+// type TextVariantName = (typeof textVariantNames)[number]
+// type TextWeightName = (typeof textWeightNames)[number]
 
-export interface BaseTextProps extends TextRecipeVariants {
-  children: React.ReactNode
-}
+export interface BaseTextProps extends BoxProps, TextRecipeVariants {}
 
-const BaseText: React.FC<BaseTextProps> = ({ children, variant = 'Body1', weight = 'normal' }) => {
-  return <span className={textRecipe({ variant, weight } as TextRecipeVariants)}>{children}</span>
+const BaseText: React.FC<BaseTextProps> = ({ children, variant, weight, ...rest }) => {
+  return (
+    <Box className={textRecipe({ variant, weight })} {...rest}>
+      {children}
+    </Box>
+  )
 }
 
 const textVariants = Object.fromEntries(

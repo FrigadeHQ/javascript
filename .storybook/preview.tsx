@@ -2,6 +2,8 @@ import * as React from 'react'
 import type { Preview } from '@storybook/react'
 import { FrigadeProvider } from '../src'
 
+import { updateTheme } from '../src/hooks/useVanillaTheme'
+
 import './preview.css'
 
 const preview: Preview = {
@@ -15,14 +17,23 @@ const preview: Preview = {
     },
   },
   decorators: [
-    (Story) => (
-      <FrigadeProvider
-        publicApiKey="api_public_GY6O5JS99XTL2HAXU0D6OQHYQ7I706P5I9C9I7CEZFNFUFRARD2DVDSMFW3YT3SV"
-        userId="jonathan_livingston_smeagol"
-      >
-        <Story />
-      </FrigadeProvider>
-    ),
+    (Story) => {
+      return (
+        <FrigadeProvider
+          publicApiKey="api_public_GY6O5JS99XTL2HAXU0D6OQHYQ7I706P5I9C9I7CEZFNFUFRARD2DVDSMFW3YT3SV"
+          userId="jonathan_livingston_smeagol"
+          config={{
+            theme: {
+              color: {
+                // black: 'blue',
+              },
+            },
+          }}
+        >
+          <Story />
+        </FrigadeProvider>
+      )
+    },
   ],
 }
 
