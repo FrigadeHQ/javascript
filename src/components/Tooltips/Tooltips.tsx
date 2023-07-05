@@ -276,7 +276,7 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
 
     return (
       <>
-        {showStepCount && (
+        {showStepCount && steps.length > 1 && (
           <TooltipStepCountContainer>
             <TooltipStepCounter className={getClassName('tooltipStepCounter', appearance)}>
               {selectedStep + 1} of {steps.length}
