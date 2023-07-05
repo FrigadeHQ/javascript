@@ -428,6 +428,7 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
               }}
               onClick={handleClick}
               primaryColor={appearance.theme.colorPrimary}
+              className={getClassName('tourHighlightInnerCircle', appearance)}
             ></HighlightInner>
             <HighlightOuter
               style={{
@@ -435,6 +436,7 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
               }}
               onClick={handleClick}
               primaryColor={appearance.theme.colorPrimary}
+              className={getClassName('tourHighlightOuterCircle', appearance)}
             ></HighlightOuter>
           </>
         )}
