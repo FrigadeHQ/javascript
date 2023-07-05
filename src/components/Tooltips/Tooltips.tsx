@@ -268,7 +268,7 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
     const handleOnSecondaryCTAClick = () => {
       if (steps[selectedStep].handleSecondaryButtonClick) {
         steps[selectedStep].handleSecondaryButtonClick()
-        if (showHighlightOnly) {
+        if (showHighlightOnly && !steps[selectedStep].secondaryButtonUri) {
           setShowTooltipContainer(false)
         }
       }
