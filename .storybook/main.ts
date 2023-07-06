@@ -1,6 +1,4 @@
 import type { StorybookConfig } from '@storybook/react-webpack5'
-import { VanillaExtractPlugin } from '@vanilla-extract/webpack-plugin'
-import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 
 const config: StorybookConfig = {
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
@@ -21,10 +19,8 @@ const config: StorybookConfig = {
       ...config,
       optimization: {
         ...config.optimization,
-        // https://github.com/vanilla-extract-css/vanilla-extract/issues/905
-        splitChunks: false,
       },
-      plugins: [...(config.plugins ?? []), new VanillaExtractPlugin(), new MiniCssExtractPlugin()],
+      plugins: [...(config.plugins ?? [])],
     }
   },
 }

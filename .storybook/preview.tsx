@@ -2,8 +2,6 @@ import * as React from 'react'
 import type { Preview } from '@storybook/react'
 import { FrigadeProvider } from '../src'
 
-import { updateTheme } from '../src/hooks/useVanillaTheme'
-
 import './preview.css'
 
 const preview: Preview = {
