@@ -5,10 +5,9 @@ import { Flow } from '../api/flows'
 import { FlowResponse } from '../api/flow-responses'
 import { Appearance, DefaultAppearance } from '../types'
 import { ErrorBoundary } from 'react-error-boundary'
+import { deepmerge } from 'deepmerge-ts'
 
-import { updateTheme } from '../hooks/useVanillaTheme'
-
-import '../shared/theme.css'
+import { tokens } from '../shared/theme.css'
 
 export interface IFrigadeContext {
   publicApiKey: string
@@ -176,12 +175,6 @@ export const FrigadeProvider: FC<FrigadeProviderProps> = ({
   }
 
   useEffect(() => {
-    if (config?.theme) {
-      updateTheme(config?.theme)
-    }
-  }, [config?.theme])
-
-  useEffect(() => {
     if (userId) {
       setUserIdValue(userId)
     }
@@ -254,7 +247,7 @@ export const FrigadeProvider: FC<FrigadeProviderProps> = ({
   return (
     <ErrorBoundary fallback={<>{children}</>}>
       <FrigadeContext.Provider value={contextParams}>
-        <ThemeProvider theme={appearance.theme}>
+        <ThemeProvider theme={deepmerge(tokens, config?.theme)}>
           {children}
           <DataFetcher />
         </ThemeProvider>

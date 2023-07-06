@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react'
 import { Box } from '../index'
+import { css } from 'styled-components'
 
 import { Text } from '../../Text'
-
-import { theme } from '../../../shared/theme.css'
 
 export default {
   title: 'Foundations/Box',
@@ -25,37 +24,36 @@ export const Default = {
 export const Test = {
   decorators: [
     () => {
-      const el = React.useRef(null)
-
-      // useEffect(() => {
-      //   // Create our shared stylesheet:
-      //   const sheet = new CSSStyleSheet()
-      //   sheet.replaceSync('* { color: red; }')
-
-      //   if (el.current) {
-      //     const shadow = el.current.attachShadow({ mode: 'open' })
-      //     shadow.adoptedStyleSheets = [sheet]
-      //   }
-      // }, [el.current])
-
-      console.log('MAYBE? ', theme.components.Text.Body1)
       return (
-        <div
-          ref={(ref) => (el.current = ref)}
-          style={{ display: 'flex', flexFlow: 'column nowrap', gap: '12px' }}
-        >
+        <div style={{ display: 'flex', flexFlow: 'column nowrap', gap: '12px' }}>
+          <Text.Body1>This is normal Text.Body1</Text.Body1>
           <Box
             as="div"
             overrides={{
-              Text: {
-                Body1: {
-                  fontSize: '10px',
-                  color: 'red',
+              components: {
+                Text: {
+                  Body1: {
+                    fontSize: '10px',
+                    color: 'red',
+                  },
                 },
               },
             }}
           >
-            <Text.Body1>Testing</Text.Body1>
+            <Text.Body1>This Text.Body1 has been changed by the `overrides` prop.</Text.Body1>
+          </Box>
+
+          <Box
+            css={{
+              color: 'pink',
+
+              '.foo': {
+                color: 'purple',
+              },
+            }}
+          >
+            This should be pink.
+            <div className="foo">Can we nest this?</div>
           </Box>
         </div>
       )

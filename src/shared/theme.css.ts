@@ -1,8 +1,11 @@
-import { createGlobalTheme } from '@vanilla-extract/css'
-
 export const tokens = {
   color: {
     black: '#000000',
+  },
+  fontWeights: {
+    bold: 700,
+    regular: 400,
+    semibold: 600,
   },
   components: {
     Text: {
@@ -63,5 +66,3 @@ export const tokens = {
     },
   },
 }
-
-export const theme = createGlobalTheme(':root', tokens)

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Text } from '../index'
-import { textVariantNames, textWeightNames } from '../textRecipe.css'
+import { fontWeights, textVariantStyles } from '../styled'
 
 export default {
   title: 'Foundations/Text',
@@ -11,12 +11,12 @@ export const Default = {
   decorators: [
     () => (
       <div style={{ display: 'flex', flexFlow: 'column nowrap', gap: '12px' }}>
-        {textVariantNames.map((variant, i) => {
+        {Object.keys(textVariantStyles).map((variant, i) => {
           const Component = Text[variant]
 
           if (['Body1', 'Body2', 'Caption'].includes(variant)) {
-            return textWeightNames.map((weight) => (
-              <Component key={`${i}-${weight}`} weight={weight}>
+            return Object.keys(fontWeights).map((weight) => (
+              <Component key={`${i}-${weight}`} fontWeight={weight}>
                 Text.{variant} {weight}
               </Component>
             ))

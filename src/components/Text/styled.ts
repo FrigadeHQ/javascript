@@ -1,8 +1,9 @@
-import { recipe, RecipeVariants } from '@vanilla-extract/recipes'
+import styled from 'styled-components'
+import { variant, system } from 'styled-system'
 
-import { theme } from '../../shared/theme.css'
+import { Box } from '../Box'
 
-const textVariantStyles = {
+export const textVariantStyles = {
   Display1: {
     fontSize: '48px',
     fontWeight: 'bold',
@@ -57,38 +58,23 @@ const textVariantStyles = {
     letterSpacing: 'calc(12px * .02)',
     lineHeight: '18px',
   },
+} as const
+
+export const fontWeights = {
+  regular: 400,
+  semibold: 600,
+  bold: 700,
 }
 
-const textWeightStyles = {
-  regular: {
-    fontWeight: 400,
-  },
-  semibold: {
-    fontWeight: 600,
-  },
-  bold: {
-    fontWeight: 700,
-  },
-}
-
-export const textRecipe = recipe({
-  base: {
-    color: theme.color.black,
-    fontSize: '16px',
-  },
-
-  variants: {
-    variant: theme.components.Text,
-    weight: textWeightStyles,
-  },
-
-  defaultVariants: {
-    variant: 'Body1',
-  },
-})
-
-export type TextRecipeVariants = RecipeVariants<typeof textRecipe>
-
-// Used internally for constructing variant components and Stories
-export const textVariantNames = Object.keys(textVariantStyles) as TextRecipeVariants['variant'][]
-export const textWeightNames = Object.keys(textWeightStyles) as TextRecipeVariants['weight'][]
+export const StyledText = styled(Box)(
+  variant({
+    scale: 'components.Text',
+    variants: textVariantStyles,
+  }),
+  system({
+    fontWeight: {
+      property: 'fontWeight',
+      scale: 'fontWeights',
+    },
+  })
+)

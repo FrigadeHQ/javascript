@@ -1,25 +1,21 @@
 import React from 'react'
-import { Box, BoxProps } from '../Box'
+import { FontProps } from 'styled-system'
+import { BoxProps } from '../Box'
+import { StyledText, textVariantStyles } from './styled'
 
-import { textRecipe, TextRecipeVariants, textVariantNames, textWeightNames } from './textRecipe.css'
+type TextVariant = keyof typeof textVariantStyles
+export interface BaseTextProps extends BoxProps, Partial<Pick<FontProps, 'fontWeight'>> {
+  variant?: TextVariant
+}
 
-// type TextVariantName = (typeof textVariantNames)[number]
-// type TextWeightName = (typeof textWeightNames)[number]
-
-export interface BaseTextProps extends BoxProps, TextRecipeVariants {}
-
-const BaseText: React.FC<BaseTextProps> = ({ children, variant, weight, ...rest }) => {
-  return (
-    <Box className={textRecipe({ variant, weight })} {...rest}>
-      {children}
-    </Box>
-  )
+const BaseText: React.FC<BaseTextProps> = ({ children, ...rest }) => {
+  return <StyledText {...rest}>{children}</StyledText>
 }
 
 const textVariants = Object.fromEntries(
-  textVariantNames.map((variant) => {
+  Object.keys(textVariantStyles).map((variant) => {
     const component = (props: BaseTextProps) => (
-      <BaseText {...props} variant={variant}>
+      <BaseText {...props} variant={variant as TextVariant}>
         {props.children}
       </BaseText>
     )
