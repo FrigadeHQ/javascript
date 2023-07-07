@@ -15,35 +15,37 @@ import { CondensedChecklist } from '../components/Checklists/CondensedChecklist'
 import { Modal } from '../components/Modal'
 import { CarouselChecklist } from '../components/Checklists/CarouselChecklist'
 
-export type FrigadeChecklistType = 'inline' | 'modal'
-export type FrigadeChecklistStyle = 'with-guide' | 'default' | 'condensed' | 'carousel'
-
 export interface FrigadeChecklistProps extends HeroChecklistProps {
   flowId: string
   title?: string
   subtitle?: string
 
-  onCompleteStep?: (index: number, stepData: StepData) => void
   style?: CSSProperties
   // Optional props
+  /** @ignore */
   initialSelectedStep?: number
 
   className?: string
-  type?: FrigadeChecklistType
-  checklistStyle?: FrigadeChecklistStyle
+  type?: 'inline' | 'modal'
+  checklistStyle?: 'with-guide' | 'default' | 'condensed' | 'carousel'
 
   visible?: boolean
   setVisible?: (visible: boolean) => void
 
   onDismiss?: () => void
 
+  /**
+   * See https://docs.frigade.com/flows/dynamic-variables
+   */
   customVariables?: { [key: string]: string | number | boolean }
 
   /**
-   *  Optional Props specifically for ChecklistWithGuide
-   *
+   * Flow ID referencing the flow of a guide/link collection to attach to this Checklist
    */
   guideFlowId?: string
+  /**
+   * Title for the guide (if attached)
+   */
   guideTitle?: string
 
   autoExpandFirstIncompleteStep?: boolean

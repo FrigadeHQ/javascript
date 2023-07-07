@@ -22,20 +22,20 @@ export interface HeroChecklistProps extends Omit<DefaultFrigadeFlowProps, 'flowI
   subtitle?: string
   /**
    * @deprecated Use `appearance` instead
+   * @ignore
    */
   primaryColor?: string
+  /** @ignore */
   steps?: StepData[]
 
-  /**
-   * @deprecated use onStepCompletion instead
-   */
-  onCompleteStep?: (index: number, stepData: StepData) => void
-
-  // Optional props
+  /** @ignore */
   selectedStep?: number
+  /** @ignore */
   setSelectedStep?: (index: number) => void
 
-  // Map from string to function with StepData returning React.ReactNode
+  /**
+   * Map from string to function with StepData returning React.ReactNode
+   */
   customStepTypes?: Record<string, (stepData: StepData, appearance: Appearance) => React.ReactNode>
 }
 

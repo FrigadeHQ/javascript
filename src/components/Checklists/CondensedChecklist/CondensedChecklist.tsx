@@ -26,7 +26,6 @@ const CondensedChecklist: FC<CondensedChecklistProps> = ({
   steps,
   onClose,
   visible,
-  onCompleteStep,
   autoExpandFirstIncompleteStep = true,
   autoCollapse = true,
   autoExpandNextStep = true,
@@ -118,9 +117,6 @@ const CondensedChecklist: FC<CondensedChecklistProps> = ({
               setSelectedStep(idx)
             }}
             onPrimaryButtonClick={() => {
-              if (onCompleteStep) {
-                onCompleteStep(idx, step)
-              }
               if (step.handlePrimaryButtonClick) {
                 step.handlePrimaryButtonClick()
               }
