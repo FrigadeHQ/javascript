@@ -7,7 +7,7 @@ import { Appearance, DefaultAppearance } from '../types'
 import { ErrorBoundary } from 'react-error-boundary'
 import { deepmerge } from 'deepmerge-ts'
 
-import { tokens } from '../shared/theme.css'
+import { tokens } from '../shared/theme'
 
 export interface IFrigadeContext {
   publicApiKey: string

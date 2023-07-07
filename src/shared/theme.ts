@@ -1,11 +1,12 @@
 export const tokens = {
   color: {
     black: '#000000',
+    blurple: '#7289da',
   },
   fontWeights: {
-    bold: 700,
     regular: 400,
     semibold: 600,
+    bold: 700,
   },
   components: {
     Text: {

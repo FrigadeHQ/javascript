@@ -8,8 +8,12 @@ export interface BaseTextProps extends BoxProps, Partial<Pick<FontProps, 'fontWe
   variant?: TextVariant
 }
 
-const BaseText: React.FC<BaseTextProps> = ({ children, ...rest }) => {
-  return <StyledText {...rest}>{children}</StyledText>
+const BaseText: React.FC<BaseTextProps> = ({ children, variant = 'Body1', ...rest }) => {
+  return (
+    <StyledText variant={variant} {...rest}>
+      {children}
+    </StyledText>
+  )
 }
 
 const textVariants = Object.fromEntries(

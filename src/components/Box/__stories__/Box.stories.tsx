@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Box } from '../index'
-import { css } from 'styled-components'
 
 import { Text } from '../../Text'
 
@@ -13,7 +12,7 @@ export const Default = {
   decorators: [
     () => (
       <div style={{ display: 'flex', flexFlow: 'column nowrap', gap: '12px' }}>
-        <Box as="div" style={{ backgroundColor: 'red' }}>
+        <Box as="div">
           <div className="foo">Box as="div"</div>
         </Box>
       </div>
@@ -27,6 +26,7 @@ export const Test = {
       return (
         <div style={{ display: 'flex', flexFlow: 'column nowrap', gap: '12px' }}>
           <Text.Body1>This is normal Text.Body1</Text.Body1>
+
           <Box
             as="div"
             overrides={{
@@ -44,16 +44,16 @@ export const Test = {
           </Box>
 
           <Box
-            css={{
-              color: 'pink',
+            css={({ theme }) => ({
+              color: theme.color.blurple,
 
               '.foo': {
-                color: 'purple',
+                color: 'orange',
               },
-            }}
+            })}
           >
-            This should be pink.
-            <div className="foo">Can we nest this?</div>
+            This should be blurple, since we have access to the theme inside custom CSS.
+            <div className="foo">But this nested selector is orange!</div>
           </Box>
         </div>
       )

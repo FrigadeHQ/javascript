@@ -8,7 +8,6 @@ export type BoxProps<T extends ElementType = 'span'> = {
   as?: T
   css?: Record<string, any> // TODO: Fix any
   children?: ReactNode
-  style?: CSSProperties
   overrides?: Overrides
 } & ComponentPropsWithoutRef<T>
 
@@ -19,7 +18,6 @@ const StyledBox = styled.span`
 export const Box = <T extends React.ElementType = 'span'>({
   as,
   children,
-  style,
   css,
   overrides,
   ...rest

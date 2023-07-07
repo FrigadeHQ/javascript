@@ -1,0 +1,40 @@
+import { ArgTypes, Meta, Source, Title } from '@storybook/blocks'
+import { Text } from '../../Text'
+import * as BoxStories from './Box.stories'
+
+<Meta of={BoxStories} />
+
+<Title />
+
+Ok, so here's the deal with `Box`: It's a component that makes other components easier to build.
+
+The key to its magic is that it accepts our full set of theming and styling props, as well as the polymorphic `as` prop that you may recognize from everywhere else because everyone has a `Box` component nowadays.
+
+You can start to see the utility of this setup pretty quickly:
+
+<Source
+  code={`
+// It can impersonate other components or HTML tags
+<Box as='p'>I'm rendered in a paragraph tag!</Box>
+`}
+/>
+
+<Source code={`
+import styled from 'styled-components'
+
+// You can add the 'css' and 'overrides' props to any other component
+const Button = styled(Box)({
+backgroundColor: 'fuschsia',
+})
+
+<Button
+  overrides={{
+    colors: {
+      tangy: 'tangerine',
+    },
+  }}
+  css={({ theme }) => ({
+    backgroundColor: theme.colors.tangy,
+  })}
+/>
+`} />
