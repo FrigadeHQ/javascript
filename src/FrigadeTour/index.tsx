@@ -1,7 +1,7 @@
-import React, { FC, useContext, useEffect } from 'react'
+import React, { CSSProperties, FC, useContext, useEffect } from 'react'
 import { useFlows } from '../api/flows'
-import { ToolTipData, ToolTipProps, Tooltips } from '../components/Tooltips'
-import { StepData } from '../types'
+import { ToolTipData, Tooltips } from '../components/Tooltips'
+import { Appearance, DefaultFrigadeFlowProps, StepData } from '../types'
 import { COMPLETED_FLOW, COMPLETED_STEP } from '../api/common'
 import { Portal } from 'react-portal'
 import { useFlowOpens } from '../api/flow-opens'
@@ -10,8 +10,73 @@ import { RenderInlineStyles } from '../components/RenderInlineStyles'
 import { useCTAClickSideEffects } from '../hooks/useCTAClickSideEffects'
 import { useTheme } from '../hooks/useTheme'
 import { useUserFlowStates } from '../api/user-flow-states'
+import { ToolTipPosition } from '../components/Tooltips/Tooltips'
 
-export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedStep?: number }> = ({
+export interface FrigadeTourProps extends Omit<DefaultFrigadeFlowProps, 'flowId'> {
+  /**
+   * @ignore
+   */
+  steps?: ToolTipData[]
+  onDismiss?: () => void
+  onComplete?: () => void
+  tooltipPosition?: ToolTipPosition
+  /**
+   * Whether to show the highlight (the small circle/ping) or not. Defaults to true.
+   */
+  showHighlight?: boolean
+  /**
+   * Whether to show more than one tooltip at a time. Defaults to false.
+   */
+  showTooltipsSimultaneously?: boolean
+  /**
+   * @ignore
+   */
+  buttonStyle?: CSSProperties
+  /**
+   * Offset to apply to all tooltips.
+   */
+  offset?: { x: number; y: number }
+  visible?: boolean
+  /**
+   * @ignore
+   */
+  containerStyle?: CSSProperties
+  customVariables?: { [key: string]: string | number | boolean }
+  /**
+   * @ignore
+   */
+  selectedStep?: number
+  customStepTypes?: Record<string, (stepData: StepData) => React.ReactNode>
+  appearance?: Appearance
+  /**
+   * Shows a close button in the top right corner of the tooltip. Depending on dismissBehavior, it will either end the entire flow or just the current step.
+   */
+  dismissible?: boolean
+  primaryColor?: string
+  /**
+   * If true, the tooltip will only show the highlight and not the tooltip itself.
+   * Clicking the highlight will reveal it.
+   */
+  showHighlightOnly?: boolean
+  /**
+   * If true, a step counter will show up in the tooltip.
+   */
+  showStepCount?: boolean
+  /**
+   * `complete-flow` (default): Completes the entire flow/tour when a single tooltip is dismissed.
+   * `complete-step`: Completes the current step when a tooltip is dismissed.
+   */
+  dismissBehavior?: 'complete-flow' | 'complete-step'
+
+  /**
+   * @ignore
+   */
+  showFrigadeBranding?: boolean
+}
+
+export const FrigadeTour: FC<
+  FrigadeTourProps & { flowId: string; initialSelectedStep?: number }
+> = ({
   flowId,
   customVariables,
   appearance,
@@ -58,6 +123,7 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
   if (isLoadingUserFlowStateData) {
     return null
   }
+
   const flow = getFlow(flowId)
   if (!flow) {
     return null
@@ -162,28 +228,42 @@ export const FrigadeTour: FC<ToolTipProps & { flowId: string; initialSelectedSte
     }
   }
 
+  const isCurrentSelectorMissing = !Boolean(document.querySelector(steps[selectedStep].selector))
+
+  function renderMultipleToolTips() {
+    const firstVisibleIndex = steps.findIndex((step) => {
+      return Boolean(document.querySelector(step.selector))
+    })
+
+    return steps.map((step: StepData, idx: number) => {
+      if (isCurrentSelectorMissing && !showTooltipsSimultaneously && idx !== firstVisibleIndex) {
+        return null
+      }
+
+      return (
+        <Tooltips
+          key={step.id}
+          appearance={appearance}
+          steps={getSteps()}
+          selectedStep={idx}
+          showTooltipsSimultaneously={showTooltipsSimultaneously}
+          dismissible={dismissible}
+          onDismiss={() => onDismissTooltip(step)}
+          tooltipPosition={tooltipPosition}
+          showHighlightOnly={showHighlightOnly}
+          completedStepsCount={getNumberOfStepsCompleted(flowId)}
+          onComplete={handleComplete}
+          {...props}
+        />
+      )
+    })
+  }
+
   return (
     <Portal>
       <RenderInlineStyles appearance={appearance} />
-      {showTooltipsSimultaneously ? (
-        steps.map((step: StepData, idx: number) => {
-          return (
-            <Tooltips
-              key={step.id}
-              appearance={appearance}
-              steps={getSteps()}
-              selectedStep={idx}
-              showTooltipsSimultaneously={showTooltipsSimultaneously}
-              dismissible={dismissible}
-              onDismiss={() => onDismissTooltip(step)}
-              tooltipPosition={tooltipPosition}
-              showHighlightOnly={showHighlightOnly}
-              completedStepsCount={getNumberOfStepsCompleted(flowId)}
-              onComplete={handleComplete}
-              {...props}
-            />
-          )
-        })
+      {showTooltipsSimultaneously || isCurrentSelectorMissing ? (
+        renderMultipleToolTips()
       ) : (
         <Tooltips
           appearance={appearance}

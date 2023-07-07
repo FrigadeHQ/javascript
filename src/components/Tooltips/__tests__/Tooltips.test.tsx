@@ -36,23 +36,6 @@ describe.skip('Tooltip', () => {
     jest.resetAllMocks()
   })
 
-  function ControlledTooltip() {
-    return (
-      <div>
-        <Tooltips
-          completedStepsCount={0}
-          steps={data}
-          onComplete={onComplete}
-          onDismiss={onDismiss}
-          appearance={DefaultAppearance}
-        />
-        <div id="test-select-0">
-          <p>Some text on screen!</p>
-        </div>
-      </div>
-    )
-  }
-
   test('Hidden if no selector found', () => {
     function ControlledTooltipHidden() {
       return (
@@ -74,46 +57,4 @@ describe.skip('Tooltip', () => {
     expect(screen.queryByText(data[0].title)).toBeNull()
     expect(screen.queryByText(data[0].subtitle)).toBeNull()
   })
-
-  // test('renders custom StepContent', () => {
-  //   const CustomStepContent = () => (
-  //     <div data-testid="test-div">
-  //       <p>This is custom content</p>
-  //       <button>Custom primary</button>
-  //     </div>
-  //   )
-  //
-  //   const customStepData = [
-  //     {
-  //       id: 'test-0',
-  //       complete: false,
-  //       selector: '#test-select-0',
-  //       handlePrimaryButtonClick: jest.fn(),
-  //     } as unknown as StepData,
-  //   ]
-  //
-  //   const customSteps = new Map()
-  //   customSteps['default'] = CustomStepContent
-  //
-  //   function ControlledTooltipCustom() {
-  //     return (
-  //       <div>
-  //         <Tooltips
-  //           steps={customStepData}
-  //           onComplete={onComplete}
-  //           onDismiss={onDismiss}
-  //           customStepTypes={customSteps}
-  //           appearance={DefaultAppearance}
-  //         />
-  //         <div id="test-select-0">
-  //           <p>Some text on screen!</p>
-  //         </div>
-  //       </div>
-  //     )
-  //   }
-  //
-  //   render(<ControlledTooltipCustom />)
-  //   expect(screen.getByTestId('test-div')).toBeDefined()
-  //   expect(screen.getByText('This is custom content')).toBeDefined()
-  // })
 })

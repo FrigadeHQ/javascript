@@ -14,13 +14,14 @@ import {
   TooltipStepCounter,
   TooltipVideoContainer,
 } from './styled'
-import { Appearance, DefaultFrigadeFlowProps, StepData } from '../../types'
+import { StepData } from '../../types'
 
 import { getClassName } from '../../shared/appearance'
 import { TitleSubtitle } from '../TitleSubtitle/TitleSubtitle'
 import { VideoCard } from '../Video/VideoCard'
 import { PoweredByFrigadeTooltipRibbon } from '../branding/styled'
 import { PoweredByFrigade } from '../branding/PoweredByFrigade'
+import { FrigadeTourProps } from '../../FrigadeTour'
 
 export type ToolTipPosition = 'left' | 'right' | 'auto'
 
@@ -29,7 +30,6 @@ const DEFAULT_CARD_HEIGHT = 100
 const DEFAULT_REFRESH_DELAY = 500
 const HIGHLIGHT_RADIUS = 12
 
-// TODO: Should extend from FlowItem in a shared types repo
 export interface ToolTipData extends StepData {
   selector?: string
   subtitleStyle?: CSSProperties
@@ -37,45 +37,7 @@ export interface ToolTipData extends StepData {
   buttonStyle?: CSSProperties
 }
 
-export interface ToolTipProps extends Omit<DefaultFrigadeFlowProps, 'flowId'> {
-  steps?: ToolTipData[]
-  onDismiss?: () => void
-  onComplete?: () => void
-  tooltipPosition?: ToolTipPosition
-  showHighlight?: boolean
-  showTooltipsSimultaneously?: boolean
-  buttonStyle?: CSSProperties
-  offset?: { x: number; y: number }
-  visible?: boolean
-  containerStyle?: CSSProperties
-  customVariables?: { [key: string]: string | number | boolean }
-  selectedStep?: number
-  customStepTypes?: Record<string, (stepData: StepData) => React.ReactNode>
-  appearance?: Appearance
-  /**
-   * Shows a close button in the top right corner of the tooltip. This will end the flow.
-   */
-  dismissible?: boolean
-  primaryColor?: string
-  /**
-   * If true, the tooltip will only show the highlight and not the tooltip itself.
-   * Clicking the highlight will reveal it.
-   */
-  showHighlightOnly?: boolean
-  /**
-   * If true, a step counter will show up in the tooltip.
-   */
-  showStepCount?: boolean
-  /**
-   * 'complete-flow' (default): Completes the entire flow/tour when a single tooltip is dismissed.
-   * 'complete-step': Completes the current step when a tooltip is dismissed.
-   */
-  dismissBehavior?: 'complete-flow' | 'complete-step'
-
-  showFrigadeBranding?: boolean
-}
-
-interface ToolTipPropsInternal extends ToolTipProps {
+interface ToolTipPropsInternal extends FrigadeTourProps {
   completedStepsCount: number
 }
 

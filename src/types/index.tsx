@@ -115,6 +115,9 @@ export interface DefaultFrigadeFlowProps {
   style?: CSSProperties
   className?: string
   appearance?: Appearance
+  /**
+   * Dynamic variables to use in flow-data.yml. See https://docs.frigade.com/flows/dynamic-variables
+   */
   customVariables?: { [key: string]: string | number | boolean }
   hideOnFlowCompletion?: boolean
   /**
