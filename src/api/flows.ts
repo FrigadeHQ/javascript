@@ -1,7 +1,6 @@
 import { useCallback, useContext, useEffect } from 'react'
 import {
   ABORTED_FLOW,
-  API_PREFIX,
   COMPLETED_FLOW,
   COMPLETED_STEP,
   NOT_STARTED_FLOW,
@@ -50,7 +49,7 @@ export enum TriggerType {
 }
 
 export function useFlows() {
-  const { config } = useConfig()
+  const { config, apiUrl } = useConfig()
   const {
     flows,
     setFlows,
@@ -100,7 +99,7 @@ export function useFlows() {
     data: flowData,
     error,
     isLoading: isLoadingFlows,
-  } = useSWR(publicApiKey ? `${API_PREFIX}flows` : null, fetcher, {
+  } = useSWR(publicApiKey ? `${apiUrl}flows` : null, fetcher, {
     keepPreviousData: true,
   })
 

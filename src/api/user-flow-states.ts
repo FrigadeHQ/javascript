@@ -1,5 +1,4 @@
 import {
-  API_PREFIX,
   COMPLETED_FLOW,
   NOT_STARTED_FLOW,
   NOT_STARTED_STEP,
@@ -43,7 +42,7 @@ export function useUserFlowStates(): {
   ) => void
   error: any
 } {
-  const { config } = useConfig()
+  const { config, apiUrl } = useConfig()
   const { publicApiKey, userId, organizationId, flows, setShouldGracefullyDegrade } =
     useContext(FrigadeContext)
   const { resetOpenFlowState } = useFlowOpens()
@@ -80,7 +79,7 @@ export function useUserFlowStates(): {
     error,
   } = useSWR(
     publicApiKey && flows && userId
-      ? `${API_PREFIX}userFlowStates?foreignUserId=${encodeURIComponent(userId)}${
+      ? `${apiUrl}userFlowStates?foreignUserId=${encodeURIComponent(userId)}${
           organizationId ? `&foreignUserGroupId=${encodeURIComponent(organizationId)}` : ''
         }`
       : null,

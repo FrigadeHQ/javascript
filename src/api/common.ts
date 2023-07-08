@@ -2,8 +2,6 @@ import React, { useMemo } from 'react'
 import { FrigadeContext } from '../FrigadeProvider'
 import { VERSION_NUMBER } from './version'
 
-export const API_PREFIX = 'https://api.frigade.com/v1/public/'
-
 export const NOT_STARTED_STEP = 'NOT_STARTED_STEP'
 export const COMPLETED_FLOW = 'COMPLETED_FLOW'
 export const ABORTED_FLOW = 'ABORTED_FLOW'
@@ -15,7 +13,7 @@ export const STARTED_STEP = 'STARTED_STEP'
 export type StepActionType = 'STARTED_STEP' | 'COMPLETED_STEP' | 'NOT_STARTED_STEP'
 
 export function useConfig() {
-  const { publicApiKey, userId } = React.useContext(FrigadeContext)
+  const { publicApiKey, userId, apiUrl } = React.useContext(FrigadeContext)
 
   return {
     config: useMemo(
@@ -29,6 +27,7 @@ export function useConfig() {
       }),
       [publicApiKey, userId]
     ),
+    apiUrl: useMemo(() => `${apiUrl}/v1/public/`, [apiUrl]),
   }
 }
 

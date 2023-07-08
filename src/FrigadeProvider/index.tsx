@@ -39,6 +39,7 @@ export interface IFrigadeContext {
   defaultAppearance: Appearance
   shouldGracefullyDegrade: boolean
   setShouldGracefullyDegrade: React.Dispatch<React.SetStateAction<boolean>>
+  apiUrl: string
 }
 
 export interface FrigadeProviderProps {
@@ -55,6 +56,7 @@ export interface FrigadeProviderProps {
   children?: React.ReactNode
 }
 
+const DEFAULT_API_URL = 'https://api.frigade.com'
 export const FrigadeContext = createContext<IFrigadeContext>({
   publicApiKey: '',
   setUserId: () => {},
@@ -82,6 +84,7 @@ export const FrigadeContext = createContext<IFrigadeContext>({
   defaultAppearance: DefaultAppearance,
   shouldGracefullyDegrade: false,
   setShouldGracefullyDegrade: () => {},
+  apiUrl: DEFAULT_API_URL,
 })
 
 interface FrigadeConfig {
@@ -95,6 +98,10 @@ interface FrigadeConfig {
    * Default Appearance for all flows.
    */
   defaultAppearance?: Appearance
+  /**
+   * API url to use for all requests. Defaults to https://api.frigade.com
+   */
+  apiUrl?: string
 }
 
 function clearLocalStorage() {
@@ -220,6 +227,7 @@ export const FrigadeProvider: FC<FrigadeProviderProps> = ({
           defaultAppearance: appearance,
           shouldGracefullyDegrade,
           setShouldGracefullyDegrade,
+          apiUrl: config && config.apiUrl ? config.apiUrl : DEFAULT_API_URL,
         }}
       >
         {children}
@@ -258,6 +266,7 @@ export const FrigadeProvider: FC<FrigadeProviderProps> = ({
           defaultAppearance: appearance,
           shouldGracefullyDegrade,
           setShouldGracefullyDegrade,
+          apiUrl: config && config.apiUrl ? config.apiUrl : DEFAULT_API_URL,
         }}
       >
         <ThemeProvider theme={appearance.theme}>

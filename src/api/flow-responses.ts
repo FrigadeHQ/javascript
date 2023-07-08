@@ -1,7 +1,6 @@
 import { useContext, useState } from 'react'
 import {
   ABORTED_FLOW,
-  API_PREFIX,
   COMPLETED_FLOW,
   COMPLETED_STEP,
   NOT_STARTED_FLOW,
@@ -34,7 +33,7 @@ export interface PublicStepState {
 }
 
 export function useFlowResponses() {
-  const { config } = useConfig()
+  const { config, apiUrl } = useConfig()
   const { userFlowStatesData, mutateUserFlowState } = useUserFlowStates()
   const { failedFlowResponses, setFailedFlowResponses, flowResponses, setFlowResponses } =
     useContext(FrigadeContext)
@@ -68,7 +67,7 @@ export function useFlowResponses() {
         r.createdAt === flowResponse.createdAt
     )
 
-    return gracefullyFetch(`${API_PREFIX}flowResponses`, {
+    return gracefullyFetch(`${apiUrl}flowResponses`, {
       ...config,
       method: 'POST',
       body: flowResponseString,

@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useEffect } from 'react'
 import { FrigadeContext } from '../FrigadeProvider'
-import { API_PREFIX, useCheckHasInitiatedAPI, useConfig, useGracefulFetch } from './common'
+import { useCheckHasInitiatedAPI, useConfig, useGracefulFetch } from './common'
 import { useUserFlowStates } from './user-flow-states'
 import { EntityProperties } from '../FrigadeForm/types'
 
@@ -20,7 +20,7 @@ export const GUEST_PREFIX = 'guest_'
 export function useUser() {
   const { userId, organizationId, setUserId, setUserProperties, shouldGracefullyDegrade } =
     useContext(FrigadeContext)
-  const { config } = useConfig()
+  const { config, apiUrl } = useConfig()
   const { mutateUserFlowState } = useUserFlowStates()
   const gracefullyFetch = useGracefulFetch()
   const { verifySDKInitiated } = useCheckHasInitiatedAPI()
@@ -36,7 +36,7 @@ export function useUser() {
       // Check if user has already been registered in frigade
       if (!localStorage.getItem(userRegisteredKey)) {
         // Register user in frigade
-        gracefullyFetch(`${API_PREFIX}users`, {
+        gracefullyFetch(`${apiUrl}users`, {
           ...config,
           method: 'POST',
           body: JSON.stringify({ foreignId: userId }),
@@ -54,7 +54,7 @@ export function useUser() {
         foreignId: userId,
         properties,
       }
-      await gracefullyFetch(`${API_PREFIX}users`, {
+      await gracefullyFetch(`${apiUrl}users`, {
         ...config,
         method: 'POST',
         body: JSON.stringify(data),
@@ -76,7 +76,7 @@ export function useUser() {
         foreignId: userId,
         events: [eventData],
       }
-      await gracefullyFetch(`${API_PREFIX}users`, {
+      await gracefullyFetch(`${apiUrl}users`, {
         ...config,
         method: 'POST',
         body: JSON.stringify(data),
