@@ -114,6 +114,9 @@ export interface DefaultFrigadeFlowProps {
   flowId: string
   style?: CSSProperties
   className?: string
+  /**
+   * The appearance of the flow. See https://docs.frigade.com/sdk/styling
+   */
   appearance?: Appearance
   /**
    * Dynamic variables to use in flow-data.yml. See https://docs.frigade.com/flows/dynamic-variables
@@ -124,6 +127,9 @@ export interface DefaultFrigadeFlowProps {
    * Handler for when a step is completed.
    * @param step
    * @param index
+   * @param nextStep
+   * @param allFormData All form data collected so far (only applicable to FrigadeForms)
+   * @param stepSpecificFormData Form data collected for the finished step (only applicable to FrigadeForms)
    */
   onStepCompletion?: (
     step: StepData,

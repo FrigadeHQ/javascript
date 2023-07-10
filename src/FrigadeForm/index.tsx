@@ -3,7 +3,7 @@ import React, { CSSProperties, FC, useEffect, useState } from 'react'
 import { DefaultFrigadeFlowProps, StepData } from '../types'
 import { useFlows } from '../api/flows'
 import { COMPLETED_FLOW } from '../api/common'
-import { Modal, ModalPosition } from '../components/Modal'
+import { Modal } from '../components/Modal'
 import { CornerModal } from '../components/CornerModal'
 import { CustomFormTypeProps, FormInputProps } from './types'
 import { useTheme } from '../hooks/useTheme'
@@ -13,21 +13,55 @@ import { useFlowOpens } from '../api/flow-opens'
 
 export type FrigadeFormType = 'inline' | 'modal' | 'large-modal' | 'corner-modal'
 
-export interface FormProps extends DefaultFrigadeFlowProps {
+export interface FrigadeFormProps extends DefaultFrigadeFlowProps {
+  /**
+   * @ignore
+   */
   title?: string
+  /**
+   * @ignore
+   */
   subtitle?: string
   type?: FrigadeFormType
+  /**
+   * Map of custom components. The key must match the `type` property of the step defined in `flow-data.yml`
+   */
   customStepTypes?: { [key: string]: (params: CustomFormTypeProps) => React.ReactNode }
+  /**
+   * Map of custom form components. Can only be used with a step of type `multiInput` (defined in `flow-data.yml`).
+   * The key must match the `type` property of the input defined in `flow-data.yml`
+   */
   customFormElements?: { [key: string]: (params: FormInputProps) => React.ReactNode }
   visible?: boolean
   setVisible?: (visible: boolean) => void
   onComplete?: () => void
+  /**
+   * Whether to show a dismiss button to exit out of the form. Applicable only for modal forms.
+   */
   dismissible?: boolean
+  /**
+   * If true, the form can be repeated multiple times. Default is false. Useful for e.g. contact/support forms.
+   */
   repeatable?: boolean
+  /**
+   * If true, the user will be excited from the flow when the form is dismissed. Default is false.
+   */
   endFlowOnDismiss?: boolean
-  modalPosition?: ModalPosition
+  /**
+   * Indicates the position of the modal if the form type is a modal. Default is center.
+   */
+  modalPosition?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' | 'center'
+  /**
+   * Show a pagination indicator at the bottom of the form. Default is false.
+   */
   showPagination?: boolean
+  /**
+   * Whether to allow the user to navigate back to previous steps. Default is false.
+   */
   allowBackNavigation?: boolean
+  /**
+   * @ignore
+   */
   showFrigadeBranding?: boolean
   /**
    * This function is called when the user submits data in a step.
@@ -42,7 +76,7 @@ export interface FormProps extends DefaultFrigadeFlowProps {
   ) => Promise<string | null | undefined>
 }
 
-export const FrigadeForm: FC<FormProps> = ({
+export const FrigadeForm: FC<FrigadeFormProps> = ({
   flowId,
   customStepTypes = {},
   type = 'inline',

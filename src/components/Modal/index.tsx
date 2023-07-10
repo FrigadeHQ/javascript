@@ -9,8 +9,6 @@ import { Portal } from 'react-portal'
 import { PoweredByFrigade } from '../branding/PoweredByFrigade'
 import { PoweredByFrigadeModalRibbon } from '../branding/styled'
 
-export type ModalPosition = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' | 'center'
-
 const ModalContainer = styled.div<{ appearance; maxWidth }>`
   ${(props) => getCustomClassOverrides(props)} {
     // Anything inside this block will be ignored if the user provides a custom class
