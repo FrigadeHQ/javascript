@@ -72,6 +72,12 @@ export interface FrigadeTourProps extends Omit<DefaultFrigadeFlowProps, 'flowId'
    * @ignore
    */
   showFrigadeBranding?: boolean
+
+  /**
+   * If true, the tour will go to the next existing step/tip if the current selector element is not found on the page.
+   * Defaults to false.
+   */
+  skipIfNotFound?: boolean
 }
 
 export const FrigadeTour: FC<
@@ -89,6 +95,7 @@ export const FrigadeTour: FC<
   showHighlightOnly = false,
   dismissBehavior = 'complete-flow',
   onComplete,
+  skipIfNotFound = false,
   ...props
 }) => {
   const {
@@ -236,7 +243,12 @@ export const FrigadeTour: FC<
     })
 
     return steps.map((step: StepData, idx: number) => {
-      if (isCurrentSelectorMissing && !showTooltipsSimultaneously && idx !== firstVisibleIndex) {
+      if (
+        isCurrentSelectorMissing &&
+        !showTooltipsSimultaneously &&
+        idx !== firstVisibleIndex &&
+        skipIfNotFound
+      ) {
         return null
       }
 
@@ -262,7 +274,7 @@ export const FrigadeTour: FC<
   return (
     <Portal>
       <RenderInlineStyles appearance={appearance} />
-      {showTooltipsSimultaneously || isCurrentSelectorMissing ? (
+      {showTooltipsSimultaneously || (isCurrentSelectorMissing && skipIfNotFound) ? (
         renderMultipleToolTips()
       ) : (
         <Tooltips
