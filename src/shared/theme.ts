@@ -1,5 +1,5 @@
 import { buttonVariants } from '../components/Button/Button.styles'
-import { textVariants } from '../components/Text/styled'
+import { textVariants } from '../components/Text/Text.styles'
 
 const SPACE_VALUE = 4
 const SPACE_UNIT = 'px'

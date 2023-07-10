@@ -1,7 +1,7 @@
 import React from 'react'
 import { FontProps } from 'styled-system'
 import { BoxProps } from '../Box'
-import { StyledText, textVariants } from './styled'
+import { StyledText, textVariants } from './Text.styles'
 
 type TextVariant = keyof typeof textVariants
 export interface BaseTextProps extends BoxProps, Partial<Pick<FontProps, 'fontWeight'>> {

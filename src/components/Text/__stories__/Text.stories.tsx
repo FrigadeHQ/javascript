@@ -1,6 +1,6 @@
 import React from 'react'
 import { Text } from '../index'
-import { fontWeights, textVariants } from '../styled'
+import { fontWeights, textVariants } from '../Text.styles'
 
 export default {
   title: 'Foundations/Text',
