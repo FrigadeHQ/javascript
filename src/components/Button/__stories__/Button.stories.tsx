@@ -18,15 +18,15 @@ export const Default = {
             alignItems: 'flex-start',
           }}
         >
-          <Button>Button</Button>
+          {/* <Button>Button</Button>
           <Button.Primary size="sm">Button.Primary size=sm</Button.Primary>
           <Button.Secondary>Button.Secondary</Button.Secondary>
           <Button.Secondary size="sm">Button.Secondary size=sm</Button.Secondary>
           <Button.Link>Button.Link</Button.Link>
-          <Button.Plain>Button.Plain</Button.Plain>
+          <Button.Plain>Button.Plain</Button.Plain> */}
 
-          {/* <Button
-            theme={{
+          <Button
+            overrides={{
               components: {
                 Button: {
                   Primary: {
@@ -37,7 +37,7 @@ export const Default = {
             }}
           >
             Button with theme
-          </Button> */}
+          </Button>
         </div>
       )
     },

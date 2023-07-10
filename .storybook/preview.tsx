@@ -22,7 +22,7 @@ const preview: Preview = {
           userId="jonathan_livingston_smeagol"
           config={{
             theme: {
-              color: {
+              colors: {
                 // black: 'blue',
               },
             },

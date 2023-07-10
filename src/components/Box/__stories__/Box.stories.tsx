@@ -44,13 +44,13 @@ export const Test = {
           </Box>
 
           <Box
-            css={({ theme }) => ({
-              color: theme.color.blurple,
+            css={{
+              color: 'purple',
 
               '.foo': {
                 color: 'orange',
               },
-            })}
+            }}
           >
             This should be blurple, since we have access to the theme inside custom CSS.
             <div className="foo">But this nested selector is orange!</div>
