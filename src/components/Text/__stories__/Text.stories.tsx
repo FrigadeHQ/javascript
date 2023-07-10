@@ -1,6 +1,6 @@
 import React from 'react'
 import { Text } from '../index'
-import { fontWeights, textVariantStyles } from '../styled'
+import { fontWeights, textVariants } from '../styled'
 
 export default {
   title: 'Foundations/Text',
@@ -11,7 +11,7 @@ export const Default = {
   decorators: [
     () => (
       <div style={{ display: 'flex', flexFlow: 'column nowrap', gap: '12px' }}>
-        {Object.keys(textVariantStyles).map((variant, i) => {
+        {Object.keys(textVariants).map((variant, i) => {
           const Component = Text[variant]
 
           if (['Body1', 'Body2', 'Caption'].includes(variant)) {

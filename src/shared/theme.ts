@@ -1,69 +1,63 @@
+import { buttonVariants } from '../components/Button/Button.styles'
+import { textVariants } from '../components/Text/styled'
+
+const BASE_SPACING_VALUE = 4
+const BASE_SPACING_UNIT = 'px'
+
+const spaceScale = Object.fromEntries(
+  Array(21)
+    .fill(0)
+    .map((_, i) => [i, `${i * BASE_SPACING_VALUE}${BASE_SPACING_UNIT}`])
+)
+
+spaceScale[0.5] = `${0.5 * BASE_SPACING_VALUE}${BASE_SPACING_UNIT}`
+
+const palette = {
+  black: '#000000',
+  gray100: '#14161A',
+  gray200: '#181B20',
+  gray300: '#1F2329',
+  gray400: '#2E343D',
+  gray500: '#4C5766',
+  gray600: '#5A6472',
+  gray700: '#C5CBD3',
+  gray800: '#E2E5E9',
+  gray900: '#F1F2F4',
+  white: '#ffffff',
+  blue400: '#015AC6',
+  blue500: '#0171F8',
+  blue800: '#DBECFF',
+  blue900: '#F5F9FF',
+  green400: '#009E37',
+  green500: '#00D149',
+  green800: '#DBFFE8',
+  transparent: '#FFFFFF00',
+}
+
 export const tokens = {
-  color: {
-    black: '#000000',
-    blurple: '#7289da',
+  colors: {
+    ...palette,
+
+    neutral: {
+      foreground: palette.gray300,
+    },
+    primary: {
+      background: palette.blue500,
+      foreground: palette.white,
+      inverted: palette.blue500,
+    },
   },
   fontWeights: {
     regular: 400,
     semibold: 600,
     bold: 700,
   },
+  radii: {
+    md: '8px',
+  },
+  space: spaceScale,
   components: {
-    Text: {
-      Display1: {
-        fontSize: '48px',
-        fontWeight: 'bold',
-        letterSpacing: 'calc(48px * .02)',
-        lineHeight: '60px',
-      },
-      Display2: {
-        fontSize: '36px',
-        fontWeight: 'bold',
-        letterSpacing: 'calc(36px * .02)',
-        lineHeight: '46px',
-      },
-      H1: {
-        fontSize: '30px',
-        fontWeight: 'bold',
-        letterSpacing: 'calc(30px * .02)',
-        lineHeight: '38px',
-      },
-      H2: {
-        fontSize: '24px',
-        fontWeight: 'bold',
-        letterSpacing: 'calc(24px * .02)',
-        lineHeight: '30px',
-      },
-      H3: {
-        fontSize: '20px',
-        fontWeight: 'bold',
-        letterSpacing: 'calc(20px * .02)',
-        lineHeight: '26px',
-      },
-      H4: {
-        fontSize: '18px',
-        fontWeight: 'bold',
-        letterSpacing: 'calc(18px * .02)',
-        lineHeight: '24px',
-      },
-      Body1: {
-        fontSize: '16px',
-        fontWeight: 'regular',
-        letterSpacing: 'calc(16px * .02)',
-        lineHeight: '24px',
-      },
-      Body2: {
-        fontSize: '14px',
-        fontWeight: 'regular',
-        letterSpacing: 'calc(14px * .02)',
-        lineHeight: '22px',
-      },
-      Caption: {
-        fontSize: '12px',
-        fontWeight: 'regular',
-        letterSpacing: 'calc(12px * .02)',
-        lineHeight: '18px',
-      },
-    },
+    Button: buttonVariants,
+    Text: textVariants,
   },
 }

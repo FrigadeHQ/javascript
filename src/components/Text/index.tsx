@@ -1,9 +1,9 @@
 import React from 'react'
 import { FontProps } from 'styled-system'
 import { BoxProps } from '../Box'
-import { StyledText, textVariantStyles } from './styled'
+import { StyledText, textVariants } from './styled'
 
-type TextVariant = keyof typeof textVariantStyles
+type TextVariant = keyof typeof textVariants
 export interface BaseTextProps extends BoxProps, Partial<Pick<FontProps, 'fontWeight'>> {
   variant?: TextVariant
 }
@@ -16,8 +16,8 @@ const BaseText: React.FC<BaseTextProps> = ({ children, variant = 'Body1', ...res
   )
 }
 
-const textVariants = Object.fromEntries(
-  Object.keys(textVariantStyles).map((variant) => {
+const textVariantComponents = Object.fromEntries(
+  Object.keys(textVariants).map((variant) => {
     const component = (props: BaseTextProps) => (
       <BaseText {...props} variant={variant as TextVariant}>
         {props.children}
@@ -30,4 +30,4 @@ const textVariants = Object.fromEntries(
   })
 )
 
-export const Text = Object.assign(BaseText, textVariants)
+export const Text = Object.assign(BaseText, textVariantComponents)
