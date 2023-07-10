@@ -1,16 +1,21 @@
 import { buttonVariants } from '../components/Button/Button.styles'
 import { textVariants } from '../components/Text/styled'
 
-const BASE_SPACING_VALUE = 4
-const BASE_SPACING_UNIT = 'px'
+const SPACE_VALUE = 4
+const SPACE_UNIT = 'px'
+const SPACE_SCALE_EXTENT = 20
 
+// Fill an array with SPACE_SCALE_EXTENT multiples of BASE_SPACE_VALUE
 const spaceScale = Object.fromEntries(
-  Array(21)
-    .fill(0)
-    .map((_, i) => [i, `${i * BASE_SPACING_VALUE}${BASE_SPACING_UNIT}`])
-)
+  Array.from(Array(SPACE_SCALE_EXTENT + 1), (_, i) => {
+    // Just a cute lil' 0.5 space would you look at this tiny guy over here
+    if (i === 0) {
+      return [0.5, `${0.5 * SPACE_VALUE}${SPACE_UNIT}`]
+    }
 
-spaceScale[0.5] = `${0.5 * BASE_SPACING_VALUE}${BASE_SPACING_UNIT}`
+    return [i, `${i * SPACE_VALUE}${SPACE_UNIT}`]
+  })
+)
 
 const palette = {
   black: '#000000',
