@@ -1,8 +1,6 @@
 import * as React from 'react'
-import styled from 'styled-components'
-import { compose, variant } from 'styled-system'
 import { StyledButton } from './Button.styles'
-import { Box, BoxProps } from '../Box'
+import { BoxProps } from '../Box'
 import { Text } from '../Text'
 
 import { buttonVariants, buttonSizes } from './Button.styles'
