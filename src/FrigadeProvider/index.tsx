@@ -40,6 +40,7 @@ export interface IFrigadeContext {
   shouldGracefullyDegrade: boolean
   setShouldGracefullyDegrade: React.Dispatch<React.SetStateAction<boolean>>
   apiUrl: string
+  readonly: boolean
 }
 
 export interface FrigadeProviderProps {
@@ -85,6 +86,7 @@ export const FrigadeContext = createContext<IFrigadeContext>({
   shouldGracefullyDegrade: false,
   setShouldGracefullyDegrade: () => {},
   apiUrl: DEFAULT_API_URL,
+  readonly: false,
 })
 
 interface FrigadeConfig {
@@ -102,6 +104,11 @@ interface FrigadeConfig {
    * API url to use for all requests. Defaults to https://api.frigade.com
    */
   apiUrl?: string
+  /**
+   * When true, Frigade will be in read-only mode and state will not be updated. Default false.
+   * Used mostly for demo purposes.
+   */
+  readonly?: boolean
 }
 
 function clearLocalStorage() {
@@ -196,79 +203,45 @@ export const FrigadeProvider: FC<FrigadeProviderProps> = ({
     }
   }, [publicApiKey, setShouldGracefullyDegrade])
 
+  const contextParams = {
+    publicApiKey,
+    userId: userIdValue,
+    setUserId: setUserIdValue,
+    setFlows,
+    flows: flows,
+    failedFlowResponses,
+    setFailedFlowResponses,
+    flowResponses,
+    setFlowResponses,
+    userProperties,
+    setUserProperties,
+    openFlowStates,
+    setOpenFlowStates,
+    completedFlowsToKeepOpenDuringSession,
+    setCompletedFlowsToKeepOpenDuringSession,
+    customVariables,
+    setCustomVariables,
+    isNewGuestUser,
+    setIsNewGuestUser,
+    hasActiveFullPageFlow,
+    setHasActiveFullPageFlow,
+    organizationId: organizationIdValue,
+    setOrganizationId: setOrganizationIdValue,
+    navigate: config && config.navigate ? config.navigate : internalNavigate,
+    defaultAppearance: appearance,
+    shouldGracefullyDegrade,
+    setShouldGracefullyDegrade,
+    apiUrl: config && config.apiUrl ? config.apiUrl : DEFAULT_API_URL,
+    readonly: config && config.readonly ? config.readonly : false,
+  } as IFrigadeContext
+
   if (shouldGracefullyDegrade) {
-    return (
-      <FrigadeContext.Provider
-        value={{
-          publicApiKey,
-          userId: userIdValue,
-          setUserId: setUserIdValue,
-          setFlows,
-          flows: flows,
-          failedFlowResponses,
-          setFailedFlowResponses,
-          flowResponses,
-          setFlowResponses,
-          userProperties,
-          setUserProperties,
-          openFlowStates,
-          setOpenFlowStates,
-          completedFlowsToKeepOpenDuringSession,
-          setCompletedFlowsToKeepOpenDuringSession,
-          customVariables,
-          setCustomVariables,
-          isNewGuestUser,
-          setIsNewGuestUser,
-          hasActiveFullPageFlow,
-          setHasActiveFullPageFlow,
-          organizationId: organizationIdValue,
-          setOrganizationId: setOrganizationIdValue,
-          navigate: config && config.navigate ? config.navigate : internalNavigate,
-          defaultAppearance: appearance,
-          shouldGracefullyDegrade,
-          setShouldGracefullyDegrade,
-          apiUrl: config && config.apiUrl ? config.apiUrl : DEFAULT_API_URL,
-        }}
-      >
-        {children}
-      </FrigadeContext.Provider>
-    )
+    return <FrigadeContext.Provider value={contextParams}>{children}</FrigadeContext.Provider>
   }
 
   return (
     <ErrorBoundary fallback={<>{children}</>}>
-      <FrigadeContext.Provider
-        value={{
-          publicApiKey,
-          userId: userIdValue,
-          setUserId: setUserIdValue,
-          setFlows,
-          flows: flows,
-          failedFlowResponses,
-          setFailedFlowResponses,
-          flowResponses,
-          setFlowResponses,
-          userProperties,
-          setUserProperties,
-          openFlowStates,
-          setOpenFlowStates,
-          completedFlowsToKeepOpenDuringSession,
-          setCompletedFlowsToKeepOpenDuringSession,
-          customVariables,
-          setCustomVariables,
-          isNewGuestUser,
-          setIsNewGuestUser,
-          hasActiveFullPageFlow,
-          setHasActiveFullPageFlow,
-          organizationId: organizationIdValue,
-          setOrganizationId: setOrganizationIdValue,
-          navigate: config && config.navigate ? config.navigate : internalNavigate,
-          defaultAppearance: appearance,
-          shouldGracefullyDegrade,
-          setShouldGracefullyDegrade,
-          apiUrl: config && config.apiUrl ? config.apiUrl : DEFAULT_API_URL,
-        }}
-      >
+      <FrigadeContext.Provider value={contextParams}>
         <ThemeProvider theme={appearance.theme}>
           {children}
           <DataFetcher />

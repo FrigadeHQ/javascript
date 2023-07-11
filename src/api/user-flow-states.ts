@@ -43,7 +43,7 @@ export function useUserFlowStates(): {
   error: any
 } {
   const { config, apiUrl } = useConfig()
-  const { publicApiKey, userId, organizationId, flows, setShouldGracefullyDegrade } =
+  const { publicApiKey, userId, organizationId, flows, setShouldGracefullyDegrade, readonly } =
     useContext(FrigadeContext)
   const { resetOpenFlowState } = useFlowOpens()
   const [hasFinishedInitialLoad, setHasFinishedInitialLoad] = useState(false)
@@ -85,6 +85,7 @@ export function useUserFlowStates(): {
       : null,
     fetcher,
     {
+      revalidateOnFocus: readonly !== true,
       revalidateIfStale: true,
       keepPreviousData: true,
       revalidateOnMount: true,
@@ -108,7 +109,7 @@ export function useUserFlowStates(): {
   }, [userFlowStatesData, hasFinishedInitialLoad, isLoadingUserFlowStateData])
 
   async function optimisticallyMarkFlowCompleted(flowId: string) {
-    if (userFlowStatesData) {
+    if (userFlowStatesData && !readonly) {
       const flowState = userFlowStatesData.find((state) => state.flowId === flowId)
       if (flowState && flowState.flowState !== COMPLETED_FLOW) {
         flowState.flowState = COMPLETED_FLOW

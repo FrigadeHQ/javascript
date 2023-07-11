@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import {
   CustomFormTypeProps,
@@ -14,6 +14,7 @@ import { getClassName } from '../../../shared/appearance'
 import { useUser } from '../../../api/users'
 import { Warning } from '../../Icons/Warning'
 import { AnimatePresence, motion } from 'framer-motion'
+import { FrigadeContext } from '../../../FrigadeProvider'
 
 interface MultiInputStepProps {
   data?: FormInputType[]
@@ -69,6 +70,7 @@ export function MultiInputStepType({
   const [touchedInputs, setTouchedInputs] = useState<string[]>([])
   const { userId } = useUser()
   const [allFormData, setAllFormData] = useState(loadFromLocalStorage() || {})
+  const { readonly } = useContext(FrigadeContext)
 
   // Merge DEFAULT_INPUT_TYPES and customFormElements
   const mergedInputTypes = { ...DEFAULT_INPUT_TYPES, ...customFormElements }
@@ -82,7 +84,7 @@ export function MultiInputStepType({
     setAllFormData(newData)
     onSaveData(newData)
 
-    if (window && window.localStorage) {
+    if (window && window.localStorage && !readonly) {
       window.localStorage.setItem(getLocalStorageKey(), JSON.stringify(newData))
     }
   }

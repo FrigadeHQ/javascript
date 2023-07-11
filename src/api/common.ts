@@ -34,9 +34,15 @@ export function useConfig() {
 const LAST_POST_CALL_AT = 'frigade-last-call-at-'
 const LAST_POST_CALL_DATA = 'frigade-last-call-data-'
 export function useGracefulFetch() {
-  const { shouldGracefullyDegrade } = React.useContext(FrigadeContext)
+  const { shouldGracefullyDegrade, readonly } = React.useContext(FrigadeContext)
 
   return async (url: string, options: any) => {
+    if (
+      readonly &&
+      (options.method === 'POST' || options.method === 'PUT' || options.method === 'DELETE')
+    ) {
+      return getEmptyResponse()
+    }
     if (shouldGracefullyDegrade) {
       console.log(`Skipping ${url} call to Frigade due to error`)
       return getEmptyResponse()

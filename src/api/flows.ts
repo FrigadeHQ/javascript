@@ -61,6 +61,7 @@ export function useFlows() {
     setHasActiveFullPageFlow,
     setFlowResponses,
     setShouldGracefullyDegrade,
+    readonly,
   } = useContext(FrigadeContext)
 
   const emptyResponse = {
@@ -109,7 +110,7 @@ export function useFlows() {
       return
     }
     if (flowData && flowData.data) {
-      flowData.data = setFlows(flowData.data)
+      setFlows(flowData.data)
     }
   }, [flowData, error])
 
@@ -534,6 +535,9 @@ export function useFlows() {
   }
 
   function targetingLogicShouldHideFlow(flow: Flow) {
+    if (readonly) {
+      return false
+    }
     if (isLoadingUserFlowStateData) {
       return true
     }

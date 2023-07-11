@@ -36,6 +36,7 @@ const CondensedChecklist: FC<CondensedChecklistProps> = ({
   type,
   className,
   customStepTypes,
+  style,
 }) => {
   const completeCount = steps.filter((s) => s.complete).length
   const [collapsedSteps, setCollapsedSteps] = useState<boolean[]>(Array(steps.length).fill(true))
@@ -147,6 +148,7 @@ const CondensedChecklist: FC<CondensedChecklistProps> = ({
       <CondensedInlineChecklistContainer
         appearance={appearance}
         className={mergeClasses(getClassName('checklistInlineContainer', appearance), className)}
+        style={style}
       >
         {headerContent}
         {checklistContent}
