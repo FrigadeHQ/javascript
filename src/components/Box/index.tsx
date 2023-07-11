@@ -28,10 +28,7 @@ const BaseBox = <T extends React.ElementType = 'span'>({
   const Component = as ?? 'span'
   const theme = useTheme()
 
-  console.log('PROPS IN BOX: ', as, overrides, rest)
-
-  if (overrides) {
-    console.log('OVERRIDING: ', overrides)
+  if (overrides !== undefined) {
     const newTheme = deepmerge(theme, overrides)
 
     return (
@@ -39,11 +36,19 @@ const BaseBox = <T extends React.ElementType = 'span'>({
         <Component {...rest}>{children}</Component>
       </ThemeProvider>
     )
-  } else {
-    console.log('NO OVERRIDES')
   }
 
   return <Component {...rest}>{children}</Component>
 }
 
-export const Box = styled(BaseBox)(({ css }) => css, compose(border, color, layout))
+export const Box = styled(BaseBox).attrs(({ theme, overrides }) => {
+  /*
+   * Since the new ThemeProvider will be a child of this Box, the Box itself can't see it.
+   * To fix that, we'll manually update the theme prop that it receives to include the overrides.
+   */
+  if (overrides !== undefined) {
+    return {
+      theme: deepmerge(theme, overrides),
+    }
+  }
+})(({ css }) => css, compose(border, color, layout))

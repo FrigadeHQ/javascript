@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 import { compose, variant } from 'styled-system'
 
-// import { BaseButton } from './TEMP_index'
 import { Box } from '../Box'
 
 /*
@@ -49,6 +48,23 @@ export const buttonSizes = {
     paddingY: 2,
   },
 }
+
+export const StyledButton = styled(Box)(
+  ({ theme }) => ({
+    border: 'none',
+    borderRadius: theme.radii.md,
+  }),
+  compose(
+    variant({
+      scale: 'components.Button',
+      variants: 'components.Button',
+    }),
+    variant({
+      prop: 'size',
+      variants: buttonSizes,
+    })
+  )
+)
 
 // export type ButtonVariant = keyof typeof buttonVariants
 // export type ButtonSize = keyof typeof buttonSizes

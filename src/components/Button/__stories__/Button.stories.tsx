@@ -18,12 +18,12 @@ export const Default = {
             alignItems: 'flex-start',
           }}
         >
-          {/* <Button>Button</Button>
+          <Button>Button</Button>
           <Button.Primary size="sm">Button.Primary size=sm</Button.Primary>
           <Button.Secondary>Button.Secondary</Button.Secondary>
           <Button.Secondary size="sm">Button.Secondary size=sm</Button.Secondary>
           <Button.Link>Button.Link</Button.Link>
-          <Button.Plain>Button.Plain</Button.Plain> */}
+          <Button.Plain>Button.Plain</Button.Plain>
 
           <Button
             overrides={{
@@ -31,6 +31,11 @@ export const Default = {
                 Button: {
                   Primary: {
                     backgroundColor: 'pink',
+                  },
+                },
+                Text: {
+                  Body1: {
+                    color: 'green500',
                   },
                 },
               },
