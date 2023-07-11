@@ -100,7 +100,7 @@ export function useFlows() {
     data: flowData,
     error,
     isLoading: isLoadingFlows,
-  } = useSWR(publicApiKey ? `${apiUrl}flows` : null, fetcher, {
+  } = useSWR(publicApiKey ? `${apiUrl}flows${readonly ? `?readonly=true` : ''}` : null, fetcher, {
     keepPreviousData: true,
   })
 
