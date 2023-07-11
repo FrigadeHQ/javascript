@@ -10,6 +10,7 @@ import { FrigadeContext } from '../FrigadeProvider'
 import useSWR from 'swr'
 import { useFlowOpens } from './flow-opens'
 import { FlowResponse } from './flow-responses'
+import useSWRImmutable from 'swr/immutable'
 
 export interface PublicUserFlowState {
   flowId: string
@@ -72,34 +73,35 @@ export function useUserFlowStates(): {
         return emptyResponse
       })
 
+  const key =
+    publicApiKey && flows && userId
+      ? `${apiUrl}userFlowStates?foreignUserId=${encodeURIComponent(userId)}${
+          organizationId ? `&foreignUserGroupId=${encodeURIComponent(organizationId)}` : ''
+        }`
+      : null
+
   const {
     data,
     isLoading: isLoadingUserFlowStateData,
     mutate: mutateUserFlowState,
     error,
-  } = useSWR(
-    publicApiKey && flows && userId
-      ? `${apiUrl}userFlowStates?foreignUserId=${encodeURIComponent(userId)}${
-          organizationId ? `&foreignUserGroupId=${encodeURIComponent(organizationId)}` : ''
-        }`
-      : null,
-    fetcher,
-    {
-      revalidateOnFocus: readonly !== true,
-      revalidateIfStale: true,
-      keepPreviousData: true,
-      revalidateOnMount: true,
-      errorRetryInterval: 10000,
-      errorRetryCount: 3,
-      onError: () => {
-        // In case of errors fetching the user flow states, hide all Frigade flow by setting shouldTrigger to false
-        return emptyResponse
-      },
-      onLoadingSlow: () => {
-        return emptyResponse
-      },
-    }
-  )
+  } = readonly
+    ? useSWRImmutable(key, fetcher)
+    : useSWR(key, fetcher, {
+        revalidateOnFocus: true,
+        revalidateIfStale: true,
+        keepPreviousData: true,
+        revalidateOnMount: true,
+        errorRetryInterval: 10000,
+        errorRetryCount: 3,
+        onError: () => {
+          // In case of errors fetching the user flow states, hide all Frigade flow by setting shouldTrigger to false
+          return emptyResponse
+        },
+        onLoadingSlow: () => {
+          return emptyResponse
+        },
+      })
   const userFlowStatesData = data?.data
 
   useEffect(() => {
