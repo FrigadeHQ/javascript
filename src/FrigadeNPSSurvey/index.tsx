@@ -24,6 +24,7 @@ import { Button } from '../components/Button'
 
 export interface FrigadeNPSSurveyProps extends DefaultFrigadeFlowProps {
   dismissible?: boolean
+  type?: 'inline' | 'modal'
 }
 
 export const FrigadeNPSSurvey: React.FC<FrigadeNPSSurveyProps> = ({
@@ -34,6 +35,7 @@ export const FrigadeNPSSurvey: React.FC<FrigadeNPSSurveyProps> = ({
   appearance,
   className,
   style,
+  type = 'modal',
 }) => {
   const {
     getFlow,
@@ -187,28 +189,37 @@ export const FrigadeNPSSurvey: React.FC<FrigadeNPSSurveyProps> = ({
     )
   }
 
-  return (
-    <Portal>
-      <RenderInlineStyles appearance={appearance} />
-      <NPSSurveyContainer
-        appearance={appearance}
-        className={mergeClasses(getClassName('npsSurveyContainer', appearance), className)}
-        style={style}
-      >
-        <DismissButton
-          onClick={async () => {
-            await markFlowCompleted(flowId)
-            if (onDismiss) {
-              onDismiss()
-            }
-          }}
-          className={getClassName('npsSurveyDismissButton', appearance)}
+  function getContent() {
+    return (
+      <>
+        <RenderInlineStyles appearance={appearance} />
+        <NPSSurveyContainer
+          appearance={appearance}
+          className={mergeClasses(getClassName('npsSurveyContainer', appearance), className)}
+          style={style}
+          type={type}
         >
-          <Close />
-        </DismissButton>
-        {getNumberOfStepsCompleted(flowId) == 0 && getScoreChooser()}
-        {getNumberOfStepsCompleted(flowId) == 1 && getScoreReason()}
-      </NPSSurveyContainer>
-    </Portal>
-  )
+          <DismissButton
+            onClick={async () => {
+              await markFlowCompleted(flowId)
+              if (onDismiss) {
+                onDismiss()
+              }
+            }}
+            className={getClassName('npsSurveyDismissButton', appearance)}
+          >
+            <Close />
+          </DismissButton>
+          {getNumberOfStepsCompleted(flowId) == 0 && getScoreChooser()}
+          {getNumberOfStepsCompleted(flowId) == 1 && getScoreReason()}
+        </NPSSurveyContainer>
+      </>
+    )
+  }
+
+  if (type === 'inline') {
+    return getContent()
+  }
+
+  return <Portal>{getContent()}</Portal>
 }

@@ -14,7 +14,7 @@ export const NPSSurveyContainer = styled.div`
     border-width: 1px;
     border-color: ${(props) => props.appearance.theme.colorBorder};
     border-radius: ${(props) => props.appearance.theme.borderRadius}px;
-    position: fixed;
+    position: ${(props) => (props.type == 'modal' ? 'fixed' : 'relative')};
     left: 50%;
     transform: translate(-50%);
     bottom: 24px;
