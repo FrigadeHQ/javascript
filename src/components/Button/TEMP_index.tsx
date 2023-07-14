@@ -5,18 +5,20 @@ import { Text } from '../Text'
 
 import { buttonVariants, buttonSizes } from './Button.styles'
 
-export interface ButtonProps extends BoxProps {}
+export interface ButtonProps extends BoxProps {
+  title: string
+}
 
 const BaseButton: React.FC<ButtonProps> = ({
   as = 'button',
-  children,
   size = 'md',
+  title,
   variant = 'Primary',
   ...rest
 }) => {
   return (
     <StyledButton forwardedAs={as} variant={variant} size={size} borderRadius="md" {...rest}>
-      <Text color={buttonVariants[variant]?.color}>{children}</Text>
+      <Text color={buttonVariants[variant]?.color}>{title}</Text>
     </StyledButton>
   )
 }

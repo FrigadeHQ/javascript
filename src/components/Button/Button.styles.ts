@@ -3,12 +3,6 @@ import { compose, variant } from 'styled-system'
 
 import { Box } from '../Box'
 
-/*
-  variant: primary, secondary, link, plain
-  size: small, large -- medium not used?
-  width: full, inline (use width from styled-system?)
-*/
-
 export const buttonVariants = {
   Primary: {
     backgroundColor: 'primary.background',

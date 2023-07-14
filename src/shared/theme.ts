@@ -5,7 +5,7 @@ const SPACE_VALUE = 4
 const SPACE_UNIT = 'px'
 const SPACE_SCALE_EXTENT = 20
 
-// Fill an array with SPACE_SCALE_EXTENT multiples of BASE_SPACE_VALUE
+// Fill an array with SPACE_SCALE_EXTENT multiples of SPACE_VALUE
 const spaceScale = Object.fromEntries(
   Array.from(Array(SPACE_SCALE_EXTENT + 1), (_, i) => {
     // Just a cute lil' 0.5 space would you look at this tiny guy over here
@@ -38,6 +38,7 @@ const palette = {
   green800: '#DBFFE8',
   transparent: '#FFFFFF00',
 
+  // This color isn't in the Design System yet, but it's used in old components
   red500: '#c00000',
 }
 
