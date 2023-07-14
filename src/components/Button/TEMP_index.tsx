@@ -15,7 +15,7 @@ const BaseButton: React.FC<ButtonProps> = ({
   ...rest
 }) => {
   return (
-    <StyledButton forwardedAs={as} variant={variant} size={size} {...rest}>
+    <StyledButton forwardedAs={as} variant={variant} size={size} borderRadius="md" {...rest}>
       <Text color={buttonVariants[variant]?.color}>{children}</Text>
     </StyledButton>
   )

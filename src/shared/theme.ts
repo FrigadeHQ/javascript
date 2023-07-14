@@ -37,6 +37,8 @@ const palette = {
   green500: '#00D149',
   green800: '#DBFFE8',
   transparent: '#FFFFFF00',
+
+  red500: '#c00000',
 }
 
 export const tokens = {
@@ -51,6 +53,9 @@ export const tokens = {
       foreground: palette.white,
       inverted: palette.blue500,
     },
+    negative: {
+      foreground: palette.red500,
+    },
   },
   fontWeights: {
     regular: 400,
@@ -59,6 +64,11 @@ export const tokens = {
   },
   radii: {
     md: '8px',
+    lg: '20px',
+    round: '50%',
+  },
+  shadows: {
+    md: '0px 4px 20px rgba(0, 0, 0, 0.06)',
   },
   space: spaceScale,
   components: {

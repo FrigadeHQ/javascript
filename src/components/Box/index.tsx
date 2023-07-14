@@ -1,11 +1,23 @@
 import React, { ComponentPropsWithoutRef, CSSProperties, ElementType, ReactNode } from 'react'
 import styled, { ThemeProvider, useTheme } from 'styled-components'
-import { border, BorderProps, color, ColorProps, compose, layout, LayoutProps } from 'styled-system'
+import {
+  border,
+  BorderProps,
+  color,
+  ColorProps,
+  compose,
+  layout,
+  LayoutProps,
+  shadow,
+  ShadowProps,
+  space,
+  SpaceProps,
+} from 'styled-system'
 import { deepmerge } from 'deepmerge-ts'
 
 interface Overrides extends Record<string, Overrides | CSSProperties> {}
 
-export type BoxProps<T extends ElementType = 'span'> = {
+export type BoxProps<T extends ElementType = 'div'> = {
   as?: T
   css?: Record<string, any> // TODO: Fix any
   children?: ReactNode
@@ -13,11 +25,13 @@ export type BoxProps<T extends ElementType = 'span'> = {
 } & BorderProps &
   ColorProps &
   LayoutProps &
+  ShadowProps &
+  SpaceProps &
   ComponentPropsWithoutRef<T>
 
-const StyledBox = styled('span')(({ css }) => css, compose(border, color, layout))
+const StyledBox = styled('div')(({ css }) => css, compose(border, color, layout, shadow, space))
 
-export const Box = <T extends React.ElementType = 'span'>({
+export const Box = <T extends React.ElementType = 'div'>({
   as,
   children,
   overrides,
@@ -25,21 +39,24 @@ export const Box = <T extends React.ElementType = 'span'>({
 }: BoxProps<T>) => {
   const theme = useTheme()
 
-  if (overrides !== undefined) {
-    const newTheme = deepmerge(theme, overrides)
-
-    return (
-      <ThemeProvider theme={newTheme}>
-        <StyledBox as={as} {...rest}>
-          {children}
-        </StyledBox>
-      </ThemeProvider>
-    )
+  const styleResetProps = {
+    border: 'none',
+    boxSizing: 'border-box',
+    m: 0,
+    p: 0,
   }
 
-  return (
-    <StyledBox as={as} {...rest}>
+  const renderBox = () => (
+    <StyledBox as={as} {...styleResetProps} {...rest}>
       {children}
     </StyledBox>
   )
+
+  if (overrides !== undefined) {
+    const newTheme = deepmerge(theme, overrides)
+
+    return <ThemeProvider theme={newTheme}>{renderBox()}</ThemeProvider>
+  }
+
+  return renderBox()
 }

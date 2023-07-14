@@ -50,10 +50,6 @@ export const buttonSizes = {
 }
 
 export const StyledButton = styled(Box)(
-  ({ theme }) => ({
-    border: 'none',
-    borderRadius: theme.radii.md,
-  }),
   compose(
     variant({
       scale: 'components.Button',

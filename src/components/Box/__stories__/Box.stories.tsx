@@ -3,6 +3,8 @@ import { Box } from '../index'
 
 import { Text } from '../../Text'
 
+import { appearanceToOverrides } from '../appearanceToOverrides'
+
 export default {
   title: 'Foundations/Box',
   component: Box,
@@ -23,6 +25,25 @@ export const Default = {
 export const Test = {
   decorators: [
     () => {
+      const testAppearance = {
+        theme: {
+          colorText: 'blue',
+          colorTextSecondary: '#494949',
+          colorTextOnPrimaryBackground: '#fff',
+          colorPrimary: '#2956B5',
+          colorBorder: '#E2E2E2',
+        },
+        styleOverrides: {
+          testOverrideSelector: {
+            backgroundColor: 'aquamarine',
+          },
+        },
+      }
+
+      const boxProps = appearanceToOverrides(testAppearance)
+
+      console.log('overrides', boxProps)
+
       return (
         <div style={{ display: 'flex', flexFlow: 'column nowrap', gap: '12px' }}>
           <Text.Body1>This is normal Text.Body1</Text.Body1>
@@ -44,6 +65,7 @@ export const Test = {
           </Box>
 
           <Box
+            mb="10"
             css={{
               color: 'purple',
 
@@ -54,6 +76,11 @@ export const Test = {
           >
             This should be blurple, since we have access to the theme inside custom CSS.
             <div className="foo">But this nested selector is orange!</div>
+          </Box>
+
+          <Box {...boxProps}>
+            <Text>This should be themed according to the appearance prop</Text>
+            <div className="fr-testOverrideSelector">This is a simulation of an SDK className</div>
           </Box>
         </div>
       )

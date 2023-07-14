@@ -8,9 +8,14 @@ export interface BaseTextProps extends BoxProps, Partial<Pick<FontProps, 'fontWe
   variant?: TextVariant
 }
 
-const BaseText: React.FC<BaseTextProps> = ({ as, children, variant = 'Body1', ...rest }) => {
+const BaseText: React.FC<BaseTextProps> = ({
+  as = 'span',
+  children,
+  variant = 'Body1',
+  ...rest
+}) => {
   return (
-    <StyledText forwardedAs={as} variant={variant} {...rest}>
+    <StyledText color="neutral.foreground" forwardedAs={as} variant={variant} {...rest}>
       {children}
     </StyledText>
   )
@@ -18,8 +23,9 @@ const BaseText: React.FC<BaseTextProps> = ({ as, children, variant = 'Body1', ..
 
 const textVariantComponents = Object.fromEntries(
   Object.keys(textVariants).map((variant) => {
+    const asProp = ['H1', 'H2', 'H3', 'H4'].includes(variant) ? variant.toLowerCase() : undefined
     const component = (props: BaseTextProps) => (
-      <BaseText {...props} variant={variant as TextVariant}>
+      <BaseText as={asProp} {...props} variant={variant as TextVariant}>
         {props.children}
       </BaseText>
     )

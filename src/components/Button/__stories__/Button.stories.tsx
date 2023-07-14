@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Button } from '../TEMP_index'
 
 export default {
-  title: 'Button',
+  title: 'Foundations/Button',
   component: Button,
 }
 
@@ -28,11 +28,6 @@ export const Default = {
           <Button
             overrides={{
               components: {
-                Button: {
-                  Primary: {
-                    backgroundColor: 'pink',
-                  },
-                },
                 Text: {
                   Body1: {
                     color: 'green500',
@@ -43,6 +38,8 @@ export const Default = {
           >
             Button with theme
           </Button>
+
+          <Button borderRadius="round">Button borderRadius=md</Button>
         </div>
       )
     },
