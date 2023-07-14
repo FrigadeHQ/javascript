@@ -15,7 +15,13 @@ const BaseText: React.FC<BaseTextProps> = ({
   ...rest
 }) => {
   return (
-    <StyledText color="neutral.foreground" forwardedAs={as} variant={variant} {...rest}>
+    <StyledText
+      color="neutral.foreground"
+      fontFamily="default"
+      forwardedAs={as}
+      variant={variant}
+      {...rest}
+    >
       {children}
     </StyledText>
   )

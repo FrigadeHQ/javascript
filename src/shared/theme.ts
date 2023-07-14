@@ -58,9 +58,12 @@ export const tokens = {
       foreground: palette.red500,
     },
   },
+  fonts: {
+    default: 'TT Interphases Pro, sans-serif',
+  },
   fontWeights: {
     regular: 400,
-    semibold: 600,
+    semibold: 500,
     bold: 700,
   },
   radii: {

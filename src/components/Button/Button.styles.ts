@@ -44,6 +44,9 @@ export const buttonSizes = {
 }
 
 export const StyledButton = styled(Box)(
+  () => ({
+    whiteSpace: 'nowrap',
+  }),
   compose(
     variant({
       scale: 'components.Button',

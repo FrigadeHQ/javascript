@@ -6,16 +6,55 @@ import {
   color,
   ColorProps,
   compose,
-  layout,
+  get,
   LayoutProps,
   shadow,
   ShadowProps,
   space,
   SpaceProps,
+  system,
+  typography,
+  TypographyProps,
 } from 'styled-system'
 import { deepmerge } from 'deepmerge-ts'
 
 interface Overrides extends Record<string, Overrides | CSSProperties> {}
+
+// Drop the size property from layout props, it conflicts with our own size prop
+// SEE: https://github.com/styled-system/styled-system/blob/master/packages/layout/src/index.js
+const layoutWithoutSize = {
+  width: {
+    property: 'width',
+    scale: 'sizes',
+    transform: (n, scale) =>
+      get(scale, n, !(typeof n === 'number' && !isNaN(n)) || n > 1 ? n : n * 100 + '%'),
+  },
+  height: {
+    property: 'height',
+    scale: 'sizes',
+  },
+  minWidth: {
+    property: 'minWidth',
+    scale: 'sizes',
+  },
+  minHeight: {
+    property: 'minHeight',
+    scale: 'sizes',
+  },
+  maxWidth: {
+    property: 'maxWidth',
+    scale: 'sizes',
+  },
+  maxHeight: {
+    property: 'maxHeight',
+    scale: 'sizes',
+  },
+  overflow: true,
+  overflowX: true,
+  overflowY: true,
+  display: true,
+  verticalAlign: true,
+}
 
 export type BoxProps<T extends ElementType = 'div'> = {
   as?: T
@@ -24,12 +63,16 @@ export type BoxProps<T extends ElementType = 'div'> = {
   overrides?: Overrides
 } & BorderProps &
   ColorProps &
-  LayoutProps &
+  Exclude<LayoutProps, 'size'> &
   ShadowProps &
   SpaceProps &
+  TypographyProps &
   ComponentPropsWithoutRef<T>
 
-const StyledBox = styled('div')(({ css }) => css, compose(border, color, layout, shadow, space))
+const StyledBox = styled('div')(
+  ({ css }) => css,
+  compose(border, color, shadow, space, typography, system(layoutWithoutSize))
+)
 
 export const Box = <T extends React.ElementType = 'div'>({
   as,
