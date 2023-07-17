@@ -14,14 +14,5 @@ const config: StorybookConfig = {
   docs: {
     autodocs: 'tag',
   },
-  webpackFinal: async (config) => {
-    return {
-      ...config,
-      optimization: {
-        ...config.optimization,
-      },
-      plugins: [...(config.plugins ?? [])],
-    }
-  },
 }
 export default config
