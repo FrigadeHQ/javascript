@@ -3,7 +3,9 @@ import { StyledButton } from './Button.styles'
 import { BoxProps } from '../Box'
 import { Text } from '../Text'
 
-import { buttonVariants, buttonSizes } from './Button.styles'
+import { buttonVariants } from './Button.styles'
+
+// TEMP: Non-standard filename to avoid conflict with existing/deprecated button component
 
 export interface ButtonProps extends BoxProps {
   title: string

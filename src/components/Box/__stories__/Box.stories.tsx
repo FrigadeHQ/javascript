@@ -3,7 +3,7 @@ import { Box } from '../index'
 
 import { Text } from '../../Text'
 
-import { appearanceToOverrides } from '../appearanceToOverrides'
+import { appearanceToOverrides } from '../../../shared/appearanceToOverrides'
 
 export default {
   title: 'Foundations/Box',
