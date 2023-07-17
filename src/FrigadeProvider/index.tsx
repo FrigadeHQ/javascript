@@ -247,7 +247,8 @@ export const FrigadeProvider: FC<FrigadeProviderProps> = ({
   return (
     <ErrorBoundary fallback={<>{children}</>}>
       <FrigadeContext.Provider value={contextParams}>
-        <ThemeProvider theme={deepmerge(tokens, config?.theme)}>
+        {/* TEMP: Merge old appearance.theme vars in for backwards compatibility */}
+        <ThemeProvider theme={deepmerge(appearance.theme, tokens, config?.theme ?? {})}>
           {children}
           <DataFetcher />
         </ThemeProvider>
