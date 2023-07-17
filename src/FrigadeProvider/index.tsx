@@ -5,6 +5,9 @@ import { Flow } from '../api/flows'
 import { FlowResponse } from '../api/flow-responses'
 import { Appearance, DefaultAppearance } from '../types'
 import { ErrorBoundary } from 'react-error-boundary'
+import { deepmerge } from 'deepmerge-ts'
+
+import { tokens } from '../shared/theme'
 
 export interface IFrigadeContext {
   publicApiKey: string
@@ -109,6 +112,8 @@ interface FrigadeConfig {
    * Used mostly for demo purposes.
    */
   readonly?: boolean
+
+  theme?: Record<string, any>
 }
 
 function clearLocalStorage() {
@@ -242,7 +247,8 @@ export const FrigadeProvider: FC<FrigadeProviderProps> = ({
   return (
     <ErrorBoundary fallback={<>{children}</>}>
       <FrigadeContext.Provider value={contextParams}>
-        <ThemeProvider theme={appearance.theme}>
+        {/* TEMP: Merge old appearance.theme vars in for backwards compatibility */}
+        <ThemeProvider theme={deepmerge(appearance.theme, tokens, config?.theme ?? {})}>
           {children}
           <DataFetcher />
         </ThemeProvider>
