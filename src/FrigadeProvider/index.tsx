@@ -6,6 +6,7 @@ import { FlowResponse } from '../api/flow-responses'
 import { Appearance, DefaultAppearance } from '../types'
 import { ErrorBoundary } from 'react-error-boundary'
 import { deepmerge } from 'deepmerge-ts'
+import { appearanceToOverrides } from '../shared/appearanceToOverrides'
 
 import { tokens } from '../shared/theme'
 
@@ -244,11 +245,16 @@ export const FrigadeProvider: FC<FrigadeProviderProps> = ({
     return <FrigadeContext.Provider value={contextParams}>{children}</FrigadeContext.Provider>
   }
 
+  // Forward-port appearance.theme into theme tokens
+  const { overrides } = appearanceToOverrides(appearance)
+
   return (
     <ErrorBoundary fallback={<>{children}</>}>
       <FrigadeContext.Provider value={contextParams}>
         {/* TEMP: Merge old appearance.theme vars in for backwards compatibility */}
-        <ThemeProvider theme={deepmerge(appearance.theme, tokens, config?.theme ?? {})}>
+        <ThemeProvider
+          theme={deepmerge(appearance.theme, tokens, overrides ?? {}, config?.theme ?? {})}
+        >
           {children}
           <DataFetcher />
         </ThemeProvider>

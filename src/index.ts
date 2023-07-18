@@ -33,6 +33,7 @@ export type {
 export { Label as FormLabel } from './components/Forms/MultiInputStepType/form-components/shared/Label'
 export { TextField as FormTextField } from './components/Forms/MultiInputStepType/form-components/TextField'
 
+export { Box } from './components/Box'
 export { Button } from './components/Button/TEMP_index'
 export { CheckBox } from './components/CheckBox'
 export { ProgressRing } from './components/Progress/ProgressRing'
