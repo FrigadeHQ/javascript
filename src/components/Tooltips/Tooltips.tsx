@@ -160,6 +160,11 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
 
   const handleRefreshPosition = () => {
     const elem = document.querySelector(steps[selectedStep].selector)
+    if (!elem) {
+      setLastBoundingRect(undefined)
+      setElem(null)
+      return
+    }
     if (lastBoundingRect && lastBoundingRect === JSON.stringify(elem?.getBoundingClientRect())) {
       return
     }
