@@ -39,7 +39,6 @@ export const TooltipVideoContainer = styled.div`
     display: block;
     width: 100%;
     height: auto;
-    min-height: 200px;
     margin-top: ${(props) => (props.dismissible ? '24px' : '0px')};
     margin-bottom: 16px;
   }

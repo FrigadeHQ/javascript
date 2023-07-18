@@ -56,7 +56,7 @@ const HeroChecklistTitle = styled.h1<{ appearance }>`
 
 const HeroChecklistSubtitle = styled.h2`
   font-size: 15px;
-  line-height: 20px;
+  line-height: 28px;
   color: ${(props) => props.appearance?.theme?.colorTextSecondary ?? '#4d4d4d'};
   margin: 10px 0px 0px 0px;
 `

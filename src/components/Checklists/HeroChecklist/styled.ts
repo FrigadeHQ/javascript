@@ -6,15 +6,15 @@ export const HeroChecklistStepContent = styled.div`
   line-height: 22px;
 `
 
-export const HeroChecklistStepTitle = styled.p<{appearance}>`
+export const HeroChecklistStepTitle = styled.p<{ appearance }>`
   font-weight: 700;
   font-size: 18px;
-  line-height: 22px;
+  line-height: 30px;
   margin: 20px 0px 0px 0px;
   color: ${(props) => props.appearance?.theme?.colorText};
 `
 
-export const HeroChecklistStepSubtitle = styled.p<{appearance}>`
+export const HeroChecklistStepSubtitle = styled.p<{ appearance }>`
   font-weight: 400;
   font-size: 15px;
   line-height: 28px;

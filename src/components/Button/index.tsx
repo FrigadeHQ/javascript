@@ -66,6 +66,7 @@ export const MultipleButtonContainer = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
+    margin-top: 8px;
 
     & > * {
       margin-right: 8px;

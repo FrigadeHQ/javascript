@@ -2,6 +2,7 @@ import { Play } from '../Icons/Play'
 import { Appearance } from '../../types'
 import React, { useRef, useState } from 'react'
 import styled from 'styled-components'
+import { getClassName } from '../../shared/appearance'
 
 const Video = styled.div`
   display: flex;
@@ -36,13 +37,11 @@ const PlayIconWrapper = styled.div`
 const VideoSource = styled.video`
   width: 100%;
   height: 100%;
-  min-height: 200px;
   border-radius: ${(props) => props.appearance.theme.borderRadius}px;
 `
 const YouTubeVideoSource = styled.iframe`
   width: 100%;
   height: 100%;
-  min-height: 200px;
   border-radius: ${(props) => props.appearance.theme.borderRadius}px;
 `
 
@@ -73,7 +72,7 @@ export function VideoCard({ appearance, videoUri }: { appearance: Appearance; vi
   }
 
   return (
-    <Video appearance={appearance}>
+    <Video className={getClassName('videoPlayerWrapper', appearance)} appearance={appearance}>
       {!isPlaying && (
         <PlayIconWrapper
           onClick={() => {
