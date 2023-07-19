@@ -56,7 +56,7 @@ export const CarouselCard: FC<CarouselCardProps> = ({ stepData, style = {}, appe
           style={{ opacity: complete || blocked ? 0.4 : 1 }}
         />
       )}
-      {(complete || true) && (
+      {complete && (
         <CompletedPill className={getClassName('carouselCompletedPill', appearance)}>
           <Small style={{ color: '#108E0B' }}>Complete</Small>
         </CompletedPill>
