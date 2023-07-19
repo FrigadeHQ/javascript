@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useFlows } from '../../../api/flows'
+import { useMediaQuery } from '../../../hooks/useMediaQuery'
 
 import { CarouselCard } from './CarouselCard'
 import { ProgressBar } from './ProgressBar'
@@ -80,16 +81,16 @@ export const CarouselChecklist: React.FC<CarouselChecklistProps> = ({
   const [flowMetadata, setFlowMetadata] = useState(null)
   const [flowSteps, setFlowSteps] = useState([])
   const [numberOfStepsCompleted, setNumberOfStepsCompleted] = useState(0)
+  const { isSmall } = useMediaQuery()
+
+  const pageSize = isSmall ? 1 : 3
 
   const {
     getFlowMetadata,
     getFlowSteps,
     getNumberOfStepsCompleted,
     updateCustomVariables,
-    getFlowStatus,
     isLoading,
-    targetingLogicShouldHideFlow,
-    getFlow,
   } = useFlows()
 
   useEffect(() => {
@@ -106,14 +107,14 @@ export const CarouselChecklist: React.FC<CarouselChecklistProps> = ({
     setFlowMetadata(metadata)
     if (metadata.data !== null) {
       setFlowSteps(steps.sort((a, b) => Number(a.complete) - Number(b.complete)))
-      setShowRightFade(steps.length > 3)
+      setShowRightFade(steps.length > pageSize)
       setNumberOfStepsCompleted(completedStepCount)
     }
   }, [isLoading])
 
   const scrollGroups: any[][] = []
-  for (let i = 0; i < flowSteps.length; i += 3) {
-    scrollGroups.push(flowSteps.slice(i, i + 3))
+  for (let i = 0; i < flowSteps.length; i += pageSize) {
+    scrollGroups.push(flowSteps.slice(i, i + pageSize))
   }
 
   const handleScroll = (e: React.UIEvent<HTMLElement>) => {
@@ -172,7 +173,15 @@ export const CarouselChecklist: React.FC<CarouselChecklistProps> = ({
     <CarouselContainer
       className={mergeClasses(getClassName('carouselContainer', appearance), className)}
     >
-      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 20 }}>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: isSmall ? 'center' : 'space-between',
+          marginBottom: 20,
+          flexWrap: isSmall ? 'wrap' : 'nowrap',
+          gap: isSmall ? 16 : 20,
+        }}
+      >
         <div>
           <CarouselTitle className={getClassName('carouselTitle', appearance)}>
             {flowMetadata?.title}
@@ -197,14 +206,19 @@ export const CarouselChecklist: React.FC<CarouselChecklistProps> = ({
             <CarouselScrollGroup
               key={i}
               style={{
-                flex: `0 0 calc(100% - ${flowSteps.length > 3 ? 36 : 0}px)`,
+                flex: `0 0 calc(100% - ${flowSteps.length > pageSize ? 36 : 0}px)`,
               }}
             >
               {group.map((stepData, j) => (
                 <CarouselCard
                   key={j}
                   stepData={stepData}
-                  style={{ flex: flowSteps.length > 3 ? `0 1 calc(33% - 16px * 2 / 3)` : 1 }}
+                  style={{
+                    flex:
+                      flowSteps.length > pageSize
+                        ? `0 1 calc(100% / ${pageSize} - 16px * 2 / ${pageSize})`
+                        : 1,
+                  }}
                   appearance={appearance}
                 />
               ))}

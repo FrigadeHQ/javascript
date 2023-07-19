@@ -17,16 +17,22 @@ export const ProgressBar: FC<ProgressBarProps> = ({
 }) => {
   const completionPercentage = numberOfSteps > 0 ? numberOfStepsCompleted / numberOfSteps : 0
   const trackWidth = 200
-  const barWidth = Math.min(trackWidth, Math.max(10, Math.round(trackWidth * completionPercentage)))
 
   return (
     <CarouselProgressBar className={getClassName('carouselProgressBar', appearance)}>
       <ProgressBarLabel as={Body.Loud} style={{ marginRight: 8 }}>
         {numberOfStepsCompleted} of {numberOfSteps}
       </ProgressBarLabel>
-      <svg height={10} width={trackWidth}>
-        <rect x={0} y={0} rx={5} width={trackWidth} height={10} fill="#E6E6E6" />
-        <rect x={0} y={0} rx={5} width={barWidth} height={10} fill="currentColor" />
+      <svg height={10} width="100%" style={{ minWidth: trackWidth }}>
+        <rect x={0} y={0} rx={5} width="100%" height={10} fill="#E6E6E6" />
+        <rect
+          x={0}
+          y={0}
+          rx={5}
+          width={`clamp(10px, 100% * ${completionPercentage}, 100%)`}
+          height={10}
+          fill="currentColor"
+        />
       </svg>
     </CarouselProgressBar>
   )

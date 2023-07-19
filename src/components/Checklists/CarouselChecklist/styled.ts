@@ -118,7 +118,6 @@ export const CarouselProgressBar = styled.div`
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
-  margin-left: 20px;
 `
 
 export const ProgressBarLabel = styled.div`
