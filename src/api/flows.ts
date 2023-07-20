@@ -530,8 +530,12 @@ export function useFlows() {
     return getFlowSteps(flowId).length
   }
 
-  function getFlowData(flowId: string): object {
-    return JSON.parse(flows.find((f) => f.slug === flowId).data)
+  function getFlowData(flowId: string): any {
+    const maybeFlow = flows.find((f) => f.slug === flowId)
+    if (!maybeFlow) {
+      return null
+    }
+    return JSON.parse(maybeFlow.data)
   }
 
   function targetingLogicShouldHideFlow(flow: Flow) {
