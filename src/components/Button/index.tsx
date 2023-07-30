@@ -107,7 +107,7 @@ export const Button: FC<ButtonProps> = ({
       size={size}
       className={getClassName(getClassNameWithPrefix(), appearance)}
     >
-      {title}
+      {title ?? `Continue`}
     </ButtonContainer>
   )
 }

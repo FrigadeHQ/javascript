@@ -48,7 +48,7 @@ export const StepChecklistItem: FC<StepItemProps> = ({
         <CheckBoxRow
           value={data.complete}
           labelPosition="left"
-          label={data.stepName}
+          label={data.stepName ?? data.title}
           style={style}
           primaryColor={appearance?.theme?.colorPrimary ?? primaryColor}
           appearance={appearance}
