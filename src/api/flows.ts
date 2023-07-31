@@ -232,7 +232,9 @@ export function useFlows() {
 
   const markStepStarted = useCallback(
     async (flowId: string, stepId: string, data?: any) => {
-      verifySDKInitiated()
+      if (!verifySDKInitiated()) {
+        return
+      }
       const flowResponse = {
         foreignUserId: userId,
         flowSlug: flowId,
@@ -255,7 +257,9 @@ export function useFlows() {
 
   const markStepNotStarted = useCallback(
     async (flowId: string, stepId: string, data?: any) => {
-      verifySDKInitiated()
+      if (!verifySDKInitiated()) {
+        return
+      }
       const flowResponse = {
         foreignUserId: userId,
         flowSlug: flowId,
@@ -278,7 +282,9 @@ export function useFlows() {
 
   const markStepCompleted = useCallback(
     async (flowId: string, stepId: string, data?: any) => {
-      verifySDKInitiated()
+      if (!verifySDKInitiated()) {
+        return
+      }
       const flowResponse = {
         foreignUserId: userId,
         flowSlug: flowId,
@@ -300,7 +306,9 @@ export function useFlows() {
 
   const markFlowNotStarted = useCallback(
     async (flowId: string, data?: any) => {
-      verifySDKInitiated()
+      if (!verifySDKInitiated()) {
+        return
+      }
       if (getFlowStatus(flowId) === NOT_STARTED_FLOW) {
         return
       }
@@ -327,7 +335,9 @@ export function useFlows() {
 
   const markFlowStarted = useCallback(
     async (flowId: string, data?: any) => {
-      verifySDKInitiated()
+      if (!verifySDKInitiated()) {
+        return
+      }
       const flowResponse = {
         foreignUserId: userId,
         flowSlug: flowId,
@@ -348,7 +358,9 @@ export function useFlows() {
 
   const markFlowCompleted = useCallback(
     async (flowId: string, data?: any) => {
-      verifySDKInitiated()
+      if (!verifySDKInitiated()) {
+        return
+      }
       const flowResponse = {
         foreignUserId: userId,
         flowSlug: flowId,
@@ -371,7 +383,9 @@ export function useFlows() {
 
   const markFlowAborted = useCallback(
     async (flowId: string, data?: any) => {
-      verifySDKInitiated()
+      if (!verifySDKInitiated()) {
+        return
+      }
       const flowResponse = {
         foreignUserId: userId,
         flowSlug: flowId,

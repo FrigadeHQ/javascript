@@ -49,7 +49,9 @@ export function useUser() {
 
   const addPropertiesToUser = useCallback(
     async (properties: EntityProperties) => {
-      verifySDKInitiated()
+      if (!verifySDKInitiated()) {
+        return
+      }
       const data: AddPropertyToUserDTO = {
         foreignId: userId,
         properties,
@@ -67,7 +69,9 @@ export function useUser() {
 
   const trackEventForUser = useCallback(
     async (event: string, properties?: EntityProperties) => {
-      verifySDKInitiated()
+      if (!verifySDKInitiated()) {
+        return
+      }
       const eventData: UserEvent = {
         event,
         properties,

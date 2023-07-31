@@ -49,7 +49,9 @@ export function useOrganization() {
 
   const addPropertiesToOrganization = useCallback(
     async (properties: EntityProperties) => {
-      verifySDKInitiated()
+      if (!verifySDKInitiated()) {
+        return
+      }
       if (!organizationId || !userId) {
         console.error(
           'Cannot add properties to organization: Organization ID and User ID must both be set.',
@@ -75,7 +77,9 @@ export function useOrganization() {
 
   const trackEventForOrganization = useCallback(
     async (event: string, properties?: EntityProperties) => {
-      verifySDKInitiated()
+      if (!verifySDKInitiated()) {
+        return
+      }
       if (!organizationId || !userId) {
         console.error(
           'Cannot track event for organization: Organization ID and User ID must both be set.',
