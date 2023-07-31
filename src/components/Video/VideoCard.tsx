@@ -42,6 +42,7 @@ const VideoSource = styled.video`
 const YouTubeVideoSource = styled.iframe`
   width: 100%;
   height: 100%;
+  min-height: 260px;
   border-radius: ${(props) => props.appearance.theme.borderRadius}px;
 `
 
