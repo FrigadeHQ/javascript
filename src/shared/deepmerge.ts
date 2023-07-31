@@ -8,11 +8,7 @@ export function deepmerge(...args) {
   const target = args.shift()
 
   // Recurse to the right until we've merged all the way back to a single target and source
-  if (args.length > 1) {
-    return deepmerge(...args)
-  }
-
-  const source = args[0]
+  const source = args.length === 1 ? args[0] : deepmerge(...args)
 
   if (!isObject(target) || !isObject(source)) {
     throw new Error('deepmerge can only merge Objects')

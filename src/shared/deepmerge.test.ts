@@ -64,4 +64,15 @@ describe('deepmerge', () => {
 
     expect(result.bar).toStrictEqual(['baz', 'fnord'])
   })
+
+  it('handles more than two arguments', () => {
+    const objectA = { foo: null, bar: { baz: null } }
+    const objectB = { quux: 1, bar: { fnord: 2 } }
+    const objectC = { ran: { out: 'of words' } }
+    const objectD = { foo: null, bar: { baz: null, fnord: 2 }, quux: 1, ran: { out: 'of words' } }
+
+    const result = deepmerge(objectA, objectB, objectC)
+
+    expect(result).toStrictEqual(objectD)
+  })
 })
