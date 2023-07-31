@@ -5,7 +5,7 @@ import { Flow } from '../api/flows'
 import { FlowResponse } from '../api/flow-responses'
 import { Appearance, DefaultAppearance } from '../types'
 import { ErrorBoundary } from 'react-error-boundary'
-import { deepmerge } from 'deepmerge-ts'
+import { deepmerge } from '../shared/deepmerge'
 import { appearanceToOverrides } from '../shared/appearanceToOverrides'
 
 import { tokens } from '../shared/theme'

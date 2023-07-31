@@ -1,4 +1,4 @@
-import { deepmerge } from 'deepmerge-ts'
+import { deepmerge } from './deepmerge'
 
 const THEME_MAP = {
   // { oldThemeKey: 'path.to.new.theme.token' }

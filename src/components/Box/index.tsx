@@ -16,7 +16,7 @@ import {
   typography,
   TypographyProps,
 } from 'styled-system'
-import { deepmerge } from 'deepmerge-ts'
+import { deepmerge } from '../../shared/deepmerge'
 
 interface Overrides extends Record<string, Overrides | CSSProperties> {}
 
