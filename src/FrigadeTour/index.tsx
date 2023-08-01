@@ -46,7 +46,10 @@ export interface FrigadeTourProps extends Omit<DefaultFrigadeFlowProps, 'flowId'
    * @ignore
    */
   selectedStep?: number
-  customStepTypes?: Record<string, (stepData: StepData) => React.ReactNode>
+  customStepTypes?: Record<
+    string,
+    (props: { stepData: StepData; primaryColor: string }) => React.ReactNode
+  >
   appearance?: Appearance
   /**
    * Shows a close button in the top right corner of the tooltip. Depending on dismissBehavior, it will either end the entire flow or just the current step.
