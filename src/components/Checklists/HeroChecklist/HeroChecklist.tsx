@@ -2,7 +2,7 @@ import React, { FC, useState } from 'react'
 
 import styled from 'styled-components'
 import { StepChecklistItem } from './StepChecklistItem'
-import { ProgressBar } from '../Checklist/Progress'
+import { ProgressBar } from '../Checklist/ProgressBar'
 import { Appearance, DefaultFrigadeFlowProps, StepData } from '../../../types'
 import {
   HERO_STEP_CONTENT_TYPE,

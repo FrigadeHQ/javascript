@@ -2,7 +2,7 @@ import React, { CSSProperties, FC } from 'react'
 import { Close } from '../../Icons/Close'
 import { CheckBoxRow } from '../../CheckBoxRow'
 
-import { ProgressBar } from './Progress'
+import { ProgressBar } from './ProgressBar'
 import { getPositionStyle } from './styles'
 import {
   ChecklistHeader,

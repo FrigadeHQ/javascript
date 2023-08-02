@@ -9,7 +9,7 @@ import {
 import { ProgressBadgeProps } from '../MiniProgressBadge'
 import { TitleSubtitle } from '../../TitleSubtitle/TitleSubtitle'
 import { getClassName, mergeClasses } from '../../../shared/appearance'
-import { ProgressBar } from '../Checklist/Progress'
+import { ProgressBar } from '../Checklist/ProgressBar'
 
 export const FullWidthProgressBadge: React.FC<ProgressBadgeProps> = ({
   title,

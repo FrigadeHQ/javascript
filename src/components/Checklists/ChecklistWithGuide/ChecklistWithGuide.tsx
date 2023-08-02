@@ -3,7 +3,7 @@ import { Button } from '../../Button'
 import { CheckBox } from '../../CheckBox'
 import { Chevron } from '../../Icons/Chevron'
 import { StepData } from '../../../types'
-import { ProgressBar } from '../Checklist/Progress'
+import { ProgressBar } from '../Checklist/ProgressBar'
 import { StepItemSelectedIndicator } from '../HeroChecklist/styled'
 import { motion } from 'framer-motion'
 import {

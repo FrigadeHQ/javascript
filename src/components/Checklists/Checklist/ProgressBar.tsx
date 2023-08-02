@@ -9,15 +9,16 @@ const PROGRESS_BAR_COLOR_STYLES = {
   backgroundColor: '#E6E6E6',
 }
 
-const ChecklistProgressContainer = styled.div`
+const ProgressContainer = styled.div`
   display: flex;
   flex-direction: ${(props) => (props.textLocation == 'top' ? 'column' : 'row')};
   justify-content: flex-start;
   align-items: ${(props) => (props.textLocation == 'top' ? 'flex-end' : 'center')};
+  width: 100%;
 
   ${(props) => styleOverridesToCSS(props)}
 `
-const ChecklistProgressProgressBar = styled.div`
+const ProgressProgressBar = styled.div`
   flex-grow: 1;
   position: relative;
   ${(props) => (props.textLocation == 'top' ? `width: 100%;` : ``)}
@@ -92,7 +93,7 @@ export const ProgressBar = ({
   }
 
   return (
-    <ChecklistProgressContainer
+    <ProgressContainer
       className={getClassName('progressBarContainer', appearance)}
       textLocation={textLocation}
       styleOverrides={style}
@@ -110,7 +111,7 @@ export const ProgressBar = ({
       >
         {stepText}
       </StepText>
-      <ChecklistProgressProgressBar
+      <ProgressProgressBar
         textLocation={textLocation}
         className={getClassName('progressBar', appearance)}
       >
@@ -132,7 +133,7 @@ export const ProgressBar = ({
             backgroundColor: appearance?.theme?.colorSecondary ?? bgColor,
           }}
         />
-      </ChecklistProgressProgressBar>
-    </ChecklistProgressContainer>
+      </ProgressProgressBar>
+    </ProgressContainer>
   )
 }

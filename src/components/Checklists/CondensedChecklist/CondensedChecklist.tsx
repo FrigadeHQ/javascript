@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from 'react'
 import { StepData } from '../../../types'
 import { Modal } from '../../Modal'
-import { ProgressBar } from '../Checklist/Progress'
+import { ProgressBar } from '../Checklist/ProgressBar'
 import { CollapsibleStep } from './CollapsibleStep'
 
 import {

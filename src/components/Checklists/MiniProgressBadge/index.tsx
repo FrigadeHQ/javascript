@@ -1,6 +1,6 @@
 import React, { CSSProperties, FC } from 'react'
 import { Chevron } from '../../Icons/Chevron'
-import { ProgressBar } from '../Checklist/Progress'
+import { ProgressBar } from '../Checklist/ProgressBar'
 import { BadgeContainer, BadgeRow, BadgeTitle, ProgressRingContainer } from './styled'
 import { motion } from 'framer-motion'
 import { Appearance } from '../../../types'

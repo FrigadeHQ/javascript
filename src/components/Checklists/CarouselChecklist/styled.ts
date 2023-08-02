@@ -144,6 +144,13 @@ export const CarouselTitle = styled(H3)`
   margin-bottom: 4px;
 `
 
+export const ProgressWrapper = styled.div`
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  min-width: 50%;
+`
+
 export const H4 = styled.p`
   font-weight: bold;
   font-size: 16px;

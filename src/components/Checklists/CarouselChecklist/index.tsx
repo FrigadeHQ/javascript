@@ -3,7 +3,6 @@ import { useFlows } from '../../../api/flows'
 import { useMediaQuery } from '../../../hooks/useMediaQuery'
 
 import { CarouselCard } from './CarouselCard'
-import { ProgressBar } from './ProgressBar'
 
 import {
   Body,
@@ -11,12 +10,14 @@ import {
   CarouselScroll,
   CarouselScrollGroup,
   CarouselTitle,
+  ProgressWrapper,
   StyledCarouselFade,
   StyledScrollButton,
 } from './styled'
 import { DefaultFrigadeFlowProps } from '../../../types'
 import { getClassName, mergeClasses } from '../../../shared/appearance'
 import { RenderInlineStyles } from '../../RenderInlineStyles'
+import { ProgressBar } from '../Checklist/ProgressBar'
 
 const RightArrow = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -190,11 +191,13 @@ export const CarouselChecklist: React.FC<CarouselChecklistProps> = ({
             {flowMetadata?.subtitle}
           </Body.Quiet>
         </div>
-
-        <ProgressBar
-          numberOfStepsCompleted={numberOfStepsCompleted}
-          numberOfSteps={flowSteps.length}
-        />
+        <ProgressWrapper className={getClassName('progressWrapper', appearance)}>
+          <ProgressBar
+            count={numberOfStepsCompleted}
+            total={flowSteps.length}
+            appearance={appearance}
+          />
+        </ProgressWrapper>
       </div>
 
       <div style={{ position: 'relative' }}>
