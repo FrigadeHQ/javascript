@@ -53,6 +53,7 @@ export interface CustomFormTypeProps {
   setCanContinue: (canContinue: boolean) => void
   onSaveData: (data: object) => void
   appearance?: Appearance
+  prefillData?: Record<string, any>
   customFormElements?: { [key: string]: (params: FormInputProps) => React.ReactNode }
 }
 

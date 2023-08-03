@@ -34,6 +34,7 @@ export interface FrigadeFormProps extends DefaultFrigadeFlowProps {
       setCanContinue: (canContinue: boolean) => void
       onSaveData: (data: object) => void
       appearance?: Appearance
+      prefillData?: Record<string, any>
       customFormElements?: { [key: string]: (params: FormInputProps) => React.ReactNode }
     }) => React.ReactNode
   }
@@ -98,6 +99,15 @@ export interface FrigadeFormProps extends DefaultFrigadeFlowProps {
    * Show or hide the form footer
    */
   showFooter?: boolean
+  /**
+   * Data to use for prefilling forms with data.
+   * Useful when you want to prefill a form with data from another source.
+   * The format of the data maps a step id to the prefill data. Depending on the implementation of the given step type,
+   * the value of the data will follow a different structure.
+   *
+   * For `type` multiInputStep, the value contains another map similar to the structure returned from `onFormDataChange`
+   */
+  prefillData?: Record<string, any>
 }
 
 export const FrigadeForm: FC<FrigadeFormProps> = ({
@@ -124,6 +134,7 @@ export const FrigadeForm: FC<FrigadeFormProps> = ({
   showFrigadeBranding = false,
   onFormDataChange,
   showFooter = true,
+  prefillData = {},
 }) => {
   const {
     getFlow,
@@ -240,6 +251,7 @@ export const FrigadeForm: FC<FrigadeFormProps> = ({
           validationHandler={validationHandler}
           onFormDataChange={onFormDataChange}
           showFooter={showFooter}
+          prefillData={prefillData}
         />
       </Modal>
     )
@@ -270,6 +282,7 @@ export const FrigadeForm: FC<FrigadeFormProps> = ({
           validationHandler={validationHandler}
           onFormDataChange={onFormDataChange}
           showFooter={showFooter}
+          prefillData={prefillData}
         />
       </CornerModal>
     )
@@ -299,6 +312,7 @@ export const FrigadeForm: FC<FrigadeFormProps> = ({
         validationHandler={validationHandler}
         onFormDataChange={onFormDataChange}
         showFooter={showFooter}
+        prefillData={prefillData}
       />
     </>
   )

@@ -60,6 +60,7 @@ export function MultiInputStepType({
   onSaveData,
   appearance,
   customFormElements,
+  prefillData,
 }: CustomFormTypeProps) {
   const formElements = stepData.props as MultiInputStepProps
   // Create map storing data from individual stepids
@@ -69,7 +70,9 @@ export function MultiInputStepType({
   // Create map of inputs that have been touched as to not show error messages until they have been touched
   const [touchedInputs, setTouchedInputs] = useState<string[]>([])
   const { userId } = useUser()
-  const [allFormData, setAllFormData] = useState(loadFromLocalStorage() || {})
+  const [allFormData, setAllFormData] = useState(
+    loadFromLocalStorage() || (prefillData ? prefillData[stepData.id] : null) || {}
+  )
   const { readonly } = useContext(FrigadeContext)
 
   // Merge DEFAULT_INPUT_TYPES and customFormElements
@@ -96,7 +99,7 @@ export function MultiInputStepType({
         return JSON.parse(data)
       }
     }
-    return {}
+    return null
   }
 
   function getLocalStorageKey() {

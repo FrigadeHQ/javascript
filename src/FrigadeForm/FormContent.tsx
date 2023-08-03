@@ -92,6 +92,7 @@ export const FormContent: FC<FormContentProps> = ({
   validationHandler,
   onFormDataChange,
   showFooter,
+  prefillData,
 }) => {
   const DEFAULT_CUSTOM_STEP_TYPES = {
     linkCollection: LinkCollectionStepType,
@@ -301,6 +302,7 @@ export const FormContent: FC<FormContentProps> = ({
                     appearance={appearance}
                     customFormElements={customFormElements}
                     flowId={flowId}
+                    prefillData={prefillData}
                   />
                 )
               })}
