@@ -1,11 +1,11 @@
 import React, { CSSProperties, FC, useEffect, useState } from 'react'
 
-import { DefaultFrigadeFlowProps, StepData } from '../types'
+import { Appearance, DefaultFrigadeFlowProps, StepData } from '../types'
 import { useFlows } from '../api/flows'
 import { COMPLETED_FLOW } from '../api/common'
 import { Modal } from '../components/Modal'
 import { CornerModal } from '../components/CornerModal'
-import { CustomFormTypeProps, FormInputProps } from './types'
+import { FormInputProps } from './types'
 import { useTheme } from '../hooks/useTheme'
 import { FormContent } from './FormContent'
 import { RenderInlineStyles } from '../components/RenderInlineStyles'
@@ -26,7 +26,17 @@ export interface FrigadeFormProps extends DefaultFrigadeFlowProps {
   /**
    * Map of custom components. The key must match the `type` property of the step defined in `flow-data.yml`
    */
-  customStepTypes?: { [key: string]: (params: CustomFormTypeProps) => React.ReactNode }
+  customStepTypes?: {
+    [key: string]: (params: {
+      flowId: string
+      stepData: StepData
+      canContinue: boolean
+      setCanContinue: (canContinue: boolean) => void
+      onSaveData: (data: object) => void
+      appearance?: Appearance
+      customFormElements?: { [key: string]: (params: FormInputProps) => React.ReactNode }
+    }) => React.ReactNode
+  }
   /**
    * Map of custom form components. Can only be used with a step of type `multiInput` (defined in `flow-data.yml`).
    * The key must match the `type` property of the input defined in `flow-data.yml`
@@ -65,15 +75,29 @@ export interface FrigadeFormProps extends DefaultFrigadeFlowProps {
   showFrigadeBranding?: boolean
   /**
    * This function is called when the user submits data in a step.
-   * If it returns a string, the flow will not proceed to the next step and the string will be displayed as an error message.
+   * If it returns a string or explicitly false, the flow will not proceed to the next step.
+   * Optionally, if a string is returned it will be displayed as an error message.
    */
   validationHandler?: (
     step: StepData,
     index: number,
     nextStep?: StepData,
     allFormData?: any,
-    stepSpecificFormData?: object
-  ) => Promise<string | null | undefined>
+    stepSpecificFormData?: any
+  ) => Promise<string | null | boolean | undefined>
+  /**
+   * Handler that is called when the form data changes.
+   */
+  onFormDataChange?: (
+    allFormData: any,
+    stepSpecificFormData: any,
+    step: StepData,
+    index: number
+  ) => void
+  /**
+   * Show or hide the form footer
+   */
+  showFooter?: boolean
 }
 
 export const FrigadeForm: FC<FrigadeFormProps> = ({
@@ -98,6 +122,8 @@ export const FrigadeForm: FC<FrigadeFormProps> = ({
   allowBackNavigation = false,
   validationHandler,
   showFrigadeBranding = false,
+  onFormDataChange,
+  showFooter = true,
 }) => {
   const {
     getFlow,
@@ -212,6 +238,8 @@ export const FrigadeForm: FC<FrigadeFormProps> = ({
           customFormElements={customFormElements}
           allowBackNavigation={allowBackNavigation}
           validationHandler={validationHandler}
+          onFormDataChange={onFormDataChange}
+          showFooter={showFooter}
         />
       </Modal>
     )
@@ -240,6 +268,8 @@ export const FrigadeForm: FC<FrigadeFormProps> = ({
           customFormElements={customFormElements}
           allowBackNavigation={allowBackNavigation}
           validationHandler={validationHandler}
+          onFormDataChange={onFormDataChange}
+          showFooter={showFooter}
         />
       </CornerModal>
     )
@@ -267,6 +297,8 @@ export const FrigadeForm: FC<FrigadeFormProps> = ({
         customFormElements={customFormElements}
         allowBackNavigation={allowBackNavigation}
         validationHandler={validationHandler}
+        onFormDataChange={onFormDataChange}
+        showFooter={showFooter}
       />
     </>
   )

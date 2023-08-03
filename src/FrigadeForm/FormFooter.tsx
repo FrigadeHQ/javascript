@@ -37,7 +37,7 @@ export const FormFooter: FC<FormFooterProps> = ({
   const showBackButton = steps.length > 1 && selectedStep != 0 && allowBackNavigation
   return (
     <>
-      {errorMessage && (
+      {errorMessage !== null && errorMessage != undefined && (
         <FormCTAError appearance={appearance} className={getClassName('formCTAError', appearance)}>
           {errorMessage}
         </FormCTAError>

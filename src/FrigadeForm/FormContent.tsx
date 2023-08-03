@@ -1,5 +1,5 @@
 import { MultiInputStepType } from '../components/Forms/MultiInputStepType/MultiInputStepType'
-import { Appearance, DefaultFrigadeFlowProps, StepData } from '../types'
+import { Appearance, StepData } from '../types'
 import {
   FormContainer,
   FormContainerMain,
@@ -13,7 +13,7 @@ import { LinkCollectionStepType } from '../components/Forms/LinkCollectionStepTy
 import { CallToActionStepType } from '../components/Forms/CallToActionStepType/CallToActionStepType'
 import { SelectListStepType } from '../components/Forms/SelectListStepType/SelectListStepType'
 import { useCTAClickSideEffects } from '../hooks/useCTAClickSideEffects'
-import { FrigadeFormType } from './index'
+import { FrigadeFormProps, FrigadeFormType } from './index'
 import React, { FC, useEffect, useState } from 'react'
 import { CustomFormTypeProps, FormInputProps } from './types'
 import { useFlows } from '../api/flows'
@@ -59,7 +59,7 @@ const AnimationWrapper = ({ children, id, shouldWrap = false }) => {
   )
 }
 
-interface FormContentProps extends DefaultFrigadeFlowProps {
+interface FormContentProps extends FrigadeFormProps {
   appearance: Appearance
   steps: StepData[]
   selectedStep: number
@@ -70,13 +70,6 @@ interface FormContentProps extends DefaultFrigadeFlowProps {
   showPagination?: boolean
   customFormElements?: { [key: string]: (params: FormInputProps) => React.ReactNode }
   allowBackNavigation: boolean
-  validationHandler?: (
-    step: StepData,
-    index: number,
-    nextStep?: StepData,
-    allFormData?: any,
-    stepSpecificFormData?: object
-  ) => Promise<string | null | undefined>
 }
 export const FormContent: FC<FormContentProps> = ({
   appearance,
@@ -97,6 +90,8 @@ export const FormContent: FC<FormContentProps> = ({
   customFormElements,
   allowBackNavigation,
   validationHandler,
+  onFormDataChange,
+  showFooter,
 }) => {
   const DEFAULT_CUSTOM_STEP_TYPES = {
     linkCollection: LinkCollectionStepType,
@@ -126,6 +121,12 @@ export const FormContent: FC<FormContentProps> = ({
   useEffect(() => {
     updateCustomVariables(customVariables)
   }, [customVariables, isLoading])
+
+  useEffect(() => {
+    if (onFormDataChange) {
+      onFormDataChange(formData, getDataPayload(), steps[selectedStep], selectedStep)
+    }
+  }, [formData])
 
   useEffect(() => {
     if (window && allowBackNavigation && !hasSetInitialHash) {
@@ -192,7 +193,7 @@ export const FormContent: FC<FormContentProps> = ({
     return null
   }
 
-  const formFooter = (
+  const formFooter = showFooter && (
     <FormFooter
       step={steps[selectedStep]}
       canContinue={canContinue && !isSaving}
@@ -209,8 +210,13 @@ export const FormContent: FC<FormContentProps> = ({
             formData,
             getDataPayload()
           )
-          if (validationError) {
-            setErrorMessage(validationError)
+          if (validationError || validationError === false) {
+            // check if validation error is a string
+            if (typeof validationError === 'string') {
+              setErrorMessage(validationError)
+            } else {
+              setErrorMessage(null)
+            }
             setIsSaving(false)
             return
           } else {
