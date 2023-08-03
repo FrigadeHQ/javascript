@@ -1,20 +1,13 @@
 import { ToolTipPosition } from './Tooltips'
 import { useCallback, useEffect, useState } from 'react'
 
-type BoundingRect = {
-  left: number
-  top: number
-  width: number
-  height: number
-}
-
 type Point = {
   x: number
   y: number
 }
 
 export const getPosition = (
-  boundingRect: BoundingRect,
+  boundingRect: DOMRect,
   position: ToolTipPosition,
   cardWidth: number,
   offset: Point = { x: 20, y: 20 },
@@ -22,8 +15,6 @@ export const getPosition = (
 ): Point => {
   const scrollY = positionStyle == 'fixed' ? 0 : window.scrollY
   const scrollX = positionStyle == 'fixed' ? 0 : window.scrollX
-
-  if (!boundingRect || !boundingRect.left || !boundingRect.top) return { x: 0, y: 0 }
 
   if (position === 'left') {
     return {
@@ -40,38 +31,19 @@ export const getPosition = (
   return { x: 0, y: 0 }
 }
 
-export type RectResult = {
-  bottom: number
-  height: number
-  left: number
-  right: number
-  top: number
-  width: number
-  x: number
-  y: number
-}
+const initialState = new DOMRect()
 
-const initialState = {
-  bottom: 0,
-  height: 0,
-  left: 0,
-  right: 0,
-  top: 0,
-  width: 0,
-  x: 0,
-  y: 0,
-}
-
-export function getRect<T extends Element>(element?: T | undefined | null): RectResult {
-  let rect: RectResult = initialState
+export function getRect<T extends Element>(element?: T | undefined | null): DOMRect {
+  let rect: DOMRect = initialState
   if (element) {
     const domRect: DOMRect = element.getBoundingClientRect()
     rect = domRect
   }
+
   return rect
 }
 
-export function useElemRect(elem: Element | undefined, refresher?: any): RectResult {
+export function useElemRect(elem: Element | undefined, refresher?: any): DOMRect {
   const [dimensions, setDimensions] = useState(initialState)
   const handleResize = useCallback(() => {
     if (!elem) return

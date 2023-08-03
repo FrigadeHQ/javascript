@@ -207,16 +207,14 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
     handleRefreshPosition()
   }, [selectedStep, url])
 
-  if (elem === null) {
-    return <></>
+  if (elem === null || !visible) {
+    return null
   }
 
   // Safeguard for when page is still waiting to render.
-  if (position.x == 0 && position.y == 0) {
-    return <></>
+  if (boundingRect.height === 0 && boundingRect.width === 0) {
+    return null
   }
-
-  if (!visible) return <></>
 
   const DefaultFooterContent = () => {
     const handleOnCTAClick = () => {
