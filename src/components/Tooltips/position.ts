@@ -31,23 +31,27 @@ export const getPosition = (
   return { x: 0, y: 0 }
 }
 
-const initialState = new DOMRect()
-
-export function getRect<T extends Element>(element?: T | undefined | null): DOMRect {
-  let rect: DOMRect = initialState
-  if (element) {
-    const domRect: DOMRect = element.getBoundingClientRect()
-    rect = domRect
-  }
-
-  return rect
-}
-
 export function useElemRect(elem: Element | undefined, refresher?: any): DOMRect {
-  const [dimensions, setDimensions] = useState(initialState)
+  // Spoof DOMRect for server renders
+  const initialRect =
+    'DOMRect' in globalThis
+      ? new DOMRect()
+      : {
+          height: 0,
+          width: 0,
+          x: 0,
+          y: 0,
+          bottom: 0,
+          top: 0,
+          right: 0,
+          left: 0,
+          toJSON: () => {},
+        }
+
+  const [dimensions, setDimensions] = useState(initialRect)
   const handleResize = useCallback(() => {
     if (!elem) return
-    setDimensions(getRect(elem))
+    setDimensions(elem.getBoundingClientRect())
   }, [elem])
 
   useEffect(() => {

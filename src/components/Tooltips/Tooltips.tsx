@@ -126,6 +126,8 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
   const cardWidth = selfBounds?.width ?? DEFAULT_CARD_WIDTH
   const cardHeight = selfBounds?.height ?? DEFAULT_CARD_HEIGHT
 
+  const url = window.location.pathname.split('/').pop()
+
   useLayoutEffect(() => {
     if (selfRef.current) {
       setSelfBounds({
@@ -140,23 +142,6 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
       setShowTooltipContainer(true)
     }
   }, [selectedStep])
-
-  let tooltipPositionValue: ToolTipPosition =
-    tooltipPosition === 'auto' ? 'right' : (tooltipPosition as ToolTipPosition)
-  let position = getPosition(boundingRect, tooltipPositionValue, cardWidth, offset, positionStyle)
-
-  const rightSideIsCropped =
-    boundingRect.right + cardWidth > (window.innerWidth || document.documentElement.clientWidth)
-  const bottomIsCropped =
-    boundingRect.bottom + DEFAULT_CARD_HEIGHT >
-    (window.innerHeight || document.documentElement.clientHeight)
-
-  if (rightSideIsCropped && tooltipPosition === 'auto') {
-    position = getPosition(boundingRect, 'left', cardWidth, offset, positionStyle)
-    tooltipPositionValue = 'left'
-  }
-
-  const url = window.location.pathname.split('/').pop()
 
   const handleRefreshPosition = () => {
     const elem = document.querySelector(steps[selectedStep].selector)
@@ -214,6 +199,21 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
   // Safeguard for when page is still waiting to render.
   if (boundingRect.height === 0 && boundingRect.width === 0) {
     return null
+  }
+
+  let tooltipPositionValue: ToolTipPosition =
+    tooltipPosition === 'auto' ? 'right' : (tooltipPosition as ToolTipPosition)
+  let position = getPosition(boundingRect, tooltipPositionValue, cardWidth, offset, positionStyle)
+
+  const rightSideIsCropped =
+    boundingRect.right + cardWidth > (window.innerWidth || document.documentElement.clientWidth)
+  const bottomIsCropped =
+    boundingRect.bottom + DEFAULT_CARD_HEIGHT >
+    (window.innerHeight || document.documentElement.clientHeight)
+
+  if (rightSideIsCropped && tooltipPosition === 'auto') {
+    position = getPosition(boundingRect, 'left', cardWidth, offset, positionStyle)
+    tooltipPositionValue = 'left'
   }
 
   const DefaultFooterContent = () => {
