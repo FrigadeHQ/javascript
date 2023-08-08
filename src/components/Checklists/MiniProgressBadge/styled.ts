@@ -23,6 +23,7 @@ export const BadgeTitle = styled.div<{ color; type }>`
   font-weight: 600;
   font-size: 12px;
   line-height: 15px;
+  margin-right: ${(props) => (props.type === 'condensed' ? '8px' : '0')};
   text-align: ${(props) => (props.type === 'condensed' ? 'left' : 'right')};
   color: ${(props) => props.appearance.theme.colorPrimary};
 `
