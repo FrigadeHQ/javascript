@@ -197,7 +197,7 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
   }
 
   // Safeguard for when page is still waiting to render.
-  if (boundingRect.height === 0 && boundingRect.width === 0) {
+  if (boundingRect.height === 0 && boundingRect.width === 0 && positionStyle !== 'fixed') {
     return null
   }
 
@@ -371,6 +371,19 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
     )
   }
 
+  const getBoundedTopPosition = () => {
+    if (positionStyle === 'fixed') {
+      return cssPos.top
+    }
+
+    const tooltipBottom = cssPos.top + cardHeight
+    const spaceFromEdge = 20
+    if (tooltipBottom > window.innerHeight - spaceFromEdge) {
+      return cssPos.top + -cardHeight
+    }
+    return cssPos.top
+  }
+
   const handleClick = () => {
     if (showHighlightOnly) {
       setNeedsUpdate(new Date())
@@ -410,6 +423,7 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
         style={{
           ...cssPos,
           left: getBoundedLeftPosition(),
+          top: getBoundedTopPosition(),
         }}
         zIndex={zIndex + 1}
         className={getClassName('tooltipContainerWrapper', appearance)}
