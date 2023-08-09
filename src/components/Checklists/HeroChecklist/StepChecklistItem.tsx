@@ -1,6 +1,5 @@
 import React, { CSSProperties, FC } from 'react'
 import { CheckBoxRow } from '../../CheckBoxRow'
-import { motion } from 'framer-motion'
 import { Appearance, StepData } from '../../../types'
 import { ChecklistStepItem, StepItemSelectedIndicator } from './styled'
 import { getClassName } from '../../../shared/appearance'
@@ -35,7 +34,6 @@ export const StepChecklistItem: FC<StepItemProps> = ({
       {isSelected && (
         <StepItemSelectedIndicator
           className={getClassName('checklistStepItemSelectedIndicator', appearance)}
-          as={motion.div}
           layoutId="checklis-step-selected"
           style={{ backgroundColor: appearance?.theme?.colorPrimary ?? primaryColor }}
         ></StepItemSelectedIndicator>

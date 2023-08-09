@@ -2,7 +2,6 @@ import React, { CSSProperties, FC } from 'react'
 import { Chevron } from '../../Icons/Chevron'
 import { ProgressBar } from '../Checklist/ProgressBar'
 import { BadgeContainer, BadgeRow, BadgeTitle, ProgressRingContainer } from './styled'
-import { motion } from 'framer-motion'
 import { Appearance } from '../../../types'
 import ProgressRing from '../../Progress/ProgressRing/ProgressRing'
 import { getClassName, mergeClasses } from '../../../shared/appearance'
@@ -37,9 +36,6 @@ export const MiniProgressBadge: FC<ProgressBadgeProps> = ({
     <>
       <RenderInlineStyles appearance={appearance} />
       <BadgeContainer
-        as={motion.div}
-        whileHover={{ opacity: 0.9 }}
-        whileTap={{ scale: 0.98 }}
         onClick={() => onClick !== undefined && onClick()}
         style={{
           ...(type == 'condensed' ? { display: 'flex', justifyContent: 'space-between' } : {}),
@@ -78,7 +74,6 @@ export const MiniProgressBadge: FC<ProgressBadgeProps> = ({
             display="compact"
             count={count}
             total={total}
-            fillColor={appearance.theme.colorPrimary}
             bgColor={appearance.theme.colorBackgroundSecondary}
             style={{ width: '100%' }}
             appearance={appearance}

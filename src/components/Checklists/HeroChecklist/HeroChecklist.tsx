@@ -149,7 +149,6 @@ const HeroChecklist: FC<FrigadeChecklistProps> = ({
           <ProgressBar
             total={steps.length}
             count={completeCount}
-            fillColor={appearance.theme.colorPrimary}
             style={{ marginTop: '24px' }}
             appearance={appearance}
           />

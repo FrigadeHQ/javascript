@@ -41,7 +41,6 @@ export const StepTitle = styled.p<{ appearance }>`
 `
 
 export const CollapseChevronContainer = styled.div`
-  padding: 20px;
   cursor: pointer;
   :hover {
     opacity: 0.8;

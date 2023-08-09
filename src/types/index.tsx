@@ -198,6 +198,7 @@ export interface BaseTheme {
 export const DefaultAppearance: Appearance = {
   theme: {
     colorPrimary: '#000000',
+    colorSecondary: '#EEEEEE',
     colorText: '#000000',
     colorBackground: '#ffffff',
     colorBackgroundSecondary: '#d2d2d2',

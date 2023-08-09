@@ -1,6 +1,5 @@
 import React, { CSSProperties, FC } from 'react'
 import { Appearance, DefaultFrigadeFlowProps, StepData } from '../../types'
-import { motion } from 'framer-motion'
 
 import {
   GuideContainer,
@@ -50,11 +49,6 @@ const Guide: FC<GuideProps> = ({
           return (
             <GuideItem
               key={`guide-${stepData.id ?? idx}`}
-              as={motion.div}
-              whileHover={{
-                boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.05)',
-                transition: { duration: 0.25 },
-              }}
               className={getClassName('guideItem', appearance)}
             >
               {stepData.icon && (

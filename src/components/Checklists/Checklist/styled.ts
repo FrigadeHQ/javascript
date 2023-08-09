@@ -39,3 +39,24 @@ export const ChecklistListItem = styled.li`
   justify-content: flex-start;
   flex-direction: row;
 `
+
+export const ProgressBarFill = styled.div`
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: ${(props) => props.barHeight};
+  width: ${(props) => props.fgWidth};
+  border-radius: 20px;
+  background-color: ${(props) => props.theme.colorPrimary};
+`
+
+export const ProgressBarBackground = styled.div`
+  position: relative;
+  left: 0;
+  top: 0;
+  width: 100%;
+  min-width: 40px;
+  height: ${(props) => props.barHeight};
+  border-radius: 20px;
+  background-color: ${(props) => props.theme.colorSecondary};
+`

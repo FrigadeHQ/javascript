@@ -1,8 +1,8 @@
 import React, { CSSProperties } from 'react'
-import { motion } from 'framer-motion'
 import styled from 'styled-components'
 import { Appearance } from '../../../types'
 import { getClassName, styleOverridesToCSS } from '../../../shared/appearance'
+import { ProgressBarBackground, ProgressBarFill } from './styled'
 
 // TODO: remove once secondary color is passed from theme
 const PROGRESS_BAR_COLOR_STYLES = {
@@ -44,19 +44,9 @@ const progressBgStyle: CSSProperties = {
   borderRadius: '20px',
 }
 
-const progressFgStyle: CSSProperties = {
-  position: 'absolute',
-  left: 0,
-  top: 0,
-  height: '10px',
-  borderRadius: '20px',
-}
-
 export const ProgressBar = ({
   count,
   total,
-  fillColor,
-  bgColor = PROGRESS_BAR_COLOR_STYLES.backgroundColor,
   display = 'count',
   textLocation = 'left',
   style = {},
@@ -65,7 +55,6 @@ export const ProgressBar = ({
 }: {
   count: number
   total: number
-  fillColor?: string
   bgColor?: string
   display?: 'count' | 'percent' | 'compact'
   textLocation?: 'top' | 'left'
@@ -115,23 +104,19 @@ export const ProgressBar = ({
         textLocation={textLocation}
         className={getClassName('progressBar', appearance)}
       >
-        <motion.div
+        <ProgressBarFill
           style={{
-            ...progressFgStyle,
-            width: fgWidth,
-            height: barHeight,
-            backgroundColor: appearance?.theme?.colorPrimary ?? fillColor,
             zIndex: display == 'compact' ? 1 : 5,
           }}
+          fgWidth={fgWidth}
+          barHeight={barHeight}
+          appearance={appearance}
           className={getClassName('progressBarFill', appearance)}
         />
-        <div
+        <ProgressBarBackground
           className={getClassName('progressBarBackground', appearance)}
-          style={{
-            ...progressBgStyle,
-            height: barHeight,
-            backgroundColor: appearance?.theme?.colorSecondary ?? bgColor,
-          }}
+          barHeight={barHeight}
+          appearance={appearance}
         />
       </ProgressProgressBar>
     </ProgressContainer>

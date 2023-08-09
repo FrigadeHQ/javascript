@@ -1,5 +1,4 @@
 import React, { FC } from 'react'
-import { motion } from 'framer-motion'
 
 const Circle: FC<{ color: string; percentage?: number; size: number }> = ({
   color,
@@ -10,25 +9,8 @@ const Circle: FC<{ color: string; percentage?: number; size: number }> = ({
   const circum = 2 * Math.PI * r
   const strokePct = (1 - percentage) * circum // where stroke will start, e.g. from 15% to 100%.
 
-  const transition = {
-    duration: 0.3,
-    delay: 0,
-    ease: 'easeIn',
-  }
-
-  const variants = {
-    hidden: {
-      strokeDashoffset: circum,
-      transition,
-    },
-    show: {
-      strokeDashoffset: strokePct,
-      transition,
-    },
-  }
-
   return (
-    <motion.circle
+    <circle
       r={r}
       cx={size * 0.5}
       cy={size * 0.5}
@@ -37,11 +19,7 @@ const Circle: FC<{ color: string; percentage?: number; size: number }> = ({
       strokeWidth={'3px'}
       strokeDasharray={circum}
       strokeDashoffset={percentage ? strokePct : 0}
-      variants={variants}
-      transition={transition}
-      initial="hidden"
-      animate="show"
-    ></motion.circle>
+    ></circle>
   )
 }
 

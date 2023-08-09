@@ -29,7 +29,6 @@ const CondensedChecklist: FC<CondensedChecklistProps> = ({
   autoExpandFirstIncompleteStep = true,
   autoCollapse = true,
   autoExpandNextStep = true,
-  primaryColor = '#000000',
   selectedStep,
   setSelectedStep,
   appearance,
@@ -90,7 +89,6 @@ const CondensedChecklist: FC<CondensedChecklistProps> = ({
         display="percent"
         count={completeCount}
         total={steps.length}
-        fillColor={primaryColor}
         style={{ margin: '14px 0px 8px 0px' }}
         appearance={appearance}
       />

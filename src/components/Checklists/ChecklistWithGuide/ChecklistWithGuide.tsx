@@ -5,7 +5,6 @@ import { Chevron } from '../../Icons/Chevron'
 import { StepData } from '../../../types'
 import { ProgressBar } from '../Checklist/ProgressBar'
 import { StepItemSelectedIndicator } from '../HeroChecklist/styled'
-import { motion } from 'framer-motion'
 import {
   ChecklistContainer,
   ChecklistSubtitle,
@@ -190,7 +189,6 @@ const ChecklistWithGuide: FC<ChecklistWithGuideProps> = ({
                 </div>
                 <ProgressBarContainer>
                   <ProgressBar
-                    fillColor={appearance.theme.colorPrimary}
                     style={{ width: '100%' }}
                     count={completeCount}
                     total={steps.length}
@@ -228,7 +226,6 @@ const ChecklistWithGuide: FC<ChecklistWithGuideProps> = ({
                               'checklistStepItemSelectedIndicator',
                               appearance
                             )}
-                            as={motion.div}
                             layoutId="checklist-step-selected"
                             style={{
                               backgroundColor: appearance.theme.colorPrimary,

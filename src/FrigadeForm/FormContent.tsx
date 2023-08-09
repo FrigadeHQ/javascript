@@ -17,41 +17,25 @@ import { FrigadeFormProps, FrigadeFormType } from './index'
 import React, { FC, useEffect, useState } from 'react'
 import { CustomFormTypeProps, FormInputProps } from './types'
 import { useFlows } from '../api/flows'
-import { AnimatePresence, motion } from 'framer-motion'
 
 const AnimationWrapper = ({ children, id, shouldWrap = false }) => {
   return (
     <>
       {shouldWrap ? (
-        <AnimatePresence initial={false}>
-          <motion.div
-            key={id}
-            initial={{
-              opacity: 1,
-              y: '100%',
-            }}
-            animate={{
-              opacity: 1,
-              y: 0,
-            }}
-            exit={{
-              opacity: 0,
-              y: '-100%',
-            }}
-            transition={{ duration: 0.5, ease: 'easeInOut' }}
-            style={{
-              width: '100%',
-              height: '100%',
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              zIndex: 1,
-              overflowY: 'auto',
-            }}
-          >
-            {children}
-          </motion.div>
-        </AnimatePresence>
+        <div
+          key={id}
+          style={{
+            width: '100%',
+            height: '100%',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            zIndex: 1,
+            overflowY: 'auto',
+          }}
+        >
+          {children}
+        </div>
       ) : (
         children
       )}

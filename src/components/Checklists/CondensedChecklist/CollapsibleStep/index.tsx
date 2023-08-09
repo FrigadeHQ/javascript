@@ -3,7 +3,6 @@ import { Appearance, StepData } from '../../../../types'
 import { CheckBoxRow } from '../../../CheckBoxRow'
 import { Chevron } from '../../../Icons/Chevron'
 import { Button, MultipleButtonContainer } from '../../../Button'
-import { AnimatePresence, motion } from 'framer-motion'
 
 import {
   CollapseChevronContainer,
@@ -40,6 +39,17 @@ export const CollapsibleStep: FC<CollapsibleStepProps> = ({
   customStepTypes,
 }) => {
   const iconStyle = collapsed ? {} : { transform: 'rotate(90deg)' }
+  const stepContentStyle = collapsed
+    ? {
+        overflow: 'hidden',
+        maxHeight: '0px',
+        transition: 'max-height 0.1s ease-out',
+      }
+    : {
+        overflow: 'hidden',
+        maxHeight: '1000px',
+        transition: 'max-height 0.1s ease-in',
+      }
 
   function getDefaultStepContent() {
     return (
@@ -95,7 +105,6 @@ export const CollapsibleStep: FC<CollapsibleStepProps> = ({
 
   return (
     <StepContainer
-      onClick={() => (collapsed ? onClick() : null)}
       data-testid={`step-${stepData.id}`}
       className={getClassName('checklistStepContainer', appearance)}
       appearance={appearance}
@@ -112,6 +121,7 @@ export const CollapsibleStep: FC<CollapsibleStepProps> = ({
             appearance={appearance}
             className={getClassName('stepTitle', appearance)}
             dangerouslySetInnerHTML={sanitize(stepData.title)}
+            onClick={() => onClick()}
           />
         </HeaderLeft>
 
@@ -126,19 +136,14 @@ export const CollapsibleStep: FC<CollapsibleStepProps> = ({
         </CollapseChevronContainer>
       </StepHeader>
 
-      <AnimatePresence>
-        {!collapsed && (
-          <motion.div
-            initial={{ opacity: 1, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 1, height: 0 }}
-            key={stepData.id}
-            style={{ overflow: 'hidden' }}
-          >
-            {getCustomStep() ?? getDefaultStepContent()}
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <div
+        key={stepData.id}
+        style={{
+          ...stepContentStyle,
+        }}
+      >
+        {getCustomStep() ?? getDefaultStepContent()}
+      </div>
     </StepContainer>
   )
 }
