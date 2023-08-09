@@ -42,13 +42,7 @@ export const FullWidthProgressBadge: React.FC<ProgressBadgeProps> = ({
         <ProgressBarContainer
           className={getClassName('fullWidthProgressBadgeProgressContainer', appearance)}
         >
-          <ProgressBar
-            count={count}
-            total={total}
-            display="percent"
-            textLocation="top"
-            fillColor={appearance.theme.colorPrimary}
-          />
+          <ProgressBar count={count} total={total} display="percent" textLocation="top" />
         </ProgressBarContainer>
       </FullWidthProgressBadgeContainer>
     </>
