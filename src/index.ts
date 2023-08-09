@@ -18,6 +18,7 @@ export { useFlowOpens } from './api/flow-opens'
 export { useFlowResponses } from './api/flow-responses'
 export { useUser } from './api/users'
 export { useOrganization } from './api/organizations'
+export { useUserFlowStates } from './api/user-flow-states'
 
 export type { StepData, Appearance } from './types'
 
