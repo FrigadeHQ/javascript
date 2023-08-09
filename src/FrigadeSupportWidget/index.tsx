@@ -12,7 +12,6 @@ import {
   SupportIconContainer,
   SupportTitle,
 } from './styled'
-import { AnimatePresence, motion } from 'framer-motion'
 import { Question } from '../components/Icons/Question'
 import { getClassName } from '../shared/appearance'
 import { QuestionCircle } from '../components/Icons/QuestionCircle'
@@ -104,7 +103,6 @@ export const FrigadeSupportWidget: FC<FloatingWidgetProps> = ({
       showMenu && (
         <FloatingWidgetMenu
           className={getClassName('floatingWidgetMenu', appearance)}
-          as={motion.div}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -145,9 +143,7 @@ export const FrigadeSupportWidget: FC<FloatingWidgetProps> = ({
             {title}
           </SupportTitle>
         </SupportButton>
-        <AnimatePresence>
-          <Menu />
-        </AnimatePresence>
+        <Menu />
       </span>
     )
   }
@@ -155,14 +151,11 @@ export const FrigadeSupportWidget: FC<FloatingWidgetProps> = ({
   return (
     <Portal>
       <FloatingWidgetContainer style={style} ref={wrapperRef}>
-        <AnimatePresence>
-          <Menu />
-        </AnimatePresence>
+        <Menu />
         <FloatingWidgetButton
           onClick={() => {
             setShowMenu(!showMenu)
           }}
-          as={motion.button}
           whileHover={{ scale: 1.1 }}
           className={getClassName('floatingWidgetButton', appearance)}
         >
