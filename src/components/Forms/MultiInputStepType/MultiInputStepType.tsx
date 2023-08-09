@@ -52,6 +52,8 @@ const DEFAULT_INPUT_TYPES: { [key: string]: (params: FormInputProps) => React.Re
   multipleChoiceList: MultipleChoiceList,
 }
 
+export const FORM_DATA_KEY_PREFIX = `frigade-multiInputStepTypeData`
+
 export function MultiInputStepType({
   flowId,
   stepData,
@@ -103,7 +105,7 @@ export function MultiInputStepType({
   }
 
   function getLocalStorageKey() {
-    return `frigade-multiInputStepTypeData-${flowId}-${stepData.id}-${userId}`
+    return `${FORM_DATA_KEY_PREFIX}-${flowId}-${stepData.id}-${userId}`
   }
 
   return (

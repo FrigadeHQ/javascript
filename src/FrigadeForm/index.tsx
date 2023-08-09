@@ -10,6 +10,7 @@ import { useTheme } from '../hooks/useTheme'
 import { FormContent } from './FormContent'
 import { RenderInlineStyles } from '../components/RenderInlineStyles'
 import { useFlowOpens } from '../api/flow-opens'
+import { FORM_DATA_KEY_PREFIX } from '../components/Forms/MultiInputStepType/MultiInputStepType'
 
 export type FrigadeFormType = 'inline' | 'modal' | 'large-modal' | 'corner-modal'
 
@@ -163,6 +164,15 @@ export const FrigadeForm: FC<FrigadeFormProps> = ({
       setHasFinishedInitialLoad(true)
       if (getFlowStatus(flowId) === COMPLETED_FLOW && repeatable) {
         markFlowNotStarted(flowId)
+        // Clear all local storage keys that start with FORM_DATA_KEY_PREFIX
+        if (window && window.localStorage) {
+          const localStorageKeys = Object.keys(window.localStorage)
+          localStorageKeys.forEach((key) => {
+            if (key.startsWith(FORM_DATA_KEY_PREFIX)) {
+              window.localStorage.removeItem(key)
+            }
+          })
+        }
       }
       setHasFinishedInitialLoad(true)
     }
