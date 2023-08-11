@@ -85,7 +85,7 @@ export interface FrigadeTourProps extends Omit<DefaultFrigadeFlowProps, 'flowId'
    * How to position the tooltips with CSS. Defaults to `absolute`.
    * @ignore
    */
-  cssPosition?: 'fixed' | 'absolute' | 'relative'
+  cssPosition?: 'fixed' | 'absolute' | 'static'
 }
 
 export const FrigadeTour: FC<
@@ -307,7 +307,7 @@ export const FrigadeTour: FC<
     )
   }
 
-  if (cssPosition === 'relative') {
+  if (cssPosition === 'static') {
     return getTooltips()
   }
 

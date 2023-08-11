@@ -399,26 +399,28 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
         zIndex={zIndex}
         className={getClassName('tourHighlightContainer', appearance)}
       >
-        {showHighlight && steps[selectedStep].showHighlight !== false && (
-          <>
-            <HighlightInner
-              style={{
-                position: positionStyle,
-              }}
-              onClick={handleClick}
-              primaryColor={appearance.theme.colorPrimary}
-              className={getClassName('tourHighlightInnerCircle', appearance)}
-            ></HighlightInner>
-            <HighlightOuter
-              style={{
-                position: 'absolute',
-              }}
-              onClick={handleClick}
-              primaryColor={appearance.theme.colorPrimary}
-              className={getClassName('tourHighlightOuterCircle', appearance)}
-            ></HighlightOuter>
-          </>
-        )}
+        {showHighlight &&
+          steps[selectedStep].showHighlight !== false &&
+          cssPosition !== 'static' && (
+            <>
+              <HighlightInner
+                style={{
+                  position: positionStyle,
+                }}
+                onClick={handleClick}
+                primaryColor={appearance.theme.colorPrimary}
+                className={getClassName('tourHighlightInnerCircle', appearance)}
+              ></HighlightInner>
+              <HighlightOuter
+                style={{
+                  position: 'absolute',
+                }}
+                onClick={handleClick}
+                primaryColor={appearance.theme.colorPrimary}
+                className={getClassName('tourHighlightOuterCircle', appearance)}
+              ></HighlightOuter>
+            </>
+          )}
       </HighlightContainer>
       <PositionWrapper
         style={{
@@ -438,7 +440,7 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
                 position: 'relative',
                 width: 'max-content',
                 right: 0,
-                top: 12,
+                top: cssPosition !== 'static' ? 12 : 0,
                 ...containerStyle,
               }}
               appearance={appearance}
