@@ -87,6 +87,7 @@ export function useFlows() {
         return emptyResponse
       })
   const {
+    mutateUserFlowState,
     userFlowStatesData,
     isLoadingUserFlowStateData,
     optimisticallyMarkFlowCompleted,
@@ -577,6 +578,12 @@ export function useFlows() {
     return !targetingLogicShouldHideFlow(getFlow(flowId))
   }
 
+  function refresh() {
+    if (userId) {
+      mutateUserFlowState()
+    }
+  }
+
   return {
     getFlow,
     getFlowData,
@@ -605,5 +612,6 @@ export function useFlows() {
     hasActiveFullPageFlow,
     setHasActiveFullPageFlow,
     isFlowAvailableToUser,
+    refresh,
   }
 }

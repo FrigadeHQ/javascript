@@ -110,6 +110,7 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
   showStepCount = true,
   completedStepsCount = 0,
   showFrigadeBranding = false,
+  cssPosition = 'absolute',
 }) => {
   const [selfBounds, setSelfBounds] = useState<undefined | Partial<DOMRect>>()
   const [needsUpdate, setNeedsUpdate] = useState(new Date())
@@ -121,7 +122,7 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
   const [showTooltipContainer, setShowTooltipContainer] = useState(!showHighlightOnly)
   const positionStyle = steps[selectedStep]?.props?.position
     ? steps[selectedStep].props.position
-    : 'absolute'
+    : cssPosition
   const zIndex = steps[selectedStep]?.props?.zIndex ?? 90
   const cardWidth = selfBounds?.width ?? DEFAULT_CARD_WIDTH
   const cardHeight = selfBounds?.height ?? DEFAULT_CARD_HEIGHT

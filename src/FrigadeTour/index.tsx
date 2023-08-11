@@ -81,6 +81,11 @@ export interface FrigadeTourProps extends Omit<DefaultFrigadeFlowProps, 'flowId'
    * Defaults to false.
    */
   skipIfNotFound?: boolean
+  /**
+   * How to position the tooltips with CSS. Defaults to `absolute`.
+   * @ignore
+   */
+  cssPosition?: 'fixed' | 'absolute' | 'relative'
 }
 
 export const FrigadeTour: FC<
@@ -99,6 +104,7 @@ export const FrigadeTour: FC<
   dismissBehavior = 'complete-flow',
   onComplete,
   skipIfNotFound = false,
+  cssPosition = 'absolute',
   ...props
 }) => {
   const {
@@ -268,34 +274,44 @@ export const FrigadeTour: FC<
           showHighlightOnly={showHighlightOnly}
           completedStepsCount={getNumberOfStepsCompleted(flowId)}
           onComplete={handleComplete}
+          cssPosition={cssPosition}
           {...props}
         />
       )
     })
   }
 
-  return (
-    <Portal>
-      <RenderInlineStyles appearance={appearance} />
-      {showTooltipsSimultaneously || (isCurrentSelectorMissing && skipIfNotFound) ? (
-        renderMultipleToolTips()
-      ) : (
-        <Tooltips
-          appearance={appearance}
-          steps={getSteps()}
-          selectedStep={selectedStep}
-          showTooltipsSimultaneously={showTooltipsSimultaneously}
-          dismissible={dismissible}
-          onDismiss={() => onDismissTooltip(steps[selectedStep])}
-          tooltipPosition={tooltipPosition}
-          completedStepsCount={getNumberOfStepsCompleted(flowId)}
-          showHighlightOnly={showHighlightOnly}
-          onComplete={handleComplete}
-          {...props}
-        />
-      )}
-    </Portal>
-  )
+  function getTooltips() {
+    return (
+      <>
+        <RenderInlineStyles appearance={appearance} />
+        {showTooltipsSimultaneously || (isCurrentSelectorMissing && skipIfNotFound) ? (
+          renderMultipleToolTips()
+        ) : (
+          <Tooltips
+            appearance={appearance}
+            steps={getSteps()}
+            selectedStep={selectedStep}
+            showTooltipsSimultaneously={showTooltipsSimultaneously}
+            dismissible={dismissible}
+            onDismiss={() => onDismissTooltip(steps[selectedStep])}
+            tooltipPosition={tooltipPosition}
+            completedStepsCount={getNumberOfStepsCompleted(flowId)}
+            showHighlightOnly={showHighlightOnly}
+            onComplete={handleComplete}
+            cssPosition={cssPosition}
+            {...props}
+          />
+        )}
+      </>
+    )
+  }
+
+  if (cssPosition === 'relative') {
+    return getTooltips()
+  }
+
+  return <Portal>{getTooltips()}</Portal>
 }
 
 export default FrigadeTour
