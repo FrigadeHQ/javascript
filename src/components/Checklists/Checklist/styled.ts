@@ -58,5 +58,6 @@ export const ProgressBarBackground = styled.div`
   min-width: 40px;
   height: ${(props) => props.barHeight};
   border-radius: 20px;
-  background-color: ${(props) => props.theme.colorSecondary};
+  background-color: ${(props) => props.theme.colorPrimary};
+  opacity: 0.12;
 `

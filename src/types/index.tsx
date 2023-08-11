@@ -187,6 +187,7 @@ export interface BaseTheme {
   colorTextSecondary?: string
   colorTextDisabled?: string
   colorTextError?: string
+  colorTextSuccess?: string
   colorBorder?: string
   fontSize?: string | number
   fontSmoothing?: string
@@ -199,14 +200,15 @@ export const DefaultAppearance: Appearance = {
   theme: {
     colorPrimary: '#0171F8',
     colorSecondary: '#EEEEEE',
-    colorText: '#000000',
+    colorText: '#0F1114',
     colorBackground: '#ffffff',
     colorBackgroundSecondary: '#d2d2d2',
     colorTextOnPrimaryBackground: '#ffffff',
-    colorTextSecondary: '#505050',
+    colorTextSecondary: '#2E343D',
     colorTextDisabled: '#C7C7C7',
     colorBorder: '#E5E5E5',
     colorTextError: '#c00000',
-    borderRadius: 20,
+    colorTextSuccess: '#00D149',
+    borderRadius: 10,
   },
 }

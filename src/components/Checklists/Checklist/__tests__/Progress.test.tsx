@@ -23,7 +23,7 @@ describe('ProgressBar', () => {
   describe('count', () => {
     test('renders as expected', () => {
       render(<ProgressBar {...progressBarProps} display="count" />)
-      expect(screen.getByText('2 of 10')).toBeDefined()
+      expect(screen.getByText('2/10')).toBeDefined()
     })
   })
 })

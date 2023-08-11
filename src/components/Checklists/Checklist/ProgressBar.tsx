@@ -25,11 +25,11 @@ const ProgressProgressBar = styled.div`
 `
 
 const StepText = styled.span<{ padding; appearance }>`
-  font-weight: 500;
-  font-size: 15px;
+  font-weight: 600;
+  font-size: 14px;
   line-height: 18px;
   padding-right: ${(props) => props.padding};
-  color: ${(props) => props.appearance?.theme?.colorTextSecondary};
+  color: ${(props) => props.appearance?.theme?.colorText};
   margin-bottom: ${(props) => (props.textLocation == 'top' ? '8px' : '0px')};
   ${(props) => styleOverridesToCSS(props)}
 `
@@ -67,11 +67,11 @@ export const ProgressBar = ({
   const fgWidth = count === 0 ? '10px' : `${(count / total) * 100}%`
   const barHeight = display === 'compact' ? '5px' : '10px'
   const percentComplete = Math.round((count / total) * 100)
-  let padding = display === 'compact' ? '5px' : '20px'
+  let padding = display === 'compact' ? '5px' : '14px'
 
   let stepText
   if (display === 'count') {
-    stepText = `${count} of ${total}`
+    stepText = `${count}/${total}`
   } else if (display === 'compact') {
     stepText = `${percentComplete}%`
   } else if (display === 'percent') {
@@ -91,8 +91,8 @@ export const ProgressBar = ({
         className={getClassName('progressBarStepText', appearance)}
         style={{
           ...textStyle,
-          fontSize: display === 'compact' ? 12 : 15,
-          fontWeight: display === 'compact' ? 400 : 500,
+          fontSize: display === 'compact' ? 12 : 14,
+          fontWeight: display === 'compact' ? 400 : 600,
         }}
         appearance={appearance}
         padding={padding}

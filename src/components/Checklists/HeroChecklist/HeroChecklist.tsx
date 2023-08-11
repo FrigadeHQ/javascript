@@ -42,22 +42,27 @@ export interface HeroChecklistProps extends Omit<DefaultFrigadeFlowProps, 'flowI
 const HeroChecklistContainer = styled.div<{ appearance }>`
   display: flex;
   flex-direction: row;
-  min-width: ${(props) => (props.type != 'modal' ? '1000px' : '100%')};
+  min-width: ${(props) => (props.type != 'modal' ? '600px' : '100%')};
   background: ${(props) => props.appearance?.theme.colorBackground};
-  box-shadow: ${(props) => (props.type != 'modal' ? '0px 6px 25px rgba(0, 0, 0, 0.06)' : 'none')};
-  border-radius: 8px;
+  border-radius: ${(props) => props.appearance?.theme.borderRadius}px;
 `
 
 const HeroChecklistTitle = styled.h1<{ appearance }>`
-  font-size: 24px;
-  font-weight: 600;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: 0.36px;
   color: ${(props) => props.appearance?.theme?.colorText};
 `
 
 const HeroChecklistSubtitle = styled.h2`
-  font-size: 15px;
-  line-height: 28px;
-  color: ${(props) => props.appearance?.theme?.colorTextSecondary ?? '#4d4d4d'};
+  font-size: 14px;
+  font-style: normal;
+  //font-weight: 400;
+  line-height: 22px;
+  letter-spacing: 0.28px;
+  color: ${(props) => props.appearance?.theme?.colorTextSecondary};
   margin: 10px 0px 0px 0px;
 `
 
