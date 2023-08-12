@@ -40,7 +40,7 @@ const BASE_CHECKBOX_STYLES_SQUARE__CHECKED = {
 }
 
 const BASE_CHECKBOX_STYLES_SQUARE__UNCHECKED = {
-  border: '1px solid #E6E6E6',
+  border: '1px solid #C5CBD3',
 }
 
 const BASE_CHECKBOX_STYLES_ROUND__CHECKED = {
@@ -48,7 +48,7 @@ const BASE_CHECKBOX_STYLES_ROUND__CHECKED = {
 }
 
 const BASE_CHECKBOX_STYLES_ROUND__UNCHECKED = {
-  border: '3px solid #D9D9D9',
+  border: '1px solid #C5CBD3',
 }
 
 const getBaseStyle = (type: CheckBoxType): CSSProperties => {
@@ -94,7 +94,7 @@ export const CheckBox: FC<CheckBoxProps> = ({
     checkBoxStyle = {
       ...checkBoxStyle,
       ...stateStyle,
-      backgroundColor: primaryColor,
+      backgroundColor: appearance.theme.colorTextSuccess,
       borderColor: type === 'square' ? primaryColor : 'none',
     }
   } else {

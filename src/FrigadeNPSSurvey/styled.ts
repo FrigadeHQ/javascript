@@ -51,7 +51,7 @@ export const NPSNumberButton = styled.button`
 
 export const NPSNumberButtonContainer = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   margin-top: 16px;
   gap: 8px;
 `
@@ -64,8 +64,11 @@ export const NPSLabelContainer = styled.div`
 
 export const NPSLabel = styled.div`
   font-size: 12px;
-  line-height: 16px;
+  line-height: 18px;
   color: ${(props) => props.appearance.theme.colorTextDisabled};
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: 0.24px;
 `
 
 export const TextContainer = styled.div`

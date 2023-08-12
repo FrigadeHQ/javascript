@@ -137,22 +137,24 @@ export const FrigadeBanner: React.FC<FrigadeBannerProps> = ({
             classPrefix="banner"
           />
         </TextContainer>
-        <CallToActionContainer
-          type={type}
-          className={getClassName('bannerCallToActionContainer', appearance)}
-        >
-          <Button
-            title={metaData?.primaryButtonTitle ?? 'Get started'}
-            appearance={appearance}
-            onClick={() => {
-              primaryCTAClickSideEffects(metaData)
-              if (onButtonClick) {
-                onButtonClick(metaData, 0, 'primary')
-              }
-            }}
-            classPrefix="banner"
-          />
-        </CallToActionContainer>
+        {metaData?.primaryButtonTitle && (
+          <CallToActionContainer
+            type={type}
+            className={getClassName('bannerCallToActionContainer', appearance)}
+          >
+            <Button
+              title={metaData?.primaryButtonTitle}
+              appearance={appearance}
+              onClick={() => {
+                primaryCTAClickSideEffects(metaData)
+                if (onButtonClick) {
+                  onButtonClick(metaData, 0, 'primary')
+                }
+              }}
+              classPrefix="banner"
+            />
+          </CallToActionContainer>
+        )}
         {type !== 'square' && metaData.dismissible && (
           <DismissButtonContainer
             type={type}

@@ -3,10 +3,13 @@ import { getCustomClassOverrides } from '../../../../../shared/appearance'
 
 export const FormLabel = styled.label`
   ${(props) => getCustomClassOverrides(props)} {
-    font-size: 14px;
-    line-height: 20px;
+    font-size: 12px;
+    line-height: 18px;
     margin-bottom: 5px;
     margin-top: 10px;
+    font-style: normal;
+    font-weight: 600;
+    letter-spacing: 0.24px;
   }
   display: flex;
 `

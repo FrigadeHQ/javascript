@@ -205,7 +205,7 @@ export const DefaultAppearance: Appearance = {
     colorBackgroundSecondary: '#d2d2d2',
     colorTextOnPrimaryBackground: '#ffffff',
     colorTextSecondary: '#2E343D',
-    colorTextDisabled: '#C7C7C7',
+    colorTextDisabled: '#5A6472',
     colorBorder: '#E5E5E5',
     colorTextError: '#c00000',
     colorTextSuccess: '#00D149',

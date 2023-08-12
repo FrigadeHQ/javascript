@@ -30,14 +30,14 @@ const MultipleChoiceListItem = styled.button`
       border: 1px solid ${(props) => props.appearance.theme.colorPrimary};
     }
     text-align: left;
-    border-radius: 6px;
+    border-radius: 10px;
   }
   display: inline-flex;
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
   width: 100%;
-  height: 60px;
+  height: 48px;
   padding: 0 18px;
   margin-bottom: 10px;
 `

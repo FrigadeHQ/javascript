@@ -11,8 +11,6 @@ export const BannerContainer = styled.div`
     box-sizing: border-box;
     align-items: ${(props) => (props.type === 'square' ? 'unset' : 'center')};
     background-color: ${(props) => props.appearance.theme.colorBackground};
-    border-width: 1px;
-    border-color: ${(props) => props.appearance.theme.colorPrimary};
     border-radius: 12px;
   }
 `
@@ -20,8 +18,8 @@ export const BannerContainer = styled.div`
 export const IconContainer = styled.div`
   ${(props) => getCustomClassOverrides(props)} {
     display: flex;
-    width: 36px;
-    height: 36px;
+    width: 46px;
+    height: 46px;
   }
 `
 
@@ -43,7 +41,6 @@ export const DismissButton = styled.div`
   display: flex;
   justify-content: ${(props) => (props.type === 'square' ? 'flex-end' : 'center')};
   align-items: flex-end;
-  margin-left: ${(props) => (props.type === 'square' ? '0px' : '16px')};
   cursor: pointer;
   :hover {
     opacity: 0.8;

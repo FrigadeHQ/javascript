@@ -32,10 +32,11 @@ const ButtonContainer = styled.button`
     // Only add margin if prop withMargin is true
     ${(props) => (props.withMargin ? 'margin: 16px 0px 16px 0px;' : '')}
 
-    border: 1px solid ${(props) => props.appearance?.theme?.colorPrimary};
+    border: 1px solid ${(props) =>
+      props.secondary ? '#C5CBD3' : props?.appearance?.theme?.colorPrimary};
     color: ${(props) =>
       props.secondary
-        ? props.appearance?.theme?.colorPrimary
+        ? props.appearance?.theme?.colorText
         : props.appearance?.theme?.colorTextOnPrimaryBackground};
     background-color: ${(props) =>
       props.secondary

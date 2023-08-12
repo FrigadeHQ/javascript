@@ -95,7 +95,7 @@ export const FrigadeNPSSurvey: React.FC<FrigadeNPSSurveyProps> = ({
 
   const steps = getFlowSteps(flowId)
 
-  const currentStep = steps[getCurrentStepIndex(flowId)]
+  const currentStep = steps[getNumberOfStepsCompleted(flowId)]
 
   function getScoreChooser() {
     return (
@@ -142,7 +142,7 @@ export const FrigadeNPSSurvey: React.FC<FrigadeNPSSurveyProps> = ({
         <TextContainer>
           <TitleSubtitle
             appearance={appearance}
-            title={`Why did you choose this score?`}
+            title={currentStep.title ?? `Why did you choose this score?`}
             size="large"
           />
         </TextContainer>
