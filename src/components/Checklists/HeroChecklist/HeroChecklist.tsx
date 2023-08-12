@@ -59,7 +59,7 @@ const HeroChecklistTitle = styled.h1<{ appearance }>`
 const HeroChecklistSubtitle = styled.h2`
   font-size: 14px;
   font-style: normal;
-  //font-weight: 400;
+  font-weight: 400;
   line-height: 22px;
   letter-spacing: 0.28px;
   color: ${(props) => props.appearance?.theme?.colorTextSecondary};
