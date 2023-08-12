@@ -198,7 +198,12 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
   }
 
   // Safeguard for when page is still waiting to render.
-  if (boundingRect.height === 0 && boundingRect.width === 0 && positionStyle !== 'fixed') {
+  if (
+    boundingRect.height === 0 &&
+    boundingRect.width === 0 &&
+    positionStyle !== 'fixed' &&
+    cssPosition !== 'static'
+  ) {
     return null
   }
 

@@ -157,6 +157,7 @@ export const FrigadeTour: FC<
   if (hasOpenModals()) {
     return null
   }
+
   const steps: ToolTipData[] = getFlowSteps(flowId)
 
   // Hide tour flow if another flow is open
