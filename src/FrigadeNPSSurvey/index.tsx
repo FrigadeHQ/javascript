@@ -190,6 +190,10 @@ export const FrigadeNPSSurvey: React.FC<FrigadeNPSSurveyProps> = ({
   }
 
   function getContent() {
+    if (getNumberOfStepsCompleted(flowId) >= 2) {
+      return null
+    }
+
     return (
       <>
         <RenderInlineStyles appearance={appearance} />
