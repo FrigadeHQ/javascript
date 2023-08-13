@@ -45,5 +45,7 @@ export const CondensedInlineChecklistContainer = styled.div`
   width: 100%;
   flex-direction: column;
   justify-content: space-between;
+  padding: 24px;
+  border-radius: ${(props) => props.appearance?.theme?.borderRadius}px;
   background-color: ${(props) => props.appearance?.theme?.colorBackground};
 `

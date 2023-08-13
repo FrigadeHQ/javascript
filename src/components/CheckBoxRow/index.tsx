@@ -45,7 +45,7 @@ export const CheckBoxRow: FC<CheckBoxRowProps> = ({
   labelPosition = 'right',
   style,
   primaryColor = '#000000',
-  checkBoxType = 'square',
+  checkBoxType = 'round',
   appearance,
 }) => {
   return (

@@ -80,7 +80,7 @@ const CheckIconContainer = styled.div`
 
 export const CheckBox: FC<CheckBoxProps> = ({
   value,
-  type = 'square',
+  type = 'round',
   primaryColor = '#000000',
   progress,
   appearance = DefaultAppearance,
