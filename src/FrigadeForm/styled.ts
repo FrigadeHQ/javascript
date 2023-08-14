@@ -15,6 +15,8 @@ export const FormCTAError = styled.div`
 export const CTAWrapper = styled.div`
   display: flex;
   gap: 12px;
+  width: 100%;
+  justify-content: flex-end;
 `
 export const FormContainer = styled.div`
   display: flex;

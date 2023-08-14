@@ -25,16 +25,18 @@ export const FormFooter: FC<FormFooterProps> = ({
   appearance,
   onPrimaryClick,
   onSecondaryClick,
-  formType,
   selectedStep,
   steps,
   onBack,
   allowBackNavigation,
   errorMessage,
 }) => {
-  const buttonType = formType === 'inline' ? 'inline' : 'full-width'
-
   const showBackButton = steps.length > 1 && selectedStep != 0 && allowBackNavigation
+  const buttonType =
+    (step.primaryButtonTitle && step.secondaryButtonTitle) || showBackButton
+      ? 'inline'
+      : 'full-width'
+
   return (
     <>
       {errorMessage !== null && errorMessage != undefined && (
