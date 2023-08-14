@@ -26,11 +26,16 @@ export const CallToActionContainer = styled.div`
   margin-top: 16px;
 `
 
+export const MediaContainer = styled.div`
+  margin-top: 16px;
+  margin-bottom: 16px;
+`
+
 export const DismissButton = styled.div`
   ${(props) => getCustomClassOverrides(props)} {
     position: absolute;
-    top: 16px;
-    right: 16px;
+    top: -8px;
+    right: -8px;
     cursor: pointer;
 
     :hover {

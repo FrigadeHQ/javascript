@@ -9,6 +9,7 @@ import {
   AnnouncementContainer,
   CallToActionContainer,
   DismissButton,
+  MediaContainer,
   TextContainer,
 } from './styled'
 import { getClassName, mergeClasses } from '../shared/appearance'
@@ -18,6 +19,7 @@ import { Button } from '../components/Button'
 import { Modal } from '../components/Modal'
 import { CornerModal } from '../components/CornerModal'
 import { useFlowOpens } from '../api/flow-opens'
+import { Media } from '../components/Media'
 
 export interface FrigadeAnnouncementProps extends DefaultFrigadeFlowProps {
   dismissible?: boolean
@@ -127,6 +129,11 @@ export const FrigadeAnnouncement: React.FC<FrigadeAnnouncementProps> = ({
               subtitle={currentStep.subtitle}
             />
           </TextContainer>
+          {(currentStep.imageUri || currentStep.videoUri) && (
+            <MediaContainer className={getClassName('announcementMediaContainer', appearance)}>
+              <Media appearance={appearance} stepData={currentStep} />
+            </MediaContainer>
+          )}
           {currentStep.primaryButtonTitle && (
             <CallToActionContainer className={getClassName('announcementCTAContainer', appearance)}>
               <Button
