@@ -9,6 +9,7 @@ export { FrigadeSupportWidget } from './FrigadeSupportWidget'
 export { FrigadeEmbeddedTip } from './FrigadeEmbeddedTip'
 export { FrigadeBanner } from './FrigadeBanner'
 export { FrigadeNPSSurvey } from './FrigadeNPSSurvey'
+export { FrigadeAnnouncement } from './FrigadeAnnouncement'
 
 export type { BaseTheme as FrigadeTheme } from './types'
 export { DefaultAppearance as FrigadeDefaultAppearance } from './types'

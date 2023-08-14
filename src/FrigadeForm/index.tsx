@@ -269,7 +269,12 @@ export const FrigadeForm: FC<FrigadeFormProps> = ({
 
   if (type === 'modal' && modalPosition !== 'center') {
     return (
-      <CornerModal appearance={appearance} onClose={handleClose} visible={showModal}>
+      <CornerModal
+        appearance={appearance}
+        onClose={handleClose}
+        visible={showModal}
+        modalPosition={modalPosition}
+      >
         <RenderInlineStyles appearance={appearance} />
         <FormContent
           appearance={appearance}

@@ -5,6 +5,30 @@ import { Appearance } from '../../types'
 import { getClassName, getCustomClassOverrides } from '../../shared/appearance'
 import { Close } from '../Icons/Close'
 
+function getModalPosition(
+  modalPosition?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'
+) {
+  switch (modalPosition) {
+    case 'top-left':
+      return `
+        top: 0;
+        left: 0;
+      `
+    case 'top-right':
+      return `
+        top: 0;
+        right: 0;
+      `
+    case 'bottom-left':
+      return `
+        bottom: 0;
+        left: 0;
+      `
+  }
+
+  return `right: 0; bottom: 0;`
+}
+
 const CornerModalContainer = styled.div`
   ${(props) => getCustomClassOverrides(props)} {
     // Anything inside this block will be ignored if the user provides a custom class
@@ -19,10 +43,8 @@ const CornerModalContainer = styled.div`
     width: 350px;
     padding: 24px;
   }
-  right: 0;
-  bottom: 0;
-  margin-right: 28px;
-  margin-bottom: 28px;
+  ${(props) => getModalPosition(props.modalPosition)}
+  margin: 28px;
 `
 
 const CornerModalHeader = styled.div`
@@ -57,6 +79,8 @@ interface CornerModalProps {
   children: React.ReactNode
   style?: React.CSSProperties
   appearance?: Appearance
+  modalPosition?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'
+  dismissible?: boolean
 }
 
 export const CornerModal: FC<CornerModalProps> = ({
@@ -65,9 +89,14 @@ export const CornerModal: FC<CornerModalProps> = ({
   headerContent = null,
   children,
   appearance,
+  modalPosition = 'bottom-right',
+  dismissible = true,
 }) => {
   // If user presses escape key, close cornerModal
   useEffect(() => {
+    if (!dismissible) {
+      return
+    }
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         onClose()
@@ -93,13 +122,16 @@ export const CornerModal: FC<CornerModalProps> = ({
       <CornerModalContainer
         appearance={appearance}
         className={getClassName('cornerModalContainer', appearance)}
+        modalPosition={modalPosition}
       >
-        <CornerModalClose
-          className={getClassName('cornerModalClose', appearance)}
-          onClick={() => onClose()}
-        >
-          <Close />
-        </CornerModalClose>
+        {dismissible && (
+          <CornerModalClose
+            className={getClassName('cornerModalClose', appearance)}
+            onClick={() => onClose()}
+          >
+            <Close />
+          </CornerModalClose>
+        )}
         {headerContent && <CornerModalHeader>{headerContent}</CornerModalHeader>}
         <Body>{children}</Body>
       </CornerModalContainer>

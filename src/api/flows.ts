@@ -41,6 +41,7 @@ export enum FlowType {
   BANNER = 'BANNER',
   EMBEDDED_TIP = 'EMBEDDED_TIP',
   NPS_SURVEY = 'NPS_SURVEY',
+  ANNOUNCEMENT = 'ANNOUNCEMENT',
 }
 
 export enum TriggerType {
