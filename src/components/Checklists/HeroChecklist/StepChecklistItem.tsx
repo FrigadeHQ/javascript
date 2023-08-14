@@ -26,7 +26,7 @@ export const StepChecklistItem: FC<StepItemProps> = ({
 }) => {
   return (
     <div
-      style={{ position: 'relative', paddingLeft: '20px' }}
+      style={{ position: 'relative', paddingLeft: '0px' }}
       onClick={() => {
         onClick()
       }}

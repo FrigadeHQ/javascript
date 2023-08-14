@@ -23,8 +23,8 @@ const MultiInputContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding-bottom: 14px;
   overflow: visible;
+  padding-top: 14px;
 `
 
 const MultiInputValidationError = styled.div`

@@ -18,13 +18,15 @@ interface CheckBoxRowProps {
 }
 
 const Label = styled.span`
-  font-weight: 400;
-  font-size: 15px;
-  line-height: 20px;
+  font-weight: 600;
+  font-size: 14px;
+  font-style: normal;
+  line-height: 22px;
+  letter-spacing: 0.28px;
   color: #4d4d4d;
   display: inline-block;
   vertical-align: middle;
-  margin-left: 12px;
+  margin-left: 32px;
   padding-right: 12px;
 `
 
@@ -34,6 +36,7 @@ const CheckBoxRowContainer = styled.div`
   display: flex;
   padding-top: 20px;
   padding-bottom: 20px;
+  padding-right: 40px;
   border-top: 1px solid ${(props) => props.theme.colorBorder};
   width: 100%;
 `

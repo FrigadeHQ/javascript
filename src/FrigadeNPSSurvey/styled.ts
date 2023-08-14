@@ -5,7 +5,7 @@ export const NPSSurveyContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: 400px;
+  max-width: 600px;
   padding: 28px 18px;
   box-sizing: border-box;
   align-items: unset;
