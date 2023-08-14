@@ -39,4 +39,6 @@ export const StepItemSelectedIndicator = styled.div`
 export const ChecklistStepItem = styled.div`
   flex-direction: row;
   justify-content: flex-start;
+  border-bottom: 1px solid ${(props) => props.theme.colorBorder};
+  padding-right: 16px;
 `

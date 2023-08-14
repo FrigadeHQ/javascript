@@ -41,6 +41,7 @@ export const StepChecklistItem: FC<StepItemProps> = ({
       <ChecklistStepItem
         className={getClassName('checklistStepItem', appearance)}
         key={`hero-checklist-step-${index}`}
+        appearance={appearance}
         role="listitem"
       >
         <CheckBoxRow
