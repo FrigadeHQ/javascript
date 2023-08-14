@@ -9,17 +9,19 @@ import {
   AnnouncementContainer,
   CallToActionContainer,
   DismissButton,
+  HeaderSubtitle,
+  HeaderTitle,
   MediaContainer,
   TextContainer,
 } from './styled'
 import { getClassName, mergeClasses } from '../shared/appearance'
 import { Close } from '../components/Icons/Close'
-import { TitleSubtitle } from '../components/TitleSubtitle/TitleSubtitle'
 import { Button } from '../components/Button'
 import { Modal } from '../components/Modal'
 import { CornerModal } from '../components/CornerModal'
 import { useFlowOpens } from '../api/flow-opens'
 import { Media } from '../components/Media'
+import { sanitize } from '../shared/sanitizer'
 
 export interface FrigadeAnnouncementProps extends DefaultFrigadeFlowProps {
   dismissible?: boolean
@@ -122,12 +124,18 @@ export const FrigadeAnnouncement: React.FC<FrigadeAnnouncementProps> = ({
             </DismissButton>
           )}
           <TextContainer>
-            <TitleSubtitle
-              size="small"
+            <HeaderTitle
               appearance={appearance}
-              title={currentStep.title}
-              subtitle={currentStep.subtitle}
+              className={getClassName('announcementTitle', appearance)}
+              dangerouslySetInnerHTML={sanitize(currentStep.title)}
             />
+            {currentStep.subtitle && (
+              <HeaderSubtitle
+                appearance={appearance}
+                className={getClassName('announcementSubtitle', appearance)}
+                dangerouslySetInnerHTML={sanitize(currentStep.subtitle)}
+              />
+            )}
           </TextContainer>
           {(currentStep.imageUri || currentStep.videoUri) && (
             <MediaContainer className={getClassName('announcementMediaContainer', appearance)}>

@@ -6,7 +6,7 @@ export const AnnouncementContainer = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;
-    max-width: 400px;
+    max-width: 500px;
     box-sizing: border-box;
     align-items: unset;
     background-color: ${(props) => props.appearance.theme.colorBackground};
@@ -41,5 +41,35 @@ export const DismissButton = styled.div`
     :hover {
       opacity: 0.8;
     }
+  }
+`
+
+export const HeaderTitle = styled.h1`
+  ${(props) => getCustomClassOverrides(props)} {
+    font-style: normal;
+    justify-content: center;
+    text-align: center;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 30px; /* 125% */
+    letter-spacing: 0.48px;
+    display: flex;
+    align-items: center;
+    color: ${(props) => props.appearance.theme.colorText};
+    margin-bottom: 8px;
+  }
+`
+
+export const HeaderSubtitle = styled.h2`
+  ${(props) => getCustomClassOverrides(props)} {
+    font-style: normal;
+    justify-content: center;
+    text-align: center;
+    font-weight: 400;
+    color: ${(props) => props.appearance.theme.colorTextSecondary};
+    font-size: 16px;
+    line-height: 24px; /* 150% */
+    letter-spacing: 0.32px;
+    margin-bottom: 8px;
   }
 `
