@@ -60,8 +60,8 @@ const ModalHeader = styled.div`
 
 const ModalClose = styled.div<{ appearance }>`
   position: absolute;
-  top: 24px;
-  right: 24px;
+  top: 16px;
+  right: 16px;
   cursor: pointer;
   z-index: 1501;
   ${(props) => getCustomClassOverrides(props)} {

@@ -54,8 +54,8 @@ const CornerModalHeader = styled.div`
 
 const CornerModalClose = styled.div`
   position: absolute;
-  top: 24px;
-  right: 24px;
+  top: 16px;
+  right: 16px;
   cursor: pointer;
   z-index: 1501;
   ${(props) => getCustomClassOverrides(props)} {

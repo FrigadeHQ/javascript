@@ -11,7 +11,6 @@ export const AnnouncementContainer = styled.div`
     align-items: unset;
     background-color: ${(props) => props.appearance.theme.colorBackground};
     position: relative;
-    padding-top: 24px;
   }
 `
 export const TextContainer = styled.div`
