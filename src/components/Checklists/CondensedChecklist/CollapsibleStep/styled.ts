@@ -38,6 +38,10 @@ export const StepTitle = styled.p<{ appearance }>`
   font-size: 16px;
   line-height: 18px;
   margin-left: 8px;
+  cursor: pointer;
+  :hover {
+    opacity: 0.8;
+  }
 `
 
 export const CollapseChevronContainer = styled.div`
