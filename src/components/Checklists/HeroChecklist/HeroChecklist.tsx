@@ -136,7 +136,9 @@ const HeroChecklist: FC<FrigadeChecklistProps> = ({
   return (
     <HeroChecklistContainer type={type} style={style} className={className} appearance={appearance}>
       <ChecklistHeader style={{ flex: 1 }}>
-        <ChecklistHeader style={{ padding: '28px 0px 28px 28px', borderBottom: 'none' }}>
+        <ChecklistHeader
+          style={{ padding: '28px 0px 28px 28px', borderBottom: '1px solid #E5E5E5' }}
+        >
           <HeroChecklistTitle
             className={getClassName('checklistTitle', appearance)}
             appearance={appearance}

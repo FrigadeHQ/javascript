@@ -37,7 +37,7 @@ const CheckBoxRowContainer = styled.div`
   padding-top: 20px;
   padding-bottom: 20px;
   padding-right: 40px;
-  border-top: 1px solid ${(props) => props.theme.colorBorder};
+  border-bottom: 1px solid ${(props) => props.theme.colorBorder};
   width: 100%;
 `
 
