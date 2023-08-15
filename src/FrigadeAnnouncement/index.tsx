@@ -53,7 +53,7 @@ export const FrigadeAnnouncement: React.FC<FrigadeAnnouncementProps> = ({
     getFlowStatus,
     getCurrentStepIndex,
   } = useFlows()
-  const { primaryCTAClickSideEffects } = useCTAClickSideEffects()
+  const { primaryCTAClickSideEffects, secondaryCTAClickSideEffects } = useCTAClickSideEffects()
   const { mergeAppearanceWithDefault } = useTheme()
   const { setOpenFlowState, getOpenFlowState, hasOpenModals } = useFlowOpens()
 
@@ -142,32 +142,52 @@ export const FrigadeAnnouncement: React.FC<FrigadeAnnouncementProps> = ({
               <Media appearance={appearance} stepData={currentStep} />
             </MediaContainer>
           )}
-          {currentStep.primaryButtonTitle && (
+          {(currentStep.primaryButtonTitle || currentStep.secondaryButtonTitle) && (
             <CallToActionContainer className={getClassName('announcementCTAContainer', appearance)}>
-              <Button
-                classPrefix="announcement"
-                title={currentStep.primaryButtonTitle}
-                appearance={appearance}
-                withMargin={false}
-                size="medium"
-                type="inline"
-                onClick={async () => {
-                  currentStep.handlePrimaryButtonClick()
-                  primaryCTAClickSideEffects(currentStep)
-                  if (onButtonClick) {
-                    const result = onButtonClick(
-                      currentStep,
-                      getCurrentStepIndex(flowId),
-                      'primary'
-                    )
-                    if (result === false) {
-                      return
+              {currentStep.secondaryButtonTitle && (
+                <Button
+                  classPrefix="announcement"
+                  title={currentStep.secondaryButtonTitle}
+                  appearance={appearance}
+                  withMargin={false}
+                  size="medium"
+                  type="full-width"
+                  onClick={async () => {
+                    currentStep.handleSecondaryButtonClick()
+                    secondaryCTAClickSideEffects(currentStep)
+                    if (onButtonClick) {
+                      onButtonClick(currentStep, getCurrentStepIndex(flowId), 'secondary')
                     }
-                  }
-                  await markStepCompleted(flowId, currentStep.id)
-                  await markFlowCompleted(flowId)
-                }}
-              />
+                  }}
+                  secondary
+                />
+              )}
+              {currentStep.primaryButtonTitle && (
+                <Button
+                  classPrefix="announcement"
+                  title={currentStep.primaryButtonTitle}
+                  appearance={appearance}
+                  withMargin={false}
+                  size="medium"
+                  type={'full-width'}
+                  onClick={async () => {
+                    currentStep.handlePrimaryButtonClick()
+                    primaryCTAClickSideEffects(currentStep)
+                    if (onButtonClick) {
+                      const result = onButtonClick(
+                        currentStep,
+                        getCurrentStepIndex(flowId),
+                        'primary'
+                      )
+                      if (result === false) {
+                        return
+                      }
+                    }
+                    await markStepCompleted(flowId, currentStep.id)
+                    await markFlowCompleted(flowId)
+                  }}
+                />
+              )}
             </CallToActionContainer>
           )}
         </AnnouncementContainer>

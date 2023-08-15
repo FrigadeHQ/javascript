@@ -20,9 +20,10 @@ export const TextContainer = styled.div`
 `
 export const CallToActionContainer = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
-  align-items: flex-start;
+  align-items: stretch;
+  gap: 16px;
   margin-top: 16px;
 `
 
