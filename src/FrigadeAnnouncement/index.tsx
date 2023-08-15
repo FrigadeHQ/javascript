@@ -150,7 +150,7 @@ export const FrigadeAnnouncement: React.FC<FrigadeAnnouncementProps> = ({
                   title={currentStep.secondaryButtonTitle}
                   appearance={appearance}
                   withMargin={false}
-                  size="medium"
+                  size="small"
                   type="full-width"
                   onClick={async () => {
                     currentStep.handleSecondaryButtonClick()
@@ -168,7 +168,7 @@ export const FrigadeAnnouncement: React.FC<FrigadeAnnouncementProps> = ({
                   title={currentStep.primaryButtonTitle}
                   appearance={appearance}
                   withMargin={false}
-                  size="medium"
+                  size="small"
                   type={'full-width'}
                   onClick={async () => {
                     currentStep.handlePrimaryButtonClick()

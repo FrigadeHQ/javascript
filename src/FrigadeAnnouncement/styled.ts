@@ -24,7 +24,7 @@ export const CallToActionContainer = styled.div`
   justify-content: center;
   align-items: stretch;
   gap: 16px;
-  margin-top: 16px;
+  margin-top: 8px;
 `
 
 export const MediaContainer = styled.div`
