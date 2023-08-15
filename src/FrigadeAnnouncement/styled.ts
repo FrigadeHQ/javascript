@@ -35,8 +35,8 @@ export const MediaContainer = styled.div`
 export const DismissButton = styled.div`
   ${(props) => getCustomClassOverrides(props)} {
     position: absolute;
-    top: -8px;
-    right: -8px;
+    top: -16px;
+    right: -16px;
     cursor: pointer;
 
     :hover {
@@ -50,10 +50,10 @@ export const HeaderTitle = styled.h1`
     font-style: normal;
     justify-content: center;
     text-align: center;
-    font-size: 24px;
+    font-size: 18px;
     font-weight: 700;
-    line-height: 30px; /* 125% */
-    letter-spacing: 0.48px;
+    line-height: 24px; /* 125% */
+    letter-spacing: 0.36px;
     display: flex;
     align-items: center;
     color: ${(props) => props.appearance.theme.colorText};
@@ -68,9 +68,9 @@ export const HeaderSubtitle = styled.h2`
     text-align: center;
     font-weight: 400;
     color: ${(props) => props.appearance.theme.colorTextSecondary};
-    font-size: 16px;
-    line-height: 24px; /* 150% */
-    letter-spacing: 0.32px;
+    font-size: 14px;
+    line-height: 22px; /* 150% */
+    letter-spacing: 0.28px;
     margin-bottom: 8px;
   }
 `
