@@ -119,7 +119,7 @@ export interface DefaultFrigadeFlowProps {
    */
   appearance?: Appearance
   /**
-   * Dynamic variables to use in flow-data.yml. See https://docs.frigade.com/flows/dynamic-variables
+   * Dynamic variables to use in config.yml. See https://docs.frigade.com/flows/dynamic-variables
    */
   customVariables?: { [key: string]: string | number | boolean }
   hideOnFlowCompletion?: boolean
