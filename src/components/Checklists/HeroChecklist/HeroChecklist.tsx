@@ -42,6 +42,7 @@ export interface HeroChecklistProps extends Omit<DefaultFrigadeFlowProps, 'flowI
 const HeroChecklistContainer = styled.div<{ appearance }>`
   display: flex;
   flex-direction: row;
+  overflow: hidden;
   min-width: ${(props) => (props.type != 'modal' ? '600px' : '100%')};
   background: ${(props) => props.appearance?.theme.colorBackground};
   border-radius: ${(props) => props.appearance?.theme.borderRadius}px;
