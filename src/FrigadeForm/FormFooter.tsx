@@ -50,7 +50,7 @@ export const FormFooter: FC<FormFooterProps> = ({
       >
         {showBackButton && (
           <Button
-            title={step.backButtonTitle ?? '←'}
+            title={step.backButtonTitle ?? 'Back'}
             onClick={onBack}
             secondary={true}
             withMargin={false}
