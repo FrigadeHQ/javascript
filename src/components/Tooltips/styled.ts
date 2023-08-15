@@ -11,16 +11,35 @@ export const TooltipContainer = styled.div<{ maxWidth: number; appearance: Appea
   border-radius: ${(props) => props.appearance.theme.borderRadius}px;
   max-width: ${(props) => props.maxWidth}px;
   min-width: 300px;
-  padding: 22px 22px 12px;
   z-index: ${(props) => props.zIndex};
+  overflow: hidden;
 `
+const dismissWithImageStyle = `
+  display: block;
+  cursor: pointer;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.2);
+  color: #ffffff;
+  padding: 4px;
+  border-radius: 100px;
+  top: 12px;
+  right: 12px;
+  :hover {
+    opacity: 0.8;
+  }`
 
-export const TooltipDismissContainer = styled.div`
+const dismissWithoutImageStyle = `
   display: block;
   cursor: pointer;
   position: absolute;
   top: 12px;
   right: 12px;
+  `
+
+export const TooltipDismissContainer = styled.div`
+  ${(props) => getCustomClassOverrides(props)} {
+    ${(props) => (props.hasImage ? dismissWithImageStyle : dismissWithoutImageStyle)};
+  }
 `
 
 export const TooltipImageContainer = styled.img`
@@ -29,8 +48,7 @@ export const TooltipImageContainer = styled.img`
     width: 100%;
     height: auto;
     min-height: 200px;
-    margin-top: ${(props) => (props.dismissible ? '24px' : '0px')};
-    margin-bottom: 16px;
+    object-fit: cover;
   }
 `
 
@@ -40,7 +58,7 @@ export const TooltipVideoContainer = styled.div`
     width: 100%;
     height: auto;
     margin-top: ${(props) => (props.dismissible ? '24px' : '0px')};
-    margin-bottom: 16px;
+    object-fit: cover;
   }
 `
 
@@ -49,6 +67,10 @@ export const TooltipFooter = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-content: center;
+`
+
+export const TooltipContentContainer = styled.div`
+  padding: 22px 22px 12px;
 `
 
 export const TooltipStepCountContainer = styled.div`

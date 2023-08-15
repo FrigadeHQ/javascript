@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import { getPosition, useElemRect } from './position'
 import {
   TooltipContainer,
+  TooltipContentContainer,
   TooltipCTAContainer,
   TooltipDismissContainer,
   TooltipFooter,
@@ -294,6 +295,7 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
               }
             }}
             className={getClassName('tooltipClose', appearance)}
+            hasImage={!!steps[selectedStep].imageUri || !!steps[selectedStep].videoUri}
           >
             <Close />
           </TooltipDismissContainer>
@@ -315,15 +317,17 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
             <VideoCard appearance={appearance} videoUri={steps[selectedStep].videoUri} />
           </TooltipVideoContainer>
         )}
-        <TitleSubtitle
-          appearance={appearance}
-          title={steps[selectedStep].title}
-          subtitle={steps[selectedStep].subtitle}
-          size="small"
-        />
-        <TooltipFooter className={getClassName('tooltipFooter', appearance)}>
-          <DefaultFooterContent />
-        </TooltipFooter>
+        <TooltipContentContainer className={getClassName('tooltipContentContainer', appearance)}>
+          <TitleSubtitle
+            appearance={appearance}
+            title={steps[selectedStep].title}
+            subtitle={steps[selectedStep].subtitle}
+            size="small"
+          />
+          <TooltipFooter className={getClassName('tooltipFooter', appearance)}>
+            <DefaultFooterContent />
+          </TooltipFooter>
+        </TooltipContentContainer>
       </>
     )
   }
