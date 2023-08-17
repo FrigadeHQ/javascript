@@ -210,6 +210,7 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
 
   let tooltipPositionValue: ToolTipPosition =
     tooltipPosition === 'auto' ? 'right' : (tooltipPosition as ToolTipPosition)
+
   let position = getPosition(boundingRect, tooltipPositionValue, cardWidth, offset, positionStyle)
 
   const rightSideIsCropped =
@@ -221,6 +222,14 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
   if (rightSideIsCropped && tooltipPosition === 'auto') {
     position = getPosition(boundingRect, 'left', cardWidth, offset, positionStyle)
     tooltipPositionValue = 'left'
+  }
+  if (
+    steps[selectedStep]?.props?.tooltipPosition &&
+    steps[selectedStep]?.props?.tooltipPosition !== 'auto' &&
+    (steps[selectedStep]?.props?.tooltipPosition === 'left' ||
+      steps[selectedStep]?.props?.tooltipPosition === 'right')
+  ) {
+    tooltipPositionValue = steps[selectedStep].props.tooltipPosition
   }
 
   const DefaultFooterContent = () => {
