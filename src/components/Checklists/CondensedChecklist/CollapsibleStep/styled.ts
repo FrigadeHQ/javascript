@@ -46,6 +46,7 @@ export const StepTitle = styled.p<{ appearance }>`
 
 export const CollapseChevronContainer = styled.div`
   cursor: pointer;
+  color: ${(props) => props.appearance.theme.colorTextSecondary};
   :hover {
     opacity: 0.8;
   }

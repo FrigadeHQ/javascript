@@ -6,7 +6,6 @@ const ChevronSVG = styled.svg`
 `
 
 export const Chevron = ({
-  color = '#323232',
   style,
   className,
 }: {
@@ -25,7 +24,7 @@ export const Chevron = ({
   >
     <path
       d="M1 13L7.5 7L0.999999 1"
-      stroke={color}
+      stroke="currentColor"
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"

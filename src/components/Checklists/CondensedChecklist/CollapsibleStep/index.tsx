@@ -128,11 +128,9 @@ export const CollapsibleStep: FC<CollapsibleStepProps> = ({
         <CollapseChevronContainer
           className={getClassName('stepChevronContainer', appearance)}
           onClick={() => onClick()}
+          appearance={appearance}
         >
-          <Chevron
-            style={{ ...iconStyle, transition: 'transform 0.1s ease-in-out' }}
-            color={appearance?.theme?.colorTextSecondary}
-          />
+          <Chevron style={{ ...iconStyle, transition: 'transform 0.2s ease-in-out' }} />
         </CollapseChevronContainer>
       </StepHeader>
 

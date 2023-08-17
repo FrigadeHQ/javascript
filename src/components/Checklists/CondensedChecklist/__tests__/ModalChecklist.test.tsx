@@ -1,6 +1,7 @@
 import React from 'react'
 import CondensedChecklist from '../CondensedChecklist'
 import { render } from '@testing-library/react'
+import { DefaultAppearance } from '../../../../types'
 
 describe('ModalChecklist', () => {
   jest.spyOn(window, 'scrollTo').mockImplementation(() => {})
@@ -10,6 +11,7 @@ describe('ModalChecklist', () => {
   })
 
   const modalChecklistProps = {
+    appearance: DefaultAppearance,
     title: 'Test Checklist',
     subtitle: 'More content for test checklist',
     onClose: jest.fn(),
