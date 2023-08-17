@@ -17,7 +17,12 @@ interface UserEvent {
 
 export const GUEST_PREFIX = 'guest_'
 
-export function useUser() {
+export function useUser(): {
+  readonly userId: string | null
+  readonly setUserId: React.Dispatch<React.SetStateAction<string | null>>
+  readonly addPropertiesToUser: (properties: EntityProperties) => Promise<void>
+  readonly trackEventForUser: (event: string, properties?: EntityProperties) => Promise<void>
+} {
   const { userId, organizationId, setUserId, setUserProperties, shouldGracefullyDegrade } =
     useContext(FrigadeContext)
   const { config, apiUrl } = useConfig()

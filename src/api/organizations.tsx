@@ -17,7 +17,15 @@ interface OrganizationEvent {
   readonly properties?: { [key: string]: string | boolean | number | null }
 }
 
-export function useOrganization() {
+export function useOrganization(): {
+  readonly organizationId: string | null
+  readonly setOrganizationId: React.Dispatch<React.SetStateAction<string | null>>
+  readonly addPropertiesToOrganization: (properties: EntityProperties) => Promise<void>
+  readonly trackEventForOrganization: (
+    event: string,
+    properties?: EntityProperties
+  ) => Promise<void>
+} {
   const { organizationId, userId, setOrganizationId } = useContext(FrigadeContext)
   const { mutateUserFlowState } = useUserFlowStates()
   const { config, apiUrl } = useConfig()

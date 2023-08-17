@@ -38,7 +38,7 @@ export interface IFrigadeContext {
   hasActiveFullPageFlow: boolean
   setHasActiveFullPageFlow: React.Dispatch<React.SetStateAction<boolean>>
   organizationId?: string
-  setOrganizationId?: React.Dispatch<React.SetStateAction<string>>
+  setOrganizationId?: React.Dispatch<React.SetStateAction<string | null>>
   navigate: (url: string, target: string) => void
   defaultAppearance: Appearance
   shouldGracefullyDegrade: boolean
