@@ -20,19 +20,21 @@ import { useCTAClickSideEffects } from '../hooks/useCTAClickSideEffects'
 import { TitleSubtitle } from '../components/TitleSubtitle/TitleSubtitle'
 import { useTheme } from '../hooks/useTheme'
 
-/**
- * Frigade Banners
- * full-width: Full width banner, useful in top of the page
- * square: Square sized banner, useful in sidebars
- *
- */
 export type FrigadeBannerType = 'full-width' | 'square'
 
 export interface FrigadeBannerProps extends DefaultFrigadeFlowProps {
+  /**
+   * full-width: Full width banner, useful in top of the page.
+   *
+   * square: Square sized banner, useful in sidebars
+   */
   type?: FrigadeBannerType
   title?: string
   subtitle?: string
   onDismiss?: () => void
+  /**
+   * Icon to use in the banner
+   */
   icon?: React.ReactNode
 }
 

@@ -18,13 +18,13 @@ import { QuestionCircle } from '../components/Icons/QuestionCircle'
 import { useCTAClickSideEffects } from '../hooks/useCTAClickSideEffects'
 import { useTheme } from '../hooks/useTheme'
 
-export interface FloatingWidgetProps extends DefaultFrigadeFlowProps {
+export interface FrigadeSupportWidgetProps extends DefaultFrigadeFlowProps {
   type?: 'floating' | 'inline'
   visible?: boolean
   title?: string
 }
 
-export const FrigadeSupportWidget: FC<FloatingWidgetProps> = ({
+export const FrigadeSupportWidget: FC<FrigadeSupportWidgetProps> = ({
   flowId,
   style,
   onStepCompletion,
