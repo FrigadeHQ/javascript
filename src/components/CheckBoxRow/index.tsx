@@ -58,7 +58,7 @@ export const CheckBoxRow: FC<CheckBoxRowProps> = ({
         style={{ ...style }}
       >
         {labelPosition === 'left' && label && (
-          <Label className={getClassName('checklistStepLabel', appearance)} style={labelStyle}>
+          <Label className={getClassName('checklistStepLabel', appearance)} style={labelStyle} appearance={appearance}>
             {label}
           </Label>
         )}
@@ -69,7 +69,7 @@ export const CheckBoxRow: FC<CheckBoxRowProps> = ({
           primaryColor={primaryColor}
         />
         {labelPosition === 'right' && label && (
-          <Label className={getClassName('checklistStepLabel', appearance)} style={labelStyle}>
+          <Label className={getClassName('checklistStepLabel', appearance)} style={labelStyle} appearance={appearance}>
             {label}
           </Label>
         )}

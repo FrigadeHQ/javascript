@@ -113,3 +113,6 @@ lib
 .idea
 .watchmanconfig
 ios/Pods
+
+# Yarn 2+
+.yarn
