@@ -170,6 +170,7 @@ const HeroChecklist: FC<FrigadeChecklistProps> = ({
                 isSelected={idx === selectedStepValue}
                 primaryColor={appearance.theme.colorPrimary}
                 style={{ justifyContent: 'space-between' }}
+                appearance={appearance}
                 onClick={() => {
                   setSelectedStepValue(idx)
                 }}

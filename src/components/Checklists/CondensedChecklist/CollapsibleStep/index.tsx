@@ -41,24 +41,25 @@ export const CollapsibleStep: FC<CollapsibleStepProps> = ({
   const iconStyle = collapsed ? {} : { transform: 'rotate(90deg)' }
   const stepContentStyle = collapsed
     ? {
-        overflow: 'hidden',
-        maxHeight: '0px',
-        transition: 'max-height 0.2s ease-out',
-      }
+      overflow: 'hidden',
+      maxHeight: '0px',
+      transition: 'max-height 0.2s ease-out',
+    }
     : {
-        overflow: 'hidden',
-        maxHeight: '1000px',
-        transition: 'max-height 0.15s ease-in',
-      }
+      overflow: 'hidden',
+      maxHeight: '1000px',
+      transition: 'max-height 0.15s ease-in',
+    }
 
   function getDefaultStepContent() {
     return (
       <>
         {stepData.imageUri || stepData.videoUri ? (
-          <StepMediaContainer className={getClassName('stepMediaContainer', appearance)}>
+          <StepMediaContainer className={getClassName('stepMediaContainer', appearance)} appearance={appearance}>
             {stepData.imageUri ? (
               <StepImage
                 className={getClassName('stepImage', appearance)}
+                appearance={appearance}
                 src={stepData.imageUri}
                 style={stepData.imageStyle}
               />
@@ -73,7 +74,7 @@ export const CollapsibleStep: FC<CollapsibleStepProps> = ({
           appearance={appearance}
           dangerouslySetInnerHTML={sanitize(stepData.subtitle)}
         />
-        <MultipleButtonContainer className={getClassName('checklistCTAContainer', appearance)}>
+        <MultipleButtonContainer className={getClassName('checklistCTAContainer', appearance)} appearance={appearance}>
           {stepData.secondaryButtonTitle ? (
             <Button
               secondary
