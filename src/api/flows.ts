@@ -116,13 +116,13 @@ export function useFlows() {
     }
   }, [flowData, error])
 
-  function getFlow(slug: string): Flow {
+  function getFlow(flowId: string): Flow {
     if (isLoadingFlows) {
       return null
     }
-    const flow = flows.find((f) => f.slug === slug)
+    const flow = flows.find((f) => f.slug === flowId)
     if (!flow && flows.length > 0 && !isLoadingUserFlowStateData && !isLoadingFlows) {
-      console.log(`Flow with slug ${slug} not found`)
+      console.log(`Flow with id ${flowId} not found`)
       return null
     }
     if (flow?.active === false) {
@@ -224,7 +224,7 @@ export function useFlows() {
       !isLoadingFlows &&
       newCustomVariables &&
       JSON.stringify(customVariables) !=
-        JSON.stringify({ ...customVariables, ...newCustomVariables })
+      JSON.stringify({ ...customVariables, ...newCustomVariables })
     ) {
       Object.keys(newCustomVariables).forEach((key) => {
         setCustomVariable(key, newCustomVariables[key])
