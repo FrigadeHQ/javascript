@@ -123,5 +123,5 @@
     "uuid": "^9.0.0",
     "zod": "^3.21.4"
   },
-  "packageManager": "yarn@1.22.19"
+  "packageManager": "yarn@3.6.2"
 }
