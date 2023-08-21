@@ -15,7 +15,7 @@ import {
 } from '../../checklist-step-content/CodeSnippetContent'
 import { useTheme } from '../../../hooks/useTheme'
 import { FrigadeChecklistProps } from '../../../FrigadeChecklist'
-import { getClassName } from '../../../shared/appearance'
+import { getClassName, styleOverridesToCSS } from '../../../shared/appearance'
 
 export interface HeroChecklistProps extends Omit<DefaultFrigadeFlowProps, 'flowId'> {
   title?: string
@@ -46,6 +46,7 @@ const HeroChecklistContainer = styled.div<{ appearance }>`
   min-width: ${(props) => (props.type != 'modal' ? '600px' : '100%')};
   background: ${(props) => props.appearance?.theme.colorBackground};
   border-radius: ${(props) => props.appearance?.theme.borderRadius}px;
+  ${(props) => styleOverridesToCSS(props)}
 `
 
 const HeroChecklistTitle = styled.h1<{ appearance }>`
@@ -135,7 +136,12 @@ const HeroChecklist: FC<FrigadeChecklistProps> = ({
   }
 
   return (
-    <HeroChecklistContainer type={type} style={style} className={className} appearance={appearance}>
+    <HeroChecklistContainer
+      type={type}
+      styleOverrides={style}
+      className={className}
+      appearance={appearance}
+    >
       <ChecklistHeader style={{ flex: 1 }}>
         <ChecklistHeader
           style={{ padding: '28px 0px 28px 28px', borderBottom: '1px solid #E5E5E5' }}
@@ -173,6 +179,7 @@ const HeroChecklist: FC<FrigadeChecklistProps> = ({
                 onClick={() => {
                   setSelectedStepValue(idx)
                 }}
+                appearance={appearance}
               />
             )
           })}
