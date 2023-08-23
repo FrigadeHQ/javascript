@@ -12,7 +12,7 @@ interface StepItemProps {
   primaryColor: string
   style: CSSProperties
   onClick: () => void
-  appearance?: Appearance
+  appearance: Appearance
 }
 
 export const StepChecklistItem: FC<StepItemProps> = ({
