@@ -2,7 +2,7 @@ import React, { CSSProperties, FC } from 'react'
 import styled from 'styled-components'
 import { CheckBox, CheckBoxType } from '../CheckBox'
 import { Appearance } from '../../types'
-import { getClassName } from '../../shared/appearance'
+import { getClassName, styleOverridesToCSS } from '../../shared/appearance'
 import { RenderInlineStyles } from '../RenderInlineStyles'
 
 interface CheckBoxRowProps {
@@ -28,6 +28,7 @@ const Label = styled.span`
   vertical-align: middle;
   margin-left: 32px;
   padding-right: 12px;
+  ${(props) => styleOverridesToCSS(props)}
 `
 
 const CheckBoxRowContainer = styled.div`
@@ -38,6 +39,7 @@ const CheckBoxRowContainer = styled.div`
   padding-bottom: 20px;
   padding-right: 8px;
   width: 100%;
+  ${(props) => styleOverridesToCSS(props)}
 `
 
 export const CheckBoxRow: FC<CheckBoxRowProps> = ({
@@ -55,10 +57,14 @@ export const CheckBoxRow: FC<CheckBoxRowProps> = ({
       <CheckBoxRowContainer
         className={getClassName('checklistStepsContainer', appearance)}
         appearance={appearance}
-        style={{ ...style }}
+        styleOverrides={{ ...style }}
       >
         {labelPosition === 'left' && label && (
-          <Label className={getClassName('checklistStepLabel', appearance)} style={labelStyle}>
+          <Label
+            className={getClassName('checklistStepLabel', appearance)}
+            styleOverrides={labelStyle}
+            appearnace={appearance}
+          >
             {label}
           </Label>
         )}
@@ -69,7 +75,11 @@ export const CheckBoxRow: FC<CheckBoxRowProps> = ({
           primaryColor={primaryColor}
         />
         {labelPosition === 'right' && label && (
-          <Label className={getClassName('checklistStepLabel', appearance)} style={labelStyle}>
+          <Label
+            className={getClassName('checklistStepLabel', appearance)}
+            styleOverrides={labelStyle}
+            appearance={appearance}
+          >
             {label}
           </Label>
         )}

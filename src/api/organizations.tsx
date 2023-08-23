@@ -20,57 +20,72 @@ interface OrganizationEvent {
 export function useOrganization(): {
   readonly organizationId: string | null
   readonly setOrganizationId: React.Dispatch<React.SetStateAction<string | null>>
+  readonly setOrganizationIdWithProperties: (
+    organizationId: string,
+    properties?: EntityProperties
+  ) => void
   readonly addPropertiesToOrganization: (properties: EntityProperties) => Promise<void>
   readonly trackEventForOrganization: (
     event: string,
     properties?: EntityProperties
   ) => Promise<void>
 } {
-  const { organizationId, userId, setOrganizationId } = useContext(FrigadeContext)
+  const {
+    organizationId: organizationIdInternal,
+    userId,
+    setOrganizationId,
+  } = useContext(FrigadeContext)
   const { mutateUserFlowState } = useUserFlowStates()
   const { config, apiUrl } = useConfig()
   const gracefullyFetch = useGracefulFetch()
   const { verifySDKInitiated } = useCheckHasInitiatedAPI()
 
+  function getUserGroupKey(uId?: string, oId?: string) {
+    return `frigade-user-group-registered-${uId}-${oId}`
+  }
+
   useEffect(() => {
     // Check if user is not a guest
 
-    if (userId && organizationId) {
+    if (userId && organizationIdInternal) {
       // Check if userid begins with the guest prefix
       if (userId.startsWith(GUEST_PREFIX)) {
         return
       }
-      const userRegisteredKey = `frigade-user-group-registered-${userId}-${organizationId}`
+      const userRegisteredKey = getUserGroupKey(userId, organizationIdInternal)
       // Check if user has already been registered in frigade
       if (!localStorage.getItem(userRegisteredKey)) {
         // Register user in frigade
         gracefullyFetch(`${apiUrl}userGroups`, {
           ...config,
           method: 'POST',
-          body: JSON.stringify({ foreignUserId: userId, foreignUserGroupId: organizationId }),
+          body: JSON.stringify({
+            foreignUserId: userId,
+            foreignUserGroupId: organizationIdInternal,
+          }),
         })
         // Mark user as registered in frigade
         localStorage.setItem(userRegisteredKey, 'true')
       }
     }
-  }, [userId, organizationId])
+  }, [userId, organizationIdInternal])
 
   const addPropertiesToOrganization = useCallback(
     async (properties: EntityProperties) => {
       if (!verifySDKInitiated()) {
         return
       }
-      if (!organizationId || !userId) {
+      if (!organizationIdInternal || !userId) {
         console.error(
           'Cannot add properties to organization: Organization ID and User ID must both be set.',
-          { organizationId, userId }
+          { organizationIdInternal, userId }
         )
         return
       }
 
       const data: AddPropertyToOrganizationDTO = {
         foreignUserId: userId,
-        foreignUserGroupId: organizationId,
+        foreignUserGroupId: organizationIdInternal,
         properties,
       }
       await gracefullyFetch(`${apiUrl}userGroups`, {
@@ -80,7 +95,7 @@ export function useOrganization(): {
       })
       mutateUserFlowState()
     },
-    [organizationId, userId, config, mutateUserFlowState]
+    [organizationIdInternal, userId, config, mutateUserFlowState]
   )
 
   const trackEventForOrganization = useCallback(
@@ -88,10 +103,10 @@ export function useOrganization(): {
       if (!verifySDKInitiated()) {
         return
       }
-      if (!organizationId || !userId) {
+      if (!organizationIdInternal || !userId) {
         console.error(
           'Cannot track event for organization: Organization ID and User ID must both be set.',
-          { organizationId, userId }
+          { organizationIdInternal, userId }
         )
         return
       }
@@ -101,7 +116,7 @@ export function useOrganization(): {
       }
       const data: AddPropertyToOrganizationDTO = {
         foreignUserId: userId,
-        foreignUserGroupId: organizationId,
+        foreignUserGroupId: organizationIdInternal,
         events: [eventData],
       }
       await gracefullyFetch(`${apiUrl}userGroups`, {
@@ -111,12 +126,40 @@ export function useOrganization(): {
       })
       mutateUserFlowState()
     },
-    [organizationId, userId, config, mutateUserFlowState]
+    [organizationIdInternal, userId, config, mutateUserFlowState]
+  )
+
+  const setOrganizationIdWithProperties = useCallback(
+    async (organizationId: string, properties?: EntityProperties) => {
+      if (!verifySDKInitiated()) {
+        return
+      }
+      if (properties) {
+        const userRegisteredKey = getUserGroupKey(userId, organizationId)
+        localStorage.setItem(userRegisteredKey, 'true')
+        setOrganizationId(organizationId)
+        const data: AddPropertyToOrganizationDTO = {
+          foreignUserId: userId,
+          foreignUserGroupId: organizationId,
+          properties,
+        }
+        await gracefullyFetch(`${apiUrl}userGroups`, {
+          ...config,
+          method: 'POST',
+          body: JSON.stringify(data),
+        })
+        mutateUserFlowState()
+      } else {
+        setOrganizationId(organizationId)
+      }
+    },
+    [userId, config, mutateUserFlowState]
   )
 
   return {
-    organizationId,
+    organizationId: organizationIdInternal,
     setOrganizationId,
+    setOrganizationIdWithProperties,
     addPropertiesToOrganization,
     trackEventForOrganization,
   }

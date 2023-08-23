@@ -230,7 +230,7 @@ export function useFlows() {
       !isLoadingFlows &&
       newCustomVariables &&
       JSON.stringify(customVariables) !=
-      JSON.stringify({ ...customVariables, ...newCustomVariables })
+        JSON.stringify({ ...customVariables, ...newCustomVariables })
     ) {
       Object.keys(newCustomVariables).forEach((key) => {
         setCustomVariable(key, newCustomVariables[key])
@@ -552,12 +552,17 @@ export function useFlows() {
     return getFlowSteps(flowId).length
   }
 
-  function getFlowData<D extends FlowDataItem>(flowId: string): FlowData<D> | null {
+  /**
+   * Generic method for getting the raw Flow data as a Javascript object.
+   * For typescript, pass in T to get the correct type.
+   * @param flowId
+   */
+  function getFlowData<T extends FlowDataItem>(flowId: string): FlowData<T> | null {
     const maybeFlow = flows.find((f) => f.slug === flowId)
     if (!maybeFlow) {
       return null
     }
-    return safeParse<FlowData<D>>(maybeFlow.data)
+    return safeParse<FlowData<T>>(maybeFlow.data)
   }
 
   function targetingLogicShouldHideFlow(flow: Flow) {

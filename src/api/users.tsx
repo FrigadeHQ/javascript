@@ -20,37 +20,48 @@ export const GUEST_PREFIX = 'guest_'
 export function useUser(): {
   readonly userId: string | null
   readonly setUserId: React.Dispatch<React.SetStateAction<string | null>>
+  readonly setUserIdWithProperties: (userId: string, properties?: EntityProperties) => void
   readonly addPropertiesToUser: (properties: EntityProperties) => Promise<void>
   readonly trackEventForUser: (event: string, properties?: EntityProperties) => Promise<void>
 } {
-  const { userId, organizationId, setUserId, setUserProperties, shouldGracefullyDegrade } =
-    useContext(FrigadeContext)
+  const {
+    userId: userIdInternal,
+    organizationId,
+    setUserId,
+    setUserProperties,
+    shouldGracefullyDegrade,
+  } = useContext(FrigadeContext)
   const { config, apiUrl } = useConfig()
   const { mutateUserFlowState } = useUserFlowStates()
   const gracefullyFetch = useGracefulFetch()
   const { verifySDKInitiated } = useCheckHasInitiatedAPI()
+
+  function getUserIdKey(id?: string) {
+    return `frigade-user-registered-${id}`
+  }
+
   // Use local storage to mark if user has already been registered in frigade
   useEffect(() => {
     // Check if user is not a guest
-    if (userId && !organizationId) {
+    if (userIdInternal && !organizationId) {
       // Check if userid begins with the guest prefix
-      if (userId.startsWith(GUEST_PREFIX)) {
+      if (userIdInternal.startsWith(GUEST_PREFIX)) {
         return
       }
-      const userRegisteredKey = `frigade-user-registered-${userId}`
+      const userRegisteredKey = getUserIdKey(userIdInternal)
       // Check if user has already been registered in frigade
       if (!localStorage.getItem(userRegisteredKey)) {
         // Register user in frigade
         gracefullyFetch(`${apiUrl}users`, {
           ...config,
           method: 'POST',
-          body: JSON.stringify({ foreignId: userId }),
+          body: JSON.stringify({ foreignId: userIdInternal }),
         })
         // Mark user as registered in frigade
         localStorage.setItem(userRegisteredKey, 'true')
       }
     }
-  }, [userId, shouldGracefullyDegrade, organizationId])
+  }, [userIdInternal, shouldGracefullyDegrade, organizationId])
 
   const addPropertiesToUser = useCallback(
     async (properties: EntityProperties) => {
@@ -58,7 +69,7 @@ export function useUser(): {
         return
       }
       const data: AddPropertyToUserDTO = {
-        foreignId: userId,
+        foreignId: userIdInternal,
         properties,
       }
       await gracefullyFetch(`${apiUrl}users`, {
@@ -69,7 +80,7 @@ export function useUser(): {
       setUserProperties((userProperties) => ({ ...userProperties, ...properties }))
       mutateUserFlowState()
     },
-    [userId, config, shouldGracefullyDegrade, mutateUserFlowState]
+    [userIdInternal, config, shouldGracefullyDegrade, mutateUserFlowState]
   )
 
   const trackEventForUser = useCallback(
@@ -82,7 +93,7 @@ export function useUser(): {
         properties,
       }
       const data: AddPropertyToUserDTO = {
-        foreignId: userId,
+        foreignId: userIdInternal,
         events: [eventData],
       }
       await gracefullyFetch(`${apiUrl}users`, {
@@ -92,8 +103,41 @@ export function useUser(): {
       })
       mutateUserFlowState()
     },
-    [userId, config, mutateUserFlowState]
+    [userIdInternal, config, mutateUserFlowState]
   )
 
-  return { userId, setUserId, addPropertiesToUser, trackEventForUser }
+  const setUserIdWithProperties = useCallback(
+    async (userId: string, properties?: EntityProperties) => {
+      if (!verifySDKInitiated()) {
+        return
+      }
+      if (properties) {
+        const userRegisteredKey = getUserIdKey(userId)
+        localStorage.setItem(userRegisteredKey, 'true')
+        setUserId(userId)
+        const data: AddPropertyToUserDTO = {
+          foreignId: userId,
+          properties,
+        }
+        await gracefullyFetch(`${apiUrl}users`, {
+          ...config,
+          method: 'POST',
+          body: JSON.stringify(data),
+        })
+        setUserProperties((userProperties) => ({ ...userProperties, ...properties }))
+        mutateUserFlowState()
+      } else {
+        setUserId(userId)
+      }
+    },
+    [config, shouldGracefullyDegrade, mutateUserFlowState]
+  )
+
+  return {
+    userId: userIdInternal,
+    setUserId,
+    setUserIdWithProperties,
+    addPropertiesToUser,
+    trackEventForUser,
+  }
 }
