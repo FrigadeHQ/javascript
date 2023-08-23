@@ -17,6 +17,7 @@ import useSWR from 'swr'
 import { useUserFlowStates } from './user-flow-states'
 import { StepData } from '../types'
 import { getSubFlowFromCompletionCriteria } from '../shared/completion-util'
+import { safeParse } from '../shared/parse'
 
 export interface Flow {
   id: number
@@ -47,6 +48,11 @@ export enum FlowType {
 export enum TriggerType {
   MANUAL = 'MANUAL',
   AUTOMATIC = 'AUTOMATIC',
+}
+
+export type FlowDataItem = Record<string, unknown>;
+export interface FlowData<D extends FlowDataItem> {
+  data: D[];
 }
 
 export function useFlows() {
@@ -546,12 +552,12 @@ export function useFlows() {
     return getFlowSteps(flowId).length
   }
 
-  function getFlowData(flowId: string): any {
+  function getFlowData<D extends FlowDataItem>(flowId: string): FlowData<D> | null {
     const maybeFlow = flows.find((f) => f.slug === flowId)
     if (!maybeFlow) {
       return null
     }
-    return JSON.parse(maybeFlow.data)
+    return safeParse<FlowData<D>>(maybeFlow.data)
   }
 
   function targetingLogicShouldHideFlow(flow: Flow) {
