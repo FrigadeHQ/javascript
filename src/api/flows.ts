@@ -50,11 +50,6 @@ export enum TriggerType {
   AUTOMATIC = 'AUTOMATIC',
 }
 
-export type FlowDataItem = Record<string, unknown>;
-export interface FlowData<D extends FlowDataItem> {
-  data: D[];
-}
-
 export function useFlows() {
   const { config, apiUrl } = useConfig()
   const {
@@ -552,12 +547,12 @@ export function useFlows() {
     return getFlowSteps(flowId).length
   }
 
-  function getFlowData<D extends FlowDataItem>(flowId: string): FlowData<D> | null {
+  function getFlowData<T>(flowId: string): T | null {
     const maybeFlow = flows.find((f) => f.slug === flowId)
     if (!maybeFlow) {
       return null
     }
-    return safeParse<FlowData<D>>(maybeFlow.data)
+    return safeParse<T>(maybeFlow.data)
   }
 
   function targetingLogicShouldHideFlow(flow: Flow) {
