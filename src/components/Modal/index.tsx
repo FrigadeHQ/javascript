@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import styled from 'styled-components'
 
 import { ModalBackground } from './ModalBackground'
@@ -100,6 +100,13 @@ export const Modal: FC<ModalProps> = ({
   dismissible = true,
   showFrigadeBranding = false,
 }) => {
+  const [initialBodyOverflow, setInitialBodyOverflow] = useState('')
+
+  useEffect(() => {
+    const initialOverflow = getComputedStyle(document.body).getPropertyValue('overflow')
+    setInitialBodyOverflow(initialOverflow)
+  }, [])
+
   // If user presses escape key, close modal
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -108,17 +115,25 @@ export const Modal: FC<ModalProps> = ({
       }
     }
     document.addEventListener('keydown', handleEscape)
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape)
+    }
+  }, [onClose])
+
+  useEffect(() => {
+    const bodyStyle = document.body.style
+
     if (visible) {
-      document.body.style.overflow = 'hidden'
+      bodyStyle.setProperty('overflow', 'hidden')
     } else {
-      document.body.style.overflow = 'unset'
+      bodyStyle.setProperty('overflow', initialBodyOverflow)
     }
 
     return () => {
-      document.body.style.overflow = 'unset'
-      document.removeEventListener('keydown', handleEscape)
+      bodyStyle.setProperty('overflow', initialBodyOverflow)
     }
-  }, [onClose, visible])
+  }, [visible])
 
   if (!visible) return <></>
 

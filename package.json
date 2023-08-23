@@ -12,8 +12,7 @@
     "test": "jest",
     "semantic-release": "semantic-release",
     "lint": "eslint --fix --ext .ts,.tsx .",
-    "copy-files": "copyfiles -u 1 src/**/*.html src/**/*.css ./lib",
-    "build": "yarn clean && tsup && yarn copy-files",
+    "build": "yarn clean && tsup",
     "local-release": "tsup",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"

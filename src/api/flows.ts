@@ -547,6 +547,11 @@ export function useFlows() {
     return getFlowSteps(flowId).length
   }
 
+  /**
+   * Generic method for getting the raw Flow data as a Javascript object.
+   * For typescript, pass in T to get the correct type.
+   * @param flowId
+   */
   function getFlowData<T>(flowId: string): T | null {
     const maybeFlow = flows.find((f) => f.slug === flowId)
     if (!maybeFlow) {
