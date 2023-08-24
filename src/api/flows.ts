@@ -143,7 +143,7 @@ export function useFlows() {
 
     flowData = substituteVariables(flowData)
 
-    const steps = JSON.parse(flowData)?.data ?? []
+    const steps = safeParse<any>(flowData)?.data ?? []
 
     return steps
       .map((step: StepData) => {
@@ -225,7 +225,7 @@ export function useFlows() {
       !isLoadingFlows &&
       newCustomVariables &&
       JSON.stringify(customVariables) !=
-      JSON.stringify({ ...customVariables, ...newCustomVariables })
+        JSON.stringify({ ...customVariables, ...newCustomVariables })
     ) {
       Object.keys(newCustomVariables).forEach((key) => {
         setCustomVariable(key, newCustomVariables[key])
