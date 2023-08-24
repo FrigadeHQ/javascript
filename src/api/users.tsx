@@ -20,7 +20,7 @@ export const GUEST_PREFIX = 'guest_'
 export function useUser(): {
   readonly userId: string | null
   readonly setUserId: React.Dispatch<React.SetStateAction<string | null>>
-  readonly setUserIdWithProperties: (userId: string, properties?: EntityProperties) => void
+  readonly setUserIdWithProperties: (userId: string, properties?: EntityProperties) => Promise<void>
   readonly addPropertiesToUser: (properties: EntityProperties) => Promise<void>
   readonly trackEventForUser: (event: string, properties?: EntityProperties) => Promise<void>
 } {

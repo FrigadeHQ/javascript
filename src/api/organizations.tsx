@@ -23,7 +23,7 @@ export function useOrganization(): {
   readonly setOrganizationIdWithProperties: (
     organizationId: string,
     properties?: EntityProperties
-  ) => void
+  ) => Promise<void>
   readonly addPropertiesToOrganization: (properties: EntityProperties) => Promise<void>
   readonly trackEventForOrganization: (
     event: string,
