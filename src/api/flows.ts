@@ -17,6 +17,7 @@ import useSWR from 'swr'
 import { useUserFlowStates } from './user-flow-states'
 import { StepData } from '../types'
 import { getSubFlowFromCompletionCriteria } from '../shared/completion-util'
+import { safeParse } from '../shared/parse'
 
 export interface Flow {
   id: number
@@ -142,7 +143,7 @@ export function useFlows() {
 
     flowData = substituteVariables(flowData)
 
-    const steps = JSON.parse(flowData)?.data ?? []
+    const steps = safeParse<any>(flowData)?.data ?? []
 
     return steps
       .map((step: StepData) => {
@@ -551,12 +552,12 @@ export function useFlows() {
    * For typescript, pass in T to get the correct type.
    * @param flowId
    */
-  function getFlowData<T>(flowId: string): T {
+  function getFlowData<T>(flowId: string): T | null {
     const maybeFlow = flows.find((f) => f.slug === flowId)
     if (!maybeFlow) {
       return null
     }
-    return JSON.parse(maybeFlow.data)
+    return safeParse<T>(maybeFlow.data)
   }
 
   function targetingLogicShouldHideFlow(flow: Flow) {
