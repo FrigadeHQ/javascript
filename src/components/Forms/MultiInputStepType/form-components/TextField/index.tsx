@@ -65,6 +65,7 @@ export function TextField({
   const input = formInput as TextFieldProps
   const [data, setData] = useState(inputData?.text || '')
   const [hasLoaded, setHasLoaded] = useState(false)
+  const [hasGivenFocus, setHasGivenFocus] = useState(false)
   let InputComponent = TextInput
   useEffect(() => {
     if (data === '' && !hasLoaded) {
@@ -73,10 +74,17 @@ export function TextField({
     }
   }, [])
 
+  useEffect(() => {
+    if (hasGivenFocus) {
+      handleDataChange(data)
+      return
+    }
+  }, [hasGivenFocus])
+
   function handleDataChange(value: string) {
     setData(value)
     onSaveInputData({ text: value })
-    if (input.required === true && value.trim() === '') {
+    if (input.required === true && value.trim() === '' && hasGivenFocus) {
       setFormValidationErrors([
         {
           id: input.id,
@@ -86,7 +94,7 @@ export function TextField({
       return
     }
     const validationError = getErrorsFromValidationResult(value, input.validation)
-    if (validationError) {
+    if (validationError && hasGivenFocus) {
       setFormValidationErrors([
         {
           id: input.id,
@@ -131,6 +139,9 @@ export function TextField({
         appearance={customFormTypeProps.appearance}
         placeholder={input.placeholder}
         type={getType()}
+        onBlur={() => {
+          setHasGivenFocus(true)
+        }}
       ></InputComponent>
       <SubLabel title={input.subtitle} appearance={customFormTypeProps.appearance} />
     </TextInputWrapper>
