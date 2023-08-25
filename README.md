@@ -20,7 +20,6 @@
 
 ![Frigade iamge](https://frigade.com/img/frigademetaimage-v2.png)
 
-
 ## Install
 
 Install the package from your command line.
