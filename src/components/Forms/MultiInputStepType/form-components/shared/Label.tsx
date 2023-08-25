@@ -17,7 +17,7 @@ export function Label({
   }
 
   return (
-    <LabelWrapper>
+    <LabelWrapper className={getClassName('formLabelWrapper', appearance)}>
       {required ? (
         <RequiredSymbol
           className={getClassName('formLabelRequired', appearance)}
