@@ -92,7 +92,12 @@ export function MultipleChoiceList({
         return (
           <MultipleChoiceListItem
             appearance={customFormTypeProps.appearance}
-            className={getClassName('multipleChoiceListItem', customFormTypeProps.appearance)}
+            className={getClassName(
+              selectedIds.includes(option.id)
+                ? 'multipleChoiceListItemSelected'
+                : 'multipleChoiceListItem',
+              customFormTypeProps.appearance
+            )}
             key={option.id}
             value={option.id}
             data-selected={selectedIds.includes(option.id)}
