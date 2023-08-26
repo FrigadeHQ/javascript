@@ -95,7 +95,7 @@ export function TextField({
       return
     }
     const validationError = getErrorsFromValidationResult(value, input.validation)
-    if (validationError && input.required === true) {
+    if (validationError && (value.trim() !== '' || input.required === true)) {
       setFormValidationErrors([
         {
           id: input.id,
