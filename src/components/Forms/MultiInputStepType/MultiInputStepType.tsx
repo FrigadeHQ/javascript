@@ -64,19 +64,13 @@ export function MultiInputStepType({
   prefillData,
 }: CustomFormTypeProps) {
   const formElements = stepData.props as MultiInputStepProps
-  // Create map storing data from individual stepids
-  // use state
-
   const [formValidationErrors, setFormValidationErrors] = useState<FormValidationError[]>([])
-  // Create map of inputs that have been touched as to not show error messages until they have been touched
   const [touchedInputs, setTouchedInputs] = useState<string[]>([])
   const { userId } = useUser()
   const [allFormData, setAllFormData] = useState(
     loadFromLocalStorage() || (prefillData ? prefillData[stepData.id] : null) || {}
   )
   const { readonly } = useContext(FrigadeContext)
-
-  // Merge DEFAULT_INPUT_TYPES and customFormElements
   const mergedInputTypes = { ...DEFAULT_INPUT_TYPES, ...customFormElements }
 
   useEffect(() => {
@@ -112,7 +106,7 @@ export function MultiInputStepType({
       <TitleSubtitle appearance={appearance} title={stepData.title} subtitle={stepData.subtitle} />
       <MultiInputContainer className={getClassName('multiInputContainer', appearance)}>
         {formElements.data?.map((input: FormInputType) => {
-          const err = formValidationErrors.reverse().find((error) => error.id === input.id)?.message
+          const err = formValidationErrors.reverse().find((error) => error.id === input.id)
           return mergedInputTypes[input.type] ? (
             <span
               key={input.id}
@@ -150,7 +144,7 @@ export function MultiInputStepType({
                   })
                 },
               })}
-              {err && touchedInputs.includes(input.id) && (
+              {err && touchedInputs.includes(input.id) && err.hidden !== true && (
                 <MultiInputValidationError
                   key={input.id}
                   style={{ overflow: 'hidden' }}
@@ -163,7 +157,7 @@ export function MultiInputStepType({
                   >
                     <Warning />
                   </MultiInputValidationErrorIcon>
-                  {err}
+                  {err.message}
                 </MultiInputValidationError>
               )}
             </span>

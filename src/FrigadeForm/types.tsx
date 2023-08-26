@@ -44,6 +44,7 @@ export interface FormInputProps {
 export interface FormValidationError {
   message: string
   id: string
+  hidden?: boolean
 }
 
 export interface CustomFormTypeProps {

@@ -84,21 +84,23 @@ export function TextField({
   function handleDataChange(value: string) {
     setData(value)
     onSaveInputData({ text: value })
-    if (input.required === true && value.trim() === '' && hasGivenFocus) {
+    if (input.required === true && value.trim() === '') {
       setFormValidationErrors([
         {
           id: input.id,
           message: `${input.title ?? `Field`} is required`,
+          hidden: !hasGivenFocus,
         },
       ])
       return
     }
     const validationError = getErrorsFromValidationResult(value, input.validation)
-    if (validationError && hasGivenFocus) {
+    if (validationError && input.required === true) {
       setFormValidationErrors([
         {
           id: input.id,
           message: validationError,
+          hidden: !hasGivenFocus,
         },
       ])
       return
