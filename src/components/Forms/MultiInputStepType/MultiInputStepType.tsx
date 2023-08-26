@@ -144,7 +144,7 @@ export function MultiInputStepType({
                   })
                 },
               })}
-              {err && touchedInputs.includes(input.id) && err.hidden !== true && (
+              {err && err.message && touchedInputs.includes(input.id) && err.hidden !== true && (
                 <MultiInputValidationError
                   key={input.id}
                   style={{ overflow: 'hidden' }}
