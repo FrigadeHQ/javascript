@@ -1,11 +1,6 @@
 import { MultiInputStepType } from '../components/Forms/MultiInputStepType/MultiInputStepType'
 import { Appearance, StepData } from '../types'
-import {
-  FormContainer,
-  FormContainerMain,
-  FormContainerSidebarImage,
-  FormContainerWrapper,
-} from './styled'
+import { FormContainer, FormContainerSidebarImage, FormContainerWrapper } from './styled'
 import { getClassName } from '../shared/appearance'
 import { FormFooter } from './FormFooter'
 import { FormPagination } from './FormPagination'
@@ -77,6 +72,7 @@ export const FormContent: FC<FormContentProps> = ({
   onFormDataChange,
   showFooter,
   prefillData,
+  updateUrlOnPageChange,
 }) => {
   const DEFAULT_CUSTOM_STEP_TYPES = {
     linkCollection: LinkCollectionStepType,
@@ -239,6 +235,17 @@ export const FormContent: FC<FormContentProps> = ({
         if (window && allowBackNavigation && selectedStep + 1 < steps.length) {
           window.location.hash = steps[selectedStep + 1].id
         }
+        if (
+          window &&
+          !allowBackNavigation &&
+          updateUrlOnPageChange &&
+          selectedStep + 1 < steps.length
+        ) {
+          // Update the current url with a query param p=stepId
+          const url = new URL(window.location.href)
+          url.searchParams.set('p', steps[selectedStep + 1].id)
+          window.history.pushState({}, '', url.toString())
+        }
       }}
       onSecondaryClick={() => {
         handleStepCompletionHandlers(steps[selectedStep], 'secondary', selectedStep)
@@ -260,48 +267,46 @@ export const FormContent: FC<FormContentProps> = ({
   return (
     <>
       <FormContainer className={getClassName('formContainer', appearance)}>
-        <FormContainerMain>
-          <AnimationWrapper id={selectedStep} shouldWrap={type === 'large-modal'}>
-            <FormContainerWrapper
-              key={currentStep.id}
-              type={type}
-              className={getClassName('formContent', appearance)}
-            >
-              {steps.map((step) => {
-                const StepComponent = mergedCustomStepTypes[step.type]
+        <AnimationWrapper id={selectedStep} shouldWrap={type === 'large-modal'}>
+          <FormContainerWrapper
+            key={currentStep.id}
+            type={type}
+            className={getClassName('formContent', appearance)}
+          >
+            {steps.map((step) => {
+              const StepComponent = mergedCustomStepTypes[step.type]
 
-                if (currentStep.id !== step.id) {
-                  return null
-                }
+              if (currentStep.id !== step.id) {
+                return null
+              }
 
-                return (
-                  <StepComponent
-                    key={step.id}
-                    stepData={step}
-                    canContinue={canContinue}
-                    setCanContinue={setCanContinue}
-                    onSaveData={(data) => {
-                      updateData(step, data)
-                    }}
-                    appearance={appearance}
-                    customFormElements={customFormElements}
-                    flowId={flowId}
-                    prefillData={prefillData}
-                  />
-                )
-              })}
-              {showPagination && (
-                <FormPagination
-                  className={getClassName('formPagination', appearance)}
+              return (
+                <StepComponent
+                  key={step.id}
+                  stepData={step}
+                  canContinue={canContinue}
+                  setCanContinue={setCanContinue}
+                  onSaveData={(data) => {
+                    updateData(step, data)
+                  }}
                   appearance={appearance}
-                  stepCount={steps.length}
-                  currentStep={selectedStep}
+                  customFormElements={customFormElements}
+                  flowId={flowId}
+                  prefillData={prefillData}
                 />
-              )}
-              {formFooter}
-            </FormContainerWrapper>
-          </AnimationWrapper>
-        </FormContainerMain>
+              )
+            })}
+            {showPagination && (
+              <FormPagination
+                className={getClassName('formPagination', appearance)}
+                appearance={appearance}
+                stepCount={steps.length}
+                currentStep={selectedStep}
+              />
+            )}
+            {formFooter}
+          </FormContainerWrapper>
+        </AnimationWrapper>
         {type == 'large-modal' && <FormContainerSidebar selectedStep={steps[selectedStep]} />}
       </FormContainer>
     </>

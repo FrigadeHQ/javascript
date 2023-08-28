@@ -109,6 +109,15 @@ export interface FrigadeFormProps extends DefaultFrigadeFlowProps {
    * For `type` multiInputStep, the value contains another map similar to the structure returned from `onFormDataChange`
    */
   prefillData?: Record<string, any>
+  /**
+   * Whether to update the url when the page changes in multi-page forms. If enabled, the current url will be updated with the
+   * current step id in the following format: `<my_url>?p=<current_step_id>`.
+   *
+   * This is useful when wanting to capture URL changes with third-party tracking tools.
+   *
+   * Default is false.
+   */
+  updateUrlOnPageChange?: boolean
 }
 
 export const FrigadeForm: FC<FrigadeFormProps> = ({
@@ -136,6 +145,7 @@ export const FrigadeForm: FC<FrigadeFormProps> = ({
   onFormDataChange,
   showFooter = true,
   prefillData = {},
+  updateUrlOnPageChange = false,
 }) => {
   const {
     getFlow,
@@ -262,6 +272,7 @@ export const FrigadeForm: FC<FrigadeFormProps> = ({
           onFormDataChange={onFormDataChange}
           showFooter={showFooter}
           prefillData={prefillData}
+          updateUrlOnPageChange={updateUrlOnPageChange}
         />
       </Modal>
     )
@@ -298,6 +309,7 @@ export const FrigadeForm: FC<FrigadeFormProps> = ({
           onFormDataChange={onFormDataChange}
           showFooter={showFooter}
           prefillData={prefillData}
+          updateUrlOnPageChange={updateUrlOnPageChange}
         />
       </CornerModal>
     )
@@ -328,6 +340,7 @@ export const FrigadeForm: FC<FrigadeFormProps> = ({
         onFormDataChange={onFormDataChange}
         showFooter={showFooter}
         prefillData={prefillData}
+        updateUrlOnPageChange={updateUrlOnPageChange}
       />
     </>
   )

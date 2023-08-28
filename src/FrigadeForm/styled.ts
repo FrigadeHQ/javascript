@@ -20,12 +20,6 @@ export const CTAWrapper = styled.div`
 `
 export const FormContainer = styled.div`
   display: flex;
-  flex-direction: row;
-  flex: 1 1;
-`
-
-export const FormContainerMain = styled.div`
-  display: flex;
   // If type is set to large-modal, use padding 60px horizontal, 80px vertical
   // Otherwise, use 4px padding
   flex-direction: column;
