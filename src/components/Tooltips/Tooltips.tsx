@@ -23,6 +23,7 @@ import { VideoCard } from '../Video/VideoCard'
 import { PoweredByFrigadeTooltipRibbon } from '../branding/styled'
 import { PoweredByFrigade } from '../branding/PoweredByFrigade'
 import { FrigadeTourProps } from '../../FrigadeTour'
+import { useDebug } from '../../hooks/useDebug'
 
 export type ToolTipPosition = 'left' | 'right' | 'auto'
 
@@ -113,6 +114,7 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
   showFrigadeBranding = false,
   cssPosition = 'absolute',
 }) => {
+  const { logErrorIfDebugMode } = useDebug()
   const [selfBounds, setSelfBounds] = useState<undefined | Partial<DOMRect>>()
   const [needsUpdate, setNeedsUpdate] = useState(new Date())
   const selfRef = useRef(null)
@@ -150,6 +152,9 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
     if (!elem) {
       setLastBoundingRect(undefined)
       setElem(null)
+      logErrorIfDebugMode(
+        `FrigadeTour: Could not find element with selector "${steps[selectedStep].selector}" for step ${steps[selectedStep].id}`
+      )
       return
     }
     if (lastBoundingRect && lastBoundingRect === JSON.stringify(elem?.getBoundingClientRect())) {
@@ -264,30 +269,32 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
             </TooltipStepCounter>
           </TooltipStepCountContainer>
         )}
-        <TooltipCTAContainer
-          showStepCount={showStepCount}
-          className={getClassName('tooltipCTAContainer', appearance)}
-        >
-          {steps[selectedStep].secondaryButtonTitle && (
-            <Button
-              title={steps[selectedStep].secondaryButtonTitle}
-              appearance={appearance}
-              onClick={handleOnSecondaryCTAClick}
-              size="small"
-              withMargin={false}
-              secondary
-            />
-          )}
-          {steps[selectedStep].primaryButtonTitle && (
-            <Button
-              title={steps[selectedStep].primaryButtonTitle}
-              appearance={appearance}
-              onClick={handleOnCTAClick}
-              withMargin={false}
-              size="small"
-            />
-          )}
-        </TooltipCTAContainer>
+        {(steps[selectedStep].primaryButtonTitle || steps[selectedStep].secondaryButtonTitle) && (
+          <TooltipCTAContainer
+            showStepCount={showStepCount}
+            className={getClassName('tooltipCTAContainer', appearance)}
+          >
+            {steps[selectedStep].secondaryButtonTitle && (
+              <Button
+                title={steps[selectedStep].secondaryButtonTitle}
+                appearance={appearance}
+                onClick={handleOnSecondaryCTAClick}
+                size="small"
+                withMargin={false}
+                secondary
+              />
+            )}
+            {steps[selectedStep].primaryButtonTitle && (
+              <Button
+                title={steps[selectedStep].primaryButtonTitle}
+                appearance={appearance}
+                onClick={handleOnCTAClick}
+                withMargin={false}
+                size="small"
+              />
+            )}
+          </TooltipCTAContainer>
+        )}
       </>
     )
   }

@@ -45,6 +45,7 @@ export interface IFrigadeContext {
   setShouldGracefullyDegrade: React.Dispatch<React.SetStateAction<boolean>>
   apiUrl: string
   readonly: boolean
+  debug: boolean
 }
 
 export interface FrigadeProviderProps {
@@ -91,6 +92,7 @@ export const FrigadeContext = createContext<IFrigadeContext>({
   setShouldGracefullyDegrade: () => {},
   apiUrl: DEFAULT_API_URL,
   readonly: false,
+  debug: false,
 })
 
 interface FrigadeConfig {
@@ -115,6 +117,11 @@ interface FrigadeConfig {
   readonly?: boolean
 
   theme?: Record<string, any>
+  /**
+   * Flag to turn on debug mode which will log all events to the console. Default false.
+   * Default false.
+   */
+  debug?: boolean
 }
 
 function clearLocalStorage() {
@@ -239,6 +246,7 @@ export const FrigadeProvider: FC<FrigadeProviderProps> = ({
     setShouldGracefullyDegrade,
     apiUrl: config && config.apiUrl ? config.apiUrl : DEFAULT_API_URL,
     readonly: config && config.readonly ? config.readonly : false,
+    debug: config && config.debug ? config.debug : false,
   } as IFrigadeContext
 
   if (shouldGracefullyDegrade) {

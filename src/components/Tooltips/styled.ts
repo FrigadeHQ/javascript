@@ -24,6 +24,7 @@ const dismissWithImageStyle = `
   border-radius: 100px;
   top: 12px;
   right: 12px;
+  box-sizing: border-box;
   :hover {
     opacity: 0.8;
   }`

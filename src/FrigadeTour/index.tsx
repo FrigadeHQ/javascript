@@ -261,6 +261,9 @@ export const FrigadeTour: FC<
       ) {
         return null
       }
+      if (!showTooltipsSimultaneously && idx !== selectedStep) {
+        return null
+      }
 
       return (
         <Tooltips
@@ -286,24 +289,7 @@ export const FrigadeTour: FC<
     return (
       <>
         <RenderInlineStyles appearance={appearance} />
-        {showTooltipsSimultaneously || (isCurrentSelectorMissing && skipIfNotFound) ? (
-          renderMultipleToolTips()
-        ) : (
-          <Tooltips
-            appearance={appearance}
-            steps={getSteps()}
-            selectedStep={selectedStep}
-            showTooltipsSimultaneously={showTooltipsSimultaneously}
-            dismissible={dismissible}
-            onDismiss={() => onDismissTooltip(steps[selectedStep])}
-            tooltipPosition={tooltipPosition}
-            completedStepsCount={getNumberOfStepsCompleted(flowId)}
-            showHighlightOnly={showHighlightOnly}
-            onComplete={handleComplete}
-            cssPosition={cssPosition}
-            {...props}
-          />
-        )}
+        {renderMultipleToolTips()}
       </>
     )
   }
