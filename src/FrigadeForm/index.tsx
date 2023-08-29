@@ -2,7 +2,7 @@ import React, { CSSProperties, FC, useEffect, useState } from 'react'
 
 import { Appearance, DefaultFrigadeFlowProps, StepData } from '../types'
 import { useFlows } from '../api/flows'
-import { COMPLETED_FLOW } from '../api/common'
+import { COMPLETED_FLOW, NOT_STARTED_FLOW } from '../api/common'
 import { Modal } from '../components/Modal'
 import { CornerModal } from '../components/CornerModal'
 import { FormInputProps } from './types'
@@ -172,8 +172,13 @@ export const FrigadeForm: FC<FrigadeFormProps> = ({
   useEffect(() => {
     if (!hasFinishedInitialLoad && !isLoading) {
       setHasFinishedInitialLoad(true)
-      if (getFlowStatus(flowId) === COMPLETED_FLOW && repeatable) {
-        markFlowNotStarted(flowId)
+      if (
+        (getFlowStatus(flowId) === COMPLETED_FLOW && repeatable) ||
+        getFlowStatus(flowId) === NOT_STARTED_FLOW
+      ) {
+        if (getFlowStatus(flowId) === COMPLETED_FLOW && repeatable) {
+          markFlowNotStarted(flowId)
+        }
         // Clear all local storage keys that start with FORM_DATA_KEY_PREFIX
         if (window && window.localStorage) {
           const localStorageKeys = Object.keys(window.localStorage)
