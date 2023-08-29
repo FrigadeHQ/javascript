@@ -111,7 +111,7 @@ export interface FrigadeFormProps extends DefaultFrigadeFlowProps {
   prefillData?: Record<string, any>
   /**
    * Whether to update the url when the page changes in multi-page forms. If enabled, the current url will be updated with the
-   * current step id in the following format: `<my_url>?p=<current_step_id>`.
+   * current step id in the following format: <my_url>?p=<current_step_id>
    *
    * This is useful when wanting to capture URL changes with third-party tracking tools.
    *

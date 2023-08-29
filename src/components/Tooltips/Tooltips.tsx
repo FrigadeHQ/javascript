@@ -129,6 +129,7 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
   const zIndex = steps[selectedStep]?.props?.zIndex ?? 90
   const cardWidth = selfBounds?.width ?? DEFAULT_CARD_WIDTH
   const cardHeight = selfBounds?.height ?? DEFAULT_CARD_HEIGHT
+  const [renderTime, setRenderTime] = useState(new Date().getTime())
 
   const url = window.location.pathname.split('/').pop()
 
@@ -228,6 +229,7 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
     position = getPosition(boundingRect, 'left', cardWidth, offset, positionStyle)
     tooltipPositionValue = 'left'
   }
+
   if (
     steps[selectedStep]?.props?.tooltipPosition &&
     steps[selectedStep]?.props?.tooltipPosition !== 'auto' &&
@@ -373,6 +375,13 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
   }
 
   if (showHighlightOnly && steps[selectedStep].complete === true) {
+    return null
+  }
+
+  // Do not position the tooltip until 10ms after the first render
+  // This is to prevent the tooltip from appearing in the wrong place
+  // when the page is loading
+  if (position.x == 0 && position.y == 0 && new Date().getTime() - renderTime < 100) {
     return null
   }
 
