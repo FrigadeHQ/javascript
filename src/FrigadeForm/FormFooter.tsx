@@ -17,6 +17,7 @@ interface FormFooterProps {
   selectedStep: number
   allowBackNavigation: boolean
   errorMessage?: string
+  isSaving?: boolean
 }
 
 export const FormFooter: FC<FormFooterProps> = ({
@@ -30,6 +31,7 @@ export const FormFooter: FC<FormFooterProps> = ({
   onBack,
   allowBackNavigation,
   errorMessage,
+  isSaving,
 }) => {
   const showBackButton = steps.length > 1 && selectedStep != 0 && allowBackNavigation
   const buttonType =
@@ -79,6 +81,7 @@ export const FormFooter: FC<FormFooterProps> = ({
               onClick={onPrimaryClick}
               type={buttonType}
               appearance={appearance}
+              loading={isSaving}
             />
           ) : null}
         </CTAWrapper>

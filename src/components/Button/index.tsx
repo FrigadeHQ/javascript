@@ -7,6 +7,7 @@ import {
   styleOverridesToCSS,
   ucFirst,
 } from '../../shared/appearance'
+import { Spinner } from '../Spinner'
 
 interface ButtonProps {
   onClick?: () => void
@@ -20,6 +21,7 @@ interface ButtonProps {
   withMargin?: boolean
   size?: 'small' | 'medium' | 'large'
   classPrefix?: string
+  loading?: boolean
 }
 
 const ButtonContainer = styled.button`
@@ -86,6 +88,7 @@ export const Button: FC<ButtonProps> = ({
   appearance,
   withMargin = true,
   classPrefix = '',
+  loading = false,
 }) => {
   function getClassNameWithPrefix() {
     const name = secondary ? 'buttonSecondary' : 'button'
@@ -100,7 +103,7 @@ export const Button: FC<ButtonProps> = ({
     <ButtonContainer
       secondary={secondary}
       appearance={appearance}
-      disabled={disabled}
+      disabled={disabled || loading}
       onClick={onClick}
       styleOverrides={style}
       type={type}
@@ -108,7 +111,11 @@ export const Button: FC<ButtonProps> = ({
       size={size}
       className={getClassName(getClassNameWithPrefix(), appearance)}
     >
-      {title ?? `Continue`}
+      {loading ? (
+        <Spinner className={getClassName('buttonLoader', appearance)} />
+      ) : (
+        title ?? `Continue`
+      )}
     </ButtonContainer>
   )
 }

@@ -77,8 +77,8 @@ export interface FrigadeFormProps extends DefaultFrigadeFlowProps {
   showFrigadeBranding?: boolean
   /**
    * This function is called when the user submits data in a step.
-   * If it returns a string or explicitly false, the flow will not proceed to the next step.
-   * Optionally, if a string is returned it will be displayed as an error message.
+   * If it returns a string or false, the flow will not proceed to the next step. The string will be displayed as an error message if passed.
+   * If it returns true, the flow will proceed to the next step.
    */
   validationHandler?: (
     step: StepData,

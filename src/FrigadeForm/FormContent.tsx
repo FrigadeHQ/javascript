@@ -191,7 +191,7 @@ export const FormContent: FC<FormContentProps> = ({
             formData,
             getDataPayload()
           )
-          if (validationError || validationError === false) {
+          if (validationError !== true) {
             // check if validation error is a string
             if (typeof validationError === 'string') {
               setErrorMessage(validationError)
@@ -261,6 +261,7 @@ export const FormContent: FC<FormContentProps> = ({
       steps={steps}
       allowBackNavigation={allowBackNavigation}
       errorMessage={errorMessage}
+      isSaving={isSaving}
     />
   )
 
