@@ -56,10 +56,11 @@ const ButtonContainer = styled.button`
 
   cursor: pointer;
   :hover {
-    opacity: 0.8;
+    opacity: ${(props) => (props.loading == 'true' ? '1.0' : '0.8')};
   }
+
   :disabled {
-    opacity: 0.3;
+    opacity: ${(props) => (props.loading == 'true' ? '1.0' : '0.3')};
     cursor: not-allowed;
   }
 `
@@ -104,6 +105,7 @@ export const Button: FC<ButtonProps> = ({
       secondary={secondary}
       appearance={appearance}
       disabled={disabled || loading}
+      loading={loading?.toString() ?? ''}
       onClick={onClick}
       styleOverrides={style}
       type={type}

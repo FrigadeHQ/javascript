@@ -23,6 +23,17 @@ ${(props) =>
         value
       )
         .map(([key, value]) => {
+          if (typeof value === 'object') {
+            // This is a selector. Render it.
+            return `${key} { ${Object.entries(value)
+              .map(([nestedKey, nestedValue]) => {
+                let kebabKey = toKebabKey(nestedKey)
+
+                return `${kebabKey}: ${nestedValue};`
+              })
+              .join(' ')} }`
+          }
+
           let kebabKey = toKebabKey(key)
 
           return `${kebabKey}: ${value};`

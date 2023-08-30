@@ -71,6 +71,7 @@ export const FormFooter: FC<FormFooterProps> = ({
               withMargin={false}
               type={buttonType}
               appearance={appearance}
+              disabled={isSaving}
             />
           ) : null}{' '}
           {step.primaryButtonTitle ? (
