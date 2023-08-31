@@ -19,13 +19,14 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
   const { userFlowStatesData, isLoadingUserFlowStateData, mutateUserFlowState } =
     useUserFlowStates()
   const { userId, setUserId } = useUser()
-  const [lastUserId, setLastUserId] = useState<string | null>(null)
+  const [lastUserId, setLastUserId] = useState<string | null>(userId)
   const { getFlowStatus } = useFlows()
   const { flows, userProperties, setIsNewGuestUser, flowResponses } = useContext(FrigadeContext)
   const [automaticFlowIdsToTrigger, setAutomaticFlowIdsToTrigger] = useState<Flow[]>([])
   // Add list of flows already triggered
   const [triggeredFlows, setTriggeredFlows] = useState<string[]>([])
   const { organizationId } = useOrganization()
+  const [lastOrganizationId, setLastOrganizationId] = useState<string | null>(organizationId)
 
   useEffect(() => {
     if (!isLoadingUserFlowStateData) {
@@ -132,6 +133,7 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
     if (userId !== lastUserId) {
       // Reset responses
       setFlowResponses([])
+      mutateUserFlowState()
     }
 
     setLastUserId(userId)
@@ -152,6 +154,14 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
       }, 50)
     }
   }, [userId, flows, userProperties])
+
+  useEffect(() => {
+    if (organizationId != lastOrganizationId) {
+      setLastOrganizationId(organizationId)
+      setFlowResponses([])
+      mutateUserFlowState()
+    }
+  }, [organizationId, lastOrganizationId, setLastOrganizationId])
 
   function AutomaticFlowIdsToTrigger() {
     return (
