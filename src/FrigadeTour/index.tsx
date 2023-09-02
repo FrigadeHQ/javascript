@@ -182,7 +182,7 @@ export const FrigadeTour: FC<
       await markFlowCompleted(flowId)
       return
     }
-    if (!showHighlightOnly && selectedStep + 1 < steps.length) {
+    if (!showHighlightOnly && selectedStep + 1 < steps.length && !showTooltipsSimultaneously) {
       // Double check next step is not blocked
       if (isStepBlocked(flowId, steps[selectedStep + 1].id)) {
         return

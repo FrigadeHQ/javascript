@@ -374,7 +374,7 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
     })
   }
 
-  if (showHighlightOnly && steps[selectedStep].complete === true) {
+  if (steps[selectedStep].complete === true) {
     return null
   }
 

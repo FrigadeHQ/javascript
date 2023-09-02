@@ -109,27 +109,6 @@ export const FormContent: FC<FormContentProps> = ({
     }
   }, [formData])
 
-  useEffect(() => {
-    if (window && allowBackNavigation && !hasSetInitialHash) {
-      window.location.hash = steps[selectedStep].id
-      setHasSetInitialHash(true)
-    }
-  }, [allowBackNavigation, hasSetInitialHash, setHasSetInitialHash])
-
-  useEffect(() => {
-    if (
-      window &&
-      window?.location?.hash &&
-      window.location.hash.replace('#', '') !== steps[selectedStep].id
-    ) {
-      const stepIdToGoTo = window.location.hash.replace('#', '')
-      const newStepIndex = steps.findIndex((step) => step.id === stepIdToGoTo)
-      if (newStepIndex !== -1) {
-        markStepStarted(flowId, steps[newStepIndex].id)
-      }
-    }
-  }, [window?.location?.hash, markStepStarted, selectedStep, steps])
-
   function getDataPayload() {
     const data = formData[steps[selectedStep].id] ?? {}
     return {

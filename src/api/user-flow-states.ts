@@ -11,6 +11,7 @@ import useSWR from 'swr'
 import { useFlowOpens } from './flow-opens'
 import { FlowResponse } from './flow-responses'
 import useSWRImmutable from 'swr/immutable'
+import { deepmerge } from '../shared/deepmerge'
 
 export interface PublicUserFlowState {
   flowId: string
@@ -116,8 +117,8 @@ export function useUserFlowStates(): {
       if (flowState && flowState.flowState !== COMPLETED_FLOW) {
         flowState.flowState = COMPLETED_FLOW
       }
-      await mutateUserFlowState(Promise.resolve({ ...data, data: userFlowStatesData }), {
-        optimisticData: { ...data, data: userFlowStatesData },
+      await mutateUserFlowState(Promise.resolve(deepmerge(data, { data: userFlowStatesData })), {
+        optimisticData: deepmerge(data, { data: userFlowStatesData }),
         revalidate: false,
         rollbackOnError: false,
       })
@@ -137,8 +138,8 @@ export function useUserFlowStates(): {
         flowState.stepStates[stepId] = flowResponse
         flowState.flowState = STARTED_FLOW
       }
-      await mutateUserFlowState(Promise.resolve({ ...data, data: userFlowStatesData }), {
-        optimisticData: { ...data, data: userFlowStatesData },
+      await mutateUserFlowState(Promise.resolve(deepmerge(data, { data: userFlowStatesData })), {
+        optimisticData: deepmerge(data, { data: userFlowStatesData }),
         revalidate: false,
         rollbackOnError: false,
       })
@@ -159,14 +160,11 @@ export function useUserFlowStates(): {
         flowState.stepStates[stepId] = flowResponse
         flowState.flowState = STARTED_FLOW
       }
-      await mutateUserFlowState(
-        { ...data, data: userFlowStatesData },
-        {
-          optimisticData: { ...data, data: userFlowStatesData },
-          revalidate: false,
-          rollbackOnError: false,
-        }
-      )
+      await mutateUserFlowState(deepmerge(data, { data: userFlowStatesData }), {
+        optimisticData: deepmerge(data, { data: userFlowStatesData }),
+        revalidate: false,
+        rollbackOnError: false,
+      })
     }
   }
 
@@ -181,14 +179,11 @@ export function useUserFlowStates(): {
           flowState.stepStates[stepId].actionType = NOT_STARTED_STEP
           flowState.stepStates[stepId].createdAt = new Date().toISOString()
         })
-        await mutateUserFlowState(
-          { ...data, data: userFlowStatesData },
-          {
-            optimisticData: { ...data, data: userFlowStatesData },
-            revalidate: false,
-            rollbackOnError: false,
-          }
-        )
+        await mutateUserFlowState(deepmerge(data, { data: userFlowStatesData }), {
+          optimisticData: deepmerge(data, { data: userFlowStatesData }),
+          revalidate: false,
+          rollbackOnError: false,
+        })
         resetOpenFlowState(flowId)
       }
     }
@@ -200,14 +195,11 @@ export function useUserFlowStates(): {
       if (flowState && flowState.stepStates[stepId] !== NOT_STARTED_STEP) {
         flowState.stepStates[stepId] = NOT_STARTED_STEP
       }
-      await mutateUserFlowState(
-        { ...data, data: userFlowStatesData },
-        {
-          optimisticData: { ...data, data: userFlowStatesData },
-          revalidate: false,
-          rollbackOnError: false,
-        }
-      )
+      await mutateUserFlowState(deepmerge(data, { data: userFlowStatesData }), {
+        optimisticData: deepmerge(data, { data: userFlowStatesData }),
+        revalidate: false,
+        rollbackOnError: false,
+      })
     }
   }
 
