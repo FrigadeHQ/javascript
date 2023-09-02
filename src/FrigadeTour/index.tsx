@@ -33,7 +33,7 @@ export interface FrigadeTourProps extends Omit<DefaultFrigadeFlowProps, 'flowId'
    */
   buttonStyle?: CSSProperties
   /**
-   * Offset to apply to all tooltips.
+   * Offset to apply to all tooltips. If you only wish to apply an offset to a single tooltip you can use `props.offset` in the config.yml instead.
    */
   offset?: { x: number; y: number }
   visible?: boolean
@@ -78,6 +78,7 @@ export interface FrigadeTourProps extends Omit<DefaultFrigadeFlowProps, 'flowId'
 
   /**
    * If true, the tour will go to the next existing step/tip if the current selector element is not found on the page.
+   * Be careful with this, as it can lead to unexpected behavior of tooltip ordering if the selector is slow to load on the page.
    * Defaults to false.
    */
   skipIfNotFound?: boolean
