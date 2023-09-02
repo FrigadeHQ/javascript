@@ -130,6 +130,7 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
   const cardWidth = selfBounds?.width ?? DEFAULT_CARD_WIDTH
   const cardHeight = selfBounds?.height ?? DEFAULT_CARD_HEIGHT
   const [renderTime, setRenderTime] = useState(new Date().getTime())
+  offset = steps[selectedStep]?.props?.offset ?? offset
 
   const url = window.location.pathname.split('/').pop()
 
