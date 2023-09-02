@@ -77,14 +77,18 @@ export function MultiInputStepType({
     setCanContinue(formValidationErrors.length === 0)
   }, [formValidationErrors, setCanContinue])
 
-  function saveDataFromInputs(input: FormInputType, data: object) {
-    const newData = { ...allFormData, [input.id]: data }
-    setAllFormData(newData)
-    onSaveData(newData)
+  useEffect(() => {
+    onSaveData(allFormData)
+  }, [allFormData])
 
-    if (window && window.localStorage && !readonly) {
-      window.localStorage.setItem(getLocalStorageKey(), JSON.stringify(newData))
-    }
+  function saveDataFromInputs(input: FormInputType, data: object) {
+    setAllFormData((prevData) => {
+      const newData = { ...prevData, [input.id]: data }
+      if (window && window.localStorage && !readonly) {
+        window.localStorage.setItem(getLocalStorageKey(), JSON.stringify(newData))
+      }
+      return newData
+    })
   }
 
   function loadFromLocalStorage() {

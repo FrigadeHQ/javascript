@@ -1,7 +1,7 @@
 {
   "name": "@frigade/react",
   "version": "0.0.1",
-  "description": "The official React SDK for Frigade.",
+  "description": "Build better product onboarding, faster.",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "files": [
