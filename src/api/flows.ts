@@ -126,7 +126,7 @@ export function useFlows() {
       console.log(`Flow with id ${flowId} not found`)
       return null
     }
-    if (flow?.active === false) {
+    if (flow?.active === false && !readonly) {
       return null
     }
     return flow
