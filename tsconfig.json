@@ -4,7 +4,8 @@
     "rootDir": "./src",
     "module": "esnext",
     "types": ["jest"],
-    "lib": ["dom", "esnext"],
+    "target": "ES6",
+    "lib": ["DOM", "esnext", "ES6", "DOM.Iterable", "ScriptHost", "ES2016.Array.Include"],
     "declaration": true,
     // output .js.map sourcemap files for consumers
     "sourceMap": true,
