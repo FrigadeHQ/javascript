@@ -40,7 +40,7 @@ export const FrigadeAnnouncement: React.FC<FrigadeAnnouncementProps> = ({
   className,
   style,
   dismissible = true,
-  modalPosition,
+  modalPosition = 'center',
 }) => {
   const {
     getFlow,

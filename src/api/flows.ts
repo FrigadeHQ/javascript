@@ -56,6 +56,7 @@ export function useFlows() {
     flows,
     setFlows,
     userId,
+    organizationId,
     publicApiKey,
     customVariables,
     setCustomVariables,
@@ -78,7 +79,7 @@ export function useFlows() {
           return response.json()
         }
         console.log(
-          `Error fetching ${url} (${response.status}): ${response.statusText}. .Will gracefully degrade and hide Frigade`
+          `Error fetching ${url} (${response.status}): ${response.statusText}. Will gracefully degrade and hide Frigade`
         )
         setShouldGracefullyDegrade(true)
         return emptyResponse
@@ -240,6 +241,7 @@ export function useFlows() {
       }
       const flowResponse = {
         foreignUserId: userId,
+        foreignUserGroupId: organizationId ?? null,
         flowSlug: flowId,
         stepId,
         actionType: STARTED_STEP,
@@ -255,7 +257,7 @@ export function useFlows() {
       await optimisticallyMarkStepStarted(flowId, stepId, flowResponse)
       addResponse(flowResponse)
     },
-    [userId, userFlowStatesData]
+    [userId, organizationId, userFlowStatesData]
   )
 
   const markStepNotStarted = useCallback(
@@ -265,6 +267,7 @@ export function useFlows() {
       }
       const flowResponse = {
         foreignUserId: userId,
+        foreignUserGroupId: organizationId ?? null,
         flowSlug: flowId,
         stepId,
         actionType: NOT_STARTED_STEP,
@@ -280,7 +283,7 @@ export function useFlows() {
       await optimisticallyMarkStepNotStarted(flowId, stepId)
       addResponse(flowResponse)
     },
-    [userId, userFlowStatesData]
+    [userId, organizationId, userFlowStatesData]
   )
 
   const markStepCompleted = useCallback(
@@ -290,6 +293,7 @@ export function useFlows() {
       }
       const flowResponse = {
         foreignUserId: userId,
+        foreignUserGroupId: organizationId ?? null,
         flowSlug: flowId,
         stepId,
         actionType: COMPLETED_STEP,
@@ -304,7 +308,7 @@ export function useFlows() {
       await optimisticallyMarkStepCompleted(flowId, stepId, flowResponse)
       addResponse(flowResponse)
     },
-    [userId, userFlowStatesData]
+    [userId, organizationId, userFlowStatesData]
   )
 
   const markFlowNotStarted = useCallback(
@@ -317,6 +321,7 @@ export function useFlows() {
       }
       const flowResponse = {
         foreignUserId: userId,
+        foreignUserGroupId: organizationId ?? null,
         flowSlug: flowId,
         stepId: 'unknown',
         actionType: NOT_STARTED_FLOW,
@@ -333,7 +338,7 @@ export function useFlows() {
       }
       addResponse(flowResponse)
     },
-    [userId, userFlowStatesData]
+    [userId, organizationId, userFlowStatesData]
   )
 
   const markFlowStarted = useCallback(
@@ -343,6 +348,7 @@ export function useFlows() {
       }
       const flowResponse = {
         foreignUserId: userId,
+        foreignUserGroupId: organizationId ?? null,
         flowSlug: flowId,
         stepId: 'unknown',
         actionType: STARTED_FLOW,
@@ -356,7 +362,7 @@ export function useFlows() {
       }
       addResponse(flowResponse)
     },
-    [userId, userFlowStatesData]
+    [userId, organizationId, userFlowStatesData]
   )
 
   const markFlowCompleted = useCallback(
@@ -366,6 +372,7 @@ export function useFlows() {
       }
       const flowResponse = {
         foreignUserId: userId,
+        foreignUserGroupId: organizationId ?? null,
         flowSlug: flowId,
         stepId: 'unknown',
         actionType: COMPLETED_FLOW,
@@ -381,7 +388,7 @@ export function useFlows() {
       await optimisticallyMarkFlowCompleted(flowId)
       addResponse(flowResponse)
     },
-    [userId, userFlowStatesData]
+    [userId, organizationId, userFlowStatesData]
   )
 
   const markFlowAborted = useCallback(
@@ -391,6 +398,7 @@ export function useFlows() {
       }
       const flowResponse = {
         foreignUserId: userId,
+        foreignUserGroupId: organizationId ?? null,
         flowSlug: flowId,
         stepId: 'unknown',
         actionType: ABORTED_FLOW,
@@ -405,7 +413,7 @@ export function useFlows() {
       await optimisticallyMarkFlowCompleted(flowId)
       addResponse(flowResponse)
     },
-    [userId, userFlowStatesData]
+    [userId, organizationId, userFlowStatesData]
   )
 
   function shouldSendServerSideCall(flowResponse: FlowResponse) {

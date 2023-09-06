@@ -76,8 +76,8 @@ export function useUserFlowStates(): {
 
   const key =
     publicApiKey && flows && userId
-      ? `${apiUrl}userFlowStates?foreignUserId=${encodeURIComponent(userId)}${
-          organizationId ? `&foreignUserGroupId=${encodeURIComponent(organizationId)}` : ''
+      ? `${apiUrl}userFlowStates?foreignUserId=${userId}${
+          organizationId ? `&foreignUserGroupId=${organizationId}` : ''
         }`
       : null
 

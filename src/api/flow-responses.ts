@@ -15,6 +15,7 @@ import { useUserFlowStates } from './user-flow-states'
 
 export interface FlowResponse {
   foreignUserId: string
+  foreignUserGroupId?: string
   flowSlug: string
   stepId: string
   actionType: string

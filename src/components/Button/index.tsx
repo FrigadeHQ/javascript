@@ -27,6 +27,7 @@ interface ButtonProps {
 const ButtonContainer = styled.button`
   justify-content: center;
   align-content: center;
+  align-items: center;
   ${(props) => getCustomClassOverrides(props)} {
     display: flex;
     // Anything inside this block will be ignored if the user provides a custom class
