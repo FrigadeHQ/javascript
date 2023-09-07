@@ -3,7 +3,7 @@ import { styleOverridesToCSS } from '../../../shared/appearance'
 
 export const BadgeContainer = styled.div`
   border: 1px solid ${(props) => props.appearance.theme.colorBorder};
-  border-radius: 8px;
+  border-radius: ${(props) => props.appearance.theme.borderRadius}px;
   padding: 10px 12px 10px 12px;
   min-width: 160px;
   cursor: pointer;

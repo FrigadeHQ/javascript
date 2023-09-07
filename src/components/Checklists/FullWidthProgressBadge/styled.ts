@@ -9,9 +9,8 @@ export const FullWidthProgressBadgeContainer = styled.div`
   box-sizing: border-box;
   align-items: center;
   background-color: ${(props) => props.appearance.theme.colorBackground};
-  border-width: 1px;
-  border-color: ${(props) => props.appearance.theme.colorPrimary};
-  border-radius: 12px;
+  border: 1px solid ${(props) => props.appearance.theme.colorBorder};
+  border-radius: ${(props) => props.appearance.theme.borderRadius}px;
 `
 
 export const IconContainer = styled.div`
