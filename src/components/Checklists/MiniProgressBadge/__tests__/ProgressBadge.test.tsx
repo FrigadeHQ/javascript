@@ -19,7 +19,7 @@ describe('ChecklistProgressBadge', () => {
   test('renders', () => {
     render(<MiniProgressBadge {...checklistProgressProps} />)
     expect(screen.getByText(checklistProgressProps.title)).toBeDefined()
-    expect(screen.getByText('20%')).toBeDefined()
+    expect(screen.getByText('2/10')).toBeDefined()
   })
 
   test('calls onClick on clicking', () => {

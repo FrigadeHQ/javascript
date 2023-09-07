@@ -37,11 +37,14 @@ export const MiniProgressBadge: FC<ProgressBadgeProps> = ({
       <RenderInlineStyles appearance={appearance} />
       <BadgeContainer
         onClick={() => onClick !== undefined && onClick()}
-        style={{
+        styleOverrides={{
           ...(type == 'condensed' ? { display: 'flex', justifyContent: 'space-between' } : {}),
           ...style,
         }}
-        className={mergeClasses(className ?? '', getClassName('progressRingContainer', appearance))}
+        className={mergeClasses(
+          className ?? '',
+          getClassName('progressBadgeContainer', appearance)
+        )}
         appearance={appearance}
       >
         {type == 'condensed' && total && total !== 0 && (
@@ -77,6 +80,9 @@ export const MiniProgressBadge: FC<ProgressBadgeProps> = ({
             bgColor={appearance.theme.colorBackgroundSecondary}
             style={{ width: '100%' }}
             appearance={appearance}
+            textStyle={{
+              color: '#818898',
+            }}
           />
         )}
       </BadgeContainer>
