@@ -47,12 +47,13 @@ export const FrigadeNPSSurvey: React.FC<FrigadeNPSSurveyProps> = ({
     updateCustomVariables,
     getFlowSteps,
     getFlowStatus,
-    getCurrentStepIndex,
+    getFlowMetadata,
   } = useFlows()
   const { primaryCTAClickSideEffects } = useCTAClickSideEffects()
   const { mergeAppearanceWithDefault } = useTheme()
   const [score, setScore] = React.useState<number | null>(null)
   const [feedbackText, setFeedbackText] = React.useState<string>('')
+  const metadata = getFlowMetadata(flowId)
   const {
     hasOpenModals,
     setKeepCompletedFlowOpenDuringSession,
@@ -129,8 +130,12 @@ export const FrigadeNPSSurvey: React.FC<FrigadeNPSSurveyProps> = ({
           ))}
         </NPSNumberButtonContainer>
         <NPSLabelContainer appearance={appearance}>
-          <NPSLabel appearance={appearance}>Not likely at all</NPSLabel>
-          <NPSLabel appearance={appearance}>Extremely likely</NPSLabel>
+          <NPSLabel appearance={appearance}>
+            {metadata?.negativeLabel ?? `Not likely at all`}
+          </NPSLabel>
+          <NPSLabel appearance={appearance}>
+            {metadata?.positiveLabel ?? `Extremely likely`}
+          </NPSLabel>
         </NPSLabelContainer>
       </>
     )
