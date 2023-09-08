@@ -2,576 +2,597 @@
   "color": {
     "type": "color",
     "neutral": {
+      "100": {
+        "$value": "{color.white}"
+      },
+      "200": {
+        "$value": "{color.white}"
+      },
+      "300": {
+        "$value": "{color.white}"
+      },
+      "400": {
+        "$value": "{color.white}"
+      },
+      "500": {
+        "$value": "{color.white}"
+      },
+      "600": {
+        "$value": "{color.white}"
+      },
+      "700": {
+        "$value": "{color.white}"
+      },
+      "800": {
+        "$value": "{color.white}"
+      },
+      "900": {
+        "$value": "{color.white}"
+      },
       "background": {
-        "lowest": {
-          "value": "{color.white}"
-        },
-        "low": {
-          "value": "{color.white}"
+        "active": {
+          "$value": "{color.white}"
         },
         "default": {
-          "value": "{color.white}"
+          "$value": "{color.white}"
         },
-        "high": {
-          "value": "{color.white}"
+        "disabled": {
+          "$value": "{color.white}"
         },
-        "highest": {
-          "value": "{color.white}"
-        },
-        "inverted": {
-          "value": "{color.white}"
-        }
-      },
-      "surface": {
-        "lowest": {
-          "value": "{color.white}"
-        },
-        "low": {
-          "value": "{color.white}"
-        },
-        "default": {
-          "value": "{color.gray800}"
-        },
-        "high": {
-          "value": "{color.white}"
-        },
-        "highest": {
-          "value": "{color.white}"
-        },
-        "inverted": {
-          "value": "{color.white}"
-        }
-      },
-      "foreground": {
-        "lowest": {
-          "value": "{color.gray700}"
-        },
-        "low": {
-          "value": "{color.gray600}"
-        },
-        "default": {
-          "value": "{color.black}"
-        },
-        "high": {
-          "value": "{color.white}"
-        },
-        "highest": {
-          "value": "{color.white}"
-        },
-        "inverted": {
-          "value": "{color.white}"
+        "hover": {
+          "$value": "{color.white}"
         }
       },
       "border": {
-        "lowest": {
-          "value": "{color.white}"
-        },
-        "low": {
-          "value": "{color.white}"
+        "active": {
+          "$value": "{color.white}"
         },
         "default": {
-          "value": "{color.gray600}"
+          "$value": "{color.white}"
         },
-        "high": {
-          "value": "{color.white}"
+        "disabled": {
+          "$value": "{color.white}"
         },
-        "highest": {
-          "value": "{color.white}"
+        "hover": {
+          "$value": "{color.white}"
+        }
+      },
+      "foreground": {
+        "active": {
+          "$value": "{color.white}"
         },
-        "inverted": {
-          "value": "{color.white}"
+        "default": {
+          "$value": "{color.white}"
+        },
+        "disabled": {
+          "$value": "{color.white}"
+        },
+        "hover": {
+          "$value": "{color.white}"
+        }
+      },
+      "surface": {
+        "active": {
+          "$value": "{color.white}"
+        },
+        "default": {
+          "$value": "{color.white}"
+        },
+        "disabled": {
+          "$value": "{color.white}"
+        },
+        "hover": {
+          "$value": "{color.white}"
         }
       }
     },
     "primary": {
+      "100": {
+        "$value": "{color.white}"
+      },
+      "200": {
+        "$value": "{color.white}"
+      },
+      "300": {
+        "$value": "{color.white}"
+      },
+      "400": {
+        "$value": "{color.white}"
+      },
+      "500": {
+        "$value": "{color.white}"
+      },
+      "600": {
+        "$value": "{color.white}"
+      },
+      "700": {
+        "$value": "{color.white}"
+      },
+      "800": {
+        "$value": "{color.white}"
+      },
+      "900": {
+        "$value": "{color.white}"
+      },
       "background": {
-        "lowest": {
-          "value": "{color.white}"
-        },
-        "low": {
-          "value": "{color.white}"
+        "active": {
+          "$value": "{color.white}"
         },
         "default": {
-          "value": "{color.white}"
+          "$value": "{color.white}"
         },
-        "high": {
-          "value": "{color.white}"
+        "disabled": {
+          "$value": "{color.white}"
         },
-        "highest": {
-          "value": "{color.white}"
-        },
-        "inverted": {
-          "value": "{color.white}"
-        }
-      },
-      "surface": {
-        "lowest": {
-          "value": "{color.blue900}"
-        },
-        "low": {
-          "value": "{color.blue800}"
-        },
-        "default": {
-          "value": "{color.blue500}"
-        },
-        "high": {
-          "value": "{color.blue400}"
-        },
-        "highest": {
-          "value": "{color.white}"
-        },
-        "inverted": {
-          "value": "{color.white}"
-        }
-      },
-      "foreground": {
-        "lowest": {
-          "value": "{color.white}"
-        },
-        "low": {
-          "value": "{color.white}"
-        },
-        "default": {
-          "value": "{color.white}"
-        },
-        "high": {
-          "value": "{color.white}"
-        },
-        "highest": {
-          "value": "{color.white}"
-        },
-        "inverted": {
-          "value": "{color.gray500}"
+        "hover": {
+          "$value": "{color.white}"
         }
       },
       "border": {
-        "lowest": {
-          "value": "{color.white}"
-        },
-        "low": {
-          "value": "{color.white}"
+        "active": {
+          "$value": "{color.white}"
         },
         "default": {
-          "value": "{color.white}"
+          "$value": "{color.white}"
         },
-        "high": {
-          "value": "{color.white}"
+        "disabled": {
+          "$value": "{color.white}"
         },
-        "highest": {
-          "value": "{color.white}"
+        "hover": {
+          "$value": "{color.white}"
+        }
+      },
+      "foreground": {
+        "active": {
+          "$value": "{color.white}"
         },
-        "inverted": {
-          "value": "{color.white}"
+        "default": {
+          "$value": "{color.white}"
+        },
+        "disabled": {
+          "$value": "{color.white}"
+        },
+        "hover": {
+          "$value": "{color.white}"
+        }
+      },
+      "surface": {
+        "active": {
+          "$value": "{color.white}"
+        },
+        "default": {
+          "$value": "{color.white}"
+        },
+        "disabled": {
+          "$value": "{color.white}"
+        },
+        "hover": {
+          "$value": "{color.white}"
         }
       }
     },
     "secondary": {
+      "100": {
+        "$value": "{color.white}"
+      },
+      "200": {
+        "$value": "{color.white}"
+      },
+      "300": {
+        "$value": "{color.white}"
+      },
+      "400": {
+        "$value": "{color.white}"
+      },
+      "500": {
+        "$value": "{color.white}"
+      },
+      "600": {
+        "$value": "{color.white}"
+      },
+      "700": {
+        "$value": "{color.white}"
+      },
+      "800": {
+        "$value": "{color.white}"
+      },
+      "900": {
+        "$value": "{color.white}"
+      },
       "background": {
-        "lowest": {
-          "value": "{color.white}"
-        },
-        "low": {
-          "value": "{color.white}"
+        "active": {
+          "$value": "{color.white}"
         },
         "default": {
-          "value": "{color.white}"
+          "$value": "{color.white}"
         },
-        "high": {
-          "value": "{color.white}"
+        "disabled": {
+          "$value": "{color.white}"
         },
-        "highest": {
-          "value": "{color.white}"
-        },
-        "inverted": {
-          "value": "{color.white}"
-        }
-      },
-      "surface": {
-        "lowest": {
-          "value": "{color.white}"
-        },
-        "low": {
-          "value": "{color.white}"
-        },
-        "default": {
-          "value": "{color.white}"
-        },
-        "high": {
-          "value": "{color.white}"
-        },
-        "highest": {
-          "value": "{color.white}"
-        },
-        "inverted": {
-          "value": "{color.white}"
-        }
-      },
-      "foreground": {
-        "lowest": {
-          "value": "{color.white}"
-        },
-        "low": {
-          "value": "{color.white}"
-        },
-        "default": {
-          "value": "{color.black}"
-        },
-        "high": {
-          "value": "{color.white}"
-        },
-        "highest": {
-          "value": "{color.white}"
-        },
-        "inverted": {
-          "value": "{color.white}"
+        "hover": {
+          "$value": "{color.white}"
         }
       },
       "border": {
-        "lowest": {
-          "value": "{color.white}"
-        },
-        "low": {
-          "value": "{color.white}"
+        "active": {
+          "$value": "{color.white}"
         },
         "default": {
-          "value": "{color.gray800}"
+          "$value": "{color.white}"
         },
-        "high": {
-          "value": "{color.white}"
+        "disabled": {
+          "$value": "{color.white}"
         },
-        "highest": {
-          "value": "{color.white}"
+        "hover": {
+          "$value": "{color.white}"
+        }
+      },
+      "foreground": {
+        "active": {
+          "$value": "{color.white}"
         },
-        "inverted": {
-          "value": "{color.white}"
+        "default": {
+          "$value": "{color.white}"
+        },
+        "disabled": {
+          "$value": "{color.white}"
+        },
+        "hover": {
+          "$value": "{color.white}"
+        }
+      },
+      "surface": {
+        "active": {
+          "$value": "{color.white}"
+        },
+        "default": {
+          "$value": "{color.white}"
+        },
+        "disabled": {
+          "$value": "{color.white}"
+        },
+        "hover": {
+          "$value": "{color.white}"
         }
       }
     },
     "accent": {
+      "100": {
+        "$value": "{color.white}"
+      },
+      "200": {
+        "$value": "{color.white}"
+      },
+      "300": {
+        "$value": "{color.white}"
+      },
+      "400": {
+        "$value": "{color.white}"
+      },
+      "500": {
+        "$value": "{color.white}"
+      },
+      "600": {
+        "$value": "{color.white}"
+      },
+      "700": {
+        "$value": "{color.white}"
+      },
+      "800": {
+        "$value": "{color.white}"
+      },
+      "900": {
+        "$value": "{color.white}"
+      },
       "background": {
-        "lowest": {
-          "value": "{color.white}"
-        },
-        "low": {
-          "value": "{color.white}"
+        "active": {
+          "$value": "{color.white}"
         },
         "default": {
-          "value": "{color.white}"
+          "$value": "{color.white}"
         },
-        "high": {
-          "value": "{color.white}"
+        "disabled": {
+          "$value": "{color.white}"
         },
-        "highest": {
-          "value": "{color.white}"
-        },
-        "inverted": {
-          "value": "{color.white}"
-        }
-      },
-      "surface": {
-        "lowest": {
-          "value": "{color.white}"
-        },
-        "low": {
-          "value": "{color.white}"
-        },
-        "default": {
-          "value": "{color.white}"
-        },
-        "high": {
-          "value": "{color.white}"
-        },
-        "highest": {
-          "value": "{color.white}"
-        },
-        "inverted": {
-          "value": "{color.white}"
-        }
-      },
-      "foreground": {
-        "lowest": {
-          "value": "{color.white}"
-        },
-        "low": {
-          "value": "{color.white}"
-        },
-        "default": {
-          "value": "{color.white}"
-        },
-        "high": {
-          "value": "{color.white}"
-        },
-        "highest": {
-          "value": "{color.white}"
-        },
-        "inverted": {
-          "value": "{color.white}"
+        "hover": {
+          "$value": "{color.white}"
         }
       },
       "border": {
-        "lowest": {
-          "value": "{color.white}"
-        },
-        "low": {
-          "value": "{color.white}"
+        "active": {
+          "$value": "{color.white}"
         },
         "default": {
-          "value": "{color.white}"
+          "$value": "{color.white}"
         },
-        "high": {
-          "value": "{color.white}"
+        "disabled": {
+          "$value": "{color.white}"
         },
-        "highest": {
-          "value": "{color.white}"
+        "hover": {
+          "$value": "{color.white}"
+        }
+      },
+      "foreground": {
+        "active": {
+          "$value": "{color.white}"
         },
-        "inverted": {
-          "value": "{color.white}"
+        "default": {
+          "$value": "{color.white}"
+        },
+        "disabled": {
+          "$value": "{color.white}"
+        },
+        "hover": {
+          "$value": "{color.white}"
+        }
+      },
+      "surface": {
+        "active": {
+          "$value": "{color.white}"
+        },
+        "default": {
+          "$value": "{color.white}"
+        },
+        "disabled": {
+          "$value": "{color.white}"
+        },
+        "hover": {
+          "$value": "{color.white}"
         }
       }
     },
     "positive": {
+      "100": {
+        "$value": "{color.white}"
+      },
+      "200": {
+        "$value": "{color.white}"
+      },
+      "300": {
+        "$value": "{color.white}"
+      },
+      "400": {
+        "$value": "{color.white}"
+      },
+      "500": {
+        "$value": "{color.white}"
+      },
+      "600": {
+        "$value": "{color.white}"
+      },
+      "700": {
+        "$value": "{color.white}"
+      },
+      "800": {
+        "$value": "{color.white}"
+      },
+      "900": {
+        "$value": "{color.white}"
+      },
       "background": {
-        "lowest": {
-          "value": "{color.white}"
-        },
-        "low": {
-          "value": "{color.white}"
+        "active": {
+          "$value": "{color.white}"
         },
         "default": {
-          "value": "{color.white}"
+          "$value": "{color.white}"
         },
-        "high": {
-          "value": "{color.white}"
+        "disabled": {
+          "$value": "{color.white}"
         },
-        "highest": {
-          "value": "{color.white}"
-        },
-        "inverted": {
-          "value": "{color.white}"
-        }
-      },
-      "surface": {
-        "lowest": {
-          "value": "{color.white}"
-        },
-        "low": {
-          "value": "{color.white}"
-        },
-        "default": {
-          "value": "{color.white}"
-        },
-        "high": {
-          "value": "{color.white}"
-        },
-        "highest": {
-          "value": "{color.white}"
-        },
-        "inverted": {
-          "value": "{color.white}"
-        }
-      },
-      "foreground": {
-        "lowest": {
-          "value": "{color.white}"
-        },
-        "low": {
-          "value": "{color.white}"
-        },
-        "default": {
-          "value": "{color.white}"
-        },
-        "high": {
-          "value": "{color.white}"
-        },
-        "highest": {
-          "value": "{color.white}"
-        },
-        "inverted": {
-          "value": "{color.white}"
+        "hover": {
+          "$value": "{color.white}"
         }
       },
       "border": {
-        "lowest": {
-          "value": "{color.white}"
-        },
-        "low": {
-          "value": "{color.white}"
+        "active": {
+          "$value": "{color.white}"
         },
         "default": {
-          "value": "{color.white}"
+          "$value": "{color.white}"
         },
-        "high": {
-          "value": "{color.white}"
+        "disabled": {
+          "$value": "{color.white}"
         },
-        "highest": {
-          "value": "{color.white}"
+        "hover": {
+          "$value": "{color.white}"
+        }
+      },
+      "foreground": {
+        "active": {
+          "$value": "{color.white}"
         },
-        "inverted": {
-          "value": "{color.white}"
+        "default": {
+          "$value": "{color.white}"
+        },
+        "disabled": {
+          "$value": "{color.white}"
+        },
+        "hover": {
+          "$value": "{color.white}"
+        }
+      },
+      "surface": {
+        "active": {
+          "$value": "{color.white}"
+        },
+        "default": {
+          "$value": "{color.white}"
+        },
+        "disabled": {
+          "$value": "{color.white}"
+        },
+        "hover": {
+          "$value": "{color.white}"
         }
       }
     },
     "negative": {
+      "100": {
+        "$value": "{color.white}"
+      },
+      "200": {
+        "$value": "{color.white}"
+      },
+      "300": {
+        "$value": "{color.white}"
+      },
+      "400": {
+        "$value": "{color.white}"
+      },
+      "500": {
+        "$value": "{color.white}"
+      },
+      "600": {
+        "$value": "{color.white}"
+      },
+      "700": {
+        "$value": "{color.white}"
+      },
+      "800": {
+        "$value": "{color.white}"
+      },
+      "900": {
+        "$value": "{color.white}"
+      },
       "background": {
-        "lowest": {
-          "value": "{color.white}"
-        },
-        "low": {
-          "value": "{color.white}"
+        "active": {
+          "$value": "{color.white}"
         },
         "default": {
-          "value": "{color.white}"
+          "$value": "{color.white}"
         },
-        "high": {
-          "value": "{color.white}"
+        "disabled": {
+          "$value": "{color.white}"
         },
-        "highest": {
-          "value": "{color.white}"
-        },
-        "inverted": {
-          "value": "{color.white}"
-        }
-      },
-      "surface": {
-        "lowest": {
-          "value": "{color.white}"
-        },
-        "low": {
-          "value": "{color.white}"
-        },
-        "default": {
-          "value": "{color.white}"
-        },
-        "high": {
-          "value": "{color.white}"
-        },
-        "highest": {
-          "value": "{color.white}"
-        },
-        "inverted": {
-          "value": "{color.white}"
-        }
-      },
-      "foreground": {
-        "lowest": {
-          "value": "{color.white}"
-        },
-        "low": {
-          "value": "{color.white}"
-        },
-        "default": {
-          "value": "{color.white}"
-        },
-        "high": {
-          "value": "{color.white}"
-        },
-        "highest": {
-          "value": "{color.white}"
-        },
-        "inverted": {
-          "value": "{color.white}"
+        "hover": {
+          "$value": "{color.white}"
         }
       },
       "border": {
-        "lowest": {
-          "value": "{color.white}"
-        },
-        "low": {
-          "value": "{color.white}"
+        "active": {
+          "$value": "{color.white}"
         },
         "default": {
-          "value": "{color.white}"
+          "$value": "{color.white}"
         },
-        "high": {
-          "value": "{color.white}"
+        "disabled": {
+          "$value": "{color.white}"
         },
-        "highest": {
-          "value": "{color.white}"
+        "hover": {
+          "$value": "{color.white}"
+        }
+      },
+      "foreground": {
+        "active": {
+          "$value": "{color.white}"
         },
-        "inverted": {
-          "value": "{color.white}"
+        "default": {
+          "$value": "{color.white}"
+        },
+        "disabled": {
+          "$value": "{color.white}"
+        },
+        "hover": {
+          "$value": "{color.white}"
+        }
+      },
+      "surface": {
+        "active": {
+          "$value": "{color.white}"
+        },
+        "default": {
+          "$value": "{color.white}"
+        },
+        "disabled": {
+          "$value": "{color.white}"
+        },
+        "hover": {
+          "$value": "{color.white}"
         }
       }
     },
     "warning": {
+      "100": {
+        "$value": "{color.white}"
+      },
+      "200": {
+        "$value": "{color.white}"
+      },
+      "300": {
+        "$value": "{color.white}"
+      },
+      "400": {
+        "$value": "{color.white}"
+      },
+      "500": {
+        "$value": "{color.white}"
+      },
+      "600": {
+        "$value": "{color.white}"
+      },
+      "700": {
+        "$value": "{color.white}"
+      },
+      "800": {
+        "$value": "{color.white}"
+      },
+      "900": {
+        "$value": "{color.white}"
+      },
       "background": {
-        "lowest": {
-          "value": "{color.white}"
-        },
-        "low": {
-          "value": "{color.white}"
+        "active": {
+          "$value": "{color.white}"
         },
         "default": {
-          "value": "{color.white}"
+          "$value": "{color.white}"
         },
-        "high": {
-          "value": "{color.white}"
+        "disabled": {
+          "$value": "{color.white}"
         },
-        "highest": {
-          "value": "{color.white}"
-        },
-        "inverted": {
-          "value": "{color.white}"
-        }
-      },
-      "surface": {
-        "lowest": {
-          "value": "{color.white}"
-        },
-        "low": {
-          "value": "{color.white}"
-        },
-        "default": {
-          "value": "{color.white}"
-        },
-        "high": {
-          "value": "{color.white}"
-        },
-        "highest": {
-          "value": "{color.white}"
-        },
-        "inverted": {
-          "value": "{color.white}"
-        }
-      },
-      "foreground": {
-        "lowest": {
-          "value": "{color.white}"
-        },
-        "low": {
-          "value": "{color.white}"
-        },
-        "default": {
-          "value": "{color.white}"
-        },
-        "high": {
-          "value": "{color.white}"
-        },
-        "highest": {
-          "value": "{color.white}"
-        },
-        "inverted": {
-          "value": "{color.white}"
+        "hover": {
+          "$value": "{color.white}"
         }
       },
       "border": {
-        "lowest": {
-          "value": "{color.white}"
-        },
-        "low": {
-          "value": "{color.white}"
+        "active": {
+          "$value": "{color.white}"
         },
         "default": {
-          "value": "{color.white}"
+          "$value": "{color.white}"
         },
-        "high": {
-          "value": "{color.white}"
+        "disabled": {
+          "$value": "{color.white}"
         },
-        "highest": {
-          "value": "{color.white}"
+        "hover": {
+          "$value": "{color.white}"
+        }
+      },
+      "foreground": {
+        "active": {
+          "$value": "{color.white}"
         },
-        "inverted": {
-          "value": "{color.white}"
+        "default": {
+          "$value": "{color.white}"
+        },
+        "disabled": {
+          "$value": "{color.white}"
+        },
+        "hover": {
+          "$value": "{color.white}"
+        }
+      },
+      "surface": {
+        "active": {
+          "$value": "{color.white}"
+        },
+        "default": {
+          "$value": "{color.white}"
+        },
+        "disabled": {
+          "$value": "{color.white}"
+        },
+        "hover": {
+          "$value": "{color.white}"
         }
       }
     }

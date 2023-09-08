@@ -5,30 +5,24 @@
       "value": "#000000"
     },
     "gray100": {
-      "value": "#14161A"
+      "value": "#151619"
     },
     "gray200": {
-      "value": "#181B20"
+      "value": "#212227"
     },
     "gray300": {
-      "value": "#1F2329"
+      "value": "#32363E"
     },
     "gray400": {
-      "value": "#2E343D"
+      "value": "#454A54"
     },
     "gray500": {
-      "value": "#4C5766"
+      "value": "#818898"
     },
     "gray600": {
-      "value": "#5A6472"
+      "value": "#CDD0D6"
     },
     "gray700": {
-      "value": "#C5CBD3"
-    },
-    "gray800": {
-      "value": "#E2E5E9"
-    },
-    "gray900": {
       "value": "#F1F2F4"
     },
     "white": {
@@ -54,6 +48,15 @@
     },
     "green800": {
       "value": "#DBFFE8"
+    },
+    "red400": {
+      "value": "#AD1A00"
+    },
+    "red500": {
+      "value": "#FF5233"
+    },
+    "red800": {
+      "value": "#FFE1DB"
     }
   }
 }
