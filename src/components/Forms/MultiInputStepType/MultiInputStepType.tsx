@@ -109,7 +109,7 @@ export function MultiInputStepType({
     <MultiInput className={getClassName('multiInput', appearance)}>
       <TitleSubtitle appearance={appearance} title={stepData.title} subtitle={stepData.subtitle} />
       <MultiInputContainer className={getClassName('multiInputContainer', appearance)}>
-        {formElements.data?.map((input: FormInputType) => {
+        {formElements?.data?.map((input: FormInputType) => {
           const err = formValidationErrors.reverse().find((error) => error.id === input.id)
           return mergedInputTypes[input.type] ? (
             <span
