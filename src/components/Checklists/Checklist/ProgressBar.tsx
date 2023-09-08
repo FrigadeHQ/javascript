@@ -74,7 +74,7 @@ export const ProgressBar = ({
   const fgWidth = count === 0 ? '10px' : `${(count / total) * 100}%`
   const barHeight = display === 'compact' ? '8px' : '10px'
   const percentComplete = Math.round((count / total) * 100)
-  let padding = display === 'compact' ? '5px' : '14px'
+  let padding = display === 'compact' ? '10px' : '14px'
 
   let stepText
   if (display === 'count' || display === 'compact') {
