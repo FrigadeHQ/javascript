@@ -92,7 +92,7 @@ export function useUserFlowStates(): {
         revalidateOnFocus: true,
         revalidateIfStale: true,
         keepPreviousData: true,
-        revalidateOnMount: true,
+        revalidateOnMount: false,
         errorRetryInterval: 10000,
         errorRetryCount: 3,
         onError: () => {
