@@ -161,7 +161,7 @@ export const FrigadeForm: FC<FrigadeFormProps> = ({
   const selectedStep = getCurrentStepIndex(flowId)
   const { mergeAppearanceWithDefault } = useTheme()
   const [hasFinishedInitialLoad, setHasFinishedInitialLoad] = useState(false)
-  const [hasSetInitialHash, setHasSetInitialHash] = useState(false)
+  const [lastHash, setLastHash] = useState('')
   const { setOpenFlowState, getOpenFlowState, hasOpenModals } = useFlowOpens()
   const steps = getFlowSteps(flowId)
 
@@ -197,25 +197,28 @@ export const FrigadeForm: FC<FrigadeFormProps> = ({
   }, [hasFinishedInitialLoad, setHasFinishedInitialLoad, isLoading])
 
   useEffect(() => {
-    if (window && allowBackNavigation && !hasSetInitialHash) {
-      window.location.hash = steps[selectedStep].id
-      setHasSetInitialHash(true)
+    const currentHash = window?.location?.hash ? window.location.hash.replace('#', '') : ''
+    if (currentHash == lastHash) {
+      return
     }
-  }, [allowBackNavigation, hasSetInitialHash, setHasSetInitialHash])
-
-  useEffect(() => {
-    if (
-      window &&
-      window?.location?.hash &&
-      window.location.hash.replace('#', '') !== steps[selectedStep].id
-    ) {
-      const stepIdToGoTo = window.location.hash.replace('#', '')
-      const newStepIndex = steps.findIndex((step) => step.id === stepIdToGoTo)
-      if (newStepIndex !== -1 && newStepIndex !== selectedStep) {
+    if (steps && steps?.length > 0) {
+      let newStepIndex = -1
+      if (currentHash) {
+        const stepIdToGoTo = currentHash
+        newStepIndex = steps.findIndex((step) => step.id === stepIdToGoTo)
+        if (lastHash === currentHash) {
+          newStepIndex = -1
+        }
+        setLastHash(currentHash)
+      } else {
+        newStepIndex = 0
+        setLastHash('')
+      }
+      if (newStepIndex !== -1) {
         markStepStarted(flowId, steps[newStepIndex].id)
       }
     }
-  }, [window?.location?.hash])
+  }, [steps, window?.location?.hash])
 
   if (isLoading) {
     return null

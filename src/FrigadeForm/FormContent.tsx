@@ -185,7 +185,11 @@ export const FormContent: FC<FormContentProps> = ({
         }
         const payload = { ...getDataPayload() }
         await markStepCompleted(flowId, steps[selectedStep].id, payload)
-        if (selectedStep + 1 < steps.length) {
+        if (
+          selectedStep + 1 < steps.length &&
+          // the url hash will control current step if allowBackNavigation is true
+          !allowBackNavigation
+        ) {
           await markStepStarted(flowId, steps[selectedStep + 1].id)
         }
         const shouldClose = handleStepCompletionHandlers(
@@ -211,7 +215,7 @@ export const FormContent: FC<FormContentProps> = ({
         primaryCTAClickSideEffects(steps[selectedStep])
         setIsSaving(false)
         // Set hash to stepid
-        if (window && allowBackNavigation && selectedStep + 1 < steps.length) {
+        if (allowBackNavigation && selectedStep + 1 < steps.length) {
           window.location.hash = steps[selectedStep + 1].id
         }
         if (
@@ -220,7 +224,7 @@ export const FormContent: FC<FormContentProps> = ({
           updateUrlOnPageChange &&
           selectedStep + 1 < steps.length
         ) {
-          // Update the current url with a query param p=stepId
+          // Update the current url with a query param p=stepId -- only use when allowbacknavigation is false
           const url = new URL(window.location.href)
           url.searchParams.set('p', steps[selectedStep + 1].id)
           window.history.pushState({}, '', url.toString())
@@ -233,6 +237,9 @@ export const FormContent: FC<FormContentProps> = ({
       onBack={async () => {
         if (selectedStep - 1 >= 0) {
           setIsSaving(true)
+          if (allowBackNavigation) {
+            window.location.hash = steps[selectedStep - 1].id
+          }
           await markStepStarted(flowId, steps[selectedStep - 1].id)
           setIsSaving(false)
         }
