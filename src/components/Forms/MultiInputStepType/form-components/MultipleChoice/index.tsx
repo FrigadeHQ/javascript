@@ -69,14 +69,14 @@ export function MultipleChoice({
   setFormValidationErrors,
 }: FormInputProps) {
   const input = formInput as MultipleChoiceProps
-  const [data, setData] = useState(inputData?.choice?.[0] || '')
   const [hasLoaded, setHasLoaded] = useState(false)
+  const [hasSelected, setHasSelected] = useState(false)
 
   useEffect(() => {
-    if (data === '' && !hasLoaded) {
+    if (!inputData?.choice?.[0] && !hasLoaded) {
       setHasLoaded(true)
       if (input.requireSelection) {
-        setData(NULL_VALUE)
+        onSaveInputData({ choice: [NULL_VALUE] })
         return
       }
       if (
@@ -85,17 +85,18 @@ export function MultipleChoice({
       ) {
         // Find input.props.options with id == defaultValue
         const defaultValue = input.props.options?.find((option) => option.id === input.defaultValue)
-        setData(defaultValue.id)
         onSaveInputData({ choice: [defaultValue.id] })
       } else {
-        setData(input.props.options?.[0].id || '')
         onSaveInputData({ choice: [input.props.options?.[0].id || ''] })
       }
     }
   }, [])
 
   useEffect(() => {
-    if (input.requireSelection && data === NULL_VALUE) {
+    if (!hasSelected) {
+      return
+    }
+    if (input.requireSelection && inputData?.choice?.[0] === NULL_VALUE) {
       setFormValidationErrors([
         {
           message: 'Please select an option',
@@ -105,7 +106,7 @@ export function MultipleChoice({
     } else {
       setFormValidationErrors([])
     }
-  }, [data])
+  }, [inputData?.choice?.[0], hasSelected])
 
   return (
     <MultipleChoiceWrapper>
@@ -115,9 +116,9 @@ export function MultipleChoice({
         appearance={customFormTypeProps.appearance}
       />
       <MultipleChoiceSelect
-        value={data}
+        value={inputData?.choice?.[0]}
         onChange={(e) => {
-          setData(e.target.value)
+          setHasSelected(true)
           onSaveInputData({ choice: [e.target.value] })
         }}
         placeholder={input.placeholder}
@@ -138,12 +139,12 @@ export function MultipleChoice({
         })}
       </MultipleChoiceSelect>
       {/*// If selected data is option.isOpenEnded is true, render an input field*/}
-      {input.props.options?.find((option) => option.id === data)?.isOpenEnded && (
+      {input.props.options?.find((option) => option.id === inputData?.choice?.[0])?.isOpenEnded && (
         <>
           <Label
             title={
-              input.props.options?.find((option) => option.id === data)?.openEndedLabel ??
-              `Please specify`
+              input.props.options?.find((option) => option.id === inputData?.choice?.[0])
+                ?.openEndedLabel ?? `Please specify`
             }
             required={false}
             appearance={customFormTypeProps.appearance}
