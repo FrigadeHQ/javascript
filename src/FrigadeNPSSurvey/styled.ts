@@ -10,16 +10,21 @@ export const NPSSurveyContainer = styled.div`
   box-sizing: border-box;
   align-items: unset;
   background-color: ${(props) => props.appearance.theme.colorBackground};
-  border-width: 1px;
-  border-color: ${(props) => props.appearance.theme.colorBorder};
-  border-radius: ${(props) => props.appearance.theme.borderRadius}px;
   position: ${(props) => (props.type == 'modal' ? 'fixed' : 'relative')};
   left: 50%;
   transform: translate(-50%);
   bottom: 24px;
+  min-width: 550px;
+
+  ${(props) =>
+    props.type == 'modal'
+      ? `
   z-index: 1000;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-  min-width: 550px;
+  border-width: 1px;
+  border-color: ${(props) => props.appearance.theme.colorBorder};
+  border-radius: ${(props) => props.appearance.theme.borderRadius}px;`
+      : ''}
 `
 
 export const NPSNumberButton = styled.button`
