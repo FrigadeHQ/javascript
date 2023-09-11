@@ -46,6 +46,13 @@ const YouTubeVideoSource = styled.iframe`
   border-radius: ${(props) => props.appearance.theme.borderRadius}px;
 `
 
+const VimeoVideoSource = styled.iframe`
+  width: 100%;
+  height: 100%;
+  min-height: 400px;
+  border-radius: ${(props) => props.appearance.theme.borderRadius}px;
+}`
+
 export function VideoCard({ appearance, videoUri }: { appearance: Appearance; videoUri: string }) {
   // Create ref to use with videoplayer
 
@@ -68,6 +75,27 @@ export function VideoCard({ appearance, videoUri }: { appearance: Appearance; vi
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowFullScreen
         appearance={appearance}
+        className={getClassName('youtubePlayer', appearance)}
+      />
+    )
+  }
+  // Check if vimeo
+  if (videoUri.includes('vimeo')) {
+    let videoId = videoUri.split('vimeo.com/')[1]
+    const ampersandPosition = videoId.indexOf('&')
+    if (ampersandPosition !== -1) {
+      videoId = videoId.substring(0, ampersandPosition)
+    }
+    return (
+      <VimeoVideoSource
+        width="100%"
+        height="100%"
+        src={`https://player.vimeo.com/video/${videoId}`}
+        frameBorder="0"
+        allow="autoplay; fullscreen; picture-in-picture"
+        allowFullScreen
+        appearance={appearance}
+        className={getClassName('vimeoPlayer', appearance)}
       />
     )
   }
