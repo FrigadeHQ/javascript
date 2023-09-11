@@ -205,16 +205,6 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
     return null
   }
 
-  // Safeguard for when page is still waiting to render.
-  if (
-    boundingRect.height === 0 &&
-    boundingRect.width === 0 &&
-    positionStyle !== 'fixed' &&
-    cssPosition !== 'static'
-  ) {
-    return null
-  }
-
   let tooltipPositionValue: ToolTipPosition =
     tooltipPosition === 'auto' ? 'right' : (tooltipPosition as ToolTipPosition)
 
