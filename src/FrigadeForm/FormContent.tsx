@@ -42,7 +42,9 @@ interface FormContentProps extends FrigadeFormProps {
   appearance: Appearance
   steps: StepData[]
   selectedStep: number
-  customStepTypes?: { [key: string]: (params: CustomFormTypeProps) => React.ReactNode }
+  customStepTypes?: {
+    [key: string]: ((params: CustomFormTypeProps) => React.ReactNode) | React.ReactNode
+  }
   type: FrigadeFormType
   setShowModal: (showModal: boolean) => void
   setVisible?: (visible: boolean) => void
@@ -262,6 +264,11 @@ export const FormContent: FC<FormContentProps> = ({
           >
             {steps.map((step) => {
               const StepComponent = mergedCustomStepTypes[step.type]
+
+              // Check if StepComponent is a function
+              if (typeof StepComponent !== 'function') {
+                return StepComponent
+              }
 
               if (currentStep.id !== step.id) {
                 return null

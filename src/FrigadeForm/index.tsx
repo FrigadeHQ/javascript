@@ -28,16 +28,18 @@ export interface FrigadeFormProps extends DefaultFrigadeFlowProps {
    * Map of custom components. The key must match the `type` property of the step defined in `config.yml`
    */
   customStepTypes?: {
-    [key: string]: (params: {
-      flowId: string
-      stepData: StepData
-      canContinue: boolean
-      setCanContinue: (canContinue: boolean) => void
-      onSaveData: (data: object) => void
-      appearance?: Appearance
-      prefillData?: Record<string, any>
-      customFormElements?: { [key: string]: (params: FormInputProps) => React.ReactNode }
-    }) => React.ReactNode
+    [key: string]:
+      | ((params: {
+          flowId: string
+          stepData: StepData
+          canContinue: boolean
+          setCanContinue: (canContinue: boolean) => void
+          onSaveData: (data: object) => void
+          appearance?: Appearance
+          prefillData?: Record<string, any>
+          customFormElements?: { [key: string]: (params: FormInputProps) => React.ReactNode }
+        }) => React.ReactNode)
+      | React.ReactNode
   }
   /**
    * Map of custom form components. Can only be used with a step of type `multiInput` (defined in `config.yml`).
