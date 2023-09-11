@@ -265,13 +265,13 @@ export const FormContent: FC<FormContentProps> = ({
             {steps.map((step) => {
               const StepComponent = mergedCustomStepTypes[step.type]
 
+              if (currentStep.id !== step.id) {
+                return null
+              }
+
               // Check if StepComponent is a function
               if (typeof StepComponent !== 'function') {
                 return StepComponent
-              }
-
-              if (currentStep.id !== step.id) {
-                return null
               }
 
               return (
