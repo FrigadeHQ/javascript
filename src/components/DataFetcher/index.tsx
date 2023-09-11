@@ -27,6 +27,7 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
   const [triggeredFlows, setTriggeredFlows] = useState<string[]>([])
   const { organizationId } = useOrganization()
   const [lastOrganizationId, setLastOrganizationId] = useState<string | null>(organizationId)
+  const [hasFinishedInitialLoad, setHasFinishedInitialLoad] = useState(false)
 
   useEffect(() => {
     if (!isLoadingUserFlowStateData) {
@@ -61,6 +62,13 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
       mutateUserFlowState()
     }
   }, [flowResponses])
+
+  useEffect(() => {
+    if (!hasFinishedInitialLoad) {
+      setHasFinishedInitialLoad(true)
+      mutateUserFlowState()
+    }
+  }, [isLoadingUserFlowStateData, setHasFinishedInitialLoad])
 
   function triggerFlow(flowId: string) {
     const flow = flows.find((flow) => flow.slug === flowId)

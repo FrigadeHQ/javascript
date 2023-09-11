@@ -46,7 +46,7 @@ const ProgressRing: FC<ProgressRingProps> = ({
     <svg style={style} className={className} width={size} height={size} overflow="visible">
       <g transform={`rotate(-90 ${`${size * 0.5} ${size * 0.5}`})`}>
         <Circle color={bgColor} size={size} />
-        <Circle color={fillColor} percentage={percentage} size={size} />
+        <Circle color={fillColor} percentage={Math.max(percentage, 0.1)} size={size} />
       </g>
       {children}
     </svg>
