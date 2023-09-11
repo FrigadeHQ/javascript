@@ -599,7 +599,12 @@ export function useFlows() {
     }
   }
 
+  function getAllFlows() {
+    return flows
+  }
+
   return {
+    getAllFlows,
     getFlow,
     getFlowData,
     isLoading: isLoadingUserFlowStateData || isLoadingFlows,
