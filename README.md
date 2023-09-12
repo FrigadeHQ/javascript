@@ -72,3 +72,4 @@ Frigade automatically tracks state management and onboarding progress. Give your
 
 To learn more, visit [frigade.com](<https://frigade.com>)
 
+
