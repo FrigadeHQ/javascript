@@ -53,6 +53,7 @@ const TextArea = styled.textarea`
   min-height: 70px;
   box-sizing: border-box;
   margin-bottom: 10px;
+  resize: none;
 `
 
 export function TextField({

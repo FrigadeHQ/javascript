@@ -49,7 +49,13 @@ export function useGracefulFetch() {
     }
     const lastCallAtKey = LAST_POST_CALL_AT + url
     const lastCallDataKey = LAST_POST_CALL_DATA + url
-    if (window && window.localStorage && options && options.body && options.method === 'POST') {
+    if (
+      typeof window !== 'undefined' &&
+      window.localStorage &&
+      options &&
+      options.body &&
+      options.method === 'POST'
+    ) {
       const lastCall = window.localStorage.getItem(lastCallAtKey)
       const lastCallData = window.localStorage.getItem(lastCallDataKey)
       if (lastCall && lastCallData && lastCallData == options.body) {
@@ -61,8 +67,10 @@ export function useGracefulFetch() {
           return getEmptyResponse()
         }
       }
-      window.localStorage.setItem(lastCallAtKey, new Date().toISOString())
-      window.localStorage.setItem(lastCallDataKey, options.body)
+      if (typeof window !== 'undefined') {
+        window.localStorage.setItem(lastCallAtKey, new Date().toISOString())
+        window.localStorage.setItem(lastCallDataKey, options.body)
+      }
     }
 
     let response

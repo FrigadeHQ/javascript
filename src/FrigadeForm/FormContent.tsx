@@ -217,11 +217,15 @@ export const FormContent: FC<FormContentProps> = ({
         primaryCTAClickSideEffects(steps[selectedStep])
         setIsSaving(false)
         // Set hash to stepid
-        if (allowBackNavigation && selectedStep + 1 < steps.length) {
+        if (
+          typeof window !== 'undefined' &&
+          allowBackNavigation &&
+          selectedStep + 1 < steps.length
+        ) {
           window.location.hash = steps[selectedStep + 1].id
         }
         if (
-          window &&
+          typeof window !== 'undefined' &&
           !allowBackNavigation &&
           updateUrlOnPageChange &&
           selectedStep + 1 < steps.length

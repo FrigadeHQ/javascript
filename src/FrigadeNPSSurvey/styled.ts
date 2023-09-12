@@ -97,6 +97,7 @@ export const TextArea = styled.textarea`
     line-height: 24px;
     width: 100%;
     height: 100px;
+    resize: none;
   }
 `
 

@@ -84,7 +84,7 @@ export function MultiInputStepType({
   function saveDataFromInputs(input: FormInputType, data: object) {
     setAllFormData((prevData) => {
       const newData = { ...prevData, [input.id]: data }
-      if (window && window.localStorage && !readonly) {
+      if (typeof window !== 'undefined' && window.localStorage && !readonly) {
         window.localStorage.setItem(getLocalStorageKey(), JSON.stringify(newData))
       }
       return newData
@@ -92,7 +92,7 @@ export function MultiInputStepType({
   }
 
   function loadFromLocalStorage() {
-    if (window && window.localStorage) {
+    if (typeof window !== 'undefined' && window.localStorage) {
       const data = window.localStorage.getItem(getLocalStorageKey())
       if (data) {
         return JSON.parse(data)

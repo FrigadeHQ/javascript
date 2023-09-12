@@ -185,7 +185,7 @@ export const FrigadeForm: FC<FrigadeFormProps> = ({
           markFlowNotStarted(flowId)
         }
         // Clear all local storage keys that start with FORM_DATA_KEY_PREFIX
-        if (window && window.localStorage) {
+        if (typeof window !== 'undefined' && window.localStorage) {
           const localStorageKeys = Object.keys(window.localStorage)
           localStorageKeys.forEach((key) => {
             if (key.startsWith(FORM_DATA_KEY_PREFIX)) {
