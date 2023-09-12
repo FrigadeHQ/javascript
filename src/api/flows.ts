@@ -431,10 +431,21 @@ export function useFlows() {
       }
       if (
         flowState &&
-        flowState.stepStates[flowResponse.stepId]?.actionType === flowResponse.actionType &&
-        flowResponse.actionType !== STARTED_STEP
+        flowState.stepStates[flowResponse.stepId]?.actionType === flowResponse.actionType
       ) {
-        return false
+        // Sort flowState.stepDates by createdAt date
+        const sortedStepStates = Object.keys(flowState.stepStates).sort((a, b) => {
+          const aDate = new Date(flowState.stepStates[a].createdAt)
+          const bDate = new Date(flowState.stepStates[b].createdAt)
+          return aDate.getTime() - bDate.getTime()
+        })
+        // Only return false if the newest stepState is the same as the flowResponse
+        if (
+          flowState.stepStates[sortedStepStates[sortedStepStates.length - 1]].actionType ===
+          flowResponse.actionType
+        ) {
+          return false
+        }
       }
       if (
         flowState &&
