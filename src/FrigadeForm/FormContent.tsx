@@ -243,7 +243,7 @@ export const FormContent: FC<FormContentProps> = ({
       onBack={async () => {
         if (selectedStep - 1 >= 0) {
           setIsSaving(true)
-          if (allowBackNavigation) {
+          if (allowBackNavigation && typeof window !== 'undefined') {
             window.location.hash = steps[selectedStep - 1].id
           }
           await markStepStarted(flowId, steps[selectedStep - 1].id)

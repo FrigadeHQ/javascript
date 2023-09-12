@@ -11,14 +11,15 @@ export const NPSSurveyContainer = styled.div`
   align-items: unset;
   background-color: ${(props) => props.appearance.theme.colorBackground};
   position: ${(props) => (props.type == 'modal' ? 'fixed' : 'relative')};
-  left: 50%;
-  transform: translate(-50%);
-  bottom: 24px;
+
   min-width: 550px;
 
   ${(props) =>
     props.type == 'modal'
       ? `
+  left: 50%;
+  transform: translate(-50%);
+  bottom: 24px;
   z-index: 1000;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
   border-width: 1px;

@@ -198,8 +198,12 @@ export const FrigadeForm: FC<FrigadeFormProps> = ({
     }
   }, [hasFinishedInitialLoad, setHasFinishedInitialLoad, isLoading])
 
+  const hash = typeof window !== 'undefined' ? window.location.hash : null
   useEffect(() => {
-    const currentHash = window?.location?.hash ? window.location.hash.replace('#', '') : ''
+    const currentHash =
+      typeof window !== 'undefined' && window?.location?.hash
+        ? window.location.hash.replace('#', '')
+        : ''
     if (currentHash == lastHash) {
       return
     }
@@ -220,7 +224,7 @@ export const FrigadeForm: FC<FrigadeFormProps> = ({
         markStepStarted(flowId, steps[newStepIndex].id)
       }
     }
-  }, [steps, window?.location?.hash])
+  }, [steps, hash])
 
   if (isLoading) {
     return null
