@@ -442,7 +442,8 @@ export function useFlows() {
         // Only return false if the newest stepState is the same as the flowResponse
         if (
           flowState.stepStates[sortedStepStates[sortedStepStates.length - 1]].actionType ===
-          flowResponse.actionType
+            flowResponse.actionType &&
+          flowResponse.stepId === sortedStepStates[sortedStepStates.length - 1]
         ) {
           return false
         }

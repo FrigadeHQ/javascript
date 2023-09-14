@@ -1,4 +1,7 @@
-import { MultiInputStepType } from '../components/Forms/MultiInputStepType/MultiInputStepType'
+import {
+  FORM_DATA_KEY_PREFIX,
+  MultiInputStepType,
+} from '../components/Forms/MultiInputStepType/MultiInputStepType'
 import { Appearance, StepData } from '../types'
 import { FormContainer, FormContainerSidebarImage, FormContainerWrapper } from './styled'
 import { getClassName } from '../shared/appearance'
@@ -75,6 +78,7 @@ export const FormContent: FC<FormContentProps> = ({
   showFooter,
   prefillData,
   updateUrlOnPageChange,
+  repeatable,
 }) => {
   const DEFAULT_CUSTOM_STEP_TYPES = {
     linkCollection: LinkCollectionStepType,
@@ -212,6 +216,19 @@ export const FormContent: FC<FormContentProps> = ({
             setShowModal(false)
           }
           await markFlowCompleted(flowId)
+          if (repeatable) {
+            // Set index back to 0
+            await markStepStarted(flowId, steps[0].id)
+            // Clear all cached form fill data
+            if (typeof window !== 'undefined' && window.localStorage) {
+              const localStorageKeys = Object.keys(window.localStorage)
+              localStorageKeys.forEach((key) => {
+                if (key.startsWith(FORM_DATA_KEY_PREFIX)) {
+                  window.localStorage.removeItem(key)
+                }
+              })
+            }
+          }
         }
         primaryCTAClickSideEffects(steps[selectedStep])
         setIsSaving(false)

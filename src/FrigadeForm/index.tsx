@@ -10,7 +10,6 @@ import { useTheme } from '../hooks/useTheme'
 import { FormContent } from './FormContent'
 import { RenderInlineStyles } from '../components/RenderInlineStyles'
 import { useFlowOpens } from '../api/flow-opens'
-import { FORM_DATA_KEY_PREFIX } from '../components/Forms/MultiInputStepType/MultiInputStepType'
 
 export type FrigadeFormType = 'inline' | 'modal' | 'large-modal' | 'corner-modal'
 
@@ -163,8 +162,9 @@ export const FrigadeForm: FC<FrigadeFormProps> = ({
   const selectedStep = getCurrentStepIndex(flowId)
   const { mergeAppearanceWithDefault } = useTheme()
   const [hasFinishedInitialLoad, setHasFinishedInitialLoad] = useState(false)
-  const [lastHash, setLastHash] = useState('')
+  const [lastHashNavigationStepId, setLastHashNavigationStepId] = useState(null)
   const { setOpenFlowState, getOpenFlowState, hasOpenModals } = useFlowOpens()
+  const [hasMarkedFlowStarted, setHasMarkedFlowStarted] = useState(false)
   const steps = getFlowSteps(flowId)
 
   appearance = mergeAppearanceWithDefault(appearance)
@@ -175,53 +175,35 @@ export const FrigadeForm: FC<FrigadeFormProps> = ({
       : [getOpenFlowState(flowId, true), (value) => setOpenFlowState(flowId, value)]
 
   useEffect(() => {
-    if (!hasFinishedInitialLoad && !isLoading) {
-      setHasFinishedInitialLoad(true)
-      if (
-        (getFlowStatus(flowId) === COMPLETED_FLOW && repeatable) ||
-        getFlowStatus(flowId) === NOT_STARTED_FLOW
-      ) {
-        if (getFlowStatus(flowId) === COMPLETED_FLOW && repeatable) {
-          markFlowNotStarted(flowId)
-        }
-        // Clear all local storage keys that start with FORM_DATA_KEY_PREFIX
-        if (typeof window !== 'undefined' && window.localStorage) {
-          const localStorageKeys = Object.keys(window.localStorage)
-          localStorageKeys.forEach((key) => {
-            if (key.startsWith(FORM_DATA_KEY_PREFIX)) {
-              window.localStorage.removeItem(key)
-            }
-          })
-        }
-      }
-      setHasFinishedInitialLoad(true)
+    if (!hasMarkedFlowStarted && !isLoading && getFlowStatus(flowId) === NOT_STARTED_FLOW) {
+      setHasMarkedFlowStarted(true)
+      markStepStarted(flowId, steps[selectedStep].id)
     }
-  }, [hasFinishedInitialLoad, setHasFinishedInitialLoad, isLoading])
+  }, [hasMarkedFlowStarted, setHasMarkedFlowStarted, isLoading, hasFinishedInitialLoad])
 
   const hash = typeof window !== 'undefined' ? window.location.hash : null
   useEffect(() => {
-    const currentHash =
-      typeof window !== 'undefined' && window?.location?.hash
-        ? window.location.hash.replace('#', '')
-        : ''
-    if (currentHash == lastHash) {
-      return
-    }
-    if (steps && steps?.length > 0) {
-      let newStepIndex = -1
-      if (currentHash) {
-        const stepIdToGoTo = currentHash
-        newStepIndex = steps.findIndex((step) => step.id === stepIdToGoTo)
-        if (lastHash === currentHash) {
-          newStepIndex = -1
+    if (steps && steps.length > 0 && allowBackNavigation) {
+      const stepIdFromHash =
+        typeof window !== 'undefined' && window?.location?.hash
+          ? window.location.hash.replace('#', '')
+          : ''
+      if (steps && steps?.length > 0) {
+        let newStepIndex = -1
+        if (stepIdFromHash) {
+          const stepIdToGoTo = stepIdFromHash
+          newStepIndex = steps.findIndex((step) => step.id === stepIdToGoTo)
+          if (lastHashNavigationStepId === stepIdFromHash) {
+            newStepIndex = -1
+          }
         }
-        setLastHash(currentHash)
-      }
-      if (newStepIndex !== -1) {
-        markStepStarted(flowId, steps[newStepIndex].id)
+        if (newStepIndex !== -1) {
+          setLastHashNavigationStepId(stepIdFromHash)
+          markStepStarted(flowId, steps[newStepIndex].id)
+        }
       }
     }
-  }, [steps, hash])
+  }, [hash])
 
   useEffect(() => {
     if (
@@ -255,7 +237,7 @@ export const FrigadeForm: FC<FrigadeFormProps> = ({
     return null
   }
 
-  if (getFlowStatus(flowId) === COMPLETED_FLOW && hideOnFlowCompletion) {
+  if (getFlowStatus(flowId) === COMPLETED_FLOW && hideOnFlowCompletion && !repeatable) {
     return null
   }
 
@@ -319,6 +301,7 @@ export const FrigadeForm: FC<FrigadeFormProps> = ({
           showFooter={showFooter}
           prefillData={prefillData}
           updateUrlOnPageChange={updateUrlOnPageChange}
+          repeatable={repeatable}
         />
       </Modal>
     )
@@ -356,6 +339,7 @@ export const FrigadeForm: FC<FrigadeFormProps> = ({
           showFooter={showFooter}
           prefillData={prefillData}
           updateUrlOnPageChange={updateUrlOnPageChange}
+          repeatable={repeatable}
         />
       </CornerModal>
     )
@@ -387,6 +371,7 @@ export const FrigadeForm: FC<FrigadeFormProps> = ({
         showFooter={showFooter}
         prefillData={prefillData}
         updateUrlOnPageChange={updateUrlOnPageChange}
+        repeatable={repeatable}
       />
     </>
   )
