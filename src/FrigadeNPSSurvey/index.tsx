@@ -21,6 +21,7 @@ import { Close } from '../components/Icons/Close'
 import { TitleSubtitle } from '../components/TitleSubtitle/TitleSubtitle'
 import { useFlowOpens } from '../api/flow-opens'
 import { Button } from '../components/Button'
+import { useFlowImpressions } from '../hooks/useFlowImpressions'
 
 export interface FrigadeNPSSurveyProps extends DefaultFrigadeFlowProps {
   dismissible?: boolean
@@ -59,6 +60,7 @@ export const FrigadeNPSSurvey: React.FC<FrigadeNPSSurveyProps> = ({
     setKeepCompletedFlowOpenDuringSession,
     shouldKeepCompletedFlowOpenDuringSession,
   } = useFlowOpens()
+  useFlowImpressions(flowId)
 
   appearance = mergeAppearanceWithDefault(appearance)
 

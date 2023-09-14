@@ -188,7 +188,6 @@ export const FrigadeTour: FC<
       if (isStepBlocked(flowId, steps[selectedStep + 1].id)) {
         return
       }
-      await markStepStarted(flowId, steps[selectedStep + 1].id)
     }
   }
 
@@ -246,6 +245,10 @@ export const FrigadeTour: FC<
     }
   }
 
+  async function handleViewTooltip(index: number) {
+    await markStepStarted(flowId, steps[index].id)
+  }
+
   const isCurrentSelectorMissing = !Boolean(document.querySelector(steps[selectedStep].selector))
 
   function renderMultipleToolTips() {
@@ -280,6 +283,7 @@ export const FrigadeTour: FC<
           completedStepsCount={getNumberOfStepsCompleted(flowId)}
           onComplete={handleComplete}
           cssPosition={cssPosition}
+          onViewTooltip={handleViewTooltip}
           {...props}
         />
       )

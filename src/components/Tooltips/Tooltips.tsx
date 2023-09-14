@@ -41,6 +41,7 @@ export interface ToolTipData extends StepData {
 
 interface ToolTipPropsInternal extends FrigadeTourProps {
   completedStepsCount: number
+  onViewTooltip: (step: number) => void
 }
 
 const HighlightOuter = styled.div<{ primaryColor: string }>`
@@ -113,6 +114,7 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
   completedStepsCount = 0,
   showFrigadeBranding = false,
   cssPosition = 'absolute',
+  onViewTooltip,
 }) => {
   const { logErrorIfDebugMode } = useDebug()
   const [selfBounds, setSelfBounds] = useState<undefined | Partial<DOMRect>>()
@@ -148,6 +150,12 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
       setShowTooltipContainer(true)
     }
   }, [selectedStep])
+
+  useEffect(() => {
+    if (visible && showTooltipContainer) {
+      onViewTooltip(selectedStep)
+    }
+  }, [showTooltipContainer])
 
   const handleRefreshPosition = () => {
     const elem = document.querySelector(steps[selectedStep].selector)

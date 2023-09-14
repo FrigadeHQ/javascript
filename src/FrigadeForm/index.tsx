@@ -2,7 +2,7 @@ import React, { CSSProperties, FC, useEffect, useState } from 'react'
 
 import { Appearance, DefaultFrigadeFlowProps, StepData } from '../types'
 import { useFlows } from '../api/flows'
-import { COMPLETED_FLOW, NOT_STARTED_FLOW } from '../api/common'
+import { COMPLETED_FLOW } from '../api/common'
 import { Modal } from '../components/Modal'
 import { CornerModal } from '../components/CornerModal'
 import { FormInputProps } from './types'
@@ -10,6 +10,7 @@ import { useTheme } from '../hooks/useTheme'
 import { FormContent } from './FormContent'
 import { RenderInlineStyles } from '../components/RenderInlineStyles'
 import { useFlowOpens } from '../api/flow-opens'
+import { useFlowImpressions } from '../hooks/useFlowImpressions'
 
 export type FrigadeFormType = 'inline' | 'modal' | 'large-modal' | 'corner-modal'
 
@@ -161,10 +162,9 @@ export const FrigadeForm: FC<FrigadeFormProps> = ({
   } = useFlows()
   const selectedStep = getCurrentStepIndex(flowId)
   const { mergeAppearanceWithDefault } = useTheme()
-  const [hasFinishedInitialLoad, setHasFinishedInitialLoad] = useState(false)
   const [lastHashNavigationStepId, setLastHashNavigationStepId] = useState(null)
   const { setOpenFlowState, getOpenFlowState, hasOpenModals } = useFlowOpens()
-  const [hasMarkedFlowStarted, setHasMarkedFlowStarted] = useState(false)
+  useFlowImpressions(flowId)
   const steps = getFlowSteps(flowId)
 
   appearance = mergeAppearanceWithDefault(appearance)
@@ -173,13 +173,6 @@ export const FrigadeForm: FC<FrigadeFormProps> = ({
     visible !== undefined && setVisible !== undefined
       ? [visible, setVisible]
       : [getOpenFlowState(flowId, true), (value) => setOpenFlowState(flowId, value)]
-
-  useEffect(() => {
-    if (!hasMarkedFlowStarted && !isLoading && getFlowStatus(flowId) === NOT_STARTED_FLOW) {
-      setHasMarkedFlowStarted(true)
-      markStepStarted(flowId, steps[selectedStep].id)
-    }
-  }, [hasMarkedFlowStarted, setHasMarkedFlowStarted, isLoading, hasFinishedInitialLoad])
 
   const hash = typeof window !== 'undefined' ? window.location.hash : null
   useEffect(() => {

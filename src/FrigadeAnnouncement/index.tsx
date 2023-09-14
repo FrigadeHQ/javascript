@@ -22,6 +22,7 @@ import { CornerModal } from '../components/CornerModal'
 import { useFlowOpens } from '../api/flow-opens'
 import { Media } from '../components/Media'
 import { sanitize } from '../shared/sanitizer'
+import { useFlowImpressions } from '../hooks/useFlowImpressions'
 
 export interface FrigadeAnnouncementProps extends DefaultFrigadeFlowProps {
   dismissible?: boolean
@@ -56,6 +57,7 @@ export const FrigadeAnnouncement: React.FC<FrigadeAnnouncementProps> = ({
   const { primaryCTAClickSideEffects, secondaryCTAClickSideEffects } = useCTAClickSideEffects()
   const { mergeAppearanceWithDefault } = useTheme()
   const { setOpenFlowState, getOpenFlowState, hasOpenModals } = useFlowOpens()
+  useFlowImpressions(flowId)
 
   const [showModal, setShowModal] = [
     getOpenFlowState(flowId, true),

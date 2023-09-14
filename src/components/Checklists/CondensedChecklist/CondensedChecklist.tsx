@@ -39,7 +39,6 @@ const CondensedChecklist: FC<CondensedChecklistProps> = ({
 }) => {
   const completeCount = steps.filter((s) => s.complete).length
   const [collapsedSteps, setCollapsedSteps] = useState<boolean[]>(Array(steps.length).fill(true))
-  const [hasFinishedInitialRender, setHasFinishedInitialRender] = useState(false)
 
   useEffect(() => {
     const initCollapsedState = [...collapsedSteps]
@@ -54,8 +53,7 @@ const CondensedChecklist: FC<CondensedChecklistProps> = ({
   }, [])
 
   useEffect(() => {
-    if (!hasFinishedInitialRender && !autoExpandFirstIncompleteStep) {
-      setHasFinishedInitialRender(true)
+    if (!autoExpandFirstIncompleteStep) {
       return
     }
     handleStepClick(selectedStep)

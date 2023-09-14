@@ -10,6 +10,7 @@ import { getClassName, mergeClasses } from '../shared/appearance'
 import { Close } from '../components/Icons/Close'
 import { TitleSubtitle } from '../components/TitleSubtitle/TitleSubtitle'
 import { Button } from '../components/Button'
+import { useFlowImpressions } from '../hooks/useFlowImpressions'
 
 export interface FrigadeEmbeddedTipProps extends DefaultFrigadeFlowProps {
   dismissible?: boolean
@@ -38,6 +39,7 @@ export const FrigadeEmbeddedTip: React.FC<FrigadeEmbeddedTipProps> = ({
   } = useFlows()
   const { primaryCTAClickSideEffects } = useCTAClickSideEffects()
   const { mergeAppearanceWithDefault } = useTheme()
+  useFlowImpressions(flowId)
 
   appearance = mergeAppearanceWithDefault(appearance)
 

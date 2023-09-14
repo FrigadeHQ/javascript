@@ -19,6 +19,7 @@ import { RenderInlineStyles } from '../components/RenderInlineStyles'
 import { useCTAClickSideEffects } from '../hooks/useCTAClickSideEffects'
 import { TitleSubtitle } from '../components/TitleSubtitle/TitleSubtitle'
 import { useTheme } from '../hooks/useTheme'
+import { useFlowImpressions } from '../hooks/useFlowImpressions'
 
 export type FrigadeBannerType = 'full-width' | 'square'
 
@@ -62,6 +63,7 @@ export const FrigadeBanner: React.FC<FrigadeBannerProps> = ({
   } = useFlows()
   const { primaryCTAClickSideEffects } = useCTAClickSideEffects()
   const { mergeAppearanceWithDefault } = useTheme()
+  useFlowImpressions(flowId)
 
   appearance = mergeAppearanceWithDefault(appearance)
 
