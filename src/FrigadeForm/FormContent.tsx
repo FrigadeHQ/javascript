@@ -89,7 +89,6 @@ export const FormContent: FC<FormContentProps> = ({
   const [canContinue, setCanContinue] = useState(false)
   const [formData, setFormData] = useState({})
   const [isSaving, setIsSaving] = useState(false)
-  const [hasSetInitialHash, setHasSetInitialHash] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null | undefined>(null)
 
   const currentStep = steps[selectedStep] ?? null
@@ -216,14 +215,6 @@ export const FormContent: FC<FormContentProps> = ({
         }
         primaryCTAClickSideEffects(steps[selectedStep])
         setIsSaving(false)
-        // Set hash to stepid
-        if (
-          typeof window !== 'undefined' &&
-          allowBackNavigation &&
-          selectedStep + 1 < steps.length
-        ) {
-          window.location.hash = steps[selectedStep + 1].id
-        }
         if (
           typeof window !== 'undefined' &&
           !allowBackNavigation &&
@@ -243,9 +234,6 @@ export const FormContent: FC<FormContentProps> = ({
       onBack={async () => {
         if (selectedStep - 1 >= 0) {
           setIsSaving(true)
-          if (allowBackNavigation && typeof window !== 'undefined') {
-            window.location.hash = steps[selectedStep - 1].id
-          }
           await markStepStarted(flowId, steps[selectedStep - 1].id)
           setIsSaving(false)
         }

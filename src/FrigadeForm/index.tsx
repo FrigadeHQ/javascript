@@ -216,15 +216,24 @@ export const FrigadeForm: FC<FrigadeFormProps> = ({
           newStepIndex = -1
         }
         setLastHash(currentHash)
-      } else {
-        newStepIndex = 0
-        setLastHash('')
       }
       if (newStepIndex !== -1) {
         markStepStarted(flowId, steps[newStepIndex].id)
       }
     }
   }, [steps, hash])
+
+  useEffect(() => {
+    if (
+      !isLoading &&
+      steps &&
+      steps.length &&
+      typeof window !== 'undefined' &&
+      allowBackNavigation
+    ) {
+      window.location.hash = steps[selectedStep].id
+    }
+  }, [isLoading, selectedStep, steps])
 
   if (isLoading) {
     return null

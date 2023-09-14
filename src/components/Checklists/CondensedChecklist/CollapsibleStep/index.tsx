@@ -48,7 +48,7 @@ export const CollapsibleStep: FC<CollapsibleStepProps> = ({
     : {
         overflow: 'hidden',
         maxHeight: '1000px',
-        transition: 'max-height 0.35s ease-out',
+        transition: 'max-height 0.7s ease-out',
       }
 
   function getDefaultStepContent() {
