@@ -36,7 +36,11 @@ export function useUserFlowStates(): {
     stepId: string,
     flowResponse: FlowResponse
   ) => void
-  optimisticallyMarkStepNotStarted: (flowId: string, stepId: string) => void
+  optimisticallyMarkStepNotStarted: (
+    flowId: string,
+    stepId: string,
+    flowResponse: FlowResponse
+  ) => void
   optimisticallyMarkStepStarted: (
     flowId: string,
     stepId: string,
@@ -189,13 +193,19 @@ export function useUserFlowStates(): {
     }
   }
 
-  async function optimisticallyMarkStepNotStarted(flowId: string, stepId: string) {
+  async function optimisticallyMarkStepNotStarted(
+    flowId: string,
+    stepId: string,
+    flowResponse: FlowResponse
+  ) {
     if (userFlowStatesData) {
-      const flowState = userFlowStatesData.find((state) => state.flowId === flowId)
-      if (flowState && flowState.stepStates[stepId] !== NOT_STARTED_STEP) {
-        flowState.stepStates[stepId] = NOT_STARTED_STEP
+      const flowState = userFlowStatesData.find(
+        (state) => state.flowId === flowId
+      ) as PublicUserFlowState
+      if (flowState) {
+        flowState.stepStates[stepId] = flowResponse
       }
-      await mutateUserFlowState(deepmerge(data, { data: userFlowStatesData }), {
+      await mutateUserFlowState(Promise.resolve(deepmerge(data, { data: userFlowStatesData })), {
         optimisticData: deepmerge(data, { data: userFlowStatesData }),
         revalidate: false,
         rollbackOnError: false,

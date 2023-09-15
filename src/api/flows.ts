@@ -280,7 +280,7 @@ export function useFlows() {
       if (!shouldSendServerSideCall(flowResponse)) {
         return
       }
-      await optimisticallyMarkStepNotStarted(flowId, stepId)
+      await optimisticallyMarkStepNotStarted(flowId, stepId, flowResponse)
       addResponse(flowResponse)
     },
     [userId, organizationId, userFlowStatesData]
@@ -417,11 +417,12 @@ export function useFlows() {
   )
 
   function shouldSendServerSideCall(flowResponse: FlowResponse) {
-    if (!userFlowStatesData && flowResponse.actionType === NOT_STARTED_STEP) {
+    if (userFlowStatesData === undefined) {
       return false
     }
     if (userFlowStatesData) {
       const flowState = userFlowStatesData.find((state) => state.flowId === flowResponse.flowSlug)
+
       if (
         flowResponse.actionType === NOT_STARTED_STEP &&
         (!flowState?.stepStates[flowResponse.stepId] ||
@@ -433,12 +434,19 @@ export function useFlows() {
         flowState &&
         flowState.stepStates[flowResponse.stepId]?.actionType === flowResponse.actionType
       ) {
+        if (
+          flowResponse.actionType === COMPLETED_STEP &&
+          JSON.stringify(flowResponse.data) === JSON.stringify({})
+        ) {
+          return false
+        }
         // Sort flowState.stepDates by createdAt date
         const sortedStepStates = Object.keys(flowState.stepStates).sort((a, b) => {
           const aDate = new Date(flowState.stepStates[a].createdAt)
           const bDate = new Date(flowState.stepStates[b].createdAt)
           return aDate.getTime() - bDate.getTime()
         })
+
         // Only return false if the newest stepState is the same as the flowResponse
         if (
           flowState.stepStates[sortedStepStates[sortedStepStates.length - 1]].actionType ===
