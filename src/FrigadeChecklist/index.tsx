@@ -89,6 +89,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
     hasActiveFullPageFlow,
     setHasActiveFullPageFlow,
     markStepStarted,
+    getCurrentStepIndex,
   } = useFlows()
   const { primaryCTAClickSideEffects, secondaryCTAClickSideEffects } = useCTAClickSideEffects()
   const { getOpenFlowState, setOpenFlowState } = useFlowOpens()
@@ -99,6 +100,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
   const { mergeAppearanceWithDefault } = useTheme()
   useFlowImpressions(flowId)
   const steps = getFlowSteps(flowId)
+  const index = getCurrentStepIndex(flowId)
 
   appearance = mergeAppearanceWithDefault(appearance)
 
@@ -127,6 +129,13 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
       }
     }
   }, [selectedStep])
+
+  useEffect(() => {
+    if (selectedStep === index) {
+      return
+    }
+    setSelectedStep(index)
+  }, [index])
 
   if (isLoading) {
     return null

@@ -78,7 +78,7 @@ const CondensedChecklist: FC<CondensedChecklistProps> = ({
         }
       }
     }
-    newCollapsedState[idx] = !newCollapsedState[idx]
+    newCollapsedState[idx] = !collapsedSteps[idx]
     setCollapsedSteps(newCollapsedState)
   }
 
@@ -121,9 +121,12 @@ const CondensedChecklist: FC<CondensedChecklistProps> = ({
             collapsed={isCollapsed}
             key={`modal-checklist-${step.id ?? idx}`}
             onClick={() => {
-              // Collapse step if needed
-              handleStepClick(idx)
-              setSelectedStep(idx)
+              if (selectedStep == idx) {
+                handleStepClick(idx)
+              } else {
+                // handleStepClick will automatically be called after setSelectedStep
+                setSelectedStep(idx)
+              }
             }}
             onPrimaryButtonClick={() => {
               if (autoExpandNextStep && idx < steps.length - 1) {
