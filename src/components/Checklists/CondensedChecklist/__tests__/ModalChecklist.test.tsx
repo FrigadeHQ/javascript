@@ -26,6 +26,7 @@ describe('ModalChecklist', () => {
         cta: 'Mark complete',
         image: '/img/frigade-image.webp',
         complete: false,
+        currentlyActive: true,
       },
       {
         id: 'use-cases',
@@ -38,6 +39,7 @@ describe('ModalChecklist', () => {
         image: '/img/usecase-image.webp',
         type: 'checklistItem',
         complete: false,
+        currentlyActive: false,
       },
     ],
   }

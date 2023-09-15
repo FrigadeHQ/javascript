@@ -25,8 +25,13 @@ interface CollapsibleStepProps {
   onSecondaryButtonClick: () => void
   onPrimaryButtonClick: () => void
   appearance?: Appearance
-  // Map from string to function with StepData returning React.ReactNode
-  customStepTypes?: Record<string, (stepData: StepData, appearance: Appearance) => React.ReactNode>
+  /**
+   * Map of custom step types that the checklist supports. To use a custom steps in your checklist, see [Component Customization](/component/customization#customizing-frigade-components)
+   */
+  customStepTypes?: Record<
+    string,
+    ((stepData: StepData, appearance: Appearance) => React.ReactNode) | React.ReactNode
+  >
 }
 
 export const CollapsibleStep: FC<CollapsibleStepProps> = ({
@@ -100,6 +105,11 @@ export const CollapsibleStep: FC<CollapsibleStepProps> = ({
     if (!customStep) {
       return null
     }
+    // Check if not a function
+    if (typeof customStep !== 'function') {
+      return customStep
+    }
+
     return customStep(stepData, appearance)
   }
 

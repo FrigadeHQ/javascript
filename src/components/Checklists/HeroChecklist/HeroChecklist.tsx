@@ -34,9 +34,12 @@ export interface HeroChecklistProps extends Omit<DefaultFrigadeFlowProps, 'flowI
   setSelectedStep?: (index: number) => void
 
   /**
-   * Map from string to function with StepData returning React.ReactNode
+   * Map of custom step types that the checklist supports. To use a custom steps in your checklist, see [Component Customization](/component/customization#customizing-frigade-components)
    */
-  customStepTypes?: Record<string, (stepData: StepData, appearance: Appearance) => React.ReactNode>
+  customStepTypes?: Record<
+    string,
+    ((stepData: StepData, appearance: Appearance) => React.ReactNode) | React.ReactNode
+  >
 }
 
 const HeroChecklistContainer = styled.div<{ appearance }>`
@@ -86,7 +89,7 @@ const Divider = styled.div`
 
 const HeroChecklistStepContentContainer = styled.div`
   flex: 2;
-  padding: 2rem 2rem 2rem 0rem;
+  padding: 40px 40px 40px 0px;
 `
 
 const HeroChecklist: FC<FrigadeChecklistProps> = ({
@@ -129,6 +132,12 @@ const HeroChecklist: FC<FrigadeChecklistProps> = ({
         appearance: appearance,
       })
     }
+
+    // Check if the custom step type is a functional component or a React component
+    if (typeof mergedCustomStepTypes[steps[selectedStepValue].type] !== 'function') {
+      return mergedCustomStepTypes[steps[selectedStepValue].type]
+    }
+
     return mergedCustomStepTypes[steps[selectedStepValue].type]({
       stepData: steps[selectedStepValue],
       appearance: appearance,

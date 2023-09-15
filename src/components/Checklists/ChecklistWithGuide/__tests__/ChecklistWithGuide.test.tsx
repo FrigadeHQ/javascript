@@ -20,6 +20,7 @@ describe('ChecklistWithGuide', () => {
     complete: false,
     handlePrimaryButtonClick: jest.fn(),
     handleSecondaryButtonClick: jest.fn(),
+    currentlyActive: true,
   }
 
   const testProps: ChecklistWithGuideProps = {

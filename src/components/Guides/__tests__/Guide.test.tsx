@@ -15,6 +15,7 @@ describe('Guide', () => {
       primaryButtonTitle: 'Read guide',
       icon: '📊',
       complete: false,
+      currentlyActive: false,
     },
     {
       id: 'labels',
@@ -24,6 +25,7 @@ describe('Guide', () => {
         'Create and review labels to achieve success with this product. Follow the guide to learn more.',
       primaryButtonTitle: 'Read guide 2',
       complete: false,
+      currentlyActive: true,
     },
   ]
 

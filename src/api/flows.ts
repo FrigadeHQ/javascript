@@ -158,6 +158,9 @@ export function useFlows() {
           ...step,
           complete:
             getStepStatus(flowId, step.id) === COMPLETED_STEP || autoCalculatedProgress >= 1,
+          currentlyActive: userFlowStatesData?.some(
+            (data) => data.flowId == flowId && data.lastStepId === step.id
+          ),
           blocked: isStepBlocked(flowId, step.id),
           hidden: isStepHidden(flowId, step.id),
           handlePrimaryButtonClick: () => {
@@ -436,7 +439,7 @@ export function useFlows() {
       ) {
         if (
           flowResponse.actionType === COMPLETED_STEP &&
-          JSON.stringify(flowResponse.data) === JSON.stringify({})
+          (!flowResponse.data || JSON.stringify(flowResponse.data) === JSON.stringify({}))
         ) {
           return false
         }

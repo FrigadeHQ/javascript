@@ -9,8 +9,9 @@ import { getClassName } from '../../shared/appearance'
 
 export const HERO_STEP_CONTENT_TYPE = 'default'
 const StepImage = styled.img`
-  border-radius: 4px;
-  max-height: 260px;
+  border-radius: ${(props) => props.appearance?.theme.borderRadius}px;
+  width: 100%;
+  height: auto;
   min-height: 200px;
 `
 export const HeroStepContent: FC<StepContentProps> = ({ stepData, appearance }) => {
@@ -26,6 +27,7 @@ export const HeroStepContent: FC<StepContentProps> = ({ stepData, appearance }) 
           className={getClassName('checklistStepImage', appearance)}
           src={stepData.imageUri}
           style={stepData.imageStyle}
+          appearance={appearance}
         />
       ) : null}
       {stepData.videoUri ? (

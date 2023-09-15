@@ -143,6 +143,12 @@ const ChecklistWithGuide: FC<ChecklistWithGuideProps> = ({
     if (!steps[selectedStepValue]?.type || !mergedCustomStepTypes[steps[selectedStepValue].type]) {
       return mergedCustomStepTypes['default'](steps[selectedStepValue])
     }
+
+    // check if mergedCustomStepTypes[steps[selectedStepValue].type] is a function
+    if (typeof mergedCustomStepTypes[steps[selectedStepValue].type] !== 'function') {
+      return mergedCustomStepTypes[steps[selectedStepValue].type]
+    }
+
     return mergedCustomStepTypes[steps[selectedStepValue].type]({
       stepData: steps[selectedStepValue],
       primaryColor: appearance.theme.colorPrimary,

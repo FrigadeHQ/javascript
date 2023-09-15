@@ -70,7 +70,14 @@ export interface StepData {
    * Automatically mark the step as completed when the primary button is clicked. Default is false.
    */
   autoMarkCompleted?: boolean
+  /**
+   * Whether the step is completed.
+   */
   complete: boolean
+  /**
+   * Whether the step is currently active/the flow is currently on this step. Can only be true for on step at a time.
+   */
+  currentlyActive: boolean
   /**
    * Whether the step is blocked (can't be accessed yet)
    */

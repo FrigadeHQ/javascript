@@ -59,11 +59,21 @@ const CondensedChecklist: FC<CondensedChecklistProps> = ({
     handleStepClick(selectedStep)
   }, [selectedStep])
 
+  useEffect(() => {
+    if (!autoExpandNextStep) return
+    //  If selected step is not open, open it
+    if (collapsedSteps[selectedStep]) {
+      handleStepClick(selectedStep)
+    }
+  }, [selectedStep])
+
+  useEffect(() => {}, [steps])
+
   const handleStepClick = (idx: number) => {
     const newCollapsedState = [...collapsedSteps]
     if (autoCollapse) {
       for (let i = 0; i < collapsedSteps.length; ++i) {
-        if (i !== idx) {
+        if (i != idx && newCollapsedState[idx]) {
           newCollapsedState[i] = true
         }
       }
@@ -111,25 +121,16 @@ const CondensedChecklist: FC<CondensedChecklistProps> = ({
             collapsed={isCollapsed}
             key={`modal-checklist-${step.id ?? idx}`}
             onClick={() => {
-              if (selectedStep === idx) {
-                // Collapse step if needed
-                handleStepClick(idx)
-                return
-              }
+              // Collapse step if needed
+              handleStepClick(idx)
               setSelectedStep(idx)
             }}
             onPrimaryButtonClick={() => {
+              if (autoExpandNextStep && idx < steps.length - 1) {
+                setSelectedStep(idx + 1)
+              }
               if (step.handlePrimaryButtonClick) {
                 step.handlePrimaryButtonClick()
-              }
-              if (!autoExpandNextStep) return
-              // Automatically expand next step
-              if (
-                !step.completionCriteria &&
-                idx < collapsedSteps.length - 1 &&
-                collapsedSteps[idx + 1]
-              ) {
-                setSelectedStep(idx + 1)
               }
             }}
             onSecondaryButtonClick={() => {
