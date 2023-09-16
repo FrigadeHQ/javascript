@@ -23,6 +23,7 @@ describe('HeroChecklist', () => {
     handlePrimaryButtonClick: handlePrimary,
     handleSecondaryButtonClick: handleSecondary,
     currentlyActive: true,
+    started: false,
   }
 
   const HeroChecklistProps = {

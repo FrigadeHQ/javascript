@@ -75,6 +75,10 @@ export interface StepData {
    */
   complete: boolean
   /**
+   * Whether the step has been started by the user. True if either the step was marked started or completed.
+   */
+  started: boolean
+  /**
    * Whether the step is currently active/the flow is currently on this step. Can only be true for on step at a time.
    */
   currentlyActive: boolean

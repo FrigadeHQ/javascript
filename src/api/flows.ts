@@ -158,6 +158,9 @@ export function useFlows() {
           ...step,
           complete:
             getStepStatus(flowId, step.id) === COMPLETED_STEP || autoCalculatedProgress >= 1,
+          started:
+            getStepStatus(flowId, step.id) === STARTED_STEP ||
+            getStepStatus(flowId, step.id) === COMPLETED_STEP,
           currentlyActive: userFlowStatesData?.some(
             (data) => data.flowId == flowId && data.lastStepId === step.id
           ),

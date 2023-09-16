@@ -27,6 +27,7 @@ describe('ModalChecklist', () => {
         image: '/img/frigade-image.webp',
         complete: false,
         currentlyActive: true,
+        started: true,
       },
       {
         id: 'use-cases',
@@ -40,6 +41,7 @@ describe('ModalChecklist', () => {
         type: 'checklistItem',
         complete: false,
         currentlyActive: false,
+        started: false,
       },
     ],
   }

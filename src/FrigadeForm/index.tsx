@@ -206,6 +206,7 @@ export const FrigadeForm: FC<FrigadeFormProps> = ({
       typeof window !== 'undefined' &&
       allowBackNavigation
     ) {
+      setLastHashNavigationStepId(steps[selectedStep].id)
       window.location.hash = steps[selectedStep].id
     }
   }, [isLoading, selectedStep, steps])

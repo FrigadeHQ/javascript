@@ -16,6 +16,7 @@ describe('Guide', () => {
       icon: '📊',
       complete: false,
       currentlyActive: false,
+      started: false,
     },
     {
       id: 'labels',
@@ -26,6 +27,7 @@ describe('Guide', () => {
       primaryButtonTitle: 'Read guide 2',
       complete: false,
       currentlyActive: true,
+      started: true,
     },
   ]
 
