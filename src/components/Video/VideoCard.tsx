@@ -52,6 +52,12 @@ const VimeoVideoSource = styled.iframe`
   min-height: 400px;
   border-radius: ${(props) => props.appearance.theme.borderRadius}px;
 }`
+const WistiaVideoSource = styled.iframe`
+  width: 100%;
+  height: 100%;
+  min-height: 400px;
+  border-radius: ${(props) => props.appearance.theme.borderRadius}px;
+`
 
 export function VideoCard({ appearance, videoUri }: { appearance: Appearance; videoUri: string }) {
   // Create ref to use with videoplayer
@@ -99,7 +105,26 @@ export function VideoCard({ appearance, videoUri }: { appearance: Appearance; vi
       />
     )
   }
-
+  // Check if wistia
+  if (videoUri.includes('wistia')) {
+    let videoId = videoUri.split('wistia.com/medias/')[1]
+    const ampersandPosition = videoId.indexOf('&')
+    if (ampersandPosition !== -1) {
+      videoId = videoId.substring(0, ampersandPosition)
+    }
+    return (
+      <WistiaVideoSource
+        width="100%"
+        height="100%"
+        src={`https://fast.wistia.net/embed/iframe/${videoId}`}
+        frameBorder="0"
+        allow="autoplay; fullscreen; picture-in-picture"
+        allowFullScreen
+        appearance={appearance}
+        className={getClassName('wistiaPlayer', appearance)}
+      />
+    )
+  }
   return (
     <Video className={getClassName('videoPlayerWrapper', appearance)} appearance={appearance}>
       {!isPlaying && (
