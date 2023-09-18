@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { NOT_STARTED_FLOW } from '../api/common'
 import { useFlows } from '../api/flows'
 
-export function useFlowImpressions(flowId: string) {
+export function useFlowImpressions(flowId: string, visible: boolean = true) {
   const [hasMarkedFlowStarted, setHasMarkedFlowStarted] = useState(false)
   const {
     markStepStarted,
@@ -20,7 +20,8 @@ export function useFlowImpressions(flowId: string) {
       !hasMarkedFlowStarted &&
       !isLoading &&
       getFlowStatus(flowId) === NOT_STARTED_FLOW &&
-      targetingLogicShouldHideFlow(getFlow(flowId)) === false
+      targetingLogicShouldHideFlow(getFlow(flowId)) === false &&
+      visible
     ) {
       setHasMarkedFlowStarted(true)
       await markStepStarted(flowId, steps[getCurrentStepIndex(flowId)].id)
@@ -29,7 +30,7 @@ export function useFlowImpressions(flowId: string) {
 
   useEffect(() => {
     markFlowStartedIfNeeded()
-  }, [isLoading, flowId])
+  }, [isLoading, flowId, visible])
 
   return {}
 }

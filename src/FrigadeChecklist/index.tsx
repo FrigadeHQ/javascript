@@ -98,7 +98,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
   const showModal = visible === undefined ? getOpenFlowState(flowId) : visible
   const isModal = type === 'modal'
   const { mergeAppearanceWithDefault } = useTheme()
-  useFlowImpressions(flowId)
+  useFlowImpressions(flowId, visible)
   const steps = getFlowSteps(flowId)
   const index = getCurrentStepIndex(flowId)
 

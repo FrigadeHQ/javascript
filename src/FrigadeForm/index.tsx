@@ -164,7 +164,7 @@ export const FrigadeForm: FC<FrigadeFormProps> = ({
   const { mergeAppearanceWithDefault } = useTheme()
   const [lastHashNavigationStepId, setLastHashNavigationStepId] = useState(null)
   const { setOpenFlowState, getOpenFlowState, hasOpenModals } = useFlowOpens()
-  useFlowImpressions(flowId)
+  useFlowImpressions(flowId, visible)
   const steps = getFlowSteps(flowId)
 
   appearance = mergeAppearanceWithDefault(appearance)
