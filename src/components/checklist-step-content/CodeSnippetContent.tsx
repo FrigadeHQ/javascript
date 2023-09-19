@@ -4,6 +4,8 @@ import { TitleSubtitleWithCTA } from './shared/TitleSubtitleWithCTA'
 import { StepContentProps } from '../../FrigadeForm/types'
 import { CTA } from './shared/CTA'
 import { TitleSubtitle } from './shared/TitleSubtitle'
+import { sanitize } from '../../shared/sanitizer'
+import { getClassName } from '../../shared/appearance'
 
 const CodeSnippetContainer = styled.div`
   display: block;
@@ -62,14 +64,14 @@ export const CodeSnippetContent: FC<StepContentProps> = ({ stepData, appearance 
 
   if (codeProps.codeSnippets) {
     return (
-      <CodeSnippetContainer>
+      <CodeSnippetContainer className={getClassName('codeSnippetContainer', appearance)}>
         <TitleSubtitle stepData={stepData} appearance={appearance} />
         <CodeSnippets>
           {codeProps.codeSnippets.map((codeSnippet, index) => {
             return (
               <div key={index}>
                 {codeSnippet.title ? (
-                  <CodeSnippetTitle>{codeSnippet.title}</CodeSnippetTitle>
+                  <CodeSnippetTitle dangerouslySetInnerHTML={sanitize(codeSnippet.title)} />
                 ) : null}
                 {codeSnippet.code ? <CodeSnippet>{codeSnippet.code}</CodeSnippet> : null}
               </div>
