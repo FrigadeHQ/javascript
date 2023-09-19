@@ -272,7 +272,7 @@ export const FormContent: FC<FormContentProps> = ({
             className={getClassName('formContent', appearance)}
           >
             {steps.map((step) => {
-              const StepComponent = mergedCustomStepTypes[step.type]
+              const StepComponent = mergedCustomStepTypes[step.type ?? 'multiInput']
 
               if (currentStep.id !== step.id) {
                 return null
