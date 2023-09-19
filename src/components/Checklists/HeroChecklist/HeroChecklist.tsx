@@ -78,7 +78,7 @@ const ChecklistStepsContainer = styled.div`
   padding: 0;
   margin: 0;
   cursor: pointer;
-  width: 300px;
+  min-width: 300px;
 `
 
 const Divider = styled.div`
