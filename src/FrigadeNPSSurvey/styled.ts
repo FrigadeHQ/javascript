@@ -90,6 +90,7 @@ export const CallToActionContainer = styled.div`
 
 export const TextArea = styled.textarea`
   ${(props) => getCustomClassOverrides(props)} {
+    color: ${(props) => props.appearance.theme.colorText};
     margin-top: 16px;
     border: 1px solid ${(props) => props.appearance.theme.colorBorder};
     border-radius: ${(props) => props.appearance.theme.borderRadius}px;
