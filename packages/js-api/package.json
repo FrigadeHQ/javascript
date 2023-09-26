@@ -1,18 +1,18 @@
 {
   "name": "@frigade/js",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "The official Javascript SDK for Frigade.",
-  "main": "./lib/index.js",
-  "types": "./lib/index.d.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "files": [
-    "./lib"
+    "./dist"
   ],
   "scripts": {
-    "clean": "rimraf ./lib",
+    "clean": "rimraf ./dist",
     "test": "jest",
     "semantic-release": "semantic-release",
     "lint": "eslint --fix --ext .ts,.tsx .",
-    "copy-files": "copyfiles -u 1 src/**/*.html src/**/*.css ./lib",
+    "copy-files": "copyfiles -u 1 src/**/*.html src/**/*.css ./dist",
     "build": "yarn clean && tsup && yarn copy-files",
     "local-release": "tsup",
     "storybook": "storybook dev -p 6006",
@@ -53,7 +53,6 @@
     "lint-staged": "^13.0.0",
     "prettier": "^2.4.1",
     "prop-types": "^15.8.1",
-    "rimraf": "^4.1.2",
     "storybook": "^7.0.9",
     "ts-jest": "^29.1.0",
     "tsup": "^6.7.0",

@@ -1,5 +1,5 @@
 {
-  "name": "@frigadehq/js",
+  "name": "@frigadehq/javascript",
   "version": "0.0.1",
   "private": true,
   "license": "MIT",
@@ -14,12 +14,13 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "changeset": "changeset",
     "version-packages": "changeset version",
-    "release": "turbo build --filter=docs^... && changeset publish"
+    "release": "turbo build && changeset publish"
   },
   "devDependencies": {
     "@changesets/cli": "^2.22.0",
     "eslint": "^7.32.0",
     "prettier": "^2.5.1",
+    "rimraf": "^5.0.0",
     "turbo": "^1.10.14"
   },
   "author": "Frigade Inc.",
