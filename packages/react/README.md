@@ -70,6 +70,7 @@ Frigade makes it easy to manage multiple versions of onboarding across staging a
 
 Frigade automatically tracks state management and onboarding progress. Give your team full observability into the customer journey, and use Frigade to kick off automated workflows.
 
+
 To learn more, visit [frigade.com](<https://frigade.com>)
 
 
