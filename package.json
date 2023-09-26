@@ -2,13 +2,13 @@
   "name": "@frigade/react",
   "version": "0.0.1",
   "description": "Build better product onboarding, faster.",
-  "main": "./lib/index.js",
-  "types": "./lib/index.d.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "files": [
-    "./lib"
+    "./dist"
   ],
   "scripts": {
-    "clean": "rimraf ./lib",
+    "clean": "rimraf ./dist",
     "test": "jest",
     "semantic-release": "semantic-release",
     "lint": "eslint --fix --ext .ts,.tsx .",
