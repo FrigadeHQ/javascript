@@ -108,14 +108,8 @@ dist
 
 .dccache
 .DS_Store
-dist
+lib
 *.tgz
 .idea
 .watchmanconfig
 ios/Pods
-
-.yarn/*
-!.yarn/releases
-!.yarn/plugins
-
-.turbo

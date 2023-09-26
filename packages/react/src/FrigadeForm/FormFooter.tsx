@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { FrigadeFormType } from '.'
+import { FrigadeFormType } from './index'
 import { Button } from '../components/Button'
 import { getClassName } from '../shared/appearance'
 import { Appearance, StepData } from '../types'

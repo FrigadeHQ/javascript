@@ -1,4 +1,4 @@
-import { FrigadeNPSSurvey } from '..'
+import { FrigadeNPSSurvey } from '../index'
 
 export default {
   title: 'Form',

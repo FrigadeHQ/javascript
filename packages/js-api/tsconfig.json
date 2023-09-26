@@ -1,8 +1,10 @@
 {
   "compilerOptions": {
+    "outDir": "./lib",
+    "rootDir": "./src",
     "module": "esnext",
-    "target": "ES6",
-    "lib": ["DOM", "esnext", "ES6", "DOM.Iterable", "ScriptHost", "ES2016.Array.Include"],
+    "types": ["jest"],
+    "lib": ["dom", "esnext"],
     "declaration": true,
     // output .js.map sourcemap files for consumers
     "sourceMap": true,
@@ -29,5 +31,6 @@
     "alwaysStrict": false,
     "noEmit": true
   },
-  "exclude": ["**/__tests__/*", "node_modules", "dist", "**/dist/**", "packages/*/dist/**"]
+  "include": ["src"],
+  "exclude": ["**/__tests__/*"]
 }
