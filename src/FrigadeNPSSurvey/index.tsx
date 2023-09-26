@@ -159,7 +159,7 @@ export const FrigadeNPSSurvey: React.FC<FrigadeNPSSurveyProps> = ({
           onChange={(e) => {
             setFeedbackText(e.target.value)
           }}
-          placeHolder="Add your optional fedback here..."
+          placeholder="Add your optional feedback here..."
         ></TextArea>
         <NPSNumberButtonContainer
           appearance={appearance}
