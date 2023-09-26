@@ -39,13 +39,9 @@ export interface FrigadeChecklistProps extends HeroChecklistProps {
    */
   customVariables?: { [key: string]: string | number | boolean }
 
-  /**
-   * Flow ID referencing the flow of a guide/link collection to attach to this Checklist
-   */
+  /** @ignore */
   guideFlowId?: string
-  /**
-   * Title for the guide (if attached)
-   */
+  /** @ignore */
   guideTitle?: string
 
   autoExpandFirstIncompleteStep?: boolean
