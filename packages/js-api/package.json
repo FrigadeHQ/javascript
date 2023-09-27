@@ -63,9 +63,9 @@
   "author": "Frigade Inc.",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/FrigadeHQ/frigade-js/issues"
+    "url": "https://github.com/FrigadeHQ/javascript/issues"
   },
-  "homepage": "https://github.com/FrigadeHQ/frigade-js#readme",
+  "homepage": "https://github.com/FrigadeHQ/javascript/tree/main/packages/js-api#readme",
   "dependencies": {
     "cross-fetch": "^4.0.0",
     "uuid": "^9.0.0"

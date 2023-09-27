@@ -87,7 +87,7 @@
   "bugs": {
     "url": "https://github.com/FrigadeHQ/javascript/issues"
   },
-  "homepage": "https://github.com/FrigadeHQ/javascript#readme",
+  "homepage": "https://github.com/FrigadeHQ/javascript/tree/main/packages/react#readme",
   "dependencies": {
     "core-js-pure": "^3.32.0",
     "dompurify": "^3.0.1",
