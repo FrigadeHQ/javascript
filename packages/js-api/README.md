@@ -1,5 +1,5 @@
 [![npm version](https://img.shields.io/npm/v/@frigade/js)](https://www.npmjs.com/package/@frigade/js)
-[![npm version](https://github.com/FrigadeHQ/frigade-js/actions/workflows/tests.yml/badge.svg)](https://github.com/FrigadeHQ/frigade-js/actions/workflows/tests.yml)
+[![npm version](https://github.com/FrigadeHQ/javascript/actions/workflows/tests.yml/badge.svg)](https://github.com/FrigadeHQ/javascript/actions/workflows/tests.yml)
 [![typescript](https://camo.githubusercontent.com/0f9fcc0ac1b8617ad4989364f60f78b2d6b32985ad6a508f215f14d8f897b8d3/68747470733a2f2f62616467656e2e6e65742f62616467652f547970655363726970742f7374726963742532302546302539462539322541412f626c7565)](https://www.npmjs.com/package/@frigade/js)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
