@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.0.6
+
+### Patch Changes
+
+- 220e009: Updated README with correct test suite
+
 ## 0.0.5
 
 ### Patch Changes
