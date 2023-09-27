@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/FrigadeHQ/frigade-react.git"
+    "url": "git+https://github.com/FrigadeHQ/javascript.git"
   },
   "keywords": [
     "React",
@@ -84,9 +84,9 @@
   "author": "Frigade Inc.",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/FrigadeHQ/frigade-react/issues"
+    "url": "https://github.com/FrigadeHQ/javascript/issues"
   },
-  "homepage": "https://github.com/FrigadeHQ/frigade-react#readme",
+  "homepage": "https://github.com/FrigadeHQ/javascript#readme",
   "dependencies": {
     "core-js-pure": "^3.32.0",
     "dompurify": "^3.0.1",

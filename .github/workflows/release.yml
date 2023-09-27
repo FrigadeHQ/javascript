@@ -20,11 +20,6 @@ jobs:
           node-version: 'lts/*'
       - name: Install dependencies
         run: yarn install --frozen-lockfile
-#      - name: Bump version file
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-#          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-#        run: yarn semantic-release --dryRun | grep -oP 'Published release \K.*? ' | xargs -I{} ./pre-release.sh {}
       - name: Build
         run: yarn build
       - name: Create Release Pull Request or Publish to npm
@@ -35,7 +30,3 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-#      - name: Send a Slack notification if a publish happens
-#        if: steps.changesets.outputs.published == 'true'
-#        # You can do something when a publish happens.
-#        run: my-slack-bot send-notification --message "A new version of ${GITHUB_REPOSITORY} was published!"

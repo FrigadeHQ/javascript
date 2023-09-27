@@ -10,7 +10,6 @@
   "scripts": {
     "clean": "rimraf ./dist",
     "test": "jest",
-    "semantic-release": "semantic-release",
     "lint": "eslint --fix --ext .ts,.tsx .",
     "copy-files": "copyfiles -u 1 src/**/*.html src/**/*.css ./dist",
     "build": "yarn clean && tsup && yarn copy-files",
@@ -20,7 +19,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/FrigadeHQ/frigade-js.git"
+    "url": "git+https://github.com/FrigadeHQ/javascript.git"
   },
   "keywords": [
     "Onboarding",
