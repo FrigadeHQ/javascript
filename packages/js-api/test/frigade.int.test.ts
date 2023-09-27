@@ -2,8 +2,8 @@ import frigade from '../src/core/frigade'
 import { generateGuestId } from '../src/shared/utils'
 
 const testAPIKey = 'api_public_3MPLH7NJ9L0U963XKW7BPE2IT137GC6L742JLC2XCT6NOIYSI4QUI9I1RA3ZOGIL'
-const testFlowId = 'flow_E38do46lrNWEbVa7'
-const testFlowStepId = 'welcome'
+const testFlowId = 'flow_yJfjksFrs5QEH0c8'
+const testFlowStepId = 'checklist-step-one'
 
 test('can init Frigade', async () => {
   await frigade.init(testAPIKey, {})
