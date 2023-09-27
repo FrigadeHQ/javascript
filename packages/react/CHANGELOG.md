@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.37.1
+
+### Patch Changes
+
+- a25491c: Updated Github URLs to new monorepo
+
 ## 1.37.0
 
 ### Minor Changes
