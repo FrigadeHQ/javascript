@@ -11,6 +11,7 @@ import {
   useCheckHasInitiatedAPI,
   useConfig,
 } from './common'
+
 import { FrigadeContext } from '../FrigadeProvider'
 import { FlowResponse, useFlowResponses } from './flow-responses'
 import useSWR from 'swr'
@@ -137,14 +138,14 @@ export function useFlows() {
     if (!getFlow(flowId)) {
       return []
     }
-    let flowData = getFlow(flowId).data
+    let flowData = getFlow(flowId)?.data
     if (!flowData) {
       return []
     }
 
     flowData = substituteVariables(flowData)
 
-    const steps = safeParse<any>(flowData)?.data ?? []
+    const steps = safeParse<any>(flowData)?.data ?? safeParse<any>(flowData)?.steps ?? []
 
     return steps
       .map((step: StepData) => {

@@ -106,7 +106,7 @@ export const CarouselChecklist: React.FC<CarouselChecklistProps> = ({
     const steps = getFlowSteps(flowId)
 
     setFlowMetadata(metadata)
-    if (metadata.data !== null) {
+    if (metadata.data !== null || metadata.steps !== null) {
       setFlowSteps(steps.sort((a, b) => Number(a.complete) - Number(b.complete)))
       setShowRightFade(steps.length > pageSize)
       setNumberOfStepsCompleted(completedStepCount)
