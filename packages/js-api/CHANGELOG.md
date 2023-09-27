@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.0.5
+
+### Patch Changes
+
+- cbbdf6d: Updated all SDKs to automatically include version number in headers
+
 ## 0.0.4
 
 ### Patch Changes

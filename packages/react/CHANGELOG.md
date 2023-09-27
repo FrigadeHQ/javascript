@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.37.2
+
+### Patch Changes
+
+- cbbdf6d: Updated all SDKs to automatically include version number in headers
+
 ## 1.37.1
 
 ### Patch Changes
