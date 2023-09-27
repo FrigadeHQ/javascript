@@ -12,10 +12,11 @@
     "test": "jest",
     "lint": "eslint --fix --ext .ts,.tsx .",
     "copy-files": "copyfiles -u 1 src/**/*.html src/**/*.css ./dist",
-    "build": "yarn clean && tsup && yarn copy-files",
+    "build": "yarn clean && yarn copy-version-number && tsup && yarn copy-files",
     "local-release": "tsup",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "copy-version-number": "node ./scripts/copy-version-number.js"
   },
   "repository": {
     "type": "git",
