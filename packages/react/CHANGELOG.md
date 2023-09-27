@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.37.3
+
+### Patch Changes
+
+- 220e009: Updated README with correct test suite
+
 ## 1.37.2
 
 ### Patch Changes
