@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.37.4
+
+### Patch Changes
+
+- afa82d8: Allow class names to be passed in to FrigadeTour
+
 ## 1.37.3
 
 ### Patch Changes
