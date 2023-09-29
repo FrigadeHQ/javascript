@@ -106,6 +106,7 @@ export const FrigadeTour: FC<
   onComplete,
   skipIfNotFound = false,
   cssPosition = 'absolute',
+  className,
   ...props
 }) => {
   const {
@@ -284,6 +285,7 @@ export const FrigadeTour: FC<
           onComplete={handleComplete}
           cssPosition={cssPosition}
           onViewTooltip={handleViewTooltip}
+          className={className}
           {...props}
         />
       )

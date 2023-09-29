@@ -115,6 +115,7 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
   showFrigadeBranding = false,
   cssPosition = 'absolute',
   onViewTooltip,
+  className,
 }) => {
   const { logErrorIfDebugMode } = useDebug()
   const [selfBounds, setSelfBounds] = useState<undefined | Partial<DOMRect>>()
@@ -426,7 +427,7 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
   }
 
   return (
-    <TooltipWrapper>
+    <TooltipWrapper className={className}>
       <HighlightContainer
         style={cssPos}
         zIndex={zIndex}
