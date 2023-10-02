@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.37.5
+
+### Patch Changes
+
+- fee3b6f: Remove redundant ErrorBoundary that in some cases can cause render loops when errors are thrown
+
 ## 1.37.4
 
 ### Patch Changes
