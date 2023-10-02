@@ -4,7 +4,6 @@ import { DataFetcher, realUserIdField } from '../components/DataFetcher'
 import { Flow } from '../api/flows'
 import { FlowResponse } from '../api/flow-responses'
 import { Appearance, DefaultAppearance } from '../types'
-import { ErrorBoundary } from 'react-error-boundary'
 import { deepmerge } from '../shared/deepmerge'
 import { appearanceToOverrides } from '../shared/appearanceToOverrides'
 
@@ -261,16 +260,14 @@ export const FrigadeProvider: FC<FrigadeProviderProps> = ({
   const { overrides } = appearanceToOverrides(appearance)
 
   return (
-    <ErrorBoundary fallback={<>{children}</>}>
-      <FrigadeContext.Provider value={contextParams}>
-        {/* TEMP: Merge old appearance.theme vars in for backwards compatibility */}
-        <ThemeProvider
-          theme={deepmerge(appearance.theme, tokens, overrides ?? {}, config?.theme ?? {})}
-        >
-          {children}
-          <DataFetcher />
-        </ThemeProvider>
-      </FrigadeContext.Provider>
-    </ErrorBoundary>
+    <FrigadeContext.Provider value={contextParams}>
+      {/* TEMP: Merge old appearance.theme vars in for backwards compatibility */}
+      <ThemeProvider
+        theme={deepmerge(appearance.theme, tokens, overrides ?? {}, config?.theme ?? {})}
+      >
+        {children}
+        <DataFetcher />
+      </ThemeProvider>
+    </FrigadeContext.Provider>
   )
 }
