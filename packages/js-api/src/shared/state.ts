@@ -8,7 +8,7 @@ export interface FrigadeGlobalState {
 export let frigadeGlobalState: Record<string, FrigadeGlobalState> = {}
 
 export function getGlobalStateKey(internalConfig: InternalConfig): string {
-  return `${internalConfig.apiKey}:${internalConfig.userId ?? ''}:${
+  return `${internalConfig.__instanceId}-${internalConfig.apiKey}:${internalConfig.userId ?? ''}:${
     internalConfig.organizationId ?? ''
   }`
 }

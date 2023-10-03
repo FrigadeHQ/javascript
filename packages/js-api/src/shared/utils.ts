@@ -102,7 +102,7 @@ function getEmptyResponse(error?: any) {
 }
 
 export function generateGuestId() {
-  if (window && window.localStorage) {
+  if (typeof window !== 'undefined' && typeof window.localStorage !== 'undefined') {
     let guestId = getLocalStorage(GUEST_KEY)
     if (!guestId) {
       guestId = `${GUEST_PREFIX}${uuidv4()}`

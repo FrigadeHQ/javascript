@@ -11,10 +11,16 @@ export class Frigade {
   private config?: FrigadeConfig
   private hasInitialized = false
   private internalConfig?: InternalConfig
+  private __instanceId = ''
 
   private flows: Flow[] = []
 
-  public async init(apiKey: string, config?: FrigadeConfig): Promise<void> {
+  constructor(apiKey: string, config?: FrigadeConfig) {
+    this.__instanceId = Math.random().toString(36).substring(7)
+    this.init(apiKey, config)
+  }
+
+  private async init(apiKey: string, config?: FrigadeConfig): Promise<void> {
     this.apiKey = apiKey
     this.config = config
     if (config?.userId) {
@@ -30,7 +36,7 @@ export class Frigade {
   }
 
   public async identify(userId: string, properties?: Record<string, any>): Promise<void> {
-    this.errorOnUninitialized()
+    await this.initIfNeeded()
     this.userId = userId
     this.refreshInternalConfig()
     await fetcher(this.apiKey, '/users', {
@@ -44,7 +50,7 @@ export class Frigade {
   }
 
   public async group(organizationId: string, properties?: Record<string, any>): Promise<void> {
-    this.errorOnUninitialized()
+    await this.initIfNeeded()
     this.organizationId = organizationId
     this.refreshInternalConfig()
     await fetcher(this.apiKey, '/userGroups', {
@@ -59,7 +65,7 @@ export class Frigade {
   }
 
   public async track(event: string, properties?: Record<string, any>): Promise<void> {
-    this.errorOnUninitialized()
+    await this.initIfNeeded()
     await fetcher(this.apiKey, '/track', {
       method: 'POST',
       body: JSON.stringify({
@@ -72,12 +78,12 @@ export class Frigade {
   }
 
   public async getFlow(flowId: string) {
-    this.errorOnUninitialized()
+    await this.initIfNeeded()
     return this.flows.find((flow) => flow.id == flowId)
   }
 
   public async getFlows() {
-    this.errorOnUninitialized()
+    await this.initIfNeeded()
     return this.flows
   }
 
@@ -87,11 +93,9 @@ export class Frigade {
     this.organizationId = undefined
   }
 
-  private errorOnUninitialized() {
+  private async initIfNeeded() {
     if (!this.hasInitialized) {
-      throw new Error(
-        'Frigade has not been initialized yet. Please call Frigade.init() before using any other methods.'
-      )
+      await this.init(this.apiKey, this.config)
     }
   }
 
@@ -134,9 +138,7 @@ export class Frigade {
       apiKey: this.apiKey,
       userId: this.userId,
       organizationId: this.organizationId,
+      __instanceId: this.__instanceId,
     }
   }
 }
-
-const frigade = new Frigade()
-export default frigade

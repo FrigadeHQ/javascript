@@ -38,4 +38,5 @@ export interface InternalConfig {
   apiKey: string
   userId?: string
   organizationId?: string
+  __instanceId?: string
 }

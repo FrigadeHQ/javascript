@@ -37,12 +37,12 @@ npm install @frigade/js
 
 ## Usage
 
-Simply `import frigade from '@frigade/js'` and use it. Example:
+Simply `import { Frigade }  from '@frigade/js'` and use it. Example:
 
 ```js
-import frigade from 'packages/js-api'
+import { Frigade } from 'packages/js-api'
 
-await frigade.init('FRIGADE_API_KEY')
+const frigade = new Frigade('FRIGADE_API_KEY')
 
 await frigade.identify('USER_ID', {
   name: 'USER_NAME',

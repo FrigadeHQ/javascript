@@ -1,4 +1,4 @@
-import frigade from '../src/core/frigade'
+import { Frigade } from '../src'
 import { generateGuestId } from '../src/shared/utils'
 
 const testAPIKey = 'api_public_3MPLH7NJ9L0U963XKW7BPE2IT137GC6L742JLC2XCT6NOIYSI4QUI9I1RA3ZOGIL'
@@ -6,13 +6,13 @@ const testFlowId = 'flow_yJfjksFrs5QEH0c8'
 const testFlowStepId = 'checklist-step-one'
 
 test('can init Frigade', async () => {
-  await frigade.init(testAPIKey, {})
+  const frigade = new Frigade(testAPIKey, {})
   const flows = await frigade.getFlows()
   expect(flows.length).toBeGreaterThan(0)
 })
 
 test('flows have fields set', async () => {
-  await frigade.init(testAPIKey, {})
+  const frigade = new Frigade(testAPIKey, {})
   const flows = await frigade.getFlows()
   expect(
     flows.filter((flow) => flow.id && flow.metadata && flow.metadata.type).length
@@ -20,7 +20,7 @@ test('flows have fields set', async () => {
 })
 
 test('read and set flow state', async () => {
-  await frigade.init(testAPIKey, {
+  const frigade = new Frigade(testAPIKey, {
     userId: generateGuestId(),
   })
   const flow = await frigade.getFlow(testFlowId)
@@ -32,7 +32,7 @@ test('read and set flow state', async () => {
 })
 
 test('read and set flow step state', async () => {
-  await frigade.init(testAPIKey, {
+  const frigade = new Frigade(testAPIKey, {
     userId: generateGuestId(),
   })
   const flow = await frigade.getFlow(testFlowId)
