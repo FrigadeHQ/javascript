@@ -11,9 +11,9 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
+    "@frigade/reactv2": "workspace:*",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "@frigade/reactv2": "*"
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^7.4.5",

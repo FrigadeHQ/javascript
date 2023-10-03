@@ -5,6 +5,7 @@
   "license": "MIT",
   "description": "Build better product onboarding, faster.",
   "workspaces": [
+    "apps/*",
     "packages/*"
   ],
   "scripts": {
