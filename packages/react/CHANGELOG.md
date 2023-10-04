@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.37.7
+
+### Patch Changes
+
+- de618ad: This change makes Frigade's Tooltips/Tours WCAG 2.1 AA compliant
+
 ## 1.37.6
 
 ### Patch Changes
