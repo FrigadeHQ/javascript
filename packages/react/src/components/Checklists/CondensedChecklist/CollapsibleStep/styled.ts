@@ -29,6 +29,10 @@ export const StepHeader = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  cursor: pointer;
+  :hover {
+    opacity: 0.8;
+  }
 `
 
 export const StepTitle = styled.p<{ appearance }>`

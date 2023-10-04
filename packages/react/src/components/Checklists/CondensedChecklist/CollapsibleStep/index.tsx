@@ -119,7 +119,7 @@ export const CollapsibleStep: FC<CollapsibleStepProps> = ({
       className={getClassName('checklistStepContainer', appearance)}
       appearance={appearance}
     >
-      <StepHeader className={getClassName('stepHeader', appearance)}>
+      <StepHeader className={getClassName('stepHeader', appearance)} onClick={() => onClick()}>
         <HeaderLeft>
           <CheckBoxRow
             value={stepData.complete}
@@ -131,13 +131,11 @@ export const CollapsibleStep: FC<CollapsibleStepProps> = ({
             appearance={appearance}
             className={getClassName('stepTitle', appearance)}
             dangerouslySetInnerHTML={sanitize(stepData.title)}
-            onClick={() => onClick()}
           />
         </HeaderLeft>
 
         <CollapseChevronContainer
           className={getClassName('stepChevronContainer', appearance)}
-          onClick={() => onClick()}
           appearance={appearance}
         >
           <Chevron style={{ ...iconStyle, transition: 'transform 0.2s ease-in-out' }} />
