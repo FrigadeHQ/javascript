@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.37.8
+
+### Patch Changes
+
+- 10daf57: Make entire accordion row clickable in condensed checklist
+
 ## 1.37.7
 
 ### Patch Changes
