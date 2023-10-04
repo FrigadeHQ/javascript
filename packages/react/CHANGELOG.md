@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.37.6
+
+### Patch Changes
+
+- 8a93cb8: Add internal way for overriding flow yaml locally. This is a method only intended for the Frigade R&D team.
+
 ## 1.37.5
 
 ### Patch Changes
