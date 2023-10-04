@@ -266,7 +266,10 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
       <>
         {showStepCount && steps.length > 1 && (
           <TooltipStepCountContainer>
-            <TooltipStepCounter className={getClassName('tooltipStepCounter', appearance)}>
+            <TooltipStepCounter
+              role="status"
+              className={getClassName('tooltipStepCounter', appearance)}
+            >
               {selectedStep + 1} of {steps.length}
             </TooltipStepCounter>
           </TooltipStepCountContainer>
@@ -322,6 +325,8 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
           <TooltipImageContainer
             dismissible={dismissible}
             appearance={appearance}
+            role="img"
+            aria-label={steps[selectedStep].title}
             src={steps[selectedStep].imageUri}
             className={getClassName('tooltipImageContainer', appearance)}
           />
@@ -330,6 +335,8 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
           <TooltipVideoContainer
             dismissible={dismissible}
             appearance={appearance}
+            role="video"
+            aria-label={steps[selectedStep].title}
             className={getClassName('tooltipVideoContainer', appearance)}
           >
             <VideoCard appearance={appearance} videoUri={steps[selectedStep].videoUri} />
@@ -341,6 +348,7 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
             title={steps[selectedStep].title}
             subtitle={steps[selectedStep].subtitle}
             size="small"
+            ariaPrefix={`Tooltip${steps[selectedStep].id}`}
           />
           <TooltipFooter className={getClassName('tooltipFooter', appearance)}>
             <DefaultFooterContent />
@@ -469,7 +477,11 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
           <>
             <TooltipContainer
               ref={selfRef}
+              role="dialog"
+              aria-labelledby={`frigadeTooltip${steps[selectedStep].id}Title`}
+              aria-describedby={`frigadeTooltip${steps[selectedStep].id}Subtitle`}
               layoutId="tooltip-container"
+              tabIndex={0}
               style={{
                 position: 'relative',
                 width: 'max-content',

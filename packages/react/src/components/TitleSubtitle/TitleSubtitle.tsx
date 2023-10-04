@@ -36,17 +36,20 @@ export function TitleSubtitle({
   subtitle,
   size = 'medium',
   classPrefix = '',
+  ariaPrefix = '',
 }: {
   appearance: Appearance
   title: string
   subtitle?: string
   size?: 'small' | 'medium' | 'large'
   classPrefix?: string
+  ariaPrefix?: string
 }) {
   return (
     <>
       <HeaderTitle
         appearance={appearance}
+        id={ariaPrefix ? `frigade${ariaPrefix}Title` : 'frigadeTitle'}
         className={getClassName(
           `${classPrefix}${classPrefix ? ucFirst(size) : size}Title`,
           appearance
@@ -56,6 +59,7 @@ export function TitleSubtitle({
       />
       {subtitle && (
         <HeaderSubtitle
+          id={ariaPrefix ? `frigade${ariaPrefix}Subtitle` : 'frigadeSubtitle'}
           appearance={appearance}
           className={getClassName(
             `${classPrefix}${classPrefix ? ucFirst(size) : size}Subtitle`,

@@ -103,6 +103,7 @@ export const Button: FC<ButtonProps> = ({
 
   return (
     <ButtonContainer
+      tabindex={secondary ? '0' : '1'}
       secondary={secondary}
       appearance={appearance}
       disabled={disabled || loading}
