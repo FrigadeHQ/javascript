@@ -45,6 +45,7 @@ export interface IFrigadeContext {
   apiUrl: string
   readonly: boolean
   debug: boolean
+  flowDataOverrides?: { [key: string]: string }
 }
 
 export interface FrigadeProviderProps {
@@ -121,6 +122,11 @@ interface FrigadeConfig {
    * Default false.
    */
   debug?: boolean
+
+  /**
+   * @ignore
+   */
+  __internal__?: { [key: string]: string }
 }
 
 function clearLocalStorage() {
@@ -250,6 +256,7 @@ export const FrigadeProvider: FC<FrigadeProviderProps> = ({
     apiUrl: config && config.apiUrl ? config.apiUrl : DEFAULT_API_URL,
     readonly: config && config.readonly ? config.readonly : false,
     debug: config && config.debug ? config.debug : false,
+    flowDataOverrides: config && config.__internal__ ? config.__internal__ : undefined,
   } as IFrigadeContext
 
   if (shouldGracefullyDegrade) {
