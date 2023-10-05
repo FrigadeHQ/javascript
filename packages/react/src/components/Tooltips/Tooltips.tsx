@@ -210,6 +210,22 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
     handleRefreshPosition()
   }, [selectedStep, url])
 
+  useEffect(() => {
+    if (!visible) {
+      return
+    }
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onDismiss()
+      }
+    }
+    document.addEventListener('keydown', handleEscape)
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape)
+    }
+  }, [])
+
   if (elem === null || !visible) {
     return null
   }
@@ -294,6 +310,7 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
                 title={steps[selectedStep].primaryButtonTitle}
                 appearance={appearance}
                 onClick={handleOnCTAClick}
+                autoFocus={true}
                 withMargin={false}
                 size="small"
               />
@@ -318,6 +335,7 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
             className={getClassName('tooltipClose', appearance)}
             hasImage={!!steps[selectedStep].imageUri || !!steps[selectedStep].videoUri}
             aria-label="Close Tooltip"
+            role="button"
             tabIndex={0}
           >
             <Close />
@@ -479,7 +497,7 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
           <>
             <TooltipContainer
               ref={selfRef}
-              role="alertdialog"
+              role="dialog"
               aria-labelledby={`frigadeTooltip${steps[selectedStep].id}Title`}
               aria-describedby={`frigadeTooltip${steps[selectedStep].id}Subtitle`}
               layoutId="tooltip-container"

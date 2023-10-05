@@ -22,6 +22,7 @@ interface ButtonProps {
   size?: 'small' | 'medium' | 'large'
   classPrefix?: string
   loading?: boolean
+  autoFocus?: boolean
 }
 
 const ButtonContainer = styled.button`
@@ -91,6 +92,7 @@ export const Button: FC<ButtonProps> = ({
   withMargin = true,
   classPrefix = '',
   loading = false,
+  autoFocus = false,
 }) => {
   function getClassNameWithPrefix() {
     const name = secondary ? 'buttonSecondary' : 'button'
@@ -114,6 +116,7 @@ export const Button: FC<ButtonProps> = ({
       withMargin={withMargin}
       size={size}
       className={getClassName(getClassNameWithPrefix(), appearance)}
+      autoFocus={autoFocus}
     >
       {loading ? (
         <Spinner className={getClassName('buttonLoader', appearance)} />
