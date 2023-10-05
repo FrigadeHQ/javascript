@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.37.10
+
+### Patch Changes
+
+- 93a556e: Allow dismissing a tour by pressing Escape key
+
 ## 1.37.9
 
 ### Patch Changes
