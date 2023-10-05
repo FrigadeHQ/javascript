@@ -19,6 +19,8 @@ export default defineConfig([
       options.banner = {
         js: '"use client";',
       }
+
+      options.bundle = true
     },
     esbuildPlugins: [vanillaExtractPlugin()],
     entry: ['src/index.ts'],

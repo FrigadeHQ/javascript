@@ -2590,6 +2590,7 @@ __metadata:
     "@vanilla-extract/esbuild-plugin": ^2.3.0
     "@vanilla-extract/sprinkles": ^1.6.1
     babel-jest: ^29.4.1
+    clsx: ^2.0.0
     copyfiles: ^2.4.1
     core-js-pure: ^3.32.0
     dompurify: ^3.0.1
@@ -8379,6 +8380,13 @@ __metadata:
   version: 1.0.4
   resolution: "clone@npm:1.0.4"
   checksum: d06418b7335897209e77bdd430d04f882189582e67bd1f75a04565f3f07f5b3f119a9d670c943b6697d0afb100f03b866b3b8a1f91d4d02d72c4ecf2bb64b5dd
+  languageName: node
+  linkType: hard
+
+"clsx@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "clsx@npm:2.0.0"
+  checksum: a2cfb2351b254611acf92faa0daf15220f4cd648bdf96ce369d729813b85336993871a4bf6978ddea2b81b5a130478339c20d9d0b5c6fc287e5147f0c059276e
   languageName: node
   linkType: hard
 
