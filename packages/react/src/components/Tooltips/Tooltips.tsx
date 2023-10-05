@@ -317,6 +317,8 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
             }}
             className={getClassName('tooltipClose', appearance)}
             hasImage={!!steps[selectedStep].imageUri || !!steps[selectedStep].videoUri}
+            aria-label="Close Tooltip"
+            tabIndex={0}
           >
             <Close />
           </TooltipDismissContainer>
@@ -477,11 +479,12 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
           <>
             <TooltipContainer
               ref={selfRef}
-              role="dialog"
+              role="alertdialog"
               aria-labelledby={`frigadeTooltip${steps[selectedStep].id}Title`}
               aria-describedby={`frigadeTooltip${steps[selectedStep].id}Subtitle`}
               layoutId="tooltip-container"
               tabIndex={0}
+              aria-label="Tooltip"
               style={{
                 position: 'relative',
                 width: 'max-content',
