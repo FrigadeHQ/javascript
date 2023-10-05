@@ -17,14 +17,8 @@ export const Default = {
 };
 
 export const Classnames = {
-  args: {
-    children: "Hello",
-    color: "blue500",
-    bgColor: "green500",
-    padding: "4",
-  },
   decorators: [
-    (Story: any) => (
+    () => (
       <>
         <style>
           {`
@@ -35,7 +29,28 @@ export const Classnames = {
         </style>
         <Box color="blue500" className="testing">
           Box will prioritize styles from the `className` prop over its own
-          internal styles
+          internal styles.
+        </Box>
+      </>
+    ),
+  ],
+};
+
+export const Playground = {
+  decorators: [
+    () => (
+      <>
+        <style>
+          {`
+          .testing {
+            color: pink;
+          }
+          `}
+        </style>
+        Messing around with this dang box while we work:
+        <Box color="blue500" className="testing" style={{ color: "green" }}>
+          Box will prioritize styles from the `className` prop over its own
+          internal styles.
         </Box>
       </>
     ),
