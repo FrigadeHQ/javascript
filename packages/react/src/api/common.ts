@@ -114,7 +114,6 @@ export function useCheckHasInitiatedAPI() {
 
   function verifySDKInitiated() {
     if (shouldGracefullyDegrade) {
-      console.error('Frigade hooks cannot be used when Frigade SDK has failed to initialize')
       return false
     }
     if (!publicApiKey) {
