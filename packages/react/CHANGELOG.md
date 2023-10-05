@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.37.9
+
+### Patch Changes
+
+- d095fa0: Additionall accessibility features for screen readers
+
 ## 1.37.8
 
 ### Patch Changes
