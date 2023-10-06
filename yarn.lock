@@ -2588,6 +2588,7 @@ __metadata:
     "@types/react-dom": ^18.0.11
     "@vanilla-extract/css": ^1.13.0
     "@vanilla-extract/esbuild-plugin": ^2.3.0
+    "@vanilla-extract/recipes": ^0.5.0
     "@vanilla-extract/sprinkles": ^1.6.1
     babel-jest: ^29.4.1
     clsx: ^2.0.0
@@ -6819,6 +6820,15 @@ __metadata:
   version: 1.0.3
   resolution: "@vanilla-extract/private@npm:1.0.3"
   checksum: 866a71ba6804edeb0735684e7723ba78f5cf0bb40d4fb538fe6bf7d73928099e341312337b2a510ac0ce96ff8a4b39eb7f7a5fad0c842532353dd20e7278f29b
+  languageName: node
+  linkType: hard
+
+"@vanilla-extract/recipes@npm:^0.5.0":
+  version: 0.5.0
+  resolution: "@vanilla-extract/recipes@npm:0.5.0"
+  peerDependencies:
+    "@vanilla-extract/css": ^1.0.0
+  checksum: a05c5be63bfa15289e274027836943cec4b94110becb4b8bc8d56e3113d08352151fbe5abd7c00c147e38922a32d8672dc55c60177a99f94255ce7ecceffc829
   languageName: node
   linkType: hard
 

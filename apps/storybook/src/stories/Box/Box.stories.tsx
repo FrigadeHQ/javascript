@@ -1,6 +1,4 @@
-import { Box } from "@frigade/reactv2";
-
-import "@frigade/reactv2/css";
+import { Box, Text } from "@frigade/reactv2";
 
 export default {
   title: "Components/Box",
@@ -9,31 +7,21 @@ export default {
 
 export const Default = {
   args: {
-    children: "This is a Box. It accepts all of our Sprinkles props",
-    color: "blue500",
-    bgColor: "green500",
-    padding: "4",
+    children: <Text>This is a Box. It accepts all of our Sprinkles props</Text>,
   },
 };
 
-export const Classnames = {
-  decorators: [
-    () => (
-      <>
-        <style>
-          {`
-          .testing {
-            color: pink;
-          }
-          `}
-        </style>
-        <Box color="blue500" className="testing">
-          Box will prioritize styles from the `className` prop over its own
-          internal styles.
-        </Box>
-      </>
+export const Polymorphism = {
+  args: {
+    as: "ul",
+    children: (
+      <Text as="li">
+        Box accepts an `as` prop, which will render the Box as the provided
+        component (or HTML element). This Box is actually a UL, and the Text
+        inside it is an LI!
+      </Text>
     ),
-  ],
+  },
 };
 
 export const Playground = {

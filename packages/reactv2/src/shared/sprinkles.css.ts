@@ -20,7 +20,8 @@ export const frigadeCSSLayer = layer()
 // r
 
 const properties = defineProperties({
-  '@layer': frigadeCSSLayer,
+  // '@layer': frigadeCSSLayer,
+
   properties: {
     color: palette,
     backgroundColor: palette,
@@ -36,6 +37,10 @@ const properties = defineProperties({
     paddingRight: tokens.space,
     paddingBottom: tokens.space,
     paddingLeft: tokens.space,
+
+    fontSize: tokens.fontSizes,
+    fontWeight: tokens.fontWeights,
+    lineHeight: tokens.lineHeights,
   },
 
   shorthands: {

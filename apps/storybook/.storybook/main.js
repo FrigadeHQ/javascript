@@ -20,5 +20,14 @@ const config = {
   docs: {
     autodocs: "tag",
   },
+  previewHead: (head) => `
+    ${head}
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        important: '#storybook-root'
+      }
+    </script>
+  `,
 };
 export default config;

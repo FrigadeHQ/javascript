@@ -93,7 +93,7 @@ export const tokens = {
   },
   fontWeights: {
     regular: 400,
-    semibold: 500,
+    demibold: 600,
     bold: 700,
   },
   letterSpacings: {
