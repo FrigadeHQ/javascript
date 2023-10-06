@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.37.11
+
+### Patch Changes
+
+- 67f9402: Allow HTML in LinkCollection step type
+
 ## 1.37.10
 
 ### Patch Changes
