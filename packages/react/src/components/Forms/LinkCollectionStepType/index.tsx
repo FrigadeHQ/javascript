@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { CustomFormTypeProps } from '../../../FrigadeForm/types'
 import { useCTAClickSideEffects } from '../../../hooks/useCTAClickSideEffects'
+import { sanitize } from '../../../shared/sanitizer'
 
 interface Link {
   title?: string
@@ -76,8 +77,8 @@ export function LinkCollectionStepType({ stepData, appearance }: CustomFormTypeP
 
   return (
     <div>
-      <HeaderTitle>{stepData.title}</HeaderTitle>
-      <HeaderSubtitle>{stepData.subtitle}</HeaderSubtitle>
+      <HeaderTitle dangerouslySetInnerHTML={sanitize(stepData.title)} />
+      <HeaderSubtitle dangerouslySetInnerHTML={sanitize(stepData.subtitle)} />
       <LinkContainer>
         {stepData.props?.links?.map((link: Link) => (
           <Link key={link.title}>
