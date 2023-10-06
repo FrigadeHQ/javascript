@@ -4,9 +4,9 @@ import { Box, BoxProps } from '../Box'
 
 import { textRecipe, TextVariants } from './textRecipe.css'
 
-interface TextProps extends BoxProps, TextVariants {}
+export interface TextProps extends BoxProps, TextVariants {}
 
-const BaseText = ({ children, className, variant = 'Body1', ...props }: TextProps) => {
+function BaseText({ children, className, variant = 'Body1', ...props }: TextProps) {
   return (
     <Box as="span" className={clsx(textRecipe({ variant }), className)} {...props}>
       {children}

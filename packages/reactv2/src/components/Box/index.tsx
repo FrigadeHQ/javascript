@@ -9,13 +9,13 @@ export type BoxProps<T extends React.ElementType = React.ElementType> = {
   style?: Record<string, any>
 } & Sprinkles
 
-export const Box = <T extends React.ElementType = React.ElementType>({
+export function Box<T extends React.ElementType = React.ElementType>({
   as,
   children,
   className,
   style,
   ...props
-}: BoxProps<T>) => {
+}: BoxProps<T>) {
   const Component = as ?? 'div'
 
   const sprinklesProps = {}

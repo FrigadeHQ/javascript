@@ -1,13 +1,16 @@
-import { Box, Text } from "@frigade/reactv2";
+import { Box, sprinkles, Text } from "@frigade/reactv2";
+import { Meta } from "@storybook/react";
 
 export default {
   title: "Components/Box",
   component: Box,
-};
+} as Meta<typeof Box>;
 
 export const Default = {
   args: {
-    children: <Text>This is a Box. It accepts all of our Sprinkles props</Text>,
+    children: (
+      <Text>This is a Box. It accepts all of our Sprinkles props:</Text>
+    ),
   },
 };
 
@@ -24,23 +27,25 @@ export const Polymorphism = {
   },
 };
 
-export const Playground = {
+export const TEMP_Playground = {
   decorators: [
-    () => (
-      <>
-        <style>
-          {`
+    () => {
+      return (
+        <>
+          <style>
+            {`
           .testing {
             color: pink;
           }
           `}
-        </style>
-        Messing around with this dang box while we work:
-        <Box color="blue500" className="testing" style={{ color: "green" }}>
-          Box will prioritize styles from the `className` prop over its own
-          internal styles.
-        </Box>
-      </>
-    ),
+          </style>
+          Messing around with this dang box while we work:
+          <Box color="blue500" className="testing" style={{ color: "green" }}>
+            Box will prioritize styles from the `className` prop over its own
+            internal styles.
+          </Box>
+        </>
+      );
+    },
   ],
 };
