@@ -65,6 +65,7 @@ export function useFlows() {
     setHasActiveFullPageFlow,
     setFlowResponses,
     setShouldGracefullyDegrade,
+    shouldGracefullyDegrade,
     readonly,
     flowDataOverrides,
   } = useContext(FrigadeContext)
@@ -608,6 +609,9 @@ export function useFlows() {
       return false
     }
     if (isLoadingUserFlowStateData) {
+      return true
+    }
+    if (shouldGracefullyDegrade) {
       return true
     }
     if (flow?.targetingLogic && userFlowStatesData) {
