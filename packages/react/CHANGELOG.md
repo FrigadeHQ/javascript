@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.37.12
+
+### Patch Changes
+
+- 22c4c18: Fix edgecase related to graceful degradation when API errors occur
+
 ## 1.37.11
 
 ### Patch Changes
