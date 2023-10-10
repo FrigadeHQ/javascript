@@ -1,31 +1,17 @@
 import { createContext } from 'react'
 
-import { deepmerge } from '../../shared/deepmerge'
-import { tokens } from '../../shared/tokens'
+import { useThemeOverrides } from '../../hooks/useThemeOverrides'
 
-export const FrigadeContext = createContext({
-  theme: tokens,
-})
+export const FrigadeContext = createContext({})
 
+// TODO: type theme something like Partial<typeof themeContract>, but allow any value for those keys
 interface ProviderProps {
   children?: React.ReactNode
+  theme?: Record<any, any>
 }
 
-export function Provider({ children }: ProviderProps) {
-  return (
-    <FrigadeContext.Provider
-      value={{
-        theme: deepmerge(tokens, {
-          colors: {
-            blue500: 'pink',
-            primary: {
-              background: 'orange',
-            },
-          },
-        }),
-      }}
-    >
-      {children}
-    </FrigadeContext.Provider>
-  )
+export function Provider({ children, theme }: ProviderProps) {
+  useThemeOverrides(theme)
+
+  return <FrigadeContext.Provider value={{}}>{children}</FrigadeContext.Provider>
 }

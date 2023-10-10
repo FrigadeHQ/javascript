@@ -20,7 +20,7 @@ export const frigadeCSSLayer = layer()
 // borderRadius
 // r
 
-const colorTokens: Record<string, unknown> = flattenObject(tokens.colors)
+const colorTokens: Record<string, unknown> = flattenObject(tokens.colors, '', '-')
 
 // TODO: Flatten theme.colors to make theme['colors.primary.background']: var(--onuthoneuthaoehd)
 // Then point properties.color to that flattened map
@@ -29,13 +29,13 @@ const colorTokens: Record<string, unknown> = flattenObject(tokens.colors)
 const properties = defineProperties({
   // '@layer': frigadeCSSLayer,
 
-  conditions: {
-    default: {},
-    active: { selector: '&:active' },
-    hover: { selector: '&:hover' },
-    focus: { selector: '&:focus' },
-  },
-  defaultCondition: ['default', 'active', 'hover', 'focus'],
+  // conditions: {
+  //   default: {},
+  //   active: { selector: '&:active' },
+  //   hover: { selector: '&:hover' },
+  //   focus: { selector: '&:focus' },
+  // },
+  // defaultCondition: ['default', 'active', 'hover', 'focus'],
 
   properties: {
     color: colorTokens,

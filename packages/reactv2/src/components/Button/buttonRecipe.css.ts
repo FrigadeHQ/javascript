@@ -3,9 +3,9 @@ import { style } from '@vanilla-extract/css'
 
 import { flattenObject } from '../../shared/flattenObject'
 import { sprinkles } from '../../shared/sprinkles.css'
-import { themeContract } from '../../shared/theme/themeContract.css'
+import { theme } from '../../shared/theme/themeContract.css'
 
-export const theme = themeContract
+import '../../shared/theme/baseTheme.css'
 
 export const testSprinklesThings = {}
 
@@ -31,26 +31,32 @@ export const buttonRecipe = recipe({
       // }),
       Primary: {
         backgroundColor: theme.colors.primary.background,
-        color: 'primary.foreground',
-      },
-      Secondary: {
-        backgroundColor: 'white',
-        border: '1px solid',
-        borderColor: 'gray800',
-        color: 'neutral.foreground',
+        border: 0,
+        borderRadius: theme.radii.md,
+        color: theme.colors.primary.foreground,
 
         '&:hover': {
-          backgroundColor: 'blue900',
+          backgroundColor: theme.colors.primary.hover.background,
         },
       },
-      Link: {
-        backgroundColor: 'transparent',
-        color: 'primary.inverted',
-      },
-      Plain: {
-        backgroundColor: 'transparent',
-        color: 'neutral.foreground',
-      },
+      // Secondary: {
+      //   backgroundColor: 'white',
+      //   border: '1px solid',
+      //   borderColor: 'gray800',
+      //   color: 'neutral.foreground',
+
+      //   '&:hover': {
+      //     backgroundColor: 'blue900',
+      //   },
+      // },
+      // Link: {
+      //   backgroundColor: 'transparent',
+      //   color: 'primary.inverted',
+      // },
+      // Plain: {
+      //   backgroundColor: 'transparent',
+      //   color: 'neutral.foreground',
+      // },
     },
   },
 

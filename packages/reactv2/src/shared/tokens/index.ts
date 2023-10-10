@@ -3,16 +3,15 @@ const SPACE_UNIT = 'px'
 const SPACE_SCALE_EXTENT = 20
 
 // Fill an array with SPACE_SCALE_EXTENT multiples of SPACE_VALUE
-const spaceScale = Object.fromEntries(
-  Array.from(Array(SPACE_SCALE_EXTENT + 1), (_, i) => {
-    // Just a cute lil' 0.5 space would you look at this tiny guy over here
-    if (i === 0) {
-      return [0.5, `${0.5 * SPACE_VALUE}${SPACE_UNIT}`]
-    }
-
-    return [i, `${i * SPACE_VALUE}${SPACE_UNIT}`]
-  })
+const generatedSpaces = Object.fromEntries(
+  Array.from(Array(SPACE_SCALE_EXTENT), (_, i) => [i + 1, `${(i + 1) * SPACE_VALUE}${SPACE_UNIT}`])
 )
+
+const spaceScale = {
+  0: '0',
+  0.5: `${0.5 * SPACE_VALUE}${SPACE_UNIT}`,
+  ...generatedSpaces,
+}
 
 export const palette = {
   black: '#000000',

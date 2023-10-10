@@ -5,6 +5,7 @@ import { sprinkles } from '../../shared/sprinkles.css'
 export const textRecipe = recipe({
   base: sprinkles({
     fontFamily: 'default',
+    margin: 0,
   }),
   variants: {
     variant: {
