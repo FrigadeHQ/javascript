@@ -3,6 +3,9 @@ import { recipe, RecipeVariants } from '@vanilla-extract/recipes'
 import { sprinkles } from '../../shared/sprinkles.css'
 
 export const textRecipe = recipe({
+  base: sprinkles({
+    fontFamily: 'default',
+  }),
   variants: {
     variant: {
       Display1: sprinkles({

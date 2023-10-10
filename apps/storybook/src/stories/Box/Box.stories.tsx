@@ -1,10 +1,9 @@
-import { Box, sprinkles, Text } from "@frigade/reactv2";
-import { Meta } from "@storybook/react";
+import { Box, Button, Provider, Text } from "@frigade/reactv2";
 
 export default {
   title: "Components/Box",
   component: Box,
-} as Meta<typeof Box>;
+};
 
 export const Default = {
   args: {
@@ -32,18 +31,14 @@ export const TEMP_Playground = {
     () => {
       return (
         <>
-          <style>
-            {`
-          .testing {
-            color: pink;
-          }
-          `}
-          </style>
           Messing around with this dang box while we work:
           <Box color="blue500" className="testing" style={{ color: "green" }}>
             Box will prioritize styles from the `className` prop over its own
             internal styles.
           </Box>
+          <Provider>
+            <Button title="hello" />
+          </Provider>
         </>
       );
     },

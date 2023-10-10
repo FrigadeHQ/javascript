@@ -1,7 +1,8 @@
 import { layer } from '@vanilla-extract/css'
-import { defineProperties, createSprinkles } from '@vanilla-extract/sprinkles'
+import { ConditionalValue, createSprinkles, defineProperties } from '@vanilla-extract/sprinkles'
 
-import { palette, tokens } from './tokens'
+import { tokens } from './tokens'
+import { flattenObject } from './flattenObject'
 
 export const frigadeCSSLayer = layer()
 
@@ -19,12 +20,26 @@ export const frigadeCSSLayer = layer()
 // borderRadius
 // r
 
+const colorTokens: Record<string, unknown> = flattenObject(tokens.colors)
+
+// TODO: Flatten theme.colors to make theme['colors.primary.background']: var(--onuthoneuthaoehd)
+// Then point properties.color to that flattened map
+// So then sprinkles values will point to live vars? MAYYYYBE?
+
 const properties = defineProperties({
   // '@layer': frigadeCSSLayer,
 
+  conditions: {
+    default: {},
+    active: { selector: '&:active' },
+    hover: { selector: '&:hover' },
+    focus: { selector: '&:focus' },
+  },
+  defaultCondition: ['default', 'active', 'hover', 'focus'],
+
   properties: {
-    color: palette,
-    backgroundColor: palette,
+    color: colorTokens,
+    backgroundColor: colorTokens,
 
     margin: tokens.space,
     marginTop: tokens.space,
@@ -38,6 +53,7 @@ const properties = defineProperties({
     paddingBottom: tokens.space,
     paddingLeft: tokens.space,
 
+    fontFamily: tokens.fontFamilies,
     fontSize: tokens.fontSizes,
     fontWeight: tokens.fontWeights,
     lineHeight: tokens.lineHeights,

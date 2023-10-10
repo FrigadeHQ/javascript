@@ -68,6 +68,32 @@ export const tokens = {
         surface: palette.gray700,
       },
     },
+
+    primary: {
+      background: palette.blue500,
+      border: palette.blue400,
+      foreground: palette.white,
+      surface: palette.blue500,
+
+      active: {
+        background: palette.blue500,
+        border: palette.blue400,
+        foreground: palette.white,
+        surface: palette.blue500,
+      },
+      focus: {
+        background: palette.blue500,
+        border: palette.blue400,
+        foreground: palette.white,
+        surface: palette.blue500,
+      },
+      hover: {
+        background: palette.blue800,
+        border: palette.blue400,
+        foreground: palette.white,
+        surface: palette.blue500,
+      },
+    },
     // primary: {
     //   background: palette.blue500,
     //   foreground: palette.white,
@@ -77,7 +103,7 @@ export const tokens = {
     //   foreground: palette.red500,
     // },
   },
-  fonts: {
+  fontFamilies: {
     default: 'TT Interphases Pro, sans-serif',
   },
   fontSizes: {
@@ -92,9 +118,9 @@ export const tokens = {
     '5xl': '48px',
   },
   fontWeights: {
-    regular: 400,
-    demibold: 600,
-    bold: 700,
+    regular: '400',
+    demibold: '600',
+    bold: '700',
   },
   letterSpacings: {
     md: '0.02em',
