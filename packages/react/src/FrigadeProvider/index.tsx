@@ -259,12 +259,20 @@ export const FrigadeProvider: FC<FrigadeProviderProps> = ({
     flowDataOverrides: config && config.__internal__ ? config.__internal__ : undefined,
   } as IFrigadeContext
 
-  if (shouldGracefullyDegrade) {
-    return <FrigadeContext.Provider value={contextParams}>{children}</FrigadeContext.Provider>
-  }
-
   // Forward-port appearance.theme into theme tokens
   const { overrides } = appearanceToOverrides(appearance)
+
+  if (shouldGracefullyDegrade) {
+    return (
+      <FrigadeContext.Provider value={contextParams}>
+        <ThemeProvider
+          theme={deepmerge(appearance.theme, tokens, overrides ?? {}, config?.theme ?? {})}
+        >
+          {children}
+        </ThemeProvider>
+      </FrigadeContext.Provider>
+    )
+  }
 
   return (
     <FrigadeContext.Provider value={contextParams}>
