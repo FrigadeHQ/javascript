@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.37.13
+
+### Patch Changes
+
+- 2a6551e: Fix default styling on dismiss icons
+
 ## 1.37.12
 
 ### Patch Changes
