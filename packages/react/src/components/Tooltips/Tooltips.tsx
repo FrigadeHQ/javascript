@@ -8,7 +8,7 @@ import {
   TooltipContainer,
   TooltipContentContainer,
   TooltipCTAContainer,
-  TooltipDismissContainer,
+  TooltipDismissButton,
   TooltipFooter,
   TooltipImageContainer,
   TooltipStepCountContainer,
@@ -325,7 +325,7 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
     return (
       <>
         {dismissible && (
-          <TooltipDismissContainer
+          <TooltipDismissButton
             data-testid="tooltip-dismiss"
             onClick={() => {
               if (onDismiss) {
@@ -339,7 +339,7 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
             tabIndex={0}
           >
             <Close />
-          </TooltipDismissContainer>
+          </TooltipDismissButton>
         )}
         {steps[selectedStep].imageUri && (
           <TooltipImageContainer

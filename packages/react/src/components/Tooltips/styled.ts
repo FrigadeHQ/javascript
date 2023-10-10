@@ -35,9 +35,11 @@ const dismissWithoutImageStyle = `
   position: absolute;
   top: 12px;
   right: 12px;
+  background-color: transparent;
+  border: none;
   `
 
-export const TooltipDismissContainer = styled.button`
+export const TooltipDismissButton = styled.button`
   ${(props) => getCustomClassOverrides(props)} {
     ${(props) => (props.hasImage ? dismissWithImageStyle : dismissWithoutImageStyle)};
   }
