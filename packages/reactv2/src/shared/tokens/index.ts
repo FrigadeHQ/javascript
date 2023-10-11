@@ -1,16 +1,31 @@
 const SPACE_VALUE = 4
 const SPACE_UNIT = 'px'
-const SPACE_SCALE_EXTENT = 20
 
-// Fill an array with SPACE_SCALE_EXTENT multiples of SPACE_VALUE
-const generatedSpaces = Object.fromEntries(
-  Array.from(Array(SPACE_SCALE_EXTENT), (_, i) => [i + 1, `${(i + 1) * SPACE_VALUE}${SPACE_UNIT}`])
-)
+const spaceValue = (multiple) => `${SPACE_VALUE * multiple}${SPACE_UNIT}`
 
 const spaceScale = {
   0: '0',
-  0.5: `${0.5 * SPACE_VALUE}${SPACE_UNIT}`,
-  ...generatedSpaces,
+  0.5: spaceValue(0.5),
+  1: spaceValue(1),
+  2: spaceValue(2),
+  3: spaceValue(3),
+  4: spaceValue(4),
+  5: spaceValue(5),
+  6: spaceValue(6),
+  7: spaceValue(7),
+  8: spaceValue(8),
+  9: spaceValue(9),
+  10: spaceValue(10),
+  11: spaceValue(11),
+  12: spaceValue(12),
+  13: spaceValue(13),
+  14: spaceValue(14),
+  15: spaceValue(15),
+  16: spaceValue(16),
+  17: spaceValue(17),
+  18: spaceValue(18),
+  19: spaceValue(19),
+  20: spaceValue(20),
 }
 
 export const palette = {
@@ -39,6 +54,14 @@ export const palette = {
 }
 
 export const tokens = {
+  borders: {
+    md: '1px solid',
+  },
+  borderWidths: {
+    0: '0',
+    md: '1px',
+  },
+
   colors: {
     ...palette,
 
@@ -93,14 +116,32 @@ export const tokens = {
         surface: palette.blue500,
       },
     },
-    // primary: {
-    //   background: palette.blue500,
-    //   foreground: palette.white,
-    //   inverted: palette.blue500,
-    // },
-    // negative: {
-    //   foreground: palette.red500,
-    // },
+
+    secondary: {
+      background: palette.blue500,
+      border: palette.blue400,
+      foreground: palette.white,
+      surface: palette.blue500,
+
+      active: {
+        background: palette.blue500,
+        border: palette.blue400,
+        foreground: palette.white,
+        surface: palette.blue500,
+      },
+      focus: {
+        background: palette.blue500,
+        border: palette.blue400,
+        foreground: palette.white,
+        surface: palette.blue500,
+      },
+      hover: {
+        background: palette.blue800,
+        border: palette.blue400,
+        foreground: palette.white,
+        surface: palette.blue500,
+      },
+    },
   },
   fontFamilies: {
     default: 'TT Interphases Pro, sans-serif',

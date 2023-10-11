@@ -2,6 +2,8 @@ import { clsx } from 'clsx'
 
 import { sprinkles, Sprinkles } from '../../shared/sprinkles.css'
 
+import '../../shared/theme/baseTheme.css'
+
 export type BoxProps<T extends React.ElementType = React.ElementType> = {
   as?: T
   children?: React.ReactNode

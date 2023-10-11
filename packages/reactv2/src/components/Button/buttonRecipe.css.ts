@@ -1,27 +1,15 @@
 import { recipe, RecipeVariants } from '@vanilla-extract/recipes'
-import { style } from '@vanilla-extract/css'
 
-import { flattenObject } from '../../shared/flattenObject'
-import { sprinkles } from '../../shared/sprinkles.css'
 import { theme } from '../../shared/theme/themeContract.css'
 
-import '../../shared/theme/baseTheme.css'
+const { colors, radii } = theme
 
-export const testSprinklesThings = {}
-
-Object.keys(theme).forEach((k) => {
-  testSprinklesThings[k] = typeof theme[k] === 'object' ? flattenObject(theme[k]) : theme[k]
-})
-
-// TEST: Run a recipe with theme directly before routing it through sprinkles
 export const buttonRecipe = recipe({
+  base: {
+    border: 0,
+  },
   variants: {
     variant: {
-      // Display1: sprinkles({
-      //   fontSize: '5xl',
-      //   fontWeight: 'bold',
-      //   lineHeight: '4xl',
-      // }),
       // Primary: sprinkles({
       //   backgroundColor: {
       //     default: 'blue500',
@@ -30,33 +18,30 @@ export const buttonRecipe = recipe({
       //   color: 'primary.foreground',
       // }),
       Primary: {
-        backgroundColor: theme.colors.primary.background,
-        border: 0,
-        borderRadius: theme.radii.md,
-        color: theme.colors.primary.foreground,
+        backgroundColor: colors.primary.background,
+        borderRadius: radii.md,
+        color: colors.primary.foreground,
 
         '&:hover': {
-          backgroundColor: theme.colors.primary.hover.background,
+          backgroundColor: colors.primary.hover.background,
         },
       },
-      // Secondary: {
-      //   backgroundColor: 'white',
-      //   border: '1px solid',
-      //   borderColor: 'gray800',
-      //   color: 'neutral.foreground',
+      Secondary: {
+        backgroundColor: colors.secondary.background,
+        color: colors.secondary.foreground,
 
-      //   '&:hover': {
-      //     backgroundColor: 'blue900',
-      //   },
-      // },
-      // Link: {
-      //   backgroundColor: 'transparent',
-      //   color: 'primary.inverted',
-      // },
-      // Plain: {
-      //   backgroundColor: 'transparent',
-      //   color: 'neutral.foreground',
-      // },
+        '&:hover': {
+          backgroundColor: colors.secondary.hover.background,
+        },
+      },
+      Link: {
+        backgroundColor: colors.transparent,
+        color: colors.primary.background,
+      },
+      Plain: {
+        backgroundColor: colors.transparent,
+        color: colors.neutral.foreground,
+      },
     },
   },
 

@@ -1,8 +1,9 @@
 import { layer } from '@vanilla-extract/css'
-import { ConditionalValue, createSprinkles, defineProperties } from '@vanilla-extract/sprinkles'
+import { createSprinkles, defineProperties } from '@vanilla-extract/sprinkles'
 
-import { tokens } from './tokens'
 import { flattenObject } from './flattenObject'
+import { tokens } from './tokens'
+import { theme } from './theme/themeContract.css'
 
 export const frigadeCSSLayer = layer()
 
@@ -20,48 +21,55 @@ export const frigadeCSSLayer = layer()
 // borderRadius
 // r
 
-const colorTokens: Record<string, unknown> = flattenObject(tokens.colors, '', '-')
+const colorTokens: Record<string, unknown> = flattenObject(theme.colors)
 
-// TODO: Flatten theme.colors to make theme['colors.primary.background']: var(--onuthoneuthaoehd)
-// Then point properties.color to that flattened map
-// So then sprinkles values will point to live vars? MAYYYYBE?
-
-const properties = defineProperties({
-  // '@layer': frigadeCSSLayer,
-
-  // conditions: {
-  //   default: {},
-  //   active: { selector: '&:active' },
-  //   hover: { selector: '&:hover' },
-  //   focus: { selector: '&:focus' },
-  // },
-  // defaultCondition: ['default', 'active', 'hover', 'focus'],
+const colorProperties = defineProperties({
+  conditions: {
+    default: {},
+    active: { selector: '&:active' },
+    hover: { selector: '&:hover' },
+    focus: { selector: '&:focus' },
+  },
+  defaultCondition: ['default', 'active', 'hover', 'focus'],
 
   properties: {
     color: colorTokens,
     backgroundColor: colorTokens,
-
-    margin: tokens.space,
-    marginTop: tokens.space,
-    marginRight: tokens.space,
-    marginBottom: tokens.space,
-    marginLeft: tokens.space,
-
-    padding: tokens.space,
-    paddingTop: tokens.space,
-    paddingRight: tokens.space,
-    paddingBottom: tokens.space,
-    paddingLeft: tokens.space,
-
-    fontFamily: tokens.fontFamilies,
-    fontSize: tokens.fontSizes,
-    fontWeight: tokens.fontWeights,
-    lineHeight: tokens.lineHeights,
+    borderColor: colorTokens,
   },
 
   shorthands: {
     bgColor: ['backgroundColor'],
+  },
+})
 
+const properties = defineProperties({
+  // '@layer': frigadeCSSLayer,
+
+  properties: {
+    border: theme.borders,
+    borderRadius: theme.radii,
+    borderWidth: theme.borderWidths,
+
+    fontFamily: theme.fontFamilies,
+    fontSize: theme.fontSizes,
+    fontWeight: theme.fontWeights,
+    lineHeight: theme.lineHeights,
+
+    margin: theme.space,
+    marginTop: theme.space,
+    marginRight: theme.space,
+    marginBottom: theme.space,
+    marginLeft: theme.space,
+
+    padding: theme.space,
+    paddingTop: theme.space,
+    paddingRight: theme.space,
+    paddingBottom: theme.space,
+    paddingLeft: theme.space,
+  },
+
+  shorthands: {
     m: ['margin'],
     mt: ['marginTop'],
     mr: ['marginRight'],
@@ -80,6 +88,6 @@ const properties = defineProperties({
   },
 })
 
-export const sprinkles = createSprinkles(properties)
+export const sprinkles = createSprinkles(colorProperties, properties)
 
 export type Sprinkles = Parameters<typeof sprinkles>[0]
