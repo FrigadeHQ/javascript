@@ -159,6 +159,10 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
   }, [showTooltipContainer])
 
   const handleRefreshPosition = () => {
+    if (positionStyle === 'static') {
+      return
+    }
+
     const elem = document.querySelector(steps[selectedStep].selector)
     if (!elem) {
       setLastBoundingRect(undefined)
