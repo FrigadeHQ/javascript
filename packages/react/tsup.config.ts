@@ -6,6 +6,9 @@ const commonConfig: Options = {
   format: ['esm', 'cjs'],
   sourcemap: true,
   clean: true,
+  bundle: true,
+  splitting: true,
+  skipNodeModulesBundle: true,
 }
 export default defineConfig([
   {
