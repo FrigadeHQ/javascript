@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.37.14
+
+### Patch Changes
+
+- 9c98aaf: Improved treeshaking in tsup config to reduce bundle size
+
 ## 1.37.13
 
 ### Patch Changes
