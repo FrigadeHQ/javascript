@@ -258,15 +258,13 @@ export const FrigadeTour: FC<
     })
 
     return steps.map((step: StepData, idx: number) => {
-      if (
-        isCurrentSelectorMissing &&
-        !showTooltipsSimultaneously &&
-        idx !== firstVisibleIndex &&
-        skipIfNotFound
-      ) {
+      if (!showTooltipsSimultaneously && idx !== selectedStep && !skipIfNotFound) {
         return null
       }
-      if (!showTooltipsSimultaneously && idx !== selectedStep) {
+      if (idx < firstVisibleIndex && !skipIfNotFound) {
+        return null
+      }
+      if (skipIfNotFound && !isCurrentSelectorMissing && idx !== selectedStep) {
         return null
       }
 
