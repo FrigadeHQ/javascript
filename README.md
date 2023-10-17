@@ -24,7 +24,6 @@ Frigade supports a series of use cases such as:
 - **Engagement**: Keep active customers engaged, announce new product features, and create lifecycle specific re-onboarding flows for dormant or churned customers.
 - **Retention**: Increase retention by delivering the right content at the right time, and by asking your users for feedback on the product.
 
-
 # Features
 
 **Component Library**
