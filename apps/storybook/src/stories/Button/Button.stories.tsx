@@ -14,7 +14,9 @@ export const Default = {
 export const Variants = {
   decorators: [
     () => (
-      <Box style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+      <Box
+        style={{ display: "inline-flex", flexDirection: "column", gap: "12px" }}
+      >
         {Object.keys(Button).map((variant) => {
           const Component = Button[variant];
           return <Component key={variant} title={`Button.${variant}`} />;

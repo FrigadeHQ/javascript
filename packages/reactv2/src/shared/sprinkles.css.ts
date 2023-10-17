@@ -51,6 +51,16 @@ const properties = defineProperties({
     borderRadius: theme.radii,
     borderWidth: theme.borderWidths,
 
+    boxSizing: [
+      'border-box',
+      'content-box',
+      'inherit',
+      'initial',
+      'revert',
+      'revert-layer',
+      'unset',
+    ],
+
     fontFamily: theme.fontFamilies,
     fontSize: theme.fontSizes,
     fontWeight: theme.fontWeights,

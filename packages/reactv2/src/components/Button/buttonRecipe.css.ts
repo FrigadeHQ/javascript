@@ -2,41 +2,42 @@ import { recipe, RecipeVariants } from '@vanilla-extract/recipes'
 
 import { theme } from '../../shared/theme/themeContract.css'
 
-const { colors, radii } = theme
+const { colors, radii, space } = theme
 
 export const buttonRecipe = recipe({
   base: {
     border: 0,
+    borderRadius: radii.md,
+    paddingTop: space[2],
+    paddingRight: space[4],
+    paddingBottom: space[2],
+    paddingLeft: space[4],
   },
   variants: {
     variant: {
-      // Primary: sprinkles({
-      //   backgroundColor: {
-      //     default: 'blue500',
-      //     hover: 'primary.hover.background',
-      //   },
-      //   color: 'primary.foreground',
-      // }),
       Primary: {
-        backgroundColor: colors.primary.background,
-        borderRadius: radii.md,
+        backgroundColor: colors.primary.surface,
         color: colors.primary.foreground,
 
         '&:hover': {
-          backgroundColor: colors.primary.hover.background,
+          backgroundColor: colors.primary.hover.surface,
         },
       },
       Secondary: {
-        backgroundColor: colors.secondary.background,
+        backgroundColor: colors.secondary.surface,
         color: colors.secondary.foreground,
 
         '&:hover': {
-          backgroundColor: colors.secondary.hover.background,
+          backgroundColor: colors.secondary.hover.surface,
         },
       },
       Link: {
         backgroundColor: colors.transparent,
-        color: colors.primary.background,
+        color: colors.primary.surface,
+
+        '&:hover': {
+          color: colors.primary.hover.surface,
+        },
       },
       Plain: {
         backgroundColor: colors.transparent,

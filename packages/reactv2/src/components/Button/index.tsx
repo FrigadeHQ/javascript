@@ -12,7 +12,7 @@ export interface ButtonProps extends BoxProps, ButtonVariants {
 function BaseButton({ as, className, title, variant = 'Primary', ...props }: ButtonProps) {
   return (
     <Box as={as ?? 'button'} className={clsx(buttonRecipe({ variant }), className)} {...props}>
-      <Text>{title}</Text>
+      <Text.Body2 fontWeight="demibold">{title}</Text.Body2>
     </Box>
   )
 }

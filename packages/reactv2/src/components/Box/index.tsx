@@ -1,3 +1,4 @@
+import * as React from 'react'
 import { clsx } from 'clsx'
 
 import { sprinkles, Sprinkles } from '../../shared/sprinkles.css'
@@ -9,25 +10,28 @@ export type BoxProps<T extends React.ElementType = React.ElementType> = {
   children?: React.ReactNode
   className?: string
   style?: Record<string, any>
-} & Sprinkles
+} & Sprinkles &
+  React.ComponentPropsWithoutRef<T>
 
-export function Box<T extends React.ElementType = React.ElementType>({
-  as,
-  children,
-  className,
-  style,
-  ...props
-}: BoxProps<T>) {
+function BoxWithRef<T extends React.ElementType = React.ElementType>(
+  { as, children, className, style, ...props }: BoxProps<T>,
+  ref: React.ForwardedRef<T>
+) {
   const Component = as ?? 'div'
 
-  const sprinklesProps = {}
+  const sprinklesProps: Sprinkles = {
+    boxSizing: 'border-box',
+  }
   const sprinklesPropNames = sprinkles.properties.keys()
-  const propNames = Object.keys(props)
+  const propNames = Object.keys(props) as Array<keyof typeof props>
 
   // Split sprinkles props out from unknown props
   for (const sprinklesProp of sprinklesPropNames) {
     if (propNames.includes(sprinklesProp)) {
-      sprinklesProps[sprinklesProp] = props[sprinklesProp]
+      Object.assign(sprinklesProps, {
+        [sprinklesProp]: props[sprinklesProp],
+      })
+
       delete props[sprinklesProp]
     }
   }
@@ -36,8 +40,15 @@ export function Box<T extends React.ElementType = React.ElementType>({
 
   return (
     // @ts-ignore: Sprinkles color prop type is currently having a struggle
-    <Component className={classNames.length > 0 ? classNames : undefined} style={style} {...props}>
+    <Component
+      className={classNames.length > 0 ? classNames : undefined}
+      style={style}
+      {...props}
+      ref={ref}
+    >
       {children}
     </Component>
   )
 }
+
+export const Box = React.forwardRef(BoxWithRef)

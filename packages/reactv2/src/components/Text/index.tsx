@@ -6,9 +6,9 @@ import { textRecipe, TextVariants } from './textRecipe.css'
 
 export interface TextProps extends BoxProps, TextVariants {}
 
-function BaseText({ children, className, variant = 'Body1', ...props }: TextProps) {
+function BaseText({ as = 'span', children, className, variant = 'Body1', ...props }: TextProps) {
   return (
-    <Box as="span" className={clsx(textRecipe({ variant }), className)} {...props}>
+    <Box as={as} className={clsx(textRecipe({ variant }), className)} {...props}>
       {children}
     </Box>
   )
@@ -20,9 +20,11 @@ const textVariantNames = Object.keys(
 
 const textVariantComponents = Object.fromEntries(
   textVariantNames.map((variant) => {
-    const asProp = ['H1', 'H2', 'H3', 'H4'].includes(variant) ? variant.toLowerCase() : undefined
+    const asProp = ['H1', 'H2', 'H3', 'H4'].includes(variant)
+      ? (variant.toLowerCase() as 'h1' | 'h2' | 'h3' | 'h4')
+      : undefined
     const component = (props: TextProps) => (
-      <BaseText as={asProp as React.ElementType} {...props} variant={variant}>
+      <BaseText as={asProp} {...props} variant={variant}>
         {props.children}
       </BaseText>
     )
