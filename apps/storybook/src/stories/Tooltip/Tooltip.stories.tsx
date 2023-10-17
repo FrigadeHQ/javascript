@@ -10,15 +10,13 @@ export const Default = {
   decorators: [
     () => (
       <Box
-        style={
-          {
-            // alignItems: "center",
-            // display: "flex",
-            // flexDirection: "column",
-            // justifyContent: "center",
-            // height: "100vh",
-          }
-        }
+        style={{
+          alignItems: "center",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          height: "100vh",
+        }}
       >
         <Box
           id="tooltip-anchor"
@@ -29,9 +27,9 @@ export const Default = {
         </Box>
         <Tooltip
           anchor="#tooltip-anchor"
-          align="after"
-          alignOffset={5}
+          align="end"
           side="bottom"
+          //alignOffset={5}
         />
       </Box>
     ),

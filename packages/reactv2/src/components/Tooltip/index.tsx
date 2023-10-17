@@ -92,9 +92,15 @@ export function Tooltip({ anchor, style, ...props }: TooltipProps) {
       marginLeft: originalOffset,
     }
 
-    // Move to max alignOffset (width of content)
-    contentProps['alignOffset'] =
-      (contentRect.width + originalOffset) * (contentProps['align'] == 'end' ? -1 : 1)
+    // Move alignOffset to end of positioned side
+    const currentSide = contentProps['side'] ?? 'bottom'
+    const lengthOfCurrentSide = ['top', 'bottom'].includes(currentSide)
+      ? contentRect.width
+      : contentRect.height
+
+    contentProps['alignOffset'] = (lengthOfCurrentSide + originalOffset) * -1
+
+    console.log(contentProps)
   }
 
   const anchorRef = useRef(null)
