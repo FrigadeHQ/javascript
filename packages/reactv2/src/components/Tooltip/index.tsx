@@ -3,6 +3,7 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react
 import { XMarkIcon } from '@heroicons/react/24/solid'
 import * as Popover from '@radix-ui/react-popover'
 
+import { useBoundingClientRect } from '../../hooks/useBoundingClientRect'
 import { Box } from '../Box'
 import { Button } from '../Button'
 import { Text } from '../Text'
@@ -18,21 +19,7 @@ export interface TooltipProps extends MergedRadixPopoverProps {
 }
 
 export function Tooltip({ anchor, style, ...props }: TooltipProps) {
-  const initialRect =
-    'DOMRect' in globalThis
-      ? new DOMRect()
-      : {
-          height: 0,
-          width: 0,
-          x: 0,
-          y: 0,
-          bottom: 0,
-          top: 0,
-          right: 0,
-          left: 0,
-          toJSON: () => {},
-        }
-  const [contentRect, setContentRect] = useState(initialRect)
+  const { rect: contentRect, ref: contentRef } = useBoundingClientRect()
 
   // TEMP: Mock data
   const { title, subtitle, primaryButtonTitle } = {
@@ -55,25 +42,13 @@ export function Tooltip({ anchor, style, ...props }: TooltipProps) {
     }
   }, [anchor])
 
-  const [contentNode, setContentNode] = useState(null)
-
-  const contentNodeRef = useCallback((node) => {
-    setContentNode(node)
-  }, [])
-
-  useLayoutEffect(() => {
-    if (!contentNode) return
-
-    setContentRect(contentNode.getBoundingClientRect())
-  }, [contentNode])
-
   if (anchorElementRef == null) return null
 
   return (
     <Popover.Root defaultOpen={true} {...rootProps}>
       <Popover.Anchor virtualRef={anchorElementRef} />
       <Popover.Portal>
-        <Popover.Content asChild {...contentProps} ref={contentNodeRef}>
+        <Popover.Content asChild {...contentProps} ref={contentRef}>
           <Box
             backgroundColor="white"
             borderRadius="md"
