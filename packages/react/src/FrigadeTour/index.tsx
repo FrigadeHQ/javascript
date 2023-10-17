@@ -253,18 +253,56 @@ export const FrigadeTour: FC<
   const isCurrentSelectorMissing = !Boolean(document.querySelector(steps[selectedStep].selector))
 
   function renderMultipleToolTips() {
-    const firstVisibleIndex = steps.findIndex((step) => {
-      return Boolean(document.querySelector(step.selector))
+    const firstVisibleIndex = steps.findIndex((step, idx) => {
+      return Boolean(document.querySelector(step.selector)) && idx >= selectedStep
     })
 
     return steps.map((step: StepData, idx: number) => {
-      if (!showTooltipsSimultaneously && idx !== selectedStep && !skipIfNotFound) {
-        return null
+      if (showTooltipsSimultaneously) {
+        return (
+          <Tooltips
+            key={step.id}
+            appearance={appearance}
+            steps={getSteps()}
+            selectedStep={idx}
+            showTooltipsSimultaneously={showTooltipsSimultaneously}
+            dismissible={dismissible}
+            onDismiss={() => onDismissTooltip(step)}
+            tooltipPosition={tooltipPosition}
+            showHighlightOnly={showHighlightOnly}
+            completedStepsCount={getNumberOfStepsCompleted(flowId)}
+            onComplete={handleComplete}
+            cssPosition={cssPosition}
+            onViewTooltip={handleViewTooltip}
+            className={className}
+            {...props}
+          />
+        )
       }
-      if (idx < firstVisibleIndex && !skipIfNotFound) {
-        return null
+
+      if (skipIfNotFound && isCurrentSelectorMissing && idx === firstVisibleIndex) {
+        return (
+          <Tooltips
+            key={step.id}
+            appearance={appearance}
+            steps={getSteps()}
+            selectedStep={idx}
+            showTooltipsSimultaneously={showTooltipsSimultaneously}
+            dismissible={dismissible}
+            onDismiss={() => onDismissTooltip(step)}
+            tooltipPosition={tooltipPosition}
+            showHighlightOnly={showHighlightOnly}
+            completedStepsCount={getNumberOfStepsCompleted(flowId)}
+            onComplete={handleComplete}
+            cssPosition={cssPosition}
+            onViewTooltip={handleViewTooltip}
+            className={className}
+            {...props}
+          />
+        )
       }
-      if (skipIfNotFound && !isCurrentSelectorMissing && idx !== selectedStep) {
+
+      if (idx != selectedStep) {
         return null
       }
 
