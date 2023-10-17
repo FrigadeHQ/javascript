@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.37.16
+
+### Patch Changes
+
+- eb09bd6: Fixes another edge case related to `showIfNotFound`
+
 ## 1.37.15
 
 ### Patch Changes
