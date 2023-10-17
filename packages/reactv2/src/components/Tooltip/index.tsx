@@ -74,33 +74,70 @@ export function Tooltip({ anchor, style, ...props }: TooltipProps) {
       .filter((propEntry) => propEntry[1] !== undefined)
   )
 
+  /*
+    Here we're extending Popover.Content's align prop to accept 'before' and
+    'after' in addition to its existing values.
+
+    TL;DR:
+      1. Use existing alignOffset prop to push Content to be before/after the
+         corresponding edge of the element it's attached to.
+      2. Add a CSS margin to patch alignOffset back onto Content, as Popover
+         has a bug that prevents alignOffset from extending past the edge of
+         its Trigger/Anchor.
+
+         SEE: https://github.com/radix-ui/primitives/issues/2457
+  */
   if (['before', 'after'].includes(contentProps['align'])) {
     const mapToOriginalAlignValues = {
       after: 'end',
       before: 'start',
     }
 
-    const originalOffset = contentProps['alignOffset'] ?? 0
-    const originalStyleProp = contentProps['style'] ?? {}
-
-    // Flip align prop back to valid Radix option
-    contentProps['align'] = mapToOriginalAlignValues[contentProps['align']]
-
-    // Move alignOffset to margin
-    contentProps['style'] = {
-      ...originalStyleProp,
-      marginLeft: originalOffset,
+    const mapAlignOffsetToMargin = (align, side) => {
+      /*
+        Translate alignOffset to CSS margin based on align and side props:
+          bottom || top
+            after: marginLeft
+            before: marginRight
+          left || right
+            after: marginTop
+            before: marginBottom
+      */
+      if (['top', 'bottom'].includes(side)) {
+        if (align == 'after') {
+          return 'marginLeft'
+        } else {
+          return 'marginRight'
+        }
+      } else {
+        if (align == 'after') {
+          return 'marginTop'
+        } else {
+          return 'marginBottom'
+        }
+      }
     }
 
-    // Move alignOffset to end of positioned side
+    const originalOffset = contentProps['alignOffset'] ?? 0
+    const originalStyleProp = contentProps['style'] ?? {}
     const currentSide = contentProps['side'] ?? 'bottom'
+    const currentAlign = contentProps['align']
+
+    // Copy alignOffset value to CSS margin
+    contentProps['style'] = {
+      ...originalStyleProp,
+      [mapAlignOffsetToMargin(currentAlign, currentSide)]: originalOffset,
+    }
+
     const lengthOfCurrentSide = ['top', 'bottom'].includes(currentSide)
       ? contentRect.width
       : contentRect.height
 
+    // Change alignOffset to be at the end of the positioned side
     contentProps['alignOffset'] = (lengthOfCurrentSide + originalOffset) * -1
 
-    console.log(contentProps)
+    // Flip align prop back to valid Radix option
+    contentProps['align'] = mapToOriginalAlignValues[currentAlign]
   }
 
   const anchorRef = useRef(null)
@@ -142,6 +179,7 @@ export function Tooltip({ anchor, style, ...props }: TooltipProps) {
               boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)',
               display: 'flex',
               flexDirection: 'column',
+              position: 'relative',
               width: '300px',
               ...style,
             }}

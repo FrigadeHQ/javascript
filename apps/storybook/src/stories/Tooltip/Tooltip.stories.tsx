@@ -3,12 +3,31 @@ import { Box, Tooltip } from "@frigade/reactv2";
 export default {
   title: "Components/Tooltip",
   component: Tooltip,
+  argTypes: {
+    align: {
+      type: "select",
+      options: ["before", "start", "center", "end", "after"],
+    },
+    alignOffset: {
+      type: "number",
+    },
+    side: {
+      type: "select",
+      options: ["top", "right", "bottom", "left"],
+    },
+    sideOffset: {
+      type: "number",
+    },
+  },
 };
 
 export const Default = {
-  args: {},
+  args: {
+    align: "start",
+    side: "bottom",
+  },
   decorators: [
-    () => (
+    (_, options) => (
       <Box
         style={{
           alignItems: "center",
@@ -30,6 +49,7 @@ export const Default = {
           align="end"
           side="bottom"
           //alignOffset={5}
+          {...options.args}
         />
       </Box>
     ),
