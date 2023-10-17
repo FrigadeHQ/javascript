@@ -91,7 +91,6 @@ export function Tooltip({ anchor, style, ...props }: TooltipProps) {
             >
               <XMarkIcon height="20" fill="black" />
             </Popover.Close>
-            {/* <Popover.Arrow /> */}
           </Box>
         </Popover.Content>
       </Popover.Portal>

@@ -1,4 +1,5 @@
 import { Box, Tooltip } from "@frigade/reactv2";
+import { StoryFn, StoryContext } from "@storybook/react";
 
 export default {
   title: "Components/Tooltip",
@@ -27,7 +28,7 @@ export const Default = {
     side: "bottom",
   },
   decorators: [
-    (_, options) => (
+    (_: StoryFn, options: StoryContext) => (
       <Box
         style={{
           alignItems: "center",
@@ -44,13 +45,7 @@ export const Default = {
         >
           Anchor here
         </Box>
-        <Tooltip
-          anchor="#tooltip-anchor"
-          align="end"
-          side="bottom"
-          //alignOffset={5}
-          {...options.args}
-        />
+        <Tooltip anchor="#tooltip-anchor" {...options.args} />
       </Box>
     ),
   ],
