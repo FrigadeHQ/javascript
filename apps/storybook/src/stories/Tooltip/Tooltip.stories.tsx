@@ -11,6 +11,7 @@ export default {
     },
     alignOffset: {
       type: "number",
+      default: 0,
     },
     side: {
       type: "select",
@@ -18,14 +19,17 @@ export default {
     },
     sideOffset: {
       type: "number",
+      default: 0,
     },
   },
 };
 
 export const Default = {
   args: {
-    align: "start",
+    align: "after",
+    alignOffset: 0,
     side: "bottom",
+    sideOffset: 0,
   },
   decorators: [
     (_: StoryFn, options: StoryContext) => (

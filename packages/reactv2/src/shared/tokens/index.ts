@@ -1,32 +1,19 @@
 const SPACE_VALUE = 4
 const SPACE_UNIT = 'px'
 
-const spaceValue = (multiple) => `${SPACE_VALUE * multiple}${SPACE_UNIT}`
+const spaceValue = (multiple: number) => `${SPACE_VALUE * multiple}${SPACE_UNIT}`
 
-const spaceScale = {
-  0: '0',
-  0.5: spaceValue(0.5),
-  1: spaceValue(1),
-  2: spaceValue(2),
-  3: spaceValue(3),
-  4: spaceValue(4),
-  5: spaceValue(5),
-  6: spaceValue(6),
-  7: spaceValue(7),
-  8: spaceValue(8),
-  9: spaceValue(9),
-  10: spaceValue(10),
-  11: spaceValue(11),
-  12: spaceValue(12),
-  13: spaceValue(13),
-  14: spaceValue(14),
-  15: spaceValue(15),
-  16: spaceValue(16),
-  17: spaceValue(17),
-  18: spaceValue(18),
-  19: spaceValue(19),
-  20: spaceValue(20),
+const spaceKeys = [
+  -20, -19, -18, -17, -16, -15, -14, -13, -12, -11, -10, -9, -8, -7, -6, -5, -4, -3, -2, -1, -0.5,
+  0, 0.5, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+] as const
+
+type SpaceKeys = typeof spaceKeys
+
+type SpaceScale = {
+  [K in SpaceKeys[number]]: string
 }
+const spaceScale = Object.fromEntries(spaceKeys.map((key) => [key, spaceValue(key)])) as SpaceScale
 
 export const palette = {
   black: '#000000',
@@ -184,8 +171,4 @@ export const tokens = {
     md: '0px 4px 20px rgba(0, 0, 0, 0.1)',
   },
   space: spaceScale,
-  // components: {
-  //   Button: buttonVariants,
-  //   Text: textVariants,
-  // },
 }
