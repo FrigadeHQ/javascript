@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.37.17
+
+### Patch Changes
+
+- 13d927f: Fixes an issue where the classic checklist was missing class selectors
+
 ## 1.37.16
 
 ### Patch Changes
