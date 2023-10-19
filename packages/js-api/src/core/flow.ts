@@ -57,7 +57,7 @@ export default class Flow {
 
   private initFromRawData(flowDataRaw: FlowDataRaw) {
     const flowDataYml = JSON.parse(flowDataRaw.data)
-    const steps = flowDataYml.data
+    const steps = flowDataYml.steps ?? flowDataYml.data ?? []
     this.id = flowDataRaw.slug
     this.metadata = flowDataRaw
     this.rawData = flowDataYml
