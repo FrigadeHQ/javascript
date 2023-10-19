@@ -21,7 +21,9 @@ export function useFlowImpressions(flowId: string, visible: boolean = true) {
       !isLoading &&
       getFlowStatus(flowId) === NOT_STARTED_FLOW &&
       targetingLogicShouldHideFlow(getFlow(flowId)) === false &&
-      visible
+      visible &&
+      steps &&
+      steps.length > 0
     ) {
       setHasMarkedFlowStarted(true)
       await markStepStarted(flowId, steps[getCurrentStepIndex(flowId)].id)
