@@ -71,7 +71,14 @@ const HeroChecklistSubtitle = styled.h2`
   margin: 10px 0px 0px 0px;
 `
 
-const ChecklistHeader = styled.div``
+const ChecklistHeader = styled.div`
+  padding: 28px 0px 28px 28px;
+  border-bottom: 1px solid ${(props) => props.appearance?.theme?.colorBorder};
+`
+
+const ChecklistHeaderContainer = styled.div`
+  flex: 1;
+`
 
 const ChecklistStepsContainer = styled.div`
   list-style: none;
@@ -151,9 +158,13 @@ const HeroChecklist: FC<FrigadeChecklistProps> = ({
       className={className}
       appearance={appearance}
     >
-      <ChecklistHeader style={{ flex: 1 }}>
+      <ChecklistHeaderContainer
+        className={getClassName('checklistHeaderContainer', appearance)}
+        appearance={appearance}
+      >
         <ChecklistHeader
-          style={{ padding: '28px 0px 28px 28px', borderBottom: '1px solid #E5E5E5' }}
+          className={getClassName('checklistHeader', appearance)}
+          appearance={appearance}
         >
           <HeroChecklistTitle
             className={getClassName('checklistTitle', appearance)}
@@ -193,7 +204,7 @@ const HeroChecklist: FC<FrigadeChecklistProps> = ({
             )
           })}
         </ChecklistStepsContainer>
-      </ChecklistHeader>
+      </ChecklistHeaderContainer>
       <Divider appearance={appearance} className={getClassName('checklistDivider', appearance)} />
       <HeroChecklistStepContentContainer>
         <StepContent />
