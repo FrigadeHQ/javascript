@@ -6,6 +6,7 @@ import * as Popover from '@radix-ui/react-popover'
 import { useBoundingClientRect } from '../../hooks/useBoundingClientRect'
 import { Box } from '../Box'
 import { Button } from '../Button'
+import { Dot } from './Dot'
 import { Text } from '../Text'
 import { mapTooltipPropsToRadixProps } from './mapTooltipPropsToPopoverProps'
 
@@ -59,32 +60,11 @@ export function Tooltip({ anchor, style, ...props }: TooltipProps) {
     }
 
     /* 
-      Dot position:
-
-      side: top
-        dot: bottom
-        align:
-          before | end
-            dot: right
-          after | start
-            dot: left
-      side: bottom
-        dot: top
-        align: same as side:top
-      side: right
-        dot: left
-        align:
-          before | end
-            dot: bottom
-          after | start
-            dot: top
-
-
       Rules:
         - Dot is opposite to side prop (e.g. side=left -> dot=right)
         - align=before|end -> Dot goes to highest extent (right/bottom) of align-axis
         - align=after|start -> Dot goes to lowest extent (left/top) of align-axis
-        - align=center -> Dot 
+        - align=center -> Dot goes to the center
     */
 
     dotProps[oppositeSides[currentSide]] = dotOffset
@@ -106,7 +86,7 @@ export function Tooltip({ anchor, style, ...props }: TooltipProps) {
         dotProps['top'] = dotOffset
       }
     } else {
-      // The only option left is align=center, which is wonky as hell, but we still need to handle it
+      // The only option left is align=center
       if (['top', 'bottom'].includes(currentSide)) {
         dotProps['left'] = `calc(50% + ${dotOffset})`
       } else {
@@ -139,41 +119,7 @@ export function Tooltip({ anchor, style, ...props }: TooltipProps) {
               ...style,
             }}
           >
-            {/* Dot placeholder */}
-            <Box
-              style={{
-                height: '48px',
-                // left: '-24px',
-                position: 'absolute',
-                // top: '-24px',
-                width: '48px',
-                ...dotPosition,
-              }}
-            >
-              <Box
-                backgroundColor="primary.surface"
-                style={{
-                  borderRadius: '24px',
-                  height: '48px',
-                  left: 0,
-                  opacity: 0.15,
-                  position: 'absolute',
-                  top: 0,
-                  width: '48px',
-                }}
-              />
-              <Box
-                backgroundColor="primary.surface"
-                style={{
-                  borderRadius: '12px',
-                  height: '24px',
-                  left: '12px',
-                  position: 'absolute',
-                  top: '12px',
-                  width: '24px',
-                }}
-              />
-            </Box>
+            <Dot style={dotPosition} />
 
             {/* Image placeholder */}
             <Box
