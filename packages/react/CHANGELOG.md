@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.37.18
+
+### Patch Changes
+
+- 4eb2bcf: Fixes an issue where turned off flows cause an index out of bound exception
+
 ## 1.37.17
 
 ### Patch Changes
