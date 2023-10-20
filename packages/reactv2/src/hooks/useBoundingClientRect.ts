@@ -29,6 +29,7 @@ export function useBoundingClientRect() {
   }, [node])
 
   return {
+    node,
     rect,
     ref,
   }

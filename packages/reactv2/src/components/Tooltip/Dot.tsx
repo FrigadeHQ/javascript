@@ -1,6 +1,8 @@
 import { CSSProperties } from 'react'
 import { Box } from '../Box'
 
+import { animationPulse } from './Dot.css'
+
 interface DotProps {
   style?: CSSProperties
 }
@@ -17,13 +19,14 @@ export function Dot({ style = {} }: DotProps) {
     >
       <Box
         backgroundColor="primary.surface"
+        className={animationPulse}
         style={{
           borderRadius: '24px',
           height: '48px',
           left: 0,
-          opacity: 0.15,
           position: 'absolute',
           top: 0,
+          transformOrigin: 'center center',
           width: '48px',
         }}
       />

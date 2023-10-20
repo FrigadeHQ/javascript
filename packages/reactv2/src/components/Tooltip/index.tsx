@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import { XMarkIcon } from '@heroicons/react/24/solid'
 import * as Popover from '@radix-ui/react-popover'
@@ -20,13 +20,29 @@ export interface TooltipProps extends MergedRadixPopoverProps {
 }
 
 export function Tooltip({ anchor, style, ...props }: TooltipProps) {
-  const { rect: contentRect, ref: contentRef } = useBoundingClientRect()
+  const { node: contentNode, rect: contentRect, ref: contentRef } = useBoundingClientRect()
+  const [alignAttr, setAlignAttr] = useState(props.align)
+  const [sideAttr, setSideAttr] = useState(props.side)
 
   // TEMP: Mock data
   const { title, subtitle, primaryButtonTitle } = {
     title: 'Hello world',
     subtitle: 'Very cool to meet you.',
     primaryButtonTitle: "Let's do this!",
+  }
+
+  // Radix will update data attrs to let us know if Popover.Content has collided
+  if (contentNode !== null) {
+    const currentAlignAttr = contentNode.getAttribute('data-align')
+    const currentSideAttr = contentNode.getAttribute('data-side')
+
+    if (alignAttr !== currentAlignAttr) {
+      setAlignAttr(currentAlignAttr)
+    }
+
+    if (sideAttr !== currentSideAttr) {
+      setSideAttr(currentSideAttr)
+    }
   }
 
   const { contentProps, rootProps } = mapTooltipPropsToRadixProps(props, contentRect)
@@ -46,9 +62,21 @@ export function Tooltip({ anchor, style, ...props }: TooltipProps) {
   if (anchorElementRef == null) return null
 
   function getDotPosition() {
-    const currentSide = props['side'] ?? 'bottom'
-    const currentAlign = props['align'] ?? 'center'
+    const currentSide = sideAttr ?? 'bottom'
     const dotProps = {}
+
+    // Radix's collision system isn't aware of our custom before|after align
+    const currentAlign = (() => {
+      if (['after', 'before'].includes(props.align)) {
+        if (alignAttr == 'start') {
+          return 'before'
+        } else if (alignAttr == 'end') {
+          return 'after'
+        }
+      }
+
+      return props.align
+    })()
 
     const dotOffset = '-24px'
 
@@ -71,18 +99,14 @@ export function Tooltip({ anchor, style, ...props }: TooltipProps) {
 
     if (['before', 'end'].includes(currentAlign)) {
       if (['top', 'bottom'].includes(currentSide)) {
-        console.log('dotprops right')
         dotProps['right'] = dotOffset
       } else {
-        console.log('dotprops bottom')
         dotProps['bottom'] = dotOffset
       }
     } else if (['after', 'start'].includes(currentAlign)) {
       if (['top', 'bottom'].includes(currentSide)) {
-        console.log('dotprops left')
         dotProps['left'] = dotOffset
       } else {
-        console.log('dotprops top')
         dotProps['top'] = dotOffset
       }
     } else {
@@ -98,8 +122,6 @@ export function Tooltip({ anchor, style, ...props }: TooltipProps) {
   }
 
   const dotPosition = getDotPosition()
-
-  console.log(dotPosition)
 
   return (
     <Popover.Root defaultOpen={true} {...rootProps}>
