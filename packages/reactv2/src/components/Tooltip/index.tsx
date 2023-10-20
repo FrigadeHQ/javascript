@@ -124,11 +124,14 @@ export function Tooltip({ anchor, style, ...props }: TooltipProps) {
             {/* Image placeholder */}
             <Box
               backgroundColor="gray900"
+              borderRadius="md"
               mb={5}
               mt={-5}
               mx={-5}
               style={{
                 aspectRatio: '2',
+                borderBottomLeftRadius: 0,
+                borderBottomRightRadius: 0,
               }}
             />
 
