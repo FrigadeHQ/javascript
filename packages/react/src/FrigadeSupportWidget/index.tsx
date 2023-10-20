@@ -17,6 +17,7 @@ import { getClassName } from '../shared/appearance'
 import { QuestionCircle } from '../components/Icons/QuestionCircle'
 import { useCTAClickSideEffects } from '../hooks/useCTAClickSideEffects'
 import { useTheme } from '../hooks/useTheme'
+import { RenderInlineStyles } from '../components/RenderInlineStyles'
 
 export interface FrigadeSupportWidgetProps extends DefaultFrigadeFlowProps {
   type?: 'floating' | 'inline'
@@ -126,6 +127,7 @@ export const FrigadeSupportWidget: FC<FrigadeSupportWidgetProps> = ({
   if (type == 'inline') {
     return (
       <span ref={wrapperRef}>
+        <RenderInlineStyles appearance={appearance} />
         <SupportButton
           style={style}
           onClick={() => {
@@ -150,6 +152,7 @@ export const FrigadeSupportWidget: FC<FrigadeSupportWidgetProps> = ({
 
   return (
     <Portal>
+      <RenderInlineStyles appearance={appearance} />
       <FloatingWidgetContainer style={style} ref={wrapperRef}>
         <Menu />
         <FloatingWidgetButton
