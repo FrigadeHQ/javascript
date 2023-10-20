@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.1.0
+
+### Minor Changes
+
+- b3e82fa: Update API to be more intuitive when accessing steps
+
 ## 0.0.6
 
 ### Patch Changes

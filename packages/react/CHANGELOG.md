@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.37.19
+
+### Patch Changes
+
+- 851c1a7: Fixes issue where inline styles don't apply to the support widget
+
 ## 1.37.18
 
 ### Patch Changes
