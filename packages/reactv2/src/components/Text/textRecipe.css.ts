@@ -1,59 +1,61 @@
 import { recipe, RecipeVariants } from '@vanilla-extract/recipes'
 
-import { sprinkles } from '../../shared/sprinkles.css'
+import { theme } from '../../shared/theme/themeContract.css'
+
+const { fontFamilies, fontSizes, fontWeights, lineHeights } = theme
 
 export const textRecipe = recipe({
-  base: sprinkles({
-    fontFamily: 'default',
+  base: {
+    fontFamily: fontFamilies.default,
     margin: 0,
-  }),
+  },
   variants: {
     variant: {
-      Display1: sprinkles({
-        fontSize: '5xl',
-        fontWeight: 'bold',
-        lineHeight: '4xl',
-      }),
-      Display2: sprinkles({
-        fontSize: '4xl',
-        fontWeight: 'bold',
-        lineHeight: '3xl',
-      }),
-      H1: sprinkles({
-        fontSize: '3xl',
-        fontWeight: 'bold',
-        lineHeight: '2xl',
-      }),
-      H2: sprinkles({
-        fontSize: '2xl',
-        fontWeight: 'bold',
-        lineHeight: 'xl',
-      }),
-      H3: sprinkles({
-        fontSize: 'xl',
-        fontWeight: 'bold',
-        lineHeight: 'lg',
-      }),
-      H4: sprinkles({
-        fontSize: 'lg',
-        fontWeight: 'bold',
-        lineHeight: 'md',
-      }),
-      Body1: sprinkles({
-        fontSize: 'md',
-        fontWeight: 'regular',
-        lineHeight: 'md',
-      }),
-      Body2: sprinkles({
-        fontSize: 'sm',
-        fontWeight: 'regular',
-        lineHeight: 'md',
-      }),
-      Caption: sprinkles({
-        fontSize: 'xs',
-        fontWeight: 'regular',
-        lineHeight: 'sm',
-      }),
+      Display1: {
+        fontSize: fontSizes['5xl'],
+        fontWeight: fontWeights.bold,
+        lineHeight: lineHeights['4xl'],
+      },
+      Display2: {
+        fontSize: fontSizes['4xl'],
+        fontWeight: fontWeights.bold,
+        lineHeight: lineHeights['3xl'],
+      },
+      H1: {
+        fontSize: fontSizes['3xl'],
+        fontWeight: fontWeights.bold,
+        lineHeight: lineHeights['2xl'],
+      },
+      H2: {
+        fontSize: fontSizes['2xl'],
+        fontWeight: fontWeights.bold,
+        lineHeight: lineHeights.xl,
+      },
+      H3: {
+        fontSize: fontSizes.xl,
+        fontWeight: fontWeights.bold,
+        lineHeight: lineHeights.lg,
+      },
+      H4: {
+        fontSize: fontSizes.lg,
+        fontWeight: fontWeights.bold,
+        lineHeight: lineHeights.md,
+      },
+      Body1: {
+        fontSize: fontSizes.md,
+        fontWeight: fontWeights.regular,
+        lineHeight: lineHeights.md,
+      },
+      Body2: {
+        fontSize: fontSizes.sm,
+        fontWeight: fontWeights.regular,
+        lineHeight: lineHeights.md,
+      },
+      Caption: {
+        fontSize: fontSizes.xs,
+        fontWeight: fontWeights.regular,
+        lineHeight: lineHeights.sm,
+      },
     },
   },
 
