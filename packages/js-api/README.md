@@ -78,7 +78,7 @@ await flow.complete()
 
 ```js
 const flow = await frigade.getFlow('FLOW_ID')
-const step = flow.getStep('STEP_ID')
+const step = flow.steps['STEP_ID']
 await step.start()
 await step.complete()
 ```
