@@ -4,6 +4,10 @@ export interface FlowStep {
    */
   id: string
   /**
+   * Order of the step in the flow.
+   */
+  order: number
+  /**
    * Name of the step when shown in a list view
    */
   stepName?: string
@@ -70,11 +74,11 @@ export interface FlowStep {
   /**
    * Whether the step is blocked (can't be accessed yet) based on `startCriteria`
    */
-  blocked?: boolean
+  isBlocked: boolean
   /**
    * Whether the step is hidden (not shown in the list view) based on `visibilityCriteria`
    */
-  hidden?: boolean
+  isHidden: boolean
 
   props?: any
   /**
@@ -95,7 +99,7 @@ export interface FlowStep {
   dismissible?: boolean
 
   /**
-   * Any other additional props defined in flow-data.yml
+   * Any other additional props defined in config.yml
    */
   [x: string | number | symbol]: unknown
 

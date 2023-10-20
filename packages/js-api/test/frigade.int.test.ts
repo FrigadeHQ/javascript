@@ -17,6 +17,11 @@ test('flows have fields set', async () => {
   expect(
     flows.filter((flow) => flow.id && flow.metadata && flow.metadata.type).length
   ).toBeGreaterThan(0)
+  const flow = flows[0]
+  Object.entries(flow.steps).forEach(([_, step]) => {
+    expect(step.id).toBeDefined()
+    expect(step.title).toBeDefined()
+  })
 })
 
 test('read and set flow state', async () => {
@@ -39,8 +44,9 @@ test('read and set flow step state', async () => {
   expect(flow).toBeDefined()
   expect(flow.id).toEqual(testFlowId)
   expect(flow.getCurrentStepIndex()).toEqual(0)
-  const step = flow.steps.find((step) => step.id == testFlowStepId)
-  expect(flow.steps.find((step) => step.id == testFlowStepId)).toBeDefined()
+  const step = flow.steps[testFlowStepId]
+  expect(step).toBeDefined()
+  expect(step.id).toEqual(testFlowStepId)
   expect(step.isCompleted).toBeFalsy()
   expect(step.isStarted).toBeFalsy()
   await step.start()

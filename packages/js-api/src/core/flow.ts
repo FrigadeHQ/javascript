@@ -17,19 +17,19 @@ export default class Flow {
    */
   public id: string
   /**
-   * The raw data defined in `flow-data.yml` as a JSON decoded object
+   * The raw data defined in `config.yml` as a JSON decoded object
    */
   public rawData: Record<any, any>
   /**
-   * The steps contained in the `data` array in `flow-data.yml`
+   * Ordered map from Step ID to step data. The `steps` array in `config.yml`
    */
-  public steps: FlowStep[]
+  public steps: Record<string, FlowStep>
   /**
-   * The user-facing title of the flow, if defined at the top level of `flow-data.yml`
+   * The user-facing title of the flow, if defined at the top level of `config.yml`
    */
   public title?: string
   /**
-   * The user-facing description of the flow, if defined at the top level of `flow-data.yml`
+   * The user-facing description of the flow, if defined at the top level of `config.yml`
    */
   public subtitle?: string
   /**
@@ -68,58 +68,59 @@ export default class Flow {
 
     this.isCompleted = userFlowState.flowState == COMPLETED_FLOW
     this.isStarted = userFlowState.flowState == STARTED_FLOW
-    this.steps = [
-      ...steps.map((step) => {
-        const userFlowStateStep = userFlowState.stepStates[step.id]
-        const stepObj = {
-          ...step,
-          isCompleted: userFlowStateStep.actionType == COMPLETED_STEP,
-          isStarted: userFlowStateStep.actionType == STARTED_STEP,
-        } as FlowStep
+    this.steps = {}
 
-        stepObj.start = async (properties?: Record<string | number, any>) => {
-          stepObj.isCompleted = true
-          await fetcher(this.internalConfig.apiKey, `/flowResponses`, {
-            method: 'POST',
-            body: JSON.stringify({
-              foreignUserId: this.internalConfig.userId,
-              flowSlug: this.id,
-              stepId: step.id,
-              data: properties ?? {},
-              createdAt: new Date().toISOString(),
-              actionType: STARTED_STEP,
-            }),
-          })
-          await this.refreshUserFlowState()
-          const updatedUserFlowState = this.getUserFlowState()
-          stepObj.isCompleted =
-            updatedUserFlowState.stepStates[step.id].actionType == COMPLETED_STEP
-          stepObj.isStarted = updatedUserFlowState.stepStates[step.id].actionType == STARTED_STEP
-        }
+    steps.forEach((step, index) => {
+      const userFlowStateStep = userFlowState.stepStates[step.id]
+      const stepObj = {
+        ...step,
+        isCompleted: userFlowStateStep.actionType == COMPLETED_STEP,
+        isStarted: userFlowStateStep.actionType == STARTED_STEP,
+        isHidden: userFlowStateStep.hidden,
+        isBlocked: userFlowStateStep.blocked,
+        order: index,
+      } as FlowStep
 
-        stepObj.complete = async (properties?: Record<string | number, any>) => {
-          stepObj.isCompleted = true
-          await fetcher(this.internalConfig.apiKey, `/flowResponses`, {
-            method: 'POST',
-            body: JSON.stringify({
-              foreignUserId: this.internalConfig.userId,
-              flowSlug: this.id,
-              stepId: step.id,
-              data: properties ?? {},
-              createdAt: new Date().toISOString(),
-              actionType: COMPLETED_STEP,
-            }),
-          })
-          await this.refreshUserFlowState()
-          const updatedUserFlowState = this.getUserFlowState()
-          stepObj.isCompleted =
-            updatedUserFlowState.stepStates[step.id].actionType == COMPLETED_STEP
-          stepObj.isStarted = updatedUserFlowState.stepStates[step.id].actionType == STARTED_STEP
-        }
+      stepObj.start = async (properties?: Record<string | number, any>) => {
+        stepObj.isCompleted = true
+        await fetcher(this.internalConfig.apiKey, `/flowResponses`, {
+          method: 'POST',
+          body: JSON.stringify({
+            foreignUserId: this.internalConfig.userId,
+            flowSlug: this.id,
+            stepId: step.id,
+            data: properties ?? {},
+            createdAt: new Date().toISOString(),
+            actionType: STARTED_STEP,
+          }),
+        })
+        await this.refreshUserFlowState()
+        const updatedUserFlowState = this.getUserFlowState()
+        stepObj.isCompleted = updatedUserFlowState.stepStates[step.id].actionType == COMPLETED_STEP
+        stepObj.isStarted = updatedUserFlowState.stepStates[step.id].actionType == STARTED_STEP
+      }
 
-        return stepObj
-      }),
-    ]
+      stepObj.complete = async (properties?: Record<string | number, any>) => {
+        stepObj.isCompleted = true
+        await fetcher(this.internalConfig.apiKey, `/flowResponses`, {
+          method: 'POST',
+          body: JSON.stringify({
+            foreignUserId: this.internalConfig.userId,
+            flowSlug: this.id,
+            stepId: step.id,
+            data: properties ?? {},
+            createdAt: new Date().toISOString(),
+            actionType: COMPLETED_STEP,
+          }),
+        })
+        await this.refreshUserFlowState()
+        const updatedUserFlowState = this.getUserFlowState()
+        stepObj.isCompleted = updatedUserFlowState.stepStates[step.id].actionType == COMPLETED_STEP
+        stepObj.isStarted = updatedUserFlowState.stepStates[step.id].actionType == STARTED_STEP
+      }
+
+      this.steps[step.id] = stepObj
+    })
   }
 
   /**
@@ -148,7 +149,8 @@ export default class Flow {
    */
   public async complete(properties?: Record<string | number, any>) {
     const currentStepIndex = this.getCurrentStepIndex()
-    const currentStepId = currentStepIndex != -1 ? this.steps[currentStepIndex].id : 'unknown'
+    const currentStepId =
+      currentStepIndex != -1 ? this.getStepByIndex(currentStepIndex).id : 'unknown'
     await fetcher(this.internalConfig.apiKey, `/flowResponses`, {
       method: 'POST',
       body: JSON.stringify({
@@ -185,7 +187,15 @@ export default class Flow {
    * Get a step by id
    */
   public getStep(id: string): FlowStep | undefined {
-    return this.steps.find((step) => step.id == id)
+    return this.steps[id]
+  }
+
+  /**
+   * Get a step by index
+   * @param index
+   */
+  public getStepByIndex(index: number): FlowStep | undefined {
+    return this.steps[Object.keys(this.steps)[index]]
   }
 
   /**
@@ -198,8 +208,7 @@ export default class Flow {
       return 0
     }
     const currentStepId = userFlowState.lastStepId
-    const index = this.steps.findIndex((step) => step.id === currentStepId)
-    return index == -1 ? 0 : index
+    return this.steps[currentStepId]?.order ?? 0
   }
 
   private getUserFlowState(): UserFlowState {

@@ -62,7 +62,7 @@ await frigade.group('ORGANIZATION_ID', {
 
 ```js
 const flow = await frigade.getFlow('FLOW_ID')
-// Flow data defined in flow-data.yml in the Frigade dashboard
+// Flow data defined in config.yml in the Frigade dashboard
 console.log('Flow status:', flow.isCompleted)
 console.log('Flow data:', flow.rawData)
 ```
