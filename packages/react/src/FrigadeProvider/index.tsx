@@ -1,6 +1,6 @@
 import React, { createContext, FC, useEffect, useState } from 'react'
 import { ThemeProvider } from 'styled-components'
-import { DataFetcher, realUserIdField } from '../components/DataFetcher'
+import { DataFetcher, guestUserIdField, realUserIdField } from '../components/DataFetcher'
 import { Flow } from '../api/flows'
 import { FlowResponse } from '../api/flow-responses'
 import { Appearance, DefaultAppearance } from '../types'
@@ -144,7 +144,8 @@ export const FrigadeProvider: FC<FrigadeProviderProps> = ({
   config,
   children,
 }) => {
-  const [userIdValue, setUserIdValue] = useState<string | null>(!userId ? null : userId)
+  const guestId = typeof window !== 'undefined' ? localStorage.getItem(guestUserIdField) : null
+  const [userIdValue, setUserIdValue] = useState<string | null>(!userId ? guestId : userId)
   const [organizationIdValue, setOrganizationIdValue] = useState<string | null>(
     !organizationId ? null : organizationId
   )

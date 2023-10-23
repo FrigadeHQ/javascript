@@ -8,6 +8,7 @@ interface AddPropertyToUserDTO {
   readonly foreignId: string
   readonly properties?: { [key: string]: string | boolean | number | null }
   readonly events?: UserEvent[]
+  readonly linkGuestId?: string
 }
 
 interface UserEvent {
@@ -20,7 +21,18 @@ export const GUEST_PREFIX = 'guest_'
 export function useUser(): {
   readonly userId: string | null
   readonly setUserId: React.Dispatch<React.SetStateAction<string | null>>
-  readonly setUserIdWithProperties: (userId: string, properties?: EntityProperties) => Promise<void>
+
+  /**
+   * Sets the user id and properties for the current user.
+   * @param userId The user id of the user that is currently logged in.
+   * @param properties The properties of the user that is currently logged in.
+   * @param linkGuestSession If true, any data/state collected during guest session will be linked to the user.
+   */
+  readonly setUserIdWithProperties: (
+    userId: string,
+    properties?: EntityProperties,
+    linkGuestSession?: boolean
+  ) => Promise<void>
   readonly addPropertiesToUser: (properties: EntityProperties) => Promise<void>
   readonly trackEventForUser: (event: string, properties?: EntityProperties) => Promise<void>
 } {
@@ -107,10 +119,13 @@ export function useUser(): {
   )
 
   const setUserIdWithProperties = useCallback(
-    async (userId: string, properties?: EntityProperties) => {
+    async (userId: string, properties?: EntityProperties, linkGuestSession?: boolean) => {
       if (!verifySDKInitiated()) {
         return
       }
+      const existingId = `${userIdInternal}`
+      const shouldLinkGuestSession = linkGuestSession && existingId.startsWith(GUEST_PREFIX)
+      console.log('shouldLinkGuestSession', shouldLinkGuestSession, existingId)
       if (properties) {
         const userRegisteredKey = getUserIdKey(userId)
         localStorage.setItem(userRegisteredKey, 'true')
@@ -125,9 +140,23 @@ export function useUser(): {
           body: JSON.stringify(data),
         })
         setUserProperties((userProperties) => ({ ...userProperties, ...properties }))
-        mutateUserFlowState()
+        if (!shouldLinkGuestSession) {
+          mutateUserFlowState()
+        }
       } else {
         setUserId(userId)
+      }
+      if (shouldLinkGuestSession) {
+        const data: AddPropertyToUserDTO = {
+          foreignId: userId,
+          linkGuestId: existingId,
+        }
+        await gracefullyFetch(`${apiUrl}users`, {
+          ...config,
+          method: 'POST',
+          body: JSON.stringify(data),
+        })
+        mutateUserFlowState()
       }
     },
     [config, shouldGracefullyDegrade, mutateUserFlowState]
