@@ -22,6 +22,7 @@ const dismissWithImageStyle = `
   color: #ffffff;
   padding: 4px;
   border-radius: 100px;
+  border-width: 0px;
   top: 12px;
   right: 12px;
   box-sizing: border-box;
