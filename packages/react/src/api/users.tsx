@@ -143,6 +143,7 @@ export function useUser(): {
       }
       const existingGuestId =
         typeof window !== 'undefined' ? localStorage.getItem(guestUserIdField) : null
+      console.log('id', localStorage.getItem(guestUserIdField))
       if (!existingGuestId) {
         return
       }
