@@ -1,5 +1,12 @@
 # @frigade/react
 
+## 1.37.21
+
+### Patch Changes
+
+- b51009b: Extracts aliasing guest users to separate function
+- c7b917a: Extracts user linking to explicit function
+
 ## 1.37.20
 
 ### Patch Changes
