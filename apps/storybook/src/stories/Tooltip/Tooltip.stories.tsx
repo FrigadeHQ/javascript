@@ -30,6 +30,7 @@ export const Default = {
     alignOffset: 0,
     side: "bottom",
     sideOffset: 0,
+    spotlight: false,
   },
   decorators: [
     (_: StoryFn, options: StoryContext) => (
@@ -42,6 +43,9 @@ export const Default = {
           height: "100vh",
         }}
       >
+        <Box p={4} style={{ background: "pink", width: "20vw" }}>
+          Not the anchor
+        </Box>
         <Box
           id="tooltip-anchor"
           p={4}
@@ -49,6 +53,10 @@ export const Default = {
         >
           Anchor here
         </Box>
+        <Box p={4} style={{ background: "fuchsia", width: "20vw" }}>
+          Also not the anchor
+        </Box>
+
         <Tooltip anchor="#tooltip-anchor" {...options.args} />
       </Box>
     ),
