@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.37.20
+
+### Patch Changes
+
+- c500844: Adds the option to link guest sessions with registered users
+
 ## 1.37.19
 
 ### Patch Changes
