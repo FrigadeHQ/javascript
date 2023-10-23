@@ -8,7 +8,7 @@ import { RenderInlineStyles } from '../components/RenderInlineStyles'
 import { useTheme } from '../hooks/useTheme'
 import { FullWidthProgressBadge } from '../components/Checklists/FullWidthProgressBadge'
 
-interface FrigadeProgressBadgeProps extends DefaultFrigadeFlowProps {
+export interface FrigadeProgressBadgeProps extends DefaultFrigadeFlowProps {
   title: string
   subtitle?: string
   icon?: React.ReactNode

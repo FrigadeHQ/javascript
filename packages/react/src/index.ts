@@ -42,4 +42,13 @@ export { ProgressRing } from './components/Progress/ProgressRing'
 export { Text } from './components/Text'
 export { ProgressBar } from './components/Checklists/Checklist/ProgressBar'
 
+export { FrigadeBannerProps } from './FrigadeBanner'
+export { FrigadeChecklistProps } from './FrigadeChecklist'
+export { FrigadeEmbeddedTipProps } from './FrigadeEmbeddedTip'
+export { FrigadeFormProps } from './FrigadeForm'
+export { FrigadeTourProps } from './FrigadeTour'
+export { FrigadeNPSSurveyProps } from './FrigadeNPSSurvey'
+export { FrigadeAnnouncementProps } from './FrigadeAnnouncement'
+export { FrigadeProgressBadgeProps } from './FrigadeProgressBadge'
+
 export { tokens } from './shared/theme'
