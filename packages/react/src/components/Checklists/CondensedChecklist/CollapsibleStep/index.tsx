@@ -69,7 +69,11 @@ export const CollapsibleStep: FC<CollapsibleStepProps> = ({
               />
             ) : null}
             {stepData.videoUri ? (
-              <VideoCard appearance={appearance} videoUri={stepData.videoUri} />
+              <VideoCard
+                appearance={appearance}
+                videoUri={stepData.videoUri}
+                autoplay={stepData.props?.autoplayVideo}
+              />
             ) : null}
           </StepMediaContainer>
         ) : null}

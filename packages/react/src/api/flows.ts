@@ -1,10 +1,10 @@
 import { useCallback, useContext, useEffect } from 'react'
 import {
-  ABORTED_FLOW,
   COMPLETED_FLOW,
   COMPLETED_STEP,
   NOT_STARTED_FLOW,
   NOT_STARTED_STEP,
+  SKIPPED_FLOW,
   STARTED_FLOW,
   STARTED_STEP,
   StepActionType,
@@ -413,7 +413,7 @@ export function useFlows() {
         foreignUserGroupId: organizationId ?? null,
         flowSlug: flowId,
         stepId: 'unknown',
-        actionType: ABORTED_FLOW,
+        actionType: SKIPPED_FLOW,
         data: data ?? {},
         createdAt: new Date(),
         blocked: false,

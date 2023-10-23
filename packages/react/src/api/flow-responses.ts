@@ -1,10 +1,10 @@
 import { useContext, useState } from 'react'
 import {
-  ABORTED_FLOW,
   COMPLETED_FLOW,
   COMPLETED_STEP,
   NOT_STARTED_FLOW,
   NOT_STARTED_STEP,
+  SKIPPED_FLOW,
   STARTED_FLOW,
   STARTED_STEP,
   useConfig,
@@ -101,7 +101,7 @@ export function useFlowResponses() {
       await postFlowResponse(flowResponse)
     } else if (flowResponse.actionType === COMPLETED_STEP) {
       await postFlowResponse(flowResponse)
-    } else if (flowResponse.actionType === ABORTED_FLOW) {
+    } else if (flowResponse.actionType === SKIPPED_FLOW) {
       await postFlowResponse(flowResponse)
     } else if (flowResponse.actionType === NOT_STARTED_STEP) {
       await postFlowResponse(flowResponse)

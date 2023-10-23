@@ -31,7 +31,11 @@ export const HeroStepContent: FC<StepContentProps> = ({ stepData, appearance }) 
         />
       ) : null}
       {stepData.videoUri ? (
-        <VideoPlayer videoUri={stepData.videoUri} appearance={appearance} />
+        <VideoPlayer
+          videoUri={stepData.videoUri}
+          appearance={appearance}
+          autoplay={stepData.props?.autoplayVideo}
+        />
       ) : null}
       <TitleSubtitleWithCTA stepData={stepData} appearance={appearance} />
     </HeroChecklistStepContent>

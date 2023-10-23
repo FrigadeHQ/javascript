@@ -119,6 +119,10 @@ export interface StepData {
    * Whether to show a highlight in the page where the step is shown. Typically used in tooltips for creating small pings.
    */
   showHighlight?: boolean
+  /**
+   * Any other additional props defined in config.yml
+   */
+  [x: string | number | symbol]: unknown
 }
 
 export interface DefaultFrigadeFlowProps {

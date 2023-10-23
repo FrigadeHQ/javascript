@@ -59,12 +59,20 @@ const WistiaVideoSource = styled.iframe`
   border-radius: ${(props) => props.appearance.theme.borderRadius}px;
 `
 
-export function VideoCard({ appearance, videoUri }: { appearance: Appearance; videoUri: string }) {
+export function VideoCard({
+  appearance,
+  videoUri,
+  autoplay = false,
+}: {
+  appearance: Appearance
+  videoUri: string
+  autoplay?: boolean
+}) {
   // Create ref to use with videoplayer
 
   const ref = useRef<any>()
 
-  const [isPlaying, setIsPlaying] = useState(false)
+  const [isPlaying, setIsPlaying] = useState(autoplay)
 
   if (videoUri.includes('youtube')) {
     let videoId = videoUri.split('v=')[1]
@@ -144,6 +152,8 @@ export function VideoCard({ appearance, videoUri }: { appearance: Appearance; vi
         ref={ref}
         play={isPlaying}
         src={videoUri}
+        autoplay={autoplay}
+        muted={autoplay}
       />
     </Video>
   )

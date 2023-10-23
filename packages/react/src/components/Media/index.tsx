@@ -21,7 +21,13 @@ export function Media({
   classPrefix?: string
 }) {
   if (stepData.videoUri) {
-    return <VideoCard appearance={appearance} videoUri={stepData.videoUri} />
+    return (
+      <VideoCard
+        appearance={appearance}
+        videoUri={stepData.videoUri}
+        autoplay={stepData.props?.autoplayVideo}
+      />
+    )
   }
 
   if (stepData.imageUri) {

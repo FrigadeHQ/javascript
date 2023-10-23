@@ -363,7 +363,11 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
             aria-label={steps[selectedStep].title}
             className={getClassName('tooltipVideoContainer', appearance)}
           >
-            <VideoCard appearance={appearance} videoUri={steps[selectedStep].videoUri} />
+            <VideoCard
+              appearance={appearance}
+              videoUri={steps[selectedStep].videoUri}
+              autoplay={steps[selectedStep].props?.autoplayVideo}
+            />
           </TooltipVideoContainer>
         )}
         <TooltipContentContainer className={getClassName('tooltipContentContainer', appearance)}>
