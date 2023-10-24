@@ -97,7 +97,7 @@
     "styled-system": "^5.1.5",
     "swr": "^2.2.0",
     "uuid": "^9.0.0",
-    "zod": "^3.21.4"
+    "zod": "^3.22.3"
   },
   "packageManager": "yarn@3.6.2"
 }
