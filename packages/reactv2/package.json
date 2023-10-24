@@ -28,9 +28,7 @@
     "test": "jest --passWithNoTests",
     "lint": "eslint --fix --ext .ts,.tsx .",
     "build": "yarn clean && tsup",
-    "local-release": "tsup",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "local-release": "tsup"
   },
   "repository": {
     "type": "git",
