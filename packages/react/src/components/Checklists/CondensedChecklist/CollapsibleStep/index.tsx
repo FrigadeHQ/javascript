@@ -65,7 +65,6 @@ export const CollapsibleStep: FC<CollapsibleStepProps> = ({
               <StepImage
                 className={getClassName('stepImage', appearance)}
                 src={stepData.imageUri}
-                style={stepData.imageStyle}
               />
             ) : null}
             {stepData.videoUri ? (

@@ -100,7 +100,6 @@ export interface StepData {
    */
   handleSecondaryButtonClick?: () => void
   ctaActionType?: 'complete'
-  imageStyle?: CSSProperties
   props?: any
   /**
    * Criteria that needs to be met for the step to complete

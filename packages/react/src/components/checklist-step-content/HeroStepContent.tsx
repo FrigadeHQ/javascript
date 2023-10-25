@@ -26,7 +26,6 @@ export const HeroStepContent: FC<StepContentProps> = ({ stepData, appearance }) 
         <StepImage
           className={getClassName('checklistStepImage', appearance)}
           src={stepData.imageUri}
-          style={stepData.imageStyle}
           appearance={appearance}
         />
       ) : null}

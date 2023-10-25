@@ -4,7 +4,7 @@ import React, { useRef, useState } from 'react'
 import styled from 'styled-components'
 import { getClassName } from '../../shared/appearance'
 
-const Video = styled.div`
+const VideoPlayerWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -34,7 +34,7 @@ const PlayIconWrapper = styled.div`
     border-radius: 50%;
   }
 `
-const VideoSource = styled.video`
+const Video = styled.video`
   width: 100%;
   height: 100%;
   border-radius: ${(props) => props.appearance.theme.borderRadius}px;
@@ -133,8 +133,12 @@ export function VideoCard({
       />
     )
   }
+
   return (
-    <Video className={getClassName('videoPlayerWrapper', appearance)} appearance={appearance}>
+    <VideoPlayerWrapper
+      className={getClassName('videoPlayerWrapper', appearance)}
+      appearance={appearance}
+    >
       {!isPlaying && (
         <PlayIconWrapper
           onClick={() => {
@@ -142,19 +146,20 @@ export function VideoCard({
             ref.current.play()
           }}
           appearance={appearance}
+          className={getClassName('playIconWrapper', appearance)}
         >
           <Play />
         </PlayIconWrapper>
       )}
-      <VideoSource
+      <Video
         appearance={appearance}
         controls={isPlaying}
         ref={ref}
         play={isPlaying}
         src={videoUri}
-        autoplay={autoplay}
+        autoPlay={autoplay}
         muted={autoplay}
       />
-    </Video>
+    </VideoPlayerWrapper>
   )
 }
