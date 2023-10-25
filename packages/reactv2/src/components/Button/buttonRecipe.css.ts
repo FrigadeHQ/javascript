@@ -1,48 +1,42 @@
 import { recipe, RecipeVariants } from '@vanilla-extract/recipes'
 
-import { theme } from '../../shared/theme/themeContract.css'
-
-const { colors, radii, space } = theme
+import { sprinkles } from '../../shared/sprinkles.css'
 
 export const buttonRecipe = recipe({
-  base: {
-    border: 0,
-    borderRadius: radii.md,
-    paddingTop: space[2],
-    paddingRight: space[4],
-    paddingBottom: space[2],
-    paddingLeft: space[4],
-  },
+  base: sprinkles({
+    borderWidth: 0,
+    borderRadius: 'md',
+    py: 2,
+    px: 4,
+  }),
+
   variants: {
     variant: {
-      Primary: {
-        backgroundColor: colors.primary.surface,
-        color: colors.primary.foreground,
-
-        '&:hover': {
-          backgroundColor: colors.primary.hover.surface,
+      Primary: sprinkles({
+        backgroundColor: {
+          default: 'primary.surface',
+          hover: 'primary.hover.surface',
         },
-      },
-      Secondary: {
-        backgroundColor: colors.secondary.surface,
-        color: colors.secondary.foreground,
-
-        '&:hover': {
-          backgroundColor: colors.secondary.hover.surface,
+        color: 'primary.foreground',
+      }),
+      Secondary: sprinkles({
+        backgroundColor: {
+          default: 'secondary.surface',
+          hover: 'secondary.hover.surface',
         },
-      },
-      Link: {
-        backgroundColor: colors.transparent,
-        color: colors.primary.surface,
-
-        '&:hover': {
-          color: colors.primary.hover.surface,
+        color: 'secondary.foreground',
+      }),
+      Link: sprinkles({
+        backgroundColor: 'transparent',
+        color: {
+          default: 'primary.surface',
+          hover: 'primary.hover.surface',
         },
-      },
-      Plain: {
-        backgroundColor: colors.transparent,
-        color: colors.neutral.foreground,
-      },
+      }),
+      Plain: sprinkles({
+        backgroundColor: 'transparent',
+        color: 'neutral.foreground',
+      }),
     },
   },
 

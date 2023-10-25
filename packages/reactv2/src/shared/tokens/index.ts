@@ -40,7 +40,8 @@ export const palette = {
   red500: '#c00000',
 }
 
-export const tokens = {
+// Scalar = Tokens with literal values
+export const scalarTokens = {
   borders: {
     md: '1px solid',
   },
@@ -51,84 +52,6 @@ export const tokens = {
 
   colors: {
     ...palette,
-
-    neutral: {
-      background: palette.white,
-      border: palette.gray900,
-      foreground: palette.black,
-      surface: palette.gray700,
-
-      active: {
-        background: palette.white,
-        border: palette.gray900,
-        foreground: palette.black,
-        surface: palette.gray700,
-      },
-      focus: {
-        background: palette.white,
-        border: palette.gray900,
-        foreground: palette.black,
-        surface: palette.gray700,
-      },
-      hover: {
-        background: palette.white,
-        border: palette.gray900,
-        foreground: palette.black,
-        surface: palette.gray700,
-      },
-    },
-
-    primary: {
-      background: palette.blue500,
-      border: palette.blue500,
-      foreground: palette.white,
-      surface: palette.blue500,
-
-      active: {
-        background: palette.blue400,
-        border: palette.blue400,
-        foreground: palette.white,
-        surface: palette.blue400,
-      },
-      focus: {
-        background: palette.blue500,
-        border: palette.blue500,
-        foreground: palette.white,
-        surface: palette.blue500,
-      },
-      hover: {
-        background: palette.blue400,
-        border: palette.blue400,
-        foreground: palette.white,
-        surface: palette.blue400,
-      },
-    },
-
-    secondary: {
-      background: palette.gray900,
-      border: palette.gray900,
-      foreground: palette.black,
-      surface: palette.gray900,
-
-      active: {
-        background: palette.gray800,
-        border: palette.gray800,
-        foreground: palette.black,
-        surface: palette.gray800,
-      },
-      focus: {
-        background: palette.gray900,
-        border: palette.gray900,
-        foreground: palette.black,
-        surface: palette.gray900,
-      },
-      hover: {
-        background: palette.gray800,
-        border: palette.gray800,
-        foreground: palette.black,
-        surface: palette.gray800,
-      },
-    },
   },
   fontFamilies: {
     default: 'TT Interphases Pro, sans-serif',
@@ -171,4 +94,103 @@ export const tokens = {
     md: '0px 4px 20px rgba(0, 0, 0, 0.1)',
   },
   space: spaceScale,
+}
+
+// Semantic = Tokens that reference Scalars & contextualize them according to how they're used
+export const semanticColors = {
+  /*
+      TODO: Semantic colors need to point to scalar theme vars, not scalar theme values
+
+      E.g.
+        - CORRECT: colors.neutral.background = var(--fr-colors-white)
+          ^ This will pick up runtime theme overrides
+        - INCORRECT: colors.neutral.background = palette.white
+          ^ This will compile to #ffffff and will only change when colors.neutral.background is directly overridden
+    */
+  neutral: {
+    background: palette.white,
+    border: palette.gray900,
+    foreground: palette.black,
+    surface: palette.gray700,
+
+    active: {
+      background: palette.white,
+      border: palette.gray900,
+      foreground: palette.black,
+      surface: palette.gray700,
+    },
+    focus: {
+      background: palette.white,
+      border: palette.gray900,
+      foreground: palette.black,
+      surface: palette.gray700,
+    },
+    hover: {
+      background: palette.white,
+      border: palette.gray900,
+      foreground: palette.black,
+      surface: palette.gray700,
+    },
+  },
+
+  primary: {
+    background: palette.blue500,
+    border: palette.blue500,
+    foreground: palette.white,
+    surface: palette.blue500,
+
+    active: {
+      background: palette.blue400,
+      border: palette.blue400,
+      foreground: palette.white,
+      surface: palette.blue400,
+    },
+    focus: {
+      background: palette.blue500,
+      border: palette.blue500,
+      foreground: palette.white,
+      surface: palette.blue500,
+    },
+    hover: {
+      background: palette.blue400,
+      border: palette.blue400,
+      foreground: palette.white,
+      surface: palette.blue400,
+    },
+  },
+
+  secondary: {
+    background: palette.gray900,
+    border: palette.gray900,
+    foreground: palette.black,
+    surface: palette.gray900,
+
+    active: {
+      background: palette.gray800,
+      border: palette.gray800,
+      foreground: palette.black,
+      surface: palette.gray800,
+    },
+    focus: {
+      background: palette.gray900,
+      border: palette.gray900,
+      foreground: palette.black,
+      surface: palette.gray900,
+    },
+    hover: {
+      background: palette.gray800,
+      border: palette.gray800,
+      foreground: palette.black,
+      surface: palette.gray800,
+    },
+  },
+}
+
+// Package up everything everywhere all at once for convenience
+export const tokens = {
+  ...scalarTokens,
+  colors: {
+    ...scalarTokens.colors,
+    ...semanticColors,
+  },
 }
