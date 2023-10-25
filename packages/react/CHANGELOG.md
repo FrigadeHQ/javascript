@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.37.22
+
+### Patch Changes
+
+- 9fff348: Adds the ability to autoplay videos in all Frigade components
+
 ## 1.37.21
 
 ### Patch Changes
