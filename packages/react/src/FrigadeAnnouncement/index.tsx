@@ -12,6 +12,7 @@ import {
   HeaderSubtitle,
   HeaderTitle,
   MediaContainer,
+  PaginationContainer,
   TextContainer,
 } from './styled'
 import { getClassName, mergeClasses } from '../shared/appearance'
@@ -23,6 +24,7 @@ import { useFlowOpens } from '../api/flow-opens'
 import { Media } from '../components/Media'
 import { sanitize } from '../shared/sanitizer'
 import { useFlowImpressions } from '../hooks/useFlowImpressions'
+import { FormPagination } from '../FrigadeForm/FormPagination'
 
 export interface FrigadeAnnouncementProps extends DefaultFrigadeFlowProps {
   dismissible?: boolean
@@ -30,6 +32,10 @@ export interface FrigadeAnnouncementProps extends DefaultFrigadeFlowProps {
    * Indicates the position of the modal if the form type is a modal. Default is center.
    */
   modalPosition?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' | 'center' | 'inline'
+  /**
+   * Show a pagination indicator at the bottom of the announcement when using more than 1 page. Default is true.
+   */
+  showPagination?: boolean
 }
 
 export const FrigadeAnnouncement: React.FC<FrigadeAnnouncementProps> = ({
@@ -42,12 +48,14 @@ export const FrigadeAnnouncement: React.FC<FrigadeAnnouncementProps> = ({
   style,
   dismissible = true,
   modalPosition = 'center',
+  showPagination = true,
 }) => {
   const {
     getFlow,
     markFlowCompleted,
     markFlowSkipped,
     markStepCompleted,
+    markStepStarted,
     isLoading,
     targetingLogicShouldHideFlow,
     updateCustomVariables,
@@ -93,8 +101,10 @@ export const FrigadeAnnouncement: React.FC<FrigadeAnnouncementProps> = ({
   }
 
   const steps = getFlowSteps(flowId)
+  const currentStepIndex = getCurrentStepIndex(flowId)
+  const totalSteps = steps.length
 
-  const currentStep = steps[getCurrentStepIndex(flowId)]
+  const currentStep = steps[currentStepIndex]
 
   const handleClose = async () => {
     setShowModal(false)
@@ -145,6 +155,19 @@ export const FrigadeAnnouncement: React.FC<FrigadeAnnouncementProps> = ({
               <Media appearance={appearance} stepData={currentStep} />
             </MediaContainer>
           )}
+
+          {showPagination && totalSteps > 1 && (
+            <PaginationContainer
+              className={getClassName('announcementPaginationContainer', appearance)}
+            >
+              <FormPagination
+                className={getClassName('announcementPagination', appearance)}
+                appearance={appearance}
+                stepCount={totalSteps}
+                currentStep={currentStepIndex}
+              />
+            </PaginationContainer>
+          )}
           {(currentStep.primaryButtonTitle || currentStep.secondaryButtonTitle) && (
             <CallToActionContainer className={getClassName('announcementCTAContainer', appearance)}>
               {currentStep.secondaryButtonTitle && (
@@ -174,7 +197,6 @@ export const FrigadeAnnouncement: React.FC<FrigadeAnnouncementProps> = ({
                   size="small"
                   type={'full-width'}
                   onClick={async () => {
-                    currentStep.handlePrimaryButtonClick()
                     primaryCTAClickSideEffects(currentStep)
                     if (onButtonClick) {
                       const result = onButtonClick(
@@ -186,8 +208,12 @@ export const FrigadeAnnouncement: React.FC<FrigadeAnnouncementProps> = ({
                         return
                       }
                     }
-                    await markStepCompleted(flowId, currentStep.id)
-                    await markFlowCompleted(flowId)
+                    if (getCurrentStepIndex(flowId) === totalSteps - 1) {
+                      currentStep.handlePrimaryButtonClick()
+                      await markFlowCompleted(flowId)
+                    } else {
+                      currentStep.handlePrimaryButtonClick()
+                    }
                   }}
                 />
               )}

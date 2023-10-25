@@ -18,6 +18,16 @@ export const TextContainer = styled.div`
   flex-direction: column;
   flex: 1;
 `
+
+export const PaginationContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 12px;
+  margin-top: 4px;
+`
+
 export const CallToActionContainer = styled.div`
   display: flex;
   flex-direction: row;

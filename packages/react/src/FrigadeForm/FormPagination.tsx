@@ -6,6 +6,7 @@ import { Appearance } from '../types'
 
 const Wrapper = styled.div`
   text-align: center;
+  color: #e6e6e6;
 `
 
 interface FormPaginationProps {
@@ -41,7 +42,7 @@ export const FormPagination: FC<FormPaginationProps> = ({
               width={8}
               height={8}
               rx={4}
-              fill={currentStep === idx ? theme.colorPrimary : '#E6E6E6'}
+              fill={currentStep === idx ? theme.colorPrimary : 'currentColor'}
             />
           ))}
       </svg>
