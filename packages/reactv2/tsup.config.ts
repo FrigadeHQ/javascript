@@ -10,6 +10,7 @@ const commonConfig: Options = {
   bundle: true,
   splitting: true,
   skipNodeModulesBundle: true,
+  noExternal: [/vanilla/],
 }
 export default defineConfig([
   {
