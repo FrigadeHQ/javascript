@@ -1,4 +1,5 @@
 import { defineConfig, Options } from 'tsup'
+import { vanillaExtractPlugin } from '@vanilla-extract/esbuild-plugin'
 
 const commonConfig: Options = {
   minify: true,
@@ -9,6 +10,7 @@ const commonConfig: Options = {
   bundle: true,
   splitting: true,
   skipNodeModulesBundle: true,
+  noExternal: [/vanilla/],
 }
 export default defineConfig([
   {
@@ -18,7 +20,10 @@ export default defineConfig([
       options.banner = {
         js: '"use client";',
       }
+
+      options.bundle = true
     },
+    esbuildPlugins: [vanillaExtractPlugin()],
     entry: ['src/index.ts'],
     outDir: 'dist',
   },

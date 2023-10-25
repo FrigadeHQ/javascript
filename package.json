@@ -4,7 +4,10 @@
   "private": true,
   "license": "MIT",
   "description": "Build better product onboarding, faster.",
-  "workspaces": ["packages/*"],
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
     "build": "turbo build",
     "test": "turbo test",
