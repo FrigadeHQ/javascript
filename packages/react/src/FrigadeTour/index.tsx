@@ -66,10 +66,10 @@ export interface FrigadeTourProps extends Omit<DefaultFrigadeFlowProps, 'flowId'
    */
   showStepCount?: boolean
   /**
-   * `complete-flow` (default): Completes the entire flow/tour when a single tooltip is dismissed.
-   * `complete-step`: Completes the current step when a tooltip is dismissed.
+   * `skip-flow` (default): Completes the entire flow/tour when a single tooltip is dismissed.
+   * `complete-step`: Completes the current step when a tooltip is dismissed. The user can continue in the tour.
    */
-  dismissBehavior?: 'complete-flow' | 'complete-step'
+  dismissBehavior?: 'skip-flow' | 'complete-step'
 
   /**
    * @ignore
@@ -102,7 +102,7 @@ export const FrigadeTour: FC<
   dismissible,
   tooltipPosition = 'auto',
   showHighlightOnly = false,
-  dismissBehavior = 'complete-flow',
+  dismissBehavior = 'skip-flow',
   onComplete,
   skipIfNotFound = false,
   cssPosition = 'absolute',
@@ -117,6 +117,7 @@ export const FrigadeTour: FC<
     markStepCompleted,
     markStepStarted,
     markFlowCompleted,
+    markFlowSkipped,
     updateCustomVariables,
     getCurrentStepIndex,
     getStepStatus,
@@ -233,8 +234,8 @@ export const FrigadeTour: FC<
     if (onDismiss) {
       onDismiss()
     }
-    if (dismissBehavior === 'complete-flow') {
-      await markFlowCompleted(flowId)
+    if (dismissBehavior === 'skip-flow') {
+      await markFlowSkipped(flowId)
     } else {
       await markStepCompleted(flowId, stepData.id)
     }
