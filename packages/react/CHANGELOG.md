@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.38.0
+
+### Minor Changes
+
+- 8fd379b: Adds the ability to skip flows. This is similar to completing a flow, but is useful for labelling when a user exits a flow prematurely.
+
 ## 1.37.22
 
 ### Patch Changes
