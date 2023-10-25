@@ -2,6 +2,7 @@ import {
   COMPLETED_FLOW,
   NOT_STARTED_FLOW,
   NOT_STARTED_STEP,
+  SKIPPED_FLOW,
   STARTED_FLOW,
   useConfig,
 } from './common'
@@ -30,6 +31,7 @@ export function useUserFlowStates(): {
   isLoadingUserFlowStateData: boolean
   mutateUserFlowState: () => any
   optimisticallyMarkFlowCompleted: (flowId: string) => void
+  optimisticallyMarkFlowSkipped: (flowId: string) => void
   optimisticallyMarkFlowNotStarted: (flowId: string) => void
   optimisticallyMarkStepCompleted: (
     flowId: string,
@@ -129,6 +131,20 @@ export function useUserFlowStates(): {
     }
   }
 
+  async function optimisticallyMarkFlowSkipped(flowId: string) {
+    if (userFlowStatesData && !readonly) {
+      const flowState = userFlowStatesData.find((state) => state.flowId === flowId)
+      if (flowState && flowState.flowState !== SKIPPED_FLOW) {
+        flowState.flowState = SKIPPED_FLOW
+      }
+      await mutateUserFlowState(Promise.resolve(deepmerge(data, { data: userFlowStatesData })), {
+        optimisticData: deepmerge(data, { data: userFlowStatesData }),
+        revalidate: false,
+        rollbackOnError: false,
+      })
+    }
+  }
+
   async function optimisticallyMarkStepCompleted(
     flowId: string,
     stepId: string,
@@ -218,6 +234,7 @@ export function useUserFlowStates(): {
     isLoadingUserFlowStateData: !hasFinishedInitialLoad,
     mutateUserFlowState,
     optimisticallyMarkFlowCompleted,
+    optimisticallyMarkFlowSkipped,
     optimisticallyMarkFlowNotStarted,
     optimisticallyMarkStepCompleted,
     optimisticallyMarkStepNotStarted,

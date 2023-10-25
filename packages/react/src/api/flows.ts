@@ -97,6 +97,7 @@ export function useFlows() {
     userFlowStatesData,
     isLoadingUserFlowStateData,
     optimisticallyMarkFlowCompleted,
+    optimisticallyMarkFlowSkipped,
     optimisticallyMarkFlowNotStarted,
     optimisticallyMarkStepCompleted,
     optimisticallyMarkStepNotStarted,
@@ -403,7 +404,7 @@ export function useFlows() {
     [userId, organizationId, userFlowStatesData]
   )
 
-  const markFlowAborted = useCallback(
+  const markFlowSkipped = useCallback(
     async (flowId: string, data?: any) => {
       if (!verifySDKInitiated()) {
         return
@@ -422,7 +423,7 @@ export function useFlows() {
       if (!shouldSendServerSideCall(flowResponse)) {
         return
       }
-      await optimisticallyMarkFlowCompleted(flowId)
+      await optimisticallyMarkFlowSkipped(flowId)
       addResponse(flowResponse)
     },
     [userId, organizationId, userFlowStatesData]
@@ -655,7 +656,7 @@ export function useFlows() {
     markFlowNotStarted,
     markFlowStarted,
     markFlowCompleted,
-    markFlowAborted,
+    markFlowSkipped,
     markStepNotStarted,
     getFlowStatus,
     getNumberOfStepsCompleted,

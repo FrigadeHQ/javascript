@@ -46,6 +46,7 @@ export const FrigadeAnnouncement: React.FC<FrigadeAnnouncementProps> = ({
   const {
     getFlow,
     markFlowCompleted,
+    markFlowSkipped,
     markStepCompleted,
     isLoading,
     targetingLogicShouldHideFlow,
@@ -95,12 +96,12 @@ export const FrigadeAnnouncement: React.FC<FrigadeAnnouncementProps> = ({
 
   const currentStep = steps[getCurrentStepIndex(flowId)]
 
-  const handleClose = () => {
+  const handleClose = async () => {
     setShowModal(false)
+    await markFlowSkipped(flowId)
     if (onDismiss) {
       onDismiss()
     }
-    markFlowCompleted(flowId)
   }
 
   function getContent() {
@@ -115,7 +116,7 @@ export const FrigadeAnnouncement: React.FC<FrigadeAnnouncementProps> = ({
           {(dismissible === true || currentStep.dismissible) && modalPosition == 'inline' && (
             <DismissButton
               onClick={async () => {
-                await markFlowCompleted(flowId)
+                await markFlowSkipped(flowId)
                 if (onDismiss) {
                   onDismiss()
                 }
