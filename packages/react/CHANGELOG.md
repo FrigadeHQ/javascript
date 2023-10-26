@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.38.2
+
+### Patch Changes
+
+- 60a05d2: Adds optimistic completion at the step level for flows
+
 ## 1.38.1
 
 ### Patch Changes
