@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.38.1
+
+### Patch Changes
+
+- a1cc691: - Adds back navigation option to announcements
+
 ## 1.38.0
 
 ### Minor Changes
