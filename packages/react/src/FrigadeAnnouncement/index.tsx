@@ -38,6 +38,7 @@ export interface FrigadeAnnouncementProps extends DefaultFrigadeFlowProps {
   showPagination?: boolean
   /**
    * Whether to allow the user to navigate back to previous steps. Default is false.
+   * The title of the button can be controlled by the `backButtonTitle` prop on the step.
    */
   allowBackNavigation?: boolean
 }
