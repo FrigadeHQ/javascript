@@ -162,7 +162,7 @@ export interface DefaultFrigadeFlowProps {
   onButtonClick?: (
     step: StepData,
     index?: number,
-    cta?: 'primary' | 'secondary' | 'link',
+    cta?: 'primary' | 'secondary' | 'link' | 'back',
     nextStep?: StepData
   ) => boolean
 

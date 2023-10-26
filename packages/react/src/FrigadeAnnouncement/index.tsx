@@ -36,6 +36,10 @@ export interface FrigadeAnnouncementProps extends DefaultFrigadeFlowProps {
    * Show a pagination indicator at the bottom of the announcement when using more than 1 page. Default is true.
    */
   showPagination?: boolean
+  /**
+   * Whether to allow the user to navigate back to previous steps. Default is false.
+   */
+  allowBackNavigation?: boolean
 }
 
 export const FrigadeAnnouncement: React.FC<FrigadeAnnouncementProps> = ({
@@ -49,6 +53,7 @@ export const FrigadeAnnouncement: React.FC<FrigadeAnnouncementProps> = ({
   dismissible = true,
   modalPosition = 'center',
   showPagination = true,
+  allowBackNavigation,
 }) => {
   const {
     getFlow,
@@ -169,7 +174,27 @@ export const FrigadeAnnouncement: React.FC<FrigadeAnnouncementProps> = ({
             </PaginationContainer>
           )}
           {(currentStep.primaryButtonTitle || currentStep.secondaryButtonTitle) && (
-            <CallToActionContainer className={getClassName('announcementCTAContainer', appearance)}>
+            <CallToActionContainer
+              allowBackNavigation={allowBackNavigation}
+              className={getClassName('announcementCTAContainer', appearance)}
+            >
+              {allowBackNavigation && currentStepIndex > 0 && (
+                <Button
+                  classPrefix="announcementBack"
+                  title={currentStep.backButtonTitle ?? 'Back'}
+                  appearance={appearance}
+                  withMargin={false}
+                  size="small"
+                  type="full-width"
+                  onClick={async () => {
+                    if (onButtonClick) {
+                      onButtonClick(currentStep, getCurrentStepIndex(flowId), 'back')
+                    }
+                    await markStepStarted(flowId, steps[currentStepIndex - 1].id)
+                  }}
+                  secondary
+                />
+              )}
               {currentStep.secondaryButtonTitle && (
                 <Button
                   classPrefix="announcement"
