@@ -13,6 +13,7 @@ import { useFlowOpens } from './flow-opens'
 import { FlowResponse } from './flow-responses'
 import useSWRImmutable from 'swr/immutable'
 import { deepmerge } from '../shared/deepmerge'
+import { safeParse } from '../shared/parse'
 
 export interface PublicUserFlowState {
   flowId: string
@@ -155,6 +156,15 @@ export function useUserFlowStates(): {
         (state) => state.flowId === flowId
       ) as PublicUserFlowState
       if (flowState) {
+        const flow = flows.find((flow) => flow.slug === flowId)
+        const data = safeParse<any>(flow?.data)
+        const steps = data?.steps ?? data?.data ?? []
+        const currentStepIndex = steps.findIndex((step) => step.id === stepId)
+        const nextStep =
+          steps && steps.length > currentStepIndex + 1 ? steps[currentStepIndex + 1] : null
+        if (nextStep) {
+          flowState.lastStepId = nextStep.id
+        }
         flowState.stepStates[stepId] = flowResponse
         flowState.flowState = STARTED_FLOW
       }
