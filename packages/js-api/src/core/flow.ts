@@ -5,6 +5,7 @@ import {
   COMPLETED_STEP,
   fetcher,
   NOT_STARTED_FLOW,
+  SKIPPED_FLOW,
   STARTED_FLOW,
   STARTED_STEP,
 } from '../shared/utils'
@@ -160,6 +161,28 @@ export default class Flow {
         data: properties ?? {},
         createdAt: new Date().toISOString(),
         actionType: COMPLETED_FLOW,
+      }),
+    })
+    await this.refreshUserFlowState()
+    this.initFromRawData(this.flowDataRaw)
+  }
+
+  /**
+   * Function that marks the flow skipped
+   */
+  public async skip(properties?: Record<string | number, any>) {
+    const currentStepIndex = this.getCurrentStepIndex()
+    const currentStepId =
+      currentStepIndex != -1 ? this.getStepByIndex(currentStepIndex).id : 'unknown'
+    await fetcher(this.internalConfig.apiKey, `/flowResponses`, {
+      method: 'POST',
+      body: JSON.stringify({
+        foreignUserId: this.internalConfig.userId,
+        flowSlug: this.id,
+        stepId: currentStepId,
+        data: properties ?? {},
+        createdAt: new Date().toISOString(),
+        actionType: SKIPPED_FLOW,
       }),
     })
     await this.refreshUserFlowState()
