@@ -53,6 +53,7 @@ export const FrigadeBanner: React.FC<FrigadeBannerProps> = ({
   const {
     getFlow,
     markFlowCompleted,
+    markFlowSkipped,
     isLoading,
     targetingLogicShouldHideFlow,
     updateCustomVariables,
@@ -122,7 +123,7 @@ export const FrigadeBanner: React.FC<FrigadeBannerProps> = ({
             <DismissButton
               type={type}
               onClick={async () => {
-                await markFlowCompleted(flowId)
+                await markFlowSkipped(flowId)
                 if (onDismiss) {
                   onDismiss()
                 }
@@ -167,7 +168,7 @@ export const FrigadeBanner: React.FC<FrigadeBannerProps> = ({
             <DismissButton
               type={type}
               onClick={async () => {
-                await markFlowCompleted(flowId)
+                await markFlowSkipped(flowId)
                 if (onDismiss) {
                   onDismiss()
                 }

@@ -41,6 +41,7 @@ export const FrigadeNPSSurvey: React.FC<FrigadeNPSSurveyProps> = ({
   const {
     getFlow,
     markFlowCompleted,
+    markFlowSkipped,
     markStepCompleted,
     getNumberOfStepsCompleted,
     isLoading,
@@ -212,7 +213,7 @@ export const FrigadeNPSSurvey: React.FC<FrigadeNPSSurveyProps> = ({
         >
           <DismissButton
             onClick={async () => {
-              await markFlowCompleted(flowId)
+              await markFlowSkipped(flowId)
               if (onDismiss) {
                 onDismiss()
               }

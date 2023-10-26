@@ -29,6 +29,7 @@ export const FrigadeEmbeddedTip: React.FC<FrigadeEmbeddedTipProps> = ({
   const {
     getFlow,
     markFlowCompleted,
+    markFlowSkipped,
     markStepCompleted,
     isLoading,
     targetingLogicShouldHideFlow,
@@ -79,7 +80,7 @@ export const FrigadeEmbeddedTip: React.FC<FrigadeEmbeddedTipProps> = ({
         {(dismissible === true || currentStep.dismissible) && (
           <DismissButton
             onClick={async () => {
-              await markFlowCompleted(flowId)
+              await markFlowSkipped(flowId)
               if (onDismiss) {
                 onDismiss()
               }
