@@ -168,11 +168,13 @@ export function useUserFlowStates(): {
         flowState.stepStates[stepId] = flowResponse
         flowState.flowState = STARTED_FLOW
       }
-      await mutateUserFlowState(Promise.resolve(deepmerge(data, { data: userFlowStatesData })), {
-        optimisticData: deepmerge(data, { data: userFlowStatesData }),
-        revalidate: false,
-        rollbackOnError: false,
-      })
+      if (!readonly) {
+        await mutateUserFlowState(Promise.resolve(deepmerge(data, { data: userFlowStatesData })), {
+          optimisticData: deepmerge(data, { data: userFlowStatesData }),
+          revalidate: false,
+          rollbackOnError: false,
+        })
+      }
     }
   }
 
@@ -190,11 +192,13 @@ export function useUserFlowStates(): {
         flowState.stepStates[stepId] = flowResponse
         flowState.flowState = STARTED_FLOW
       }
-      await mutateUserFlowState(deepmerge(data, { data: userFlowStatesData }), {
-        optimisticData: deepmerge(data, { data: userFlowStatesData }),
-        revalidate: false,
-        rollbackOnError: false,
-      })
+      if (!readonly) {
+        await mutateUserFlowState(deepmerge(data, { data: userFlowStatesData }), {
+          optimisticData: deepmerge(data, { data: userFlowStatesData }),
+          revalidate: false,
+          rollbackOnError: false,
+        })
+      }
     }
   }
 
