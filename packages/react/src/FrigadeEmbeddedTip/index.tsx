@@ -11,6 +11,8 @@ import { Close } from '../components/Icons/Close'
 import { TitleSubtitle } from '../components/TitleSubtitle/TitleSubtitle'
 import { Button } from '../components/Button'
 import { useFlowImpressions } from '../hooks/useFlowImpressions'
+import { MediaContainer } from '../FrigadeAnnouncement/styled'
+import { Media } from '../components/Media'
 
 export interface FrigadeEmbeddedTipProps extends DefaultFrigadeFlowProps {
   dismissible?: boolean
@@ -89,6 +91,11 @@ export const FrigadeEmbeddedTip: React.FC<FrigadeEmbeddedTipProps> = ({
           >
             <Close />
           </DismissButton>
+        )}
+        {(currentStep.imageUri || currentStep.videoUri) && (
+          <MediaContainer className={getClassName('embeddedTipMediaContainer', appearance)}>
+            <Media appearance={appearance} stepData={currentStep} />
+          </MediaContainer>
         )}
         <TextContainer>
           <TitleSubtitle
