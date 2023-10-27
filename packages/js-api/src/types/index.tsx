@@ -1,5 +1,5 @@
 export interface FrigadeConfig {
-  apiKey: string
+  apiKey?: string
   /**
    * API url to use for all requests. Defaults to https://api.frigade.com
    */

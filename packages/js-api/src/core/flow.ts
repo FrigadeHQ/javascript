@@ -1,4 +1,4 @@
-import { InternalConfig, UserFlowState } from '../types'
+import { FrigadeConfig, UserFlowState } from '../types'
 import { FlowDataRaw } from './types'
 import {
   COMPLETED_FLOW,
@@ -48,9 +48,9 @@ export default class Flow extends Fetchable {
 
   private flowDataRaw: FlowDataRaw
 
-  private internalConfig: InternalConfig
+  private internalConfig: FrigadeConfig
 
-  constructor(internalConfig: InternalConfig, flowDataRaw: FlowDataRaw) {
+  constructor(internalConfig: FrigadeConfig, flowDataRaw: FlowDataRaw) {
     super(internalConfig)
     this.internalConfig = internalConfig
     this.flowDataRaw = flowDataRaw

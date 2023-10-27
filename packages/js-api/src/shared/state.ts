@@ -1,4 +1,4 @@
-import { InternalConfig, UserFlowState } from '../types'
+import { FrigadeConfig, UserFlowState } from '../types'
 
 export interface FrigadeGlobalState {
   refreshUserFlowStates: () => Promise<void>
@@ -7,7 +7,7 @@ export interface FrigadeGlobalState {
 
 export let frigadeGlobalState: Record<string, FrigadeGlobalState> = {}
 
-export function getGlobalStateKey(internalConfig: InternalConfig): string {
+export function getGlobalStateKey(internalConfig: FrigadeConfig): string {
   return `${internalConfig.__instanceId}-${internalConfig.apiKey}:${internalConfig.userId ?? ''}:${
     internalConfig.organizationId ?? ''
   }`

@@ -1,4 +1,4 @@
-import { FrigadeConfig, InternalConfig, UserFlowState } from '../types'
+import { FrigadeConfig, UserFlowState } from '../types'
 import { fetcher, generateGuestId, resetAllLocalStorage } from '../shared/utils'
 import Flow from './flow'
 import { FlowDataRaw } from './types'
@@ -6,10 +6,7 @@ import { frigadeGlobalState, getGlobalStateKey } from '../shared/state'
 import { Fetchable } from '../shared/Fetchable'
 
 export class Frigade extends Fetchable {
-  private apiKey?: string
-  public config: FrigadeConfig
   private hasInitialized = false
-
   private flows: Flow[] = []
 
   constructor(apiKey: string, config?: FrigadeConfig) {
@@ -18,12 +15,11 @@ export class Frigade extends Fetchable {
       ...config,
     })
 
-    this.init(apiKey, config)
+    this.init(this.config)
   }
 
-  private async init(apiKey: string, config?: FrigadeConfig): Promise<void> {
+  private async init(config: FrigadeConfig): Promise<void> {
     this.config = {
-      apiKey,
       ...this.config,
       ...config,
     }
@@ -90,7 +86,7 @@ export class Frigade extends Fetchable {
 
   private async initIfNeeded() {
     if (!this.hasInitialized) {
-      await this.init(this.apiKey, this.config)
+      await this.init(this.config)
     }
   }
 
