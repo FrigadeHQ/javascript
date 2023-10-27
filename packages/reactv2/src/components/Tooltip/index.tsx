@@ -17,21 +17,32 @@ interface MergedRadixPopoverProps
 export interface TooltipProps extends MergedRadixPopoverProps {
   align?: Popover.PopoverContentProps['align'] | 'before' | 'after'
   anchor?: string
+  primaryButtonTitle?: string
   spotlight?: boolean
   style?: React.CSSProperties
+  subtitle?: string
+  title?: string
 }
 
-export function Tooltip({ anchor, spotlight = false, style, ...props }: TooltipProps) {
+export function Tooltip({
+  anchor,
+  primaryButtonTitle,
+  spotlight = false,
+  style,
+  subtitle,
+  title,
+  ...props
+}: TooltipProps) {
   const { node: contentNode, rect: contentRect, ref: contentRef } = useBoundingClientRect()
   const [alignAttr, setAlignAttr] = useState(props.align)
   const [sideAttr, setSideAttr] = useState(props.side)
 
   // TEMP: Mock data
-  const { title, subtitle, primaryButtonTitle } = {
-    title: 'Hello world',
-    subtitle: 'Very cool to meet you.',
-    primaryButtonTitle: "Let's do this!",
-  }
+  // const { title, subtitle, primaryButtonTitle } = {
+  //   title: 'Hello world',
+  //   subtitle: 'Very cool to meet you.',
+  //   primaryButtonTitle: "Let's do this!",
+  // }
 
   // Radix will update data attrs to let us know if Popover.Content has collided
   if (contentNode !== null) {
@@ -121,10 +132,13 @@ export function Tooltip({ anchor, spotlight = false, style, ...props }: TooltipP
                 }}
               />
 
-              <Text.Body1 fontWeight="bold" mb={1}>
-                {title}
-              </Text.Body1>
-              <Text.Body2>{subtitle}</Text.Body2>
+              {title && (
+                <Text.Body1 fontWeight="bold" mb={1}>
+                  {title}
+                </Text.Body1>
+              )}
+
+              {subtitle && <Text.Body2>{subtitle}</Text.Body2>}
 
               <Box
                 pt={4}
@@ -135,7 +149,8 @@ export function Tooltip({ anchor, spotlight = false, style, ...props }: TooltipP
                 }}
               >
                 <Text.Body2 fontWeight="demibold">1/4</Text.Body2>
-                <Button.Primary title={primaryButtonTitle ?? 'Ok'} />
+
+                {primaryButtonTitle && <Button.Primary title={primaryButtonTitle ?? 'Ok'} />}
               </Box>
 
               <Popover.Close

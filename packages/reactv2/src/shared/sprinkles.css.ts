@@ -2,7 +2,6 @@ import { layer } from '@vanilla-extract/css'
 import { createSprinkles, defineProperties } from '@vanilla-extract/sprinkles'
 
 import { flattenObject } from './flattenObject'
-import { tokens } from './tokens'
 import { theme } from './theme/themeContract.css'
 
 export const frigadeCSSLayer = layer()

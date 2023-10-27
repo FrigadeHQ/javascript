@@ -1,40 +1,13 @@
-import { Box, Tooltip } from "@frigade/reactv2";
+import { Box, Tour } from "@frigade/reactv2";
 import { StoryFn, StoryContext } from "@storybook/react";
 
 export default {
-  title: "Components/Tooltip",
-  component: Tooltip,
-  argTypes: {
-    align: {
-      type: "select",
-      options: ["before", "start", "center", "end", "after"],
-    },
-    alignOffset: {
-      type: "number",
-      default: 0,
-    },
-    side: {
-      type: "select",
-      options: ["top", "right", "bottom", "left"],
-    },
-    sideOffset: {
-      type: "number",
-      default: 0,
-    },
-  },
+  title: "Components/Tour",
+  component: Tour,
 };
 
 export const Default = {
-  args: {
-    align: "after",
-    alignOffset: 0,
-    primaryButtonTitle: "Primary button",
-    side: "bottom",
-    sideOffset: 0,
-    spotlight: false,
-    subtitle: "Subtitle",
-    title: "Title",
-  },
+  args: {},
   decorators: [
     (_: StoryFn, options: StoryContext) => (
       <Box
@@ -50,7 +23,7 @@ export const Default = {
           Not the anchor
         </Box>
         <Box
-          id="tooltip-anchor"
+          id="tooltip-storybook-0"
           p={4}
           style={{ background: "#f0f0f0", width: "20vw" }}
         >
@@ -60,7 +33,7 @@ export const Default = {
           Also not the anchor
         </Box>
 
-        <Tooltip anchor="#tooltip-anchor" {...options.args} />
+        <Tour flowId="flow_p5ZnkF5BhANqRz8N" {...options.args} />
       </Box>
     ),
   ],

@@ -47,8 +47,8 @@
     "Walkthrough"
   ],
   "peerDependencies": {
-    "react": "^17.0.0 || ^18.0.0",
-    "react-dom": "^17.0.0 || ^18.0.0"
+    "react": "^17 || ^18",
+    "react-dom": "^17 || ^18"
   },
   "devDependencies": {
     "@babel/core": "^7.15.8",
