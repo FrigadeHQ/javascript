@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.38.3
+
+### Patch Changes
+
+- 2857c8f: Fixes an issue where the UI can freeze up in read-only mode
+
 ## 1.38.2
 
 ### Patch Changes
