@@ -10,8 +10,9 @@ import {
 } from '../shared/utils'
 import { FlowStep } from './flow-step'
 import { frigadeGlobalState, getGlobalStateKey } from '../shared/state'
+import { Fetchable } from '../shared/Fetchable'
 
-export default class Flow {
+export default class Flow extends Fetchable {
   /**
    * THe Flow ID / slug of the flow
    */
@@ -50,6 +51,7 @@ export default class Flow {
   private internalConfig: InternalConfig
 
   constructor(internalConfig: InternalConfig, flowDataRaw: FlowDataRaw) {
+    super(internalConfig)
     this.internalConfig = internalConfig
     this.flowDataRaw = flowDataRaw
     this.initFromRawData(flowDataRaw)
@@ -83,7 +85,7 @@ export default class Flow {
 
       stepObj.start = async (properties?: Record<string | number, any>) => {
         stepObj.isCompleted = true
-        await fetcher(this.internalConfig.apiKey, `/flowResponses`, {
+        await this.fetch(`/flowResponses`, {
           method: 'POST',
           body: JSON.stringify({
             foreignUserId: this.internalConfig.userId,
@@ -102,7 +104,7 @@ export default class Flow {
 
       stepObj.complete = async (properties?: Record<string | number, any>) => {
         stepObj.isCompleted = true
-        await fetcher(this.internalConfig.apiKey, `/flowResponses`, {
+        await this.fetch(`/flowResponses`, {
           method: 'POST',
           body: JSON.stringify({
             foreignUserId: this.internalConfig.userId,
@@ -129,7 +131,7 @@ export default class Flow {
   public async start(properties?: Record<string | number, any>) {
     const currentStepIndex = this.getCurrentStepIndex()
     const currentStepId = currentStepIndex != -1 ? this.steps[currentStepIndex].id : 'unknown'
-    await fetcher(this.internalConfig.apiKey, `/flowResponses`, {
+    await this.fetch(`/flowResponses`, {
       method: 'POST',
       body: JSON.stringify({
         foreignUserId: this.internalConfig.userId,
@@ -151,7 +153,7 @@ export default class Flow {
     const currentStepIndex = this.getCurrentStepIndex()
     const currentStepId =
       currentStepIndex != -1 ? this.getStepByIndex(currentStepIndex).id : 'unknown'
-    await fetcher(this.internalConfig.apiKey, `/flowResponses`, {
+    await this.fetch(`/flowResponses`, {
       method: 'POST',
       body: JSON.stringify({
         foreignUserId: this.internalConfig.userId,
@@ -170,7 +172,7 @@ export default class Flow {
    * Function that restarts the flow/marks it not started
    */
   public async restart() {
-    await fetcher(this.internalConfig.apiKey, `/flowResponses`, {
+    await this.fetch(`/flowResponses`, {
       method: 'POST',
       body: JSON.stringify({
         foreignUserId: this.internalConfig.userId,

@@ -16,15 +16,13 @@ const LAST_POST_CALL_DATA = 'frigade-last-call-data-'
 const GUEST_KEY = 'frigade-guest-key'
 const GUEST_PREFIX = 'guest_'
 
-function getConfig(apiKey: string) {
+export function getHeaders(apiKey: string) {
   return {
-    config: {
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        'Content-Type': 'application/json',
-        'X-Frigade-SDK-Version': VERSION_NUMBER,
-        'X-Frigade-SDK-Platform': 'Javascript',
-      },
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      'Content-Type': 'application/json',
+      'X-Frigade-SDK-Version': VERSION_NUMBER,
+      'X-Frigade-SDK-Platform': 'Javascript',
     },
   }
 }
@@ -115,6 +113,6 @@ export function generateGuestId() {
 export function fetcher(apiKey: string, path: string, options?: Record<any, any>) {
   return gracefulFetch(`//api.frigade.com/v1/public${path}`, {
     ...(options ?? {}),
-    ...getConfig(apiKey).config,
+    ...getHeaders(apiKey),
   })
 }

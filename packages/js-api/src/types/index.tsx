@@ -1,4 +1,5 @@
 export interface FrigadeConfig {
+  apiKey: string
   /**
    * API url to use for all requests. Defaults to https://api.frigade.com
    */
@@ -13,6 +14,7 @@ export interface FrigadeConfig {
    * Organization ID to use for all requests. Defaults to null.
    */
   organizationId?: string
+  __instanceId?: string
 }
 
 export interface UserFlowState {
