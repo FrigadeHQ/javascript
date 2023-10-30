@@ -1,13 +1,13 @@
-import { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 import { XMarkIcon } from '@heroicons/react/24/solid'
 import * as Popover from '@radix-ui/react-popover'
 
 import { useBoundingClientRect } from '../../hooks/useBoundingClientRect'
 import { Box } from '../Box'
-import { Button } from '../Button'
+import { Button, ButtonProps } from '../Button'
 import { Dot } from './Dot'
-import { Text } from '../Text'
+import { Text, TextProps } from '../Text'
 import { getDotPosition } from './getDotPosition'
 import { mapTooltipPropsToRadixProps } from './mapTooltipPropsToPopoverProps'
 
@@ -19,33 +19,11 @@ interface MergedRadixPopoverProps
 export interface TooltipProps extends MergedRadixPopoverProps {
   align?: Popover.PopoverContentProps['align'] | 'before' | 'after'
   anchor?: string
-  onDismiss?: (e: any) => void
-  onPrimary?: (e: any) => void
-  onSecondary?: (e: any) => void
-  primaryButtonTitle?: string
-  progress?: string
-  secondaryButtonTitle?: string
   spotlight?: boolean
   style?: React.CSSProperties
-  subtitle?: string
-  title?: string
 }
 
-export function Tooltip({
-  anchor,
-  onDismiss = () => {},
-  onPrimary,
-  onSecondary = () => {},
-  primaryButtonTitle,
-  // TEMP: Passing this as a precomputed string until we break components out
-  progress,
-  secondaryButtonTitle,
-  spotlight = false,
-  style,
-  subtitle,
-  title,
-  ...props
-}: TooltipProps) {
+export function Tooltip({ anchor, children, spotlight = false, style, ...props }: TooltipProps) {
   const { node: contentNode, rect: contentRect, ref: contentRef } = useBoundingClientRect()
   const [alignAttr, setAlignAttr] = useState(props.align)
   const [sideAttr, setSideAttr] = useState(props.side)
@@ -123,74 +101,85 @@ export function Tooltip({
             >
               <Dot style={dotPosition} />
 
-              {/* Image placeholder */}
-              <Box
-                backgroundColor="gray900"
-                borderRadius="md"
-                mb={5}
-                mt={-5}
-                mx={-5}
-                style={{
-                  aspectRatio: '2',
-                  borderBottomLeftRadius: 0,
-                  borderBottomRightRadius: 0,
-                }}
-              />
-
-              {title && (
-                <Text.Body1 fontWeight="bold" mb={1}>
-                  {title}
-                </Text.Body1>
-              )}
-
-              {subtitle && <Text.Body2>{subtitle}</Text.Body2>}
-
-              <Box
-                pt={4}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                }}
-              >
-                {progress && <Text.Body2 fontWeight="demibold">{progress}</Text.Body2>}
-
-                <Box
-                  style={{
-                    display: 'flex',
-                    gap: '12px',
-                  }}
-                >
-                  {onSecondary && (
-                    <Button.Secondary
-                      title={secondaryButtonTitle ?? 'Secondary'}
-                      onClick={onSecondary}
-                    />
-                  )}
-
-                  {onPrimary && (
-                    <Button.Primary title={primaryButtonTitle ?? 'Ok'} onClick={onPrimary} />
-                  )}
-                </Box>
-              </Box>
-
-              <Popover.Close
-                aria-label="Close"
-                onClick={onDismiss}
-                style={{
-                  background: 'transparent',
-                  border: 0,
-                  position: 'absolute',
-                  top: 8,
-                  right: 0,
-                }}
-              >
-                <XMarkIcon height="20" fill="black" />
-              </Popover.Close>
+              {children}
             </Box>
           </Popover.Content>
         </>
       </Popover.Portal>
     </Popover.Root>
+  )
+}
+
+Tooltip.Close = ({ ...props }: Popover.PopoverCloseProps) => {
+  return (
+    <Popover.Close
+      aria-label="Close"
+      style={{
+        background: 'transparent',
+        border: 0,
+        position: 'absolute',
+        top: 8,
+        right: 0,
+      }}
+      {...props}
+    >
+      <XMarkIcon height="20" fill="black" />
+    </Popover.Close>
+  )
+}
+
+// TODO: Flesh out Media component
+Tooltip.Media = () => {
+  return (
+    <Box
+      backgroundColor="gray900"
+      borderRadius="md"
+      mb={5}
+      mt={-5}
+      mx={-5}
+      style={{
+        aspectRatio: '2',
+        borderBottomLeftRadius: 0,
+        borderBottomRightRadius: 0,
+      }}
+    />
+  )
+}
+
+Tooltip.Primary = ({ onClick, title, ...props }: ButtonProps) => {
+  if (title == null) return null
+
+  return <Button.Primary title={title} onClick={onClick} {...props} />
+}
+
+Tooltip.Progress = ({ children, ...props }: TextProps) => {
+  if (children == null) return null
+
+  return (
+    <Text.Body2 fontWeight="demibold" {...props}>
+      {children}
+    </Text.Body2>
+  )
+}
+
+Tooltip.Secondary = ({ onClick, title, ...props }: ButtonProps) => {
+  if (title == null) return null
+
+  return <Button.Secondary title={title} onClick={onClick} {...props} />
+}
+
+Tooltip.Subtitle = ({ children, ...props }: TextProps) => {
+  if (children == null) return null
+
+  return <Text.Body2 {...props}>{children}</Text.Body2>
+}
+
+Tooltip.Title = ({ children, ...props }: TextProps) => {
+  if (children == null) return null
+
+  return (
+    <Text.Body1 fontWeight="bold" mb={1} {...props}>
+      {children}
+    </Text.Body1>
   )
 }

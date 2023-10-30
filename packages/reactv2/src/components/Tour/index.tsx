@@ -1,5 +1,6 @@
 import { useFlow } from '../../hooks/useFlow'
 
+import { Box } from '../Box'
 import { Tooltip } from '../Tooltip'
 
 export interface TourProps {
@@ -34,42 +35,39 @@ export function Tour({ flowId }: TourProps) {
     fetchFlow()
   }
 
+  const handleSecondary = handlePrimary
+
   return (
-    <Tooltip
-      align="after"
-      anchor={step.selector}
-      onDismiss={handleDismiss}
-      onPointerDownOutside={(e) => e.preventDefault()}
-      onPrimary={handlePrimary}
-      // Secondary button also advances to next step
-      onSecondary={handlePrimary}
-      primaryButtonTitle={step.primaryButtonTitle}
-      progress={`${flow.getNumberOfCompletedSteps()}/${flow.steps.size}`}
-      subtitle={step.subtitle}
-      title={step.title}
-    />
-  )
+    <Tooltip align="after" anchor={step.selector} onPointerDownOutside={(e) => e.preventDefault()}>
+      <Tooltip.Close onClick={handleDismiss} />
 
-  /*
-    return (
-      <Tooltip
-        align="after"
-        anchor={step.selector}
-        onPointerDownOutside={(e) => e.preventDefault()}
+      <Tooltip.Media />
+
+      <Tooltip.Title>{step.title}</Tooltip.Title>
+      <Tooltip.Subtitle>{step.subtitle}</Tooltip.Subtitle>
+
+      <Box
+        pt={4}
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}
       >
-        <Tooltip.Close onClick={handleDismiss} />
+        <Box
+          style={{
+            display: 'flex',
+            gap: '12px',
+          }}
+        >
+          <Tooltip.Progress>{`${flow.getNumberOfCompletedSteps()}/${
+            flow.steps.size
+          }`}</Tooltip.Progress>
+        </Box>
 
-        <Tooltip.Media src="" />
-
-        <Tooltip.Title>{step.title}</Tooltip.Title>
-        <Tooltip.Subtitle>{step.subtitle}</Tooltip.Subtitle>
-
-        <Flex.Row justifyContent='space-between'>
-          <Tooltip.Progress>{`${flow.getNumberOfCompletedSteps()}/${flow.steps.size}`}</Tooltip.Progress>
-          <Tooltip.Secondary title={step.secondaryButtonTitle} onClick={handleSecondary} />
-          <Tooltip.Primary title={step.primaryButtonTitle} onClick={handlePrimary} />
-        </Flex.Row>
-      </Tooltip>
-    )
-  */
+        <Tooltip.Secondary title={step.secondaryButtonTitle} onClick={handleSecondary} />
+        <Tooltip.Primary title={step.primaryButtonTitle} onClick={handlePrimary} />
+      </Box>
+    </Tooltip>
+  )
 }
