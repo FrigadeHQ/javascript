@@ -1,8 +1,12 @@
-const fs = require('fs')
-const path = require('path')
+import fs from 'fs'
+import { URL } from 'url'
 
-const packageJson = JSON.parse(fs.readFileSync(path.join(__dirname, '../package.json'), 'utf-8'))
+const packageJson = JSON.parse(
+  fs.readFileSync(new URL('../package.json', import.meta.url), 'utf-8')
+)
 const versionNumber = packageJson.version
-
 const versionFileContent = `export const VERSION_NUMBER = '${versionNumber}'\n`
-fs.writeFileSync(path.join(__dirname, '../src/core/version.ts'), versionFileContent, { flag: 'w' })
+
+fs.writeFileSync(new URL('../src/core/version.ts', import.meta.url), versionFileContent, {
+  flag: 'w',
+})

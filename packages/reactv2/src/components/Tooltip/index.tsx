@@ -11,27 +11,49 @@ import { Text } from '../Text'
 import { getDotPosition } from './getDotPosition'
 import { mapTooltipPropsToRadixProps } from './mapTooltipPropsToPopoverProps'
 
+// TODO: Split out into intermediate Radix-like sub components
+
 interface MergedRadixPopoverProps
   extends Pick<Popover.PopoverProps, 'defaultOpen' | 'modal' | 'onOpenChange' | 'open'>,
     Omit<Popover.PopoverContentProps, 'align' | 'asChild'> {}
 export interface TooltipProps extends MergedRadixPopoverProps {
   align?: Popover.PopoverContentProps['align'] | 'before' | 'after'
   anchor?: string
+  onDismiss?: (e: any) => void
+  onPrimary?: (e: any) => void
+  onSecondary?: (e: any) => void
+  primaryButtonTitle?: string
+  progress?: string
   spotlight?: boolean
   style?: React.CSSProperties
+  subtitle?: string
+  title?: string
 }
 
-export function Tooltip({ anchor, spotlight = false, style, ...props }: TooltipProps) {
+export function Tooltip({
+  anchor,
+  onDismiss = () => {},
+  onPrimary = () => {},
+  onSecondary = () => {},
+  primaryButtonTitle,
+  // TEMP: Passing this as a precomputed string until we break components out
+  progress = '',
+  spotlight = false,
+  style,
+  subtitle,
+  title,
+  ...props
+}: TooltipProps) {
   const { node: contentNode, rect: contentRect, ref: contentRef } = useBoundingClientRect()
   const [alignAttr, setAlignAttr] = useState(props.align)
   const [sideAttr, setSideAttr] = useState(props.side)
 
   // TEMP: Mock data
-  const { title, subtitle, primaryButtonTitle } = {
-    title: 'Hello world',
-    subtitle: 'Very cool to meet you.',
-    primaryButtonTitle: "Let's do this!",
-  }
+  // const { title, subtitle, primaryButtonTitle } = {
+  //   title: 'Hello world',
+  //   subtitle: 'Very cool to meet you.',
+  //   primaryButtonTitle: "Let's do this!",
+  // }
 
   // Radix will update data attrs to let us know if Popover.Content has collided
   if (contentNode !== null) {
@@ -121,10 +143,13 @@ export function Tooltip({ anchor, spotlight = false, style, ...props }: TooltipP
                 }}
               />
 
-              <Text.Body1 fontWeight="bold" mb={1}>
-                {title}
-              </Text.Body1>
-              <Text.Body2>{subtitle}</Text.Body2>
+              {title && (
+                <Text.Body1 fontWeight="bold" mb={1}>
+                  {title}
+                </Text.Body1>
+              )}
+
+              {subtitle && <Text.Body2>{subtitle}</Text.Body2>}
 
               <Box
                 pt={4}
@@ -134,12 +159,16 @@ export function Tooltip({ anchor, spotlight = false, style, ...props }: TooltipP
                   justifyContent: 'space-between',
                 }}
               >
-                <Text.Body2 fontWeight="demibold">1/4</Text.Body2>
-                <Button.Primary title={primaryButtonTitle ?? 'Ok'} />
+                <Text.Body2 fontWeight="demibold">{progress}</Text.Body2>
+
+                {primaryButtonTitle && (
+                  <Button.Primary title={primaryButtonTitle ?? 'Ok'} onClick={onPrimary} />
+                )}
               </Box>
 
               <Popover.Close
                 aria-label="Close"
+                onClick={onDismiss}
                 style={{
                   background: 'transparent',
                   border: 0,

@@ -1,4 +1,4 @@
-import { Box, Button, Provider, Text } from "@frigade/reactv2";
+import { Box, Button, Text } from "@frigade/reactv2";
 
 export default {
   title: "Components/Box",
@@ -40,21 +40,7 @@ export const TEMP_Playground = {
             Box will prioritize styles from the `className` prop over its own
             internal styles.
           </Box>
-          <Provider
-            theme={{
-              colors: {
-                blue500: "yellow",
-                primary: {
-                  background: "teal",
-                },
-                neutral: {
-                  background: "orange",
-                },
-              },
-            }}
-          >
-            <Button title="hello" />
-          </Provider>
+          <Button title="hello" />
         </>
       );
     },

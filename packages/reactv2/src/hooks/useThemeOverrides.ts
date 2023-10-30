@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 
 import { mapThemePropToThemeVars } from '../shared/mapThemePropToThemeVars'
 
-export function useThemeOverrides(themeOverrides, selector = ':root') {
+export function useThemeOverrides(themeOverrides = {}, selector = ':root') {
   useEffect(() => {
     const mappedThemeVars = mapThemePropToThemeVars(themeOverrides)
     const root: HTMLElement = document.querySelector(selector)

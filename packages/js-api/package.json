@@ -2,12 +2,14 @@
   "name": "@frigade/js",
   "version": "0.1.0",
   "description": "The official Javascript SDK for Frigade.",
+  "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
     "./dist"
   ],
   "scripts": {
+    "dev": "tsup --watch",
     "test": "jest",
     "lint": "eslint --fix --ext .ts,.tsx .",
     "build": "yarn copy-version-number && tsup",

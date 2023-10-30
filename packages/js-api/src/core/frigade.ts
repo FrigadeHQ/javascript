@@ -1,48 +1,44 @@
-import { FrigadeConfig, InternalConfig, UserFlowState } from '../types'
-import { fetcher, generateGuestId, resetAllLocalStorage } from '../shared/utils'
+import { FrigadeConfig, UserFlowState } from '../types'
+import { generateGuestId, resetAllLocalStorage } from '../shared/utils'
 import Flow from './flow'
 import { FlowDataRaw } from './types'
 import { frigadeGlobalState, getGlobalStateKey } from '../shared/state'
+import { Fetchable } from '../shared/Fetchable'
 
-export class Frigade {
-  private apiKey?: string
-  private userId: string = generateGuestId()
-  private organizationId?: string
-  private config?: FrigadeConfig
-  private hasInitialized = false
-  private internalConfig?: InternalConfig
-  private __instanceId = ''
-
+export class Frigade extends Fetchable {
   private flows: Flow[] = []
+  private initPromise: Promise<void>
 
   constructor(apiKey: string, config?: FrigadeConfig) {
-    this.__instanceId = Math.random().toString(36).substring(7)
-    this.init(apiKey, config)
+    super({
+      apiKey,
+      ...config,
+    })
+
+    this.init(this.config)
   }
 
-  private async init(apiKey: string, config?: FrigadeConfig): Promise<void> {
-    this.apiKey = apiKey
-    this.config = config
-    if (config?.userId) {
-      this.userId = config.userId
+  private async init(config: FrigadeConfig): Promise<void> {
+    this.config = {
+      ...this.config,
+      ...config,
     }
-    if (config?.organizationId) {
-      this.organizationId = config.organizationId
-    }
-    this.refreshInternalConfig()
-    await this.refreshUserFlowStates()
-    await this.refreshFlows()
-    this.hasInitialized = true
+
+    this.initPromise = (async () => {
+      await this.refreshUserFlowStates()
+      await this.refreshFlows()
+    })()
+
+    return this.initPromise
   }
 
   public async identify(userId: string, properties?: Record<string, any>): Promise<void> {
     await this.initIfNeeded()
-    this.userId = userId
-    this.refreshInternalConfig()
-    await fetcher(this.apiKey, '/users', {
+    this.config.userId = userId
+    await this.fetch('/users', {
       method: 'POST',
       body: JSON.stringify({
-        foreignId: this.userId,
+        foreignId: this.config.userId,
         properties,
       }),
     })
@@ -51,13 +47,12 @@ export class Frigade {
 
   public async group(organizationId: string, properties?: Record<string, any>): Promise<void> {
     await this.initIfNeeded()
-    this.organizationId = organizationId
-    this.refreshInternalConfig()
-    await fetcher(this.apiKey, '/userGroups', {
+    this.config.organizationId = organizationId
+    await this.fetch('/userGroups', {
       method: 'POST',
       body: JSON.stringify({
-        foreignUserId: this.userId,
-        foreignUserGroupId: this.organizationId,
+        foreignUserId: this.config.userId,
+        foreignUserGroupId: this.config.organizationId,
         properties,
       }),
     })
@@ -66,11 +61,11 @@ export class Frigade {
 
   public async track(event: string, properties?: Record<string, any>): Promise<void> {
     await this.initIfNeeded()
-    await fetcher(this.apiKey, '/track', {
+    await this.fetch('/track', {
       method: 'POST',
       body: JSON.stringify({
-        foreignUserId: this.userId,
-        foreignUserGroupId: this.organizationId,
+        foreignUserId: this.config.userId,
+        foreignUserGroupId: this.config.organizationId,
         event,
         properties,
       }),
@@ -79,6 +74,7 @@ export class Frigade {
 
   public async getFlow(flowId: string) {
     await this.initIfNeeded()
+
     return this.flows.find((flow) => flow.id == flowId)
   }
 
@@ -89,27 +85,28 @@ export class Frigade {
 
   public async reset() {
     resetAllLocalStorage()
-    this.userId = generateGuestId()
-    this.organizationId = undefined
+    this.config.userId = generateGuestId()
+    this.config.organizationId = undefined
   }
 
   private async initIfNeeded() {
-    if (!this.hasInitialized) {
-      await this.init(this.apiKey, this.config)
+    if (this.initPromise !== null) {
+      return this.initPromise
+    } else {
+      return this.init(this.config)
     }
   }
 
   private async refreshUserFlowStates(): Promise<void> {
-    const globalStateKey = getGlobalStateKey(this.internalConfig)
+    const globalStateKey = getGlobalStateKey(this.config)
     frigadeGlobalState[globalStateKey] = {
       refreshUserFlowStates: async () => {},
       userFlowStates: {},
     }
     frigadeGlobalState[globalStateKey].refreshUserFlowStates = async () => {
-      const userFlowStatesRaw = await fetcher(
-        this.apiKey,
-        `/userFlowStates?foreignUserId=${this.userId}${
-          this.organizationId ? `&foreignUserGroupId=${this.organizationId}` : ''
+      const userFlowStatesRaw = await this.fetch(
+        `/userFlowStates?foreignUserId=${this.config.userId}${
+          this.config.organizationId ? `&foreignUserGroupId=${this.config.organizationId}` : ''
         }`
       )
       if (userFlowStatesRaw && userFlowStatesRaw.data) {
@@ -124,21 +121,12 @@ export class Frigade {
 
   private async refreshFlows() {
     this.flows = []
-    const flowDataRaw = await fetcher(this.apiKey, '/flows')
+    const flowDataRaw = await this.fetch('/flows')
     if (flowDataRaw && flowDataRaw.data) {
       let flowDatas = flowDataRaw.data as FlowDataRaw[]
       flowDatas.forEach((flowData) => {
-        this.flows.push(new Flow(this.internalConfig, flowData))
+        this.flows.push(new Flow(this.config, flowData))
       })
-    }
-  }
-
-  private refreshInternalConfig() {
-    this.internalConfig = {
-      apiKey: this.apiKey,
-      userId: this.userId,
-      organizationId: this.organizationId,
-      __instanceId: this.__instanceId,
     }
   }
 }

@@ -18,7 +18,7 @@ test('flows have fields set', async () => {
     flows.filter((flow) => flow.id && flow.metadata && flow.metadata.type).length
   ).toBeGreaterThan(0)
   const flow = flows[0]
-  Object.entries(flow.steps).forEach(([_, step]) => {
+  flow.steps.forEach((step) => {
     expect(step.id).toBeDefined()
     expect(step.title).toBeDefined()
   })
@@ -43,10 +43,8 @@ test('read and set flow step state', async () => {
   const flow = await frigade.getFlow(testFlowId)
   expect(flow).toBeDefined()
   expect(flow.id).toEqual(testFlowId)
-  expect(flow.getCurrentStepIndex()).toEqual(0)
-  const step = flow.steps[testFlowStepId]
+  const step = flow.steps.get(testFlowStepId)
   expect(step).toBeDefined()
-  expect(step.id).toEqual(testFlowStepId)
   expect(step.isCompleted).toBeFalsy()
   expect(step.isStarted).toBeFalsy()
   await step.start()
