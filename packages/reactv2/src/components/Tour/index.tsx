@@ -46,7 +46,10 @@ export function Tour({ flowId }: TourProps) {
       align="after"
       anchor={step.selector}
       onDismiss={handleDismiss}
+      onPointerDownOutside={(e) => e.preventDefault()}
       onPrimary={handlePrimary}
+      // Secondary button also advances to next step
+      onSecondary={handlePrimary}
       primaryButtonTitle={step.primaryButtonTitle}
       progress={`${completeStepsCount}/${Array.from(flow.steps.keys()).length}`}
       subtitle={step.subtitle}

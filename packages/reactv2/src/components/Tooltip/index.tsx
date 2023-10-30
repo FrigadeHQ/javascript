@@ -24,6 +24,7 @@ export interface TooltipProps extends MergedRadixPopoverProps {
   onSecondary?: (e: any) => void
   primaryButtonTitle?: string
   progress?: string
+  secondaryButtonTitle?: string
   spotlight?: boolean
   style?: React.CSSProperties
   subtitle?: string
@@ -33,11 +34,12 @@ export interface TooltipProps extends MergedRadixPopoverProps {
 export function Tooltip({
   anchor,
   onDismiss = () => {},
-  onPrimary = () => {},
+  onPrimary,
   onSecondary = () => {},
   primaryButtonTitle,
   // TEMP: Passing this as a precomputed string until we break components out
   progress = '',
+  secondaryButtonTitle,
   spotlight = false,
   style,
   subtitle,
@@ -47,13 +49,6 @@ export function Tooltip({
   const { node: contentNode, rect: contentRect, ref: contentRef } = useBoundingClientRect()
   const [alignAttr, setAlignAttr] = useState(props.align)
   const [sideAttr, setSideAttr] = useState(props.side)
-
-  // TEMP: Mock data
-  // const { title, subtitle, primaryButtonTitle } = {
-  //   title: 'Hello world',
-  //   subtitle: 'Very cool to meet you.',
-  //   primaryButtonTitle: "Let's do this!",
-  // }
 
   // Radix will update data attrs to let us know if Popover.Content has collided
   if (contentNode !== null) {
@@ -87,7 +82,6 @@ export function Tooltip({
 
   const anchorRect = anchorElementRef.current.getBoundingClientRect()
 
-  // Needs to be a layoutEffect so it can check _after_ the anchor renders
   let anchorRadius = '0'
   if (typeof window !== 'undefined') {
     anchorRadius = window.getComputedStyle(anchorElementRef.current).borderRadius
@@ -161,9 +155,23 @@ export function Tooltip({
               >
                 <Text.Body2 fontWeight="demibold">{progress}</Text.Body2>
 
-                {primaryButtonTitle && (
-                  <Button.Primary title={primaryButtonTitle ?? 'Ok'} onClick={onPrimary} />
-                )}
+                <Box
+                  style={{
+                    display: 'flex',
+                    gap: '12px',
+                  }}
+                >
+                  {onSecondary && (
+                    <Button.Secondary
+                      title={secondaryButtonTitle ?? 'Secondary'}
+                      onClick={onSecondary}
+                    />
+                  )}
+
+                  {onPrimary && (
+                    <Button.Primary title={primaryButtonTitle ?? 'Ok'} onClick={onPrimary} />
+                  )}
+                </Box>
               </Box>
 
               <Popover.Close

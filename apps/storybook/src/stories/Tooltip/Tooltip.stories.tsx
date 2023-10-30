@@ -52,6 +52,7 @@ export const Default = {
         <Box
           id="tooltip-anchor"
           p={4}
+          borderRadius="md"
           style={{ background: "#f0f0f0", width: "20vw" }}
         >
           Anchor here
