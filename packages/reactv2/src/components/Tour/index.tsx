@@ -26,6 +26,14 @@ export function Tour({ flowId }: TourProps) {
 
   step?.start()
 
+  async function handleDismiss() {
+    // TODO: Use flow.skip() once the js api supports it
+    await flow.complete()
+
+    // TEMP: Manually refreshing flow data until useFlow can handle it internally
+    fetchFlow()
+  }
+
   async function handlePrimary() {
     await step.complete()
 
@@ -37,6 +45,7 @@ export function Tour({ flowId }: TourProps) {
     <Tooltip
       align="after"
       anchor={step.selector}
+      onDismiss={handleDismiss}
       onPrimary={handlePrimary}
       primaryButtonTitle={step.primaryButtonTitle}
       progress={`${completeStepsCount}/${Array.from(flow.steps.keys()).length}`}
