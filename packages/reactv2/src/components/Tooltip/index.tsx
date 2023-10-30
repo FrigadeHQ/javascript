@@ -38,7 +38,7 @@ export function Tooltip({
   onSecondary = () => {},
   primaryButtonTitle,
   // TEMP: Passing this as a precomputed string until we break components out
-  progress = '',
+  progress,
   secondaryButtonTitle,
   spotlight = false,
   style,
@@ -153,7 +153,7 @@ export function Tooltip({
                   justifyContent: 'space-between',
                 }}
               >
-                <Text.Body2 fontWeight="demibold">{progress}</Text.Body2>
+                {progress && <Text.Body2 fontWeight="demibold">{progress}</Text.Body2>}
 
                 <Box
                   style={{
