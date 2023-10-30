@@ -18,17 +18,10 @@ export function Tour({ flowId }: TourProps) {
 
   const step = flow.getCurrentStep()
 
-  // TEMP: Compute progress in the API / Frigade class instead of here
-  const completeStepsCount = Array.from(flow.steps.values()).filter(
-    // @ts-ignore - TODO: Get step typed to FlowStep
-    (step) => step.isCompleted
-  ).length
-
   step?.start()
 
   async function handleDismiss() {
-    // TODO: Use flow.skip() once the js api supports it
-    await flow.complete()
+    await flow.skip()
 
     // TEMP: Manually refreshing flow data until useFlow can handle it internally
     fetchFlow()
@@ -56,4 +49,27 @@ export function Tour({ flowId }: TourProps) {
       title={step.title}
     />
   )
+
+  /*
+    return (
+      <Tooltip
+        align="after"
+        anchor={step.selector}
+        onPointerDownOutside={(e) => e.preventDefault()}
+      >
+        <Tooltip.Close onClick={handleDismiss} />
+
+        <Tooltip.Media src="" />
+
+        <Tooltip.Title>{step.title}</Tooltip.Title>
+        <Tooltip.Subtitle>{step.subtitle}</Tooltip.Subtitle>
+
+        <Flex.Row justifyContent='space-between'>
+          <Tooltip.Progress>{`${flow.getNumberOfCompletedSteps()}/${flow.steps.size}`}</Tooltip.Progress>
+          <Tooltip.Secondary title={step.secondaryButtonTitle} onClick={handleSecondary} />
+          <Tooltip.Primary title={step.primaryButtonTitle} onClick={handlePrimary} />
+        </Flex.Row>
+      </Tooltip>
+    )
+  */
 }

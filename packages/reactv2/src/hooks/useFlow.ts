@@ -1,10 +1,10 @@
-import { Frigade } from '@frigade/js'
+import { Frigade, Flow } from '@frigade/js'
 import { useContext, useState } from 'react'
 
 import { FrigadeContext } from '../components/Provider'
 
 export function useFlow(flowId: string) {
-  const [flow, setFlow] = useState(null)
+  const [flow, setFlow] = useState<Flow>(null)
   const { apiKey, config } = useContext(FrigadeContext)
 
   async function fetchFlow() {
@@ -13,7 +13,7 @@ export function useFlow(flowId: string) {
       userId: config.userId,
     })
 
-    const flowResponse = await frigade.getFlow(flowId)
+    const flowResponse: Flow = await frigade.getFlow(flowId)
 
     setFlow(flowResponse)
   }
