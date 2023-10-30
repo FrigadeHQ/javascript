@@ -257,6 +257,13 @@ export default class Flow extends Fetchable {
     return this.steps.get(currentStepId)
   }
 
+  /**
+   * Get the number of completed steps for the current user in the current flow
+   */
+  public getNumberOfCompletedSteps(): number {
+    return Array.from(this.steps.values()).filter((step) => step.isCompleted).length
+  }
+
   private getUserFlowState(): UserFlowState {
     const userFlowStates = frigadeGlobalState[getGlobalStateKey(this.config)].userFlowStates
     return userFlowStates[this.id]
