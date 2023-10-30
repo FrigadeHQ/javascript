@@ -228,13 +228,6 @@ export default class Flow extends Fetchable {
   }
 
   /**
-   * Get a step by id
-   */
-  public getStep(id: string): FlowStep | undefined {
-    return this.steps.get(id)
-  }
-
-  /**
    * Get a step by index
    * @param index
    */

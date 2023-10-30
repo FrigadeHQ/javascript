@@ -51,7 +51,7 @@ export function Tour({ flowId }: TourProps) {
       // Secondary button also advances to next step
       onSecondary={handlePrimary}
       primaryButtonTitle={step.primaryButtonTitle}
-      progress={`${completeStepsCount}/${Array.from(flow.steps.keys()).length}`}
+      progress={`${completeStepsCount}/${flow.steps.size}`}
       subtitle={step.subtitle}
       title={step.title}
     />
