@@ -11,13 +11,19 @@ import { Text } from '../Text'
 import { getDotPosition } from './getDotPosition'
 import { mapTooltipPropsToRadixProps } from './mapTooltipPropsToPopoverProps'
 
+// TODO: Split out into intermediate Radix-like sub components
+
 interface MergedRadixPopoverProps
   extends Pick<Popover.PopoverProps, 'defaultOpen' | 'modal' | 'onOpenChange' | 'open'>,
     Omit<Popover.PopoverContentProps, 'align' | 'asChild'> {}
 export interface TooltipProps extends MergedRadixPopoverProps {
   align?: Popover.PopoverContentProps['align'] | 'before' | 'after'
   anchor?: string
+  onDismiss?: (e: any) => void
+  onPrimary?: (e: any) => void
+  onSecondary?: (e: any) => void
   primaryButtonTitle?: string
+  progress?: string
   spotlight?: boolean
   style?: React.CSSProperties
   subtitle?: string
@@ -26,7 +32,12 @@ export interface TooltipProps extends MergedRadixPopoverProps {
 
 export function Tooltip({
   anchor,
+  onDismiss = () => {},
+  onPrimary = () => {},
+  onSecondary = () => {},
   primaryButtonTitle,
+  // TEMP: Passing this as a precomputed string until we break components out
+  progress = '',
   spotlight = false,
   style,
   subtitle,
@@ -148,13 +159,16 @@ export function Tooltip({
                   justifyContent: 'space-between',
                 }}
               >
-                <Text.Body2 fontWeight="demibold">1/4</Text.Body2>
+                <Text.Body2 fontWeight="demibold">{progress}</Text.Body2>
 
-                {primaryButtonTitle && <Button.Primary title={primaryButtonTitle ?? 'Ok'} />}
+                {primaryButtonTitle && (
+                  <Button.Primary title={primaryButtonTitle ?? 'Ok'} onClick={onPrimary} />
+                )}
               </Box>
 
               <Popover.Close
                 aria-label="Close"
+                onClick={onDismiss}
                 style={{
                   background: 'transparent',
                   border: 0,

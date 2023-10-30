@@ -27,7 +27,13 @@ const preview = {
   decorators: [
     (Story) => {
       return (
-        <Provider apiKey={FRIGADE_API_KEY} config={{ apiUrl: API_URL }}>
+        <Provider
+          apiKey={FRIGADE_API_KEY}
+          config={{
+            apiUrl: API_URL,
+            userId: "jonathan_livingston_smeagol",
+          }}
+        >
           <Story />
         </Provider>
       );

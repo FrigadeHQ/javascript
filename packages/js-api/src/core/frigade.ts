@@ -18,6 +18,14 @@ export class Frigade extends Fetchable {
     this.init(this.config)
   }
 
+  /*
+    TODO: This will fire network requests twice when user instantiates Frigade then calls getFlow immediately afterward.
+    const frigade = new Frigade(...)
+      -> constructor calls this.init(this.config)
+    const flowResponse = await frigade.getFlow(...)
+      -> getFlow calls this.initIfNeeded, which sees that the first call hasn't resolved yet
+      -> this.init() fires network calls again
+  */
   private async init(config: FrigadeConfig): Promise<void> {
     this.config = {
       ...this.config,
@@ -70,6 +78,7 @@ export class Frigade extends Fetchable {
 
   public async getFlow(flowId: string) {
     await this.initIfNeeded()
+
     return this.flows.find((flow) => flow.id == flowId)
   }
 

@@ -3,7 +3,6 @@ import { FlowDataRaw } from './types'
 import {
   COMPLETED_FLOW,
   COMPLETED_STEP,
-  fetcher,
   NOT_STARTED_FLOW,
   STARTED_FLOW,
   STARTED_STEP,
@@ -24,7 +23,7 @@ export default class Flow extends Fetchable {
   /**
    * Ordered map from Step ID to step data. The `steps` array in `config.yml`
    */
-  public steps: Record<string, FlowStep>
+  public steps: Map<string, FlowStep>
   /**
    * The user-facing title of the flow, if defined at the top level of `config.yml`
    */
@@ -48,11 +47,8 @@ export default class Flow extends Fetchable {
 
   private flowDataRaw: FlowDataRaw
 
-  private internalConfig: FrigadeConfig
-
-  constructor(internalConfig: FrigadeConfig, flowDataRaw: FlowDataRaw) {
-    super(internalConfig)
-    this.internalConfig = internalConfig
+  constructor(config: FrigadeConfig, flowDataRaw: FlowDataRaw) {
+    super(config)
     this.flowDataRaw = flowDataRaw
     this.initFromRawData(flowDataRaw)
   }
@@ -70,7 +66,7 @@ export default class Flow extends Fetchable {
 
     this.isCompleted = userFlowState.flowState == COMPLETED_FLOW
     this.isStarted = userFlowState.flowState == STARTED_FLOW
-    this.steps = {}
+    this.steps = new Map()
 
     steps.forEach((step, index) => {
       const userFlowStateStep = userFlowState.stepStates[step.id]
@@ -88,7 +84,7 @@ export default class Flow extends Fetchable {
         await this.fetch(`/flowResponses`, {
           method: 'POST',
           body: JSON.stringify({
-            foreignUserId: this.internalConfig.userId,
+            foreignUserId: this.config.userId,
             flowSlug: this.id,
             stepId: step.id,
             data: properties ?? {},
@@ -107,7 +103,7 @@ export default class Flow extends Fetchable {
         await this.fetch(`/flowResponses`, {
           method: 'POST',
           body: JSON.stringify({
-            foreignUserId: this.internalConfig.userId,
+            foreignUserId: this.config.userId,
             flowSlug: this.id,
             stepId: step.id,
             data: properties ?? {},
@@ -121,7 +117,7 @@ export default class Flow extends Fetchable {
         stepObj.isStarted = updatedUserFlowState.stepStates[step.id].actionType == STARTED_STEP
       }
 
-      this.steps[step.id] = stepObj
+      this.steps.set(step.id, stepObj)
     })
   }
 
@@ -129,14 +125,12 @@ export default class Flow extends Fetchable {
    * Function that marks the flow started
    */
   public async start(properties?: Record<string | number, any>) {
-    const currentStepIndex = this.getCurrentStepIndex()
-    const currentStepId = currentStepIndex != -1 ? this.steps[currentStepIndex].id : 'unknown'
     await this.fetch(`/flowResponses`, {
       method: 'POST',
       body: JSON.stringify({
-        foreignUserId: this.internalConfig.userId,
+        foreignUserId: this.config.userId,
         flowSlug: this.id,
-        stepId: currentStepId,
+        stepId: this.getCurrentStep().id,
         data: properties ?? {},
         createdAt: new Date().toISOString(),
         actionType: STARTED_FLOW,
@@ -150,15 +144,12 @@ export default class Flow extends Fetchable {
    * Function that marks the flow completed
    */
   public async complete(properties?: Record<string | number, any>) {
-    const currentStepIndex = this.getCurrentStepIndex()
-    const currentStepId =
-      currentStepIndex != -1 ? this.getStepByIndex(currentStepIndex).id : 'unknown'
     await this.fetch(`/flowResponses`, {
       method: 'POST',
       body: JSON.stringify({
-        foreignUserId: this.internalConfig.userId,
+        foreignUserId: this.config.userId,
         flowSlug: this.id,
-        stepId: currentStepId,
+        stepId: this.getCurrentStep().id,
         data: properties ?? {},
         createdAt: new Date().toISOString(),
         actionType: COMPLETED_FLOW,
@@ -175,7 +166,7 @@ export default class Flow extends Fetchable {
     await this.fetch(`/flowResponses`, {
       method: 'POST',
       body: JSON.stringify({
-        foreignUserId: this.internalConfig.userId,
+        foreignUserId: this.config.userId,
         flowSlug: this.id,
         stepId: 'unknown',
         data: {},
@@ -189,7 +180,7 @@ export default class Flow extends Fetchable {
    * Get a step by id
    */
   public getStep(id: string): FlowStep | undefined {
-    return this.steps[id]
+    return this.steps.get(id)
   }
 
   /**
@@ -197,28 +188,37 @@ export default class Flow extends Fetchable {
    * @param index
    */
   public getStepByIndex(index: number): FlowStep | undefined {
-    return this.steps[Object.keys(this.steps)[index]]
+    return this.steps.get(Array.from(this.steps.keys())[index])
   }
 
   /**
-   * Function that gets current step index
+   * Function that gets current step
    */
-  public getCurrentStepIndex(): number {
+  public getCurrentStep(): FlowStep {
     // Find the userFlowState with most recent timestamp
     const userFlowState = this.getUserFlowState()
-    if (!userFlowState) {
-      return 0
-    }
-    const currentStepId = userFlowState.lastStepId
-    return this.steps[currentStepId]?.order ?? 0
+
+    // TEMP: lastStepId appears to be the last step that a flowState event was recorded for?
+    // const lastStepId =
+    //   userFlowState?.lastStepId?.length > 0 && userFlowState?.lastStepId !== 'unknown'
+    //     ? userFlowState?.lastStepId
+    //     : undefined
+
+    // TEMP: Return the lowest-ordered incomplete step in the flow
+    const lastStepId = Array.from(this.steps.keys()).find(
+      (key) => this.steps.get(key).isCompleted === false
+    )
+
+    const currentStepId = lastStepId ?? Array.from(this.steps.keys())[0]
+    return this.steps.get(currentStepId)
   }
 
   private getUserFlowState(): UserFlowState {
-    const userFlowStates = frigadeGlobalState[getGlobalStateKey(this.internalConfig)].userFlowStates
+    const userFlowStates = frigadeGlobalState[getGlobalStateKey(this.config)].userFlowStates
     return userFlowStates[this.id]
   }
 
   private async refreshUserFlowState() {
-    await frigadeGlobalState[getGlobalStateKey(this.internalConfig)].refreshUserFlowStates()
+    await frigadeGlobalState[getGlobalStateKey(this.config)].refreshUserFlowStates()
   }
 }

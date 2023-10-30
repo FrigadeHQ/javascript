@@ -17,6 +17,7 @@ export interface ProviderProps {
 
 interface ProviderConfig {
   apiUrl?: string
+  userId?: string
 }
 
 export function Provider({ apiKey, children, config = {}, theme }: ProviderProps) {

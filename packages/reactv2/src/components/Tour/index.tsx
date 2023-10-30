@@ -7,21 +7,44 @@ export interface TourProps {
 }
 
 export function Tour({ flowId }: TourProps) {
-  const flow = useFlow(flowId)
+  const { flow, fetchFlow } = useFlow(flowId)
 
-  if (flow == null) {
+  // TODO: Don't render if the flow is complete (or skipped too?)
+  if (flow == null || flow?.isCompleted) {
     return null
   }
 
-  const step = flow.steps[Object.keys(flow.steps)[0]]
+  // TODO: Mark flow as started if not started already
+
+  // TODO: Why is this not returning the second tooltip step? The first says COMPLETED_STEP in the API :thinking:
+  const step = flow.getCurrentStep()
+
+  // TEMP: Compute progress in the API / Frigade class instead of here
+  const completeStepsCount = Array.from(flow.steps.values()).filter(
+    // @ts-ignore - TODO: Get step typed to FlowStep
+    (step) => step.isCompleted
+  ).length
+
+  if (!step.isStarted && !step.isCompleted) {
+    step?.start()
+  }
+
+  async function handlePrimary() {
+    await step.complete()
+
+    // TEMP: Manually refreshing flow data until useFlow can handle it internally
+    fetchFlow()
+  }
 
   return (
     <Tooltip
-      anchor={step.selector}
-      title={step.title}
-      subtitle={step.subtitle}
-      primaryButtonTitle={step.primaryButtonTitle}
       align="after"
+      anchor={step.selector}
+      onPrimary={handlePrimary}
+      primaryButtonTitle={step.primaryButtonTitle}
+      progress={`${completeStepsCount}/${Array.from(flow.steps.keys()).length}`}
+      subtitle={step.subtitle}
+      title={step.title}
     />
   )
 }
