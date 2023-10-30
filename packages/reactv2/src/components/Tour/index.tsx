@@ -9,14 +9,13 @@ export interface TourProps {
 export function Tour({ flowId }: TourProps) {
   const { flow, fetchFlow } = useFlow(flowId)
 
-  // TODO: Don't render if the flow is complete (or skipped too?)
+  // TODO: Add skipped state here as well
   if (flow == null || flow?.isCompleted) {
     return null
   }
 
-  // TODO: Mark flow as started if not started already
+  flow.start()
 
-  // TODO: Why is this not returning the second tooltip step? The first says COMPLETED_STEP in the API :thinking:
   const step = flow.getCurrentStep()
 
   // TEMP: Compute progress in the API / Frigade class instead of here
@@ -25,9 +24,7 @@ export function Tour({ flowId }: TourProps) {
     (step) => step.isCompleted
   ).length
 
-  if (!step.isStarted && !step.isCompleted) {
-    step?.start()
-  }
+  step?.start()
 
   async function handlePrimary() {
     await step.complete()

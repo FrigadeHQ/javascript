@@ -7,19 +7,6 @@ export function useFlow(flowId: string) {
   const [flow, setFlow] = useState(null)
   const { apiKey, config } = useContext(FrigadeContext)
 
-  // ;(async () => {
-  //   if (flow == null) {
-  //     const frigade = await new Frigade(apiKey, {
-  //       apiUrl: config.apiUrl,
-  //       userId: config.userId,
-  //     })
-
-  //     const flowResponse = await frigade.getFlow(flowId)
-
-  //     setFlow(flowResponse)
-  //   }
-  // })()
-
   async function fetchFlow() {
     const frigade = await new Frigade(apiKey, {
       apiUrl: config.apiUrl,

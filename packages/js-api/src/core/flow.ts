@@ -80,41 +80,63 @@ export default class Flow extends Fetchable {
       } as FlowStep
 
       stepObj.start = async (properties?: Record<string | number, any>) => {
-        stepObj.isCompleted = true
+        const currentStep = this.steps.get(step.id)
+
+        if (currentStep.isStarted || currentStep.isCompleted) {
+          return
+        }
+
+        currentStep.isStarted = true
+
         await this.fetch(`/flowResponses`, {
           method: 'POST',
           body: JSON.stringify({
             foreignUserId: this.config.userId,
             flowSlug: this.id,
-            stepId: step.id,
+            stepId: currentStep.id,
             data: properties ?? {},
             createdAt: new Date().toISOString(),
             actionType: STARTED_STEP,
           }),
         })
+
         await this.refreshUserFlowState()
+
         const updatedUserFlowState = this.getUserFlowState()
-        stepObj.isCompleted = updatedUserFlowState.stepStates[step.id].actionType == COMPLETED_STEP
-        stepObj.isStarted = updatedUserFlowState.stepStates[step.id].actionType == STARTED_STEP
+        currentStep.isCompleted =
+          updatedUserFlowState.stepStates[currentStep.id].actionType == COMPLETED_STEP
+        currentStep.isStarted =
+          updatedUserFlowState.stepStates[currentStep.id].actionType == STARTED_STEP
       }
 
       stepObj.complete = async (properties?: Record<string | number, any>) => {
-        stepObj.isCompleted = true
+        const currentStep = this.steps.get(step.id)
+
+        if (currentStep.isCompleted) {
+          return
+        }
+
+        currentStep.isCompleted = true
+
         await this.fetch(`/flowResponses`, {
           method: 'POST',
           body: JSON.stringify({
             foreignUserId: this.config.userId,
             flowSlug: this.id,
-            stepId: step.id,
+            stepId: currentStep.id,
             data: properties ?? {},
             createdAt: new Date().toISOString(),
             actionType: COMPLETED_STEP,
           }),
         })
+
         await this.refreshUserFlowState()
+
         const updatedUserFlowState = this.getUserFlowState()
-        stepObj.isCompleted = updatedUserFlowState.stepStates[step.id].actionType == COMPLETED_STEP
-        stepObj.isStarted = updatedUserFlowState.stepStates[step.id].actionType == STARTED_STEP
+        currentStep.isCompleted =
+          updatedUserFlowState.stepStates[currentStep.id].actionType == COMPLETED_STEP
+        currentStep.isStarted =
+          updatedUserFlowState.stepStates[currentStep.id].actionType == STARTED_STEP
       }
 
       this.steps.set(step.id, stepObj)
@@ -125,6 +147,10 @@ export default class Flow extends Fetchable {
    * Function that marks the flow started
    */
   public async start(properties?: Record<string | number, any>) {
+    if (this.isStarted || this.isCompleted) {
+      return
+    }
+
     await this.fetch(`/flowResponses`, {
       method: 'POST',
       body: JSON.stringify({
@@ -144,6 +170,10 @@ export default class Flow extends Fetchable {
    * Function that marks the flow completed
    */
   public async complete(properties?: Record<string | number, any>) {
+    if (this.isCompleted) {
+      return
+    }
+
     await this.fetch(`/flowResponses`, {
       method: 'POST',
       body: JSON.stringify({
@@ -163,6 +193,7 @@ export default class Flow extends Fetchable {
    * Function that restarts the flow/marks it not started
    */
   public async restart() {
+    // TODO: Reset internal flow responses / steps / isStarted / isCompleted
     await this.fetch(`/flowResponses`, {
       method: 'POST',
       body: JSON.stringify({

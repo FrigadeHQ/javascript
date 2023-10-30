@@ -1,13 +1,13 @@
 import { FrigadeConfig, UserFlowState } from '../types'
-import { fetcher, generateGuestId, resetAllLocalStorage } from '../shared/utils'
+import { generateGuestId, resetAllLocalStorage } from '../shared/utils'
 import Flow from './flow'
 import { FlowDataRaw } from './types'
 import { frigadeGlobalState, getGlobalStateKey } from '../shared/state'
 import { Fetchable } from '../shared/Fetchable'
 
 export class Frigade extends Fetchable {
-  private hasInitialized = false
   private flows: Flow[] = []
+  private initPromise: Promise<void>
 
   constructor(apiKey: string, config?: FrigadeConfig) {
     super({
@@ -18,22 +18,18 @@ export class Frigade extends Fetchable {
     this.init(this.config)
   }
 
-  /*
-    TODO: This will fire network requests twice when user instantiates Frigade then calls getFlow immediately afterward.
-    const frigade = new Frigade(...)
-      -> constructor calls this.init(this.config)
-    const flowResponse = await frigade.getFlow(...)
-      -> getFlow calls this.initIfNeeded, which sees that the first call hasn't resolved yet
-      -> this.init() fires network calls again
-  */
   private async init(config: FrigadeConfig): Promise<void> {
     this.config = {
       ...this.config,
       ...config,
     }
-    await this.refreshUserFlowStates()
-    await this.refreshFlows()
-    this.hasInitialized = true
+
+    this.initPromise = (async () => {
+      await this.refreshUserFlowStates()
+      await this.refreshFlows()
+    })()
+
+    return this.initPromise
   }
 
   public async identify(userId: string, properties?: Record<string, any>): Promise<void> {
@@ -94,8 +90,10 @@ export class Frigade extends Fetchable {
   }
 
   private async initIfNeeded() {
-    if (!this.hasInitialized) {
-      await this.init(this.config)
+    if (this.initPromise !== null) {
+      return this.initPromise
+    } else {
+      return this.init(this.config)
     }
   }
 
