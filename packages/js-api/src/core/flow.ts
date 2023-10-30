@@ -89,7 +89,7 @@ export default class Flow extends Fetchable {
 
         currentStep.isStarted = true
 
-        await this.fetch(`/flowResponses`, {
+        await this.fetch('/flowResponses', {
           method: 'POST',
           body: JSON.stringify({
             foreignUserId: this.config.userId,
@@ -119,7 +119,7 @@ export default class Flow extends Fetchable {
 
         currentStep.isCompleted = true
 
-        await this.fetch(`/flowResponses`, {
+        await this.fetch('/flowResponses', {
           method: 'POST',
           body: JSON.stringify({
             foreignUserId: this.config.userId,
@@ -152,7 +152,7 @@ export default class Flow extends Fetchable {
       return
     }
 
-    await this.fetch(`/flowResponses`, {
+    await this.fetch('/flowResponses', {
       method: 'POST',
       body: JSON.stringify({
         foreignUserId: this.config.userId,
@@ -175,7 +175,7 @@ export default class Flow extends Fetchable {
       return
     }
 
-    await this.fetch(`/flowResponses`, {
+    await this.fetch('/flowResponses', {
       method: 'POST',
       body: JSON.stringify({
         foreignUserId: this.config.userId,
@@ -194,15 +194,12 @@ export default class Flow extends Fetchable {
    * Function that marks the flow skipped
    */
   public async skip(properties?: Record<string | number, any>) {
-    const currentStepIndex = this.getCurrentStepIndex()
-    const currentStepId =
-      currentStepIndex != -1 ? this.getStepByIndex(currentStepIndex).id : 'unknown'
-    await fetcher(this.internalConfig.apiKey, `/flowResponses`, {
+    await this.fetch('/flowResponses', {
       method: 'POST',
       body: JSON.stringify({
-        foreignUserId: this.internalConfig.userId,
+        foreignUserId: this.config.userId,
         flowSlug: this.id,
-        stepId: currentStepId,
+        stepId: this.getCurrentStep().id,
         data: properties ?? {},
         createdAt: new Date().toISOString(),
         actionType: SKIPPED_FLOW,
@@ -217,7 +214,7 @@ export default class Flow extends Fetchable {
    */
   public async restart() {
     // TODO: Reset internal flow responses / steps / isStarted / isCompleted
-    await this.fetch(`/flowResponses`, {
+    await this.fetch('/flowResponses', {
       method: 'POST',
       body: JSON.stringify({
         foreignUserId: this.config.userId,
