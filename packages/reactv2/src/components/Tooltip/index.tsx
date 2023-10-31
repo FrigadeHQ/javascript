@@ -7,6 +7,7 @@ import { useBoundingClientRect } from '../../hooks/useBoundingClientRect'
 import { Box } from '../Box'
 import { Button, ButtonProps } from '../Button'
 import { Dot } from './Dot'
+import { Media } from '../Media'
 import { Text, TextProps } from '../Text'
 import { getDotPosition } from './getDotPosition'
 import { mapTooltipPropsToRadixProps } from './mapTooltipPropsToPopoverProps'
@@ -129,19 +130,22 @@ Tooltip.Close = ({ ...props }: Popover.PopoverCloseProps) => {
 }
 
 // TODO: Flesh out Media component
-Tooltip.Media = () => {
+Tooltip.Media = ({ src, type }) => {
+  if (src == null) return null
+
   return (
-    <Box
-      backgroundColor="gray900"
+    <Media
       borderRadius="md"
       mb={5}
       mt={-5}
       mx={-5}
+      src={src}
       style={{
         aspectRatio: '2',
         borderBottomLeftRadius: 0,
         borderBottomRightRadius: 0,
       }}
+      type={type}
     />
   )
 }

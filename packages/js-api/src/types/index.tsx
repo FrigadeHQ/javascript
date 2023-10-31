@@ -19,7 +19,7 @@ export interface FrigadeConfig {
 
 export interface UserFlowState {
   flowId: string
-  flowState: 'COMPLETED_FLOW' | 'STARTED_FLOW' | 'NOT_STARTED_FLOW'
+  flowState: 'COMPLETED_FLOW' | 'STARTED_FLOW' | 'SKIPPED_FLOW' | 'NOT_STARTED_FLOW'
   lastStepId: string
   userId: string
   foreignUserId: string

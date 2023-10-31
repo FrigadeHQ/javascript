@@ -1,18 +1,16 @@
 import { useFlow } from '../../hooks/useFlow'
 
-import { Box } from '../Box'
 import { Flex } from '../Flex/Flex'
-import { Tooltip } from '../Tooltip'
+import { Tooltip, TooltipProps } from '../Tooltip'
 
-export interface TourProps {
+export interface TourProps extends TooltipProps {
   flowId: string
 }
 
-export function Tour({ flowId }: TourProps) {
+export function Tour({ flowId, ...props }: TourProps) {
   const { flow, fetchFlow } = useFlow(flowId)
 
-  // TODO: Add skipped state here as well
-  if (flow == null || flow?.isCompleted) {
+  if (flow == null || flow?.isCompleted || flow?.isSkipped) {
     return null
   }
 
@@ -42,11 +40,16 @@ export function Tour({ flowId }: TourProps) {
     <Tooltip
       align="after"
       anchor={step.selector as string}
+      onOpenAutoFocus={(e) => e.preventDefault()}
       onPointerDownOutside={(e) => e.preventDefault()}
+      {...props}
     >
       <Tooltip.Close onClick={handleDismiss} />
 
-      <Tooltip.Media />
+      <Tooltip.Media
+        src={step.videoUri ?? step.imageUri}
+        type={step.videoUri ? 'video' : 'image'}
+      />
 
       <Tooltip.Title>{step.title}</Tooltip.Title>
       <Tooltip.Subtitle>{step.subtitle}</Tooltip.Subtitle>

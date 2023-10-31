@@ -51,7 +51,7 @@ const VimeoVideoSource = styled.iframe`
   height: 100%;
   min-height: 400px;
   border-radius: ${(props) => props.appearance.theme.borderRadius}px;
-}`
+`
 const WistiaVideoSource = styled.iframe`
   width: 100%;
   height: 100%;

@@ -45,6 +45,10 @@ export default class Flow extends Fetchable {
    * Whether the flow is started or not
    */
   public isStarted: boolean
+  /**
+   * Whether the flow has been skipped or not
+   */
+  public isSkipped: boolean
 
   private flowDataRaw: FlowDataRaw
 
@@ -67,6 +71,7 @@ export default class Flow extends Fetchable {
 
     this.isCompleted = userFlowState.flowState == COMPLETED_FLOW
     this.isStarted = userFlowState.flowState == STARTED_FLOW
+    this.isSkipped = userFlowState.flowState == SKIPPED_FLOW
     this.steps = new Map()
 
     steps.forEach((step, index) => {
