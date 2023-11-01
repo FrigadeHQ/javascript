@@ -111,20 +111,19 @@ export function Tooltip({ anchor, children, spotlight = false, style, ...props }
   )
 }
 
-Tooltip.Close = ({ ...props }: Popover.PopoverCloseProps) => {
+Tooltip.Close = (props: ButtonProps) => {
   return (
-    <Popover.Close
-      aria-label="Close"
-      style={{
-        background: 'transparent',
-        border: 0,
-        position: 'absolute',
-        top: 8,
-        right: 0,
-      }}
-      {...props}
-    >
-      <XMarkIcon height="20" fill="black" />
+    <Popover.Close aria-label="Close" asChild>
+      <Button.Plain
+        style={{
+          position: 'absolute',
+          top: 0,
+          right: 0,
+        }}
+        {...props}
+      >
+        <XMarkIcon height="20" fill="currentColor" />
+      </Button.Plain>
     </Popover.Close>
   )
 }

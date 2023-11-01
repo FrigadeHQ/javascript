@@ -6,13 +6,21 @@ import { Text } from '../Text'
 import { buttonRecipe, ButtonVariants } from './buttonRecipe.css'
 
 export interface ButtonProps extends BoxProps, ButtonVariants {
-  title: string
+  title?: string
 }
 
-function BaseButton({ as, className, title, variant = 'Primary', ...props }: ButtonProps) {
+function BaseButton({
+  as,
+  children,
+  className,
+  title,
+  variant = 'Primary',
+  ...props
+}: ButtonProps) {
   return (
     <Box as={as ?? 'button'} className={clsx(buttonRecipe({ variant }), className)} {...props}>
-      <Text.Body2 fontWeight="demibold">{title}</Text.Body2>
+      {children}
+      {title && <Text.Body2 fontWeight="demibold">{title}</Text.Body2>}
     </Box>
   )
 }
