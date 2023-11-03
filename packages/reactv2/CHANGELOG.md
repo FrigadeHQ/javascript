@@ -1,5 +1,11 @@
 # @frigade/reactv2
 
+## 0.0.3
+
+### Patch Changes
+
+- c1f583c: Version packages
+
 ## 0.0.2
 
 ### Patch Changes
