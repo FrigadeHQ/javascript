@@ -1,6 +1,6 @@
 {
   "name": "@frigade/react",
-  "version": "1.38.3",
+  "version": "1.38.4",
   "description": "Build better product onboarding, faster.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -66,7 +66,7 @@
     "prop-types": "^15.8.1",
     "react-test-renderer": "17.0.2",
     "rimraf": "^4.1.2",
-    "storybook": "^7.0.9",
+    "storybook": "^0.0.1",
     "ts-jest": "^29.1.0",
     "tsup": "^6.7.0",
     "typedoc": "^0.24.8",
