@@ -1,24 +1,24 @@
 import { Box, BoxProps } from '../Box'
 
-export function Flex({ children, ...props }: BoxProps) {
+export function Flex({ children, css, ...props }: BoxProps) {
   return (
-    <Box display="flex" {...props}>
+    <Box css={[{ display: 'flex' }, css]} {...props}>
       {children}
     </Box>
   )
 }
 
-function Row({ children, ...props }: BoxProps) {
+function Row({ children, css, ...props }: BoxProps) {
   return (
-    <Box display="flex" flexDirection="row" {...props}>
+    <Box css={[{ display: 'flex', flexDirection: 'row' }, css]} {...props}>
       {children}
     </Box>
   )
 }
 
-function Column({ children, ...props }: BoxProps) {
+function Column({ children, css, ...props }: BoxProps) {
   return (
-    <Box display="flex" flexDirection="column" {...props}>
+    <Box css={[{ display: 'flex', flexDirection: 'column' }, css]} {...props}>
       {children}
     </Box>
   )
