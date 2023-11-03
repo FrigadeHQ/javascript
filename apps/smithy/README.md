@@ -1,7 +1,10 @@
-# Frigade Storybook
+# Frigade ~Storybook~ Smithy
+
+<img align="right" src="https://github.com/FrigadeHQ/javascript/assets/28678/81734a7e-d5b2-4e66-a627-fcf96a9c0d5c" height="300" style="display: block; margin: 0 auto" />
 
 ## Viewing stories
 
+Run the following commands from the `javascript/` root directory, because monorepo:
 1. `yarn`
 1. `yarn dev`
 1. Storybook will be running in dev mode on [localhost:6006](http://localhost:6006/)
