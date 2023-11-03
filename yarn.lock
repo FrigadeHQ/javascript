@@ -2537,8 +2537,6 @@ __metadata:
     lint-staged: ^13.0.0
     prettier: ^2.4.1
     prop-types: ^15.8.1
-    react: 17.0.2
-    react-dom: 17.0.2
     react-portal: ^4.2.2
     react-test-renderer: 17.0.2
     rimraf: ^4.1.2
@@ -2554,8 +2552,8 @@ __metadata:
     uuid: ^9.0.0
     zod: ^3.22.3
   peerDependencies:
-    react: ^17.0.0 || ^18.0.0
-    react-dom: ^17.0.0 || ^18.0.0
+    react: 17 - 18
+    react-dom: 17 - 18
   languageName: unknown
   linkType: soft
 
@@ -2599,8 +2597,6 @@ __metadata:
     lint-staged: ^13.0.0
     prettier: ^2.4.1
     prop-types: ^15.8.1
-    react: 17.0.2
-    react-dom: 17.0.2
     react-error-boundary: ^4.0.4
     react-portal: ^4.2.2
     react-test-renderer: 17.0.2
@@ -2617,8 +2613,8 @@ __metadata:
     uuid: ^9.0.0
     zod: ^3.22.3
   peerDependencies:
-    react: ^17 || ^18
-    react-dom: ^17 || ^18
+    react: 17 - 18
+    react-dom: 17 - 18
   languageName: unknown
   linkType: soft
 
@@ -14430,19 +14426,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dom@npm:17.0.2":
-  version: 17.0.2
-  resolution: "react-dom@npm:17.0.2"
-  dependencies:
-    loose-envify: ^1.1.0
-    object-assign: ^4.1.1
-    scheduler: ^0.20.2
-  peerDependencies:
-    react: 17.0.2
-  checksum: 1c1eaa3bca7c7228d24b70932e3d7c99e70d1d04e13bb0843bbf321582bc25d7961d6b8a6978a58a598af2af496d1cedcfb1bf65f6b0960a0a8161cb8dab743c
-  languageName: node
-  linkType: hard
-
 "react-dom@npm:^18.2.0":
   version: 18.2.0
   resolution: "react-dom@npm:18.2.0"
@@ -14618,16 +14601,6 @@ __metadata:
   peerDependencies:
     react: 17.0.2
   checksum: e6b5c6ed2a0bde2c34f1ab9523ff9bc4c141a271daf730d6b852374e83acc0155d58ab71a318251e953ebfa65b8bebb9c5dce3eba1ccfcbef7cc4e1e8261c401
-  languageName: node
-  linkType: hard
-
-"react@npm:17.0.2":
-  version: 17.0.2
-  resolution: "react@npm:17.0.2"
-  dependencies:
-    loose-envify: ^1.1.0
-    object-assign: ^4.1.1
-  checksum: b254cc17ce3011788330f7bbf383ab653c6848902d7936a87b09d835d091e3f295f7e9dd1597c6daac5dc80f90e778c8230218ba8ad599f74adcc11e33b9d61b
   languageName: node
   linkType: hard
 

@@ -47,8 +47,8 @@
     "Walkthrough"
   ],
   "peerDependencies": {
-    "react": "^17 || ^18",
-    "react-dom": "^17 || ^18"
+    "react": "17 - 18",
+    "react-dom": "17 - 18"
   },
   "devDependencies": {
     "@babel/core": "^7.15.8",
@@ -78,7 +78,6 @@
     "lint-staged": "^13.0.0",
     "prettier": "^2.4.1",
     "prop-types": "^15.8.1",
-    "react": "17.0.2",
     "react-test-renderer": "17.0.2",
     "rimraf": "^4.1.2",
     "storybook": "^7.0.9",
@@ -112,7 +111,6 @@
     "clsx": "^2.0.0",
     "core-js-pure": "^3.33.0",
     "dompurify": "^3.0.1",
-    "react-dom": "17.0.2",
     "react-error-boundary": "^4.0.4",
     "react-portal": "^4.2.2",
     "styled-components": "5.3.6",
