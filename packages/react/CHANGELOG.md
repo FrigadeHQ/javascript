@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.38.4
+
+### Patch Changes
+
+- 1d3f721: Removed hard dependencies on react and react-dom
+
 ## 1.38.3
 
 ### Patch Changes
