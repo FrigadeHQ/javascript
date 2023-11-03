@@ -11,9 +11,9 @@ export interface ButtonProps extends BoxProps {
   variant?: ButtonVariant
 }
 
-function BaseButton({ as, children, title, variant = 'Primary', ...props }: ButtonProps) {
+function BaseButton({ as, children, css = {}, title, variant = 'Primary', ...props }: ButtonProps) {
   return (
-    <Box as={as ?? 'button'} css={styles[variant]} {...props}>
+    <Box as={as ?? 'button'} css={[styles[variant], css]} {...props}>
       {children}
       {title && <Text.Body2 fontWeight="demibold">{title}</Text.Body2>}
     </Box>
