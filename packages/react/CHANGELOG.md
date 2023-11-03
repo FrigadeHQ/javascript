@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.38.5
+
+### Patch Changes
+
+- c1f583c: Version packages
+
 ## 1.38.4
 
 ### Patch Changes
