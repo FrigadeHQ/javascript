@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.38.6
+
+### Patch Changes
+
+- a48684c: Adds missing event handlers and class names to the condensed checklist
+
 ## 1.38.5
 
 ### Patch Changes
