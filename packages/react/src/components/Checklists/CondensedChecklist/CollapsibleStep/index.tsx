@@ -123,7 +123,7 @@ export const CollapsibleStep: FC<CollapsibleStepProps> = ({
       appearance={appearance}
     >
       <StepHeader className={getClassName('stepHeader', appearance)} onClick={() => onClick()}>
-        <HeaderLeft>
+        <HeaderLeft className={getClassName('stepHeaderContent', appearance)}>
           <CheckBoxRow
             value={stepData.complete}
             style={{ width: 'auto', borderTop: 0 }}

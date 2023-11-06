@@ -297,6 +297,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
           setSelectedStep={setSelectedStep}
           autoExpandNextStep={true}
           appearance={appearance}
+          onButtonClick={onButtonClick}
           {...commonProps}
         />
       </>

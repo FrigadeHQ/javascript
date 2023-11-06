@@ -16,6 +16,10 @@ import { Media } from '../components/Media'
 
 export interface FrigadeEmbeddedTipProps extends DefaultFrigadeFlowProps {
   dismissible?: boolean
+  /**
+   * Handler for when the container is clicked
+   */
+  onClick?: () => void
 }
 
 export const FrigadeEmbeddedTip: React.FC<FrigadeEmbeddedTipProps> = ({
@@ -27,6 +31,7 @@ export const FrigadeEmbeddedTip: React.FC<FrigadeEmbeddedTipProps> = ({
   className,
   style,
   dismissible,
+  onClick,
 }) => {
   const {
     getFlow,
@@ -78,6 +83,7 @@ export const FrigadeEmbeddedTip: React.FC<FrigadeEmbeddedTipProps> = ({
         appearance={appearance}
         className={mergeClasses(getClassName('embeddedTipContainer', appearance), className)}
         style={style}
+        onClick={onClick}
       >
         {(dismissible === true || currentStep.dismissible) && (
           <DismissButton
