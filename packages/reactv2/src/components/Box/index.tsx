@@ -1,6 +1,7 @@
 import * as React from 'react'
 
 import '../../shared/theme/baseTheme.css'
+import { stylePropsToCss } from './stylePropsToCss'
 
 export type BoxProps<T extends React.ElementType = React.ElementType> = {
   as?: T
@@ -12,9 +13,15 @@ function BoxWithRef<T extends React.ElementType = React.ElementType>(
 ) {
   const Component = as ?? 'div'
 
+  const { cssFromProps, unmatchedProps } = stylePropsToCss(props)
+
   return (
     // @ts-ignore: TODO: ref types are yet again complaining
-    <Component css={[{ boxSizing: 'border-box' }, css]} {...props} ref={ref}>
+    <Component
+      css={[{ boxSizing: 'border-box', ...cssFromProps, ...css }]}
+      {...unmatchedProps}
+      ref={ref}
+    >
       {children}
     </Component>
   )

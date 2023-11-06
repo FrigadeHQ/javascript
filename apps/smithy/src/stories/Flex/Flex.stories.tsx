@@ -9,7 +9,7 @@ export const Default = {
   decorators: [
     () => {
       return (
-        <Flex color="blue500" className="testing" style={{ color: "green" }}>
+        <Flex color="blue500" alignItems="center" justifyContent="center">
           <Text>Oh ok we're testing some Flex components then!</Text>
         </Flex>
       );

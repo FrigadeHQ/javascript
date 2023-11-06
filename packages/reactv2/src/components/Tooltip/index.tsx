@@ -70,12 +70,12 @@ export function Tooltip({ anchor, children, spotlight = false, style, ...props }
 
   return (
     <Popover.Root defaultOpen={true} {...rootProps}>
-      <Popover.Anchor virtualRef={anchorElementRef} style={{ borderRadius: '10px' }} />
+      <Popover.Anchor virtualRef={anchorElementRef} css={{ borderRadius: '10px' }} />
       <Popover.Portal>
         <>
           {spotlight && (
             <Box
-              style={{
+              css={{
                 borderRadius: anchorRadius,
                 boxShadow: '0 0 0 2000px rgb(0 0 0 / 0.5)',
                 height: anchorRect.height,
@@ -88,17 +88,17 @@ export function Tooltip({ anchor, children, spotlight = false, style, ...props }
           )}
           <Popover.Content asChild {...contentProps} ref={contentRef}>
             <Box
-              backgroundColor="white"
-              borderRadius="md"
-              padding={5}
-              style={{
+              css={({ colors, radii, space }) => ({
+                background: colors.white,
+                borderRadius: radii.md,
                 boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)',
                 display: 'flex',
                 flexDirection: 'column',
+                padding: space[5],
                 position: 'relative',
                 width: '300px',
                 ...style,
-              }}
+              })}
             >
               <Dot style={dotPosition} />
 
@@ -115,7 +115,7 @@ Tooltip.Close = (props: ButtonProps) => {
   return (
     <Popover.Close aria-label="Close" asChild>
       <Button.Plain
-        style={{
+        css={{
           position: 'absolute',
           top: 0,
           right: 0,
@@ -134,16 +134,13 @@ Tooltip.Media = ({ src, type }) => {
 
   return (
     <Media
-      borderRadius="md"
-      mb={5}
-      mt={-5}
-      mx={-5}
       src={src}
-      style={{
+      css={({ radii, space }) => ({
         aspectRatio: '2',
-        borderBottomLeftRadius: 0,
-        borderBottomRightRadius: 0,
-      }}
+        border: 0,
+        borderRadius: `${radii.md} ${radii.md} 0 0`,
+        margin: `${space[-5]} ${space[-5]} ${space[5]}`,
+      })}
       type={type}
     />
   )
