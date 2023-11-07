@@ -3,8 +3,6 @@ import { flattenObject } from '../../shared/flattenObject'
 
 const colorTokens: Record<string, unknown> = flattenObject(theme.colors)
 
-console.log(colorTokens)
-
 export const styleProps = {
   color: colorTokens,
   backgroundColor: colorTokens,
@@ -210,4 +208,22 @@ export const styleProps = {
     'table-caption',
     'unset',
   ],
+}
+
+export const stylePropShorthands = {
+  m: ['margin'],
+  mt: ['marginTop'],
+  mr: ['marginRight'],
+  mb: ['marginBottom'],
+  ml: ['marginLeft'],
+  mx: ['marginLeft', 'marginRight'],
+  my: ['marginTop', 'marginBottom'],
+
+  p: ['padding'],
+  pt: ['paddingTop'],
+  pr: ['paddingRight'],
+  pb: ['paddingBottom'],
+  pl: ['paddingLeft'],
+  px: ['paddingLeft', 'paddingRight'],
+  py: ['paddingTop', 'paddingBottom'],
 }

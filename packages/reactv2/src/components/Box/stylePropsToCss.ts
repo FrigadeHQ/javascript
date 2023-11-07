@@ -1,4 +1,4 @@
-import { styleProps } from './styleProps'
+import { styleProps, stylePropShorthands } from './styleProps'
 
 function prepValue(value) {
   if (Array.isArray(value)) {
@@ -18,14 +18,33 @@ const stylePropsMap = new Map(
   })
 )
 
+const stylePropShorthandsMap = new Map(
+  Object.entries(stylePropShorthands).map(([shorthand, targetProps]) => {
+    return [shorthand, new Set(targetProps)]
+  })
+)
+
 export function stylePropsToCss(props: Record<any, any>) {
   const unmatchedProps = Object.assign({}, props)
   const cssFromProps = {}
 
-  Object.entries(props).forEach(([key, value]) => {
-    if (typeof value === 'string' && stylePropsMap.get(key)?.has(value)) {
-      cssFromProps[key] = stylePropsMap.get(key).get(value)
-      delete unmatchedProps[key]
+  // Convert shorthand styleProps to full versions
+  Object.entries(unmatchedProps).forEach(([propName, propValue]) => {
+    const matchedShorthand = stylePropShorthandsMap.get(propName)
+    if (matchedShorthand != null) {
+      matchedShorthand.forEach((propName) => {
+        unmatchedProps[propName] = propValue
+      })
+
+      delete unmatchedProps[propName]
+    }
+  })
+
+  // Convert styleProps to style object
+  Object.entries(unmatchedProps).forEach(([propName, propValue]) => {
+    if (stylePropsMap.get(propName)?.has(propValue.toString())) {
+      cssFromProps[propName] = stylePropsMap.get(propName).get(propValue.toString())
+      delete unmatchedProps[propName]
     }
   })
 
