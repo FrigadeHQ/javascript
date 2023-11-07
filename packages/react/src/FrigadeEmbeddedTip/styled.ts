@@ -24,9 +24,9 @@ export const TextContainer = styled.div`
 `
 export const CallToActionContainer = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
   margin-top: 16px;
   gap: 12px;
 `
