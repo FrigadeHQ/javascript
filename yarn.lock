@@ -2678,13 +2678,9 @@ __metadata:
     "@vanilla-extract/css": ^1.13.0
     "@vanilla-extract/dynamic": ^2.0.3
     "@vanilla-extract/esbuild-plugin": ^2.3.0
-    "@vanilla-extract/recipes": ^0.5.0
-    "@vanilla-extract/sprinkles": ^1.6.1
     babel-jest: ^29.4.1
-    clsx: ^2.0.0
     copyfiles: ^2.4.1
     core-js-pure: ^3.33.0
-    dompurify: ^3.0.1
     eslint-config-backpacker-react-ts: ^0.3.0
     husky: ^8.0.3
     jest: ^29.6.2
@@ -2693,21 +2689,14 @@ __metadata:
     lint-staged: ^13.0.0
     prettier: ^2.4.1
     prop-types: ^15.8.1
-    react-error-boundary: ^4.0.4
-    react-portal: ^4.2.2
     react-test-renderer: 17.0.2
     rimraf: ^4.1.2
     storybook: ^7.5.2
-    styled-components: 5.3.6
-    styled-system: ^5.1.5
-    swr: ^2.2.0
     ts-jest: ^29.1.0
     tsup: ^6.7.0
     typedoc: ^0.24.8
     typedoc-plugin-markdown: ^3.15.3
     typescript: ^4.9.4
-    uuid: ^9.0.0
-    zod: ^3.22.3
   peerDependencies:
     react: 17 - 18
     react-dom: 17 - 18
@@ -6193,24 +6182,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vanilla-extract/recipes@npm:^0.5.0":
-  version: 0.5.0
-  resolution: "@vanilla-extract/recipes@npm:0.5.0"
-  peerDependencies:
-    "@vanilla-extract/css": ^1.0.0
-  checksum: a05c5be63bfa15289e274027836943cec4b94110becb4b8bc8d56e3113d08352151fbe5abd7c00c147e38922a32d8672dc55c60177a99f94255ce7ecceffc829
-  languageName: node
-  linkType: hard
-
-"@vanilla-extract/sprinkles@npm:^1.6.1":
-  version: 1.6.1
-  resolution: "@vanilla-extract/sprinkles@npm:1.6.1"
-  peerDependencies:
-    "@vanilla-extract/css": ^1.0.0
-  checksum: 13c53a94b19f9226c2684b0da06b98022d2faaf504cb5a4a8e5a0abae499aaa7855c17aa6d88534800d9427696b3248f4fc1a5332bde336c445d837017569f3b
-  languageName: node
-  linkType: hard
-
 "@vitejs/plugin-react@npm:^3.0.1":
   version: 3.1.0
   resolution: "@vitejs/plugin-react@npm:3.1.0"
@@ -7755,13 +7726,6 @@ __metadata:
   version: 1.0.4
   resolution: "clone@npm:1.0.4"
   checksum: d06418b7335897209e77bdd430d04f882189582e67bd1f75a04565f3f07f5b3f119a9d670c943b6697d0afb100f03b866b3b8a1f91d4d02d72c4ecf2bb64b5dd
-  languageName: node
-  linkType: hard
-
-"clsx@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "clsx@npm:2.0.0"
-  checksum: a2cfb2351b254611acf92faa0daf15220f4cd648bdf96ce369d729813b85336993871a4bf6978ddea2b81b5a130478339c20d9d0b5c6fc287e5147f0c059276e
   languageName: node
   linkType: hard
 
@@ -14389,17 +14353,6 @@ __metadata:
     react: ^0.14.8 || ^15.0.1 || ^16.0.0 || ^17.0.1 || ^18.0.0
     react-dom: ^0.14.8 || ^15.0.1 || ^16.0.0 || ^17.0.1 || ^18.0.0
   checksum: c3907cc4c1d3e9ecc8ca7727058ebcba6ec89848d9e07bfd2c77ee8f28f1ad99bf55e38359dec8a1125de83d41ac09a2874f53c41415edc86ffa9840fa1b7856
-  languageName: node
-  linkType: hard
-
-"react-error-boundary@npm:^4.0.4":
-  version: 4.0.11
-  resolution: "react-error-boundary@npm:4.0.11"
-  dependencies:
-    "@babel/runtime": ^7.12.5
-  peerDependencies:
-    react: ">=16.13.1"
-  checksum: b3c157fea4e8f78411e9aa0fbf5241f6907b66ede1cd8b7bb22faaeb0339ebeb3dc8e63bf90ef3f740bfa8fd994ca6edf975089cd371b664ad6c2735e7512d38
   languageName: node
   linkType: hard
 

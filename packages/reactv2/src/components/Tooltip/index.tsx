@@ -69,7 +69,7 @@ export function Tooltip({ anchor, children, spotlight = false, style, ...props }
 
   return (
     <Popover.Root defaultOpen={true} {...rootProps}>
-      <Popover.Anchor virtualRef={anchorElementRef} css={{ borderRadius: '10px' }} />
+      <Popover.Anchor virtualRef={anchorElementRef} />
       <Popover.Portal>
         <>
           {spotlight && (
