@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.38.9
+
+### Patch Changes
+
+- 1c2e863: Removes redundant useEffect calls from condensed checklist
+
 ## 1.38.8
 
 ### Patch Changes
