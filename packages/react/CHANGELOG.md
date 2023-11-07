@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.38.7
+
+### Patch Changes
+
+- 9162a79: Add missing CSS classes to condensed checklist
+
 ## 1.38.6
 
 ### Patch Changes
