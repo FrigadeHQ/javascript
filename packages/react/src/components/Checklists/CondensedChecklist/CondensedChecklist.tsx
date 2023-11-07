@@ -29,7 +29,6 @@ const CondensedChecklist: FC<CondensedChecklistProps> = ({
   autoExpandFirstIncompleteStep = true,
   autoCollapse = true,
   autoExpandNextStep = true,
-  selectedStep,
   setSelectedStep,
   appearance,
   type,
@@ -52,21 +51,21 @@ const CondensedChecklist: FC<CondensedChecklistProps> = ({
     }
     setCollapsedSteps(initCollapsedState)
   }, [])
-
-  useEffect(() => {
-    if (!autoExpandFirstIncompleteStep) {
-      return
-    }
-    handleStepClick(selectedStep)
-  }, [selectedStep])
-
-  useEffect(() => {
-    if (!autoExpandNextStep) return
-    //  If selected step is not open, open it
-    if (collapsedSteps[selectedStep]) {
-      handleStepClick(selectedStep)
-    }
-  }, [selectedStep])
+  //
+  // useEffect(() => {
+  //   if (!autoExpandFirstIncompleteStep) {
+  //     return
+  //   }
+  //   handleStepClick(selectedStep)
+  // }, [selectedStep])
+  //
+  // useEffect(() => {
+  //   if (!autoExpandNextStep) return
+  //   //  If selected step is not open, open it
+  //   if (collapsedSteps[selectedStep]) {
+  //     handleStepClick(selectedStep)
+  //   }
+  // }, [selectedStep])
 
   useEffect(() => {}, [steps])
 
@@ -122,17 +121,14 @@ const CondensedChecklist: FC<CondensedChecklistProps> = ({
             collapsed={isCollapsed}
             key={`modal-checklist-${step.id ?? idx}`}
             onClick={() => {
-              if (selectedStep == idx) {
-                handleStepClick(idx)
-              } else {
-                // handleStepClick will automatically be called after setSelectedStep
-                setSelectedStep(idx)
-              }
+              handleStepClick(idx)
+              setSelectedStep(idx)
               if (onButtonClick) {
                 onButtonClick(steps[idx], idx, collapsedSteps[idx] ? 'expand' : 'collapse')
               }
             }}
             onPrimaryButtonClick={() => {
+              handleStepClick(idx)
               if (autoExpandNextStep && idx < steps.length - 1) {
                 setSelectedStep(idx + 1)
               }
