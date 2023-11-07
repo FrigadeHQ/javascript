@@ -150,6 +150,7 @@ export const CollapsibleStep: FC<CollapsibleStepProps> = ({
         style={{
           ...stepContentStyle,
         }}
+        className={getClassName('stepContent', appearance)}
       >
         {getCustomStep() ?? getDefaultStepContent()}
       </div>

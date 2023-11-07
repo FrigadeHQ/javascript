@@ -45,7 +45,7 @@ export const FrigadeEmbeddedTip: React.FC<FrigadeEmbeddedTipProps> = ({
     getFlowStatus,
     getCurrentStepIndex,
   } = useFlows()
-  const { primaryCTAClickSideEffects } = useCTAClickSideEffects()
+  const { primaryCTAClickSideEffects, secondaryCTAClickSideEffects } = useCTAClickSideEffects()
   const { mergeAppearanceWithDefault } = useTheme()
   useFlowImpressions(flowId)
 
@@ -111,32 +111,64 @@ export const FrigadeEmbeddedTip: React.FC<FrigadeEmbeddedTipProps> = ({
             subtitle={currentStep.subtitle}
           />
         </TextContainer>
-        {currentStep.primaryButtonTitle && (
-          <CallToActionContainer
-            className={getClassName('embeddedTipCallToActionContainer', appearance)}
-          >
-            <Button
-              classPrefix="embeddedTip"
-              title={currentStep.primaryButtonTitle}
-              appearance={appearance}
-              withMargin={false}
-              size="medium"
-              type="inline"
-              onClick={async () => {
-                currentStep.handlePrimaryButtonClick()
-                primaryCTAClickSideEffects(currentStep)
-                if (onButtonClick) {
-                  const result = onButtonClick(currentStep, getCurrentStepIndex(flowId), 'primary')
-                  if (result === false) {
-                    return
-                  }
-                }
-                await markStepCompleted(flowId, currentStep.id)
-                await markFlowCompleted(flowId)
-              }}
-            />
-          </CallToActionContainer>
-        )}
+        {currentStep.primaryButtonTitle ||
+          (currentStep.secondaryButtonTitle && (
+            <CallToActionContainer
+              className={getClassName('embeddedTipCallToActionContainer', appearance)}
+            >
+              {currentStep.primaryButtonTitle && (
+                <Button
+                  classPrefix="embeddedTip"
+                  title={currentStep.primaryButtonTitle}
+                  appearance={appearance}
+                  withMargin={false}
+                  size="medium"
+                  type="inline"
+                  onClick={async () => {
+                    currentStep.handlePrimaryButtonClick()
+                    primaryCTAClickSideEffects(currentStep)
+                    if (onButtonClick) {
+                      const result = onButtonClick(
+                        currentStep,
+                        getCurrentStepIndex(flowId),
+                        'primary'
+                      )
+                      if (result === false) {
+                        return
+                      }
+                    }
+                    await markStepCompleted(flowId, currentStep.id)
+                    await markFlowCompleted(flowId)
+                  }}
+                />
+              )}
+              {currentStep.secondaryButtonTitle && (
+                <Button
+                  classPrefix="embeddedTip"
+                  title={currentStep.secondaryButtonTitle}
+                  appearance={appearance}
+                  withMargin={false}
+                  size="medium"
+                  type="inline"
+                  onClick={async () => {
+                    currentStep.handleSecondaryButtonClick()
+                    secondaryCTAClickSideEffects(currentStep)
+                    if (onButtonClick) {
+                      const result = onButtonClick(
+                        currentStep,
+                        getCurrentStepIndex(flowId),
+                        'secondary'
+                      )
+                      if (result === false) {
+                        return
+                      }
+                    }
+                  }}
+                  secondary
+                />
+              )}
+            </CallToActionContainer>
+          ))}
       </EmbeddedTipContainer>
     </>
   )

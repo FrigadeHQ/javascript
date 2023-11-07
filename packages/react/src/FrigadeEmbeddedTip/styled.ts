@@ -28,6 +28,7 @@ export const CallToActionContainer = styled.div`
   justify-content: center;
   align-items: flex-start;
   margin-top: 16px;
+  gap: 12px;
 `
 
 export const DismissButton = styled.div`

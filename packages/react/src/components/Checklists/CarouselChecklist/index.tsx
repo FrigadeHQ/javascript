@@ -18,6 +18,7 @@ import { DefaultFrigadeFlowProps } from '../../../types'
 import { getClassName, mergeClasses } from '../../../shared/appearance'
 import { RenderInlineStyles } from '../../RenderInlineStyles'
 import { ProgressBar } from '../Checklist/ProgressBar'
+import { sanitize } from '../../../shared/sanitizer'
 
 const RightArrow = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -184,12 +185,14 @@ export const CarouselChecklist: React.FC<CarouselChecklistProps> = ({
         }}
       >
         <div>
-          <CarouselTitle className={getClassName('carouselTitle', appearance)}>
-            {flowMetadata?.title}
-          </CarouselTitle>
-          <Body.Quiet className={getClassName('carouselSubtitle', appearance)}>
-            {flowMetadata?.subtitle}
-          </Body.Quiet>
+          <CarouselTitle
+            className={getClassName('carouselTitle', appearance)}
+            dangerouslySetInnerHTML={sanitize(flowMetadata?.title)}
+          />
+          <Body.Quiet
+            className={getClassName('carouselSubtitle', appearance)}
+            dangerouslySetInnerHTML={sanitize(flowMetadata?.subtitle)}
+          />
         </div>
         <ProgressWrapper className={getClassName('progressWrapper', appearance)}>
           <ProgressBar

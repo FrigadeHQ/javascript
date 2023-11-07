@@ -1,6 +1,9 @@
 import DOMPurify from 'dompurify'
 
-export function sanitize(dirty: string) {
+export function sanitize(dirty?: string) {
+  if (!dirty) {
+    return { __html: '' }
+  }
   return {
     __html: DOMPurify.sanitize(dirty, {
       ALLOWED_TAGS: [
