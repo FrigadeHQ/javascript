@@ -1,5 +1,12 @@
 # @frigade/react
 
+## 1.38.8
+
+### Patch Changes
+
+- 4749366: Fix issue with missing HTML tags in carousel checklist
+- 058e11f: Fix HTML tags on carousel checklists
+
 ## 1.38.7
 
 ### Patch Changes
