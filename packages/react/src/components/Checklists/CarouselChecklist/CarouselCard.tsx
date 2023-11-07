@@ -1,7 +1,6 @@
 import React, { FC } from 'react'
 import { Appearance, StepData } from '../../../types'
 import { useCTAClickSideEffects } from '../../../hooks/useCTAClickSideEffects'
-import { CTA } from '../../checklist-step-content/shared/CTA'
 
 import {
   Body,
@@ -13,6 +12,7 @@ import {
 } from './styled'
 import { useTheme } from '../../../hooks/useTheme'
 import { getClassName } from '../../../shared/appearance'
+import { sanitize } from '../../../shared/sanitizer'
 
 interface CarouselCardProps {
   stepData: StepData
@@ -66,18 +66,16 @@ export const CarouselCard: FC<CarouselCardProps> = ({ stepData, style = {}, appe
           blocked={blocked}
           complete={complete}
           className={getClassName('carouselCardTitle', appearance)}
-        >
-          {title}
-        </CardTitle>
+          dangerouslySetInnerHTML={sanitize(title)}
+        />
       )}
       {subtitle && (
         <Body.Quiet
           blocked={blocked}
           complete={complete}
           className={getClassName('carouselCardSubtitle', appearance)}
-        >
-          {subtitle}
-        </Body.Quiet>
+          dangerouslySetInnerHTML={sanitize(subtitle)}
+        />
       )}
       {/* !(complete || blocked) && hasCTA && <CTA stepData={stepData} appearance={appearance} /> */}
     </StyledCarouselCard>
