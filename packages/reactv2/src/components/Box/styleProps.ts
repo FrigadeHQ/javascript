@@ -3,6 +3,11 @@ import { flattenObject } from '../../shared/flattenObject'
 
 const colorTokens: Record<string, unknown> = flattenObject(theme.colors)
 
+/*
+  TODO:
+  - top / right / bottom / left
+*/
+
 export const styleProps = {
   color: colorTokens,
   backgroundColor: colorTokens,
@@ -172,6 +177,19 @@ export const styleProps = {
   ],
 
   boxSizing: ['border-box', 'content-box', 'inherit', 'initial', 'revert', 'revert-layer', 'unset'],
+
+  position: [
+    'static',
+    'relative',
+    'absolute',
+    'fixed',
+    'sticky',
+    'inherit',
+    'initial',
+    'revert',
+    'revert-layer',
+    'unset',
+  ],
 
   display: [
     'block',

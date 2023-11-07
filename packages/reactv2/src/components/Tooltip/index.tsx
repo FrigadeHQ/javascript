@@ -7,12 +7,11 @@ import { useBoundingClientRect } from '../../hooks/useBoundingClientRect'
 import { Box } from '../Box'
 import { Button, ButtonProps } from '../Button'
 import { Dot } from './Dot'
+import { Flex } from '../Flex/Flex'
 import { Media } from '../Media'
 import { Text, TextProps } from '../Text'
 import { getDotPosition } from './getDotPosition'
 import { mapTooltipPropsToRadixProps } from './mapTooltipPropsToPopoverProps'
-
-// TODO: Split out into intermediate Radix-like sub components
 
 interface MergedRadixPopoverProps
   extends Pick<Popover.PopoverProps, 'defaultOpen' | 'modal' | 'onOpenChange' | 'open'>,
@@ -75,35 +74,33 @@ export function Tooltip({ anchor, children, spotlight = false, style, ...props }
         <>
           {spotlight && (
             <Box
+              borderRadius={anchorRadius}
+              position="absolute"
               css={{
-                borderRadius: anchorRadius,
                 boxShadow: '0 0 0 2000px rgb(0 0 0 / 0.5)',
                 height: anchorRect.height,
                 left: anchorRect.left,
-                position: 'absolute',
                 top: anchorRect.top,
                 width: anchorRect.width,
               }}
             />
           )}
           <Popover.Content asChild {...contentProps} ref={contentRef}>
-            <Box
-              css={({ colors, radii, space }) => ({
-                background: colors.white,
-                borderRadius: radii.md,
+            <Flex.Column
+              backgroundColor="white"
+              borderRadius="md"
+              p={5}
+              position="relative"
+              css={{
                 boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)',
-                display: 'flex',
-                flexDirection: 'column',
-                padding: space[5],
-                position: 'relative',
                 width: '300px',
                 ...style,
-              })}
+              }}
             >
               <Dot style={dotPosition} />
 
               {children}
-            </Box>
+            </Flex.Column>
           </Popover.Content>
         </>
       </Popover.Portal>
@@ -115,8 +112,8 @@ Tooltip.Close = (props: ButtonProps) => {
   return (
     <Popover.Close aria-label="Close" asChild>
       <Button.Plain
+        position="absolute"
         css={{
-          position: 'absolute',
           top: 0,
           right: 0,
         }}
@@ -128,19 +125,18 @@ Tooltip.Close = (props: ButtonProps) => {
   )
 }
 
-// TODO: Flesh out Media component
 Tooltip.Media = ({ src, type }) => {
   if (src == null) return null
 
   return (
     <Media
+      borderRadius="md md 0 0"
+      borderWidth="0"
+      margin="-5 -5 5"
       src={src}
-      css={({ radii, space }) => ({
+      css={{
         aspectRatio: '2',
-        border: 0,
-        borderRadius: `${radii.md} ${radii.md} 0 0`,
-        margin: `${space[-5]} ${space[-5]} ${space[5]}`,
-      })}
+      }}
       type={type}
     />
   )

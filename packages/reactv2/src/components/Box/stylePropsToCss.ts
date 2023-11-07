@@ -42,9 +42,21 @@ export function stylePropsToCss(props: Record<any, any>) {
 
   // Convert styleProps to style object
   Object.entries(unmatchedProps).forEach(([propName, propValue]) => {
-    if (stylePropsMap.get(propName)?.has(propValue.toString())) {
-      cssFromProps[propName] = stylePropsMap.get(propName).get(propValue.toString())
-      delete unmatchedProps[propName]
+    const styleProp = stylePropsMap.get(propName)
+    if (styleProp != null) {
+      if (typeof propValue === 'string' && propValue.indexOf(' ') > -1) {
+        // Split space-separated values out and process them individually
+        const splitPropValues = propValue.split(' ')
+
+        cssFromProps[propName] = splitPropValues
+          .map((v) => styleProp.get(v.toString()) ?? v)
+          .join(' ')
+
+        delete unmatchedProps[propName]
+      } else if (styleProp.has(propValue.toString())) {
+        cssFromProps[propName] = styleProp.get(propValue.toString())
+        delete unmatchedProps[propName]
+      }
     }
   })
 

@@ -5,7 +5,7 @@ import { stylePropsToCss } from './stylePropsToCss'
 
 export type BoxProps<T extends React.ElementType = React.ElementType> = {
   as?: T
-} & React.ComponentPropsWithoutRef<T>
+} & React.ComponentPropsWithRef<T>
 
 function BoxWithRef<T extends React.ElementType = React.ElementType>(
   { as, children, css, ...props }: BoxProps<T>,

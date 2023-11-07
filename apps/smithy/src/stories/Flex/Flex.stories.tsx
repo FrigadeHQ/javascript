@@ -13,7 +13,7 @@ export const Default = {
           color="blue500"
           alignItems="center"
           justifyContent="center"
-          py={5}
+          p="2 4 6 8"
         >
           <Text>Oh ok we're testing some Flex components then!</Text>
         </Flex>
