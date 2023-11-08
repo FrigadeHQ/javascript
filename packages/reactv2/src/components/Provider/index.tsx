@@ -1,6 +1,8 @@
 import { createContext } from 'react'
+import { ThemeProvider } from '@emotion/react'
 
 import { useThemeOverrides } from '../../hooks/useThemeOverrides'
+import { theme as themeContract } from '../../shared/theme/themeContract.css'
 
 export const FrigadeContext = createContext<{ apiKey: string; config: ProviderConfig }>({
   apiKey: '',
@@ -23,5 +25,9 @@ interface ProviderConfig {
 export function Provider({ apiKey, children, config = {}, theme }: ProviderProps) {
   useThemeOverrides(theme)
 
-  return <FrigadeContext.Provider value={{ apiKey, config }}>{children}</FrigadeContext.Provider>
+  return (
+    <FrigadeContext.Provider value={{ apiKey, config }}>
+      <ThemeProvider theme={themeContract}>{children}</ThemeProvider>
+    </FrigadeContext.Provider>
+  )
 }

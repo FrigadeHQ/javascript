@@ -7,9 +7,7 @@ export default {
 
 export const Default = {
   args: {
-    children: (
-      <Text>This is a Box. It accepts all of our Sprinkles props:</Text>
-    ),
+    children: <Text>This is a Box.</Text>,
   },
 };
 
@@ -28,21 +26,4 @@ export const Polymorphism = {
       </>
     ),
   },
-};
-
-export const TEMP_Playground = {
-  decorators: [
-    () => {
-      return (
-        <>
-          Messing around with this dang box while we work:
-          <Box color="blue500" className="testing" style={{ color: "green" }}>
-            Box will prioritize styles from the `className` prop over its own
-            internal styles.
-          </Box>
-          <Button title="hello" />
-        </>
-      );
-    },
-  ],
 };

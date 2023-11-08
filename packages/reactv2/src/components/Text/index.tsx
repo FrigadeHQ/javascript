@@ -1,22 +1,41 @@
-import { clsx } from 'clsx'
-
 import { Box, BoxProps } from '../Box'
 
-import { textRecipe, TextVariants } from './textRecipe.css'
+import * as styles from './Text.styles'
 
-export interface TextProps extends BoxProps, TextVariants {}
+type TextVariant =
+  | 'Display1'
+  | 'Display2'
+  | 'H1'
+  | 'H2'
+  | 'H3'
+  | 'H4'
+  | 'Body1'
+  | 'Body2'
+  | 'Caption'
 
-function BaseText({ as = 'span', children, className, variant = 'Body1', ...props }: TextProps) {
+export interface TextProps extends BoxProps {
+  variant?: TextVariant
+}
+
+function BaseText({ as = 'span', children, css, variant = 'Body1', ...props }: TextProps) {
   return (
-    <Box as={as} className={clsx(textRecipe({ variant }), className)} {...props}>
+    <Box as={as} css={[styles[variant], css]} {...props}>
       {children}
     </Box>
   )
 }
 
-const textVariantNames = Object.keys(
-  textRecipe.classNames.variants.variant
-) as TextVariants['variant'][]
+const textVariantNames: TextVariant[] = [
+  'Display1',
+  'Display2',
+  'H1',
+  'H2',
+  'H3',
+  'H4',
+  'Body1',
+  'Body2',
+  'Caption',
+]
 
 const textVariantComponents = Object.fromEntries(
   textVariantNames.map((variant) => {

@@ -22,6 +22,8 @@ export default defineConfig([
       }
 
       options.bundle = true
+
+      options.jsxImportSource = '@emotion/react'
     },
     esbuildPlugins: [vanillaExtractPlugin()],
     entry: ['src/index.ts'],

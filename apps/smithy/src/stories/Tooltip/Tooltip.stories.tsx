@@ -1,4 +1,4 @@
-import { Box, Tooltip } from "@frigade/reactv2";
+import { Box, Flex, Tooltip } from "@frigade/reactv2";
 import { StoryFn, StoryContext } from "@storybook/react";
 
 export default {
@@ -61,7 +61,40 @@ export const Default = {
           Also not the anchor
         </Box>
 
-        <Tooltip anchor="#tooltip-anchor" {...options.args} />
+        <Tooltip
+          anchor="#tooltip-anchor"
+          onOpenAutoFocus={(e) => e.preventDefault()}
+          onPointerDownOutside={(e) => e.preventDefault()}
+          css={{
+            ".fr-tooltip-content .fr-tooltip-close": {
+              backgroundColor: "pink",
+            },
+            ".fr-button-primary": {
+              backgroundColor: "fuchsia",
+            },
+          }}
+          {...options.args}
+        >
+          <Tooltip.Close />
+
+          <Tooltip.Media src="https://placekitten.com/300/150" type="image" />
+
+          <Tooltip.Title>Title</Tooltip.Title>
+          <Tooltip.Subtitle>Subtitle</Tooltip.Subtitle>
+
+          <Flex.Row
+            alignItems="center"
+            gap={3}
+            justifyContent="flex-end"
+            part="tooltip-footer"
+            pt={4}
+          >
+            <Tooltip.Progress>0/0</Tooltip.Progress>
+
+            <Tooltip.Secondary marginLeft="auto" title="Secondary" />
+            <Tooltip.Primary title="Primary" />
+          </Flex.Row>
+        </Tooltip>
       </Box>
     ),
   ],

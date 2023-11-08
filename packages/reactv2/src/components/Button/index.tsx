@@ -1,38 +1,33 @@
-import { clsx } from 'clsx'
-
 import { Box, BoxProps } from '../Box'
 import { Text } from '../Text'
 
-import { buttonRecipe, ButtonVariants } from './buttonRecipe.css'
+import * as styles from './Button.styles'
 
-export interface ButtonProps extends BoxProps, ButtonVariants {
+// TODO: Generate this type from buttonVariantNames
+type ButtonVariant = 'Primary' | 'Secondary' | 'Link' | 'Plain'
+
+export interface ButtonProps extends BoxProps {
   title?: string
+  variant?: ButtonVariant
 }
 
-function BaseButton({
-  as,
-  children,
-  className,
-  title,
-  variant = 'Primary',
-  ...props
-}: ButtonProps) {
+function BaseButton({ as, children, css = {}, title, variant = 'Primary', ...props }: ButtonProps) {
   return (
-    <Box as={as ?? 'button'} className={clsx(buttonRecipe({ variant }), className)} {...props}>
+    <Box as={as ?? 'button'} css={[styles[variant], css]} {...props}>
       {children}
       {title && <Text.Body2 fontWeight="demibold">{title}</Text.Body2>}
     </Box>
   )
 }
 
-const buttonVariantNames = Object.keys(
-  buttonRecipe.classNames.variants.variant
-) as ButtonVariants['variant'][]
+const buttonVariantNames: ButtonVariant[] = ['Primary', 'Secondary', 'Link', 'Plain']
 
 const buttonVariantComponents = Object.fromEntries(
   buttonVariantNames.map((variant) => {
-    const component = (props: ButtonProps) => (
-      <BaseButton {...props} variant={variant}>
+    const variantPart = variant.toLocaleLowerCase()
+
+    const component = ({ part, ...props }: ButtonProps) => (
+      <BaseButton part={[`button-${variantPart}`, part]} {...props} variant={variant}>
         {props.children}
       </BaseButton>
     )

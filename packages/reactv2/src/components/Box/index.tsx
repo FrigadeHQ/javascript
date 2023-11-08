@@ -1,49 +1,41 @@
 import * as React from 'react'
 import { clsx } from 'clsx'
 
-import { sprinkles, Sprinkles } from '../../shared/sprinkles.css'
-
 import '../../shared/theme/baseTheme.css'
+import { stylePropsToCss } from './stylePropsToCss'
+
+function prefixPart(part: string | undefined) {
+  return part ? `fr-${part}` : part
+}
+
+function processPart(part: string | string[] | undefined) {
+  if (!part) return part
+
+  return Array.isArray(part) ? part.map((p) => prefixPart(p)).join(' ') : prefixPart(part)
+}
 
 export type BoxProps<T extends React.ElementType = React.ElementType> = {
   as?: T
-  children?: React.ReactNode
-  className?: string
-  style?: Record<string, any>
-} & Sprinkles &
-  React.ComponentPropsWithoutRef<T>
+  part?: string | string[]
+} & React.ComponentPropsWithRef<T>
 
 function BoxWithRef<T extends React.ElementType = React.ElementType>(
-  { as, children, className, style, ...props }: BoxProps<T>,
+  { as, children, className, css, part, ...props }: BoxProps<T>,
   ref: React.ForwardedRef<T>
 ) {
   const Component = as ?? 'div'
 
-  const sprinklesProps: Sprinkles = {
-    boxSizing: 'border-box',
-  }
-  const sprinklesPropNames = sprinkles.properties.keys()
-  const propNames = Object.keys(props) as Array<keyof typeof props>
+  const { cssFromProps, unmatchedProps } = stylePropsToCss(props)
 
-  // Split sprinkles props out from unknown props
-  for (const sprinklesProp of sprinklesPropNames) {
-    if (propNames.includes(sprinklesProp)) {
-      Object.assign(sprinklesProps, {
-        [sprinklesProp]: props[sprinklesProp],
-      })
-
-      delete props[sprinklesProp]
-    }
-  }
-
-  const classNames = clsx(sprinkles(sprinklesProps), className)
+  const processedPart = processPart(part)
+  const classNameWithPart = className || processedPart ? clsx(className, processedPart) : undefined
 
   return (
-    // @ts-ignore: Sprinkles color prop type is currently having a struggle
+    // @ts-ignore: TODO: ref types are yet again complaining
     <Component
-      className={classNames.length > 0 ? classNames : undefined}
-      style={style}
-      {...props}
+      className={classNameWithPart}
+      css={[{ boxSizing: 'border-box', ...cssFromProps, ...css }]}
+      {...unmatchedProps}
       ref={ref}
     >
       {children}

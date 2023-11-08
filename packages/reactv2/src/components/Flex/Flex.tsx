@@ -1,28 +1,23 @@
+import * as React from 'react'
 import { Box, BoxProps } from '../Box'
 
-export function Flex({ children, ...props }: BoxProps) {
+const Row = React.forwardRef(({ children, css, ...props }: BoxProps, ref) => {
   return (
-    <Box display="flex" {...props}>
+    <Box css={[{ display: 'flex', flexDirection: 'row' }, css]} {...props} ref={ref}>
       {children}
     </Box>
   )
-}
+})
 
-function Row({ children, ...props }: BoxProps) {
+const Column = React.forwardRef(({ children, css, ...props }: BoxProps, ref) => {
   return (
-    <Box display="flex" flexDirection="row" {...props}>
+    <Box css={[{ display: 'flex', flexDirection: 'column' }, css]} {...props} ref={ref}>
       {children}
     </Box>
   )
-}
+})
 
-function Column({ children, ...props }: BoxProps) {
-  return (
-    <Box display="flex" flexDirection="column" {...props}>
-      {children}
-    </Box>
-  )
+export const Flex = {
+  Column,
+  Row,
 }
-
-Flex.Column = Column
-Flex.Row = Row

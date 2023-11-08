@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
+import { clsx } from 'clsx'
 
 import { XMarkIcon } from '@heroicons/react/24/solid'
 import * as Popover from '@radix-ui/react-popover'
@@ -7,12 +8,11 @@ import { useBoundingClientRect } from '../../hooks/useBoundingClientRect'
 import { Box } from '../Box'
 import { Button, ButtonProps } from '../Button'
 import { Dot } from './Dot'
-import { Media } from '../Media'
+import { Flex } from '../Flex/Flex'
+import { Media, MediaProps } from '../Media'
 import { Text, TextProps } from '../Text'
 import { getDotPosition } from './getDotPosition'
 import { mapTooltipPropsToRadixProps } from './mapTooltipPropsToPopoverProps'
-
-// TODO: Split out into intermediate Radix-like sub components
 
 interface MergedRadixPopoverProps
   extends Pick<Popover.PopoverProps, 'defaultOpen' | 'modal' | 'onOpenChange' | 'open'>,
@@ -24,7 +24,14 @@ export interface TooltipProps extends MergedRadixPopoverProps {
   style?: React.CSSProperties
 }
 
-export function Tooltip({ anchor, children, spotlight = false, style, ...props }: TooltipProps) {
+export function Tooltip({
+  anchor,
+  children,
+  css,
+  spotlight = false,
+  style,
+  ...props
+}: TooltipProps) {
   const { node: contentNode, rect: contentRect, ref: contentRef } = useBoundingClientRect()
   const [alignAttr, setAlignAttr] = useState(props.align)
   const [sideAttr, setSideAttr] = useState(props.side)
@@ -70,32 +77,32 @@ export function Tooltip({ anchor, children, spotlight = false, style, ...props }
 
   return (
     <Popover.Root defaultOpen={true} {...rootProps}>
-      <Popover.Anchor virtualRef={anchorElementRef} style={{ borderRadius: '10px' }} />
+      <Popover.Anchor virtualRef={anchorElementRef} />
       <Popover.Portal>
-        <>
+        <div css={css}>
           {spotlight && (
             <Box
-              style={{
-                borderRadius: anchorRadius,
+              borderRadius={anchorRadius}
+              part="tooltip-spotlight"
+              position="absolute"
+              css={{
                 boxShadow: '0 0 0 2000px rgb(0 0 0 / 0.5)',
                 height: anchorRect.height,
                 left: anchorRect.left,
-                position: 'absolute',
                 top: anchorRect.top,
                 width: anchorRect.width,
               }}
             />
           )}
           <Popover.Content asChild {...contentProps} ref={contentRef}>
-            <Box
+            <Flex.Column
               backgroundColor="white"
               borderRadius="md"
-              padding={5}
-              style={{
+              p={5}
+              part="tooltip-content"
+              position="relative"
+              css={{
                 boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)',
-                display: 'flex',
-                flexDirection: 'column',
-                position: 'relative',
                 width: '300px',
                 ...style,
               }}
@@ -103,23 +110,27 @@ export function Tooltip({ anchor, children, spotlight = false, style, ...props }
               <Dot style={dotPosition} />
 
               {children}
-            </Box>
+            </Flex.Column>
           </Popover.Content>
-        </>
+        </div>
       </Popover.Portal>
     </Popover.Root>
   )
 }
 
-Tooltip.Close = (props: ButtonProps) => {
+Tooltip.Close = ({ css, ...props }: ButtonProps) => {
   return (
     <Popover.Close aria-label="Close" asChild>
       <Button.Plain
-        style={{
-          position: 'absolute',
-          top: 0,
-          right: 0,
-        }}
+        css={[
+          {
+            top: 0,
+            right: 0,
+          },
+          css,
+        ]}
+        part="tooltip-close"
+        position="absolute"
         {...props}
       >
         <XMarkIcon height="20" fill="currentColor" />
@@ -128,23 +139,19 @@ Tooltip.Close = (props: ButtonProps) => {
   )
 }
 
-// TODO: Flesh out Media component
-Tooltip.Media = ({ src, type }) => {
+Tooltip.Media = ({ src, ...props }: MediaProps) => {
   if (src == null) return null
 
   return (
     <Media
-      borderRadius="md"
-      mb={5}
-      mt={-5}
-      mx={-5}
-      src={src}
-      style={{
+      borderRadius="md md 0 0"
+      borderWidth="0"
+      css={{
         aspectRatio: '2',
-        borderBottomLeftRadius: 0,
-        borderBottomRightRadius: 0,
       }}
-      type={type}
+      margin="-5 -5 5"
+      src={src}
+      {...props}
     />
   )
 }
@@ -159,7 +166,7 @@ Tooltip.Progress = ({ children, ...props }: TextProps) => {
   if (children == null) return null
 
   return (
-    <Text.Body2 fontWeight="demibold" {...props}>
+    <Text.Body2 fontWeight="demibold" part="progress" {...props}>
       {children}
     </Text.Body2>
   )
@@ -174,14 +181,18 @@ Tooltip.Secondary = ({ onClick, title, ...props }: ButtonProps) => {
 Tooltip.Subtitle = ({ children, ...props }: TextProps) => {
   if (children == null) return null
 
-  return <Text.Body2 {...props}>{children}</Text.Body2>
+  return (
+    <Text.Body2 part="subtitle" {...props}>
+      {children}
+    </Text.Body2>
+  )
 }
 
 Tooltip.Title = ({ children, ...props }: TextProps) => {
   if (children == null) return null
 
   return (
-    <Text.Body1 fontWeight="bold" mb={1} {...props}>
+    <Text.Body1 fontWeight="bold" mb={1} part="title" {...props}>
       {children}
     </Text.Body1>
   )
