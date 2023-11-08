@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.38.10
+
+### Patch Changes
+
+- 2a1d369: Disable flow impressions per step in checklists
+
 ## 1.38.9
 
 ### Patch Changes
