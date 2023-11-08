@@ -67,8 +67,6 @@ const CondensedChecklist: FC<CondensedChecklistProps> = ({
   //   }
   // }, [selectedStep])
 
-  useEffect(() => {}, [steps])
-
   const handleStepClick = (idx: number) => {
     const newCollapsedState = [...collapsedSteps]
     if (autoCollapse) {

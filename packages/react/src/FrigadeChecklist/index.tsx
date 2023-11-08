@@ -13,7 +13,6 @@ import { useTheme } from '../hooks/useTheme'
 import { CondensedChecklist } from '../components/Checklists/CondensedChecklist'
 import { Modal } from '../components/Modal'
 import { CarouselChecklist } from '../components/Checklists/CarouselChecklist'
-import { useFlowImpressions } from '../hooks/useFlowImpressions'
 
 export interface FrigadeChecklistProps extends HeroChecklistProps {
   flowId: string
@@ -94,7 +93,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
   const showModal = visible === undefined ? getOpenFlowState(flowId) : visible
   const isModal = type === 'modal'
   const { mergeAppearanceWithDefault } = useTheme()
-  useFlowImpressions(flowId, visible)
+  // useFlowImpressions(flowId, visible)
   const steps = getFlowSteps(flowId)
   const index = getCurrentStepIndex(flowId)
 
@@ -114,17 +113,17 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
     }
   }, [visible, setVisible, hasActiveFullPageFlow])
 
-  useEffect(() => {
-    if (!isLoading && steps && steps[selectedStep]) {
-      // Ensure step is not completed
-      if (
-        getStepStatus(flowId, steps[selectedStep].id) &&
-        getStepStatus(flowId, steps[selectedStep].id) !== COMPLETED_STEP
-      ) {
-        markStepStarted(flowId, steps[selectedStep].id)
-      }
-    }
-  }, [selectedStep])
+  // useEffect(() => {
+  //   if (!isLoading && steps && steps[selectedStep]) {
+  //     // Ensure step is not completed
+  //     if (
+  //       getStepStatus(flowId, steps[selectedStep].id) &&
+  //       getStepStatus(flowId, steps[selectedStep].id) !== COMPLETED_STEP
+  //     ) {
+  //       markStepStarted(flowId, steps[selectedStep].id)
+  //     }
+  //   }
+  // }, [selectedStep])
 
   useEffect(() => {
     if (selectedStep === index) {
