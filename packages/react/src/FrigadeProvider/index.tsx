@@ -217,7 +217,7 @@ export const FrigadeProvider: FC<FrigadeProviderProps> = ({
   useEffect(() => {
     if (!isValidApiKey(publicApiKey)) {
       console.error(
-        'Frigade SDK failed to initialize. API key provided is either missing or valid.'
+        'Frigade SDK failed to initialize. API key provided is either missing or invalid.'
       )
       setShouldGracefullyDegrade(true)
       return

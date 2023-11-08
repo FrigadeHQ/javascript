@@ -17,7 +17,8 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "changeset": "changeset",
     "version-packages": "changeset version",
-    "release": "turbo build && changeset publish"
+    "release": "turbo build && changeset publish",
+    "copy-version-number": "turbo run copy-version-number"
   },
   "devDependencies": {
     "@changesets/cli": "^2.22.0",

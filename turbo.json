@@ -15,6 +15,11 @@
     },
     "clean": {
       "cache": false
+    },
+    "copy-version-number": {
+        "dependsOn": ["^build"],
+        "steps": ["yarn copy-version-number"],
+        "outputs": ["src/**"]
     }
   }
 }
