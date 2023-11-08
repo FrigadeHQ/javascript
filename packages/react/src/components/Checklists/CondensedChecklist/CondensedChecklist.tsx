@@ -51,6 +51,7 @@ const CondensedChecklist: FC<CondensedChecklistProps> = ({
     }
     setCollapsedSteps(initCollapsedState)
   }, [])
+
   //
   // useEffect(() => {
   //   if (!autoExpandFirstIncompleteStep) {
