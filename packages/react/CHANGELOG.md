@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.38.11
+
+### Patch Changes
+
+- 42a60da: Re-enable impression tracking for checklists
+
 ## 1.38.10
 
 ### Patch Changes
