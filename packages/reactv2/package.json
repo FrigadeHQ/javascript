@@ -55,6 +55,7 @@
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
+    "@frigade/js": "workspace:*",
     "@heroicons/react": "^2.0.18",
     "@radix-ui/react-popover": "^1.0.7",
     "@vanilla-extract/css": "^1.13.0",
