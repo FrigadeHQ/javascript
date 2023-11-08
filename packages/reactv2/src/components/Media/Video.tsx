@@ -22,7 +22,7 @@ export interface VideoProps extends BoxProps {
   src: string
 }
 
-export function Video({ src, ...props }: VideoProps) {
+export function Video({ part, src, ...props }: VideoProps) {
   const videoEmbedSrc = getVideoEmbedSrc(src)
 
   // TODO: Add play button overtop?
@@ -33,6 +33,7 @@ export function Video({ src, ...props }: VideoProps) {
       as="iframe"
       backgroundColor="gray100"
       borderWidth={0}
+      part={['video', part]}
       src={videoEmbedSrc}
       {...props}
     ></Box>

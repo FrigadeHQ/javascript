@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
+import { clsx } from 'clsx'
 
 import { XMarkIcon } from '@heroicons/react/24/solid'
 import * as Popover from '@radix-ui/react-popover'
@@ -8,7 +9,7 @@ import { Box } from '../Box'
 import { Button, ButtonProps } from '../Button'
 import { Dot } from './Dot'
 import { Flex } from '../Flex/Flex'
-import { Media } from '../Media'
+import { Media, MediaProps } from '../Media'
 import { Text, TextProps } from '../Text'
 import { getDotPosition } from './getDotPosition'
 import { mapTooltipPropsToRadixProps } from './mapTooltipPropsToPopoverProps'
@@ -23,7 +24,14 @@ export interface TooltipProps extends MergedRadixPopoverProps {
   style?: React.CSSProperties
 }
 
-export function Tooltip({ anchor, children, spotlight = false, style, ...props }: TooltipProps) {
+export function Tooltip({
+  anchor,
+  children,
+  css,
+  spotlight = false,
+  style,
+  ...props
+}: TooltipProps) {
   const { node: contentNode, rect: contentRect, ref: contentRef } = useBoundingClientRect()
   const [alignAttr, setAlignAttr] = useState(props.align)
   const [sideAttr, setSideAttr] = useState(props.side)
@@ -71,10 +79,11 @@ export function Tooltip({ anchor, children, spotlight = false, style, ...props }
     <Popover.Root defaultOpen={true} {...rootProps}>
       <Popover.Anchor virtualRef={anchorElementRef} />
       <Popover.Portal>
-        <>
+        <div css={css}>
           {spotlight && (
             <Box
               borderRadius={anchorRadius}
+              part="tooltip-spotlight"
               position="absolute"
               css={{
                 boxShadow: '0 0 0 2000px rgb(0 0 0 / 0.5)',
@@ -90,6 +99,7 @@ export function Tooltip({ anchor, children, spotlight = false, style, ...props }
               backgroundColor="white"
               borderRadius="md"
               p={5}
+              part="tooltip-content"
               position="relative"
               css={{
                 boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)',
@@ -102,21 +112,25 @@ export function Tooltip({ anchor, children, spotlight = false, style, ...props }
               {children}
             </Flex.Column>
           </Popover.Content>
-        </>
+        </div>
       </Popover.Portal>
     </Popover.Root>
   )
 }
 
-Tooltip.Close = (props: ButtonProps) => {
+Tooltip.Close = ({ css, ...props }: ButtonProps) => {
   return (
     <Popover.Close aria-label="Close" asChild>
       <Button.Plain
+        css={[
+          {
+            top: 0,
+            right: 0,
+          },
+          css,
+        ]}
+        part="tooltip-close"
         position="absolute"
-        css={{
-          top: 0,
-          right: 0,
-        }}
         {...props}
       >
         <XMarkIcon height="20" fill="currentColor" />
@@ -125,19 +139,19 @@ Tooltip.Close = (props: ButtonProps) => {
   )
 }
 
-Tooltip.Media = ({ src, type }) => {
+Tooltip.Media = ({ src, ...props }: MediaProps) => {
   if (src == null) return null
 
   return (
     <Media
       borderRadius="md md 0 0"
       borderWidth="0"
-      margin="-5 -5 5"
-      src={src}
       css={{
         aspectRatio: '2',
       }}
-      type={type}
+      margin="-5 -5 5"
+      src={src}
+      {...props}
     />
   )
 }
@@ -152,7 +166,7 @@ Tooltip.Progress = ({ children, ...props }: TextProps) => {
   if (children == null) return null
 
   return (
-    <Text.Body2 fontWeight="demibold" {...props}>
+    <Text.Body2 fontWeight="demibold" part="progress" {...props}>
       {children}
     </Text.Body2>
   )
@@ -167,14 +181,18 @@ Tooltip.Secondary = ({ onClick, title, ...props }: ButtonProps) => {
 Tooltip.Subtitle = ({ children, ...props }: TextProps) => {
   if (children == null) return null
 
-  return <Text.Body2 {...props}>{children}</Text.Body2>
+  return (
+    <Text.Body2 part="subtitle" {...props}>
+      {children}
+    </Text.Body2>
+  )
 }
 
 Tooltip.Title = ({ children, ...props }: TextProps) => {
   if (children == null) return null
 
   return (
-    <Text.Body1 fontWeight="bold" mb={1} {...props}>
+    <Text.Body1 fontWeight="bold" mb={1} part="title" {...props}>
       {children}
     </Text.Body1>
   )

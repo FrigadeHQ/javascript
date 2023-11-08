@@ -57,6 +57,7 @@
     "@radix-ui/react-popover": "^1.0.7",
     "@vanilla-extract/css": "^1.13.0",
     "@vanilla-extract/dynamic": "^2.0.3",
+    "clsx": "^2.0.0",
     "core-js-pure": "^3.33.0"
   },
   "peerDependencies": {

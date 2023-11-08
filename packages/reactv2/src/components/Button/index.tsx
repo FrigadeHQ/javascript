@@ -24,8 +24,10 @@ const buttonVariantNames: ButtonVariant[] = ['Primary', 'Secondary', 'Link', 'Pl
 
 const buttonVariantComponents = Object.fromEntries(
   buttonVariantNames.map((variant) => {
-    const component = (props: ButtonProps) => (
-      <BaseButton {...props} variant={variant}>
+    const variantPart = variant.toLocaleLowerCase()
+
+    const component = ({ part, ...props }: ButtonProps) => (
+      <BaseButton part={[`button-${variantPart}`, part]} {...props} variant={variant}>
         {props.children}
       </BaseButton>
     )
