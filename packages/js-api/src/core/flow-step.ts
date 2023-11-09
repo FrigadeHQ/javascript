@@ -106,9 +106,9 @@ export interface FlowStep {
   /**
    * Function that marks the step started
    */
-  start: (properties?: Record<string | number, any>) => void
+  start: (properties?: Record<string | number, any>) => Promise<void>
   /**
    * Function that marks the step completed
    */
-  complete: (properties?: Record<string | number, any>) => void
+  complete: (properties?: Record<string | number, any>) => Promise<void>
 }
