@@ -1,6 +1,6 @@
 {
   "name": "@frigade/reactv2",
-  "version": "2.0.0-alpha",
+  "version": "2.0.0-alpha.2",
   "description": "Build better product onboarding, faster.",
   "type": "module",
   "main": "./dist/index.js",
@@ -50,7 +50,8 @@
     "clean": "rimraf ./dist",
     "test": "jest --passWithNoTests",
     "lint": "eslint --fix --ext .ts,.tsx .",
-    "build": "yarn clean && tsup"
+    "build": "yarn clean && tsup",
+    "local-release": "tsup"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
