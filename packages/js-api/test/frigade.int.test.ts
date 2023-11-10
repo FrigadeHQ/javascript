@@ -1,5 +1,6 @@
 import { Frigade } from '../src'
-import { generateGuestId } from '../src/shared/utils'
+import { COMPLETED_FLOW, generateGuestId, NOT_STARTED_FLOW } from '../src/shared/utils'
+import { getRandomID } from './util'
 
 const testAPIKey = 'api_public_3MPLH7NJ9L0U963XKW7BPE2IT137GC6L742JLC2XCT6NOIYSI4QUI9I1RA3ZOGIL'
 const testFlowId = 'flow_yJfjksFrs5QEH0c8'
@@ -51,4 +52,24 @@ test('read and set flow step state', async () => {
   expect(step.isStarted).toBeTruthy()
   await step.complete()
   expect(step.isCompleted).toBeTruthy()
+})
+
+test('handle flow event changes', async () => {
+  const frigade = new Frigade(testAPIKey, {
+    userId: getRandomID(),
+  })
+  const callback = jest.fn((flow, newState, previousState) => {
+    expect(flow).toBeDefined()
+    expect(flow.id).toEqual(testFlowId)
+    expect(newState).toEqual(COMPLETED_FLOW)
+    expect(previousState).toEqual(NOT_STARTED_FLOW)
+  })
+  frigade.onFlowStateChange(callback)
+  const flow = await frigade.getFlow(testFlowId)
+  expect(flow).toBeDefined()
+  expect(flow.id).toEqual(testFlowId)
+  expect(flow.isCompleted).toBeFalsy()
+  await flow.complete()
+  expect(flow.isCompleted).toBeTruthy()
+  expect(callback).toHaveBeenCalledTimes(1)
 })

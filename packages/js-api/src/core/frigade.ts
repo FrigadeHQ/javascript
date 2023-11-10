@@ -1,5 +1,5 @@
 import { FrigadeConfig, UserFlowState } from '../types'
-import { generateGuestId, resetAllLocalStorage } from '../shared/utils'
+import { generateGuestId, resetAllLocalStorage, UserFlowStatus } from '../shared/utils'
 import Flow from './flow'
 import { FlowDataRaw } from './types'
 import { frigadeGlobalState, getGlobalStateKey } from '../shared/state'
@@ -8,6 +8,11 @@ import { Fetchable } from '../shared/Fetchable'
 export class Frigade extends Fetchable {
   private flows: Flow[] = []
   private initPromise: Promise<void>
+  private onFlowStateChangeHandlers: ((
+    flow: Flow,
+    newState: UserFlowStatus,
+    previousState: UserFlowStatus
+  ) => void)[] = []
 
   constructor(apiKey: string, config?: FrigadeConfig) {
     super({
@@ -89,6 +94,12 @@ export class Frigade extends Fetchable {
     this.config.organizationId = undefined
   }
 
+  public onFlowStateChange(
+    handler: (flow: Flow, newState: UserFlowStatus, previousState: UserFlowStatus) => void
+  ) {
+    this.onFlowStateChangeHandlers.push(handler)
+  }
+
   private async initIfNeeded() {
     if (this.initPromise !== null) {
       return this.initPromise
@@ -112,7 +123,13 @@ export class Frigade extends Fetchable {
       if (userFlowStatesRaw && userFlowStatesRaw.data) {
         let userFlowStates = userFlowStatesRaw.data as UserFlowState[]
         userFlowStates.forEach((userFlowState) => {
+          frigadeGlobalState[globalStateKey].userFlowStates['previous_' + userFlowState.flowId] =
+            frigadeGlobalState[globalStateKey].userFlowStates[userFlowState.flowId]
           frigadeGlobalState[globalStateKey].userFlowStates[userFlowState.flowId] = userFlowState
+          this.triggerEventHandlers(
+            frigadeGlobalState[globalStateKey].userFlowStates['previous_' + userFlowState.flowId],
+            userFlowState
+          )
         })
       }
     }
@@ -126,6 +143,21 @@ export class Frigade extends Fetchable {
       let flowDatas = flowDataRaw.data as FlowDataRaw[]
       flowDatas.forEach((flowData) => {
         this.flows.push(new Flow(this.config, flowData))
+      })
+    }
+  }
+
+  private triggerEventHandlers(
+    previousUserFlowState: UserFlowState,
+    newUserFlowState: UserFlowState
+  ) {
+    if (previousUserFlowState && previousUserFlowState.flowState !== newUserFlowState.flowState) {
+      this.flows.forEach((flow) => {
+        if (flow.id == newUserFlowState.flowId) {
+          this.onFlowStateChangeHandlers.forEach((handler) => {
+            handler(flow, newUserFlowState.flowState, previousUserFlowState?.flowState)
+          })
+        }
       })
     }
   }
