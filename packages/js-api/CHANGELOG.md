@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.1.1
+
+### Patch Changes
+
+- 5d94863: Catch js release up with latest changes
+
 ## 0.1.0
 
 ### Minor Changes
