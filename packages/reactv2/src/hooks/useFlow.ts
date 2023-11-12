@@ -8,10 +8,11 @@ export function useFlow(flowId: string) {
   const { apiKey, config } = useContext(FrigadeContext)
 
   async function fetchFlow() {
-    const frigade = await new Frigade(apiKey, {
-      apiUrl: config.apiUrl,
-      userId: config.userId,
-    })
+    const filteredConfig = Object.fromEntries(
+      Object.entries(config).filter(([k, v]) => ['apiUrl', 'userId'].includes(k) && v != null)
+    )
+
+    const frigade = await new Frigade(apiKey, filteredConfig)
 
     const flowResponse: Flow = await frigade.getFlow(flowId)
 
