@@ -1,5 +1,11 @@
 # @frigade/reactv2
 
+## 2.0.0
+
+### Patch Changes
+
+- 110ef06: Fix potential undefined config params in useFlow
+
 ## 0.0.3
 
 ### Patch Changes
