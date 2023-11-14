@@ -45,6 +45,10 @@
   "files": [
     "./dist"
   ],
+  "sideEffects": [
+    "**/*.css",
+    "**/*.css.ts"
+  ],
   "scripts": {
     "dev": "tsup --watch",
     "clean": "rimraf ./dist",
