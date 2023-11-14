@@ -38,7 +38,6 @@ export function Tour({ flowId, ...props }: TourProps) {
 
   return (
     <Tooltip
-      align="after"
       anchor={step.selector as string}
       onOpenAutoFocus={(e) => e.preventDefault()}
       onPointerDownOutside={(e) => e.preventDefault()}

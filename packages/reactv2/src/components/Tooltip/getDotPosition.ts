@@ -3,7 +3,7 @@ export function getDotPosition({ props, alignAttr, sideAttr }) {
   const dotProps = {}
 
   // Radix's collision system isn't aware of our custom before|after align
-  const currentAlign = (() => {
+  const getCurrentAlign = () => {
     if (['after', 'before'].includes(props.align)) {
       if (alignAttr == 'start') {
         return 'before'
@@ -12,8 +12,8 @@ export function getDotPosition({ props, alignAttr, sideAttr }) {
       }
     }
 
-    return props.align
-  })()
+    return props.align ?? 'after'
+  }
 
   const dotOffset = '-24px'
 
@@ -33,6 +33,8 @@ export function getDotPosition({ props, alignAttr, sideAttr }) {
   */
 
   dotProps[oppositeSides[currentSide]] = dotOffset
+
+  const currentAlign = getCurrentAlign()
 
   if (['before', 'end'].includes(currentAlign)) {
     if (['top', 'bottom'].includes(currentSide)) {

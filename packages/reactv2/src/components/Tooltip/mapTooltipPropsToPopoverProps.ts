@@ -35,6 +35,10 @@ export function mapTooltipPropsToRadixProps(props: TooltipProps, contentRect: DO
       .filter((propEntry) => propEntry[1] !== undefined)
   )
 
+  // Default to align=after, side=bottom
+  contentProps.align = contentProps.align ?? 'after'
+  contentProps.side = contentProps.side ?? 'bottom'
+
   /*
     Here we're extending Popover.Content's align prop to accept 'before' and
     'after' in addition to its existing values.
@@ -48,7 +52,7 @@ export function mapTooltipPropsToRadixProps(props: TooltipProps, contentRect: DO
 
          SEE: https://github.com/radix-ui/primitives/issues/2457
   */
-  if (['before', 'after'].includes(contentProps['align'])) {
+  if (['before', 'after'].includes(contentProps.align)) {
     const mapToOriginalAlignValues = {
       after: 'end',
       before: 'start',
@@ -79,10 +83,10 @@ export function mapTooltipPropsToRadixProps(props: TooltipProps, contentRect: DO
       }
     }
 
-    const originalOffset = contentProps['alignOffset'] ?? 0
-    const originalStyleProp = contentProps['style'] ?? {}
-    const currentSide = contentProps['side'] ?? 'bottom'
-    const currentAlign = contentProps['align']
+    const originalOffset = contentProps.alignOffset ?? 0
+    const originalStyleProp = contentProps.style ?? {}
+    const currentSide = contentProps.side ?? 'bottom'
+    const currentAlign = contentProps.align
 
     // Copy alignOffset value to CSS margin
     contentProps['style'] = {
@@ -97,7 +101,7 @@ export function mapTooltipPropsToRadixProps(props: TooltipProps, contentRect: DO
     // Change alignOffset to be at the end of the positioned side
     contentProps['alignOffset'] = (lengthOfCurrentSide + originalOffset) * -1
 
-    // Flip align prop back to valid Radix option
+    // Flip align prop back to valid Radix option, or default to 'after'
     contentProps['align'] = mapToOriginalAlignValues[currentAlign]
   }
 

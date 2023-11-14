@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { clsx } from 'clsx'
 
 import { XMarkIcon } from '@heroicons/react/24/solid'
 import * as Popover from '@radix-ui/react-popover'
@@ -33,8 +32,10 @@ export function Tooltip({
   ...props
 }: TooltipProps) {
   const { node: contentNode, rect: contentRect, ref: contentRef } = useBoundingClientRect()
-  const [alignAttr, setAlignAttr] = useState(props.align)
-  const [sideAttr, setSideAttr] = useState(props.side)
+  const { contentProps, rootProps } = mapTooltipPropsToRadixProps(props, contentRect)
+
+  const [alignAttr, setAlignAttr] = useState(contentProps.align)
+  const [sideAttr, setSideAttr] = useState(contentProps.side)
 
   // Radix will update data attrs to let us know if Popover.Content has collided
   if (contentNode !== null) {
@@ -49,8 +50,6 @@ export function Tooltip({
       setSideAttr(currentSideAttr)
     }
   }
-
-  const { contentProps, rootProps } = mapTooltipPropsToRadixProps(props, contentRect)
 
   const anchorRef = useRef(null)
   const [anchorElementRef, setAnchorElementRef] = useState(null)
