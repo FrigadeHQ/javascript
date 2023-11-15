@@ -8,6 +8,7 @@ import {
   ucFirst,
 } from '../../shared/appearance'
 import { Spinner } from '../Spinner'
+import { sanitize } from '../../shared/sanitizer'
 
 interface ButtonProps {
   onClick?: () => void
@@ -103,26 +104,30 @@ export const Button: FC<ButtonProps> = ({
     return `${classPrefix}${ucFirst(name)}`
   }
 
+  const commonProps = {
+    tabindex: secondary ? '0' : '1',
+    secondary,
+    appearance,
+    disabled: disabled || loading,
+    loading: loading?.toString() ?? '',
+    onClick,
+    styleOverrides: style,
+    type,
+    withMargin,
+    size,
+    className: getClassName(getClassNameWithPrefix(), appearance),
+    autoFocus,
+  }
+
+  if (!loading) {
+    return (
+      <ButtonContainer {...commonProps} dangerouslySetInnerHTML={sanitize(title ?? `Continue`)} />
+    )
+  }
+
   return (
-    <ButtonContainer
-      tabindex={secondary ? '0' : '1'}
-      secondary={secondary}
-      appearance={appearance}
-      disabled={disabled || loading}
-      loading={loading?.toString() ?? ''}
-      onClick={onClick}
-      styleOverrides={style}
-      type={type}
-      withMargin={withMargin}
-      size={size}
-      className={getClassName(getClassNameWithPrefix(), appearance)}
-      autoFocus={autoFocus}
-    >
-      {loading ? (
-        <Spinner className={getClassName('buttonLoader', appearance)} />
-      ) : (
-        title ?? `Continue`
-      )}
+    <ButtonContainer {...commonProps}>
+      <Spinner className={getClassName('buttonLoader', appearance)} />
     </ButtonContainer>
   )
 }
