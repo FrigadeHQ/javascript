@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.38.12
+
+### Patch Changes
+
+- 03fbb1c: Allow rendering HTML in buttons in Frigade components
+
 ## 1.38.11
 
 ### Patch Changes
