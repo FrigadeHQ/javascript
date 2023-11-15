@@ -20,6 +20,7 @@ export const FullWidthProgressBadge: React.FC<ProgressBadgeProps> = ({
   total,
   className,
   style,
+  onClick,
 }) => {
   return (
     <>
@@ -30,6 +31,7 @@ export const FullWidthProgressBadge: React.FC<ProgressBadgeProps> = ({
           className ?? ''
         )}
         style={style}
+        onClick={() => onClick !== undefined && onClick()}
       >
         {icon && (
           <IconContainer className={getClassName('fullWidthProgressBadgeIcon', appearance)}>

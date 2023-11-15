@@ -83,7 +83,7 @@ export const FrigadeProgressBadge: React.FC<FrigadeProgressBadgeProps> = ({
           className={className}
           appearance={appearance}
           icon={icon}
-          onClick={() => {}}
+          onClick={onClick}
         />
       </>
     )
