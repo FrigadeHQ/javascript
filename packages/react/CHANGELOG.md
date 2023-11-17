@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.38.13
+
+### Patch Changes
+
+- 994219d: Fixes an issue where checkboxes were shrinking in certain components. Adds onClick event to the wide progress bar component.
+
 ## 1.38.12
 
 ### Patch Changes
