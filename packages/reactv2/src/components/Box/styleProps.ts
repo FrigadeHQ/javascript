@@ -1,4 +1,4 @@
-import { theme } from '../../shared/theme/themeContract.css'
+import { theme } from '../../shared/theme'
 import { flattenObject } from '../../shared/flattenObject'
 
 const colorTokens: Record<string, unknown> = flattenObject(theme.colors)

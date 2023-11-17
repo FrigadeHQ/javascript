@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { clsx } from 'clsx'
 
-import '../../shared/theme/baseTheme.css'
 import { stylePropsToCss } from './stylePropsToCss'
 
 function prefixPart(part: string | undefined) {
