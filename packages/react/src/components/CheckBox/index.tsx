@@ -76,6 +76,7 @@ export interface CheckBoxProps {
 
 const CheckIconContainer = styled.div`
   ${(props) => styleOverridesToCSS(props)}
+  flex-shrink: 0;
 `
 
 export const CheckBox: FC<CheckBoxProps> = ({

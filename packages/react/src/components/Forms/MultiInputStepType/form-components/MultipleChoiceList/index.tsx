@@ -37,8 +37,8 @@ const MultipleChoiceListItem = styled.button`
   align-items: center;
   cursor: pointer;
   width: 100%;
-  height: 48px;
-  padding: 0 18px;
+  line-height: 18px;
+  padding: 18px;
   margin-bottom: 10px;
 `
 
