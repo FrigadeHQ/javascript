@@ -1,4 +1,3 @@
-import "@frigade/reactv2/css";
 import "./global.css";
 
 import * as React from "react";

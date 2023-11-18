@@ -1,7 +1,20 @@
-import { CSSProperties } from 'react'
+import { keyframes } from '@emotion/react'
 import { Box, BoxProps } from '../Box'
 
-import { animationPulse } from './Dot.css'
+const pulse = keyframes({
+  '0%': {
+    opacity: 0.5,
+    transform: 'scale(0.5)',
+  },
+  '50%': {
+    opacity: 0,
+    transform: 'scale(1)',
+  },
+  '100%': {
+    opacity: 0,
+    transform: 'scale(1)',
+  },
+})
 
 export interface DotProps extends BoxProps {}
 
@@ -19,9 +32,9 @@ export function Dot({ style = {}, part = '', ...props }: DotProps) {
     >
       <Box
         backgroundColor="primary.surface"
-        className={animationPulse}
         part="dot-pulse"
-        style={{
+        css={{
+          animation: `2s ease-out infinite ${pulse}`,
           borderRadius: '24px',
           height: '48px',
           left: 0,
