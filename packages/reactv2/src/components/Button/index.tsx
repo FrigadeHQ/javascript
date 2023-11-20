@@ -1,3 +1,4 @@
+import { Interpolation } from '@emotion/react'
 import { Box, BoxProps } from '../Box'
 import { Text } from '../Text'
 
@@ -11,11 +12,15 @@ export interface ButtonProps extends BoxProps {
   variant?: ButtonVariant
 }
 
-function BaseButton({ as, children, css = {}, title, variant = 'Primary', ...props }: ButtonProps) {
+function BaseButton({ as, children, title, variant = 'Primary', ...props }: ButtonProps) {
   return (
-    <Box as={as ?? 'button'} css={[styles[variant], css]} {...props}>
+    <Box as={as ?? 'button'} css={styles[variant] as Interpolation<any>} {...props}>
       {children}
-      {title && <Text.Body2 fontWeight="demibold">{title}</Text.Body2>}
+      {title && (
+        <Text.Body2 fontWeight="demibold" color="inherit">
+          {title}
+        </Text.Body2>
+      )}
     </Box>
   )
 }

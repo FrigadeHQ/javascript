@@ -95,7 +95,7 @@ export function Tooltip({
           )}
           <Popover.Content asChild {...contentProps} ref={contentRef}>
             <Flex.Column
-              backgroundColor="white"
+              backgroundColor="neutral.background"
               borderRadius="md"
               p={5}
               part="tooltip-content"

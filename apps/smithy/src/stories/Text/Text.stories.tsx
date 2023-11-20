@@ -6,10 +6,13 @@ export default {
 };
 
 export const Default = {
-  args: {
-    children:
-      "This is <Text>. It will render the <Text.Body1> variant by default.",
-  },
+  decorators: [
+    () => (
+      <Text.Body1 fontWeight="bold">
+        {"This is <Text>. It will render the <Text.Body1> variant by default."}
+      </Text.Body1>
+    ),
+  ],
 };
 
 export const Variants = {

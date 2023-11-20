@@ -78,6 +78,7 @@ export const palette = {
   green500: '#00D149',
   green800: '#DBFFE8',
   transparent: '#FFFFFF00',
+  inherit: 'inherit',
 
   // This color isn't in the Design System yet, but it's used in old components
   red500: '#c00000',

@@ -19,7 +19,7 @@ export type BoxProps<T extends React.ElementType = React.ElementType> = {
 } & React.ComponentPropsWithRef<T>
 
 function BoxWithRef<T extends React.ElementType = React.ElementType>(
-  { as, children, className, css, part, ...props }: BoxProps<T>,
+  { as, children, className, part, ...props }: BoxProps<T>,
   ref: React.ForwardedRef<T>
 ) {
   const Component = as ?? 'div'
@@ -29,14 +29,11 @@ function BoxWithRef<T extends React.ElementType = React.ElementType>(
   const processedPart = processPart(part)
   const classNameWithPart = className || processedPart ? clsx(className, processedPart) : undefined
 
+  const cssProp = [{ boxSizing: 'border-box' }, cssFromProps]
+
   return (
     // @ts-ignore: TODO: ref types are yet again complaining
-    <Component
-      className={classNameWithPart}
-      css={[{ boxSizing: 'border-box', ...cssFromProps, ...css }]}
-      {...unmatchedProps}
-      ref={ref}
-    >
+    <Component className={classNameWithPart} css={cssProp} {...unmatchedProps} ref={ref}>
       {children}
     </Component>
   )

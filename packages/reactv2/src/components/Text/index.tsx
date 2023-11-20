@@ -17,9 +17,9 @@ export interface TextProps extends BoxProps {
   variant?: TextVariant
 }
 
-function BaseText({ as = 'span', children, css, variant = 'Body1', ...props }: TextProps) {
+function BaseText({ as = 'span', children, variant = 'Body1', ...props }: TextProps) {
   return (
-    <Box as={as} css={[styles[variant], css]} {...props}>
+    <Box as={as} {...styles[variant]} {...props}>
       {children}
     </Box>
   )
