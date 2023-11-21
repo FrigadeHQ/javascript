@@ -93,6 +93,11 @@ export default class Flow extends Fetchable {
         }
 
         currentStep.isStarted = true
+        const clone = {
+          ...frigadeGlobalState[getGlobalStateKey(this.config)].userFlowStates[this.id],
+        }
+        clone.stepStates[currentStep.id].actionType = STARTED_STEP
+        frigadeGlobalState[getGlobalStateKey(this.config)].userFlowStates[this.id] = clone
 
         await this.fetch('/flowResponses', {
           method: 'POST',
@@ -123,6 +128,11 @@ export default class Flow extends Fetchable {
         }
 
         currentStep.isCompleted = true
+        const clone = {
+          ...frigadeGlobalState[getGlobalStateKey(this.config)].userFlowStates[this.id],
+        }
+        clone.stepStates[currentStep.id].actionType = COMPLETED_STEP
+        frigadeGlobalState[getGlobalStateKey(this.config)].userFlowStates[this.id] = clone
 
         await this.fetch('/flowResponses', {
           method: 'POST',
@@ -157,6 +167,11 @@ export default class Flow extends Fetchable {
       return
     }
 
+    this.isStarted = true
+    const clone = { ...frigadeGlobalState[getGlobalStateKey(this.config)].userFlowStates[this.id] }
+    clone.flowState = STARTED_FLOW
+    frigadeGlobalState[getGlobalStateKey(this.config)].userFlowStates[this.id] = clone
+
     await this.fetch('/flowResponses', {
       method: 'POST',
       body: JSON.stringify({
@@ -179,6 +194,11 @@ export default class Flow extends Fetchable {
     if (this.isCompleted) {
       return
     }
+
+    this.isCompleted = true
+    const clone = { ...frigadeGlobalState[getGlobalStateKey(this.config)].userFlowStates[this.id] }
+    clone.flowState = COMPLETED_FLOW
+    frigadeGlobalState[getGlobalStateKey(this.config)].userFlowStates[this.id] = clone
 
     await this.fetch('/flowResponses', {
       method: 'POST',
@@ -219,7 +239,9 @@ export default class Flow extends Fetchable {
    * Function that restarts the flow/marks it not started
    */
   public async restart() {
-    // TODO: Reset internal flow responses / steps / isStarted / isCompleted
+    this.isCompleted = false
+    this.isCompleted = true
+    frigadeGlobalState[getGlobalStateKey(this.config)].userFlowStates[this.id] = null
     await this.fetch('/flowResponses', {
       method: 'POST',
       body: JSON.stringify({
@@ -231,6 +253,7 @@ export default class Flow extends Fetchable {
         actionType: NOT_STARTED_FLOW,
       }),
     })
+    await this.refreshUserFlowState()
   }
 
   /**
