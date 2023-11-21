@@ -116,10 +116,30 @@ export class Frigade extends Fetchable {
 
   private async refreshUserFlowStates(): Promise<void> {
     const globalStateKey = getGlobalStateKey(this.config)
+    const that = this
+
+    let validator = {
+      set: function (target: any, key: any, value: any) {
+        if (
+          (target[key] &&
+            target[key]?.flowState &&
+            JSON.stringify(target[key].flowState) !== JSON.stringify(value.flowState)) ||
+          JSON.stringify(target[key]?.stepStates) !== JSON.stringify(value.stepStates) ||
+          JSON.stringify(target[key].shouldTrigger) !== JSON.stringify(value.shouldTrigger)
+        ) {
+          that.triggerEventHandlers(target[key], value)
+        }
+
+        target[key] = value
+        return true
+      },
+    }
+
     frigadeGlobalState[globalStateKey] = {
       refreshUserFlowStates: async () => {},
-      userFlowStates: {},
+      userFlowStates: new Proxy({}, validator),
     }
+
     frigadeGlobalState[globalStateKey].refreshUserFlowStates = async () => {
       const userFlowStatesRaw = await this.fetch(
         `/userFlowStates?foreignUserId=${this.config.userId}${
@@ -129,13 +149,7 @@ export class Frigade extends Fetchable {
       if (userFlowStatesRaw && userFlowStatesRaw.data) {
         let userFlowStates = userFlowStatesRaw.data as UserFlowState[]
         userFlowStates.forEach((userFlowState) => {
-          frigadeGlobalState[globalStateKey].userFlowStates['previous_' + userFlowState.flowId] =
-            frigadeGlobalState[globalStateKey].userFlowStates[userFlowState.flowId]
           frigadeGlobalState[globalStateKey].userFlowStates[userFlowState.flowId] = userFlowState
-          this.triggerEventHandlers(
-            frigadeGlobalState[globalStateKey].userFlowStates['previous_' + userFlowState.flowId],
-            userFlowState
-          )
         })
       }
     }

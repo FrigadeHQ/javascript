@@ -191,6 +191,7 @@ export default class Flow extends Fetchable {
         actionType: COMPLETED_FLOW,
       }),
     })
+
     await this.refreshUserFlowState()
     this.initFromRawData(this.flowDataRaw)
   }

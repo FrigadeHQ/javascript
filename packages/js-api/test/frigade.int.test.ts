@@ -76,7 +76,6 @@ test('handle flow event changes', async () => {
   expect(flow.id).toEqual(testFlowId)
   expect(flow.isCompleted).toBeFalsy()
   expect(callback1).toHaveBeenCalledTimes(0)
-  console.log('flow', flow.steps)
   await flow.getStepByIndex(0).complete()
   expect(flow.isCompleted).toBeFalsy()
   expect(callback1).toHaveBeenCalledTimes(1)
