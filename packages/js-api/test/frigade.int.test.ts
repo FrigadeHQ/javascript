@@ -73,3 +73,24 @@ test('handle flow event changes', async () => {
   expect(flow.isCompleted).toBeTruthy()
   expect(callback).toHaveBeenCalledTimes(1)
 })
+
+test('handle flow event changes unsubscribe', async () => {
+  const frigade = new Frigade(testAPIKey, {
+    userId: getRandomID(),
+  })
+  const callback = jest.fn((flow, newState, previousState) => {
+    expect(flow).toBeDefined()
+    expect(flow.id).toEqual(testFlowId)
+    expect(newState).toEqual(COMPLETED_FLOW)
+    expect(previousState).toEqual(NOT_STARTED_FLOW)
+  })
+  frigade.onFlowStateChange(callback)
+  const flow = await frigade.getFlow(testFlowId)
+  expect(flow).toBeDefined()
+  expect(flow.id).toEqual(testFlowId)
+  expect(flow.isCompleted).toBeFalsy()
+  frigade.removeOnFlowStateChangeHandler(callback)
+  await flow.complete()
+  expect(flow.isCompleted).toBeTruthy()
+  expect(callback).toHaveBeenCalledTimes(0)
+})

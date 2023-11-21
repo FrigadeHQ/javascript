@@ -100,6 +100,12 @@ export class Frigade extends Fetchable {
     this.onFlowStateChangeHandlers.push(handler)
   }
 
+  public removeOnFlowStateChangeHandler(
+    handler: (flow: Flow, newState: UserFlowStatus, previousState: UserFlowStatus) => void
+  ) {
+    this.onFlowStateChangeHandlers = this.onFlowStateChangeHandlers.filter((h) => h !== handler)
+  }
+
   private async initIfNeeded() {
     if (this.initPromise !== null) {
       return this.initPromise
