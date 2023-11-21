@@ -12,13 +12,13 @@ export function useFlow(flowId: string) {
   const frigade = new Frigade(apiKey, filteredConfig)
 
   useEffect(() => {
-    frigade.onFlowStateChange((flow) => {
+    const handler = (flow: Flow) => {
       setFlow(flow)
-    })
+    }
+
+    frigade.onFlowStateChange(handler)
     return () => {
-      frigade.removeOnFlowStateChangeHandler((flow) => {
-        setFlow(flow)
-      })
+      frigade.removeOnFlowStateChangeHandler(handler)
     }
   }, [])
 
