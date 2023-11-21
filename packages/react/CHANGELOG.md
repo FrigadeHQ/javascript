@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.38.14
+
+### Patch Changes
+
+- 7f2cf93: Fix useClient issue affecting Next.js 14
+
 ## 1.38.13
 
 ### Patch Changes
