@@ -1,5 +1,5 @@
 import { Box, Tour } from "@frigade/reactv2";
-import { StoryFn, StoryContext } from "@storybook/react";
+import { StoryContext, StoryFn } from "@storybook/react";
 
 export default {
   title: "Components/Tour",
@@ -33,7 +33,7 @@ export const Default = {
           Also not the anchor
         </Box>
 
-        <Tour flowId="flow_p5ZnkF5BhANqRz8N" {...options.args} />
+        <Tour flowId="flow_U63A5pndRrvCwxNs" {...options.args} />
       </Box>
     ),
   ],
