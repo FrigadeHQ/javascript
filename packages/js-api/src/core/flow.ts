@@ -1,6 +1,7 @@
 import { FrigadeConfig, UserFlowState } from '../types'
 import { FlowDataRaw } from './types'
 import {
+  clone,
   COMPLETED_FLOW,
   COMPLETED_STEP,
   NOT_STARTED_FLOW,
@@ -49,6 +50,16 @@ export default class Flow extends Fetchable {
    * Whether the flow has been skipped or not
    */
   public isSkipped: boolean
+  /**
+   * Whether the flow is visible to the user based on the current user/group's state
+   */
+  public isVisible: boolean = false
+
+  /**
+   * Nonce
+   */
+  public nonce =
+    Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
 
   private flowDataRaw: FlowDataRaw
 
@@ -72,6 +83,10 @@ export default class Flow extends Fetchable {
     this.isCompleted = userFlowState.flowState == COMPLETED_FLOW
     this.isStarted = userFlowState.flowState == STARTED_FLOW
     this.isSkipped = userFlowState.flowState == SKIPPED_FLOW
+    const hasCompleted = this.isCompleted || this.isSkipped
+    const targetingShouldHideFlow =
+      flowDataRaw.targetingLogic && userFlowState.shouldTrigger === false
+    this.isVisible = !hasCompleted && !targetingShouldHideFlow
     this.steps = new Map()
 
     steps.forEach((step, index) => {
@@ -93,11 +108,12 @@ export default class Flow extends Fetchable {
         }
 
         currentStep.isStarted = true
-        const clone = {
-          ...frigadeGlobalState[getGlobalStateKey(this.config)].userFlowStates[this.id],
-        }
-        clone.stepStates[currentStep.id].actionType = STARTED_STEP
-        frigadeGlobalState[getGlobalStateKey(this.config)].userFlowStates[this.id] = clone
+        const copy = clone(
+          frigadeGlobalState[getGlobalStateKey(this.config)].userFlowStates[this.id]
+        )
+        copy.stepStates[currentStep.id].actionType = STARTED_STEP
+        copy.lastStepId = currentStep.id
+        frigadeGlobalState[getGlobalStateKey(this.config)].userFlowStates[this.id] = copy
 
         await this.fetch('/flowResponses', {
           method: 'POST',
@@ -127,13 +143,26 @@ export default class Flow extends Fetchable {
           return
         }
 
-        currentStep.isCompleted = true
-        const clone = {
-          ...frigadeGlobalState[getGlobalStateKey(this.config)].userFlowStates[this.id],
-        }
-        clone.stepStates[currentStep.id].actionType = COMPLETED_STEP
-        frigadeGlobalState[getGlobalStateKey(this.config)].userFlowStates[this.id] = clone
+        const numberOfCompletedSteps = this.getNumberOfCompletedSteps()
+        const isLastStep = numberOfCompletedSteps + 1 == this.steps.size
 
+        currentStep.isCompleted = true
+        const copy = clone(
+          frigadeGlobalState[getGlobalStateKey(this.config)].userFlowStates[this.id]
+        )
+
+        copy.stepStates[currentStep.id].actionType = COMPLETED_STEP
+        const nextStepId = Array.from(this.steps.keys())[index + 1]
+        if (nextStepId) {
+          copy.lastStepId = nextStepId
+        }
+        frigadeGlobalState[getGlobalStateKey(this.config)].userFlowStates[this.id] = copy
+
+        if (isLastStep) {
+          this.optimisticallyMarkFlowCompleted()
+        }
+
+        // if all steps are now completed, mark flow completed
         await this.fetch('/flowResponses', {
           method: 'POST',
           body: JSON.stringify({
@@ -146,7 +175,11 @@ export default class Flow extends Fetchable {
           }),
         })
 
-        await this.refreshUserFlowState()
+        if (isLastStep) {
+          await this.complete()
+        } else {
+          await this.refreshUserFlowState()
+        }
 
         const updatedUserFlowState = this.getUserFlowState()
         currentStep.isCompleted =
@@ -168,9 +201,9 @@ export default class Flow extends Fetchable {
     }
 
     this.isStarted = true
-    const clone = { ...frigadeGlobalState[getGlobalStateKey(this.config)].userFlowStates[this.id] }
-    clone.flowState = STARTED_FLOW
-    frigadeGlobalState[getGlobalStateKey(this.config)].userFlowStates[this.id] = clone
+    const copy = clone(frigadeGlobalState[getGlobalStateKey(this.config)].userFlowStates[this.id])
+    copy.flowState = STARTED_FLOW
+    frigadeGlobalState[getGlobalStateKey(this.config)].userFlowStates[this.id] = copy
 
     await this.fetch('/flowResponses', {
       method: 'POST',
@@ -194,11 +227,7 @@ export default class Flow extends Fetchable {
     if (this.isCompleted) {
       return
     }
-
-    this.isCompleted = true
-    const clone = { ...frigadeGlobalState[getGlobalStateKey(this.config)].userFlowStates[this.id] }
-    clone.flowState = COMPLETED_FLOW
-    frigadeGlobalState[getGlobalStateKey(this.config)].userFlowStates[this.id] = clone
+    this.optimisticallyMarkFlowCompleted()
 
     await this.fetch('/flowResponses', {
       method: 'POST',
@@ -214,6 +243,14 @@ export default class Flow extends Fetchable {
 
     await this.refreshUserFlowState()
     this.initFromRawData(this.flowDataRaw)
+  }
+
+  private optimisticallyMarkFlowCompleted() {
+    this.isCompleted = true
+    const copy = clone(frigadeGlobalState[getGlobalStateKey(this.config)].userFlowStates[this.id])
+    copy.flowState = COMPLETED_FLOW
+    frigadeGlobalState[getGlobalStateKey(this.config)].userFlowStates[this.id] = copy
+    this.isVisible = false
   }
 
   /**
@@ -268,16 +305,6 @@ export default class Flow extends Fetchable {
    * Function that gets current step
    */
   public getCurrentStep(): FlowStep {
-    // Find the userFlowState with most recent timestamp
-    const userFlowState = this.getUserFlowState()
-
-    // TEMP: lastStepId appears to be the last step that a flowState event was recorded for?
-    // const lastStepId =
-    //   userFlowState?.lastStepId?.length > 0 && userFlowState?.lastStepId !== 'unknown'
-    //     ? userFlowState?.lastStepId
-    //     : undefined
-
-    // TEMP: Return the lowest-ordered incomplete step in the flow
     const lastStepId = Array.from(this.steps.keys()).find(
       (key) => this.steps.get(key).isCompleted === false
     )

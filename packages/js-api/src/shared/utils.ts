@@ -16,6 +16,10 @@ const LAST_POST_CALL_DATA = 'frigade-last-call-data-'
 const GUEST_KEY = 'frigade-guest-key'
 const GUEST_PREFIX = 'guest_'
 
+export function clone<T>(obj: T): T {
+  return JSON.parse(JSON.stringify(obj))
+}
+
 export function getHeaders(apiKey: string) {
   return {
     headers: {

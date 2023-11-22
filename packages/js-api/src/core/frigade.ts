@@ -95,13 +95,13 @@ export class Frigade extends Fetchable {
   }
 
   public onFlowStateChange(
-    handler: (flow: Flow, newState: UserFlowStatus, previousState: UserFlowStatus) => void
+    handler: (updatedFlow: Flow, newState: UserFlowStatus, previousState: UserFlowStatus) => void
   ) {
     this.onFlowStateChangeHandlers.push(handler)
   }
 
   public removeOnFlowStateChangeHandler(
-    handler: (flow: Flow, newState: UserFlowStatus, previousState: UserFlowStatus) => void
+    handler: (updatedFlow: Flow, newState: UserFlowStatus, previousState: UserFlowStatus) => void
   ) {
     this.onFlowStateChangeHandlers = this.onFlowStateChangeHandlers.filter((h) => h !== handler)
   }
@@ -123,11 +123,11 @@ export class Frigade extends Fetchable {
       let validator = {
         set: function (target: any, key: any, value: any) {
           if (
-            (target[key] &&
-              target[key]?.flowState &&
-              JSON.stringify(target[key].flowState) !== JSON.stringify(value.flowState)) ||
-            JSON.stringify(target[key]?.stepStates) !== JSON.stringify(value.stepStates) ||
-            JSON.stringify(target[key].shouldTrigger) !== JSON.stringify(value.shouldTrigger)
+            target[key] &&
+            target[key].flowState &&
+            (JSON.stringify(target[key].flowState) !== JSON.stringify(value.flowState) ||
+              JSON.stringify(target[key].stepStates) !== JSON.stringify(value.stepStates) ||
+              JSON.stringify(target[key].shouldTrigger) !== JSON.stringify(value.shouldTrigger))
           ) {
             that.triggerEventHandlers(target[key], value)
           }
@@ -170,12 +170,14 @@ export class Frigade extends Fetchable {
     }
   }
 
-  private triggerEventHandlers(
+  private async triggerEventHandlers(
     previousUserFlowState: UserFlowState,
     newUserFlowState: UserFlowState
   ) {
-    if (previousUserFlowState && previousUserFlowState.flowState !== newUserFlowState.flowState) {
+    if (previousUserFlowState) {
       this.flows.forEach((flow) => {
+        flow.nonce =
+          Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
         if (flow.id == newUserFlowState.flowId) {
           this.onFlowStateChangeHandlers.forEach((handler) => {
             handler(flow, newUserFlowState.flowState, previousUserFlowState?.flowState)

@@ -8,30 +8,23 @@ export interface TourProps extends TooltipProps {
 }
 
 export function Tour({ flowId, ...props }: TourProps) {
-  const { flow, fetchFlow } = useFlow(flowId)
+  const { flow } = useFlow(flowId)
 
-  if (flow == null || flow?.isCompleted || flow?.isSkipped) {
+  if (flow == null || flow.isVisible === false) {
     return null
   }
 
   flow.start()
 
   const step = flow.getCurrentStep()
-
   step?.start()
 
   async function handleDismiss() {
     await flow.skip()
-
-    // TEMP: Manually refreshing flow data until useFlow can handle it internally
-    fetchFlow()
   }
 
   async function handlePrimary() {
     await step.complete()
-
-    // TEMP: Manually refreshing flow data until useFlow can handle it internally
-    fetchFlow()
   }
 
   const handleSecondary = handlePrimary
@@ -54,9 +47,7 @@ export function Tour({ flowId, ...props }: TourProps) {
       <Tooltip.Subtitle>{step.subtitle}</Tooltip.Subtitle>
 
       <Flex.Row pt={4} alignItems="center" justifyContent="space-between">
-        <Tooltip.Progress>
-          {`${flow.getNumberOfCompletedSteps()}/${flow.steps.size}`}
-        </Tooltip.Progress>
+        <Tooltip.Progress>{`${step?.order + 1}/${flow.steps.size}`}</Tooltip.Progress>
 
         <Flex.Row gap={3}>
           <Tooltip.Secondary title={step.secondaryButtonTitle} onClick={handleSecondary} />
