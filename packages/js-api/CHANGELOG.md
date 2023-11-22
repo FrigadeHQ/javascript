@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.1.3
+
+### Patch Changes
+
+- daa92e8: Fix issues related to optimistic network calls
+
 ## 0.1.2
 
 ### Patch Changes
