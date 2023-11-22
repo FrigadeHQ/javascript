@@ -147,20 +147,24 @@ export default class Flow extends Fetchable {
         const isLastStep = numberOfCompletedSteps + 1 == this.steps.size
 
         currentStep.isCompleted = true
+        this.isStarted = true
         const copy = clone(
           frigadeGlobalState[getGlobalStateKey(this.config)].userFlowStates[this.id]
         )
 
         copy.stepStates[currentStep.id].actionType = COMPLETED_STEP
+        copy.flowState = isLastStep ? COMPLETED_FLOW : STARTED_FLOW
+
         const nextStepId = Array.from(this.steps.keys())[index + 1]
         if (nextStepId) {
           copy.lastStepId = nextStepId
         }
-        frigadeGlobalState[getGlobalStateKey(this.config)].userFlowStates[this.id] = copy
 
         if (isLastStep) {
           this.optimisticallyMarkFlowCompleted()
         }
+
+        frigadeGlobalState[getGlobalStateKey(this.config)].userFlowStates[this.id] = copy
 
         // if all steps are now completed, mark flow completed
         await this.fetch('/flowResponses', {
@@ -246,6 +250,7 @@ export default class Flow extends Fetchable {
   }
 
   private optimisticallyMarkFlowCompleted() {
+    this.isStarted = true
     this.isCompleted = true
     const copy = clone(frigadeGlobalState[getGlobalStateKey(this.config)].userFlowStates[this.id])
     copy.flowState = COMPLETED_FLOW

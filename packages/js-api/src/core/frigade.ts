@@ -1,5 +1,5 @@
 import { FrigadeConfig, UserFlowState } from '../types'
-import { generateGuestId, resetAllLocalStorage, UserFlowStatus } from '../shared/utils'
+import { generateGuestId, resetAllLocalStorage } from '../shared/utils'
 import Flow from './flow'
 import { FlowDataRaw } from './types'
 import { frigadeGlobalState, getGlobalStateKey } from '../shared/state'
@@ -8,11 +8,9 @@ import { Fetchable } from '../shared/Fetchable'
 export class Frigade extends Fetchable {
   private flows: Flow[] = []
   private initPromise: Promise<void>
-  private onFlowStateChangeHandlers: ((
-    flow: Flow,
-    newState: UserFlowStatus,
-    previousState: UserFlowStatus
-  ) => void)[] = []
+  private onFlowStateChangeHandlers: ((flow: Flow, previousFlow?: Flow) => void)[] = []
+  private previousFlows: Map<(flow: Flow, previousFlow: Flow) => void, Map<string, Flow>> =
+    new Map()
 
   constructor(apiKey: string, config?: FrigadeConfig) {
     super({
@@ -94,15 +92,11 @@ export class Frigade extends Fetchable {
     this.config.organizationId = undefined
   }
 
-  public onFlowStateChange(
-    handler: (updatedFlow: Flow, newState: UserFlowStatus, previousState: UserFlowStatus) => void
-  ) {
+  public onFlowStateChange(handler: (flow: Flow, previousFlow?: Flow) => void) {
     this.onFlowStateChangeHandlers.push(handler)
   }
 
-  public removeOnFlowStateChangeHandler(
-    handler: (updatedFlow: Flow, newState: UserFlowStatus, previousState: UserFlowStatus) => void
-  ) {
+  public removeOnFlowStateChangeHandler(handler: (flow: Flow, previousFlow?: Flow) => void) {
     this.onFlowStateChangeHandlers = this.onFlowStateChangeHandlers.filter((h) => h !== handler)
   }
 
@@ -129,7 +123,7 @@ export class Frigade extends Fetchable {
               JSON.stringify(target[key].stepStates) !== JSON.stringify(value.stepStates) ||
               JSON.stringify(target[key].shouldTrigger) !== JSON.stringify(value.shouldTrigger))
           ) {
-            that.triggerEventHandlers(target[key], value)
+            that.triggerEventHandlers(target[key])
           }
 
           target[key] = value
@@ -170,17 +164,20 @@ export class Frigade extends Fetchable {
     }
   }
 
-  private async triggerEventHandlers(
-    previousUserFlowState: UserFlowState,
-    newUserFlowState: UserFlowState
-  ) {
+  private async triggerEventHandlers(previousUserFlowState: UserFlowState) {
     if (previousUserFlowState) {
       this.flows.forEach((flow) => {
         flow.nonce =
           Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
-        if (flow.id == newUserFlowState.flowId) {
+        if (flow.id == previousUserFlowState.flowId) {
           this.onFlowStateChangeHandlers.forEach((handler) => {
-            handler(flow, newUserFlowState.flowState, previousUserFlowState?.flowState)
+            const lastFlows = this.previousFlows.get(handler)
+            const lastFlow = lastFlows ? lastFlows.get(flow.id) : undefined
+            handler(flow, lastFlow)
+            if (!lastFlows) {
+              this.previousFlows.set(handler, new Map())
+            }
+            this.previousFlows.get(handler).set(flow.id, flow)
           })
         }
       })

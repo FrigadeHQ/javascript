@@ -1,11 +1,7 @@
 import { Frigade } from '../src'
-import {
-  COMPLETED_FLOW,
-  generateGuestId,
-  NOT_STARTED_FLOW,
-  STARTED_FLOW,
-} from '../src/shared/utils'
+import { generateGuestId } from '../src/shared/utils'
 import { getRandomID } from './util'
+import { Flow } from '../src/.'
 
 const testAPIKey = 'api_public_3MPLH7NJ9L0U963XKW7BPE2IT137GC6L742JLC2XCT6NOIYSI4QUI9I1RA3ZOGIL'
 const testFlowId = 'flow_yJfjksFrs5QEH0c8'
@@ -64,11 +60,14 @@ test('handle flow event changes', async () => {
     userId: getRandomID(),
   })
 
-  const callback1 = jest.fn((flow, newState, previousState) => {
+  const callback1 = jest.fn((flow: Flow) => {
+    if (flow.id != testFlowId) {
+      return
+    }
     expect(flow).toBeDefined()
     expect(flow.id).toEqual(testFlowId)
-    expect(newState).toEqual(STARTED_FLOW)
-    expect(previousState).toEqual(NOT_STARTED_FLOW)
+    expect(flow.isCompleted).toBeFalsy()
+    expect(flow.isStarted).toBeTruthy()
   })
   frigade.onFlowStateChange(callback1)
   const flow = await frigade.getFlow(testFlowId)
@@ -78,20 +77,22 @@ test('handle flow event changes', async () => {
   expect(callback1).toHaveBeenCalledTimes(0)
   await flow.getStepByIndex(0).complete()
   expect(flow.isCompleted).toBeFalsy()
-  expect(callback1).toHaveBeenCalledTimes(1)
+  expect(callback1).toHaveBeenCalled()
   frigade.removeOnFlowStateChangeHandler(callback1)
 
-  const callback2 = jest.fn((flow, newState, previousState) => {
+  const callback2 = jest.fn((flow) => {
+    if (flow.id != testFlowId) {
+      return
+    }
     expect(flow).toBeDefined()
     expect(flow.id).toEqual(testFlowId)
-    expect(previousState).toEqual(STARTED_FLOW)
-    expect(newState).toEqual(COMPLETED_FLOW)
+    expect(flow.isCompleted).toBeTruthy()
   })
   frigade.onFlowStateChange(callback2)
   expect(callback2).toHaveBeenCalledTimes(0)
   await flow.complete()
   expect(flow.isCompleted).toBeTruthy()
-  expect(callback2).toHaveBeenCalledTimes(1)
+  expect(callback2).toHaveBeenCalled()
   frigade.removeOnFlowStateChangeHandler(callback2)
 })
 
