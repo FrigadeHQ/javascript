@@ -72,6 +72,8 @@ export const CollapsibleStep: FC<CollapsibleStepProps> = ({
                 appearance={appearance}
                 videoUri={stepData.videoUri}
                 autoplay={stepData.props?.autoplayVideo}
+                loop={stepData.props?.loopVideo}
+                hideControls={stepData.props?.hideVideoControls}
               />
             ) : null}
           </StepMediaContainer>

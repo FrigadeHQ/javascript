@@ -367,6 +367,8 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
               appearance={appearance}
               videoUri={steps[selectedStep].videoUri}
               autoplay={steps[selectedStep].props?.autoplayVideo}
+              loop={steps[selectedStep].props?.loopVideo}
+              hideControls={steps[selectedStep].props?.hideVideoControls}
             />
           </TooltipVideoContainer>
         )}

@@ -63,10 +63,14 @@ export function VideoCard({
   appearance,
   videoUri,
   autoplay = false,
+  loop = false,
+  hideControls = false,
 }: {
   appearance: Appearance
   videoUri: string
   autoplay?: boolean
+  loop?: boolean
+  hideControls?: boolean
 }) {
   // Create ref to use with videoplayer
 
@@ -153,12 +157,13 @@ export function VideoCard({
       )}
       <Video
         appearance={appearance}
-        controls={isPlaying}
+        controls={isPlaying && !hideControls}
         ref={ref}
         play={isPlaying}
         src={videoUri}
         autoPlay={autoplay}
         muted={autoplay}
+        loop={loop}
       />
     </VideoPlayerWrapper>
   )

@@ -34,6 +34,8 @@ export const HeroStepContent: FC<StepContentProps> = ({ stepData, appearance }) 
           videoUri={stepData.videoUri}
           appearance={appearance}
           autoplay={stepData.props?.autoplayVideo}
+          loop={stepData.props?.loopVideo}
+          hideControls={stepData.props?.hideVideoControls}
         />
       ) : null}
       <TitleSubtitleWithCTA stepData={stepData} appearance={appearance} />

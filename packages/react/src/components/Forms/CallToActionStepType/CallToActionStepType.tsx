@@ -71,7 +71,13 @@ export function CallToActionStepType({
           appearance={appearance}
           className={getClassName('callToActionVideo', appearance)}
         >
-          <VideoCard appearance={appearance} videoUri={stepData.videoUri} />
+          <VideoCard
+            appearance={appearance}
+            videoUri={stepData.videoUri}
+            autoplay={stepData.props?.autoplayVideo}
+            loop={stepData.props?.loopVideo}
+            hideControls={stepData.props?.hideVideoControls}
+          />
         </CallToActionVideo>
       )}
     </CallToActionStepContainer>
