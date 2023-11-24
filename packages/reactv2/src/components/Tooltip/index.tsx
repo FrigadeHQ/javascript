@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
+import { Interpolation } from '@emotion/react'
 
 import { XMarkIcon } from '@heroicons/react/24/solid'
 import * as Popover from '@radix-ui/react-popover'
@@ -19,6 +20,7 @@ interface MergedRadixPopoverProps
 export interface TooltipProps extends MergedRadixPopoverProps {
   align?: Popover.PopoverContentProps['align'] | 'before' | 'after'
   anchor?: string
+  css?: Interpolation<any>
   spotlight?: boolean
   style?: React.CSSProperties
 }
@@ -26,7 +28,7 @@ export interface TooltipProps extends MergedRadixPopoverProps {
 export function Tooltip({
   anchor,
   children,
-  css,
+  className,
   spotlight = false,
   style,
   ...props
@@ -78,7 +80,7 @@ export function Tooltip({
     <Popover.Root defaultOpen={true} {...rootProps}>
       <Popover.Anchor virtualRef={anchorElementRef} />
       <Popover.Portal>
-        <div css={css}>
+        <div className={className} css={{ position: 'absolute', zIndex: 9999 }}>
           {spotlight && (
             <Box
               borderRadius={anchorRadius}
@@ -102,7 +104,7 @@ export function Tooltip({
               position="relative"
               css={{
                 boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)',
-                width: '300px',
+                maxWidth: '360px',
                 ...style,
               }}
             >
@@ -117,22 +119,19 @@ export function Tooltip({
   )
 }
 
-Tooltip.Close = ({ css, ...props }: ButtonProps) => {
+Tooltip.Close = (props: ButtonProps) => {
   return (
     <Popover.Close aria-label="Close" asChild>
       <Button.Plain
-        css={[
-          {
-            top: 0,
-            right: 0,
-          },
-          css,
-        ]}
+        css={{
+          top: '12px',
+          right: '4px',
+        }}
         part="tooltip-close"
         position="absolute"
         {...props}
       >
-        <XMarkIcon height="20" fill="currentColor" />
+        <XMarkIcon height="24" fill="currentColor" />
       </Button.Plain>
     </Popover.Close>
   )

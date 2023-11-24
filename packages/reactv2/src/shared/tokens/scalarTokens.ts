@@ -130,7 +130,7 @@ export const scalarTokens = {
     '4xl': '60px',
   },
   radii: {
-    md: '8px',
+    md: '10px',
     lg: '20px',
     round: '50%',
   },

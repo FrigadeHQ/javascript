@@ -4,7 +4,7 @@ const colorVar = (colorName) => `var(--fr-colors-${colorName})`
 export const semanticColors = {
   neutral: {
     background: colorVar('white'),
-    border: colorVar('gray900'),
+    border: colorVar('gray500'),
     foreground: colorVar('black'),
     surface: colorVar('gray700'),
 
