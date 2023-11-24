@@ -32,7 +32,6 @@ async function addDirectivesToChunkFiles(distPath = DIST_PATH): Promise<void> {
 }
 
 export default defineConfig((options: Options) => ({
-  clean: !options.watch,
   dts: true,
   minify: true,
   entry: ['src/index.ts'],
@@ -44,7 +43,8 @@ export default defineConfig((options: Options) => ({
   outDir: DIST_PATH,
   sourcemap: true,
   splitting: true,
-  target: 'esnext',
+  clean: true,
+  bundle: true,
   treeshake: true,
   ...options,
 }))
