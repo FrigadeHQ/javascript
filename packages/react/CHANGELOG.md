@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.38.15
+
+### Patch Changes
+
+- 19cfc50: Add ability for looping and hiding controls in videoUris
+
 ## 1.38.14
 
 ### Patch Changes
