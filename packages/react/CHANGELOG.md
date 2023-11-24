@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.38.16
+
+### Patch Changes
+
+- c93c094: Fix tsup compatibility for legacy React apps
+
 ## 1.38.15
 
 ### Patch Changes
