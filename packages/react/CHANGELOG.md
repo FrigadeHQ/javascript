@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.38.17
+
+### Patch Changes
+
+- 8d5c76f: Allow <video /> tags in strings
+
 ## 1.38.16
 
 ### Patch Changes
