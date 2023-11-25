@@ -30,8 +30,21 @@ export function sanitize(dirty?: string) {
         'h2',
         'h3',
         'h4',
+        'video',
       ],
-      ALLOWED_ATTR: ['style', 'class', 'target', 'id', 'href', 'alt', 'src'],
+      ALLOWED_ATTR: [
+        'style',
+        'class',
+        'target',
+        'id',
+        'href',
+        'alt',
+        'src',
+        'controls',
+        'autoplay',
+        'loop',
+        'muted',
+      ],
     }),
   }
 }
