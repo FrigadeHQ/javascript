@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.1.4
+
+### Patch Changes
+
+- ab77eb8: Add event handlers to documentation.
+
 ## 0.1.3
 
 ### Patch Changes
