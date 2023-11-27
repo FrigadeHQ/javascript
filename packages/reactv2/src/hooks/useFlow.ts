@@ -1,5 +1,5 @@
 import { Flow, Frigade } from '@frigade/js'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 
 import { FrigadeContext } from '../components/Provider'
 
@@ -10,7 +10,9 @@ export function useFlow(flowId: string) {
   const filteredConfig = Object.fromEntries(
     Object.entries(config).filter(([k, v]) => ['apiUrl', 'userId'].includes(k) && v != null)
   )
-  const frigade = new Frigade(apiKey, filteredConfig)
+
+  const frigadeRef = useRef(new Frigade(apiKey, filteredConfig))
+  const frigade = frigadeRef.current
 
   useEffect(() => {
     const handler = (updatedFlow: Flow) => {

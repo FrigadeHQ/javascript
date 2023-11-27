@@ -29,8 +29,12 @@ export const Default = {
         >
           Anchor here
         </Box>
-        <Box p={4} style={{ background: "fuchsia", width: "20vw" }}>
-          Also not the anchor
+        <Box
+          id="tooltip-storybook-1"
+          p={4}
+          style={{ background: "fuchsia", width: "20vw" }}
+        >
+          Second anchor
         </Box>
 
         <Tour flowId="flow_U63A5pndRrvCwxNs" {...options.args} />

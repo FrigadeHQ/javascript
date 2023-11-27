@@ -12,7 +12,7 @@ import { Flex } from '../Flex/Flex'
 import { Media, MediaProps } from '../Media'
 import { Text, TextProps } from '../Text'
 import { getDotPosition } from './getDotPosition'
-import { mapTooltipPropsToRadixProps } from './mapTooltipPropsToPopoverProps'
+import { mapTooltipPropsToPopoverProps } from './mapTooltipPropsToPopoverProps'
 
 interface MergedRadixPopoverProps
   extends Pick<Popover.PopoverProps, 'defaultOpen' | 'modal' | 'onOpenChange' | 'open'>,
@@ -20,7 +20,7 @@ interface MergedRadixPopoverProps
 export interface TooltipProps extends MergedRadixPopoverProps {
   align?: Popover.PopoverContentProps['align'] | 'before' | 'after'
   anchor?: string
-  css?: Interpolation<any>
+  css?: Interpolation<Record<any, any>>
   spotlight?: boolean
   style?: React.CSSProperties
 }
@@ -34,7 +34,7 @@ export function Tooltip({
   ...props
 }: TooltipProps) {
   const { node: contentNode, rect: contentRect, ref: contentRef } = useBoundingClientRect()
-  const { contentProps, rootProps } = mapTooltipPropsToRadixProps(props, contentRect)
+  const { contentProps, rootProps } = mapTooltipPropsToPopoverProps(props, contentRect)
 
   const [alignAttr, setAlignAttr] = useState(contentProps.align)
   const [sideAttr, setSideAttr] = useState(contentProps.side)

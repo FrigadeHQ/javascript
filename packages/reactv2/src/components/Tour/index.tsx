@@ -46,13 +46,15 @@ export function Tour({ flowId, ...props }: TourProps) {
       <Tooltip.Title>{step.title}</Tooltip.Title>
       <Tooltip.Subtitle>{step.subtitle}</Tooltip.Subtitle>
 
-      <Flex.Row pt={4} alignItems="center" justifyContent="space-between">
+      <Flex.Row alignItems="center" gap={3} justifyContent="flex-end" part="tooltip-footer" pt={4}>
         <Tooltip.Progress>{`${step?.order + 1}/${flow.steps.size}`}</Tooltip.Progress>
 
-        <Flex.Row gap={3}>
-          <Tooltip.Secondary title={step.secondaryButtonTitle} onClick={handleSecondary} />
-          <Tooltip.Primary title={step.primaryButtonTitle} onClick={handlePrimary} />
-        </Flex.Row>
+        <Tooltip.Secondary
+          marginLeft="auto"
+          title={step.secondaryButtonTitle}
+          onClick={handleSecondary}
+        />
+        <Tooltip.Primary title={step.primaryButtonTitle} onClick={handlePrimary} />
       </Flex.Row>
     </Tooltip>
   )

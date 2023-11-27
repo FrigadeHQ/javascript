@@ -23,7 +23,7 @@ const RADIX_PROPS = {
   root: ['defaultOpen', 'modal', 'onOpenChange', 'open'],
 }
 
-export function mapTooltipPropsToRadixProps(props: TooltipProps, contentRect: DOMRect) {
+export function mapTooltipPropsToPopoverProps(props: TooltipProps, contentRect: DOMRect) {
   const contentProps = Object.fromEntries(
     RADIX_PROPS.content
       .map((propName) => [propName, props[propName]])
@@ -99,7 +99,7 @@ export function mapTooltipPropsToRadixProps(props: TooltipProps, contentRect: DO
       : contentRect.height
 
     // Change alignOffset to be at the end of the positioned side
-    contentProps['alignOffset'] = (lengthOfCurrentSide + originalOffset) * -1
+    contentProps.alignOffset = (lengthOfCurrentSide + originalOffset) * -1
 
     // Flip align prop back to valid Radix option, or default to 'after'
     contentProps['align'] = mapToOriginalAlignValues[currentAlign]
