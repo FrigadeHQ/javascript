@@ -92,6 +92,19 @@ await frigade.track('EVENT_NAME', {
 })
 ```
 
+#### Event handlers
+```js
+// This callback will be called when a the current user/group changes state in the flow
+const callback = (updatedFlow, previousFlow) => {
+  console.log('Flow state changed:', flow.isCompleted)
+  console.log('Step state changed:', flow.steps['STEP_ID'].isCompleted)
+};
+
+frigade.onFlowStateChange(callback);
+// To remove the callback use:
+frigade.removeOnFlowStateChangeHandler(callback);
+```
+
 ## Cross-platform support
 
 All non-UI related functionality of the SDK works in all JavaScript environments (Node.js, browser, React Native, etc.).
