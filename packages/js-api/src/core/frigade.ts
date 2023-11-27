@@ -167,8 +167,6 @@ export class Frigade extends Fetchable {
   private async triggerEventHandlers(previousUserFlowState: UserFlowState) {
     if (previousUserFlowState) {
       this.flows.forEach((flow) => {
-        flow.nonce =
-          Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
         if (flow.id == previousUserFlowState.flowId) {
           this.onFlowStateChangeHandlers.forEach((handler) => {
             const lastFlows = this.previousFlows.get(handler)

@@ -55,12 +55,6 @@ export default class Flow extends Fetchable {
    */
   public isVisible: boolean = false
 
-  /**
-   * Nonce
-   */
-  public nonce =
-    Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
-
   private flowDataRaw: FlowDataRaw
 
   constructor(config: FrigadeConfig, flowDataRaw: FlowDataRaw) {

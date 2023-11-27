@@ -5,7 +5,6 @@ import { FrigadeContext } from '../components/Provider'
 
 export function useFlow(flowId: string) {
   const [flow, setFlow] = useState<Flow>()
-  const [_, setNonce] = useState(Math.random())
   const { apiKey, config } = useContext(FrigadeContext)
   const filteredConfig = Object.fromEntries(
     Object.entries(config).filter(([k, v]) => ['apiUrl', 'userId'].includes(k) && v != null)
@@ -14,27 +13,29 @@ export function useFlow(flowId: string) {
   const frigadeRef = useRef(new Frigade(apiKey, filteredConfig))
   const frigade = frigadeRef.current
 
-  useEffect(() => {
-    const handler = (updatedFlow: Flow) => {
-      if (updatedFlow.id !== flowId) {
-        return
-      }
-
-      setFlow(updatedFlow)
-      setNonce(Math.random())
+  const handler = (updatedFlow: Flow) => {
+    if (updatedFlow.id !== flowId) {
+      return
     }
 
-    fetchFlow()
+    const clonedFlow = Object.assign(Object.create(Object.getPrototypeOf(updatedFlow)), updatedFlow)
+
+    setFlow(clonedFlow)
+  }
+
+  useEffect(() => {
+    ;(async () => {
+      const flowResponse: Flow = await frigade.getFlow(flowId)
+
+      setFlow(flowResponse)
+    })()
+
     frigade.onFlowStateChange(handler)
+
     return () => {
       frigade.removeOnFlowStateChangeHandler(handler)
     }
   }, [])
 
-  async function fetchFlow() {
-    const flowResponse: Flow = await frigade.getFlow(flowId)
-    setFlow(flowResponse)
-  }
-
-  return { flow, fetchFlow }
+  return { flow }
 }
