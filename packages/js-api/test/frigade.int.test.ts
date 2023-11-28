@@ -111,3 +111,24 @@ test('handle flow event changes unsubscribe', async () => {
   expect(flow.isCompleted).toBeTruthy()
   expect(callback).toHaveBeenCalledTimes(0)
 })
+
+test('handle single flow event changes subscribes and unsubscribes', async () => {
+  const frigade = new Frigade(testAPIKey, {
+    userId: getRandomID(),
+  })
+  const callback = jest.fn((flow: Flow) => {
+    expect(flow).toBeDefined()
+    expect(flow.id).toEqual(testFlowId)
+  })
+  const flow = await frigade.getFlow(testFlowId)
+  flow.onStateChange(callback)
+  expect(flow).toBeDefined()
+  expect(flow.id).toEqual(testFlowId)
+  expect(flow.isCompleted).toBeFalsy()
+  expect(flow.isStarted).toBeFalsy()
+  expect(callback).toHaveBeenCalledTimes(0)
+  await flow.complete()
+  expect(flow.isCompleted).toBeTruthy()
+  expect(callback).toHaveBeenCalledTimes(2)
+  flow.removeOnStateChangeHandler(callback)
+})

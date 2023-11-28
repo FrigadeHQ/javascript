@@ -159,7 +159,7 @@ export class Frigade extends Fetchable {
     if (flowDataRaw && flowDataRaw.data) {
       let flowDatas = flowDataRaw.data as FlowDataRaw[]
       flowDatas.forEach((flowData) => {
-        this.flows.push(new Flow(this.config, flowData))
+        this.flows.push(new Flow(this.config, flowData, this))
       })
     }
   }

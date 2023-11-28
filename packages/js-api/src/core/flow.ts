@@ -12,6 +12,7 @@ import {
 import { FlowStep } from './flow-step'
 import { frigadeGlobalState, getGlobalStateKey } from '../shared/state'
 import { Fetchable } from '../shared/Fetchable'
+import { Frigade } from './frigade'
 
 export default class Flow extends Fetchable {
   /**
@@ -57,9 +58,17 @@ export default class Flow extends Fetchable {
 
   private flowDataRaw: FlowDataRaw
 
-  constructor(config: FrigadeConfig, flowDataRaw: FlowDataRaw) {
+  private frigadeInstance: Frigade
+
+  private onFlowStateChangeHandlerWrappers: Map<
+    (flow: Flow, previousFlow?: Flow) => void,
+    (flow: Flow, previousFlow?: Flow) => void
+  > = new Map()
+
+  constructor(config: FrigadeConfig, flowDataRaw: FlowDataRaw, frigadeInstance: Frigade) {
     super(config)
     this.flowDataRaw = flowDataRaw
+    this.frigadeInstance = frigadeInstance
     this.initFromRawData(flowDataRaw)
   }
 
@@ -317,6 +326,23 @@ export default class Flow extends Fetchable {
    */
   public getNumberOfCompletedSteps(): number {
     return Array.from(this.steps.values()).filter((step) => step.isCompleted).length
+  }
+
+  public onStateChange(handler: (flow: Flow, previousFlow?: Flow) => void) {
+    const wrapperHandler = (flow: Flow, previousFlow?: Flow) => {
+      if (flow.id === this.id) {
+        handler(flow, previousFlow)
+      }
+    }
+    this.onFlowStateChangeHandlerWrappers.set(handler, wrapperHandler)
+    this.frigadeInstance.onFlowStateChange(wrapperHandler)
+  }
+
+  public removeOnStateChangeHandler(handler: (flow: Flow, previousFlow?: Flow) => void) {
+    const wrapperHandler = this.onFlowStateChangeHandlerWrappers.get(handler)
+    if (wrapperHandler) {
+      this.frigadeInstance.removeOnFlowStateChangeHandler(wrapperHandler)
+    }
   }
 
   private getUserFlowState(): UserFlowState {
