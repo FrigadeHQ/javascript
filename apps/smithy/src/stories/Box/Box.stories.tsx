@@ -1,4 +1,4 @@
-import { Box, Button, Text } from "@frigade/reactv2";
+import { Box, Text } from "@frigade/reactv2";
 
 export default {
   title: "Components/Box",

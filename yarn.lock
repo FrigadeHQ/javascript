@@ -4932,7 +4932,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/addon-docs@npm:7.6.0":
+"@storybook/addon-docs@npm:7.6.0, @storybook/addon-docs@npm:^7.6.0":
   version: 7.6.0
   resolution: "@storybook/addon-docs@npm:7.6.0"
   dependencies:
@@ -16684,6 +16684,7 @@ __metadata:
   resolution: "smithy@workspace:apps/smithy"
   dependencies:
     "@frigade/reactv2": "workspace:*"
+    "@storybook/addon-docs": ^7.6.0
     "@storybook/addon-essentials": ^7.6.0
     "@storybook/addon-interactions": ^7.6.0
     "@storybook/addon-links": ^7.6.0
