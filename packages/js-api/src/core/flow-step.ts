@@ -111,4 +111,16 @@ export interface FlowStep {
    * Function that marks the step completed
    */
   complete: (properties?: Record<string | number, any>) => Promise<void>
+
+  /**
+   * Event handler for this given step's state changes
+   */
+  onStepStateChange: (callback: (step: FlowStep, previousStep?: FlowStep) => void) => void
+
+  /**
+   * Removes the given callback from the list of event handlers
+   */
+  removeOnStepStateChangeHandler: (
+    callback: (step: FlowStep, previousStep?: FlowStep) => void
+  ) => void
 }

@@ -1,4 +1,4 @@
-import { Frigade } from '../src'
+import { FlowStep, Frigade } from '../src'
 import { generateGuestId } from '../src/shared/utils'
 import { getRandomID } from './util'
 import { Flow } from '../src/.'
@@ -131,4 +131,24 @@ test('handle single flow event changes subscribes and unsubscribes', async () =>
   expect(flow.isCompleted).toBeTruthy()
   expect(callback).toHaveBeenCalledTimes(2)
   flow.removeOnStateChangeHandler(callback)
+})
+
+test('handle step event changes', async () => {
+  const frigade = new Frigade(testAPIKey, {
+    userId: getRandomID(),
+  })
+
+  const callback = jest.fn((step: FlowStep) => {
+    expect(step).toBeDefined()
+    expect(step.id).toEqual(testFlowStepId)
+  })
+  const flow = await frigade.getFlow(testFlowId)
+
+  expect(callback).toHaveBeenCalledTimes(0)
+  flow.steps.get(testFlowStepId).onStepStateChange(callback)
+  expect(callback).toHaveBeenCalledTimes(0)
+  await flow.steps.get(testFlowStepId).start()
+  expect(callback).toHaveBeenCalledTimes(1)
+  await flow.steps.get(testFlowStepId).complete()
+  expect(callback).toHaveBeenCalled()
 })

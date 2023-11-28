@@ -65,6 +65,11 @@ export default class Flow extends Fetchable {
     (flow: Flow, previousFlow?: Flow) => void
   > = new Map()
 
+  private onStepStateChangeHandlerWrappers: Map<
+    (step: FlowStep, previousStep?: FlowStep) => void,
+    (flow: Flow, previousFlow?: Flow) => void
+  > = new Map()
+
   constructor(config: FrigadeConfig, flowDataRaw: FlowDataRaw, frigadeInstance: Frigade) {
     super(config)
     this.flowDataRaw = flowDataRaw
@@ -90,7 +95,7 @@ export default class Flow extends Fetchable {
     const targetingShouldHideFlow =
       flowDataRaw.targetingLogic && userFlowState.shouldTrigger === false
     this.isVisible = !hasCompleted && !targetingShouldHideFlow
-    this.steps = new Map()
+    const newSteps = new Map<string, FlowStep>()
 
     steps.forEach((step, index) => {
       const userFlowStateStep = userFlowState.stepStates[step.id]
@@ -195,8 +200,33 @@ export default class Flow extends Fetchable {
           updatedUserFlowState.stepStates[currentStep.id].actionType == STARTED_STEP
       }
 
-      this.steps.set(step.id, stepObj)
+      stepObj.onStepStateChange = (handler: (step: FlowStep, previousStep?: FlowStep) => void) => {
+        const wrapperHandler = (flow: Flow, previousFlow?: Flow) => {
+          if (flow.id === this.id && flow.steps.has(stepObj.id)) {
+            const newStep = flow.steps.get(stepObj.id)
+            const previousStep = previousFlow?.steps?.get(stepObj.id)
+            if (JSON.stringify(newStep) === JSON.stringify(previousStep)) {
+              return
+            }
+            handler(newStep, previousStep)
+          }
+        }
+        this.onStepStateChangeHandlerWrappers.set(handler, wrapperHandler)
+        this.frigadeInstance.onFlowStateChange(wrapperHandler)
+      }
+
+      stepObj.removeOnStepStateChangeHandler = (
+        handler: (step: FlowStep, previousStep?: FlowStep) => void
+      ) => {
+        const wrapperHandler = this.onStepStateChangeHandlerWrappers.get(handler)
+        if (wrapperHandler) {
+          this.frigadeInstance.removeOnFlowStateChangeHandler(wrapperHandler)
+        }
+      }
+
+      newSteps.set(step.id, stepObj)
     })
+    this.steps = newSteps
   }
 
   /**
