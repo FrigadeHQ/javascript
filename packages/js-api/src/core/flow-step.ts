@@ -115,12 +115,10 @@ export interface FlowStep {
   /**
    * Event handler for this given step's state changes
    */
-  onStepStateChange: (callback: (step: FlowStep, previousStep?: FlowStep) => void) => void
+  onStateChange: (callback: (step: FlowStep, previousStep?: FlowStep) => void) => void
 
   /**
    * Removes the given callback from the list of event handlers
    */
-  removeOnStepStateChangeHandler: (
-    callback: (step: FlowStep, previousStep?: FlowStep) => void
-  ) => void
+  removeStateChangeHandler: (callback: (step: FlowStep, previousStep?: FlowStep) => void) => void
 }

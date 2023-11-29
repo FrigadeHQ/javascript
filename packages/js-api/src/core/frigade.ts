@@ -89,11 +89,11 @@ export class Frigade extends Fetchable {
     this.config.organizationId = undefined
   }
 
-  public onFlowStateChange(handler: (flow: Flow, previousFlow?: Flow) => void) {
+  public onStateChange(handler: (flow: Flow, previousFlow?: Flow) => void) {
     this.getGlobalState().onFlowStateChangeHandlers.push(handler)
   }
 
-  public removeOnFlowStateChangeHandler(handler: (flow: Flow, previousFlow?: Flow) => void) {
+  public removeStateChangeHandler(handler: (flow: Flow, previousFlow?: Flow) => void) {
     this.getGlobalState().onFlowStateChangeHandlers =
       this.getGlobalState().onFlowStateChangeHandlers.filter((h) => h !== handler)
   }

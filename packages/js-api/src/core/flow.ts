@@ -184,7 +184,7 @@ export default class Flow extends Fetchable {
           updatedUserFlowState.stepStates[currentStep.id].actionType == STARTED_STEP
       }
 
-      stepObj.onStepStateChange = (handler: (step: FlowStep, previousStep: FlowStep) => void) => {
+      stepObj.onStateChange = (handler: (step: FlowStep, previousStep: FlowStep) => void) => {
         const wrapperHandler = (flow: Flow) => {
           if (flow.id !== this.id) {
             return
@@ -206,7 +206,7 @@ export default class Flow extends Fetchable {
         this.getGlobalState().onFlowStateChangeHandlers.push(wrapperHandler)
       }
 
-      stepObj.removeOnStepStateChangeHandler = (
+      stepObj.removeStateChangeHandler = (
         handler: (step: FlowStep, previousStep: FlowStep) => void
       ) => {
         const wrapperHandler = this.getGlobalState().onStepStateChangeHandlerWrappers.get(handler)
@@ -367,7 +367,7 @@ export default class Flow extends Fetchable {
     this.getGlobalState().onFlowStateChangeHandlers.push(wrapperHandler)
   }
 
-  public removeOnStateChangeHandler(handler: (flow: Flow, previousFlow: Flow) => void) {
+  public removeStateChangeHandler(handler: (flow: Flow, previousFlow: Flow) => void) {
     const wrapperHandler = this.getGlobalState().onFlowStateChangeHandlerWrappers.get(handler)
     if (wrapperHandler) {
       this.getGlobalState().onFlowStateChangeHandlers =

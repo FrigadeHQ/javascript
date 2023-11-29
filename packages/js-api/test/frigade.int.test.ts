@@ -69,7 +69,7 @@ test('handle flow event changes', async () => {
     expect(flow.isCompleted).toBeFalsy()
     expect(flow.isStarted).toBeTruthy()
   })
-  frigade.onFlowStateChange(callback1)
+  frigade.onStateChange(callback1)
   const flow = await frigade.getFlow(testFlowId)
   expect(flow).toBeDefined()
   expect(flow.id).toEqual(testFlowId)
@@ -78,7 +78,7 @@ test('handle flow event changes', async () => {
   await flow.getStepByIndex(0).complete()
   expect(flow.isCompleted).toBeFalsy()
   expect(callback1).toHaveBeenCalled()
-  frigade.removeOnFlowStateChangeHandler(callback1)
+  frigade.removeStateChangeHandler(callback1)
 
   const callback2 = jest.fn((flow) => {
     if (flow.id != testFlowId) {
@@ -88,12 +88,12 @@ test('handle flow event changes', async () => {
     expect(flow.id).toEqual(testFlowId)
     expect(flow.isCompleted).toBeTruthy()
   })
-  frigade.onFlowStateChange(callback2)
+  frigade.onStateChange(callback2)
   expect(callback2).toHaveBeenCalledTimes(0)
   await flow.complete()
   expect(flow.isCompleted).toBeTruthy()
   expect(callback2).toHaveBeenCalled()
-  frigade.removeOnFlowStateChangeHandler(callback2)
+  frigade.removeStateChangeHandler(callback2)
 })
 
 test('handle flow event changes unsubscribe', async () => {
@@ -101,12 +101,12 @@ test('handle flow event changes unsubscribe', async () => {
     userId: getRandomID(),
   })
   const callback = jest.fn(() => {})
-  frigade.onFlowStateChange(callback)
+  frigade.onStateChange(callback)
   const flow = await frigade.getFlow(testFlowId)
   expect(flow).toBeDefined()
   expect(flow.id).toEqual(testFlowId)
   expect(flow.isCompleted).toBeFalsy()
-  frigade.removeOnFlowStateChangeHandler(callback)
+  frigade.removeStateChangeHandler(callback)
   await flow.complete()
   expect(flow.isCompleted).toBeTruthy()
   expect(callback).toHaveBeenCalledTimes(0)
@@ -130,7 +130,7 @@ test('handle single flow event changes subscribes and unsubscribes', async () =>
   await flow.complete()
   expect(flow.isCompleted).toBeTruthy()
   expect(callback).toHaveBeenCalledTimes(2)
-  flow.removeOnStateChangeHandler(callback)
+  flow.removeStateChangeHandler(callback)
 })
 
 test('handle step event changes', async () => {
@@ -145,7 +145,7 @@ test('handle step event changes', async () => {
   const flow = await frigade.getFlow(testFlowId)
 
   expect(callback).toHaveBeenCalledTimes(0)
-  flow.steps.get(testFlowStepId).onStepStateChange(callback)
+  flow.steps.get(testFlowStepId).onStateChange(callback)
   expect(callback).toHaveBeenCalledTimes(0)
   await flow.steps.get(testFlowStepId).start()
   expect(callback).toHaveBeenCalledTimes(1)

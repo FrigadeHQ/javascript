@@ -78,7 +78,7 @@ await flow.complete()
 
 ```js
 const flow = await frigade.getFlow('FLOW_ID')
-const step = flow.steps['STEP_ID']
+const step = flow.steps.get('STEP_ID')
 await step.start()
 await step.complete()
 ```
@@ -93,17 +93,41 @@ await frigade.track('EVENT_NAME', {
 ```
 
 #### Event handlers
+Global event handlers can be registered to be notified when any state change occurs in any flow. For example, to be notified when a flow is completed:
+
 ```js
-// This callback will be called when a the current user/group changes state in the flow
+// This callback will be called when a the current user/group changes state in any flow
 const callback = (updatedFlow, previousFlow) => {
   console.log('Flow state changed:', flow.isCompleted)
-  console.log('Step state changed:', flow.steps['STEP_ID'].isCompleted)
+  console.log('Step state changed:', flow.steps.get('STEP_ID').isCompleted)
 };
 
-frigade.onFlowStateChange(callback);
+frigade.onStateChange(callback);
 // To remove the callback use:
 frigade.removeOnFlowStateChangeHandler(callback);
 ```
+Flow specific event handlers can be registered to be notified when a specific flow changes state. For example, to be notified when a flow is completed:
+
+```js
+// This callback will be called when a the current user/group changes state in the flow with id FLOW_ID
+const flow = await frigade.getFlow('FLOW_ID')
+const callback = (updatedFlow, previousFlow) => {
+  console.log('Flow state changed:', flow.isCompleted)
+  console.log('Step state changed:', flow.steps.get('STEP_ID').isCompleted)
+};
+flow.onStateChange(callback);
+```
+To only target a specific step in a flow, use:
+```js
+// This callback will be called when a the current user/group changes state in the flow with id FLOW_ID and step with id STEP_ID
+const flow = await frigade.getFlow('FLOW_ID')
+const step = flow.steps.get('STEP_ID')
+const callback = (updatedStep, previousStep) => {
+  console.log('Step state changed:', step.isCompleted)
+};
+step.onStateChange(callback);
+```
+
 
 ## Cross-platform support
 
