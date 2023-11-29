@@ -1,5 +1,6 @@
 import { generateGuestId, getHeaders, gracefulFetch } from './utils'
 import { FrigadeConfig } from '../types'
+import { frigadeGlobalState, FrigadeGlobalState, getGlobalStateKey } from './state'
 
 export class Fetchable {
   public config: FrigadeConfig = {
@@ -21,5 +22,13 @@ export class Fetchable {
       ...(options ?? {}),
       ...getHeaders(this.config.apiKey),
     })
+  }
+
+  protected getGlobalState(): FrigadeGlobalState {
+    const globalStateKey = getGlobalStateKey(this.config)
+    if (!frigadeGlobalState[globalStateKey]) {
+      throw new Error('Frigade not initialized')
+    }
+    return frigadeGlobalState[globalStateKey]
   }
 }

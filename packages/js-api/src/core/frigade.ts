@@ -1,5 +1,5 @@
 import { FrigadeConfig, UserFlowState } from '../types'
-import { generateGuestId, resetAllLocalStorage } from '../shared/utils'
+import { cloneFlow, generateGuestId, resetAllLocalStorage } from '../shared/utils'
 import Flow from './flow'
 import { FlowDataRaw } from './types'
 import { frigadeGlobalState, getGlobalStateKey } from '../shared/state'
@@ -8,9 +8,6 @@ import { Fetchable } from '../shared/Fetchable'
 export class Frigade extends Fetchable {
   private flows: Flow[] = []
   private initPromise: Promise<void>
-  private onFlowStateChangeHandlers: ((flow: Flow, previousFlow?: Flow) => void)[] = []
-  private previousFlows: Map<(flow: Flow, previousFlow: Flow) => void, Map<string, Flow>> =
-    new Map()
 
   constructor(apiKey: string, config?: FrigadeConfig) {
     super({
@@ -93,11 +90,12 @@ export class Frigade extends Fetchable {
   }
 
   public onFlowStateChange(handler: (flow: Flow, previousFlow?: Flow) => void) {
-    this.onFlowStateChangeHandlers.push(handler)
+    this.getGlobalState().onFlowStateChangeHandlers.push(handler)
   }
 
   public removeOnFlowStateChangeHandler(handler: (flow: Flow, previousFlow?: Flow) => void) {
-    this.onFlowStateChangeHandlers = this.onFlowStateChangeHandlers.filter((h) => h !== handler)
+    this.getGlobalState().onFlowStateChangeHandlers =
+      this.getGlobalState().onFlowStateChangeHandlers.filter((h) => h !== handler)
   }
 
   private async initIfNeeded() {
@@ -134,6 +132,10 @@ export class Frigade extends Fetchable {
       frigadeGlobalState[globalStateKey] = {
         refreshUserFlowStates: async () => {},
         userFlowStates: new Proxy({}, validator),
+        onFlowStateChangeHandlerWrappers: new Map(),
+        onStepStateChangeHandlerWrappers: new Map(),
+        onFlowStateChangeHandlers: [],
+        previousFlows: new Map(),
       }
       frigadeGlobalState[globalStateKey].refreshUserFlowStates = async () => {
         const userFlowStatesRaw = await this.fetch(
@@ -159,7 +161,11 @@ export class Frigade extends Fetchable {
     if (flowDataRaw && flowDataRaw.data) {
       let flowDatas = flowDataRaw.data as FlowDataRaw[]
       flowDatas.forEach((flowData) => {
-        this.flows.push(new Flow(this.config, flowData, this))
+        this.flows.push(new Flow(this.config, flowData))
+        this.getGlobalState().previousFlows.set(
+          flowData.slug,
+          cloneFlow(this.flows[this.flows.length - 1])
+        )
       })
     }
   }
@@ -168,14 +174,10 @@ export class Frigade extends Fetchable {
     if (previousUserFlowState) {
       this.flows.forEach((flow) => {
         if (flow.id == previousUserFlowState.flowId) {
-          this.onFlowStateChangeHandlers.forEach((handler) => {
-            const lastFlows = this.previousFlows.get(handler)
-            const lastFlow = lastFlows ? lastFlows.get(flow.id) : undefined
+          this.getGlobalState().onFlowStateChangeHandlers.forEach((handler) => {
+            const lastFlow = this.getGlobalState().previousFlows.get(flow.id)
             handler(flow, lastFlow)
-            if (!lastFlows) {
-              this.previousFlows.set(handler, new Map())
-            }
-            this.previousFlows.get(handler).set(flow.id, flow)
+            this.getGlobalState().previousFlows.set(flow.id, cloneFlow(flow))
           })
         }
       })

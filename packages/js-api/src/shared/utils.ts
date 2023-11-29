@@ -1,6 +1,7 @@
 import { VERSION_NUMBER } from '../core/version'
 import fetch from 'cross-fetch'
 import { v4 as uuidv4 } from 'uuid'
+import Flow from '../core/flow'
 
 export const NOT_STARTED_STEP = 'NOT_STARTED_STEP'
 export const COMPLETED_FLOW = 'COMPLETED_FLOW'
@@ -15,6 +16,16 @@ const LAST_POST_CALL_AT = 'frigade-last-call-at-'
 const LAST_POST_CALL_DATA = 'frigade-last-call-data-'
 const GUEST_KEY = 'frigade-guest-key'
 const GUEST_PREFIX = 'guest_'
+
+export function cloneFlow(flow: Flow): Flow {
+  const newFlow = new Flow(flow.config, flow.rawData)
+  newFlow.isCompleted = flow.isCompleted
+  newFlow.isStarted = flow.isStarted
+  newFlow.isSkipped = flow.isSkipped
+  newFlow.isVisible = flow.isVisible
+  newFlow.steps = flow.steps
+  return newFlow
+}
 
 export function clone<T>(obj: T): T {
   return JSON.parse(JSON.stringify(obj))

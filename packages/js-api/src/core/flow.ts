@@ -10,9 +10,7 @@ import {
   STARTED_STEP,
 } from '../shared/utils'
 import { FlowStep } from './flow-step'
-import { frigadeGlobalState, getGlobalStateKey } from '../shared/state'
 import { Fetchable } from '../shared/Fetchable'
-import { Frigade } from './frigade'
 
 export default class Flow extends Fetchable {
   /**
@@ -22,7 +20,7 @@ export default class Flow extends Fetchable {
   /**
    * The raw data defined in `config.yml` as a JSON decoded object
    */
-  public rawData: Record<any, any>
+  public configYmlAsJson: any
   /**
    * Ordered map from Step ID to step data. The `steps` array in `config.yml`
    */
@@ -38,7 +36,7 @@ export default class Flow extends Fetchable {
   /**
    * The metadata of the flow.
    */
-  public metadata: FlowDataRaw
+  public rawData: FlowDataRaw
   /**
    * Whether the flow is completed or not
    */
@@ -56,24 +54,14 @@ export default class Flow extends Fetchable {
    */
   public isVisible: boolean = false
 
-  private flowDataRaw: FlowDataRaw
+  private readonly flowDataRaw: FlowDataRaw
 
-  private frigadeInstance: Frigade
+  private lastStepUpdate: Map<(step: FlowStep, previousStep: FlowStep) => void, FlowStep> =
+    new Map()
 
-  private onFlowStateChangeHandlerWrappers: Map<
-    (flow: Flow, previousFlow?: Flow) => void,
-    (flow: Flow, previousFlow?: Flow) => void
-  > = new Map()
-
-  private onStepStateChangeHandlerWrappers: Map<
-    (step: FlowStep, previousStep?: FlowStep) => void,
-    (flow: Flow, previousFlow?: Flow) => void
-  > = new Map()
-
-  constructor(config: FrigadeConfig, flowDataRaw: FlowDataRaw, frigadeInstance: Frigade) {
+  constructor(config: FrigadeConfig, flowDataRaw: FlowDataRaw) {
     super(config)
     this.flowDataRaw = flowDataRaw
-    this.frigadeInstance = frigadeInstance
     this.initFromRawData(flowDataRaw)
   }
 
@@ -81,10 +69,10 @@ export default class Flow extends Fetchable {
     const flowDataYml = JSON.parse(flowDataRaw.data)
     const steps = flowDataYml.steps ?? flowDataYml.data ?? []
     this.id = flowDataRaw.slug
-    this.metadata = flowDataRaw
-    this.rawData = flowDataYml
-    this.title = this.rawData.title
-    this.subtitle = this.rawData.subtitle
+    this.rawData = flowDataRaw
+    this.configYmlAsJson = flowDataYml
+    this.title = this.configYmlAsJson.title
+    this.subtitle = this.configYmlAsJson.subtitle
 
     const userFlowState = this.getUserFlowState()
 
@@ -116,12 +104,10 @@ export default class Flow extends Fetchable {
         }
 
         currentStep.isStarted = true
-        const copy = clone(
-          frigadeGlobalState[getGlobalStateKey(this.config)].userFlowStates[this.id]
-        )
+        const copy = clone(this.getGlobalState().userFlowStates[this.id])
         copy.stepStates[currentStep.id].actionType = STARTED_STEP
         copy.lastStepId = currentStep.id
-        frigadeGlobalState[getGlobalStateKey(this.config)].userFlowStates[this.id] = copy
+        this.getGlobalState().userFlowStates[this.id] = copy
 
         await this.fetch('/flowResponses', {
           method: 'POST',
@@ -156,9 +142,7 @@ export default class Flow extends Fetchable {
 
         currentStep.isCompleted = true
         this.isStarted = true
-        const copy = clone(
-          frigadeGlobalState[getGlobalStateKey(this.config)].userFlowStates[this.id]
-        )
+        const copy = clone(this.getGlobalState().userFlowStates[this.id])
 
         copy.stepStates[currentStep.id].actionType = COMPLETED_STEP
         copy.flowState = isLastStep ? COMPLETED_FLOW : STARTED_FLOW
@@ -172,7 +156,7 @@ export default class Flow extends Fetchable {
           this.optimisticallyMarkFlowCompleted()
         }
 
-        frigadeGlobalState[getGlobalStateKey(this.config)].userFlowStates[this.id] = copy
+        this.getGlobalState().userFlowStates[this.id] = copy
 
         // if all steps are now completed, mark flow completed
         await this.fetch('/flowResponses', {
@@ -200,27 +184,35 @@ export default class Flow extends Fetchable {
           updatedUserFlowState.stepStates[currentStep.id].actionType == STARTED_STEP
       }
 
-      stepObj.onStepStateChange = (handler: (step: FlowStep, previousStep?: FlowStep) => void) => {
-        const wrapperHandler = (flow: Flow, previousFlow?: Flow) => {
-          if (flow.id === this.id && flow.steps.has(stepObj.id)) {
-            const newStep = flow.steps.get(stepObj.id)
-            const previousStep = previousFlow?.steps?.get(stepObj.id)
-            if (JSON.stringify(newStep) === JSON.stringify(previousStep)) {
-              return
-            }
-            handler(newStep, previousStep)
+      stepObj.onStepStateChange = (handler: (step: FlowStep, previousStep: FlowStep) => void) => {
+        const wrapperHandler = (flow: Flow) => {
+          if (flow.id !== this.id) {
+            return
+          }
+          const currentStep = flow.steps.get(step.id)
+          const previousStep = this.lastStepUpdate.get(handler)
+
+          if (
+            currentStep.isCompleted !== previousStep?.isCompleted ||
+            currentStep.isStarted !== previousStep?.isStarted ||
+            currentStep.isHidden !== previousStep?.isHidden ||
+            currentStep.isBlocked !== previousStep?.isBlocked
+          ) {
+            handler(currentStep, previousStep ?? clone(currentStep))
+            this.lastStepUpdate.set(handler, clone(currentStep))
           }
         }
-        this.onStepStateChangeHandlerWrappers.set(handler, wrapperHandler)
-        this.frigadeInstance.onFlowStateChange(wrapperHandler)
+        this.getGlobalState().onStepStateChangeHandlerWrappers.set(handler, wrapperHandler)
+        this.getGlobalState().onFlowStateChangeHandlers.push(wrapperHandler)
       }
 
       stepObj.removeOnStepStateChangeHandler = (
-        handler: (step: FlowStep, previousStep?: FlowStep) => void
+        handler: (step: FlowStep, previousStep: FlowStep) => void
       ) => {
-        const wrapperHandler = this.onStepStateChangeHandlerWrappers.get(handler)
+        const wrapperHandler = this.getGlobalState().onStepStateChangeHandlerWrappers.get(handler)
         if (wrapperHandler) {
-          this.frigadeInstance.removeOnFlowStateChangeHandler(wrapperHandler)
+          this.getGlobalState().onFlowStateChangeHandlers =
+            this.getGlobalState().onFlowStateChangeHandlers.filter((h) => h !== wrapperHandler)
         }
       }
 
@@ -238,9 +230,9 @@ export default class Flow extends Fetchable {
     }
 
     this.isStarted = true
-    const copy = clone(frigadeGlobalState[getGlobalStateKey(this.config)].userFlowStates[this.id])
+    const copy = clone(this.getGlobalState().userFlowStates[this.id])
     copy.flowState = STARTED_FLOW
-    frigadeGlobalState[getGlobalStateKey(this.config)].userFlowStates[this.id] = copy
+    this.getGlobalState().userFlowStates[this.id] = copy
 
     await this.fetch('/flowResponses', {
       method: 'POST',
@@ -285,9 +277,9 @@ export default class Flow extends Fetchable {
   private optimisticallyMarkFlowCompleted() {
     this.isStarted = true
     this.isCompleted = true
-    const copy = clone(frigadeGlobalState[getGlobalStateKey(this.config)].userFlowStates[this.id])
+    const copy = clone(this.getGlobalState().userFlowStates[this.id])
     copy.flowState = COMPLETED_FLOW
-    frigadeGlobalState[getGlobalStateKey(this.config)].userFlowStates[this.id] = copy
+    this.getGlobalState().userFlowStates[this.id] = copy
     this.isVisible = false
   }
 
@@ -316,7 +308,7 @@ export default class Flow extends Fetchable {
   public async restart() {
     this.isCompleted = false
     this.isCompleted = true
-    frigadeGlobalState[getGlobalStateKey(this.config)].userFlowStates[this.id] = null
+    this.getGlobalState().userFlowStates[this.id] = null
     await this.fetch('/flowResponses', {
       method: 'POST',
       body: JSON.stringify({
@@ -358,29 +350,37 @@ export default class Flow extends Fetchable {
     return Array.from(this.steps.values()).filter((step) => step.isCompleted).length
   }
 
-  public onStateChange(handler: (flow: Flow, previousFlow?: Flow) => void) {
-    const wrapperHandler = (flow: Flow, previousFlow?: Flow) => {
-      if (flow.id === this.id) {
+  public onStateChange(handler: (flow: Flow, previousFlow: Flow) => void) {
+    const wrapperHandler = (flow: Flow, previousFlow: Flow) => {
+      if (
+        (flow.id === this.id &&
+          (flow.isCompleted !== previousFlow.isCompleted ||
+            flow.isStarted !== previousFlow.isStarted ||
+            flow.isSkipped !== previousFlow.isSkipped ||
+            flow.isVisible !== previousFlow.isVisible)) ||
+        JSON.stringify(flow.steps) !== JSON.stringify(previousFlow.steps)
+      ) {
         handler(flow, previousFlow)
       }
     }
-    this.onFlowStateChangeHandlerWrappers.set(handler, wrapperHandler)
-    this.frigadeInstance.onFlowStateChange(wrapperHandler)
+    this.getGlobalState().onFlowStateChangeHandlerWrappers.set(handler, wrapperHandler)
+    this.getGlobalState().onFlowStateChangeHandlers.push(wrapperHandler)
   }
 
-  public removeOnStateChangeHandler(handler: (flow: Flow, previousFlow?: Flow) => void) {
-    const wrapperHandler = this.onFlowStateChangeHandlerWrappers.get(handler)
+  public removeOnStateChangeHandler(handler: (flow: Flow, previousFlow: Flow) => void) {
+    const wrapperHandler = this.getGlobalState().onFlowStateChangeHandlerWrappers.get(handler)
     if (wrapperHandler) {
-      this.frigadeInstance.removeOnFlowStateChangeHandler(wrapperHandler)
+      this.getGlobalState().onFlowStateChangeHandlers =
+        this.getGlobalState().onFlowStateChangeHandlers.filter((h) => h !== wrapperHandler)
     }
   }
 
   private getUserFlowState(): UserFlowState {
-    const userFlowStates = frigadeGlobalState[getGlobalStateKey(this.config)].userFlowStates
+    const userFlowStates = this.getGlobalState().userFlowStates
     return userFlowStates[this.id]
   }
 
   private async refreshUserFlowState() {
-    await frigadeGlobalState[getGlobalStateKey(this.config)].refreshUserFlowStates()
+    await this.getGlobalState().refreshUserFlowStates()
   }
 }

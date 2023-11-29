@@ -17,7 +17,7 @@ test('flows have fields set', async () => {
   const frigade = new Frigade(testAPIKey, {})
   const flows = await frigade.getFlows()
   expect(
-    flows.filter((flow) => flow.id && flow.metadata && flow.metadata.type).length
+    flows.filter((flow) => flow.id && flow.rawData && flow.rawData.type).length
   ).toBeGreaterThan(0)
   const flow = flows[0]
   flow.steps.forEach((step) => {
@@ -150,5 +150,5 @@ test('handle step event changes', async () => {
   await flow.steps.get(testFlowStepId).start()
   expect(callback).toHaveBeenCalledTimes(1)
   await flow.steps.get(testFlowStepId).complete()
-  expect(callback).toHaveBeenCalled()
+  expect(callback).toHaveBeenCalledTimes(2)
 })
