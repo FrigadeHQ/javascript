@@ -30,10 +30,10 @@ export function useFlow(flowId: string) {
       setFlow(flowResponse)
     })()
 
-    frigade.onFlowStateChange(handler)
+    frigade.onStateChange(handler)
 
     return () => {
-      frigade.removeOnFlowStateChangeHandler(handler)
+      frigade.removeStateChangeHandler(handler)
     }
   }, [])
 
