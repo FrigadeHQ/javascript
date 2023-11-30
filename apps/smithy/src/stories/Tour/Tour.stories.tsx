@@ -37,7 +37,13 @@ export const Default = {
           Second anchor
         </Box>
 
-        <Tour flowId="flow_U63A5pndRrvCwxNs" {...options.args} />
+        <Tour
+          flowId="flow_U63A5pndRrvCwxNs"
+          onComplete={(flow, prevFlow) =>
+            console.log("COMPLETE", flow, prevFlow)
+          }
+          {...options.args}
+        />
       </Box>
     ),
   ],

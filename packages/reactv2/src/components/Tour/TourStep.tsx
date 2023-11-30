@@ -2,6 +2,7 @@ import { Flow, FlowStep } from '@frigade/js'
 
 import { TourProps } from '.'
 import { useModal } from '../../hooks/useModal'
+import { useFlowHandlers } from '../../hooks/useFlowHandlers'
 import { useStepHandlers } from '../../hooks/useStepHandlers'
 
 import { Flex } from '../Flex/Flex'
@@ -12,18 +13,26 @@ export interface TourStepProps extends Omit<TourProps, 'flowId'> {
   flow: Flow
 }
 
-export function TourStep({ step, flow, onPrimary, onSecondary, ...props }: TourStepProps) {
+export function TourStep({
+  step,
+  flow,
+  onDismiss,
+  onPrimary,
+  onSecondary,
+  ...props
+}: TourStepProps) {
   const { isCurrentModal } = useModal(`${flow.id}-${step.id}`)
+
+  const { handleDismiss } = useFlowHandlers(flow, {
+    onDismiss,
+  })
+
   const { handlePrimary, handleSecondary } = useStepHandlers(step, {
     onPrimary,
     onSecondary,
   })
 
   if (!isCurrentModal) return null
-
-  async function handleDismiss() {
-    await flow.skip()
-  }
 
   return (
     <Tooltip
