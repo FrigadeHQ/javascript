@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.38.18
+
+### Patch Changes
+
+- 06bcc1a: Fixes an issue where html tags could not display in classic checklists
+
 ## 1.38.17
 
 ### Patch Changes
