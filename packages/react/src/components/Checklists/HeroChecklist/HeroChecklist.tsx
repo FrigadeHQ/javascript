@@ -16,6 +16,7 @@ import {
 import { useTheme } from '../../../hooks/useTheme'
 import { FrigadeChecklistProps } from '../../../FrigadeChecklist'
 import { getClassName, styleOverridesToCSS } from '../../../shared/appearance'
+import { sanitize } from '../../../shared/sanitizer'
 
 export interface HeroChecklistProps extends Omit<DefaultFrigadeFlowProps, 'flowId'> {
   title?: string
@@ -169,15 +170,13 @@ const HeroChecklist: FC<FrigadeChecklistProps> = ({
           <HeroChecklistTitle
             className={getClassName('checklistTitle', appearance)}
             appearance={appearance}
-          >
-            {title}
-          </HeroChecklistTitle>
+            dangerouslySetInnerHTML={sanitize(title)}
+          />
           <HeroChecklistSubtitle
             className={getClassName('checklistSubtitle', appearance)}
             appearance={appearance}
-          >
-            {subtitle}
-          </HeroChecklistSubtitle>
+            dangerouslySetInnerHTML={sanitize(subtitle)}
+          />
           <ProgressBar
             total={steps.length}
             count={completeCount}

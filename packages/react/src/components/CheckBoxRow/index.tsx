@@ -4,6 +4,7 @@ import { CheckBox, CheckBoxType } from '../CheckBox'
 import { Appearance } from '../../types'
 import { getClassName, styleOverridesToCSS } from '../../shared/appearance'
 import { RenderInlineStyles } from '../RenderInlineStyles'
+import { sanitize } from '../../shared/sanitizer'
 
 interface CheckBoxRowProps {
   label?: string
@@ -64,9 +65,8 @@ export const CheckBoxRow: FC<CheckBoxRowProps> = ({
             className={getClassName('checklistStepLabel', appearance)}
             styleOverrides={labelStyle}
             appearnace={appearance}
-          >
-            {label}
-          </Label>
+            dangerouslySetInnerHTML={sanitize(label)}
+          />
         )}
         <CheckBox
           appearance={appearance}
@@ -79,9 +79,8 @@ export const CheckBoxRow: FC<CheckBoxRowProps> = ({
             className={getClassName('checklistStepLabel', appearance)}
             styleOverrides={labelStyle}
             appearance={appearance}
-          >
-            {label}
-          </Label>
+            dangerouslySetInnerHTML={sanitize(label)}
+          />
         )}
       </CheckBoxRowContainer>
       <RenderInlineStyles appearance={appearance} />
