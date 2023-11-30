@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.2.0
+
+### Minor Changes
+
+- f53a5e5: Refactor event handlers to support global/flow/step specific changes
+
 ## 0.1.4
 
 ### Patch Changes
