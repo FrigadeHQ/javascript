@@ -1,5 +1,5 @@
 import { FrigadeConfig, UserFlowState } from '../types'
-import Flow from '../core/flow'
+import { Flow } from '../core/flow'
 import { FlowStep } from '../core/flow-step'
 
 export interface FrigadeGlobalState {

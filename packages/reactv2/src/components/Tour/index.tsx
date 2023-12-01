@@ -1,4 +1,4 @@
-import { Flow } from '@frigade/js'
+import type { Flow } from '@frigade/js'
 
 import { useFlow } from '../../hooks/useFlow'
 import { TooltipProps } from '../Tooltip'

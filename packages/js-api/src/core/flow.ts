@@ -12,7 +12,7 @@ import {
 import { FlowStep } from './flow-step'
 import { Fetchable } from '../shared/Fetchable'
 
-export default class Flow extends Fetchable {
+export class Flow extends Fetchable {
   /**
    * THe Flow ID / slug of the flow
    */

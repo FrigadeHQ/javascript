@@ -1,6 +1,6 @@
 import { FrigadeConfig, UserFlowState } from '../types'
 import { cloneFlow, generateGuestId, resetAllLocalStorage } from '../shared/utils'
-import Flow from './flow'
+import { Flow } from './flow'
 import { FlowDataRaw } from './types'
 import { frigadeGlobalState, getGlobalStateKey } from '../shared/state'
 import { Fetchable } from '../shared/Fetchable'

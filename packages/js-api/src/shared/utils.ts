@@ -1,7 +1,7 @@
 import { VERSION_NUMBER } from '../core/version'
 import fetch from 'cross-fetch'
 import { v4 as uuidv4 } from 'uuid'
-import Flow from '../core/flow'
+import { Flow } from '../core/flow'
 
 export const NOT_STARTED_STEP = 'NOT_STARTED_STEP'
 export const COMPLETED_FLOW = 'COMPLETED_FLOW'

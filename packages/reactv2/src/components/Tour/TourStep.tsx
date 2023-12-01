@@ -1,4 +1,4 @@
-import { Flow, FlowStep } from '@frigade/js'
+import type { Flow, FlowStep } from '@frigade/js'
 
 import { TourProps } from '.'
 import { useModal } from '../../hooks/useModal'
