@@ -1,6 +1,6 @@
 import { MouseEvent, useCallback, useEffect, useRef } from 'react'
 
-import { Flow } from '@frigade/js/src'
+import { Flow } from '@frigade/js'
 
 export type FlowHandler = (flow: Flow, event?: MouseEvent<unknown>) => boolean | void
 

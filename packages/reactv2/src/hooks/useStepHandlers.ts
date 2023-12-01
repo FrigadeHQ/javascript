@@ -1,6 +1,6 @@
 import { MouseEvent, useCallback, useContext } from 'react'
 
-import type { FlowStep } from '@frigade/js/src'
+import type { FlowStep } from '@frigade/js'
 
 import { FrigadeContext } from '../components/Provider'
 

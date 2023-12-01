@@ -9,7 +9,7 @@ import { StepHandler } from '../../hooks/useStepHandlers'
 
 export interface TourProps extends TooltipProps {
   flowId: string
-  onComplete?: (flow?: Flow, previousFlow?: Flow) => void
+  onComplete?: FlowHandler
   onDismiss?: FlowHandler
   onPrimary?: StepHandler
   onSecondary?: StepHandler
