@@ -8,34 +8,26 @@ type NavigateHandler = (url: string, target?: string) => void
 // TODO: type theme something like Partial<typeof themeTokens>, but allow any value for those keys
 export interface ProviderProps {
   apiKey: string
+  apiUrl?: string
   children?: React.ReactNode
-  config?: ProviderConfig
   navigate?: NavigateHandler
   theme?: Record<any, any>
-}
-
-interface ProviderConfig {
-  apiUrl?: string
   userId?: string
 }
 
-interface ProviderContext {
-  apiKey: string
-  config: ProviderConfig
+interface ProviderContext extends Omit<ProviderProps, 'children' | 'theme'> {
   modals: string[]
   setModals: Dispatch<SetStateAction<string[]>>
-  navigate: NavigateHandler
 }
 
 export const FrigadeContext = createContext<ProviderContext>({
   apiKey: '',
-  config: {},
   modals: [],
   setModals: () => {},
   navigate: () => {},
 })
 
-export function Provider({ apiKey, children, config = {}, navigate, theme }: ProviderProps) {
+export function Provider({ children, navigate, theme, ...props }: ProviderProps) {
   const themeOverrides = theme ? createThemeVariables(theme) : {}
   const [modals, setModals] = useState([])
 
@@ -46,9 +38,7 @@ export function Provider({ apiKey, children, config = {}, navigate, theme }: Pro
     })
 
   return (
-    <FrigadeContext.Provider
-      value={{ apiKey, config, modals, setModals, navigate: navigateHandler }}
-    >
+    <FrigadeContext.Provider value={{ modals, setModals, navigate: navigateHandler, ...props }}>
       <Global styles={{ ':root': { ...themeVariables, ...themeOverrides } }} />
       <ThemeProvider theme={themeTokens}>{children}</ThemeProvider>
     </FrigadeContext.Provider>

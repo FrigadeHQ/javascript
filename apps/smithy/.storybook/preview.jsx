@@ -3,8 +3,6 @@ import "./global.css";
 import * as React from "react";
 import { Provider } from "@frigade/reactv2";
 
-// userId="jonathan_livingston_smeagol"
-
 // LOCAL DEV
 // const FRIGADE_API_KEY =
 //   "api_public_0FaxqVs527bAVQsFK4RcuJYjVqHeC5U7CGJLfsVXRE36eAKiLjwAEugZYeFijCI2";
@@ -30,10 +28,8 @@ const preview = {
       return (
         <Provider
           apiKey={FRIGADE_API_KEY}
-          config={{
-            apiUrl: API_URL,
-            userId: "jonathan_livingston_smeagol",
-          }}
+          apiUrl={API_URL}
+          userId="jonathan_livingston_smeagol"
         >
           <Story />
         </Provider>

@@ -5,15 +5,17 @@ import { frigadeGlobalState, FrigadeGlobalState, getGlobalStateKey } from './sta
 export class Fetchable {
   public config: FrigadeConfig = {
     apiKey: '',
-    apiUrl: '//api.frigade.com/v1/public',
+    apiUrl: 'https://api.frigade.com/v1/public',
     userId: generateGuestId(),
     __instanceId: Math.random().toString(36).substring(7),
   }
 
   constructor(config: FrigadeConfig) {
+    const filteredConfig = Object.fromEntries(Object.entries(config).filter(([_, v]) => v != null))
+
     this.config = {
       ...this.config,
-      ...config,
+      ...filteredConfig,
     }
   }
 

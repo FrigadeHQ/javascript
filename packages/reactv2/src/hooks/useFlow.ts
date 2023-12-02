@@ -5,12 +5,9 @@ import { FrigadeContext } from '../components/Provider'
 
 export function useFlow(flowId: string) {
   const [flow, setFlow] = useState<Flow>()
-  const { apiKey, config } = useContext(FrigadeContext)
-  const filteredConfig = Object.fromEntries(
-    Object.entries(config).filter(([k, v]) => ['apiUrl', 'userId'].includes(k) && v != null)
-  )
+  const { apiKey, apiUrl, userId } = useContext(FrigadeContext)
 
-  const frigadeRef = useRef(new Frigade(apiKey, filteredConfig))
+  const frigadeRef = useRef(new Frigade(apiKey, { apiUrl, userId }))
   const frigade = frigadeRef.current
 
   const handler = (updatedFlow: Flow) => {
