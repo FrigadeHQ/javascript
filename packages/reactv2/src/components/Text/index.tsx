@@ -1,7 +1,6 @@
 import { Box, BoxProps } from '../Box'
 
 import * as styles from './Text.styles'
-import { sanitize } from '../../shared/sanitize'
 
 type TextVariant =
   | 'Display1'
@@ -19,12 +18,6 @@ export interface TextProps extends BoxProps {
 }
 
 function BaseText({ as = 'span', children, variant = 'Body1', ...props }: TextProps) {
-  if (typeof children === 'string') {
-    return (
-      <Box as={as} {...styles[variant]} {...props} dangerouslySetInnerHTML={sanitize(children)} />
-    )
-  }
-
   return (
     <Box as={as} {...styles[variant]} {...props}>
       {children}
