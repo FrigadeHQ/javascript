@@ -1,7 +1,12 @@
 import { createContext, Dispatch, SetStateAction, useState } from 'react'
 import { Global, ThemeProvider } from '@emotion/react'
 
-import { createThemeVariables, theme as themeTokens, themeVariables } from '../../shared/theme'
+import {
+  createThemeVariables,
+  theme as themeTokens,
+  type Theme,
+  themeVariables,
+} from '../../shared/theme'
 
 type NavigateHandler = (url: string, target?: string) => void
 
@@ -11,7 +16,7 @@ export interface ProviderProps {
   apiUrl?: string
   children?: React.ReactNode
   navigate?: NavigateHandler
-  theme?: Record<any, any>
+  theme?: Theme
   userId?: string
 }
 
