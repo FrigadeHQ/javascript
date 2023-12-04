@@ -18,8 +18,10 @@ In order to run both versions of the Frigade React SDK at the same time, add V2 
 
 ```json
 "dependencies": [
-  "@frigade/react": "1.38.17",
-  "@frigade/react/v2": "npm:@frigade/react@2.0.0-alpha.8",
+  "@frigade/react": "^1.XX.XX",
+
+  // Replace "XX" with latest alpha version
+  "@frigade/react/v2": "npm:@frigade/react@2.0.0-alpha.XX",
 ]
 ```
 
