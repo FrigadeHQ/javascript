@@ -1,7 +1,6 @@
-const colorVar = (colorName) => `var(--fr-colors-${colorName})`
+const colorVar = (colorName: string) => `var(--fr-colors-${colorName})`
 
-// Semantic = Tokens that reference Scalars & contextualize them according to how they're used
-export const semanticColors = {
+export const semantic = {
   neutral: {
     background: colorVar('white'),
     border: colorVar('gray500'),

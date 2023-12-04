@@ -1,5 +1,3 @@
-import type { Flow } from '@frigade/js'
-
 import { useFlow } from '../../hooks/useFlow'
 import { TooltipProps } from '../Tooltip'
 import { TourStep } from './TourStep'

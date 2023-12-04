@@ -1,13 +1,25 @@
-import { scalarTokens } from './scalarTokens'
-import { semanticColors } from './semanticColors'
-
-export { scalarTokens, semanticColors }
+import { borders } from './borders'
+import { palette } from './palette'
+import { radii } from './radii'
+import { semantic } from './semantic'
+import { shadows } from './shadows'
+import { space } from './space'
+import { typography } from './typography'
 
 // Package up everything everywhere all at once for convenience
 export const tokens = {
-  ...scalarTokens,
+  ...borders,
+
   colors: {
-    ...scalarTokens.colors,
-    ...semanticColors,
+    ...palette,
+    ...semantic,
   },
+
+  ...typography,
+
+  radii,
+  shadows,
+  space,
 }
+
+export type Tokens = typeof tokens
