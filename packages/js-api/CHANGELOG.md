@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.2.1
+
+### Patch Changes
+
+- 53b68ac: Automatically refresh flows on focus and dedupe identical calls
+
 ## 0.2.0
 
 ### Minor Changes
