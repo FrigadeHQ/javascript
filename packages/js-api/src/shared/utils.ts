@@ -2,6 +2,7 @@ import { VERSION_NUMBER } from '../core/version'
 import fetch from 'cross-fetch'
 import { v4 as uuidv4 } from 'uuid'
 import { Flow } from '../core/flow'
+import { frigadeGlobalState } from './state'
 
 export const NOT_STARTED_STEP = 'NOT_STARTED_STEP'
 export const COMPLETED_FLOW = 'COMPLETED_FLOW'
@@ -58,14 +59,20 @@ function setLocalStorage(key: string, value: string) {
   }
 }
 
+function setGlobalState(key: string, value: any) {
+  frigadeGlobalState[key] = value
+}
+
+function getGlobalState(key: string): any {
+  return frigadeGlobalState[key]
+}
+
 function clearAllGetCache() {
-  if (isWeb()) {
-    Object.keys(window.localStorage).forEach((key) => {
-      if (key.startsWith(GET_CACHE_PREFIX)) {
-        window.localStorage.removeItem(key)
-      }
-    })
-  }
+  Object.keys(frigadeGlobalState).forEach((key) => {
+    if (key.startsWith(GET_CACHE_PREFIX)) {
+      delete frigadeGlobalState[key]
+    }
+  })
 }
 
 export function resetAllLocalStorage() {
@@ -99,22 +106,32 @@ export async function gracefulFetch(url: string, options: any) {
     clearAllGetCache()
   }
 
+  let response
+
   const isGetCall = options?.method === 'GET' || !options?.method
   if (isWeb() && isGetCall) {
-    const cachedResponse = getLocalStorage(`${GET_CACHE_PREFIX}${url}`)
+    const cachedResponse = getGlobalState(`${GET_CACHE_PREFIX}${url}`)
     if (cachedResponse) {
-      const parsedResponse = JSON.parse(cachedResponse)
       const now = new Date()
-      const diff = now.getTime() - parsedResponse.timestamp
+      const diff = now.getTime() - cachedResponse.timestamp
       if (diff < GET_CACHE_TTL_MS) {
-        return parsedResponse.response
+        response = cachedResponse.response
       }
     }
   }
 
-  let response
   try {
-    response = await fetch(url, options)
+    if (!response) {
+      response = fetch(url, options)
+      if (isWeb() && isGetCall) {
+        setGlobalState(`${GET_CACHE_PREFIX}${url}`, {
+          timestamp: new Date().getTime(),
+          response: response,
+          body: null,
+        })
+      }
+    }
+    response = await response
   } catch (error) {
     return getEmptyResponse(error)
   }
@@ -127,17 +144,24 @@ export async function gracefulFetch(url: string, options: any) {
     return getEmptyResponse(response.statusText)
   }
 
-  const responseJson = await response.json()
-
-  // If the call is a GET, cache the response in local storage
-  if (isWeb() && isGetCall) {
-    setLocalStorage(
-      `${GET_CACHE_PREFIX}${url}`,
-      JSON.stringify({ timestamp: new Date().getTime(), response: responseJson })
-    )
+  try {
+    const body = await response.json()
+    if (body.error) {
+      return getEmptyResponse(body.error)
+    }
+    setGlobalState(`${GET_CACHE_PREFIX}${url}`, {
+      timestamp: new Date().getTime(),
+      response: response,
+      body: body,
+    })
+    return body
+  } catch (e) {
+    const updatedBody = getGlobalState(`${GET_CACHE_PREFIX}${url}`).body
+    if (updatedBody) {
+      return updatedBody
+    }
+    return getEmptyResponse(e)
   }
-
-  return responseJson
 }
 
 function getEmptyResponse(error?: any) {
@@ -169,6 +193,6 @@ export function fetcher(apiKey: string, path: string, options?: Record<any, any>
   })
 }
 
-function isWeb() {
+export function isWeb() {
   return typeof window !== 'undefined'
 }

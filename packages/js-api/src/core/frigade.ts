@@ -1,5 +1,5 @@
 import { FrigadeConfig, UserFlowState } from '../types'
-import { cloneFlow, generateGuestId, resetAllLocalStorage } from '../shared/utils'
+import { cloneFlow, generateGuestId, isWeb, resetAllLocalStorage } from '../shared/utils'
 import { Flow } from './flow'
 import { FlowDataRaw } from './types'
 import { frigadeGlobalState, getGlobalStateKey } from '../shared/state'
@@ -16,6 +16,14 @@ export class Frigade extends Fetchable {
     })
 
     this.init(this.config)
+    if (isWeb()) {
+      document.addEventListener('visibilitychange', async () => {
+        if (document.visibilityState === 'visible') {
+          await this.refreshFlows()
+          await this.refreshUserFlowStates()
+        }
+      })
+    }
   }
 
   private async init(config: FrigadeConfig): Promise<void> {
