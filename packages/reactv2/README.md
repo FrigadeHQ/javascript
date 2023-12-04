@@ -35,7 +35,7 @@ export const App = () => {
   const userId = '...'
 
   return (
-    <Frigade.Provider apiKey={FRIGADE_API_KEY} config={{ userId }}>
+    <Frigade.Provider apiKey={FRIGADE_API_KEY} userId={userId}}>
       <FrigadeProvider publicApiKey={FRIGADE_API_KEY} userId={userId}>
         {/* ... */}
       </FrigadeProvider>
