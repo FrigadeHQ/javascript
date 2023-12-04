@@ -80,13 +80,16 @@ export function Tooltip({
     <Popover.Root defaultOpen={true} {...rootProps}>
       <Popover.Anchor virtualRef={anchorElementRef} />
       <Popover.Portal>
-        <div className={className} css={{ position: 'absolute', zIndex: 9999 }}>
+        <div
+          className={className}
+          css={{ bottom: 0, left: 0, position: 'absolute', right: 0, top: 0, zIndex: 9999 }}
+        >
           {spotlight && (
             <Box
-              borderRadius={anchorRadius}
               part="tooltip-spotlight"
               position="absolute"
               css={{
+                borderRadius: anchorRadius,
                 boxShadow: '0 0 0 2000px rgb(0 0 0 / 0.5)',
                 height: anchorRect.height,
                 left: anchorRect.left,

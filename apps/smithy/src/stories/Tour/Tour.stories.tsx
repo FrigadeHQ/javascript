@@ -19,13 +19,10 @@ export const Default = {
           height: "100vh",
         }}
       >
-        <Box p={4} style={{ background: "pink", width: "20vw" }}>
-          Not the anchor
-        </Box>
         <Box
           id="tooltip-storybook-0"
           p={4}
-          style={{ background: "#f0f0f0", width: "20vw" }}
+          style={{ background: "pink", width: "20vw" }}
         >
           Anchor here
         </Box>
