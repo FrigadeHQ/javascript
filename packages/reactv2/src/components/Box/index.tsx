@@ -2,6 +2,7 @@ import * as React from 'react'
 import { clsx } from 'clsx'
 
 import { stylePropsToCss } from './stylePropsToCss'
+import { sanitize } from '../../shared/sanitize'
 
 function prefixPart(part: string | undefined) {
   return part ? `fr-${part}` : part
@@ -30,6 +31,18 @@ function BoxWithRef<T extends React.ElementType = React.ElementType>(
   const classNameWithPart = className || processedPart ? clsx(className, processedPart) : undefined
 
   const cssProp = [{ boxSizing: 'border-box' }, cssFromProps]
+
+  if (typeof children === 'string') {
+    return (
+      <Component
+        className={classNameWithPart}
+        css={cssProp}
+        {...unmatchedProps}
+        ref={ref}
+        dangerouslySetInnerHTML={sanitize(children)}
+      />
+    )
+  }
 
   return (
     // @ts-ignore: TODO: ref types are yet again complaining

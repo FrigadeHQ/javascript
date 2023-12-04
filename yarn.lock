@@ -3436,6 +3436,7 @@ __metadata:
     "@types/react-dom": ^18.2.14
     clsx: ^2.0.0
     core-js-pure: ^3.33.0
+    dompurify: ^3.0.6
     jest: ^29.6.2
     jest-config: ^29.6.2
     jest-environment-jsdom: ^29.6.2
@@ -9960,7 +9961,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dompurify@npm:^3.0.1":
+"dompurify@npm:^3.0.1, dompurify@npm:^3.0.6":
   version: 3.0.6
   resolution: "dompurify@npm:3.0.6"
   checksum: e5c6cdc5fe972a9d0859d939f1d86320de275be00bbef7bd5591c80b1e538935f6ce236624459a1b0c84ecd7c6a1e248684aa4637512659fccc0ce7c353828a6
