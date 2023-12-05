@@ -1,4 +1,4 @@
-import { createContext, Dispatch, SetStateAction, useEffect, useState } from 'react'
+import { createContext, Dispatch, SetStateAction, useState } from 'react'
 import { Global, ThemeProvider } from '@emotion/react'
 
 import {
@@ -25,8 +25,6 @@ export interface ProviderProps {
 interface ProviderContext extends Omit<ProviderProps, 'children' | 'theme'> {
   modals: string[]
   setModals: Dispatch<SetStateAction<string[]>>
-  setUserId: Dispatch<SetStateAction<string>>
-  setGroupId: Dispatch<SetStateAction<string>>
   getConfig: () => FrigadeConfig
 }
 
@@ -35,15 +33,11 @@ export const FrigadeContext = createContext<ProviderContext>({
   modals: [],
   setModals: () => {},
   navigate: () => {},
-  setUserId: () => {},
-  setGroupId: () => {},
   getConfig: () => ({}),
 })
 
 export function Provider({ children, navigate, theme, ...props }: ProviderProps) {
   const themeOverrides = theme ? createThemeVariables(theme) : {}
-  const [userIdValue, setUserIdValue] = useState(props.userId)
-  const [groupIdValue, setGroupIdValue] = useState(props.groupId)
   const [modals, setModals] = useState([])
 
   const navigateHandler =
@@ -52,14 +46,6 @@ export function Provider({ children, navigate, theme, ...props }: ProviderProps)
       window.open(url, target)
     })
 
-  useEffect(() => {
-    setUserIdValue(props.userId)
-  }, [props.userId])
-
-  useEffect(() => {
-    setGroupIdValue(props.groupId)
-  }, [props.groupId])
-
   return (
     <FrigadeContext.Provider
       value={{
@@ -67,16 +53,12 @@ export function Provider({ children, navigate, theme, ...props }: ProviderProps)
         setModals,
         navigate: navigateHandler,
         ...props,
-        userId: userIdValue,
-        setUserId: setUserIdValue,
-        groupId: groupIdValue,
-        setGroupId: setGroupIdValue,
         getConfig: () =>
           ({
             apiKey: props.apiKey,
             apiUrl: props.apiUrl,
-            userId: userIdValue,
-            groupId: groupIdValue,
+            userId: props.userId,
+            groupId: props.groupId,
           } as FrigadeConfig),
       }}
     >
