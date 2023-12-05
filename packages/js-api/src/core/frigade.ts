@@ -55,12 +55,12 @@ export class Frigade extends Fetchable {
 
   public async group(organizationId: string, properties?: Record<string, any>): Promise<void> {
     await this.initIfNeeded()
-    this.config.organizationId = organizationId
+    this.config.groupId = organizationId
     await this.fetch('/userGroups', {
       method: 'POST',
       body: JSON.stringify({
         foreignUserId: this.config.userId,
-        foreignUserGroupId: this.config.organizationId,
+        foreignUserGroupId: this.config.groupId,
         properties,
       }),
     })
@@ -73,7 +73,7 @@ export class Frigade extends Fetchable {
       method: 'POST',
       body: JSON.stringify({
         foreignUserId: this.config.userId,
-        foreignUserGroupId: this.config.organizationId,
+        foreignUserGroupId: this.config.groupId,
         event,
         properties,
       }),
@@ -94,7 +94,7 @@ export class Frigade extends Fetchable {
   public async reset() {
     resetAllLocalStorage()
     this.config.userId = generateGuestId()
-    this.config.organizationId = undefined
+    this.config.groupId = undefined
   }
 
   public onStateChange(handler: (flow: Flow, previousFlow?: Flow) => void) {
@@ -148,7 +148,7 @@ export class Frigade extends Fetchable {
       frigadeGlobalState[globalStateKey].refreshUserFlowStates = async () => {
         const userFlowStatesRaw = await this.fetch(
           `/userFlowStates?foreignUserId=${this.config.userId}${
-            this.config.organizationId ? `&foreignUserGroupId=${this.config.organizationId}` : ''
+            this.config.groupId ? `&foreignUserGroupId=${this.config.groupId}` : ''
           }`
         )
         if (userFlowStatesRaw && userFlowStatesRaw.data) {

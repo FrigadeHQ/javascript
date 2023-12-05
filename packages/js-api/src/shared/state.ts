@@ -21,6 +21,6 @@ export let frigadeGlobalState: Record<string, FrigadeGlobalState> = {}
 
 export function getGlobalStateKey(internalConfig: FrigadeConfig): string {
   return `${internalConfig.__instanceId}-${internalConfig.apiKey}:${internalConfig.userId ?? ''}:${
-    internalConfig.organizationId ?? ''
+    internalConfig.groupId ?? ''
   }`
 }

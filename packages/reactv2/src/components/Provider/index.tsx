@@ -7,6 +7,7 @@ import {
   type Theme,
   themeVariables,
 } from '../../shared/theme'
+import { FrigadeConfig } from '@frigade/js'
 
 type NavigateHandler = (url: string, target?: string) => void
 
@@ -18,11 +19,13 @@ export interface ProviderProps {
   navigate?: NavigateHandler
   theme?: Theme
   userId?: string
+  groupId?: string
 }
 
 interface ProviderContext extends Omit<ProviderProps, 'children' | 'theme'> {
   modals: string[]
   setModals: Dispatch<SetStateAction<string[]>>
+  getConfig: () => FrigadeConfig
 }
 
 export const FrigadeContext = createContext<ProviderContext>({
@@ -30,6 +33,7 @@ export const FrigadeContext = createContext<ProviderContext>({
   modals: [],
   setModals: () => {},
   navigate: () => {},
+  getConfig: () => ({}),
 })
 
 export function Provider({ children, navigate, theme, ...props }: ProviderProps) {
@@ -43,7 +47,21 @@ export function Provider({ children, navigate, theme, ...props }: ProviderProps)
     })
 
   return (
-    <FrigadeContext.Provider value={{ modals, setModals, navigate: navigateHandler, ...props }}>
+    <FrigadeContext.Provider
+      value={{
+        modals,
+        setModals,
+        navigate: navigateHandler,
+        ...props,
+        getConfig: () =>
+          ({
+            apiKey: props.apiKey,
+            apiUrl: props.apiUrl,
+            userId: props.userId,
+            groupId: props.groupId,
+          } as FrigadeConfig),
+      }}
+    >
       <Global styles={{ ':root': { ...themeVariables, ...themeOverrides } }} />
       <ThemeProvider theme={themeTokens}>{children}</ThemeProvider>
     </FrigadeContext.Provider>
