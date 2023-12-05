@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.38.19
+
+### Patch Changes
+
+- c43f2c7: Fixes an issue where tours prevented the page from scrolling
+
 ## 1.38.18
 
 ### Patch Changes
