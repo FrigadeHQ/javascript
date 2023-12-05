@@ -156,6 +156,7 @@ export async function gracefulFetch(url: string, options: any) {
     })
     return body
   } catch (e) {
+    await new Promise((resolve) => setTimeout(resolve, 2))
     const updatedBody = getGlobalState(`${GET_CACHE_PREFIX}${url}`).body
     if (updatedBody) {
       return updatedBody
