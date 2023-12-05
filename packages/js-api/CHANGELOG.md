@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.2.3
+
+### Patch Changes
+
+- 2730204: Fixes a race condition caused by the deduplicator
+
 ## 0.2.2
 
 ### Patch Changes
