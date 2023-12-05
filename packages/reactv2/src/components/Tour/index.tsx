@@ -15,7 +15,9 @@ export interface TourProps extends TooltipProps {
 }
 
 export function Tour({ flowId, onComplete, variables, ...props }: TourProps) {
-  const { flow } = useFlow(flowId, variables)
+  const { flow } = useFlow(flowId, {
+    variables,
+  })
   useFlowHandlers(flow, { onComplete })
 
   if (flow == null || flow.isVisible === false) {
