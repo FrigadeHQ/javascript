@@ -1,7 +1,7 @@
 import { Box, Text } from "@frigade/reactv2";
 
 export default {
-  title: "Components/Box",
+  title: "Design System/Box",
   component: Box,
 };
 

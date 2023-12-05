@@ -15,6 +15,7 @@ export const styleProps = {
   border: theme.borders,
   borderRadius: theme.radii,
   borderWidth: theme.borderWidths,
+  boxShadow: theme.shadows,
 
   fontFamily: theme.fontFamilies,
   fontSize: theme.fontSizes,

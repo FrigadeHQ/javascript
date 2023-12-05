@@ -1,7 +1,7 @@
 import { Flex, Text } from "@frigade/reactv2";
 
 export default {
-  title: "Components/Flex",
+  title: "Design System/Flex",
   component: Flex,
 };
 

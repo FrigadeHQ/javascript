@@ -1,7 +1,7 @@
 import { Box, Button } from "@frigade/reactv2";
 
 export default {
-  title: "Components/Button",
+  title: "Design System/Button",
   component: Button,
 };
 

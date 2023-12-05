@@ -7,6 +7,7 @@ import * as Popover from '@radix-ui/react-popover'
 import { useBoundingClientRect } from '../../hooks/useBoundingClientRect'
 import { Box } from '../Box'
 import { Button, ButtonProps } from '../Button'
+import { Card } from '../Card'
 import { Dot } from './Dot'
 import { Flex } from '../Flex/Flex'
 import { Media, MediaProps } from '../Media'
@@ -99,14 +100,10 @@ export function Tooltip({
             />
           )}
           <Popover.Content asChild {...contentProps} ref={contentRef}>
-            <Flex.Column
-              backgroundColor="neutral.background"
-              borderRadius="md"
-              p={5}
+            <Card
               part="tooltip-content"
               position="relative"
               css={{
-                boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)',
                 maxWidth: '360px',
                 ...style,
               }}
@@ -114,7 +111,7 @@ export function Tooltip({
               <Dot style={dotPosition} />
 
               {children}
-            </Flex.Column>
+            </Card>
           </Popover.Content>
         </div>
       </Popover.Portal>
