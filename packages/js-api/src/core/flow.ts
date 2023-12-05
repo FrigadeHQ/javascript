@@ -59,6 +59,8 @@ export class Flow extends Fetchable {
   private lastStepUpdate: Map<(step: FlowStep, previousStep: FlowStep) => void, FlowStep> =
     new Map()
 
+  private lastUsedVariables = {}
+
   constructor(config: FrigadeConfig, flowDataRaw: FlowDataRaw) {
     super(config)
     this.flowDataRaw = flowDataRaw
@@ -219,6 +221,10 @@ export class Flow extends Fetchable {
       newSteps.set(step.id, stepObj)
     })
     this.steps = newSteps
+    // Check if empty object
+    if (Object.keys(this.lastUsedVariables).length > 0) {
+      this.applyVariables(this.lastUsedVariables)
+    }
   }
 
   /**
@@ -373,6 +379,34 @@ export class Flow extends Fetchable {
       this.getGlobalState().onFlowStateChangeHandlers =
         this.getGlobalState().onFlowStateChangeHandlers.filter((h) => h !== wrapperHandler)
     }
+  }
+
+  public applyVariables(variables: Record<string, any>) {
+    // Replace ${variable} with the value of the variable
+    const replaceVariables = (str: string) => {
+      const matches = str.match(/\${(.*?)}/g)
+      if (matches) {
+        matches.forEach((match) => {
+          const variable = match.replace('${', '').replace('}', '')
+          str = str.replace(match, variables[variable] ?? '')
+        })
+      }
+      return str
+    }
+
+    this.title = replaceVariables(this.title ?? '')
+    this.subtitle = replaceVariables(this.subtitle ?? '')
+    this.steps.forEach((step) => {
+      // Iterate over every string field in the step and replace variables
+      Object.keys(step).forEach((key) => {
+        if (typeof step[key] === 'string') {
+          // @ts-ignore
+          step[key] = replaceVariables(step[key])
+        }
+      })
+    })
+
+    this.lastUsedVariables = variables
   }
 
   private getUserFlowState(): UserFlowState {

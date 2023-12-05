@@ -152,3 +152,26 @@ test('handle step event changes', async () => {
   await flow.steps.get(testFlowStepId).complete()
   expect(callback).toHaveBeenCalledTimes(2)
 })
+
+test('custom variables get substituted', async () => {
+  const frigade = new Frigade(testAPIKey, {
+    userId: getRandomID(),
+  })
+  const flow = await frigade.getFlow(testFlowId)
+  expect(flow).toBeDefined()
+  expect(flow.getStepByIndex(0)).toBeDefined()
+  expect(flow.getStepByIndex(0).subtitle).toContain('${email}')
+  expect(flow.getStepByIndex(0).subtitle).toContain('${name}')
+  const step = flow.steps.get(testFlowStepId)
+  const customVariables = {
+    name: 'John Doe',
+    email: 'john@doe.com',
+  }
+  flow.applyVariables(customVariables)
+  expect(step.subtitle).toContain(customVariables.email)
+  expect(step.subtitle).toContain(customVariables.name)
+  // Complete the first step. Expect content to still be substituted.
+  await step.complete()
+  expect(step.subtitle).toContain(customVariables.email)
+  expect(step.subtitle).toContain(customVariables.name)
+})
