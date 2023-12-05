@@ -106,8 +106,6 @@ export async function gracefulFetch(url: string, options: any) {
     clearAllGetCache()
   }
 
-  let response
-
   const isGetCall = options?.method === 'GET' || !options?.method
   if (isWeb() && isGetCall) {
     const cachedResponse = getGlobalState(`${GET_CACHE_PREFIX}${url}`)
@@ -115,22 +113,24 @@ export async function gracefulFetch(url: string, options: any) {
       const now = new Date()
       const diff = now.getTime() - cachedResponse.timestamp
       if (diff < GET_CACHE_TTL_MS) {
-        response = cachedResponse.response
+        return cachedResponse.response
       }
     }
   }
 
+  let response
   try {
-    if (!response) {
-      response = fetch(url, options)
-      if (isWeb() && isGetCall) {
-        setGlobalState(`${GET_CACHE_PREFIX}${url}`, {
-          timestamp: new Date().getTime(),
-          response: response,
-          body: null,
-        })
-      }
+    response = fetch(url, options)
+    if (isWeb() && isGetCall) {
+      const responsePromise = response.then((res) => {
+        return res.clone().json()
+      })
+      setGlobalState(`${GET_CACHE_PREFIX}${url}`, {
+        response: responsePromise,
+        timestamp: new Date().getTime(),
+      })
     }
+
     response = await response
   } catch (error) {
     return getEmptyResponse(error)
@@ -140,7 +140,7 @@ export async function gracefulFetch(url: string, options: any) {
     return getEmptyResponse()
   }
 
-  if (response.staus >= 400) {
+  if (response.status >= 400) {
     return getEmptyResponse(response.statusText)
   }
 
@@ -149,18 +149,8 @@ export async function gracefulFetch(url: string, options: any) {
     if (body.error) {
       return getEmptyResponse(body.error)
     }
-    setGlobalState(`${GET_CACHE_PREFIX}${url}`, {
-      timestamp: new Date().getTime(),
-      response: response,
-      body: body,
-    })
     return body
   } catch (e) {
-    await new Promise((resolve) => setTimeout(resolve, 2))
-    const updatedBody = getGlobalState(`${GET_CACHE_PREFIX}${url}`).body
-    if (updatedBody) {
-      return updatedBody
-    }
     return getEmptyResponse(e)
   }
 }
