@@ -53,7 +53,9 @@ export function TourStep({
       <Tooltip.Subtitle>{step.subtitle}</Tooltip.Subtitle>
 
       <Flex.Row alignItems="center" gap={3} justifyContent="flex-end" part="tooltip-footer" pt={4}>
-        <Tooltip.Progress>{`${step?.order + 1}/${flow.steps.size}`}</Tooltip.Progress>
+        <Tooltip.Progress>{`${
+          flow.getNumberOfCompletedSteps() + 1
+        }/${flow.getNumberOfAvailableSteps()}`}</Tooltip.Progress>
 
         <Tooltip.Secondary
           marginLeft="auto"
