@@ -342,7 +342,7 @@ export class Flow extends Fetchable {
    */
   public getCurrentStep(): FlowStep {
     const lastStepId = Array.from(this.steps.keys()).find(
-      (key) => this.steps.get(key).isCompleted === false
+      (key) => this.steps.get(key).isCompleted === false && this.steps.get(key).isHidden === false
     )
 
     const currentStepId = lastStepId ?? Array.from(this.steps.keys())[0]
@@ -354,6 +354,13 @@ export class Flow extends Fetchable {
    */
   public getNumberOfCompletedSteps(): number {
     return Array.from(this.steps.values()).filter((step) => step.isCompleted).length
+  }
+
+  /**
+   * Get the number of available steps for the current user in the current flow. This is the number of steps that are not hidden.
+   */
+  public getNumberOfAvailableSteps(): number {
+    return Array.from(this.steps.values()).filter((step) => !step.isHidden).length
   }
 
   public onStateChange(handler: (flow: Flow, previousFlow: Flow) => void) {
