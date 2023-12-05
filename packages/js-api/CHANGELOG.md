@@ -1,5 +1,12 @@
 # @frigade/js
 
+## 0.2.2
+
+### Patch Changes
+
+- c4df5e2: Support visibilityCriteria from config.yml on steps
+- b31207a: Support visibilityCriteria from config.yml on steps
+
 ## 0.2.1
 
 ### Patch Changes
