@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.38.20
+
+### Patch Changes
+
+- 27f4ebe: Fixes an issue where non-optional dropdowns were still allowing users to continue
+
 ## 1.38.19
 
 ### Patch Changes
