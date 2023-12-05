@@ -93,14 +93,12 @@ export function MultipleChoice({
   }, [])
 
   useEffect(() => {
-    if (!hasSelected) {
-      return
-    }
     if (input.requireSelection && inputData?.choice?.[0] === NULL_VALUE) {
       setFormValidationErrors([
         {
           message: 'Please select an option',
           id: input.id,
+          hidden: true,
         },
       ])
     } else {
@@ -112,7 +110,7 @@ export function MultipleChoice({
     <MultipleChoiceWrapper>
       <Label
         title={input.title}
-        required={false} // MultipleChoice is always required as it has a default value
+        required={input.required}
         appearance={customFormTypeProps.appearance}
       />
       <MultipleChoiceSelect
