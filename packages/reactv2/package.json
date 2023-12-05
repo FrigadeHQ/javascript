@@ -59,7 +59,7 @@
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
-    "@frigade/js": "*",
+    "@frigade/js": "latest",
     "@heroicons/react": "^2.0.18",
     "@radix-ui/react-popover": "^1.0.7",
     "clsx": "^2.0.0",
