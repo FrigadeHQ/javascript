@@ -11,10 +11,11 @@ export interface TourProps extends TooltipProps {
   onDismiss?: FlowHandler
   onPrimary?: StepHandler
   onSecondary?: StepHandler
+  variables?: Record<string, any>
 }
 
-export function Tour({ flowId, onComplete, ...props }: TourProps) {
-  const { flow } = useFlow(flowId)
+export function Tour({ flowId, onComplete, variables, ...props }: TourProps) {
+  const { flow } = useFlow(flowId, variables)
   useFlowHandlers(flow, { onComplete })
 
   if (flow == null || flow.isVisible === false) {
