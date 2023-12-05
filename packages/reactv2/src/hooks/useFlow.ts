@@ -3,7 +3,11 @@ import { useContext, useEffect, useRef, useState } from 'react'
 
 import { FrigadeContext } from '../components/Provider'
 
-export function useFlow(flowId: string) {
+export interface FlowConfig {
+  variables?: Record<string, any>
+}
+
+export function useFlow(flowId: string, config?: FlowConfig) {
   const [flow, setFlow] = useState<Flow>()
   const { apiKey, apiUrl, userId } = useContext(FrigadeContext)
 
@@ -15,6 +19,10 @@ export function useFlow(flowId: string) {
       return
     }
 
+    if (config?.variables) {
+      updatedFlow.applyVariables(config.variables)
+    }
+
     const clonedFlow = Object.assign(Object.create(Object.getPrototypeOf(updatedFlow)), updatedFlow)
 
     setFlow(clonedFlow)
@@ -22,9 +30,12 @@ export function useFlow(flowId: string) {
 
   useEffect(() => {
     ;(async () => {
-      const flowResponse: Flow = await frigade.getFlow(flowId)
+      const flowInstance: Flow = await frigade.getFlow(flowId)
+      if (config?.variables) {
+        flowInstance.applyVariables(config.variables)
+      }
 
-      setFlow(flowResponse)
+      setFlow(flowInstance)
     })()
 
     frigade.onStateChange(handler)
