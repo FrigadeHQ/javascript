@@ -6,14 +6,14 @@ export interface FrigadeConfig {
   apiUrl?: string
 
   /**
-   * User ID to use for all requests. Defaults to null.
+   * User ID to use for all requests
    */
   userId?: string
 
   /**
-   * Organization ID to use for all requests. Defaults to null.
+   * Group ID (organization) to use for all requests
    */
-  organizationId?: string
+  groupId?: string
   __instanceId?: string
 }
 

@@ -9,9 +9,9 @@ export interface FlowConfig {
 
 export function useFlow(flowId: string, config?: FlowConfig) {
   const [flow, setFlow] = useState<Flow>()
-  const { apiKey, apiUrl, userId } = useContext(FrigadeContext)
+  const { apiKey, getConfig } = useContext(FrigadeContext)
 
-  const frigadeRef = useRef(new Frigade(apiKey, { apiUrl, userId }))
+  const frigadeRef = useRef(new Frigade(apiKey, getConfig()))
   const frigade = frigadeRef.current
 
   const handler = (updatedFlow: Flow) => {
