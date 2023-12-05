@@ -93,7 +93,6 @@ export const Button: FC<ButtonProps> = ({
   withMargin = true,
   classPrefix = '',
   loading = false,
-  autoFocus = false,
 }) => {
   function getClassNameWithPrefix() {
     const name = secondary ? 'buttonSecondary' : 'button'
@@ -116,7 +115,6 @@ export const Button: FC<ButtonProps> = ({
     withMargin,
     size,
     className: getClassName(getClassNameWithPrefix(), appearance),
-    autoFocus,
   }
 
   if (!loading) {

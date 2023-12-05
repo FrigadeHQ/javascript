@@ -314,7 +314,6 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
                 title={steps[selectedStep].primaryButtonTitle}
                 appearance={appearance}
                 onClick={handleOnCTAClick}
-                autoFocus={true}
                 withMargin={false}
                 size="small"
               />
