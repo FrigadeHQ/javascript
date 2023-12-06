@@ -9,6 +9,7 @@ export interface FlowConfig {
 
 export function useFlow(flowId: string, config?: FlowConfig) {
   const [flow, setFlow] = useState<Flow>()
+  const [_, setRandomString] = useState<string>('')
   const { apiKey, getConfig } = useContext(FrigadeContext)
 
   const frigadeRef = useRef(new Frigade(apiKey, getConfig()))
@@ -23,9 +24,8 @@ export function useFlow(flowId: string, config?: FlowConfig) {
       updatedFlow.applyVariables(config.variables)
     }
 
-    const clonedFlow = Object.assign(Object.create(Object.getPrototypeOf(updatedFlow)), updatedFlow)
-
-    setFlow(clonedFlow)
+    setFlow(updatedFlow)
+    setRandomString(Math.random().toString())
   }
 
   useEffect(() => {
