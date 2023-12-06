@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.2.5
+
+### Patch Changes
+
+- 1333384: Adds additional logging
+
 ## 0.2.4
 
 ### Patch Changes
