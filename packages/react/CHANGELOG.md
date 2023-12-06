@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.38.21
+
+### Patch Changes
+
+- 71846b1: Adds isDegraded to useFlows as well as addtional reliability improvements
+
 ## 1.38.20
 
 ### Patch Changes
