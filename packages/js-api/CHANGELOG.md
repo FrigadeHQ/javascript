@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.2.4
+
+### Patch Changes
+
+- ee55fdf: Fixes the local storage prefix to not conflict with the React SDK
+
 ## 0.2.3
 
 ### Patch Changes
