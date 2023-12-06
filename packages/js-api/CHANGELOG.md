@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.2.6
+
+### Patch Changes
+
+- 27804c3: Adds a missing null check
+
 ## 0.2.5
 
 ### Patch Changes
