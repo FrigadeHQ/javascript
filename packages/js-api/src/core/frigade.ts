@@ -41,8 +41,8 @@ export class Frigade extends Fetchable {
   }
 
   public async identify(userId: string, properties?: Record<string, any>): Promise<void> {
+    this.config = { userId }
     await this.initIfNeeded()
-    this.config.userId = userId
     await this.fetch('/users', {
       method: 'POST',
       body: JSON.stringify({
