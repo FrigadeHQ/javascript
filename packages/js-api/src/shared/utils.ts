@@ -20,6 +20,7 @@ const GUEST_PREFIX = 'guest_'
 const GET_CACHE_PREFIX = 'get-cache-'
 const GET_CACHE_TTL_MS = 1000
 const POST_CACHE_TTL_MS = 1000
+const LOCAL_STORAGE_PREFIX = 'fr-js-'
 
 export function cloneFlow(flow: Flow): Flow {
   const newFlow = new Flow(flow.config, flow.rawData)
@@ -48,14 +49,14 @@ export function getHeaders(apiKey: string) {
 
 function getLocalStorage(key: string) {
   if (isWeb()) {
-    return window.localStorage.getItem(key)
+    return window.localStorage.getItem(`${LOCAL_STORAGE_PREFIX}${key}`)
   }
   return null
 }
 
 function setLocalStorage(key: string, value: string) {
   if (isWeb()) {
-    window.localStorage.setItem(key, value)
+    window.localStorage.setItem(`${LOCAL_STORAGE_PREFIX}${key}`, value)
   }
 }
 
@@ -79,7 +80,7 @@ export function resetAllLocalStorage() {
   if (isWeb()) {
     // Clear all local storage items that begin with `frigade-`
     Object.keys(window.localStorage).forEach((key) => {
-      if (key.startsWith('frigade-')) {
+      if (key.startsWith(LOCAL_STORAGE_PREFIX)) {
         window.localStorage.removeItem(key)
       }
     })
@@ -171,7 +172,7 @@ export function generateGuestId() {
     let guestId = getLocalStorage(GUEST_KEY)
     if (!guestId) {
       guestId = `${GUEST_PREFIX}${uuidv4()}`
-      window.localStorage.setItem(GUEST_KEY, guestId)
+      setLocalStorage(GUEST_KEY, guestId)
     }
     return guestId
   }
