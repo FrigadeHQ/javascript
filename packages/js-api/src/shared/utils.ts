@@ -68,7 +68,7 @@ function getGlobalState(key: string): any {
   return frigadeGlobalState[key]
 }
 
-function clearAllGetCache() {
+export function clearCache() {
   Object.keys(frigadeGlobalState).forEach((key) => {
     if (key.startsWith(GET_CACHE_PREFIX)) {
       delete frigadeGlobalState[key]
@@ -104,7 +104,7 @@ export async function gracefulFetch(url: string, options: any) {
     }
     setLocalStorage(lastCallAtKey, new Date().toISOString())
     setLocalStorage(lastCallDataKey, options.body)
-    clearAllGetCache()
+    clearCache()
   }
 
   const isGetCall = options?.method === 'GET' || !options?.method

@@ -1,4 +1,4 @@
-import { createContext, Dispatch, SetStateAction, useState } from 'react'
+import { createContext, Dispatch, SetStateAction, useRef, useState } from 'react'
 import { Global, ThemeProvider } from '@emotion/react'
 
 import {
@@ -7,7 +7,7 @@ import {
   type Theme,
   themeVariables,
 } from '../../shared/theme'
-import { FrigadeConfig } from '@frigade/js'
+import { Frigade } from '@frigade/js'
 
 type NavigateHandler = (url: string, target?: string) => void
 
@@ -25,7 +25,7 @@ export interface ProviderProps {
 interface ProviderContext extends Omit<ProviderProps, 'children' | 'theme'> {
   modals: string[]
   setModals: Dispatch<SetStateAction<string[]>>
-  getConfig: () => FrigadeConfig
+  frigade?: Frigade
 }
 
 export const FrigadeContext = createContext<ProviderContext>({
@@ -33,12 +33,19 @@ export const FrigadeContext = createContext<ProviderContext>({
   modals: [],
   setModals: () => {},
   navigate: () => {},
-  getConfig: () => ({}),
 })
 
 export function Provider({ children, navigate, theme, ...props }: ProviderProps) {
   const themeOverrides = theme ? createThemeVariables(theme) : {}
   const [modals, setModals] = useState([])
+  const frigade = useRef(
+    new Frigade(props.apiKey, {
+      apiKey: props.apiKey,
+      apiUrl: props.apiUrl,
+      userId: props.userId,
+      groupId: props.groupId,
+    })
+  )
 
   const navigateHandler =
     navigate ??
@@ -53,13 +60,7 @@ export function Provider({ children, navigate, theme, ...props }: ProviderProps)
         setModals,
         navigate: navigateHandler,
         ...props,
-        getConfig: () =>
-          ({
-            apiKey: props.apiKey,
-            apiUrl: props.apiUrl,
-            userId: props.userId,
-            groupId: props.groupId,
-          } as FrigadeConfig),
+        frigade: frigade.current,
       }}
     >
       <Global styles={{ ':root': { ...themeVariables, ...themeOverrides } }} />

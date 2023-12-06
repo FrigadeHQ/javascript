@@ -1,5 +1,5 @@
 import { FrigadeConfig, UserFlowState } from '../types'
-import { cloneFlow, generateGuestId, isWeb, resetAllLocalStorage } from '../shared/utils'
+import { clearCache, cloneFlow, isWeb, resetAllLocalStorage } from '../shared/utils'
 import { Flow } from './flow'
 import { FlowDataRaw } from './types'
 import { frigadeGlobalState, getGlobalStateKey } from '../shared/state'
@@ -93,8 +93,9 @@ export class Frigade extends Fetchable {
 
   public async reset() {
     resetAllLocalStorage()
-    this.config.userId = generateGuestId()
-    this.config.groupId = undefined
+    clearCache()
+    this.initPromise = null
+    await this.init(this.config)
   }
 
   public onStateChange(handler: (flow: Flow, previousFlow?: Flow) => void) {
