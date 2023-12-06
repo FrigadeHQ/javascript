@@ -2,6 +2,7 @@ import { useCallback, useContext, useEffect } from 'react'
 import {
   COMPLETED_FLOW,
   COMPLETED_STEP,
+  fetchRetry,
   NOT_STARTED_FLOW,
   NOT_STARTED_STEP,
   SKIPPED_FLOW,
@@ -76,7 +77,7 @@ export function useFlows() {
   const { verifySDKInitiated } = useCheckHasInitiatedAPI()
   const { addResponse, getFlowResponses } = useFlowResponses()
   const fetcher = (url) =>
-    fetch(url, config)
+    fetchRetry(url, 100, 2, config)
       .then((response) => {
         if (response.ok) {
           return response.json()
@@ -677,5 +678,6 @@ export function useFlows() {
     setHasActiveFullPageFlow,
     isFlowAvailableToUser,
     refresh,
+    isDegraded: shouldGracefullyDegrade,
   }
 }

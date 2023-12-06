@@ -1,5 +1,6 @@
 import {
   COMPLETED_FLOW,
+  fetchRetry,
   NOT_STARTED_FLOW,
   NOT_STARTED_STEP,
   SKIPPED_FLOW,
@@ -68,7 +69,7 @@ export function useUserFlowStates(): {
     })),
   }
   const fetcher = (url) =>
-    fetch(url, config)
+    fetchRetry(url, 100, 2, config)
       .then((response) => {
         if (response.ok) {
           return response.json()
@@ -76,7 +77,7 @@ export function useUserFlowStates(): {
         throw new Error('Failed to fetch user flow states')
       })
       .catch((error) => {
-        console.log(`Error fetching ${url}: ${error}. Will gracefully degrade and hide Frigade`)
+        console.error(`Error fetching ${url}: ${error}. Will gracefully degrade and hide Frigade`)
         setShouldGracefullyDegrade(true)
         return emptyResponse
       })

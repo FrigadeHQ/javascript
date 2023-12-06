@@ -127,3 +127,18 @@ export function useCheckHasInitiatedAPI() {
     verifySDKInitiated,
   }
 }
+
+function wait(delay: number) {
+  return new Promise((resolve) => setTimeout(resolve, delay))
+}
+
+export function fetchRetry(url: string, delayMS: number, tries: number, fetchOptions = {}) {
+  function onError(err) {
+    let triesLeft = tries - 1
+    if (!triesLeft) {
+      throw err
+    }
+    return wait(delayMS).then(() => fetchRetry(url, delayMS, triesLeft, fetchOptions))
+  }
+  return fetch(url, fetchOptions).catch(onError)
+}
