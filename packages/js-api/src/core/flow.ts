@@ -56,6 +56,8 @@ export class Flow extends Fetchable {
 
   private readonly flowDataRaw: FlowDataRaw
 
+  private userFlowStateRaw?: UserFlowState
+
   private lastStepUpdate: Map<(step: FlowStep, previousStep: FlowStep) => void, FlowStep> =
     new Map()
 
@@ -77,6 +79,10 @@ export class Flow extends Fetchable {
     this.subtitle = this.configYmlAsJson.subtitle
 
     const userFlowState = this.getUserFlowState()
+    if (!userFlowState) {
+      console.error(`Flow ${this.id} is not defined in the userFlowStates.`)
+    }
+    this.userFlowStateRaw = userFlowState
 
     this.isCompleted = userFlowState.flowState == COMPLETED_FLOW
     this.isStarted = userFlowState.flowState == STARTED_FLOW

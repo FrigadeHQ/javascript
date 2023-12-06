@@ -108,7 +108,7 @@ export async function gracefulFetch(url: string, options: any) {
   }
 
   const isGetCall = options?.method === 'GET' || !options?.method
-  if (isWeb() && isGetCall) {
+  if (isGetCall) {
     const cachedResponse = getGlobalState(`${GET_CACHE_PREFIX}${url}`)
     if (cachedResponse) {
       const now = new Date()
@@ -122,7 +122,7 @@ export async function gracefulFetch(url: string, options: any) {
   let response
   try {
     response = fetch(url, options)
-    if (isWeb() && isGetCall) {
+    if (isGetCall) {
       const responsePromise = response.then((res) => {
         return res.clone().json()
       })
@@ -138,7 +138,7 @@ export async function gracefulFetch(url: string, options: any) {
   }
 
   if (!response) {
-    return getEmptyResponse()
+    return getEmptyResponse('Received an empty response')
   }
 
   if (response.status >= 400) {
