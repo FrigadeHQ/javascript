@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.2.7
+
+### Patch Changes
+
+- 294015b: Add null check for userflow state refreshes
+
 ## 0.2.6
 
 ### Patch Changes
