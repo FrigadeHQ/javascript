@@ -3343,7 +3343,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@frigade/js@0.2.7, @frigade/js@workspace:packages/js-api":
+"@frigade/js@*, @frigade/js@workspace:packages/js-api":
   version: 0.0.0-use.local
   resolution: "@frigade/js@workspace:packages/js-api"
   dependencies:
@@ -3428,7 +3428,7 @@ __metadata:
   resolution: "@frigade/reactv2@workspace:packages/reactv2"
   dependencies:
     "@emotion/react": ^11.11.1
-    "@frigade/js": 0.2.7
+    "@frigade/js": "*"
     "@heroicons/react": ^2.0.18
     "@radix-ui/react-popover": ^1.0.7
     "@types/jest": ^23.3.1

@@ -126,14 +126,17 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
   const boundingRect = useElemRect(elem, needsUpdate)
   const [lastBoundingRect, setLastBoundingRect] = useState<string>()
   const [showTooltipContainer, setShowTooltipContainer] = useState(!showHighlightOnly)
-  const positionStyle = steps[selectedStep]?.props?.position
-    ? steps[selectedStep].props.position
-    : cssPosition
+  const positionStyle =
+    cssPosition != 'static'
+      ? steps[selectedStep]?.props?.position
+        ? steps[selectedStep].props.position
+        : cssPosition
+      : 'static'
   const zIndex = steps[selectedStep]?.props?.zIndex ?? 90
   const cardWidth = selfBounds?.width ?? DEFAULT_CARD_WIDTH
   const cardHeight = selfBounds?.height ?? DEFAULT_CARD_HEIGHT
   const [renderTime, setRenderTime] = useState(new Date().getTime())
-  offset = steps[selectedStep]?.props?.offset ?? offset
+  offset = cssPosition != 'static' ? steps[selectedStep]?.props?.offset ?? offset : { x: 0, y: 0 }
 
   const url = window.location.pathname.split('/').pop()
 
