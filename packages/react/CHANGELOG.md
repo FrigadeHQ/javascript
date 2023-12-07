@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.38.22
+
+### Patch Changes
+
+- 22d59ab: Fixes an issue where static tooltips adhere to overrides
+
 ## 1.38.21
 
 ### Patch Changes
