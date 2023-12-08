@@ -101,6 +101,7 @@ export function Tooltip({
           )}
           <Popover.Content asChild {...contentProps} ref={contentRef}>
             <Card
+              boxShadow="md"
               part="tooltip-content"
               position="relative"
               css={{

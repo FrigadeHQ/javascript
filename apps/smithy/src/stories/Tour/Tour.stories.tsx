@@ -41,6 +41,7 @@ export const Default = {
           variables={{
             firstName: "Smeagol",
           }}
+          spotlight={true}
           {...options.args}
         />
       </Box>

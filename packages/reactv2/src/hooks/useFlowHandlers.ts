@@ -15,8 +15,8 @@ export function useFlowHandlers(flow: Flow, { onComplete, onDismiss }: StepHandl
   useEffect(() => {
     if (flow == null) return
 
-    if (flow.isCompleted && lastCompleted.current === false && onComplete) {
-      onComplete(flow)
+    if (flow.isCompleted && lastCompleted.current === false) {
+      onComplete?.(flow)
     }
 
     lastCompleted.current = flow?.isCompleted
