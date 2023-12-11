@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.2.10
+
+### Patch Changes
+
+- c20a86d: Add group id to flow response calls
+
 ## 0.2.9
 
 ### Patch Changes
