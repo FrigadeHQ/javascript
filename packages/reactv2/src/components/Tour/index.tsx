@@ -1,18 +1,10 @@
-import { useFlow } from '../../hooks/useFlow'
-import { TooltipProps } from '../Tooltip'
+import { type FlowComponentProps } from '../../shared/types'
+import { type TooltipProps } from '../Tooltip'
 import { TourStep } from './TourStep'
+import { useFlow } from '../../hooks/useFlow'
+import { useFlowHandlers } from '../../hooks/useFlowHandlers'
 
-import { FlowHandler, useFlowHandlers } from '../../hooks/useFlowHandlers'
-import { StepHandler } from '../../hooks/useStepHandlers'
-
-export interface TourProps extends TooltipProps {
-  flowId: string
-  onComplete?: FlowHandler
-  onDismiss?: FlowHandler
-  onPrimary?: StepHandler
-  onSecondary?: StepHandler
-  variables?: Record<string, any>
-}
+export interface TourProps extends TooltipProps, FlowComponentProps {}
 
 export function Tour({ flowId, onComplete, variables, ...props }: TourProps) {
   const { flow } = useFlow(flowId, {

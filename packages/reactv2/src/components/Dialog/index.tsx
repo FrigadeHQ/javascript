@@ -80,6 +80,12 @@ Dialog.Media = ({ src, ...props }: MediaProps) => {
   return <Media borderRadius="md" src={src} {...props} />
 }
 
+Dialog.Primary = ({ onClick, title, ...props }: ButtonProps) => {
+  if (title == null) return null
+
+  return <Button.Primary title={title} onClick={onClick} {...props} />
+}
+
 Dialog.ProgressDots = ({ current, total }: { current: number; total: number }) => {
   const dots = [...Array(total)].map((_, i) => {
     return (
@@ -103,6 +109,12 @@ Dialog.ProgressDots = ({ current, total }: { current: number; total: number }) =
       {dots}
     </Box>
   )
+}
+
+Dialog.Secondary = ({ onClick, title, ...props }: ButtonProps) => {
+  if (title == null) return null
+
+  return <Button.Secondary title={title} onClick={onClick} {...props} />
 }
 
 Dialog.Title = ({ children, ...props }: TextProps) => {

@@ -6,5 +6,7 @@ export default {
 };
 
 export const Default = {
-  args: {},
+  args: {
+    flowId: "flow_cvWFczn1RMHp9ZcK",
+  },
 };

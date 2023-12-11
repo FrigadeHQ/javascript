@@ -1,24 +1,56 @@
 import { Dialog, type DialogProps } from '../Dialog'
-
-import { Button } from '../Button'
 import { Flex } from '../Flex/Flex'
+import { type FlowComponentProps } from '../../shared/types'
+import { useFlow } from '../../hooks/useFlow'
+import { useFlowHandlers } from '../../hooks/useFlowHandlers'
+import { useStepHandlers } from '@/hooks/useStepHandlers'
 
-export function Announcement({}: DialogProps) {
+export interface AnncouncementProps extends DialogProps, FlowComponentProps {}
+
+export function Announcement({
+  flowId,
+  onComplete,
+  onDismiss,
+  onPrimary,
+  onSecondary,
+  variables,
+}: AnncouncementProps) {
+  const { flow } = useFlow(flowId, {
+    variables,
+  })
+  const step = flow?.getCurrentStep()
+
+  const { handleDismiss } = useFlowHandlers(flow, {
+    onComplete,
+    onDismiss,
+  })
+
+  const { handlePrimary, handleSecondary } = useStepHandlers(step, {
+    onPrimary,
+    onSecondary,
+  })
+
+  if (flow == null || flow.isVisible === false) {
+    return null
+  }
+
+  flow.start()
+
+  step?.start()
+
   return (
     <Dialog>
-      <Dialog.Close />
+      <Dialog.Close onClick={handleDismiss} />
 
-      <Dialog.Title>What is Lorem Ipsum?</Dialog.Title>
-      <Dialog.Subtitle>
-        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
-        been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
-        galley of type and scrambled it to make a type specimen book. It has survived not only five
-        centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
-      </Dialog.Subtitle>
+      <Dialog.Title>{step.title}</Dialog.Title>
+      <Dialog.Subtitle>{step.subtitle}</Dialog.Subtitle>
 
-      <Dialog.Media src="https://placekitten.com/366/250" />
+      <Dialog.Media src={step.imageUri} />
 
-      <Dialog.ProgressDots current={3} total={6} />
+      <Dialog.ProgressDots
+        current={flow.getNumberOfCompletedSteps()}
+        total={flow.getNumberOfAvailableSteps()}
+      />
 
       <Flex.Row
         css={{
@@ -28,8 +60,8 @@ export function Announcement({}: DialogProps) {
         }}
         gap={3}
       >
-        <Button.Secondary title="Secondary" />
-        <Button.Primary title="Primary" />
+        <Dialog.Secondary title="Secondary" onClick={handleSecondary} />
+        <Dialog.Primary title="Primary" onClick={handlePrimary} />
       </Flex.Row>
     </Dialog>
   )
