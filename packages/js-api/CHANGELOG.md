@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.2.8
+
+### Patch Changes
+
+- 32d2028: Ensure event handlers are called when calling frigade.reload()
+
 ## 0.2.7
 
 ### Patch Changes
