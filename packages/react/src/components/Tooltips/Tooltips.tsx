@@ -447,10 +447,6 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
   }
 
   const getBoundedTopPosition = () => {
-    if (positionStyle === 'fixed') {
-      return cssPos.top
-    }
-
     const tooltipBottom = cssPos.top + cardHeight
     const spaceFromEdge = 20
     if (tooltipBottom > window.innerHeight - spaceFromEdge) {
