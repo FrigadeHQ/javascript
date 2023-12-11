@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.38.23
+
+### Patch Changes
+
+- 5064058: Fixes an issue where fixed tooltips would be vertically out of bounds
+
 ## 1.38.22
 
 ### Patch Changes
