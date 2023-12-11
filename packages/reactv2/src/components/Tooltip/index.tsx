@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Interpolation } from '@emotion/react'
 
 import { XMarkIcon } from '@heroicons/react/24/solid'
 import * as Popover from '@radix-ui/react-popover'
@@ -9,7 +8,6 @@ import { Box } from '../Box'
 import { Button, ButtonProps } from '../Button'
 import { Card } from '../Card'
 import { Dot } from './Dot'
-import { Flex } from '../Flex/Flex'
 import { Media, MediaProps } from '../Media'
 import { Text, TextProps } from '../Text'
 import { getDotPosition } from './getDotPosition'
@@ -21,7 +19,6 @@ interface MergedRadixPopoverProps
 export interface TooltipProps extends MergedRadixPopoverProps {
   align?: Popover.PopoverContentProps['align'] | 'before' | 'after'
   anchor?: string
-  css?: Interpolation<Record<any, any>>
   spotlight?: boolean
   style?: React.CSSProperties
 }
@@ -128,7 +125,7 @@ Tooltip.Close = (props: ButtonProps) => {
           top: '12px',
           right: '4px',
         }}
-        part="tooltip-close"
+        part="close"
         position="absolute"
         {...props}
       >

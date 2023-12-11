@@ -4,7 +4,7 @@ import { BoxProps } from '../Box'
 
 export interface MediaProps extends BoxProps {
   src: string
-  type: 'image' | 'video'
+  type?: 'image' | 'video'
 }
 
 export function Media({ src, type, ...props }: MediaProps) {

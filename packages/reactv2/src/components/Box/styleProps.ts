@@ -227,6 +227,20 @@ export const styleProps = {
     'table-caption',
     'unset',
   ],
+
+  textAlign: [
+    'center',
+    'end',
+    'start',
+    'right',
+    'left',
+    'justify',
+    'inherit',
+    'initial',
+    'revert',
+    'revert-layer',
+    'unset',
+  ],
 }
 
 export const stylePropShorthands = {
