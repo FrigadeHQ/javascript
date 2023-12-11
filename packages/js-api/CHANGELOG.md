@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.2.9
+
+### Patch Changes
+
+- cb027a4: Remove deduping of userflowstates calls
+
 ## 0.2.8
 
 ### Patch Changes
