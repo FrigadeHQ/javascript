@@ -107,31 +107,9 @@ export async function gracefulFetch(url: string, options: any) {
     clearCache()
   }
 
-  const isGetCall = options?.method === 'GET' || !options?.method
-  if (isGetCall) {
-    const cachedResponse = getGlobalState(`${GET_CACHE_PREFIX}${url}`)
-    if (cachedResponse) {
-      const now = new Date()
-      const diff = now.getTime() - cachedResponse.timestamp
-      if (diff < GET_CACHE_TTL_MS) {
-        return cachedResponse.response
-      }
-    }
-  }
-
   let response
   try {
     response = fetch(url, options)
-    if (isGetCall) {
-      const responsePromise = response.then((res) => {
-        return res.clone().json()
-      })
-      setGlobalState(`${GET_CACHE_PREFIX}${url}`, {
-        response: responsePromise,
-        timestamp: new Date().getTime(),
-      })
-    }
-
     response = await response
   } catch (error) {
     return getEmptyResponse(error)
