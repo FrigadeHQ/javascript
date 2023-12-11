@@ -122,6 +122,7 @@ export class Flow extends Fetchable {
           method: 'POST',
           body: JSON.stringify({
             foreignUserId: this.config.userId,
+            foreignUserGroupId: this.config.groupId,
             flowSlug: this.id,
             stepId: currentStep.id,
             data: properties ?? {},
@@ -172,6 +173,7 @@ export class Flow extends Fetchable {
           method: 'POST',
           body: JSON.stringify({
             foreignUserId: this.config.userId,
+            foreignUserGroupId: this.config.groupId,
             flowSlug: this.id,
             stepId: currentStep.id,
             data: properties ?? {},
@@ -251,6 +253,7 @@ export class Flow extends Fetchable {
       method: 'POST',
       body: JSON.stringify({
         foreignUserId: this.config.userId,
+        foreignUserGroupId: this.config.groupId,
         flowSlug: this.id,
         stepId: this.getCurrentStep().id,
         data: properties ?? {},
@@ -275,6 +278,7 @@ export class Flow extends Fetchable {
       method: 'POST',
       body: JSON.stringify({
         foreignUserId: this.config.userId,
+        foreignUserGroupId: this.config.groupId,
         flowSlug: this.id,
         stepId: this.getCurrentStep().id,
         data: properties ?? {},
@@ -304,6 +308,7 @@ export class Flow extends Fetchable {
       method: 'POST',
       body: JSON.stringify({
         foreignUserId: this.config.userId,
+        foreignUserGroupId: this.config.groupId,
         flowSlug: this.id,
         stepId: this.getCurrentStep().id,
         data: properties ?? {},
@@ -326,6 +331,7 @@ export class Flow extends Fetchable {
       method: 'POST',
       body: JSON.stringify({
         foreignUserId: this.config.userId,
+        foreignUserGroupId: this.config.groupId,
         flowSlug: this.id,
         stepId: 'unknown',
         data: {},
