@@ -91,11 +91,25 @@ export class Frigade extends Fetchable {
     return this.flows
   }
 
-  public async reset() {
+  /**
+   * Reload the current state of the flows by calling the Frigade API.
+   * This will trigger all event handlers.
+   */
+  public async reload() {
     resetAllLocalStorage()
     clearCache()
+    await this.refreshUserFlowStates()
+    await this.refreshFlows()
     this.initPromise = null
     await this.init(this.config)
+    // Trigger all event handlers
+    this.flows.forEach((flow) => {
+      this.getGlobalState().onFlowStateChangeHandlers.forEach((handler) => {
+        const lastFlow = this.getGlobalState().previousFlows.get(flow.id)
+        handler(flow, lastFlow)
+        this.getGlobalState().previousFlows.set(flow.id, cloneFlow(flow))
+      })
+    })
   }
 
   public onStateChange(handler: (flow: Flow, previousFlow?: Flow) => void) {
