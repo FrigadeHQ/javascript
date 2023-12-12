@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.2.11
+
+### Patch Changes
+
+- 0c9335a: Add step.reset() function
+
 ## 0.2.10
 
 ### Patch Changes
