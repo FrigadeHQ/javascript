@@ -45,7 +45,10 @@ export function Announcement({
       <Dialog.Title>{step.title}</Dialog.Title>
       <Dialog.Subtitle>{step.subtitle}</Dialog.Subtitle>
 
-      <Dialog.Media src={step.imageUri} />
+      <Dialog.Media
+        src={step.imageUri}
+        css={{ aspectRatio: '1.5', objectFit: 'cover', width: '100%' }}
+      />
 
       <Dialog.ProgressDots
         current={flow.getNumberOfCompletedSteps()}
