@@ -5,6 +5,7 @@ import {
   COMPLETED_FLOW,
   COMPLETED_STEP,
   NOT_STARTED_FLOW,
+  NOT_STARTED_STEP,
   SKIPPED_FLOW,
   STARTED_FLOW,
   STARTED_STEP,
@@ -195,6 +196,42 @@ export class Flow extends Fetchable {
           updatedUserFlowState.stepStates[currentStep.id].actionType == STARTED_STEP
       }
 
+      stepObj.reset = async () => {
+        const currentStep = this.steps.get(step.id)
+
+        if (!currentStep.isCompleted) {
+          return
+        }
+
+        currentStep.isCompleted = false
+        currentStep.isStarted = false
+        const copy = clone(this.getGlobalState().userFlowStates[this.id])
+        copy.stepStates[currentStep.id].actionType = NOT_STARTED_STEP
+        copy.flowState = STARTED_FLOW
+        this.getGlobalState().userFlowStates[this.id] = copy
+
+        await this.fetch('/flowResponses', {
+          method: 'POST',
+          body: JSON.stringify({
+            foreignUserId: this.config.userId,
+            foreignUserGroupId: this.config.groupId,
+            flowSlug: this.id,
+            stepId: currentStep.id,
+            data: {},
+            createdAt: new Date().toISOString(),
+            actionType: NOT_STARTED_STEP,
+          }),
+        })
+
+        await this.refreshUserFlowState()
+
+        const updatedUserFlowState = this.getUserFlowState()
+        currentStep.isCompleted =
+          updatedUserFlowState.stepStates[currentStep.id].actionType == COMPLETED_STEP
+        currentStep.isStarted =
+          updatedUserFlowState.stepStates[currentStep.id].actionType == STARTED_STEP
+      }
+
       stepObj.onStateChange = (handler: (step: FlowStep, previousStep: FlowStep) => void) => {
         const wrapperHandler = (flow: Flow) => {
           if (flow.id !== this.id) {
@@ -360,6 +397,11 @@ export class Flow extends Fetchable {
 
     const currentStepId = lastStepId ?? Array.from(this.steps.keys())[0]
     return this.steps.get(currentStepId)
+  }
+
+  public getCurrentStepIndex(): number {
+    const currentStep = this.getCurrentStep()
+    return Array.from(this.steps.keys()).indexOf(currentStep.id)
   }
 
   /**

@@ -46,13 +46,20 @@ test('read and set flow step state', async () => {
   expect(flow).toBeDefined()
   expect(flow.id).toEqual(testFlowId)
   const step = flow.steps.get(testFlowStepId)
+  expect(flow.getCurrentStepIndex()).toEqual(0)
   expect(step).toBeDefined()
   expect(step.isCompleted).toBeFalsy()
   expect(step.isStarted).toBeFalsy()
   await step.start()
+  expect(flow.getCurrentStepIndex()).toEqual(0)
   expect(step.isStarted).toBeTruthy()
   await step.complete()
+  expect(flow.getCurrentStepIndex()).toEqual(1)
   expect(step.isCompleted).toBeTruthy()
+  await step.reset()
+  expect(step.isCompleted).toBeFalsy()
+  expect(step.isStarted).toBeFalsy()
+  expect(flow.getCurrentStepIndex()).toEqual(0)
 })
 
 test('handle flow event changes', async () => {
@@ -116,6 +123,8 @@ test('handle single flow event changes subscribes and unsubscribes', async () =>
   const frigade = new Frigade(testAPIKey, {
     userId: getRandomID(),
   })
+  const instanceId = frigade.config.__instanceId
+  expect(instanceId).toBeDefined()
   const callback = jest.fn((flow: Flow) => {
     expect(flow).toBeDefined()
     expect(flow.id).toEqual(testFlowId)
@@ -131,6 +140,8 @@ test('handle single flow event changes subscribes and unsubscribes', async () =>
   expect(flow.isCompleted).toBeTruthy()
   expect(callback).toHaveBeenCalledTimes(2)
   flow.removeStateChangeHandler(callback)
+  expect(frigade.config.__instanceId).toEqual(instanceId)
+  expect(flow.config.__instanceId).toEqual(instanceId)
 })
 
 test('handle step event changes', async () => {

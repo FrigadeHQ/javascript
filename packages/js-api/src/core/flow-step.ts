@@ -104,13 +104,17 @@ export interface FlowStep {
   [x: string | number | symbol]: unknown
 
   /**
-   * Function that marks the step started
+   * Marks the step started
    */
   start: (properties?: Record<string | number, any>) => Promise<void>
   /**
-   * Function that marks the step completed
+   * Marks the step completed
    */
   complete: (properties?: Record<string | number, any>) => Promise<void>
+  /**
+   * Resets the step (useful for undoing a finished step)
+   */
+  reset: () => Promise<void>
 
   /**
    * Event handler for this given step's state changes
