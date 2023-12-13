@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.38.24
+
+### Patch Changes
+
+- 12c7255: Removes console.log that happens when linking guest ids
+
 ## 1.38.23
 
 ### Patch Changes
