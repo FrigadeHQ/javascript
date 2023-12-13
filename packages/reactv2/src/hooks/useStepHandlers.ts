@@ -4,7 +4,10 @@ import type { FlowStep } from '@frigade/js'
 
 import { FrigadeContext } from '../components/Provider'
 
-export type StepHandler = (step: FlowStep, event?: MouseEvent<unknown>) => boolean | void
+export type StepHandler = (
+  step: FlowStep,
+  event?: MouseEvent<unknown>
+) => Promise<boolean | void> | (boolean | void)
 
 export interface StepHandlers {
   onPrimary?: StepHandler
@@ -17,7 +20,7 @@ export function useStepHandlers(step: FlowStep, { onPrimary, onSecondary }: Step
   return {
     handlePrimary: useCallback(
       async (e: MouseEvent<unknown>) => {
-        const continueDefault = onPrimary?.(step, e)
+        const continueDefault = await onPrimary?.(step, e)
 
         if (continueDefault === false) {
           e.preventDefault()
@@ -35,7 +38,7 @@ export function useStepHandlers(step: FlowStep, { onPrimary, onSecondary }: Step
 
     handleSecondary: useCallback(
       async (e: MouseEvent<unknown>) => {
-        const continueDefault = onSecondary?.(step, e)
+        const continueDefault = await onSecondary?.(step, e)
 
         if (continueDefault === false) {
           e.preventDefault()

@@ -2,7 +2,10 @@ import { MouseEvent, useCallback, useEffect, useRef } from 'react'
 
 import { Flow } from '@frigade/js'
 
-export type FlowHandler = (flow: Flow, event?: MouseEvent<unknown>) => boolean | void
+export type FlowHandler = (
+  flow: Flow,
+  event?: MouseEvent<unknown>
+) => Promise<boolean | void> | (boolean | void)
 
 export interface StepHandlers {
   onComplete?: FlowHandler
@@ -16,7 +19,9 @@ export function useFlowHandlers(flow: Flow, { onComplete, onDismiss }: StepHandl
     if (flow == null) return
 
     if (flow.isCompleted && lastCompleted.current === false) {
-      onComplete?.(flow)
+      ;(async () => {
+        await onComplete?.(flow)
+      })()
     }
 
     lastCompleted.current = flow?.isCompleted
@@ -25,7 +30,7 @@ export function useFlowHandlers(flow: Flow, { onComplete, onDismiss }: StepHandl
   return {
     handleDismiss: useCallback(
       async (e: MouseEvent<unknown>) => {
-        const continueDefault = onDismiss?.(flow, e)
+        const continueDefault = await onDismiss?.(flow, e)
 
         if (continueDefault === false) {
           e.preventDefault()
