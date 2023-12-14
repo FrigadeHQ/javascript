@@ -162,8 +162,10 @@ export class Frigade extends Fetchable {
       }
       frigadeGlobalState[globalStateKey].refreshUserFlowStates = async () => {
         const userFlowStatesRaw = await this.fetch(
-          `/userFlowStates?foreignUserId=${this.config.userId}${
-            this.config.groupId ? `&foreignUserGroupId=${this.config.groupId}` : ''
+          `/userFlowStates?foreignUserId=${encodeURIComponent(this.config.userId)}${
+            this.config.groupId
+              ? `&foreignUserGroupId=${encodeURIComponent(this.config.groupId)}`
+              : ''
           }`
         )
         if (userFlowStatesRaw && userFlowStatesRaw.data) {

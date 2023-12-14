@@ -34,6 +34,7 @@ export interface UserFlowStepState {
   createdAt: string
   blocked: boolean
   hidden: boolean
+  lastActionAt?: string
 }
 
 export interface InternalConfig {

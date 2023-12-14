@@ -93,6 +93,9 @@ export class Flow extends Fetchable {
     const targetingShouldHideFlow =
       flowDataRaw.targetingLogic && userFlowState.shouldTrigger === false
     this.isVisible = !hasCompleted && !targetingShouldHideFlow
+    if (this.flowDataRaw.active === false) {
+      this.isVisible = false
+    }
     const newSteps = new Map<string, FlowStep>()
 
     steps.forEach((step, index) => {
@@ -103,6 +106,9 @@ export class Flow extends Fetchable {
         isStarted: userFlowStateStep.actionType == STARTED_STEP,
         isHidden: userFlowStateStep.hidden,
         isBlocked: userFlowStateStep.blocked,
+        lastActionAt: userFlowStateStep.lastActionAt
+          ? new Date(userFlowStateStep.lastActionAt)
+          : undefined,
         order: index,
       } as FlowStep
 
@@ -139,6 +145,7 @@ export class Flow extends Fetchable {
           updatedUserFlowState.stepStates[currentStep.id].actionType == COMPLETED_STEP
         currentStep.isStarted =
           updatedUserFlowState.stepStates[currentStep.id].actionType == STARTED_STEP
+        currentStep.lastActionAt = new Date()
       }
 
       stepObj.complete = async (properties?: Record<string | number, any>) => {
@@ -194,6 +201,7 @@ export class Flow extends Fetchable {
           updatedUserFlowState.stepStates[currentStep.id].actionType == COMPLETED_STEP
         currentStep.isStarted =
           updatedUserFlowState.stepStates[currentStep.id].actionType == STARTED_STEP
+        currentStep.lastActionAt = new Date()
       }
 
       stepObj.reset = async () => {
@@ -230,6 +238,7 @@ export class Flow extends Fetchable {
           updatedUserFlowState.stepStates[currentStep.id].actionType == COMPLETED_STEP
         currentStep.isStarted =
           updatedUserFlowState.stepStates[currentStep.id].actionType == STARTED_STEP
+        currentStep.lastActionAt = undefined
       }
 
       stepObj.onStateChange = (handler: (step: FlowStep, previousStep: FlowStep) => void) => {
@@ -274,7 +283,7 @@ export class Flow extends Fetchable {
   }
 
   /**
-   * Function that marks the flow started
+   * Marks the flow started
    */
   public async start(properties?: Record<string | number, any>) {
     if (this.isStarted || this.isCompleted) {
@@ -303,7 +312,7 @@ export class Flow extends Fetchable {
   }
 
   /**
-   * Function that marks the flow completed
+   * Marks the flow completed
    */
   public async complete(properties?: Record<string | number, any>) {
     if (this.isCompleted) {
@@ -338,7 +347,7 @@ export class Flow extends Fetchable {
   }
 
   /**
-   * Function that marks the flow skipped
+   * Marks the flow skipped
    */
   public async skip(properties?: Record<string | number, any>) {
     await this.fetch('/flowResponses', {
@@ -358,7 +367,27 @@ export class Flow extends Fetchable {
   }
 
   /**
-   * Function that restarts the flow/marks it not started
+   * Navigates the flow to the next step if one exists. This will mark that step started, but will not complete the previous step.
+   */
+  public async forward(properties?: Record<string | number, any>) {
+    const nextStep = this.getStepByIndex(this.getCurrentStepIndex() + 1)
+    if (nextStep) {
+      await nextStep.start(properties)
+    }
+  }
+
+  /**
+   * Navigates the flow to the previous step if one exists. This will mark that step started, but will not complete the previous step.
+   */
+  public async back(properties?: Record<string | number, any>) {
+    const previousStep = this.getStepByIndex(this.getCurrentStepIndex() - 1)
+    if (previousStep) {
+      await previousStep.start(properties)
+    }
+  }
+
+  /**
+   * Restarts the flow/marks it not started
    */
   public async restart() {
     this.isCompleted = false
@@ -388,12 +417,21 @@ export class Flow extends Fetchable {
   }
 
   /**
-   * Function that gets current step
+   * Gets current step
    */
   public getCurrentStep(): FlowStep {
-    const lastStepId = Array.from(this.steps.keys()).find(
+    let lastStepId = Array.from(this.steps.keys()).find(
       (key) => this.steps.get(key).isCompleted === false && this.steps.get(key).isHidden === false
     )
+    Array.from(this.steps.keys()).forEach((key) => {
+      if (
+        this.steps.get(key).isStarted &&
+        this.steps.get(key).lastActionAt &&
+        this.steps.get(key).lastActionAt > (this.steps.get(lastStepId)?.lastActionAt ?? new Date(0))
+      ) {
+        lastStepId = key
+      }
+    })
 
     const currentStepId = lastStepId ?? Array.from(this.steps.keys())[0]
     return this.steps.get(currentStepId)

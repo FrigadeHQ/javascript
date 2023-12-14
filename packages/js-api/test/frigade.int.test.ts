@@ -62,6 +62,29 @@ test('read and set flow step state', async () => {
   expect(flow.getCurrentStepIndex()).toEqual(0)
 })
 
+test('navigates back and forth in a flow', async () => {
+  const frigade = new Frigade(testAPIKey, {
+    userId: generateGuestId(),
+  })
+  const flow = await frigade.getFlow(testFlowId)
+  expect(flow).toBeDefined()
+  expect(flow.id).toEqual(testFlowId)
+  const previousStep = flow.steps.get(testFlowStepId)
+  expect(flow.getCurrentStepIndex()).toEqual(0)
+  expect(previousStep).toBeDefined()
+  expect(previousStep.isCompleted).toBeFalsy()
+  expect(previousStep.isStarted).toBeFalsy()
+  await flow.forward()
+  expect(flow.getCurrentStepIndex()).toEqual(1)
+  const currentStep = flow.getCurrentStep()
+  expect(currentStep.isStarted).toBeTruthy()
+  expect(currentStep.isCompleted).toBeFalsy()
+  await flow.back()
+  expect(flow.getCurrentStepIndex()).toEqual(0)
+  expect(previousStep.isStarted).toBeTruthy()
+  expect(previousStep.isCompleted).toBeFalsy()
+})
+
 test('handle flow event changes', async () => {
   const frigade = new Frigade(testAPIKey, {
     userId: getRandomID(),

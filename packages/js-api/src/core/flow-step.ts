@@ -79,6 +79,10 @@ export interface FlowStep {
    * Whether the step is hidden (not shown in the list view) based on `visibilityCriteria`
    */
   isHidden: boolean
+  /**
+   * Last state update
+   */
+  lastActionAt?: Date
 
   props?: any
   /**
