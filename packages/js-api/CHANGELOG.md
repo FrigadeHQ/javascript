@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.2.12
+
+### Patch Changes
+
+- b4b0a9d: Introduce flow.back() and flow.forward() and fix url encoding issues
+
 ## 0.2.11
 
 ### Patch Changes
