@@ -113,16 +113,18 @@ export class Flow extends Fetchable {
       } as FlowStep
 
       stepObj.start = async (properties?: Record<string | number, any>) => {
-        const currentStep = this.steps.get(step.id)
+        const thisStep = this.steps.get(step.id)
 
-        if (currentStep.isStarted || currentStep.isCompleted) {
+        if (this.getCurrentStep().id === thisStep.id && thisStep.isStarted) {
           return
         }
 
-        currentStep.isStarted = true
+        thisStep.isStarted = true
         const copy = clone(this.getGlobalState().userFlowStates[this.id])
-        copy.stepStates[currentStep.id].actionType = STARTED_STEP
-        copy.lastStepId = currentStep.id
+        copy.stepStates[thisStep.id].actionType = STARTED_STEP
+        copy.stepStates[thisStep.id].lastActionAt = new Date().toISOString()
+        copy.lastStepId = thisStep.id
+
         this.getGlobalState().userFlowStates[this.id] = copy
 
         await this.fetch('/flowResponses', {
@@ -131,7 +133,7 @@ export class Flow extends Fetchable {
             foreignUserId: this.config.userId,
             foreignUserGroupId: this.config.groupId,
             flowSlug: this.id,
-            stepId: currentStep.id,
+            stepId: thisStep.id,
             data: properties ?? {},
             createdAt: new Date().toISOString(),
             actionType: STARTED_STEP,
@@ -141,28 +143,28 @@ export class Flow extends Fetchable {
         await this.refreshUserFlowState()
 
         const updatedUserFlowState = this.getUserFlowState()
-        currentStep.isCompleted =
-          updatedUserFlowState.stepStates[currentStep.id].actionType == COMPLETED_STEP
-        currentStep.isStarted =
-          updatedUserFlowState.stepStates[currentStep.id].actionType == STARTED_STEP
-        currentStep.lastActionAt = new Date()
+        thisStep.isCompleted =
+          updatedUserFlowState.stepStates[thisStep.id].actionType == COMPLETED_STEP
+        thisStep.isStarted = updatedUserFlowState.stepStates[thisStep.id].actionType == STARTED_STEP
+        thisStep.lastActionAt = new Date()
       }
 
       stepObj.complete = async (properties?: Record<string | number, any>) => {
-        const currentStep = this.steps.get(step.id)
+        const thisStep = this.steps.get(step.id)
 
-        if (currentStep.isCompleted) {
+        if (thisStep.isCompleted) {
           return
         }
 
         const numberOfCompletedSteps = this.getNumberOfCompletedSteps()
         const isLastStep = numberOfCompletedSteps + 1 == this.steps.size
 
-        currentStep.isCompleted = true
+        thisStep.isCompleted = true
         this.isStarted = true
         const copy = clone(this.getGlobalState().userFlowStates[this.id])
 
-        copy.stepStates[currentStep.id].actionType = COMPLETED_STEP
+        copy.stepStates[thisStep.id].actionType = COMPLETED_STEP
+        copy.stepStates[thisStep.id].lastActionAt = new Date().toISOString()
         copy.flowState = isLastStep ? COMPLETED_FLOW : STARTED_FLOW
 
         const nextStepId = Array.from(this.steps.keys())[index + 1]
@@ -183,7 +185,7 @@ export class Flow extends Fetchable {
             foreignUserId: this.config.userId,
             foreignUserGroupId: this.config.groupId,
             flowSlug: this.id,
-            stepId: currentStep.id,
+            stepId: thisStep.id,
             data: properties ?? {},
             createdAt: new Date().toISOString(),
             actionType: COMPLETED_STEP,
@@ -197,24 +199,24 @@ export class Flow extends Fetchable {
         }
 
         const updatedUserFlowState = this.getUserFlowState()
-        currentStep.isCompleted =
-          updatedUserFlowState.stepStates[currentStep.id].actionType == COMPLETED_STEP
-        currentStep.isStarted =
-          updatedUserFlowState.stepStates[currentStep.id].actionType == STARTED_STEP
-        currentStep.lastActionAt = new Date()
+        thisStep.isCompleted =
+          updatedUserFlowState.stepStates[thisStep.id].actionType == COMPLETED_STEP
+        thisStep.isStarted = updatedUserFlowState.stepStates[thisStep.id].actionType == STARTED_STEP
+        thisStep.lastActionAt = new Date()
       }
 
       stepObj.reset = async () => {
-        const currentStep = this.steps.get(step.id)
+        const thisStep = this.steps.get(step.id)
 
-        if (!currentStep.isCompleted) {
+        if (!thisStep.isCompleted) {
           return
         }
 
-        currentStep.isCompleted = false
-        currentStep.isStarted = false
+        thisStep.isCompleted = false
+        thisStep.isStarted = false
         const copy = clone(this.getGlobalState().userFlowStates[this.id])
-        copy.stepStates[currentStep.id].actionType = NOT_STARTED_STEP
+        copy.stepStates[thisStep.id].actionType = NOT_STARTED_STEP
+        copy.stepStates[thisStep.id].lastActionAt = undefined
         copy.flowState = STARTED_FLOW
         this.getGlobalState().userFlowStates[this.id] = copy
 
@@ -224,7 +226,7 @@ export class Flow extends Fetchable {
             foreignUserId: this.config.userId,
             foreignUserGroupId: this.config.groupId,
             flowSlug: this.id,
-            stepId: currentStep.id,
+            stepId: thisStep.id,
             data: {},
             createdAt: new Date().toISOString(),
             actionType: NOT_STARTED_STEP,
@@ -234,11 +236,10 @@ export class Flow extends Fetchable {
         await this.refreshUserFlowState()
 
         const updatedUserFlowState = this.getUserFlowState()
-        currentStep.isCompleted =
-          updatedUserFlowState.stepStates[currentStep.id].actionType == COMPLETED_STEP
-        currentStep.isStarted =
-          updatedUserFlowState.stepStates[currentStep.id].actionType == STARTED_STEP
-        currentStep.lastActionAt = undefined
+        thisStep.isCompleted =
+          updatedUserFlowState.stepStates[thisStep.id].actionType == COMPLETED_STEP
+        thisStep.isStarted = updatedUserFlowState.stepStates[thisStep.id].actionType == STARTED_STEP
+        thisStep.lastActionAt = undefined
       }
 
       stepObj.onStateChange = (handler: (step: FlowStep, previousStep: FlowStep) => void) => {
@@ -246,17 +247,17 @@ export class Flow extends Fetchable {
           if (flow.id !== this.id) {
             return
           }
-          const currentStep = flow.steps.get(step.id)
+          const thisStep = flow.steps.get(step.id)
           const previousStep = this.lastStepUpdate.get(handler)
 
           if (
-            currentStep.isCompleted !== previousStep?.isCompleted ||
-            currentStep.isStarted !== previousStep?.isStarted ||
-            currentStep.isHidden !== previousStep?.isHidden ||
-            currentStep.isBlocked !== previousStep?.isBlocked
+            thisStep.isCompleted !== previousStep?.isCompleted ||
+            thisStep.isStarted !== previousStep?.isStarted ||
+            thisStep.isHidden !== previousStep?.isHidden ||
+            thisStep.isBlocked !== previousStep?.isBlocked
           ) {
-            handler(currentStep, previousStep ?? clone(currentStep))
-            this.lastStepUpdate.set(handler, clone(currentStep))
+            handler(thisStep, previousStep ?? clone(thisStep))
+            this.lastStepUpdate.set(handler, clone(thisStep))
           }
         }
         this.getGlobalState().onStepStateChangeHandlerWrappers.set(handler, wrapperHandler)
