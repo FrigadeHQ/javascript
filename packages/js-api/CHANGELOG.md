@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.2.13
+
+### Patch Changes
+
+- d145387: Optimistic writes on flow.forward() and flow.back()
+
 ## 0.2.12
 
 ### Patch Changes
