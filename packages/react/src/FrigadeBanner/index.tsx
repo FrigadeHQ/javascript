@@ -140,7 +140,7 @@ export const FrigadeBanner: React.FC<FrigadeBannerProps> = ({
             </DismissButton>
           </DismissButtonContainer>
         )}
-        <TextContainer type={type}>
+        <TextContainer type={type} className={getClassName('bannerTextContainer', appearance)}>
           <TitleSubtitle
             appearance={appearance}
             title={title}

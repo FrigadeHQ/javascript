@@ -142,7 +142,7 @@ export const FrigadeAnnouncement: React.FC<FrigadeAnnouncementProps> = ({
               <Close />
             </DismissButton>
           )}
-          <TextContainer>
+          <TextContainer className={getClassName('announcementTextContainer', appearance)}>
             <HeaderTitle
               appearance={appearance}
               className={getClassName('announcementTitle', appearance)}

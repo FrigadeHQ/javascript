@@ -103,7 +103,7 @@ export const FrigadeEmbeddedTip: React.FC<FrigadeEmbeddedTipProps> = ({
             <Media appearance={appearance} stepData={currentStep} />
           </MediaContainer>
         )}
-        <TextContainer>
+        <TextContainer className={getClassName('embeddedTipTextContainer', appearance)}>
           <TitleSubtitle
             size="small"
             appearance={appearance}
