@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.38.25
+
+### Patch Changes
+
+- 26a82bf: Add missing class name on text in Announcement, Banner, EmbeddedTip
+
 ## 1.38.24
 
 ### Patch Changes
