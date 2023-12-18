@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.38.26
+
+### Patch Changes
+
+- b9741d8: Allow HTML in type: multiInputList in forms
+
 ## 1.38.25
 
 ### Patch Changes
