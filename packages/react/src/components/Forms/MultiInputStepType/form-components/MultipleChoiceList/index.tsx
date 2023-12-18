@@ -6,6 +6,7 @@ import { getClassName, getCustomClassOverrides } from '../../../../../shared/app
 import { Label } from '../shared/Label'
 import { SubLabel } from '../shared/SubLabel'
 import { CheckBox } from '../../../../CheckBox'
+import { sanitize } from '../../../../../shared/sanitizer'
 
 const MultipleChoiceListWrapper = styled.div`
   display: flex;
@@ -118,7 +119,7 @@ export function MultipleChoiceList({
               }
             }}
           >
-            {option.title}
+            <span dangerouslySetInnerHTML={sanitize(option.title)} />
             <CheckBox
               type="round"
               primaryColor={customFormTypeProps.appearance.theme.colorPrimary}
