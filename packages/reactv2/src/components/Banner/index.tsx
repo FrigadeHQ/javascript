@@ -1,22 +1,18 @@
-import { BoxProps } from '../Box'
-import { Button } from '../Button'
-import { Card } from '../Card'
-import { Flex } from '../Flex/Flex'
-import { Text } from '../Text'
+import { type BoxProps } from '@/components/Box'
+import { Button } from '@/components/Button'
+import { Card } from '@/components/Card'
+import { Flex } from '@/components/Flex/Flex'
+import { Text } from '@/components/Text'
 
 import { XMarkIcon } from '@heroicons/react/24/solid'
 
-import { useFlow } from '../../hooks/useFlow'
-import { FlowHandler, useFlowHandlers } from '../../hooks/useFlowHandlers'
-import { StepHandler, useStepHandlers } from '../../hooks/useStepHandlers'
+import { useFlow } from '@/hooks/useFlow'
+import { useFlowHandlers } from '@/hooks/useFlowHandlers'
+import { useStepHandlers } from '@/hooks/useStepHandlers'
 
-interface BannerProps extends BoxProps {
-  flowId: string
-  onComplete?: FlowHandler
-  onDismiss?: FlowHandler
-  onPrimary?: StepHandler
-  onSecondary?: StepHandler
-}
+import type { FlowComponentProps } from '@/shared/types'
+
+interface BannerProps extends BoxProps, FlowComponentProps {}
 
 export function Banner({
   flowId,

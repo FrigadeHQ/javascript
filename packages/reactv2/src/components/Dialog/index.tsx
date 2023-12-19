@@ -29,12 +29,11 @@ export function Dialog({ children, ...props }: DialogProps) {
             css={{
               left: '50%',
               maxWidth: 430,
-              position: 'fixed',
               top: '50%',
               transform: 'translate(-50%, -50%)',
             }}
             p={8}
-            position="relative"
+            position="fixed"
             textAlign="center"
             {...props}
           >

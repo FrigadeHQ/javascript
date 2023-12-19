@@ -20,7 +20,7 @@ export type BoxProps<T extends React.ElementType = React.ElementType> = {
 } & React.ComponentPropsWithRef<T>
 
 function BoxWithRef<T extends React.ElementType = React.ElementType>(
-  { as, children, className, part, ...props }: BoxProps<T>,
+  { as, children, className, css, part, ...props }: BoxProps<T>,
   ref: React.ForwardedRef<T>
 ) {
   const Component = as ?? 'div'
@@ -30,7 +30,7 @@ function BoxWithRef<T extends React.ElementType = React.ElementType>(
   const processedPart = processPart(part)
   const classNameWithPart = className || processedPart ? clsx(className, processedPart) : undefined
 
-  const cssProp = [{ boxSizing: 'border-box' }, cssFromProps]
+  const cssProp = [{ boxSizing: 'border-box' }, cssFromProps, css]
 
   if (typeof children === 'string') {
     return (
