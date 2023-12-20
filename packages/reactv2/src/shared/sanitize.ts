@@ -4,8 +4,15 @@ export function sanitize(dirty?: string) {
   if (!dirty) {
     return { __html: '' }
   }
+
+  if (typeof window === 'undefined') {
+    // NOTE: JSDOM is required inline because it has import side effects that depend on node
+    const { JSDOM } = require('jsdom')
+    const window = new JSDOM('<!DOCTYPE html>').window
+  }
+
   return {
-    __html: DOMPurify.sanitize(dirty, {
+    __html: DOMPurify(window).sanitize(dirty, {
       ALLOWED_TAGS: [
         'b',
         'i',

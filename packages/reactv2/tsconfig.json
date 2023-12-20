@@ -33,7 +33,7 @@
     // stricter type-checking for stronger correctness. Recommended by TS
     "strict": true,
     "strictNullChecks": false,
-    "types": ["jest"]
+    "types": ["jest", "node"]
   },
   "exclude": [],
   "include": ["src"]
