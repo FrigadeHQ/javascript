@@ -1,18 +1,22 @@
 import DOMPurify from 'dompurify'
 
+function getWindow() {
+  if (typeof window === 'undefined') {
+    // NOTE: JSDOM is required inline because it has import side effects that depend on node
+    const { JSDOM } = require('jsdom')
+    return new JSDOM('<!DOCTYPE html>').window
+  }
+
+  return window
+}
+
 export function sanitize(dirty?: string) {
   if (!dirty) {
     return { __html: '' }
   }
 
-  if (typeof window === 'undefined') {
-    // NOTE: JSDOM is required inline because it has import side effects that depend on node
-    const { JSDOM } = require('jsdom')
-    const window = new JSDOM('<!DOCTYPE html>').window
-  }
-
   return {
-    __html: DOMPurify(window).sanitize(dirty, {
+    __html: DOMPurify(getWindow()).sanitize(dirty, {
       ALLOWED_TAGS: [
         'b',
         'i',
