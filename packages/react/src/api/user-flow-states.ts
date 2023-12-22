@@ -164,7 +164,10 @@ export function useUserFlowStates(): {
         const nextStep =
           steps && steps.length > currentStepIndex + 1 ? steps[currentStepIndex + 1] : null
         if (nextStep) {
-          flowState.lastStepId = nextStep.id
+          // Check that next step is not hidden
+          if (!flowState.stepStates[nextStep.id]?.hidden) {
+            flowState.lastStepId = nextStep.id
+          }
         }
         flowState.stepStates[stepId] = flowResponse
         flowState.flowState = STARTED_FLOW
