@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.38.27
+
+### Patch Changes
+
+- ba8c82f: Fixes an issue related to visibilityCriteria in forms
+
 ## 1.38.26
 
 ### Patch Changes
