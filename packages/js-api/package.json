@@ -8,6 +8,12 @@
   "files": [
     "./dist"
   ],
+  "exports": {
+    ".": {
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.js"
+    }
+  },
   "scripts": {
     "dev": "tsup --watch",
     "test": "jest",
