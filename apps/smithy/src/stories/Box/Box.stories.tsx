@@ -31,7 +31,7 @@ export const Polymorphism = {
 export const StyleProps = {
   args: {
     children: (
-      <Box backgroundColor="blue500" padding={3} css={{ background: "pink" }}>
+      <Box backgroundColor="blue500" color="primary.foreground" padding={3}>
         Let's test some style props.
       </Box>
     ),

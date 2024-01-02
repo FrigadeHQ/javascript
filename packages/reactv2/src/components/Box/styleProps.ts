@@ -1,17 +1,41 @@
+import kcp from 'known-css-properties'
+import type { CSSProperties } from 'react'
+
 import { theme } from '../../shared/theme'
 import { flattenObject } from '../../shared/flattenObject'
 
-const colorTokens: Record<string, unknown> = flattenObject(theme.colors)
+const filteredCSSProperties = kcp.all
+  .filter((prop) => prop.indexOf('-') != 0)
+  .map((prop) => [prop.replace(/-([a-z])/g, (_, char) => char.toUpperCase()), null])
 
-/*
-  TODO:
-  - top / right / bottom / left
-*/
+const defaultCSSProperties = Object.fromEntries(filteredCSSProperties)
 
-export const styleProps = {
+// SEE: https://stackoverflow.com/a/47058976
+type PathsToStringProps<T> = T extends string
+  ? []
+  : {
+      [K in Extract<keyof T, string>]: [K, ...PathsToStringProps<T[K]>]
+    }[Extract<keyof T, string>]
+
+type Join<T extends string[], D extends string> = T extends []
+  ? never
+  : T extends [infer F]
+  ? F
+  : T extends [infer F, ...infer R]
+  ? F extends string
+    ? `${F}${D}${Join<Extract<R, string[]>, D>}`
+    : never
+  : string
+
+type ColorName = Join<PathsToStringProps<typeof theme.colors>, '.'>
+
+const colorTokens = flattenObject(theme.colors) as Record<ColorName, string>
+
+const themedStyleProps = {
   color: colorTokens,
   backgroundColor: colorTokens,
   borderColor: colorTokens,
+
   border: theme.borders,
   borderRadius: theme.radii,
   borderWidth: theme.borderWidths,
@@ -26,221 +50,21 @@ export const styleProps = {
   lineHeight: theme.lineHeights,
 
   margin: theme.space,
-  marginTop: theme.space,
-  marginRight: theme.space,
   marginBottom: theme.space,
   marginLeft: theme.space,
+  marginRight: theme.space,
+  marginTop: theme.space,
 
   padding: theme.space,
-  paddingTop: theme.space,
-  paddingRight: theme.space,
   paddingBottom: theme.space,
   paddingLeft: theme.space,
+  paddingRight: theme.space,
+  paddingTop: theme.space,
+} as const
 
-  alignContent: [
-    'center',
-    'start',
-    'end',
-    'flex-start',
-    'flex-end',
-    'normal',
-    'baseline',
-    'first baseline',
-    'last baseline',
-    'space-between',
-    'space-around',
-    'space-evenly',
-    'stretch',
-    'safe center',
-    'unsafe center',
-    'inherit',
-    'initial',
-    'revert',
-    'revert-layer',
-    'unset',
-  ],
-
-  alignItems: [
-    'normal',
-    'stretch',
-    'center',
-    'start',
-    'end',
-    'flex-start',
-    'flex-end',
-    'self-start',
-    'self-end',
-    'baseline',
-    'first baseline',
-    'last baseline',
-    'safe center',
-    'unsafe center',
-    'inherit',
-    'initial',
-    'revert',
-    'revert-layer',
-    'unset',
-  ],
-
-  alignSelf: [
-    'auto',
-    'normal',
-    'center',
-    'start',
-    'end',
-    'self-start',
-    'self-end',
-    'flex-start',
-    'flex-end',
-    'baseline',
-    'first baseline',
-    'last baseline',
-    'stretch',
-    'safe center',
-    'unsafe center',
-    'inherit',
-    'initial',
-    'revert',
-    'revert-layer',
-    'unset',
-  ],
-
-  flexDirection: [
-    'row',
-    'row-reverse',
-    'column',
-    'column-reverse',
-    'inherit',
-    'initial',
-    'revert',
-    'revert-layer',
-    'unset',
-  ],
-
-  flexWrap: [
-    'nowrap',
-    'wrap',
-    'wrap-reverse',
-    'inherit',
-    'initial',
-    'revert',
-    'revert-layer',
-    'unset',
-  ],
-
-  justifyContent: [
-    'center',
-    'start',
-    'end',
-    'flex-start',
-    'flex-end',
-    'left',
-    'right',
-    'normal',
-    'space-between',
-    'space-around',
-    'space-evenly',
-    'stretch',
-    'safe center',
-    'unsafe center',
-    'inherit',
-    'initial',
-    'revert',
-    'revert-layer',
-    'unset',
-  ],
-
-  justifyItems: [
-    'normal',
-    'stretch',
-    'center',
-    'start',
-    'end',
-    'flex-start',
-    'flex-end',
-    'self-start',
-    'self-end',
-    'left',
-    'right',
-    'baseline',
-    'first baseline',
-    'last baseline',
-    'safe center',
-    'unsafe center',
-    'legacy right',
-    'legacy left',
-    'legacy center',
-    'inherit',
-    'initial',
-    'revert',
-    'revert-layer',
-    'unset',
-  ],
-
-  boxSizing: ['border-box', 'content-box', 'inherit', 'initial', 'revert', 'revert-layer', 'unset'],
-
-  position: [
-    'static',
-    'relative',
-    'absolute',
-    'fixed',
-    'sticky',
-    'inherit',
-    'initial',
-    'revert',
-    'revert-layer',
-    'unset',
-  ],
-
-  display: [
-    'block',
-    'block flex',
-    'block flow',
-    'block flow-root',
-    'block grid',
-    'contents',
-    'flex',
-    'flow-root',
-    'grid',
-    'inherit',
-    'initial',
-    'inline',
-    'inline flex',
-    'inline flow',
-    'inline flow-root',
-    'inline grid',
-    'inline-block',
-    'inline-flex',
-    'inline-grid',
-    'list-item',
-    'none',
-    'revert',
-    'revert-layer',
-    'table',
-    'table-row-group',
-    'table-header-group',
-    'table-footer-group',
-    'table-row',
-    'table-cell',
-    'table-column-group',
-    'table-column',
-    'table-caption',
-    'unset',
-  ],
-
-  textAlign: [
-    'center',
-    'end',
-    'start',
-    'right',
-    'left',
-    'justify',
-    'inherit',
-    'initial',
-    'revert',
-    'revert-layer',
-    'unset',
-  ],
+export const styleProps = {
+  ...defaultCSSProperties,
+  ...themedStyleProps,
 }
 
 export const stylePropShorthands = {
@@ -259,4 +83,47 @@ export const stylePropShorthands = {
   pl: ['paddingLeft'],
   px: ['paddingLeft', 'paddingRight'],
   py: ['paddingTop', 'paddingBottom'],
+}
+
+type ThemedStyleProps = {
+  [K in keyof typeof themedStyleProps]: keyof (typeof themedStyleProps)[K]
+}
+
+type FilteredCSSProps = Omit<
+  {
+    [key in keyof CSSProperties]: CSSProperties[key]
+  },
+  | `-${string}`
+  | `Moz${string}`
+  | `ms${string}`
+  | `Webkit${string}`
+  | `Khtml${string}`
+  | `O${string}`
+>
+
+export type ThemedStyleProp<K extends keyof ThemedStyleProps> = ThemedStyleProps[K] | (string & {})
+
+export interface StyleProps extends FilteredCSSProps {
+  backgroundColor?: ThemedStyleProp<'backgroundColor'>
+  border?: ThemedStyleProp<'border'>
+  borderColor?: ThemedStyleProp<'borderColor'>
+  borderRadius?: ThemedStyleProp<'borderRadius'>
+  borderWidth?: ThemedStyleProp<'borderWidth'>
+  boxShadow?: ThemedStyleProp<'boxShadow'>
+  color?: ThemedStyleProp<'color'>
+  fontFamily?: ThemedStyleProp<'fontFamily'>
+  fontSize?: ThemedStyleProp<'fontSize'>
+  fontWeight?: ThemedStyleProp<'fontWeight'>
+  gap?: ThemedStyleProp<'gap'>
+  lineHeight?: ThemedStyleProp<'lineHeight'>
+  margin?: ThemedStyleProp<'margin'>
+  marginBottom?: ThemedStyleProp<'marginBottom'>
+  marginLeft?: ThemedStyleProp<'marginLeft'>
+  marginRight?: ThemedStyleProp<'marginRight'>
+  marginTop?: ThemedStyleProp<'marginTop'>
+  padding?: ThemedStyleProp<'padding'>
+  paddingBottom?: ThemedStyleProp<'paddingBottom'>
+  paddingLeft?: ThemedStyleProp<'paddingLeft'>
+  paddingRight?: ThemedStyleProp<'paddingRight'>
+  paddingTop?: ThemedStyleProp<'paddingTop'>
 }

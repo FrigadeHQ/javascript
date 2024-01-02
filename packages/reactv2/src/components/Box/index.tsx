@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { clsx } from 'clsx'
 
+import { type StyleProps } from './styleProps'
 import { stylePropsToCss } from './stylePropsToCss'
 import { sanitize } from '../../shared/sanitize'
 
@@ -17,11 +18,12 @@ function processPart(part: string | string[] | undefined) {
 export type BoxProps<T extends React.ElementType = React.ElementType> = {
   as?: T
   part?: string | string[]
-} & React.ComponentPropsWithRef<T>
+} & StyleProps &
+  React.ComponentPropsWithoutRef<T>
 
 function BoxWithRef<T extends React.ElementType = React.ElementType>(
   { as, children, className, css, part, ...props }: BoxProps<T>,
-  ref: React.ForwardedRef<T>
+  ref: React.ForwardedRef<HTMLDivElement>
 ) {
   const Component = as ?? 'div'
 
@@ -45,11 +47,14 @@ function BoxWithRef<T extends React.ElementType = React.ElementType>(
   }
 
   return (
-    // @ts-ignore: TODO: ref types are yet again complaining
     <Component className={classNameWithPart} css={cssProp} {...unmatchedProps} ref={ref}>
       {children}
     </Component>
   )
 }
 
-export const Box = React.forwardRef(BoxWithRef)
+export const Box = React.forwardRef(BoxWithRef) as <
+  T extends React.ElementType = React.ElementType
+>(
+  props: BoxProps<T>
+) => React.ReactElement
