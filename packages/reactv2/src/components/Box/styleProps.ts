@@ -1,6 +1,14 @@
 import { theme } from '../../shared/theme'
 import { flattenObject } from '../../shared/flattenObject'
 
+import kcp from 'known-css-properties'
+
+const filteredCSSProperties = kcp.all
+  .filter((prop) => prop.indexOf('-') != 0)
+  .map((prop) => [prop.replace(/-([a-z])/g, (_, char) => char.toUpperCase()), null])
+
+const defaultCSSProperties = Object.fromEntries(filteredCSSProperties)
+
 const colorTokens: Record<string, unknown> = flattenObject(theme.colors)
 
 /*
@@ -9,6 +17,8 @@ const colorTokens: Record<string, unknown> = flattenObject(theme.colors)
 */
 
 export const styleProps = {
+  ...defaultCSSProperties,
+
   color: colorTokens,
   backgroundColor: colorTokens,
   borderColor: colorTokens,

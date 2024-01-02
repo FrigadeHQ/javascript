@@ -1,6 +1,12 @@
+import type { CSSProperties } from 'react'
+
 import { styleProps, stylePropShorthands } from './styleProps'
 
-function prepValue(value) {
+export type StyleProps = Omit<{
+  [key in keyof CSSProperties]: CSSProperties[key][]
+}, `-${string}` | `Moz${string}` | `ms${string}` | `Webkit${string}` | `Khtml${string}` | `O${string}`>
+
+function prepValue(value: any) {
   if (Array.isArray(value)) {
     return new Map(value.map((v) => [v, v]))
   } else if (typeof value === 'object' && value !== null) {
@@ -9,7 +15,7 @@ function prepValue(value) {
     return new Map([value, value])
   }
 
-  throw new Error('Invalid entry in styleProps')
+  return new Map()
 }
 
 const stylePropsMap = new Map(
@@ -44,19 +50,24 @@ export function stylePropsToCss(props: Record<any, any>) {
   Object.entries(unmatchedProps).forEach(([propName, propValue]) => {
     const styleProp = stylePropsMap.get(propName)
     if (styleProp != null) {
+      // Split space-separated values out and process them individually
       if (typeof propValue === 'string' && propValue.indexOf(' ') > -1) {
-        // Split space-separated values out and process them individually
         const splitPropValues = propValue.split(' ')
 
         cssFromProps[propName] = splitPropValues
           .map((v) => styleProp.get(v.toString()) ?? v)
           .join(' ')
 
-        delete unmatchedProps[propName]
+        // Replace known token values (e.g. lineHeight="xl")
       } else if (styleProp.has(propValue.toString())) {
         cssFromProps[propName] = styleProp.get(propValue.toString())
-        delete unmatchedProps[propName]
+
+        // Pass value through, we trust TypeScript to catch invalid values, right?
+      } else {
+        cssFromProps[propName] = propValue
       }
+
+      delete unmatchedProps[propName]
     }
   })
 

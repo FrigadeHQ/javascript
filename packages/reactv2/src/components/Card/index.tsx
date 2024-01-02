@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import type { BoxProps } from '../Box'
+import { type BoxProps } from '../Box'
 import { Flex } from '../Flex/Flex'
 
 export const Card = React.forwardRef(({ as, children, ...props }: BoxProps, ref) => {

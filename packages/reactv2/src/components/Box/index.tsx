@@ -1,8 +1,14 @@
 import * as React from 'react'
 import { clsx } from 'clsx'
 
-import { stylePropsToCss } from './stylePropsToCss'
+import { type StyleProps, stylePropsToCss } from './stylePropsToCss'
 import { sanitize } from '../../shared/sanitize'
+
+// declare module "react" {
+//   function forwardRef<T, P = {}>(
+//     render: (props: P, ref: React.Ref<T>) => React.ReactNode | null
+//   ): (props: P & React.RefAttributes<T>) => React.ReactNode | null;
+// }
 
 function prefixPart(part: string | undefined) {
   return part ? `fr-${part}` : part
@@ -17,7 +23,7 @@ function processPart(part: string | string[] | undefined) {
 export type BoxProps<T extends React.ElementType = React.ElementType> = {
   as?: T
   part?: string | string[]
-} & React.ComponentPropsWithRef<T>
+} & StyleProps & React.ComponentPropsWithRef<T>
 
 function BoxWithRef<T extends React.ElementType = React.ElementType>(
   { as, children, className, css, part, ...props }: BoxProps<T>,
@@ -45,11 +51,10 @@ function BoxWithRef<T extends React.ElementType = React.ElementType>(
   }
 
   return (
-    // @ts-ignore: TODO: ref types are yet again complaining
     <Component className={classNameWithPart} css={cssProp} {...unmatchedProps} ref={ref}>
       {children}
     </Component>
   )
 }
 
-export const Box = React.forwardRef(BoxWithRef)
+export const Box = React.forwardRef(BoxWithRef) as <T extends React.ElementType = React.ElementType>(p: BoxProps<T> & { ref?: React.Ref<T> }) => React.ReactElement
