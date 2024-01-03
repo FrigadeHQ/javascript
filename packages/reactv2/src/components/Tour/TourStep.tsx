@@ -32,7 +32,9 @@ export function TourStep({
     onSecondary,
   })
 
-  if (!isCurrentModal) return null
+  if (!isCurrentModal) {
+    return null
+  }
 
   return (
     <Tooltip
