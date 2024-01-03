@@ -112,6 +112,10 @@ export const FrigadeAnnouncement: React.FC<FrigadeAnnouncementProps> = ({
 
   const currentStep = steps[currentStepIndex]
 
+  if (!currentStep) {
+    return null
+  }
+
   const handleClose = async () => {
     setShowModal(false)
     await markFlowSkipped(flowId)
