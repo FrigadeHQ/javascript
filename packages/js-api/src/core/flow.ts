@@ -170,6 +170,11 @@ export class Flow extends Fetchable {
         const nextStepId = Array.from(this.steps.keys())[index + 1]
         if (nextStepId) {
           copy.lastStepId = nextStepId
+          copy.stepStates[nextStepId].actionType = STARTED_STEP
+          const lastAction = new Date()
+          copy.stepStates[nextStepId].lastActionAt = lastAction.toISOString()
+          this.steps.get(nextStepId).isStarted = true
+          this.steps.get(nextStepId).lastActionAt = lastAction
         }
 
         if (isLastStep) {
@@ -214,6 +219,7 @@ export class Flow extends Fetchable {
 
         thisStep.isCompleted = false
         thisStep.isStarted = false
+        thisStep.lastActionAt = undefined
         const copy = clone(this.getGlobalState().userFlowStates[this.id])
         copy.stepStates[thisStep.id].actionType = NOT_STARTED_STEP
         copy.stepStates[thisStep.id].lastActionAt = undefined
@@ -421,20 +427,21 @@ export class Flow extends Fetchable {
    * Gets current step
    */
   public getCurrentStep(): FlowStep {
-    let lastStepId = Array.from(this.steps.keys()).find(
+    let maybeCurrentStepId = Array.from(this.steps.keys()).find(
       (key) => this.steps.get(key).isCompleted === false && this.steps.get(key).isHidden === false
     )
     Array.from(this.steps.keys()).forEach((key) => {
       if (
         this.steps.get(key).isStarted &&
         this.steps.get(key).lastActionAt &&
-        this.steps.get(key).lastActionAt > (this.steps.get(lastStepId)?.lastActionAt ?? new Date(0))
+        this.steps.get(key).lastActionAt >
+          (this.steps.get(maybeCurrentStepId)?.lastActionAt ?? new Date(0))
       ) {
-        lastStepId = key
+        maybeCurrentStepId = key
       }
     })
 
-    const currentStepId = lastStepId ?? Array.from(this.steps.keys())[0]
+    const currentStepId = maybeCurrentStepId ?? Array.from(this.steps.keys())[0]
     return this.steps.get(currentStepId)
   }
 

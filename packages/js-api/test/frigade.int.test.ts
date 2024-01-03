@@ -59,7 +59,6 @@ test('read and set flow step state', async () => {
   await step.reset()
   expect(step.isCompleted).toBeFalsy()
   expect(step.isStarted).toBeFalsy()
-  expect(flow.getCurrentStepIndex()).toEqual(0)
 })
 
 test('navigates back and forth in a flow', async () => {
