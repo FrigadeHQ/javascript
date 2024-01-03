@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.38.28
+
+### Patch Changes
+
+- c2c45aa: Fixes a missing null check on announcements
+
 ## 1.38.27
 
 ### Patch Changes
