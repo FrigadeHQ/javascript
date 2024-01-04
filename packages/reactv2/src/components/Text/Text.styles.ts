@@ -1,7 +1,7 @@
 const base = {
   color: 'neutral.foreground',
   fontFamily: 'default',
-  margin: 0,
+  margin: '0',
 }
 
 export const Display1 = {
