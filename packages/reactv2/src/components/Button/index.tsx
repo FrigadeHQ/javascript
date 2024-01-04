@@ -12,9 +12,16 @@ export interface ButtonProps extends BoxProps {
   variant?: ButtonVariant
 }
 
-function BaseButton({ as, children, title, variant = 'Primary', ...props }: ButtonProps) {
+function BaseButton({ as, children, part, title, variant = 'Primary', ...props }: ButtonProps) {
+  const variantPart = variant.toLocaleLowerCase()
+
   return (
-    <Box as={as ?? 'button'} css={styles[variant] as Interpolation<any>} {...props}>
+    <Box
+      as={as ?? 'button'}
+      css={styles[variant] as Interpolation<any>}
+      part={[`button-${variantPart}`, part]}
+      {...props}
+    >
       {children}
       {title && (
         <Text.Body2 fontWeight="demibold" color="inherit">
@@ -29,13 +36,13 @@ const buttonVariantNames: ButtonVariant[] = ['Primary', 'Secondary', 'Link', 'Pl
 
 const buttonVariantComponents = Object.fromEntries(
   buttonVariantNames.map((variant) => {
-    const variantPart = variant.toLocaleLowerCase()
-
-    const component = ({ part, ...props }: ButtonProps) => (
-      <BaseButton part={[`button-${variantPart}`, part]} {...props} variant={variant}>
-        {props.children}
-      </BaseButton>
-    )
+    const component = (props: ButtonProps) => {
+      return (
+        <BaseButton {...props} variant={variant}>
+          {props.children}
+        </BaseButton>
+      )
+    }
 
     component.displayName = `Text.${variant}`
 

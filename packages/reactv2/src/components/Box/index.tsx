@@ -9,15 +9,17 @@ function prefixPart(part: string | undefined) {
   return part ? `fr-${part}` : part
 }
 
-function processPart(part: string | string[] | undefined) {
+function processPart(part: Part | undefined) {
   if (!part) return part
 
-  return Array.isArray(part) ? part.map((p) => prefixPart(p)).join(' ') : prefixPart(part)
+  return Array.isArray(part) ? part.map((p) => processPart(p)).join(' ') : prefixPart(part)
 }
+
+type Part = string | Part[]
 
 export type BoxProps<T extends React.ElementType = React.ElementType> = {
   as?: T
-  part?: string | string[]
+  part?: Part
 } & StyleProps &
   React.ComponentPropsWithoutRef<T>
 
@@ -31,7 +33,6 @@ function BoxWithRef<T extends React.ElementType = React.ElementType>(
 
   const processedPart = processPart(part)
   const classNameWithPart = className || processedPart ? clsx(className, processedPart) : undefined
-
   const cssProp = [{ boxSizing: 'border-box' }, cssFromProps, css]
 
   if (typeof children === 'string') {
