@@ -4,12 +4,20 @@ import type { CSSProperties } from 'react'
 import { theme } from '../../shared/theme'
 import { flattenObject } from '../../shared/flattenObject'
 
+// Don't use these as CSS props, pass them through to HTML
+const omittedCSSProperties = new Set([
+  'alt', // Mozilla doesn't have this listed as a valid CSS property ¯\_(ツ)_/¯
+  'size', // Only applies to @page, not used for styling components. Breaks <input>
+  'src', // Only applies to @font-face, not used for styling components. Breaks <img>, <video>, et al
+])
+
 const filteredCSSProperties = kcp.all
-  .filter((prop) => prop.indexOf('-') != 0)
+  .filter((prop) => prop.indexOf('-') != 0 && !omittedCSSProperties.has(prop))
   .map((prop) => [prop.replace(/-([a-z])/g, (_, char) => char.toUpperCase()), null])
 
 const defaultCSSProperties = Object.fromEntries(filteredCSSProperties)
 
+// Recursive type for flattened color names
 // SEE: https://stackoverflow.com/a/47058976
 type PathsToStringProps<T> = T extends string
   ? []

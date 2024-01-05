@@ -1,5 +1,30 @@
 import { styleProps, stylePropShorthands } from './styleProps'
 
+/*
+Prefix these props to allow for usage in CSS & HTML:
+  color
+  - HTML: obsolete
+
+  background
+  - HTML: obsolete
+
+  border
+  - HTML: obsolete
+
+  content
+  - HTML: only used in <meta>, not relevant to components
+
+  translate
+  - used by both. Prefix _translate to force pass-through to HTML?
+
+
+  height
+  width
+  - HTML: used by <canvas>, <embed>, <iframe>, <img>, <input>, <object>, <video>
+  - Can automatically send these to both HTML and CSS for those elements and allow manual prefixing just in case (like if you want to set HTML width to something different that CSS width)
+
+*/
+
 function prepValue(value: any) {
   if (Array.isArray(value)) {
     return new Map(value.map((v) => [v, v]))
@@ -43,6 +68,7 @@ export function stylePropsToCss(props: Record<any, any>) {
   // Convert styleProps to style object
   Object.entries(unmatchedProps).forEach(([propName, propValue]) => {
     const styleProp = stylePropsMap.get(propName)
+
     if (styleProp != null) {
       // Split space-separated values out and process them individually
       if (typeof propValue === 'string' && propValue.indexOf(' ') > -1) {
@@ -60,6 +86,18 @@ export function stylePropsToCss(props: Record<any, any>) {
       } else {
         cssFromProps[propName] = propValue
       }
+
+      // TODO: Don't delete the special props that get passed through to certain tags by default
+      delete unmatchedProps[propName]
+    }
+  })
+
+  // Remove prefix from prefixed style props and pass them through
+  Object.keys(unmatchedProps).forEach((propName) => {
+    const clippedPropName = propName.substring(1)
+
+    if (propName.indexOf('_') === 0 && stylePropsMap.has(clippedPropName)) {
+      unmatchedProps[clippedPropName] = unmatchedProps[propName]
 
       delete unmatchedProps[propName]
     }
