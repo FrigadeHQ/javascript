@@ -8,6 +8,7 @@
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
   "ignore": [
-    "@frigade/reactv2"
+    "@frigade/reactv2",
+    "smithy"
   ]
 }
