@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.2.14
+
+### Patch Changes
+
+- 3817322: Fixes an issue where optimistic writes were waiting for server response
+
 ## 0.2.13
 
 ### Patch Changes
