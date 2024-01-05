@@ -21,7 +21,8 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
   const { userId, setUserId } = useUser()
   const [lastUserId, setLastUserId] = useState<string | null>(userId)
   const { getFlowStatus } = useFlows()
-  const { flows, userProperties, setIsNewGuestUser, flowResponses } = useContext(FrigadeContext)
+  const { flows, userProperties, setIsNewGuestUser, flowResponses, disableImagePreloading } =
+    useContext(FrigadeContext)
   const [automaticFlowIdsToTrigger, setAutomaticFlowIdsToTrigger] = useState<Flow[]>([])
   // Add list of flows already triggered
   const [triggeredFlows, setTriggeredFlows] = useState<string[]>([])
@@ -111,7 +112,7 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
   useEffect(() => {
     try {
       // Parse all image urls from flows (contained in flow.data) and asynchronously load them
-      if (flows) {
+      if (!disableImagePreloading && flows) {
         const loadedImageUrls: string[] = []
         flows.forEach((flow) => {
           if (flow.data) {

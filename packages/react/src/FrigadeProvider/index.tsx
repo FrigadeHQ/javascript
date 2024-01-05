@@ -46,6 +46,7 @@ export interface IFrigadeContext {
   readonly: boolean
   debug: boolean
   flowDataOverrides?: { [key: string]: string }
+  disableImagePreloading: boolean
 }
 
 export interface FrigadeProviderProps {
@@ -93,6 +94,7 @@ export const FrigadeContext = createContext<IFrigadeContext>({
   apiUrl: DEFAULT_API_URL,
   readonly: false,
   debug: false,
+  disableImagePreloading: false,
 })
 
 interface FrigadeConfig {
@@ -122,6 +124,10 @@ interface FrigadeConfig {
    * Default false.
    */
   debug?: boolean
+  /**
+   * Flag to disable preloading images. Default false.
+   */
+  disableImagePreloading?: boolean
 
   /**
    * @ignore
@@ -258,6 +264,8 @@ export const FrigadeProvider: FC<FrigadeProviderProps> = ({
     readonly: config && config.readonly ? config.readonly : false,
     debug: config && config.debug ? config.debug : false,
     flowDataOverrides: config && config.__internal__ ? config.__internal__ : undefined,
+    disableImagePreloading:
+      config && config.disableImagePreloading ? config.disableImagePreloading : false,
   } as IFrigadeContext
 
   // Forward-port appearance.theme into theme tokens
