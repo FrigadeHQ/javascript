@@ -11,15 +11,18 @@ const config = {
     getAbsolutePath("@storybook/addon-links"),
     getAbsolutePath("@storybook/addon-essentials"),
     getAbsolutePath("@storybook/addon-interactions"),
-    getAbsolutePath("@storybook/addon-docs"),
   ],
   framework: {
     name: getAbsolutePath("@storybook/react-vite"),
-    options: {},
+    options: {
+      builder: {
+        viteConfigPath: "./vite.config",
+      },
+    },
   },
-  docs: {
-    autodocs: "tag",
-  },
+  // docs: {
+  //   autodocs: "tag",
+  // },
   // previewHead: (head) => `
   //   ${head}
   //   <script src="https://cdn.tailwindcss.com"></script>

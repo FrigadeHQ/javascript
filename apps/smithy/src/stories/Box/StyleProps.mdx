@@ -1,0 +1,35 @@
+import { Meta } from "@storybook/blocks";
+import { Text } from "@frigade/reactv2";
+
+<Meta title="Design System/Box/Style Props" />
+
+# Style Props
+
+Style props allow you to add any valid CSS property as a React prop.
+Style props are converted to `css` and compiled into a className by
+Emotion.
+
+The following props are not used as style props, as they are a) used
+as HTML attributes and b) not used for actual styling in CSS. They
+will be skipped by style props and passed through to your component
+unaltered.
+
+- alt
+- size
+- src
+
+The `width` and `height` props are a special case: They're used to set the
+intrinsic size of replaced elements (img, video, etc.), so two things
+happen:
+
+1. The width and height props are converted to the width and height CSS
+   properties as usual.
+
+2. If Box is rendering as a replaced element (
+   `<canvas>, <embed>, <iframe>, <img>, <input>, <object>, or <video>`
+   ), preserve and pass width and height through as HTML attributes.
+
+As an escape hatch, you can prefix any style prop with an underscore
+to prevent it from being converted to CSS. E.g.:
+`<Box _translate="true" />` will compile to
+`<div translate="true" />`. Only valid style props will be converted in this manner -- if you add a prop named `_foobar` it will be passed through unaltered as `_foobar`, not `foobar`.
