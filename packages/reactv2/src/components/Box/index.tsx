@@ -29,7 +29,7 @@ function BoxWithRef<T extends React.ElementType = React.ElementType>(
 ) {
   const Component = as ?? 'div'
 
-  const { cssFromProps, unmatchedProps } = stylePropsToCss(props)
+  const { cssFromProps, unmatchedProps } = stylePropsToCss(props, Component)
 
   const processedPart = processPart(part)
   const classNameWithPart = className || processedPart ? clsx(className, processedPart) : undefined

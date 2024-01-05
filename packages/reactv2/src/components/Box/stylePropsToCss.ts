@@ -49,7 +49,19 @@ const stylePropShorthandsMap = new Map(
   })
 )
 
-export function stylePropsToCss(props: Record<any, any>) {
+const preservedProps = new Set(['height', 'width'])
+
+const elementsWithPreservedProps = new Set([
+  'canvas',
+  'embed',
+  'iframe',
+  'img',
+  'input',
+  'object',
+  'video',
+])
+
+export function stylePropsToCss(props: Record<any, any>, element: React.ElementType = 'div') {
   const unmatchedProps = Object.assign({}, props)
   const cssFromProps = {}
 
@@ -87,8 +99,14 @@ export function stylePropsToCss(props: Record<any, any>) {
         cssFromProps[propName] = propValue
       }
 
-      // TODO: Don't delete the special props that get passed through to certain tags by default
-      delete unmatchedProps[propName]
+      // Don't delete the special props that get passed through to certain tags by default
+      if (
+        typeof element !== 'string' ||
+        !elementsWithPreservedProps.has(element) ||
+        !preservedProps.has(propName)
+      ) {
+        delete unmatchedProps[propName]
+      }
     }
   })
 

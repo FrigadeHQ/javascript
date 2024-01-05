@@ -7,7 +7,11 @@ export default {
 
 export const Default = {
   args: {
-    children: <Text>This is a Box.</Text>,
+    as: "img",
+    src: "http://placekitten.com/60/60",
+    height: "60px",
+    width: "60px",
+    border: "1px solid fuchsia",
   },
 };
 
