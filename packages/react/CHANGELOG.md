@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.38.29
+
+### Patch Changes
+
+- 3c5bf3b: Adds a flag for disabling image preloading
+
 ## 1.38.28
 
 ### Patch Changes
