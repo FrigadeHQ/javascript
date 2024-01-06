@@ -8,6 +8,8 @@ import { Fetchable } from '../shared/Fetchable'
 export class Frigade extends Fetchable {
   private flows: Flow[] = []
   private initPromise: Promise<void>
+  private hasFailed = false
+
   private visibilityChangeHandler = async () => {
     if (document.visibilityState === 'visible') {
       await this.refreshFlows()
@@ -127,6 +129,13 @@ export class Frigade extends Fetchable {
     this.getGlobalState().onFlowStateChangeHandlers.push(handler)
   }
 
+  /**
+   * Returns true of Frigade has failed to call the API.
+   */
+  hasFailedToLoad() {
+    return this.hasFailed
+  }
+
   public removeStateChangeHandler(handler: (flow: Flow, previousFlow?: Flow) => void) {
     this.getGlobalState().onFlowStateChangeHandlers =
       this.getGlobalState().onFlowStateChangeHandlers.filter((h) => h !== handler)
@@ -184,6 +193,9 @@ export class Frigade extends Fetchable {
           userFlowStates.forEach((userFlowState) => {
             frigadeGlobalState[globalStateKey].userFlowStates[userFlowState.flowId] = userFlowState
           })
+          this.hasFailed = false
+        } else {
+          this.hasFailed = true
         }
       }
     }
@@ -203,6 +215,8 @@ export class Frigade extends Fetchable {
           cloneFlow(this.flows[this.flows.length - 1])
         )
       })
+    } else {
+      this.hasFailed = true
     }
   }
 

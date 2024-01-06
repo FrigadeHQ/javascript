@@ -81,7 +81,6 @@ export class Flow extends Fetchable {
 
     const userFlowState = this.getUserFlowState()
     if (!userFlowState) {
-      console.error(`Flow ${this.id} is not defined in the userFlowStates.`)
       return
     }
     this.userFlowStateRaw = userFlowState

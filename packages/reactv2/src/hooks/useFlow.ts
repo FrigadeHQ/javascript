@@ -28,6 +28,10 @@ export function useFlow(flowId: string, config?: FlowConfig) {
   useEffect(() => {
     ;(async () => {
       const flowInstance: Flow = await frigade.getFlow(flowId)
+      if (!flowInstance || frigade.hasFailedToLoad()) {
+        setFlow(undefined)
+        return
+      }
       if (config?.variables) {
         flowInstance.applyVariables(config.variables)
       }
