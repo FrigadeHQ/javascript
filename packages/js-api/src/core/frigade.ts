@@ -8,21 +8,32 @@ import { Fetchable } from '../shared/Fetchable'
 export class Frigade extends Fetchable {
   private flows: Flow[] = []
   private initPromise: Promise<void>
+  private visibilityChangeHandler = async () => {
+    if (document.visibilityState === 'visible') {
+      await this.refreshFlows()
+      await this.refreshUserFlowStates()
+    }
+  }
 
   constructor(apiKey: string, config?: FrigadeConfig) {
     super({
       apiKey,
       ...config,
     })
-
     this.init(this.config)
     if (isWeb()) {
-      document.addEventListener('visibilitychange', async () => {
-        if (document.visibilityState === 'visible') {
-          await this.refreshFlows()
-          await this.refreshUserFlowStates()
-        }
-      })
+      document.addEventListener('visibilitychange', this.visibilityChangeHandler)
+    }
+  }
+
+  destroy() {
+    if (isWeb()) {
+      document.removeEventListener('visibilitychange', this.visibilityChangeHandler)
+      // Remove all other event listeners
+      const globalStateKey = getGlobalStateKey(this.config)
+      if (frigadeGlobalState[globalStateKey]) {
+        frigadeGlobalState[globalStateKey].onFlowStateChangeHandlers = []
+      }
     }
   }
 

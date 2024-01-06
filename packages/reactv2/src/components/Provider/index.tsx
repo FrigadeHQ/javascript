@@ -1,4 +1,4 @@
-import { createContext, Dispatch, SetStateAction, useRef, useState } from 'react'
+import { createContext, Dispatch, SetStateAction, useEffect, useRef, useState } from 'react'
 import { Global, ThemeProvider } from '@emotion/react'
 
 import {
@@ -38,7 +38,7 @@ export const FrigadeContext = createContext<ProviderContext>({
 export function Provider({ children, navigate, theme, ...props }: ProviderProps) {
   const themeOverrides = theme ? createThemeVariables(theme) : {}
   const [modals, setModals] = useState([])
-  const frigade = useRef(
+  const frigade = useRef<Frigade>(
     new Frigade(props.apiKey, {
       apiKey: props.apiKey,
       apiUrl: props.apiUrl,
@@ -52,6 +52,12 @@ export function Provider({ children, navigate, theme, ...props }: ProviderProps)
     ((url, target = '_self') => {
       window.open(url, target)
     })
+
+  useEffect(() => {
+    return () => {
+      frigade.current?.destroy()
+    }
+  }, [])
 
   return (
     <FrigadeContext.Provider
