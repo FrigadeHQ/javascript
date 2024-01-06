@@ -1,5 +1,12 @@
 # @frigade/js
 
+## 0.2.15
+
+### Patch Changes
+
+- 2445860: Add destructor method to destroy class and remove event handlers
+- f2411a5: Additional guard rails against network failures
+
 ## 0.2.14
 
 ### Patch Changes
