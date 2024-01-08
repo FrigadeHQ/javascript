@@ -115,7 +115,7 @@ export const DataFetcher: FC<DataFetcherProps> = ({}) => {
       if (!disableImagePreloading && flows) {
         const loadedImageUrls: string[] = []
         flows.forEach((flow) => {
-          if (flow.data) {
+          if (flow.data && flow.active) {
             // Find all image urls in flow data. All image urls are in the json data as "imageUri" fields
             const imageUrls = flow.data.match(/"imageUri":"(.*?)"/g)
             if (imageUrls) {
