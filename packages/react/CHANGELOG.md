@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.38.30
+
+### Patch Changes
+
+- bfd6f3f: Prevent disabled Flows from preloading images
+
 ## 1.38.29
 
 ### Patch Changes
