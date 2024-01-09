@@ -76,6 +76,8 @@ export const styleProps = {
 }
 
 export const stylePropShorthands = {
+  bg: ['backgroundColor'],
+
   m: ['margin'],
   mt: ['marginTop'],
   mr: ['marginRight'],
@@ -92,6 +94,8 @@ export const stylePropShorthands = {
   px: ['paddingLeft', 'paddingRight'],
   py: ['paddingTop', 'paddingBottom'],
 }
+
+export const pseudoStyleProps = new Set(['active', 'focus', 'focusVisible', 'focusWithin', 'hover'])
 
 type ThemedStyleProps = {
   [K in keyof typeof themedStyleProps]: keyof (typeof themedStyleProps)[K]

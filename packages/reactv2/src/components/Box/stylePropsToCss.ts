@@ -1,4 +1,4 @@
-import { styleProps, stylePropShorthands } from './styleProps'
+import { pseudoStyleProps, styleProps, stylePropShorthands } from './styleProps'
 
 /*
 Prefix these props to allow for usage in CSS & HTML:
@@ -49,8 +49,8 @@ const stylePropShorthandsMap = new Map(
   })
 )
 
+// TL;DR: Replaced elements should always have width & height HTML attrs set because intrinsic height / width = aspect ratio
 const preservedProps = new Set(['height', 'width'])
-
 const elementsWithPreservedProps = new Set([
   'canvas',
   'embed',
@@ -61,16 +61,41 @@ const elementsWithPreservedProps = new Set([
   'video',
 ])
 
+function getPseudoClass(propName: string) {
+  // We're intentionally only grabbing the initial name and first pseudo class for now
+  // We can support styleProp:hover:focus easily enough by running through the whole array
+  const [name, pseudo] = propName.split(':')
+
+  return [name, pseudoStyleProps.has(pseudo) ? pseudo : null]
+}
+
 export function stylePropsToCss(props: Record<any, any>, element: React.ElementType = 'div') {
   const unmatchedProps = Object.assign({}, props)
   const cssFromProps = {}
 
+  function getTargetObject(pseudo: string | null) {
+    if (pseudo == null) {
+      return cssFromProps
+    }
+
+    const pseudoSelector = `&:${pseudo}`
+
+    if (cssFromProps[pseudoSelector] == null) {
+      cssFromProps[pseudoSelector] = {}
+    }
+
+    return cssFromProps[pseudoSelector]
+  }
+
   // Convert shorthand styleProps to full versions
   Object.entries(unmatchedProps).forEach(([propName, propValue]) => {
-    const matchedShorthand = stylePropShorthandsMap.get(propName)
+    const [name, pseudo] = getPseudoClass(propName)
+
+    const matchedShorthand = stylePropShorthandsMap.get(name)
     if (matchedShorthand != null) {
-      matchedShorthand.forEach((propName) => {
-        unmatchedProps[propName] = propValue
+      matchedShorthand.forEach((p) => {
+        const fullPropName = `${p}${pseudo ? ':' + pseudo : ''}`
+        unmatchedProps[fullPropName] = propValue
       })
 
       delete unmatchedProps[propName]
@@ -78,7 +103,8 @@ export function stylePropsToCss(props: Record<any, any>, element: React.ElementT
   })
 
   // Convert styleProps to style object
-  Object.entries(unmatchedProps).forEach(([propName, propValue]) => {
+  Object.entries(unmatchedProps).forEach(([fullPropName, propValue]) => {
+    const [propName, pseudo] = getPseudoClass(fullPropName)
     const styleProp = stylePropsMap.get(propName)
 
     if (styleProp != null) {
@@ -86,17 +112,19 @@ export function stylePropsToCss(props: Record<any, any>, element: React.ElementT
       if (typeof propValue === 'string' && propValue.indexOf(' ') > -1) {
         const splitPropValues = propValue.split(' ')
 
-        cssFromProps[propName] = splitPropValues
+        getTargetObject(pseudo)[propName] = splitPropValues
           .map((v) => styleProp.get(v.toString()) ?? v)
           .join(' ')
+      }
 
-        // Replace known token values (e.g. lineHeight="xl")
-      } else if (styleProp.has(propValue.toString())) {
-        cssFromProps[propName] = styleProp.get(propValue.toString())
+      // Replace known token values (e.g. lineHeight="xl")
+      else if (styleProp.has(propValue.toString())) {
+        getTargetObject(pseudo)[propName] = styleProp.get(propValue.toString())
+      }
 
-        // Pass value through, we trust TypeScript to catch invalid values, right?
-      } else {
-        cssFromProps[propName] = propValue
+      // Pass value through, we trust TypeScript to catch invalid values, right?
+      else {
+        getTargetObject(pseudo)[propName] = propValue
       }
 
       // Don't delete the special props that get passed through to certain tags by default
@@ -105,7 +133,7 @@ export function stylePropsToCss(props: Record<any, any>, element: React.ElementT
         !elementsWithPreservedProps.has(element) ||
         !preservedProps.has(propName)
       ) {
-        delete unmatchedProps[propName]
+        delete unmatchedProps[fullPropName]
       }
     }
   })

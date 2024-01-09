@@ -12,13 +12,21 @@ export interface ButtonProps extends BoxProps {
   variant?: ButtonVariant
 }
 
-function BaseButton({ as, children, part, title, variant = 'Primary', ...props }: ButtonProps) {
+function BaseButton({
+  as,
+  children,
+  css,
+  part,
+  title,
+  variant = 'Primary',
+  ...props
+}: ButtonProps) {
   const variantPart = variant.toLocaleLowerCase()
 
   return (
     <Box
       as={as ?? 'button'}
-      css={styles[variant] as Interpolation<any>}
+      css={[styles[variant] as Interpolation<any>, css]}
       part={[`button-${variantPart}`, part]}
       {...props}
     >

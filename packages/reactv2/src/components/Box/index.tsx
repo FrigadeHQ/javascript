@@ -24,7 +24,7 @@ export type BoxProps<T extends React.ElementType = React.ElementType> = {
   React.ComponentPropsWithoutRef<T>
 
 function BoxWithRef<T extends React.ElementType = React.ElementType>(
-  { as, children, className, css, part, ...props }: BoxProps<T>,
+  { as, children, className, css = {}, part, ...props }: BoxProps<T>,
   ref: React.ForwardedRef<HTMLDivElement>
 ) {
   const Component = as ?? 'div'
