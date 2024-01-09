@@ -1,49 +1,38 @@
-export const base = ({ radii, space }) => ({
-  borderWidth: 0,
-  borderRadius: radii.md,
-  padding: `${space[2]} ${space[4]}`,
-})
+const base = {
+  borderWidth: '0',
+  borderRadius: 'md',
+  padding: '2 4',
+}
 
-export const Primary = ({ colors }) => [
-  base,
-  {
-    backgroundColor: colors.primary.surface,
-    color: colors.primary.foreground,
+export const Primary = {
+  ...base,
+  backgroundColor: 'primary.surface',
+  color: 'primary.foreground',
 
-    '&:hover': {
-      backgroundColor: colors.primary.hover.surface,
-    },
-  },
-]
+  'backgroundColor:hover': 'primary.hover.surface',
+}
 
-export const Secondary = ({ colors }) => [
-  base,
-  {
-    backgroundColor: colors.secondary.surface,
-    color: colors.secondary.foreground,
+export const Secondary = {
+  ...base,
 
-    '&:hover': {
-      backgroundColor: colors.secondary.hover.surface,
-    },
-  },
-]
+  backgroundColor: 'secondary.surface',
+  color: 'secondary.foreground',
 
-export const Link = ({ colors }) => [
-  base,
-  {
-    backgroundColor: colors.transparent,
-    color: colors.primary.surface,
+  'backgroundColor:hover': 'secondary.hover.surface',
+}
 
-    '&:hover': {
-      color: colors.primary.hover.surface,
-    },
-  },
-]
+export const Link = {
+  ...base,
 
-export const Plain = ({ colors }) => [
-  base,
-  {
-    backgroundColor: colors.transparent,
-    color: colors.neutral.foreground,
-  },
-]
+  backgroundColor: 'transparent',
+  color: 'primary.surface',
+
+  'color:hover': 'primary.hover.surface',
+}
+
+export const Plain = {
+  ...base,
+
+  backgroundColor: 'transparent',
+  color: 'neutral.foreground',
+}
