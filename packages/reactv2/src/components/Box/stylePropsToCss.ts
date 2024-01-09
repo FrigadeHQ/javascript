@@ -78,7 +78,9 @@ export function stylePropsToCss(props: Record<any, any>, element: React.ElementT
       return cssFromProps
     }
 
-    const pseudoSelector = `&:${pseudo}`
+    const hyphenatedPseudo = pseudo.replace(/[A-Z]/g, (match) => `-${match.toLocaleLowerCase()}`)
+
+    const pseudoSelector = `&:${hyphenatedPseudo}`
 
     if (cssFromProps[pseudoSelector] == null) {
       cssFromProps[pseudoSelector] = {}
