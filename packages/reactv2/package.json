@@ -1,6 +1,6 @@
 {
   "name": "@frigade/reactv2",
-  "version": "2.0.0-alpha.31",
+  "version": "2.0.0-alpha.32",
   "description": "Build better product onboarding, faster.",
   "type": "module",
   "private": true,
