@@ -14,11 +14,12 @@ export interface TourStepProps extends Omit<TourProps, 'flowId'> {
 }
 
 export function TourStep({
-  step,
+  dismissible = true,
   flow,
   onDismiss,
   onPrimary,
   onSecondary,
+  step,
   ...props
 }: TourStepProps) {
   const { isCurrentModal } = useModal(`${flow.id}-${step.id}`)
@@ -44,7 +45,7 @@ export function TourStep({
       onPointerDownOutside={(e) => e.preventDefault()}
       {...props}
     >
-      <Tooltip.Close onClick={handleDismiss} />
+      {dismissible && <Tooltip.Close onClick={handleDismiss} />}
 
       <Tooltip.Media
         src={step.videoUri ?? step.imageUri}
