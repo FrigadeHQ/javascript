@@ -7,6 +7,7 @@ export default {
 
 export const Default = {
   args: {
+    dismissible: true,
     flowId: "flow_cvWFczn1RMHp9ZcK",
     onPrimary: (step, e) => console.log(step, e),
   },

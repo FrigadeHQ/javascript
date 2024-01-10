@@ -7,6 +7,7 @@ export default {
 
 export const Default = {
   args: {
+    dismissible: true,
     flowId: "flow_ZacoWhZhzqbdHQ8k",
   },
 };

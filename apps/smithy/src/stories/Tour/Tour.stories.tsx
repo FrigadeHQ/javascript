@@ -7,7 +7,9 @@ export default {
 };
 
 export const Default = {
-  args: {},
+  args: {
+    dismissible: true,
+  },
   decorators: [
     (_: StoryFn, options: StoryContext) => (
       <Box
