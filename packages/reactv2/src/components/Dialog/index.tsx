@@ -16,30 +16,31 @@ export function Dialog({ children, ...props }: DialogProps) {
   return (
     <RadixDialog.Root defaultOpen={true} modal={true}>
       <RadixDialog.Portal>
-        <RadixDialog.Overlay
-          style={{ background: 'rgb(0 0 0 / 0.5)', position: 'fixed', inset: 0 }}
-        />
-        <RadixDialog.Content
-          asChild
-          onOpenAutoFocus={(e) => e.preventDefault()}
-          onPointerDownOutside={(e) => e.preventDefault()}
-        >
-          <Card
-            boxShadow="md"
-            css={{
-              left: '50%',
-              maxWidth: 430,
-              top: '50%',
-              transform: 'translate(-50%, -50%)',
-            }}
-            p={8}
-            position="fixed"
-            textAlign="center"
-            {...props}
+        <Box inset="0" position="fixed" zIndex="9999">
+          <RadixDialog.Overlay asChild>
+            <Box background="rgb(0 0 0 / 0.5)" position="fixed" inset="0" />
+          </RadixDialog.Overlay>
+          <RadixDialog.Content
+            asChild
+            onOpenAutoFocus={(e) => e.preventDefault()}
+            onPointerDownOutside={(e) => e.preventDefault()}
           >
-            {children}
-          </Card>
-        </RadixDialog.Content>
+            <Card
+              boxShadow="md"
+              left="50%"
+              maxWidth="430px"
+              p={8}
+              part="dialog-content"
+              position="fixed"
+              textAlign="center"
+              top="50%"
+              transform="translate(-50%, -50%)"
+              {...props}
+            >
+              {children}
+            </Card>
+          </RadixDialog.Content>
+        </Box>
       </RadixDialog.Portal>
     </RadixDialog.Root>
   )
@@ -48,15 +49,7 @@ export function Dialog({ children, ...props }: DialogProps) {
 Dialog.Close = (props: ButtonProps) => {
   return (
     <RadixDialog.Close aria-label="Close" asChild>
-      <Button.Plain
-        css={{
-          top: '4px',
-          right: '-4px',
-        }}
-        part="close"
-        position="absolute"
-        {...props}
-      >
+      <Button.Plain part="close" position="absolute" right="-4px" top="4px" {...props}>
         <XMarkIcon height="24" fill="currentColor" />
       </Button.Plain>
     </RadixDialog.Close>
@@ -100,10 +93,11 @@ Dialog.ProgressDots = ({ current, total }: { current: number; total: number }) =
   return (
     <Box
       as="svg"
-      width={16 * total - 8}
       height="8px"
-      viewBox={`0 0 ${16 * total - 8} 8`}
       margin="5 auto"
+      part="progress"
+      viewBox={`0 0 ${16 * total - 8} 8`}
+      width={16 * total - 8}
     >
       {dots}
     </Box>

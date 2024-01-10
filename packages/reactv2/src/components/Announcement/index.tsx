@@ -8,12 +8,14 @@ import { useStepHandlers } from '@/hooks/useStepHandlers'
 export interface AnncouncementProps extends DialogProps, FlowComponentProps {}
 
 export function Announcement({
+  dismissible = true,
   flowId,
   onComplete,
   onDismiss,
   onPrimary,
   onSecondary,
   variables,
+  ...props
 }: AnncouncementProps) {
   const { flow } = useFlow(flowId, {
     variables,
@@ -39,8 +41,8 @@ export function Announcement({
   step?.start()
 
   return (
-    <Dialog>
-      <Dialog.Close onClick={handleDismiss} />
+    <Dialog {...props}>
+      {dismissible && <Dialog.Close onClick={handleDismiss} />}
 
       <Dialog.Title>{step.title}</Dialog.Title>
       <Dialog.Subtitle>{step.subtitle}</Dialog.Subtitle>
