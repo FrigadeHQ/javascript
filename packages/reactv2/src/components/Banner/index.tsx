@@ -15,6 +15,7 @@ import type { FlowComponentProps } from '@/shared/types'
 interface BannerProps extends BoxProps, FlowComponentProps {}
 
 export function Banner({
+  dismissible = true,
   flowId,
   onComplete,
   onDismiss,
@@ -48,9 +49,11 @@ export function Banner({
       <Flex.Row alignItems="center" gap={3}>
         <Button.Secondary title={step.secondaryButtonTitle} onClick={handleSecondary} />
         <Button.Primary title={step.primaryButtonTitle} onClick={handlePrimary} />
-        <Button.Plain part="banner-close" onClick={handleDismiss}>
-          <XMarkIcon height="24" fill="currentColor" />
-        </Button.Plain>
+        {dismissible && (
+          <Button.Plain part="banner-close" onClick={handleDismiss}>
+            <XMarkIcon height="24" fill="currentColor" />
+          </Button.Plain>
+        )}
       </Flex.Row>
     </Card>
   )
