@@ -18,7 +18,7 @@ export function Dialog({ children, ...props }: DialogProps) {
       <RadixDialog.Portal>
         <Box inset="0" position="fixed" zIndex="9999">
           <RadixDialog.Overlay asChild>
-            <Box background="rgb(0 0 0 / 0.5)" position="fixed" inset="0" />
+            <Box background="rgb(0 0 0 / 0.5)" part="dialog-overlay" position="fixed" inset="0" />
           </RadixDialog.Overlay>
           <RadixDialog.Content
             asChild
@@ -59,7 +59,7 @@ Dialog.Close = (props: ButtonProps) => {
 Dialog.Subtitle = ({ children, ...props }: TextProps) => {
   return (
     <RadixDialog.Description asChild>
-      <Text.Body2 part="subtitle" mb={5} {...props}>
+      <Text.Body2 mb={5} part="subtitle" {...props}>
         {children}
       </Text.Body2>
     </RadixDialog.Description>
