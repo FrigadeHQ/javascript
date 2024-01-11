@@ -91,9 +91,63 @@ You should place this as high in your component tree as possible.
 </Frigade.Provider>
 ```
 
-### Tour
+### Announcement
 
-By popular demand, the first Component we ported to V2!
+```tsx
+<Frigade.Announcement
+  css={/* See "Appendix: CSS prop" */}
+
+  // Set to false to hide the dismiss button
+  dismissible={true}
+
+  // The Flow ID of the Announcement in Frigade
+  flowId="flow_1234abcd"
+
+  // Called when the flow state changes to "complete"
+  onComplete={(flow: Flow) => boolean | void}
+
+  // Called when the user clicks the Dismiss button
+  onDismiss={(flow: Flow, event?: MouseEvent<unknown>) => boolean | void}
+
+  // Called when the user clicks the Primary button
+  onPrimary={(step: FlowStep, event?: MouseEvent<unknown>) => boolean | void}
+
+  // Called when the user clicks the Secondary button
+  onSecondary={(step: FlowStep, event?: MouseEvent<unknown>) => boolean | void}
+
+  variables={/* See https://frigade-v2-docs.mintlify.app/platform/dynamic-variables */}
+/>
+```
+
+### Banner
+
+```tsx
+<Frigade.Banner
+  css={/* See "Appendix: CSS prop" */}
+
+  // Set to false to hide the dismiss button
+  dismissible={true}
+
+  // The Flow ID of the Banner in Frigade
+  flowId="flow_1234abcd"
+
+  // Called when the flow state changes to "complete"
+  onComplete={(flow: Flow) => boolean | void}
+
+  // Called when the user clicks the Dismiss button
+  onDismiss={(flow: Flow, event?: MouseEvent<unknown>) => boolean | void}
+
+  // Called when the user clicks the Primary button
+  onPrimary={(step: FlowStep, event?: MouseEvent<unknown>) => boolean | void}
+
+  // Called when the user clicks the Secondary button
+  onSecondary={(step: FlowStep, event?: MouseEvent<unknown>) => boolean | void}
+
+  variables={/* See https://frigade-v2-docs.mintlify.app/platform/dynamic-variables */}
+/>
+```
+
+### Tour
 
 This one has a doozy of a type def so let's just link to that and explain it briefly:
 
@@ -104,6 +158,9 @@ TL;DR:
 ```tsx
 <Frigade.Tour
   css={/* See "Appendix: CSS prop" */}
+
+  // Set to false to hide the dismiss button
+  dismissible={true}
 
   // The Flow ID of the Tour in Frigade
   flowId="flow_1234abcd"
@@ -122,6 +179,8 @@ TL;DR:
 
   // Dim the rest of the screen around the element that the current Tour step is attached to
   spotlight={true}
+
+  variables={/* See https://frigade-v2-docs.mintlify.app/platform/dynamic-variables */}
 
   /*
 
