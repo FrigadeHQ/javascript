@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.38.31
+
+### Patch Changes
+
+- 3181008: Exports MultipleChoice props so that they can be easily reused
+
 ## 1.38.30
 
 ### Patch Changes
