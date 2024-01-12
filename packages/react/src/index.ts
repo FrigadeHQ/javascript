@@ -1,3 +1,5 @@
+import { MultipleChoice } from './components/Forms/MultiInputStepType/form-components/MultipleChoice'
+
 export { FrigadeProvider } from './FrigadeProvider'
 export { FrigadeHeroChecklist } from './components/HeroChecklist'
 export { FrigadeChecklist } from './FrigadeChecklist'
@@ -51,6 +53,11 @@ export { FrigadeNPSSurveyProps } from './FrigadeNPSSurvey'
 export { FrigadeAnnouncementProps } from './FrigadeAnnouncement'
 export { FrigadeProgressBadgeProps } from './FrigadeProgressBadge'
 
+export { MultipleChoice } from './components/Forms/MultiInputStepType/form-components/MultipleChoice'
+export {
+  MultipleChoiceOption,
+  MultipleChoiceProps,
+} from './components/Forms/MultiInputStepType/form-components/MultipleChoice'
 export { tokens } from './shared/theme'
 
 if (!String.prototype.replaceAll) {

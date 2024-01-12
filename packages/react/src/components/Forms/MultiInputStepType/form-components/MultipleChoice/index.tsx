@@ -9,7 +9,7 @@ import { SubLabel } from '../shared/SubLabel'
 
 const NULL_VALUE = ''
 
-interface MultipleChoiceProps extends FormInputType {
+export interface MultipleChoiceProps extends FormInputType {
   id: string
   title?: string
   placeholder?: string
@@ -20,10 +20,10 @@ interface MultipleChoiceProps extends FormInputType {
   }
 }
 
-interface MultipleChoiceOption {
+export interface MultipleChoiceOption {
   id: string
   title: string
-  isOpenEnded: boolean
+  isOpenEnded?: boolean
   openEndedLabel?: string
 }
 

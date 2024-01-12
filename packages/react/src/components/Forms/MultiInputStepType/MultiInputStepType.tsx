@@ -139,6 +139,7 @@ export function MultiInputStepType({
                   saveDataFromInputs(input, data)
                 },
                 inputData: allFormData[input.id],
+                allInputData: allFormData,
                 setFormValidationErrors: (errors) => {
                   if (errors.length === 0 && formValidationErrors.length === 0) {
                     return

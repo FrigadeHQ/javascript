@@ -8,6 +8,7 @@ export interface FormInputType {
   type: string
   required?: boolean
   validation?: InputValidation
+  props?: Record<string, any>
 }
 
 export interface InputValidation {
@@ -36,7 +37,14 @@ export interface InputValidationRuleProps {
 export interface FormInputProps {
   formInput: FormInputType
   customFormTypeProps: CustomFormTypeProps
+  /**
+   * Input data specific to this input
+   */
   inputData: any
+  /**
+   * All input data for the current step
+   */
+  allInputData: any
   onSaveInputData: (data: any) => void
   setFormValidationErrors: (errors: FormValidationError[]) => void
 }
