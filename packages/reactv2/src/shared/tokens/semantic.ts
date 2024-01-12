@@ -54,25 +54,25 @@ export const semantic = {
   },
 
   secondary: {
-    background: colorVar('gray900'),
-    border: colorVar('gray900'),
+    background: colorVar('white'),
+    border: colorVar('gray800'),
     foreground: colorVar('black'),
     surface: colorVar('gray900'),
 
     active: {
-      background: colorVar('gray800'),
+      background: colorVar('gray900'),
       border: colorVar('gray800'),
       foreground: colorVar('black'),
       surface: colorVar('gray800'),
     },
     focus: {
       background: colorVar('gray900'),
-      border: colorVar('gray900'),
+      border: colorVar('gray800'),
       foreground: colorVar('black'),
       surface: colorVar('gray900'),
     },
     hover: {
-      background: colorVar('gray800'),
+      background: colorVar('gray900'),
       border: colorVar('gray800'),
       foreground: colorVar('black'),
       surface: colorVar('gray800'),

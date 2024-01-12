@@ -15,10 +15,13 @@ export const Primary = {
 export const Secondary = {
   ...base,
 
-  backgroundColor: 'secondary.surface',
+  backgroundColor: 'secondary.background',
+  borderColor: 'secondary.border',
+  borderStyle: 'solid',
+  borderWidth: '1px',
   color: 'secondary.foreground',
 
-  'backgroundColor:hover': 'secondary.hover.surface',
+  'backgroundColor:hover': 'secondary.hover.background',
 }
 
 export const Link = {
