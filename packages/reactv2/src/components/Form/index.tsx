@@ -1,31 +1,33 @@
 import { FlowStep } from '@frigade/js'
+import { type UseControllerReturn } from 'react-hook-form'
 
 import { Box, type BoxProps } from '@/components/Box'
-import { Button } from '@/components/Button'
-import { Flex } from '@/components/Flex/Flex'
-import { Text } from '@/components/Text'
+
 import { type FlowComponentProps } from '@/shared/types'
 import { useFlow } from '@/hooks/useFlow'
 
-import { baseFieldStyle, baseInputStyle } from './fields/BaseField.styles'
+import { FormStep } from './FormStep'
 import { SelectField } from './fields/SelectField'
+import { TextField } from './fields/TextField'
+import { TextareaField } from './fields/TextareaField'
 
 // stepComponent prop -> can make this global across the SDK
 
-// Should these render funcs be specific to React Hook Form Controller?
-const defaultFieldTypes = {
-  select: (field: FormField) => <SelectField key={field.id} {...field} />,
-  text: (field: FormField) => <TextField key={field.id} {...field} />,
-  textarea: (field: FormField) => <TextareaField key={field.id} {...field} />,
+export type FieldTypes = Record<string, React.ComponentType<FormFieldProps>>
+
+const defaultFieldTypes: FieldTypes = {
+  select: SelectField,
+  text: TextField,
+  textarea: TextareaField,
 }
 
 // TODO: We should get this interface from JS-API
 export interface FormFlowStep extends FlowStep {
-  fields: FormField[]
+  fields: FormFieldData[]
 }
 
 // TODO: We should get this interface from JS-API
-export interface FormField {
+export interface FormFieldData {
   id: string
   options?: { label: string; value: string }[]
   placeholder?: string
@@ -34,8 +36,16 @@ export interface FormField {
   type: string
 }
 
+// TODO: Wire UseControllerReturn into this type
+export interface FormFieldProps {
+  field: any
+  fieldData: FormFieldData
+  formState: any
+  fieldState: any
+}
+
 export interface FormProps extends FlowComponentProps, BoxProps {
-  fieldTypes?: Record<string, (field: FormField) => React.ReactNode>
+  fieldTypes?: FieldTypes
 }
 
 export function Form({ fieldTypes = {}, flowId, variables, ...props }: FormProps) {
@@ -52,60 +62,11 @@ export function Form({ fieldTypes = {}, flowId, variables, ...props }: FormProps
   const step = flow.getCurrentStep() as FormFlowStep
   step?.start()
 
-  console.log(flow, step)
-
   const mergedFieldTypes = Object.assign({}, defaultFieldTypes, fieldTypes)
 
   return (
     <Box {...props}>
       <FormStep fieldTypes={mergedFieldTypes} step={step} {...props} />
-    </Box>
-  )
-}
-
-export function FormStep({ fieldTypes, step }: Omit<FormProps, 'flowId'>) {
-  // Build array of fields
-  const fields = []
-
-  step.fields?.forEach((field) => {
-    if (fieldTypes[field.type] != null) {
-      fields.push(fieldTypes[field.type](field))
-    }
-  })
-
-  return (
-    <>
-      {fields}
-      <Flex.Row key="form-footer" justifyContent="flex-end">
-        <Button.Primary title={step.primaryButtonTitle ?? 'Submit'} />
-      </Flex.Row>
-    </>
-  )
-}
-
-export function TextField({ id, placeholder, title }: FormField) {
-  return (
-    <Box {...baseFieldStyle}>
-      <Text.Body2 as="label" htmlFor={id} fontWeight="demibold">
-        {title}
-      </Text.Body2>
-      <Text.Body2 as="input" name={id} type="text" placeholder={placeholder} {...baseInputStyle} />
-    </Box>
-  )
-}
-
-export function TextareaField({ id, placeholder, title }: FormField) {
-  return (
-    <Box {...baseFieldStyle}>
-      <Text.Body2 as="label" htmlFor={id} fontWeight="demibold">
-        {title}
-      </Text.Body2>
-      <Text.Body2
-        as="textarea"
-        name={id}
-        placeholder={placeholder}
-        {...baseInputStyle}
-      ></Text.Body2>
     </Box>
   )
 }
