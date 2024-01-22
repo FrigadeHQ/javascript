@@ -27,11 +27,12 @@ export interface FormFlowStep extends FlowStep {
 }
 
 // TODO: We should get this interface from JS-API
+// TODO: Add validation properties to this type
 export interface FormFieldData {
   id: string
   options?: { label: string; value: string }[]
   placeholder?: string
-  required?: boolean
+  required?: boolean | string
   title?: string
   type: string
 }

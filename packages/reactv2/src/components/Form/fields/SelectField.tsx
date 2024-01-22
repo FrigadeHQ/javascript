@@ -14,7 +14,7 @@ export interface SelectItemProps {
 
 const SelectItem = React.forwardRef<HTMLDivElement, SelectItemProps>(
   ({ label, value }, forwardedRef) => (
-    <Select.Item value={value} ref={forwardedRef}>
+    <Select.Item value={value} ref={forwardedRef} style={{ outline: 'none' }}>
       <Select.ItemText>
         <Text.Body2>{label}</Text.Body2>
       </Select.ItemText>
@@ -23,6 +23,7 @@ const SelectItem = React.forwardRef<HTMLDivElement, SelectItemProps>(
 )
 
 export function SelectField({ field, fieldData }: FormFieldProps) {
+  // TODO: Label doesn't open select automatically. Need to wire that in.
   const { id, options = [], placeholder, title } = fieldData
   const selectItems = options.map(({ label, value }) => (
     <SelectItem key={value} value={value} label={label} />
@@ -39,7 +40,7 @@ export function SelectField({ field, fieldData }: FormFieldProps) {
         </Select.Trigger>
 
         <Select.Portal>
-          <Select.Content asChild>
+          <Select.Content position="popper" asChild>
             <Box {...baseInputStyle}>
               <Select.Viewport>{selectItems}</Select.Viewport>
             </Box>

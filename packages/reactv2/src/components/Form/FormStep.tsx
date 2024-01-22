@@ -6,22 +6,25 @@ import { Flex } from '@/components/Flex/Flex'
 import { type FormProps } from '.'
 
 function FieldWrapper({ fieldComponent: FieldComponent, control, fieldData }) {
+  // See: https://react-hook-form.com/get-started#Applyvalidation
+  // NOTE: "validate" is intentionally omitted, as it's a function
+  const ruleProps = new Set(['required', 'min', 'max', 'minLength', 'maxLength', 'pattern'])
+  const rules = Object.fromEntries(Object.entries(fieldData).filter(([key]) => ruleProps.has(key)))
+
   const controller = useController({
     name: fieldData.id,
     control,
-    rules: {
-      // TODO: Support required: true
-    },
+    rules,
   })
 
   return <FieldComponent {...controller} fieldData={fieldData} />
 }
 
 export function FormStep({ fieldTypes, step }: Omit<FormProps, 'flowId'>) {
-  // const mappedFields = Object.fromEntries(step.fields.map(field => [ field.id, ]))
   const { control, handleSubmit } = useForm()
   const fields = []
 
+  // TODO: Type for data
   function onSubmit(data) {
     //TODO: step.complete(data)
     console.log('FORM SUBMIT: ', data)

@@ -12,4 +12,9 @@ export const baseInputStyle = {
   borderRadius: 'md',
   display: 'block',
   minWidth: '380px',
+  outline: 'none',
+}
+
+export const errorInputStyle = {
+  borderColor: 'red500',
 }
