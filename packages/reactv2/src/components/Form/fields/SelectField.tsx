@@ -40,7 +40,7 @@ export function SelectField(props: FormFieldProps) {
       {() => (
         <Select.Root value={value} onValueChange={onChange}>
           <Select.Trigger asChild>
-            <Box {...baseStyles.input} {...(error ? baseStyles.error : {})}>
+            <Box {...baseStyles.input}>
               <Select.Value placeholder={placeholder ?? 'Select one'} />
             </Box>
           </Select.Trigger>

@@ -5,5 +5,9 @@ export function Error({ error }) {
     return null
   }
 
-  return <Text.Caption color="red500">{error?.message}</Text.Caption>
+  return (
+    <Text.Caption color="red500" display="block" textAlign="end">
+      {error?.message}
+    </Text.Caption>
+  )
 }

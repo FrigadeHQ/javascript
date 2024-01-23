@@ -14,7 +14,3 @@ export const input = {
   minWidth: '380px',
   outline: 'none',
 }
-
-export const error = {
-  borderColor: 'red500',
-}

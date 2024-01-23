@@ -51,7 +51,10 @@ function FieldWrapper({ fieldComponent: FieldComponent, control, fieldData }) {
 }
 
 export function FormStep({ fieldTypes, step }: Omit<FormProps, 'flowId'>) {
-  const { control, handleSubmit } = useForm()
+  const { control, handleSubmit } = useForm({
+    delayError: 2000,
+    mode: 'onChange',
+  })
   const fields = []
 
   // TODO: Type for data

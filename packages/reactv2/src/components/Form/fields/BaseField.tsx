@@ -19,7 +19,6 @@ export function BaseField({ children, field, fieldData, fieldState }: BaseFieldP
     ...field,
     ...(placeholder ? { placeholder } : {}),
     ...styles.input,
-    ...(error ? styles.error : {}),
     'aria-invalid': !!error,
     value: field.value ?? '',
   }
