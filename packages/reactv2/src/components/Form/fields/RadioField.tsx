@@ -13,6 +13,19 @@ export interface SelectItemProps {
   value: any
 }
 
+// NOTE: This isn't quite exactly the same as the HeroIcons checkmark
+const CheckIcon = () => (
+  <Box as="svg" color="primary.foreground" width="10px" height="8px" viewBox="0 0 10 8" fill="none">
+    <path
+      d="M1 4.34664L3.4618 6.99729L3.4459 6.98017L9 1"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </Box>
+)
+
 const RadioItem = React.forwardRef<HTMLButtonElement, SelectItemProps>(
   ({ label, value }, forwardedRef) => (
     <Box
@@ -37,21 +50,29 @@ const RadioItem = React.forwardRef<HTMLButtonElement, SelectItemProps>(
           borderStyle="solid"
           borderColor="neutral.border"
           borderRadius="100%"
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
           padding="0"
+          position="relative"
           height="24px"
           width="24px"
         >
           <Box
             as={RadioGroup.Indicator}
-            backgroundColor="pink"
+            alignItems="center"
+            bg="primary.surface"
+            borderWidth="md"
+            borderStyle="solid"
+            borderColor="primary.border"
             borderRadius="100%"
-            display="block"
-            height="12px"
-            width="12px"
-          />
+            display="flex"
+            height="calc(100% + 2px)"
+            justifyContent="center"
+            left="-1px"
+            position="absolute"
+            top="-1px"
+            width="calc(100% + 2px)"
+          >
+            <CheckIcon />
+          </Box>
         </Box>
       </RadioGroup.Item>
     </Box>

@@ -119,8 +119,6 @@ export type StylePropShorthands = {
   [K in keyof typeof stylePropShorthands]?: ThemedStyleProp<(typeof stylePropShorthands)[K][0]>
 }
 
-type Foo = StylePropShorthands['px']
-
 export interface StyleProps extends FilteredCSSProps, StylePropShorthands {
   backgroundColor?: ThemedStyleProp<'backgroundColor'>
   border?: ThemedStyleProp<'border'>
