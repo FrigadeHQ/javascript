@@ -5,7 +5,8 @@ import { Box } from '@/components/Box'
 import { Text } from '@/components/Text'
 
 import { type FormFieldProps } from '..'
-import { baseFieldStyle, baseInputStyle } from './BaseField.styles'
+import { BaseField } from './BaseField'
+import * as baseStyles from './BaseField.styles'
 
 export interface SelectItemProps {
   label: string
@@ -22,31 +23,37 @@ const SelectItem = React.forwardRef<HTMLDivElement, SelectItemProps>(
   )
 )
 
-export function SelectField({ field, fieldData }: FormFieldProps) {
+export function SelectField(props: FormFieldProps) {
   // TODO: Label doesn't open select automatically. Need to wire that in.
-  const { id, options = [], placeholder, title } = fieldData
+  const {
+    field: { onChange, value },
+    fieldData: { options = [], placeholder },
+    fieldState: { error },
+  } = props
+
   const selectItems = options.map(({ label, value }) => (
     <SelectItem key={value} value={value} label={label} />
   ))
 
   return (
-    <Box {...baseFieldStyle}>
-      <Text.Body2 fontWeight="demibold">{title}</Text.Body2>
-      <Select.Root value={field.value} onValueChange={field.onChange}>
-        <Select.Trigger asChild>
-          <Box {...baseInputStyle}>
-            <Select.Value placeholder={placeholder ?? 'Select one'} />
-          </Box>
-        </Select.Trigger>
-
-        <Select.Portal>
-          <Select.Content position="popper" asChild>
-            <Box {...baseInputStyle}>
-              <Select.Viewport>{selectItems}</Select.Viewport>
+    <BaseField {...props}>
+      {() => (
+        <Select.Root value={value} onValueChange={onChange}>
+          <Select.Trigger asChild>
+            <Box {...baseStyles.input} {...(error ? baseStyles.error : {})}>
+              <Select.Value placeholder={placeholder ?? 'Select one'} />
             </Box>
-          </Select.Content>
-        </Select.Portal>
-      </Select.Root>
-    </Box>
+          </Select.Trigger>
+
+          <Select.Portal>
+            <Select.Content position="popper" asChild>
+              <Box {...baseStyles.input}>
+                <Select.Viewport>{selectItems}</Select.Viewport>
+              </Box>
+            </Select.Content>
+          </Select.Portal>
+        </Select.Root>
+      )}
+    </BaseField>
   )
 }

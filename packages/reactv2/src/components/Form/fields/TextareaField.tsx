@@ -1,19 +1,10 @@
 import { Box } from '@/components/Box'
-import { Text } from '@/components/Text'
 
 import { type FormFieldProps } from '..'
-import { baseFieldStyle, baseInputStyle } from './BaseField.styles'
+import { BaseField } from './BaseField'
 
-export function TextareaField({ field, fieldData }: FormFieldProps) {
-  const { id, placeholder, title } = fieldData
-
+export function TextareaField(props: FormFieldProps) {
   return (
-    <Box {...baseFieldStyle}>
-      <Text.Body2 as="label" htmlFor={id} fontWeight="demibold">
-        {title}
-      </Text.Body2>
-      {/* TODO: Add Text.Body2 styles back with component that can accept a ref */}
-      <Box as="textarea" id={id} placeholder={placeholder} {...field} {...baseInputStyle}></Box>
-    </Box>
+    <BaseField {...props}>{(fieldProps) => <Box as="textarea" {...fieldProps}></Box>}</BaseField>
   )
 }

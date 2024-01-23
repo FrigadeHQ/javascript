@@ -64,6 +64,7 @@
     "@heroicons/react": "^2.0.18",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-popover": "^1.0.7",
+    "@radix-ui/react-radio-group": "^1.1.3",
     "@radix-ui/react-select": "^2.0.0",
     "clsx": "^2.0.0",
     "core-js-pure": "^3.33.0",

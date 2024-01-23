@@ -7,6 +7,7 @@ import { type FlowComponentProps } from '@/shared/types'
 import { useFlow } from '@/hooks/useFlow'
 
 import { FormStep } from './FormStep'
+import { RadioField } from './fields/RadioField'
 import { SelectField } from './fields/SelectField'
 import { TextField } from './fields/TextField'
 import { TextareaField } from './fields/TextareaField'
@@ -16,6 +17,7 @@ import { TextareaField } from './fields/TextareaField'
 export type FieldTypes = Record<string, React.ComponentType<FormFieldProps>>
 
 const defaultFieldTypes: FieldTypes = {
+  radio: RadioField,
   select: SelectField,
   text: TextField,
   textarea: TextareaField,
@@ -33,7 +35,7 @@ export interface FormFieldData {
   options?: { label: string; value: string }[]
   placeholder?: string
   required?: boolean | string
-  title?: string
+  label?: string
   type: string
 }
 

@@ -1,10 +1,10 @@
-export const baseFieldStyle = {
+export const field = {
   marginBottom: '5',
 }
 
-export const baseInputStyle = {
-  px: 4,
-  py: 2,
+export const input = {
+  px: '4',
+  py: '2',
   backgroundColor: 'neutral.background',
   borderColor: 'neutral.border',
   borderStyle: 'solid',
@@ -15,6 +15,6 @@ export const baseInputStyle = {
   outline: 'none',
 }
 
-export const errorInputStyle = {
+export const error = {
   borderColor: 'red500',
 }
