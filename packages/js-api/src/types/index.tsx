@@ -14,6 +14,20 @@ export interface FrigadeConfig {
    * Group ID (organization) to use for all requests
    */
   groupId?: string
+
+  /**
+   * @ignore Internal use only.
+   * If enabled, Frigade will not send any data to the API. A user's state will be reset on page refresh.
+   */
+  __readOnly?: boolean
+
+  /**
+   * @ignore Internal use only.
+   * Map of Flow ID to Flow Config for all flows in the app.
+   * Configs will have to be provided in serialized JSON format rather than YAML.
+   */
+  __flowConfigOverrides?: Record<string, string>
+
   __instanceId?: string
 }
 

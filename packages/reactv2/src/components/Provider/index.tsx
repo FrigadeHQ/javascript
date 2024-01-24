@@ -20,6 +20,18 @@ export interface ProviderProps {
   theme?: Theme
   userId?: string
   groupId?: string
+  /**
+   * @ignore Internal use only.
+   * If enabled, Frigade will not send any data to the API. A user's state will be reset on page refresh.
+   */
+  __readOnly?: boolean
+
+  /**
+   * @ignore Internal use only.
+   * Map of Flow ID to Flow Config for all flows in the app.
+   * Configs will have to be provided in serialized JSON format rather than YAML.
+   */
+  __flowConfigOverrides?: Record<string, string>
 }
 
 interface ProviderContext extends Omit<ProviderProps, 'children' | 'theme'> {
@@ -44,6 +56,8 @@ export function Provider({ children, navigate, theme, ...props }: ProviderProps)
       apiUrl: props.apiUrl,
       userId: props.userId,
       groupId: props.groupId,
+      __readOnly: props.__readOnly,
+      __flowConfigOverrides: props.__flowConfigOverrides,
     })
   )
 

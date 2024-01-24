@@ -134,7 +134,7 @@ export async function gracefulFetch(url: string, options: any) {
   }
 }
 
-function getEmptyResponse(error?: any) {
+export function getEmptyResponse(error?: any) {
   if (error) {
     console.log('Call to Frigade failed', error)
   }

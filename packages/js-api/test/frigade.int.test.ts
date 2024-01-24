@@ -38,6 +38,39 @@ test('read and set flow state', async () => {
   expect(flow.isCompleted).toBeTruthy()
 })
 
+test('read and set flow state with flow overrides and readonly enabled', async () => {
+  const madeUpFlowId = 'flow_abc'
+  const frigade = new Frigade(testAPIKey, {
+    userId: generateGuestId(),
+    __flowConfigOverrides: {
+      [madeUpFlowId]: JSON.stringify({
+        steps: [
+          {
+            id: 'step-one',
+            title: 'Some step',
+          },
+          {
+            id: 'step-two',
+            title: 'Some step',
+          },
+        ],
+      }),
+    },
+    __readOnly: true,
+  })
+  const flow = await frigade.getFlow(madeUpFlowId)
+  expect(flow).toBeDefined()
+  expect(flow.id).toEqual(madeUpFlowId)
+  expect(flow.isCompleted).toBeFalsy()
+  await flow.steps.get('step-one').complete()
+  expect(flow.steps.get('step-one').isCompleted).toBeTruthy()
+  expect(flow.steps.get('step-two').isCompleted).toBeFalsy()
+  expect(flow.steps.get('step-two').isStarted).toBeTruthy()
+  expect(flow.getCurrentStepIndex()).toEqual(1)
+  await flow.complete()
+  expect(flow.isCompleted).toBeTruthy()
+})
+
 test('read and set flow step state', async () => {
   const frigade = new Frigade(testAPIKey, {
     userId: generateGuestId(),

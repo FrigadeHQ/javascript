@@ -1,4 +1,4 @@
-import { generateGuestId, getHeaders, gracefulFetch } from './utils'
+import { generateGuestId, getEmptyResponse, getHeaders, gracefulFetch } from './utils'
 import { FrigadeConfig } from '../types'
 import { frigadeGlobalState, FrigadeGlobalState, getGlobalStateKey } from './state'
 
@@ -20,6 +20,10 @@ export class Fetchable {
   }
 
   public async fetch(path: string, options?: Record<any, any>) {
+    if (this.config.__readOnly) {
+      return getEmptyResponse()
+    }
+
     return gracefulFetch(`${this.config.apiUrl}${path}`, {
       ...(options ?? {}),
       ...getHeaders(this.config.apiKey),

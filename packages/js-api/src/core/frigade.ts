@@ -1,7 +1,7 @@
 import { FrigadeConfig, UserFlowState } from '../types'
 import { clearCache, cloneFlow, isWeb, resetAllLocalStorage } from '../shared/utils'
 import { Flow } from './flow'
-import { FlowDataRaw } from './types'
+import { FlowDataRaw, FlowStatus, FlowType, TriggerType } from './types'
 import { frigadeGlobalState, getGlobalStateKey } from '../shared/state'
 import { Fetchable } from '../shared/Fetchable'
 
@@ -180,7 +180,18 @@ export class Frigade extends Fetchable {
         onFlowStateChangeHandlers: [],
         previousFlows: new Map(),
       }
+
+      if (this.config.__readOnly && this.config.__flowConfigOverrides) {
+        this.mockUserFlowStates(globalStateKey)
+
+        return
+      }
+
       frigadeGlobalState[globalStateKey].refreshUserFlowStates = async () => {
+        if (this.config.__readOnly) {
+          return
+        }
+
         const userFlowStatesRaw = await this.fetch(
           `/userFlowStates?foreignUserId=${encodeURIComponent(this.config.userId)}${
             this.config.groupId
@@ -205,6 +216,12 @@ export class Frigade extends Fetchable {
 
   private async refreshFlows() {
     this.flows = []
+
+    if (this.config.__flowConfigOverrides) {
+      this.mockFlowConfigs()
+      return
+    }
+
     const flowDataRaw = await this.fetch('/flows')
     if (flowDataRaw && flowDataRaw.data) {
       let flowDatas = flowDataRaw.data as FlowDataRaw[]
@@ -218,6 +235,54 @@ export class Frigade extends Fetchable {
     } else {
       this.hasFailed = true
     }
+  }
+
+  private mockFlowConfigs() {
+    Object.keys(this.config.__flowConfigOverrides).forEach((flowId) => {
+      this.flows.push(
+        new Flow(this.config, {
+          id: -1,
+          name: '',
+          description: '',
+          data: this.config.__flowConfigOverrides[flowId],
+          createdAt: new Date().toISOString(),
+          modifiedAt: new Date().toISOString(),
+          slug: flowId,
+          targetingLogic: '',
+          type: FlowType.CHECKLIST,
+          triggerType: TriggerType.MANUAL,
+          status: FlowStatus.ACTIVE,
+          version: 1,
+          active: true,
+        })
+      )
+    })
+  }
+
+  private mockUserFlowStates(globalStateKey: string) {
+    Object.keys(this.config.__flowConfigOverrides).forEach((flowId) => {
+      const parsed = JSON.parse(this.config.__flowConfigOverrides[flowId])
+      frigadeGlobalState[globalStateKey].userFlowStates[flowId] = {
+        flowId,
+        flowState: 'NOT_STARTED_FLOW',
+        lastStepId: null,
+        userId: this.config.userId,
+        foreignUserId: this.config.userId,
+        stepStates:
+          parsed?.steps?.reduce((acc, step) => {
+            acc[step.id] = {
+              stepId: step.id,
+              flowSlug: flowId,
+              actionType: 'NOT_STARTED_STEP',
+              createdAt: new Date().toISOString(),
+              blocked: false,
+              hidden: false,
+            }
+            return acc
+          }, {}) ?? {},
+        shouldTrigger: false,
+      }
+    })
   }
 
   private async triggerEventHandlers(previousUserFlowState: UserFlowState) {
