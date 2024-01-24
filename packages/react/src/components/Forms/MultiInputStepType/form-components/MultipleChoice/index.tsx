@@ -85,9 +85,12 @@ export function MultipleChoice({
       ) {
         // Find input.props.options with id == defaultValue
         const defaultValue = input.props.options?.find((option) => option.id === input.defaultValue)
-        onSaveInputData({ choice: [defaultValue.id] })
+        onSaveInputData({ choice: [defaultValue.id], label: [defaultValue.title] })
       } else {
-        onSaveInputData({ choice: [input.props.options?.[0].id || ''] })
+        onSaveInputData({
+          choice: [input.props.options?.[0].id || ''],
+          label: [input.props.options?.[0].title],
+        })
       }
     }
   }, [])
@@ -117,7 +120,7 @@ export function MultipleChoice({
         value={inputData?.choice?.[0]}
         onChange={(e) => {
           setHasSelected(true)
-          onSaveInputData({ choice: [e.target.value] })
+          onSaveInputData({ choice: [e.target.value], label: [e.target.selectedOptions[0].text] })
         }}
         placeholder={input.placeholder}
         appearance={customFormTypeProps.appearance}
@@ -151,7 +154,7 @@ export function MultipleChoice({
             type="text"
             placeholder="Enter your answer here"
             onChange={(e) => {
-              onSaveInputData({ choice: [e.target.value] })
+              onSaveInputData({ choice: [e.target.value], label: [e.target.value] })
             }}
             appearance={customFormTypeProps.appearance}
           />
