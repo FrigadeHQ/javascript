@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.38.33
+
+### Patch Changes
+
+- 3f5476c: Fixes an issue related to open ended questions in forms
+
 ## 1.38.32
 
 ### Patch Changes
