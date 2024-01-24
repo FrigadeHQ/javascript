@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.38.32
+
+### Patch Changes
+
+- d3cd974: Adds labels to form response data
+
 ## 1.38.31
 
 ### Patch Changes
