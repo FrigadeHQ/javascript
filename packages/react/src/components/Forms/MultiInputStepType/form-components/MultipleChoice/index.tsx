@@ -71,6 +71,7 @@ export function MultipleChoice({
   const input = formInput as MultipleChoiceProps
   const [hasLoaded, setHasLoaded] = useState(false)
   const [hasSelected, setHasSelected] = useState(false)
+  const [otherValue, setOtherValue] = useState('')
 
   useEffect(() => {
     if (!inputData?.choice?.[0] && !hasLoaded) {
@@ -154,7 +155,13 @@ export function MultipleChoice({
             type="text"
             placeholder="Enter your answer here"
             onChange={(e) => {
-              onSaveInputData({ choice: [e.target.value], label: [e.target.value] })
+              onSaveInputData({
+                choice: [
+                  input.props.options?.find((option) => option.id === inputData?.choice?.[0])?.id,
+                ],
+                label: [e.target.value],
+                isOpenEnded: true,
+              })
             }}
             appearance={customFormTypeProps.appearance}
           />
