@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.2.16
+
+### Patch Changes
+
+- dd3fb1a: Adds the ability to set the SDK to read-only mode as well as overrding config.yml
+
 ## 0.2.15
 
 ### Patch Changes
