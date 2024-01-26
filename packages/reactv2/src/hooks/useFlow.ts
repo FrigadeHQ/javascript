@@ -1,4 +1,4 @@
-import { Flow } from '@frigade/js'
+import { type Flow } from '@frigade/js'
 import { useContext, useEffect, useState } from 'react'
 
 import { FrigadeContext } from '../components/Provider'

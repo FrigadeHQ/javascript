@@ -1,10 +1,8 @@
 import { FlowStep } from '@frigade/js'
-import { type UseControllerReturn } from 'react-hook-form'
-
-import { Box, type BoxProps } from '@/components/Box'
+import { type UseControllerReturn, type ValidationRule, type Message } from 'react-hook-form'
 
 import { type FlowComponentProps } from '@/shared/types'
-import { useFlow } from '@/hooks/useFlow'
+import { useFlowComponent } from '@/hooks/useFlowComponent'
 
 import { FormStep } from './FormStep'
 import { RadioField } from './fields/RadioField'
@@ -23,6 +21,15 @@ const defaultFieldTypes: FieldTypes = {
   textarea: TextareaField,
 }
 
+export interface ValidationRules {
+  required?: Message | ValidationRule<boolean>
+  min?: ValidationRule<number | string>
+  max?: ValidationRule<number | string>
+  maxLength?: ValidationRule<number>
+  minLength?: ValidationRule<number>
+  pattern?: ValidationRule<RegExp>
+}
+
 // TODO: We should get this interface from JS-API
 export interface FormFlowStep extends FlowStep {
   fields: FormFieldData[]
@@ -30,11 +37,10 @@ export interface FormFlowStep extends FlowStep {
 
 // TODO: We should get this interface from JS-API
 // TODO: Add validation properties to this type
-export interface FormFieldData {
+export interface FormFieldData extends ValidationRules {
   id: string
   options?: { label: string; value: string }[]
   placeholder?: string
-  required?: boolean | string
   label?: string
   type: string
 }
@@ -47,29 +53,18 @@ export interface FormFieldProps {
   fieldState: any
 }
 
-export interface FormProps extends FlowComponentProps, BoxProps {
+export interface FormProps extends FlowComponentProps {
   fieldTypes?: FieldTypes
 }
 
-export function Form({ fieldTypes = {}, flowId, variables, ...props }: FormProps) {
-  const { flow } = useFlow(flowId, {
-    variables,
-  })
-
-  if (flow == null || flow.isVisible === false) {
-    return null
-  }
-
-  flow.start()
-
-  const step = flow.getCurrentStep() as FormFlowStep
-  step?.start()
+export function Form({ fieldTypes = {}, ...props }: FormProps) {
+  const { FlowComponent } = useFlowComponent(props)
 
   const mergedFieldTypes = Object.assign({}, defaultFieldTypes, fieldTypes)
 
   return (
-    <Box {...props}>
-      <FormStep fieldTypes={mergedFieldTypes} step={step} {...props} />
-    </Box>
+    <FlowComponent>
+      {({ step }) => <FormStep fieldTypes={mergedFieldTypes} step={step} {...props} />}
+    </FlowComponent>
   )
 }

@@ -12,6 +12,8 @@ export interface StepHandlers {
   onDismiss?: FlowHandler
 }
 
+export type DismissHandler = (e: MouseEvent<unknown>) => Promise<boolean>
+
 export function useFlowHandlers(flow: Flow, { onComplete, onDismiss }: StepHandlers = {}) {
   const lastCompleted = useRef(null)
 
@@ -28,7 +30,7 @@ export function useFlowHandlers(flow: Flow, { onComplete, onDismiss }: StepHandl
   }, [flow?.isCompleted])
 
   return {
-    handleDismiss: useCallback(
+    handleDismiss: useCallback<DismissHandler>(
       async (e: MouseEvent<unknown>) => {
         const continueDefault = await onDismiss?.(flow, e)
 

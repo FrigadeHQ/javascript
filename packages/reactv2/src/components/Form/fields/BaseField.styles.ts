@@ -11,6 +11,6 @@ export const input = {
   borderWidth: 'md',
   borderRadius: 'md',
   display: 'block',
-  minWidth: '380px',
   outline: 'none',
+  width: '100%',
 }

@@ -1,24 +1,9 @@
-import {
-  useController,
-  useForm,
-  SubmitHandler,
-  type ValidationRule,
-  type Message,
-} from 'react-hook-form'
+import { useController, useForm, SubmitHandler } from 'react-hook-form'
 
 import { Button } from '@/components/Button'
 import { Flex } from '@/components/Flex/Flex'
 
-import { type FormProps } from '.'
-
-type Rules = Partial<{
-  required: Message | ValidationRule<boolean>
-  min: ValidationRule<number | string>
-  max: ValidationRule<number | string>
-  maxLength: ValidationRule<number>
-  minLength: ValidationRule<number>
-  pattern: ValidationRule<RegExp>
-}>
+import { type FormProps, type ValidationRules } from '.'
 
 // See: https://react-hook-form.com/get-started#Applyvalidation
 // NOTE: "validate" is intentionally omitted
@@ -39,7 +24,7 @@ function FieldWrapper({ fieldComponent: FieldComponent, control, fieldData }) {
 
   const rules = Object.fromEntries(
     Object.entries(fieldData).filter(([key]) => ruleProps.has(key))
-  ) as Rules
+  ) as ValidationRules
 
   const controller = useController({
     name: fieldData.id,
@@ -50,7 +35,7 @@ function FieldWrapper({ fieldComponent: FieldComponent, control, fieldData }) {
   return <FieldComponent {...controller} fieldData={fieldData} />
 }
 
-export function FormStep({ fieldTypes, step }: Omit<FormProps, 'flowId'>) {
+export function FormStep({ fieldTypes, step }: Pick<FormProps, 'fieldTypes' | 'step'>) {
   const { control, handleSubmit } = useForm({
     delayError: 2000,
     mode: 'onChange',
