@@ -7,6 +7,6 @@ export default {
 
 export const Default = {
   args: {
-    children: <Text>This is a Card.</Text>,
+    children: <Text.Body1>This is a Card.</Text.Body1>,
   },
 };

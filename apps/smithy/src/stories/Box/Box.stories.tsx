@@ -21,13 +21,13 @@ export const Polymorphism = {
     as: "ul",
     children: (
       <>
-        <Text as="li">
+        <Text.Body1 as="li">
           Box accepts an `as` prop, which will render the Box as the provided
           component (or HTML element).
-        </Text>
-        <Text as="li">
+        </Text.Body1>
+        <Text.Body1 as="li">
           This Box is actually a UL, and the Text nodes inside it are LIs!
-        </Text>
+        </Text.Body1>
       </>
     ),
   },

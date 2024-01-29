@@ -15,7 +15,9 @@ export const Default = {
           justifyContent="center"
           p="2 4 6 8"
         >
-          <Text>Oh ok we're testing some Flex components then!</Text>
+          <Text.Body1>
+            Oh ok we're testing some Flex components then!
+          </Text.Body1>
         </Flex.Row>
       );
     },

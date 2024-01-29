@@ -12,6 +12,8 @@ import { TextareaField } from './fields/TextareaField'
 
 // stepComponent prop -> can make this global across the SDK
 
+// TODO: Fix center alignment in Dialog component
+
 export type FieldTypes = Record<string, React.ComponentType<FormFieldProps>>
 
 const defaultFieldTypes: FieldTypes = {
