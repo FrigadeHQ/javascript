@@ -43,9 +43,8 @@ export function FormStep({ fieldTypes, step }: Pick<FormProps, 'fieldTypes' | 's
   const fields = []
 
   // TODO: Type for data
-  function onSubmit(data) {
-    //TODO: step.complete(data)
-    console.log('FORM SUBMIT: ', data)
+  function onSubmit(data: any) {
+    step.complete(data)
   }
 
   step.fields?.forEach((fieldData: Record<string, any>) => {
