@@ -6,7 +6,9 @@ import { BaseField } from './BaseField'
 export function TextareaField(props: FormFieldProps) {
   return (
     <BaseField {...props}>
-      {(fieldProps) => <Text.Body2 as="textarea" {...fieldProps}></Text.Body2>}
+      {(fieldProps) => (
+        <Text.Body2 as="textarea" part="field-textarea" {...fieldProps}></Text.Body2>
+      )}
     </BaseField>
   )
 }

@@ -12,7 +12,7 @@ export function Error({ error }: ErrorProps) {
   }
 
   return (
-    <Text.Caption color="red500" display="block" textAlign="end">
+    <Text.Caption color="red500" display="block" part="field-error" textAlign="end">
       {error?.message}
     </Text.Caption>
   )

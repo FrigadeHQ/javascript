@@ -33,6 +33,7 @@ const RadioItem = React.forwardRef<HTMLButtonElement, SelectItemProps>(
       htmlFor={value}
       display="flex"
       justifyContent="space-between"
+      part="field-radio"
       px={4}
       py={2}
       borderWidth="md"
@@ -40,7 +41,7 @@ const RadioItem = React.forwardRef<HTMLButtonElement, SelectItemProps>(
       borderColor="neutral.border"
       borderRadius="md"
     >
-      <Text.Body2>{label}</Text.Body2>
+      <Text.Body2 part="field-radio-label">{label}</Text.Body2>
 
       <RadioGroup.Item id={value} value={value} ref={forwardedRef} asChild>
         <Box
@@ -51,6 +52,7 @@ const RadioItem = React.forwardRef<HTMLButtonElement, SelectItemProps>(
           borderColor="neutral.border"
           borderRadius="100%"
           padding="0"
+          part="field-radio-value"
           position="relative"
           height="24px"
           width="24px"
@@ -67,6 +69,7 @@ const RadioItem = React.forwardRef<HTMLButtonElement, SelectItemProps>(
             height="calc(100% + 2px)"
             justifyContent="center"
             left="-1px"
+            part="field-radio-indicator"
             position="absolute"
             top="-1px"
             width="calc(100% + 2px)"
@@ -92,8 +95,10 @@ export function RadioField(props: FormFieldProps) {
   return (
     <BaseField {...props}>
       {() => (
-        <RadioGroup.Root value={value} onValueChange={onChange}>
-          <Flex.Column gap={2}>{radioItems}</Flex.Column>
+        <RadioGroup.Root value={value} onValueChange={onChange} asChild>
+          <Flex.Column gap={2} part="field-radio-group">
+            {radioItems}
+          </Flex.Column>
         </RadioGroup.Root>
       )}
     </BaseField>
