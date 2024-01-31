@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.38.34
+
+### Patch Changes
+
+- a6f8c57: Marks flows as skipped or dismissed when `endFlowOnDismiss` is true
+
 ## 1.38.33
 
 ### Patch Changes
