@@ -58,7 +58,7 @@ export interface FrigadeFormProps extends DefaultFrigadeFlowProps {
    */
   repeatable?: boolean
   /**
-   * If true, the user will be excited from the flow when the form is dismissed. Default is false.
+   * If true, the user will be excited from the flow when the form is dismissed. The flow will be marked as dismissed. Default is false.
    */
   endFlowOnDismiss?: boolean
   /**
@@ -157,7 +157,7 @@ export const FrigadeForm: FC<FrigadeFormProps> = ({
     targetingLogicShouldHideFlow,
     getFlowStatus,
     getCurrentStepIndex,
-    markFlowCompleted,
+    markFlowSkipped,
     markFlowNotStarted,
     markStepStarted,
   } = useFlows()
@@ -246,7 +246,7 @@ export const FrigadeForm: FC<FrigadeFormProps> = ({
       onDismiss()
     }
     if (endFlowOnDismiss === true) {
-      markFlowCompleted(flowId)
+      markFlowSkipped(flowId)
     }
   }
 
