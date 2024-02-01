@@ -162,7 +162,7 @@ export const Modal: FC<ModalProps> = ({
           </ModalClose>
         )}
         {headerContent && <ModalHeader>{headerContent}</ModalHeader>}
-        <Body>{children}</Body>
+        <Body className={getClassName('modalBody', appearance)}>{children}</Body>
 
         {showFrigadeBranding && (
           <PoweredByFrigadeModalRibbon
