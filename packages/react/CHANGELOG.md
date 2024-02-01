@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.38.35
+
+### Patch Changes
+
+- cbe8e1f: Adds a missing class name to the modal body
+
 ## 1.38.34
 
 ### Patch Changes
