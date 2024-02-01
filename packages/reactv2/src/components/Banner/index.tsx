@@ -39,7 +39,9 @@ export function Banner({
   return (
     <Card as={Flex.Row} border="md" borderColor="gray900" justifyContent="space-between" {...props}>
       <Flex.Row gap={3}>
-        <img src={step.imageUri} style={{ height: 40, width: 40, alignSelf: 'center' }} />
+        {step.imageUri && (
+          <img src={step.imageUri} style={{ height: 40, width: 40, alignSelf: 'center' }} />
+        )}
         <Flex.Column>
           <Text.H4 mb={1}>{step.title}</Text.H4>
           <Text.Body2>{step.subtitle}</Text.Body2>
@@ -47,7 +49,9 @@ export function Banner({
       </Flex.Row>
 
       <Flex.Row alignItems="center" gap={3}>
-        <Button.Secondary title={step.secondaryButtonTitle} onClick={handleSecondary} />
+        {step.secondaryButtonTitle && (
+          <Button.Secondary title={step.secondaryButtonTitle} onClick={handleSecondary} />
+        )}
         <Button.Primary title={step.primaryButtonTitle} onClick={handlePrimary} />
         {dismissible && (
           <Button.Plain part="banner-close" onClick={handleDismiss}>
