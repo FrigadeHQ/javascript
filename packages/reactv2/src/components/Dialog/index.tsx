@@ -90,6 +90,11 @@ Dialog.ProgressDots = ({ current, total }: { current: number; total: number }) =
       />
     )
   })
+
+  if (total == 0) {
+    return null
+  }
+
   return (
     <Box
       as="svg"
