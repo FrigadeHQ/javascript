@@ -18,14 +18,23 @@ export function useBoundingClientRect() {
   const [rect, setRect] = useState(initialRect)
   const [node, setNode] = useState(null)
 
-  const ref = useCallback((node: HTMLElement) => {
+  const ref = useCallback((node: Element) => {
     setNode(node)
   }, [])
 
   useLayoutEffect(() => {
     if (!node) return
 
-    setRect(node.getBoundingClientRect())
+    const handleResize = () => {
+      const newRect = node.getBoundingClientRect()
+      setRect(newRect)
+    }
+
+    handleResize()
+
+    window.addEventListener('resize', handleResize)
+
+    return () => window.removeEventListener('resize', handleResize)
   }, [node])
 
   return {

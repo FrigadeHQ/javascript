@@ -18,7 +18,7 @@ export const Default = {
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
-          height: "100vh",
+          height: "calc(100vh - 32px)",
         }}
       >
         <Box

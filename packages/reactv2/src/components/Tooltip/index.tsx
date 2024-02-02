@@ -28,10 +28,12 @@ export function Tooltip({
   children,
   className,
   spotlight = false,
+  modal = spotlight ? true : false,
   style,
   ...props
 }: TooltipProps) {
   const { node: contentNode, rect: contentRect, ref: contentRef } = useBoundingClientRect()
+  const { node: anchorNode, rect: anchorRect, ref: anchorRef } = useBoundingClientRect()
   const { contentProps, rootProps } = mapTooltipPropsToPopoverProps(props, contentRect)
 
   const [alignAttr, setAlignAttr] = useState(contentProps.align)
@@ -51,32 +53,32 @@ export function Tooltip({
     }
   }
 
-  const anchorRef = useRef(null)
-  const [anchorElementRef, setAnchorElementRef] = useState(null)
+  // Radix requires a separate ref to pass anchor through into Popover.Anchor
+  const anchorVirtualRef = useRef(null)
 
   useEffect(() => {
     const anchorQuery = document.querySelector(anchor)
 
     if (anchorQuery != null) {
-      anchorRef.current = anchorQuery
-      setAnchorElementRef(anchorRef)
+      anchorRef(anchorQuery)
+      anchorVirtualRef.current = anchorQuery
     }
   }, [anchor])
 
-  if (anchorElementRef == null) return null
-
-  const anchorRect = anchorElementRef.current.getBoundingClientRect()
+  if (anchorNode == null) {
+    return null
+  }
 
   let anchorRadius = '0'
   if (typeof window !== 'undefined') {
-    anchorRadius = window.getComputedStyle(anchorElementRef.current).borderRadius
+    anchorRadius = window.getComputedStyle(anchorNode).borderRadius
   }
 
   const dotPosition = getDotPosition({ props, alignAttr, sideAttr })
 
   return (
     <Popover.Root defaultOpen={true} {...rootProps}>
-      <Popover.Anchor virtualRef={anchorElementRef} />
+      <Popover.Anchor virtualRef={anchorVirtualRef} />
       <Popover.Portal>
         <div
           className={className}
@@ -86,12 +88,12 @@ export function Tooltip({
             <Box
               part="tooltip-spotlight"
               position="absolute"
-              css={{
+              style={{
                 borderRadius: anchorRadius,
-                boxShadow: '0 0 0 2000px rgb(0 0 0 / 0.5)',
+                boxShadow: '0 0 0 20000px rgb(0 0 0 / 0.5)',
                 height: anchorRect.height,
-                left: anchorRect.left,
-                top: anchorRect.top,
+                left: anchorNode.offsetLeft,
+                top: anchorNode.offsetTop,
                 width: anchorRect.width,
               }}
             />
