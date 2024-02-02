@@ -12,7 +12,7 @@ import { useStepHandlers } from '@/hooks/useStepHandlers'
 
 import type { FlowComponentProps } from '@/shared/types'
 
-interface BannerProps extends BoxProps, FlowComponentProps {}
+interface BannerProps extends FlowComponentProps {}
 
 export function Banner({
   dismissible = true,

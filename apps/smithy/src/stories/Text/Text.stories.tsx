@@ -8,18 +8,18 @@ export default {
 export const Default = {
   decorators: [
     () => (
-      <Text.Body1 fontWeight="bold">
-        {"This is <Text>. It will render the <Text.Body1> variant by default."}
-      </Text.Body1>
-    ),
-  ],
-};
-
-export const Variants = {
-  decorators: [
-    () => (
       <Box style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-        {Object.keys(Text).map((variant) => {
+        {[
+          "Display1",
+          "Display2",
+          "H1",
+          "H2",
+          "H3",
+          "H4",
+          "Body1",
+          "Body2",
+          "Caption",
+        ].map((variant) => {
           const Component = Text[variant];
           return <Component key={variant}>{`Text.${variant}`}</Component>;
         })}

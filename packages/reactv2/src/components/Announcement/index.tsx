@@ -5,7 +5,7 @@ import { useFlow } from '../../hooks/useFlow'
 import { useFlowHandlers } from '../../hooks/useFlowHandlers'
 import { useStepHandlers } from '@/hooks/useStepHandlers'
 
-export interface AnncouncementProps extends DialogProps, FlowComponentProps {}
+export interface AnncouncementProps extends FlowComponentProps, Omit<DialogProps, 'container'> {}
 
 export function Announcement({
   dismissible = true,

@@ -93,7 +93,7 @@ export const stylePropShorthands = {
   pl: ['paddingLeft'],
   px: ['paddingLeft', 'paddingRight'],
   py: ['paddingTop', 'paddingBottom'],
-}
+} as const
 
 export const pseudoStyleProps = new Set(['active', 'focus', 'focusVisible', 'focusWithin', 'hover'])
 
@@ -115,7 +115,11 @@ type FilteredCSSProps = Omit<
 
 export type ThemedStyleProp<K extends keyof ThemedStyleProps> = ThemedStyleProps[K] | (string & {})
 
-export interface StyleProps extends FilteredCSSProps {
+export type StylePropShorthands = {
+  [K in keyof typeof stylePropShorthands]?: ThemedStyleProp<(typeof stylePropShorthands)[K][0]>
+}
+
+export interface StyleProps extends FilteredCSSProps, StylePropShorthands {
   backgroundColor?: ThemedStyleProp<'backgroundColor'>
   border?: ThemedStyleProp<'border'>
   borderColor?: ThemedStyleProp<'borderColor'>
