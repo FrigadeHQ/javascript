@@ -41,7 +41,6 @@ const textVariants = Object.fromEntries(
   })
 )
 
-// Export React components without a wrapper to avoid breaking HMR
 export const Display1 = textVariants['Display1']
 export const Display2 = textVariants['Display2']
 export const H1 = textVariants['H1']
@@ -51,15 +50,3 @@ export const H4 = textVariants['H4']
 export const Body1 = textVariants['Body1']
 export const Body2 = textVariants['Body2']
 export const Caption = textVariants['Caption']
-
-// export const Text = Object.assign(BaseText, textVariantComponents)
-
-/*
-
-export const Box = React.forwardRef(BoxWithRef) as <
-  T extends React.ElementType = React.ElementType
->(
-  props: BoxProps<T>
-) => React.ReactElement
-
-*/
