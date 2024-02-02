@@ -8,10 +8,13 @@ import { type FlowComponentProps } from '@/shared/types'
 
 import { useFlow } from './useFlow'
 import { type DismissHandler, useFlowHandlers } from './useFlowHandlers'
+import { type StepHandler, useStepHandlers } from './useStepHandlers'
 
 export interface FlowComponentChildrenProps {
   flow: Flow
   handleDismiss: DismissHandler
+  handlePrimary: StepHandler
+  handleSecondary: StepHandler
   step: FlowStep
 }
 
@@ -25,6 +28,8 @@ export function useFlowComponent({
   flowId,
   onComplete,
   onDismiss,
+  onPrimary,
+  onSecondary,
   variables,
   ...props
 }: FlowComponentProps) {
@@ -35,17 +40,21 @@ export function useFlowComponent({
     const { flow } = useFlow(flowId, {
       variables,
     })
+    const step = flow?.getCurrentStep()
 
     const { handleDismiss } = useFlowHandlers(flow, {
       onComplete,
       onDismiss,
     })
 
+    const { handlePrimary, handleSecondary } = useStepHandlers(step, {
+      onPrimary,
+      onSecondary,
+    })
+
     if (flow == null || flow.isVisible === false) {
       return null
     }
-
-    const step = flow.getCurrentStep()
 
     const dismissButton =
       dismissible && container === 'dialog' ? <Dialog.Close onClick={handleDismiss} /> : null
@@ -60,6 +69,8 @@ export function useFlowComponent({
         {children({
           flow,
           handleDismiss,
+          handlePrimary,
+          handleSecondary,
           step,
         })}
       </ContainerElement>

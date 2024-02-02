@@ -1,6 +1,6 @@
 /// <reference types="@emotion/react/types/css-prop" />
 
-export { Announcement } from './components/Announcement'
+export { Announcement, type AnnouncementProps } from './components/Announcement'
 export { Banner } from './components/Banner'
 export { Box, type BoxProps } from './components/Box'
 export { Card } from './components/Card'

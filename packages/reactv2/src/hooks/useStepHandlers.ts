@@ -4,22 +4,24 @@ import type { FlowStep } from '@frigade/js'
 
 import { FrigadeContext } from '../components/Provider'
 
-export type StepHandler = (
+export type StepHandlerProp = (
   step: FlowStep,
-  event?: MouseEvent<unknown>
+  event?: React.MouseEvent<unknown>
 ) => Promise<boolean | void> | (boolean | void)
 
-export interface StepHandlers {
-  onPrimary?: StepHandler
-  onSecondary?: StepHandler
+export interface StepHandlerProps {
+  onPrimary?: StepHandlerProp
+  onSecondary?: StepHandlerProp
 }
 
-export function useStepHandlers(step: FlowStep, { onPrimary, onSecondary }: StepHandlers = {}) {
+export type StepHandler = (e: React.MouseEvent<unknown>) => Promise<boolean | void>
+
+export function useStepHandlers(step: FlowStep, { onPrimary, onSecondary }: StepHandlerProps = {}) {
   const { navigate } = useContext(FrigadeContext)
 
   return {
-    handlePrimary: useCallback(
-      async (e: MouseEvent<unknown>) => {
+    handlePrimary: useCallback<StepHandler>(
+      async (e: React.MouseEvent<unknown>) => {
         const continueDefault = await onPrimary?.(step, e)
 
         if (continueDefault === false) {
@@ -36,8 +38,8 @@ export function useStepHandlers(step: FlowStep, { onPrimary, onSecondary }: Step
       [step]
     ),
 
-    handleSecondary: useCallback(
-      async (e: MouseEvent<unknown>) => {
+    handleSecondary: useCallback<StepHandler>(
+      async (e: React.MouseEvent<unknown>) => {
         const continueDefault = await onSecondary?.(step, e)
 
         if (continueDefault === false) {
