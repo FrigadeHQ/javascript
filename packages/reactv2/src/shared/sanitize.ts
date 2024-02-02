@@ -2,7 +2,7 @@ import DOMPurify from 'dompurify'
 
 function getWindow() {
   if (typeof window === 'undefined') {
-    // NOTE: JSDOM is required inline because it has import side effects that depend on node
+    // eslint-disable-next-line @typescript-eslint/no-var-requires -- JSDOM is required inline because it has import side effects that depend on node
     const { JSDOM } = require('jsdom')
     return new JSDOM('<!DOCTYPE html>').window
   }

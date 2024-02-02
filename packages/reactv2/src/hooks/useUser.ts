@@ -5,7 +5,7 @@ import { FrigadeContext } from '../components/Provider'
 export function useUser() {
   const { userId, frigade } = useContext(FrigadeContext)
 
-  async function setProperties(properties?: Record<string, any>) {
+  async function setProperties(properties?: Record<string, unknown>) {
     await frigade.identify(userId, properties)
   }
 

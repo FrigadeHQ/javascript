@@ -11,5 +11,5 @@ export interface FlowComponentProps extends Omit<BoxProps, 'container'> {
   onDismiss?: FlowHandlerProp
   onPrimary?: StepHandlerProp
   onSecondary?: StepHandlerProp
-  variables?: Record<string, any>
+  variables?: Record<string, unknown>
 }

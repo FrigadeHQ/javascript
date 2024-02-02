@@ -5,7 +5,7 @@ import { useModal } from '../../hooks/useModal'
 import { useFlowHandlers } from '../../hooks/useFlowHandlers'
 import { useStepHandlers } from '../../hooks/useStepHandlers'
 
-import { Flex } from '../Flex/Flex'
+import { Flex } from '../Flex'
 import { Tooltip } from '../Tooltip'
 
 export interface TourStepProps extends Omit<TourProps, 'flowId'> {

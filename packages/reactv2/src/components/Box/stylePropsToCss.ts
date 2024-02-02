@@ -25,13 +25,13 @@ Prefix these props to allow for usage in CSS & HTML:
 
 */
 
-function prepValue(value: any) {
+function prepValue(value: unknown) {
   if (Array.isArray(value)) {
     return new Map(value.map((v) => [v, v]))
   } else if (typeof value === 'object' && value !== null) {
     return new Map(Object.entries(value))
-  } else if (['string', 'number'].includes(typeof value)) {
-    return new Map([value, value])
+  } else if (typeof value === 'string' || typeof value === 'number') {
+    return new Map([[value, value]])
   }
 
   return new Map()
@@ -69,7 +69,10 @@ function getPseudoClass(propName: string) {
   return [name, pseudoStyleProps.has(pseudo) ? pseudo : null]
 }
 
-export function stylePropsToCss(props: Record<any, any>, element: React.ElementType = 'div') {
+export function stylePropsToCss(
+  props: Record<string, unknown>,
+  element: React.ElementType = 'div'
+) {
   const unmatchedProps = Object.assign({}, props)
   const cssFromProps = {}
 

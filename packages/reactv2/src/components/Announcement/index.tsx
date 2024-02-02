@@ -1,5 +1,5 @@
 import { Dialog, type DialogProps } from '../Dialog'
-import { Flex } from '../Flex/Flex'
+import { Flex } from '../Flex'
 import { type FlowComponentProps } from '@/shared/types'
 import { useFlowComponent } from '@/hooks/useFlowComponent'
 

@@ -1,7 +1,7 @@
 const SPACE_VALUE = 4
 const SPACE_UNIT = 'px'
 
-const spaceValue = (key: SpaceKeys[any]) =>
+const spaceValue = (key: SpaceKeys[number]) =>
   typeof key === 'number' ? `${SPACE_VALUE * key}${SPACE_UNIT}` : key
 
 const spaceKeys = [
@@ -54,7 +54,7 @@ const spaceKeys = [
 type SpaceKeys = typeof spaceKeys
 
 type SpaceTokens = {
-  [K in SpaceKeys[any]]: string
+  [K in SpaceKeys[number]]: string
 }
 export const space = Object.fromEntries(
   spaceKeys.map((key) => [key, spaceValue(key)])

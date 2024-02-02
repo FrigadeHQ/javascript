@@ -1,4 +1,3 @@
-import { Interpolation } from '@emotion/react'
 import { Box, BoxProps } from '../Box'
 import { Text } from '../Text'
 

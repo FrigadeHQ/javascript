@@ -4,12 +4,12 @@ import { useContext, useEffect, useState } from 'react'
 import { FrigadeContext } from '../components/Provider'
 
 export interface FlowConfig {
-  variables?: Record<string, any>
+  variables?: Record<string, unknown>
 }
 
 export function useFlow(flowId: string, config?: FlowConfig) {
   const [flow, setFlow] = useState<Flow>()
-  const [_, setRandomString] = useState<string>('')
+  const [, setRandomString] = useState<string>('')
   const { frigade } = useContext(FrigadeContext)
 
   const handler = (updatedFlow: Flow) => {

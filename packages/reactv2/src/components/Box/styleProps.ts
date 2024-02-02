@@ -15,7 +15,7 @@ const filteredCSSProperties = kcp.all
   .filter((prop) => prop.indexOf('-') != 0 && !omittedCSSProperties.has(prop))
   .map((prop) => [prop.replace(/-([a-z])/g, (_, char) => char.toUpperCase()), null])
 
-const defaultCSSProperties = Object.fromEntries(filteredCSSProperties)
+const defaultCSSProperties: Record<string, null> = Object.fromEntries(filteredCSSProperties)
 
 // Recursive type for flattened color names
 // SEE: https://stackoverflow.com/a/47058976
@@ -113,6 +113,7 @@ type FilteredCSSProps = Omit<
   | `O${string}`
 >
 
+// eslint-disable-next-line @typescript-eslint/ban-types -- the (string & {}) type is intentionally fucky to assist with IDE prop completion
 export type ThemedStyleProp<K extends keyof ThemedStyleProps> = ThemedStyleProps[K] | (string & {})
 
 export type StylePropShorthands = {

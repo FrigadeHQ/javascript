@@ -1,4 +1,4 @@
-export function flattenObject(obj: Record<any, any>, path = '', separator = '.') {
+export function flattenObject(obj: object, path = '', separator = '.') {
   return Object.keys(obj).reduce((acc, k) => {
     const prefix = path.length ? `${path}${separator}` : ''
     const currentPath = `${prefix}${k}`
