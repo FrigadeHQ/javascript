@@ -79,6 +79,10 @@ Dialog.Primary = ({ onClick, title, ...props }: ButtonProps) => {
 }
 
 Dialog.ProgressDots = ({ current, total }: { current: number; total: number }) => {
+  if (total == 0) {
+    return null
+  }
+
   const dots = [...Array(total)].map((_, i) => {
     return (
       <circle
@@ -90,10 +94,6 @@ Dialog.ProgressDots = ({ current, total }: { current: number; total: number }) =
       />
     )
   })
-
-  if (total == 0) {
-    return null
-  }
 
   return (
     <Box
