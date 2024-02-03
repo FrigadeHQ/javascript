@@ -34,8 +34,10 @@ export function Announcement(props: AnnouncementProps) {
             }}
             gap={3}
           >
-            <Dialog.Secondary title="Secondary" onClick={handleSecondary} />
-            <Dialog.Primary title="Primary" onClick={handlePrimary} />
+            {step.secondaryButtonTitle && (
+              <Dialog.Secondary title={step.secondaryButtonTitle} onClick={handleSecondary} />
+            )}
+            <Dialog.Primary title={step.primaryButtonTitle ?? 'Continue'} onClick={handlePrimary} />
           </Flex.Row>
         </>
       )}
