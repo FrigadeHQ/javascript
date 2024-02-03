@@ -1,7 +1,7 @@
 import { type ReactNode } from 'react'
 import { type Flow, type FlowStep } from '@frigade/js'
 
-import { Box } from '@/components/Box'
+import { Box, type BoxProps } from '@/components/Box'
 import { Dialog } from '@/components/Dialog'
 
 import { type FlowComponentProps } from '@/shared/types'
@@ -18,7 +18,7 @@ export interface FlowComponentChildrenProps {
   step: FlowStep
 }
 
-export interface FlowComponentChildren {
+export interface FlowComponentChildren extends BoxProps {
   children: (props: FlowComponentChildrenProps) => ReactNode
 }
 
@@ -36,7 +36,10 @@ export function useFlowComponent({
   const ContainerElement = container === 'dialog' ? Dialog : Box
 
   // TODO: useMemo this component so it isn't recreated on every render
-  const FlowComponent = function FlowComponent({ children }: FlowComponentChildren) {
+  const FlowComponent = function FlowComponent({
+    children,
+    ...flowComponentProps
+  }: FlowComponentChildren) {
     const { flow } = useFlow(flowId, {
       variables,
     })
@@ -63,7 +66,7 @@ export function useFlowComponent({
     step.start()
 
     return (
-      <ContainerElement {...props}>
+      <ContainerElement {...flowComponentProps} {...props}>
         {dismissButton}
 
         {children({

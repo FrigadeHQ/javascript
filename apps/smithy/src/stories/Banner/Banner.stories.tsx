@@ -3,6 +3,12 @@ import { Banner } from "@frigade/reactv2";
 export default {
   title: "Components/Banner",
   component: Banner,
+  argTypes: {
+    container: {
+      type: "select",
+      options: ["none", "dialog"],
+    },
+  },
 };
 
 export const Default = {
