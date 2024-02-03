@@ -11,7 +11,7 @@ import * as baseStyles from './BaseField.styles'
 
 export interface SelectItemProps {
   label: string
-  value: any
+  value: string
 }
 
 const SelectItem = React.forwardRef<HTMLDivElement, SelectItemProps>(

@@ -6,7 +6,7 @@ import { Label } from './Label'
 import * as styles from './BaseField.styles'
 
 interface BaseFieldProps extends FormFieldProps {
-  // TODO: Tighten up fieldProps type
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- TODO: Tighten up fieldProps type
   children: (fieldProps?: any) => React.ReactNode
 }
 

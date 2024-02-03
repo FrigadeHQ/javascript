@@ -28,7 +28,6 @@ export function Tooltip({
   children,
   className,
   spotlight = false,
-  modal = spotlight ? true : false,
   style,
   ...props
 }: TooltipProps) {

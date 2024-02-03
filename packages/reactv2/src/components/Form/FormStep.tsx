@@ -1,9 +1,9 @@
-import { useController, useForm, SubmitHandler } from 'react-hook-form'
+import { useController, useForm } from 'react-hook-form'
 
 import { Button } from '@/components/Button'
-import { Flex } from '@/components/Flex/Flex'
+import { Flex } from '@/components/Flex'
 
-import { type FormProps, type ValidationRules } from '.'
+import { type FormFieldData, type FormProps, type ValidationRules } from '.'
 
 // See: https://react-hook-form.com/get-started#Applyvalidation
 // NOTE: "validate" is intentionally omitted
@@ -43,11 +43,11 @@ export function FormStep({ fieldTypes, step }: Pick<FormProps, 'fieldTypes' | 's
   const fields = []
 
   // TODO: Type for data
-  function onSubmit(data: any) {
+  function onSubmit(data: unknown) {
     step.complete(data)
   }
 
-  step.fields?.forEach((fieldData: Record<string, any>) => {
+  step.fields?.forEach((fieldData: FormFieldData) => {
     if (fieldTypes[fieldData.type] != null) {
       fields.push(
         <FieldWrapper

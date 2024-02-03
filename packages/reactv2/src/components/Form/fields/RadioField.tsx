@@ -2,7 +2,7 @@ import * as React from 'react'
 import * as RadioGroup from '@radix-ui/react-radio-group'
 
 import { Box } from '@/components/Box'
-import { Flex } from '@/components/Flex/Flex'
+import { Flex } from '@/components/Flex'
 import { Text } from '@/components/Text'
 
 import { type FormFieldProps } from '..'
@@ -10,7 +10,7 @@ import { BaseField } from './BaseField'
 
 export interface SelectItemProps {
   label: string
-  value: any
+  value: string
 }
 
 // NOTE: This isn't quite exactly the same as the HeroIcons checkmark

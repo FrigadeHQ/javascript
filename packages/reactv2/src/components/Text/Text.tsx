@@ -43,10 +43,14 @@ const textVariants = Object.fromEntries(
 
 export const Display1 = textVariants['Display1']
 export const Display2 = textVariants['Display2']
+
+/* eslint-disable react-refresh/only-export-components -- False positive on H# components, see: https://github.com/ArnaudBarre/eslint-plugin-react-refresh/blob/main/src/only-export-components.ts#L9 */
 export const H1 = textVariants['H1']
 export const H2 = textVariants['H2']
 export const H3 = textVariants['H3']
 export const H4 = textVariants['H4']
+/* eslint-enable react-refresh/only-export-components */
+
 export const Body1 = textVariants['Body1']
 export const Body2 = textVariants['Body2']
 export const Caption = textVariants['Caption']
