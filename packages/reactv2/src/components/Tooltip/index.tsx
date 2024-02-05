@@ -37,6 +37,8 @@ export function Tooltip({
 
   const [alignAttr, setAlignAttr] = useState(contentProps.align)
   const [sideAttr, setSideAttr] = useState(contentProps.side)
+  const [spotlightLeft, setSpotlightLeft] = useState(0)
+  const [spotlightTop, setSpotlightTop] = useState(0)
 
   // Radix will update data attrs to let us know if Popover.Content has collided
   if (contentNode !== null) {
@@ -63,6 +65,13 @@ export function Tooltip({
       anchorVirtualRef.current = anchorQuery
     }
   }, [anchor])
+
+  useEffect(() => {
+    const { scrollX, scrollY } = window
+
+    setSpotlightLeft(anchorRect.left + scrollX)
+    setSpotlightTop(anchorRect.top + scrollY)
+  }, [anchorRect.left, anchorRect.top])
 
   if (anchorNode == null) {
     return null
@@ -91,8 +100,8 @@ export function Tooltip({
                 borderRadius: anchorRadius,
                 boxShadow: '0 0 0 20000px rgb(0 0 0 / 0.5)',
                 height: anchorRect.height,
-                left: anchorNode.offsetLeft,
-                top: anchorNode.offsetTop,
+                left: spotlightLeft,
+                top: spotlightTop,
                 width: anchorRect.width,
               }}
             />
