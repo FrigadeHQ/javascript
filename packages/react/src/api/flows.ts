@@ -69,6 +69,7 @@ export function useFlows() {
     shouldGracefullyDegrade,
     readonly,
     flowDataOverrides,
+    debug,
   } = useContext(FrigadeContext)
 
   const emptyResponse = {
@@ -129,7 +130,9 @@ export function useFlows() {
     }
     const flow = flows.find((f) => f.slug === flowId)
     if (!flow && flows.length > 0 && !isLoadingUserFlowStateData && !isLoadingFlows) {
-      console.log(`Flow with id ${flowId} not found`)
+      if (debug) {
+        console.log(`Flow with id ${flowId} not found`)
+      }
       return null
     }
     if (flow && flowDataOverrides && flowDataOverrides[flowId]) {
