@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.38.36
+
+### Patch Changes
+
+- af0acd6: Updates 'flow not found' to be a debug only prop
+
 ## 1.38.35
 
 ### Patch Changes
