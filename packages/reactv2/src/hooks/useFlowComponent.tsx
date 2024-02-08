@@ -1,4 +1,4 @@
-import { type ReactNode } from 'react'
+import { type ReactNode, useEffect } from 'react'
 import { type Flow, type FlowStep } from '@frigade/js'
 
 import { Box, type BoxProps } from '@/components/Box'
@@ -9,6 +9,7 @@ import { type FlowComponentProps } from '@/shared/types'
 import { useFlow } from './useFlow'
 import { type DismissHandler, useFlowHandlers } from './useFlowHandlers'
 import { type StepHandler, useStepHandlers } from './useStepHandlers'
+import { useModal } from './useModal'
 
 export interface FlowComponentChildrenProps {
   flow: Flow
@@ -55,7 +56,15 @@ export function useFlowComponent({
       onSecondary,
     })
 
-    if (flow == null || flow.isVisible === false) {
+    const { isCurrentModal, removeModal } = useModal(flow?.id)
+
+    useEffect(() => {
+      if (!flow?.isVisible && isCurrentModal) {
+        removeModal()
+      }
+    }, [flow?.isVisible, isCurrentModal])
+
+    if (flow == null || !flow.isVisible || !isCurrentModal) {
       return null
     }
 

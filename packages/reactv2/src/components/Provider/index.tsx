@@ -1,4 +1,11 @@
-import { createContext, Dispatch, SetStateAction, useEffect, useRef, useState } from 'react'
+import {
+  createContext,
+  type Dispatch,
+  type SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import { Global, ThemeProvider } from '@emotion/react'
 
 import {
@@ -35,21 +42,24 @@ export interface ProviderProps {
 }
 
 interface ProviderContext extends Omit<ProviderProps, 'children' | 'theme'> {
-  modals: string[]
-  setModals: Dispatch<SetStateAction<string[]>>
+  modals: Set<string>
+  setModals: Dispatch<SetStateAction<Set<string>>>
+  currentModal: string | null
   frigade?: Frigade
 }
 
 export const FrigadeContext = createContext<ProviderContext>({
   apiKey: '',
-  modals: [],
+  modals: new Set(),
   setModals: () => {},
+  currentModal: null,
   navigate: () => {},
 })
 
 export function Provider({ children, navigate, theme, ...props }: ProviderProps) {
   const themeOverrides = theme ? createThemeVariables(theme) : {}
-  const [modals, setModals] = useState([])
+  const [modals, setModals] = useState(new Set<string>())
+
   const frigade = useRef<Frigade>(
     new Frigade(props.apiKey, {
       apiKey: props.apiKey,
@@ -73,11 +83,14 @@ export function Provider({ children, navigate, theme, ...props }: ProviderProps)
     }
   }, [])
 
+  const currentModal = modals.size > 0 ? modals.values().next().value : null
+
   return (
     <FrigadeContext.Provider
       value={{
         modals,
         setModals,
+        currentModal,
         navigate: navigateHandler,
         ...props,
         frigade: frigade.current,

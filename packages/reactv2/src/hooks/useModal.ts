@@ -2,25 +2,37 @@ import { useContext, useEffect, useState } from 'react'
 
 import { FrigadeContext } from '../components/Provider'
 
-export function useModal(flowId: string) {
-  const { modals, setModals } = useContext(FrigadeContext)
+export function useModal(modalId: string) {
+  const { currentModal, modals, setModals } = useContext(FrigadeContext)
   const [isCurrentModal, setIsCurrentModal] = useState(false)
 
   useEffect(() => {
-    setModals([...modals, flowId])
-
-    return () => setModals(modals.filter((v) => v !== flowId))
-  }, [])
+    if (modalId != null && !modals.has(modalId)) {
+      setModals((prevModals) => new Set(prevModals).add(modalId))
+    }
+  }, [modalId])
 
   useEffect(() => {
-    const newIsCurrentModal = modals[0] === flowId
+    const newIsCurrentModal = currentModal === modalId
 
-    if (newIsCurrentModal !== isCurrentModal) {
+    if (modalId != null && newIsCurrentModal !== isCurrentModal) {
       setIsCurrentModal(newIsCurrentModal)
     }
-  }, [modals])
+  }, [modalId, currentModal])
+
+  function removeModal() {
+    if (modals.has(modalId)) {
+      setModals((prevModals) => {
+        const nextModals = new Set(prevModals)
+        nextModals.delete(modalId)
+
+        return nextModals
+      })
+    }
+  }
 
   return {
     isCurrentModal,
+    removeModal,
   }
 }
