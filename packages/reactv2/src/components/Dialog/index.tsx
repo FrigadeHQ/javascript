@@ -79,7 +79,7 @@ Dialog.Primary = ({ onClick, title, ...props }: ButtonProps) => {
 }
 
 Dialog.ProgressDots = ({ current, total }: { current: number; total: number }) => {
-  if (total == 0) {
+  if (total == 1) {
     return null
   }
 
