@@ -21,6 +21,7 @@ export function Banner(props: BannerProps) {
       borderColor="gray900"
       display="flex"
       flexDirection="row"
+      gap={3}
       justifyContent="space-between"
     >
       {({ handleDismiss, handlePrimary, handleSecondary, step }) => (
