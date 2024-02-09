@@ -1,6 +1,8 @@
 const base = {
   borderWidth: '0',
   borderRadius: 'md',
+  display: 'flex',
+  gap: '2',
   padding: '2 4',
 }
 

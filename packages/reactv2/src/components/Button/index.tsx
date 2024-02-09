@@ -18,7 +18,7 @@ function BaseButton({ as, children, part, title, variant = 'Primary', ...props }
     <Box as={as ?? 'button'} part={[`button-${variantPart}`, part]} {...styles[variant]} {...props}>
       {children}
       {title && (
-        <Text.Body2 fontWeight="demibold" color="inherit">
+        <Text.Body2 flexGrow="1" fontWeight="demibold" color="inherit">
           {title}
         </Text.Body2>
       )}

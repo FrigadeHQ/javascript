@@ -11,6 +11,13 @@ export const Default = {
   },
 };
 
+export const WithChildren = {
+  args: {
+    title: "Hello button",
+    children: <img src="https://placekitten.com/24/24" />,
+  },
+};
+
 export const Variants = {
   decorators: [
     () => (
