@@ -20,8 +20,7 @@ In order to run both versions of the Frigade React SDK at the same time, add V2 
 "dependencies": [
   "@frigade/react": "^1.XX.XX",
 
-  // Replace "XX" with latest alpha version
-  "@frigade/react/v2": "npm:@frigade/react@2.0.0-alpha.XX",
+  "@frigade/reactv2": "npm:@frigade/react@alpha",
 ]
 ```
 
@@ -29,7 +28,7 @@ Next, add the V2 `<Provider>` component to your app above the V1 `<FrigadeProvid
 
 ```ts
 import { FrigadeProvider } from '@frigade/react'
-import * as Frigade from '@frigade/react/v2'
+import * as Frigade from '@frigade/reactv2'
 
 const FRIGADE_API_KEY = 'api_public_abcd1234'
 
@@ -49,7 +48,7 @@ export const App = () => {
 That's pretty much it. You can now use V2 components:
 
 ```ts
-import * as Frigade from '@frigade/react/v2'
+import * as Frigade from '@frigade/reactv2'
 
 export const DemoComponent = () => {
   return <Frigade.Tour flowId="flow_abcd1234" />
