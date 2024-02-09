@@ -635,7 +635,10 @@ export function useFlows() {
 
   function isFlowAvailableToUser(flowId: string) {
     const flow = getFlow(flowId)
-    if (flow?.active === false) {
+    if (!flow) {
+      return false
+    }
+    if (flow.active === false) {
       return false
     }
     return !targetingLogicShouldHideFlow(getFlow(flowId))

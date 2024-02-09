@@ -31,20 +31,27 @@ async function addDirectivesToChunkFiles(distPath = DIST_PATH): Promise<void> {
   }
 }
 
-export default defineConfig((options: Options) => ({
-  dts: true,
+const commonConfig: Options = {
   minify: true,
-  entry: ['src/index.ts'],
-  external: ['react'],
+  dts: true,
   format: ['esm', 'cjs'],
-  async onSuccess() {
-    await addDirectivesToChunkFiles()
-  },
-  outDir: DIST_PATH,
   sourcemap: true,
-  splitting: true,
   clean: true,
   bundle: true,
+  splitting: true,
+  skipNodeModulesBundle: true,
   treeshake: true,
-  ...options,
-}))
+}
+export default defineConfig([
+  {
+    ...commonConfig,
+    esbuildOptions: (options) => {
+      options.bundle = true
+    },
+    entry: ['src/index.ts'],
+    async onSuccess() {
+      await addDirectivesToChunkFiles()
+    },
+    outDir: DIST_PATH,
+  },
+])
