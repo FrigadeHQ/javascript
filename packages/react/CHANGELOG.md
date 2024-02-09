@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 1.38.37
+
+### Patch Changes
+
+- 7dbdaa4: Adds a missing null check to `isFlowAvailableToUser`. Fixes an import issue with Next.js 14.1
+
 ## 1.38.36
 
 ### Patch Changes
