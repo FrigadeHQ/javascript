@@ -2,7 +2,7 @@ import { Box, Flex, Tooltip } from "@frigade/reactv2";
 import { StoryFn, StoryContext } from "@storybook/react";
 
 export default {
-  title: "Components/Tooltip",
+  title: "Design System/Tooltip",
   component: Tooltip,
   argTypes: {
     align: {

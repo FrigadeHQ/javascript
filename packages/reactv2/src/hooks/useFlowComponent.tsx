@@ -1,7 +1,9 @@
 import { type ReactNode, useEffect } from 'react'
 import { type Flow, type FlowStep } from '@frigade/js'
+import { XMarkIcon } from '@heroicons/react/24/solid'
 
 import { Box, type BoxProps } from '@/components/Box'
+import { Button, type ButtonProps } from '@/components/Button'
 import { Dialog } from '@/components/Dialog'
 
 import { type FlowComponentProps } from '@/shared/types'
@@ -23,7 +25,16 @@ export interface FlowComponentChildren extends BoxProps {
   children: (props: FlowComponentChildrenProps) => ReactNode
 }
 
+export function CloseButton(props: ButtonProps) {
+  return (
+    <Button.Plain part="close" position="absolute" right="-4px" top="4px" {...props}>
+      <XMarkIcon height="24" fill="currentColor" />
+    </Button.Plain>
+  )
+}
+
 export function useFlowComponent({
+  as,
   container,
   dismissible = true,
   flowId,
@@ -34,7 +45,8 @@ export function useFlowComponent({
   variables,
   ...props
 }: FlowComponentProps) {
-  const ContainerElement = container === 'dialog' ? Dialog : Box
+  const ContainerElement = container === 'dialog' ? Dialog : as ?? Box
+  const DismissElement = ContainerElement.Close ?? CloseButton
 
   // TODO: useMemo this component so it isn't recreated on every render
   const FlowComponent = function FlowComponent({
@@ -68,15 +80,12 @@ export function useFlowComponent({
       return null
     }
 
-    const dismissButton =
-      dismissible && container === 'dialog' ? <Dialog.Close onClick={handleDismiss} /> : null
-
     flow.start()
     step.start()
 
     return (
-      <ContainerElement {...flowComponentProps} {...props}>
-        {dismissButton}
+      <ContainerElement position="relative" {...flowComponentProps} {...props}>
+        {dismissible && <DismissElement onClick={handleDismiss} />}
 
         {children({
           flow,
