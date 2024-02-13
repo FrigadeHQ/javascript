@@ -68,7 +68,7 @@ export function useFlowComponent({
       onSecondary,
     })
 
-    const { isCurrentModal, removeModal } = useModal(flow?.id)
+    const { isCurrentModal, removeModal } = useModal(flow)
 
     useEffect(() => {
       if (!flow?.isVisible && isCurrentModal) {

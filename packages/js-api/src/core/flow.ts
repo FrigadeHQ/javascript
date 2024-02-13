@@ -196,11 +196,7 @@ export class Flow extends Fetchable {
           }),
         })
 
-        if (isLastStep) {
-          await this.complete()
-        } else {
-          await this.refreshUserFlowState()
-        }
+        await this.refreshUserFlowState()
 
         const updatedUserFlowState = this.getUserFlowState()
         thisStep.isCompleted =

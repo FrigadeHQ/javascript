@@ -3,7 +3,7 @@ import {
   type Dispatch,
   type SetStateAction,
   useEffect,
-  useRef,
+  useMemo,
   useState,
 } from 'react'
 import { Global, ThemeProvider } from '@emotion/react'
@@ -59,9 +59,8 @@ export const FrigadeContext = createContext<ProviderContext>({
 export function Provider({ children, navigate, theme, ...props }: ProviderProps) {
   const themeOverrides = theme ? createThemeVariables(theme) : {}
   const [modals, setModals] = useState(new Set<string>())
-
-  const frigade = useRef<Frigade>(
-    new Frigade(props.apiKey, {
+  const frigade = useMemo<Frigade>(() => {
+    return new Frigade(props.apiKey, {
       apiKey: props.apiKey,
       apiUrl: props.apiUrl,
       userId: props.userId,
@@ -69,7 +68,7 @@ export function Provider({ children, navigate, theme, ...props }: ProviderProps)
       __readOnly: props.__readOnly,
       __flowConfigOverrides: props.__flowConfigOverrides,
     })
-  )
+  }, [props.userId, props.groupId, props.apiKey])
 
   const navigateHandler =
     navigate ??
@@ -79,7 +78,7 @@ export function Provider({ children, navigate, theme, ...props }: ProviderProps)
 
   useEffect(() => {
     return () => {
-      frigade.current?.destroy()
+      frigade.destroy()
     }
   }, [])
 
@@ -93,7 +92,7 @@ export function Provider({ children, navigate, theme, ...props }: ProviderProps)
         currentModal,
         navigate: navigateHandler,
         ...props,
-        frigade: frigade.current,
+        frigade: frigade,
       }}
     >
       <Global styles={{ ':root': { ...themeVariables, ...themeOverrides } }} />
