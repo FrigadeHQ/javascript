@@ -93,6 +93,10 @@ export class Frigade extends Fetchable {
     })
   }
 
+  public isReady(): boolean {
+    return Boolean(this.config.__instanceId && this.config.apiKey && this.initPromise)
+  }
+
   public async getFlow(flowId: string) {
     await this.initIfNeeded()
 
