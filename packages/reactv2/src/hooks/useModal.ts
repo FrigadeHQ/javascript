@@ -1,30 +1,31 @@
 import { useContext, useEffect, useState } from 'react'
 
 import { FrigadeContext } from '../components/Provider'
+import { Flow } from '@frigade/js'
 
-export function useModal(modalId: string) {
+export function useModal(flow: Flow) {
   const { currentModal, modals, setModals } = useContext(FrigadeContext)
   const [isCurrentModal, setIsCurrentModal] = useState(false)
 
   useEffect(() => {
-    if (modalId != null && !modals.has(modalId)) {
-      setModals((prevModals) => new Set(prevModals).add(modalId))
+    if (flow?.isVisible && flow && !modals.has(flow.id)) {
+      setModals((prevModals) => new Set(prevModals).add(flow.id))
     }
-  }, [modalId])
+  }, [flow?.id, flow?.isVisible])
 
   useEffect(() => {
-    const newIsCurrentModal = currentModal === modalId
+    const newIsCurrentModal = currentModal === flow?.id
 
-    if (modalId != null && newIsCurrentModal !== isCurrentModal) {
+    if (flow?.id != null && newIsCurrentModal !== isCurrentModal) {
       setIsCurrentModal(newIsCurrentModal)
     }
-  }, [modalId, currentModal])
+  }, [flow?.id, currentModal])
 
   function removeModal() {
-    if (modals.has(modalId)) {
+    if (modals.has(flow?.id)) {
       setModals((prevModals) => {
         const nextModals = new Set(prevModals)
-        nextModals.delete(modalId)
+        nextModals.delete(flow?.id)
 
         return nextModals
       })

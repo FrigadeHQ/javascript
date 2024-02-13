@@ -15,7 +15,7 @@ export function Tour({ flowId, onComplete, variables, ...props }: TourProps) {
   })
   useFlowHandlers(flow, { onComplete })
 
-  const { isCurrentModal, removeModal } = useModal(flow?.id)
+  const { isCurrentModal, removeModal } = useModal(flow)
 
   useEffect(() => {
     if (!flow?.isVisible && isCurrentModal) {
