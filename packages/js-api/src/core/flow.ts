@@ -70,6 +70,10 @@ export class Flow extends Fetchable {
     this.initFromRawData(flowDataRaw)
   }
 
+  reload() {
+    this.initFromRawData(this.flowDataRaw)
+  }
+
   private initFromRawData(flowDataRaw: FlowDataRaw) {
     const flowDataYml = JSON.parse(flowDataRaw.data)
     const steps = flowDataYml.steps ?? flowDataYml.data ?? []

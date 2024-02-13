@@ -206,7 +206,22 @@ export class Frigade extends Fetchable {
         if (userFlowStatesRaw && userFlowStatesRaw.data) {
           let userFlowStates = userFlowStatesRaw.data as UserFlowState[]
           userFlowStates.forEach((userFlowState) => {
+            let shouldReload = false
+            const before = frigadeGlobalState[globalStateKey].userFlowStates[userFlowState.flowId]
+            if (before && before.shouldTrigger == false && userFlowState.shouldTrigger == true) {
+              shouldReload = true
+            }
             frigadeGlobalState[globalStateKey].userFlowStates[userFlowState.flowId] = userFlowState
+            if (shouldReload) {
+              this.flows.forEach((flow) => {
+                if (flow.id == userFlowState.flowId) {
+                  flow.reload()
+                  this.triggerEventHandlers(
+                    frigadeGlobalState[globalStateKey].userFlowStates[flow.id]
+                  )
+                }
+              })
+            }
           })
           this.hasFailed = false
         } else {
