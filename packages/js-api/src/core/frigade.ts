@@ -208,6 +208,8 @@ export class Frigade extends Fetchable {
           userFlowStates.forEach((userFlowState) => {
             let shouldReload = false
             const before = frigadeGlobalState[globalStateKey].userFlowStates[userFlowState.flowId]
+
+            // Special case: for flows that show up based on targeting logic/rules, we need to check if the flow should be triggered
             if (before && before.shouldTrigger == false && userFlowState.shouldTrigger == true) {
               shouldReload = true
             }
