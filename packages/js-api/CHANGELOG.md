@@ -1,5 +1,12 @@
 # @frigade/js
 
+## 0.2.17
+
+### Patch Changes
+
+- 28b089a: Adds a new function isReady() to easily check if the SDK has initialized before using its methods
+- 9bc837c: Fixes an issue where flows with targeting logic failed to call event handlers
+
 ## 0.2.16
 
 ### Patch Changes
