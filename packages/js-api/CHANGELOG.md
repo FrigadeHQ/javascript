@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.2.18
+
+### Patch Changes
+
+- 0e6122e: Correctly renames organization to group
+
 ## 0.2.17
 
 ### Patch Changes
