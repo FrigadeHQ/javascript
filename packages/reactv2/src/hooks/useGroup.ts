@@ -26,5 +26,5 @@ export function useGroup() {
     await frigade.track(eventName, properties)
   }
 
-  return { groupId, setProperties, track, isLoading: !Boolean(frigade?.isReady()) }
+  return { groupId, setProperties, track }
 }

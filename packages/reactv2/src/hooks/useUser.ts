@@ -22,5 +22,5 @@ export function useUser() {
     await frigade.track(eventName, properties)
   }
 
-  return { userId, setProperties, track, isLoading: !Boolean(frigade?.isReady()) }
+  return { userId, setProperties, track }
 }

@@ -1,30 +1,30 @@
 import { useUser } from "@frigade/reactv2";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default {
   title: "Hooks/useUser",
 };
 
 export function Default() {
-  const { setProperties, isLoading } = useUser();
+  const { setProperties } = useUser();
 
+  const [hasSetProps, setHasSetProps] = useState(false);
   useEffect(() => {
-    if (isLoading) {
-      return;
-    }
-
     async function setProps() {
       await setProperties({
         email: "smeagol@aragon.com",
       });
+      setHasSetProps(true);
     }
 
     setProps();
-  }, [isLoading]);
+  }, []);
 
   return (
     <div>
-      <div id="">isLoading: {isLoading ? "true" : "false"}</div>
+      <div id="">
+        hasSuccessFullySentPropsToFrigadeAPI: {hasSetProps ? "true" : "false"}
+      </div>
     </div>
   );
 }
