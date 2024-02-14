@@ -54,7 +54,7 @@ export class Frigade extends Fetchable {
   }
 
   public async identify(userId: string, properties?: Record<string, any>): Promise<void> {
-    this.config = { userId }
+    this.config = { ...this.config, userId }
     await this.initIfNeeded()
     await this.fetch('/users', {
       method: 'POST',
@@ -66,9 +66,9 @@ export class Frigade extends Fetchable {
     await this.refreshUserFlowStates()
   }
 
-  public async group(organizationId: string, properties?: Record<string, any>): Promise<void> {
+  public async group(groupId: string, properties?: Record<string, any>): Promise<void> {
     await this.initIfNeeded()
-    this.config.groupId = organizationId
+    this.config.groupId = groupId
     await this.fetch('/userGroups', {
       method: 'POST',
       body: JSON.stringify({

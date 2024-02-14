@@ -13,5 +13,14 @@ export function useUser() {
     await frigade.identify(userId, properties)
   }
 
-  return { userId, setProperties, isLoading: frigade.isReady() }
+  /**
+   * Tracks an event for the current user
+   * @param eventName
+   * @param properties
+   */
+  async function track(eventName: string, properties?: Record<string, unknown>) {
+    await frigade.track(eventName, properties)
+  }
+
+  return { userId, setProperties, track, isLoading: !Boolean(frigade?.isReady()) }
 }

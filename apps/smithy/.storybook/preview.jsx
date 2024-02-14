@@ -35,6 +35,7 @@ const preview = {
           apiKey={FRIGADE_API_KEY}
           apiUrl={API_URL}
           userId={userId}
+          groupId={"Baggins"}
           // __readOnly={true}
           // __flowConfigOverrides={{
           //   flow_cvWFczn1RMHp9ZcK: JSON.stringify({
