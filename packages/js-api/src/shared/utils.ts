@@ -124,6 +124,10 @@ export async function gracefulFetch(url: string, options: any) {
   }
 
   try {
+    if (response.status === 204 || response.status === 201) {
+      return getEmptyResponse()
+    }
+
     const body = await response.json()
     if (body.error) {
       return getEmptyResponse(body.error)
