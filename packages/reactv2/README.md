@@ -1,32 +1,69 @@
 # Frigade React SDK V2
 
-### 🚨🚧 This package is currently in beta 🚧🚨
+## Quickstart
 
-If you're looking for the full / stable version of Frigade that we all know and love, head over to our main [React SDK](https://github.com/FrigadeHQ/javascript/tree/main/packages/react).
+Install the React SDK:
 
-We're building our new version in public so that you can have a look around if you'd like, contribute ideas, and test out how our new features will integrate into your existing Frigade setup.
+```sh
+# npm
+npm i @frigade/react
 
-If you have any questions about V2 not covered in these docs, don't hesitate to [reach out](mailto:hello@frigade.com).
+# yarn
+yarn add @frigade/react
+```
 
 &nbsp;
 
-# Quickstart
+Next, add the Frigade `Provider` component to your app:
 
-While you're testing out the V2 beta, you'll likely still want to run V1 alongside it to cover anything V2 doesn't support yet.
+```jsx
+import * as Frigade from '@frigade/react'
 
-In order to run both versions of the Frigade React SDK at the same time, add V2 to your package.json with an alias:
+const FRIGADE_API_KEY = 'api_public_abcd1234'
+
+export const App = () => {
+  const userId = '...'
+
+  return (
+    <Frigade.Provider apiKey={FRIGADE_API_KEY} userId={userId}>
+      {/* ... */}
+    </Frigade.Provider>
+  )
+}
+```
+
+&nbsp;
+
+That's pretty much it! You can now use our SDK:
+
+```tsx
+import * as Frigade from '@frigade/react'
+
+export const DemoComponent = () => {
+  return <Frigade.Tour flowId="flow_abcd1234" />
+}
+```
+
+&nbsp;
+
+## Running both V1 and V2 of the SDK
+
+If you already have a V1 implementation and aren't ready to fully upgrade yet, you can use both V1 and V2 at the same time.
+
+First, install V2 using a package alias:
 
 ```json
 "dependencies": [
-  "@frigade/react": "^1.XX.XX",
-
-  "@frigade/reactv2": "npm:@frigade/react@alpha",
+  "@frigade/react": "1.x",
+  "@frigade/reactv2": "npm:@frigade/react@2.x",
 ]
 ```
 
-Next, add the V2 `<Provider>` component to your app above the V1 `<FrigadeProvider>`:
+&nbsp;
 
-```ts
+Then add the V2 `Provider` above the V1 `FrigadeProvider`:
+
+```tsx
 import { FrigadeProvider } from '@frigade/react'
 import * as Frigade from '@frigade/reactv2'
 
@@ -36,7 +73,7 @@ export const App = () => {
   const userId = '...'
 
   return (
-    <Frigade.Provider apiKey={FRIGADE_API_KEY} userId={userId}}>
+    <Frigade.Provider apiKey={FRIGADE_API_KEY} userId={userId}>
       <FrigadeProvider publicApiKey={FRIGADE_API_KEY} userId={userId}>
         {/* ... */}
       </FrigadeProvider>
@@ -45,15 +82,7 @@ export const App = () => {
 }
 ```
 
-That's pretty much it. You can now use V2 components:
-
-```ts
-import * as Frigade from '@frigade/reactv2'
-
-export const DemoComponent = () => {
-  return <Frigade.Tour flowId="flow_abcd1234" />
-}
-```
+With this setup you can import V1 components from `@frigade/react` and V2 components from `@frigade/reactv2`.
 
 &nbsp;
 
