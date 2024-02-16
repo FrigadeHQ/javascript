@@ -1,7 +1,9 @@
 import { tokens, Tokens } from '../tokens'
 import { flattenObject } from '../flattenObject'
 
-export type Theme = Partial<Tokens>
+import type { DeepPartial } from '@/shared/types'
+
+export type Theme = DeepPartial<Tokens>
 
 // Transform tokens to a flat list of CSS variables and values to inject into the page
 // IN: { colors: { black: '#000' } }, OUT: { '--fr-colors-black': '#000' }
