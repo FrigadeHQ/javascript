@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.2.19
+
+### Patch Changes
+
+- 44466a5: Fixes an issue where 201 and 204s were causing redundant console logs
+
 ## 0.2.18
 
 ### Patch Changes
