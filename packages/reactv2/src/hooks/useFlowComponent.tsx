@@ -1,4 +1,4 @@
-import { type ReactNode, useEffect } from 'react'
+import { type ReactNode, useEffect, useMemo } from 'react'
 import { type Flow, type FlowStep } from '@frigade/js'
 import { XMarkIcon } from '@heroicons/react/24/solid'
 
@@ -48,7 +48,7 @@ export function useFlowComponent({
   const ContainerElement = container === 'dialog' ? Dialog : as ?? Box
   const DismissElement = ContainerElement.Close ?? CloseButton
 
-  // TODO: useMemo this component so it isn't recreated on every render
+  // useMemo this component so it isn't recreated on every render
   const FlowComponent = function FlowComponent({
     children,
     ...flowComponentProps
@@ -98,7 +98,9 @@ export function useFlowComponent({
     )
   }
 
+  const MemoizedFlowComponent = useMemo(() => FlowComponent, [])
+
   return {
-    FlowComponent,
+    FlowComponent: MemoizedFlowComponent,
   }
 }
