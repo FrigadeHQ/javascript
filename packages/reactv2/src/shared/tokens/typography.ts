@@ -1,6 +1,6 @@
 export const typography = {
   fontFamilies: {
-    default: 'TT Interphases Pro, sans-serif',
+    default: 'inherit',
   },
   fontSizes: {
     xs: '12px',
