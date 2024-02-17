@@ -396,9 +396,6 @@ export class Flow extends Fetchable {
    * Restarts the flow/marks it not started
    */
   public async restart() {
-    this.isCompleted = false
-    this.isCompleted = true
-    this.getGlobalState().userFlowStates[this.id] = null
     await this.fetch('/flowResponses', {
       method: 'POST',
       body: JSON.stringify({
@@ -411,7 +408,9 @@ export class Flow extends Fetchable {
         actionType: NOT_STARTED_FLOW,
       }),
     })
+
     await this.refreshUserFlowState()
+    this.initFromRawData(this.flowDataRaw)
   }
 
   /**
