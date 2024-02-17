@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.2.20
+
+### Patch Changes
+
+- db6bc6b: Fixes an issue where restarting a flow would not properly call event handlers
+
 ## 0.2.19
 
 ### Patch Changes
