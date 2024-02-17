@@ -17,7 +17,8 @@ export function Announcement(props: AnnouncementProps) {
           <Dialog.Subtitle>{step.subtitle}</Dialog.Subtitle>
 
           <Dialog.Media
-            src={step.imageUri}
+            src={step.videoUri ?? step.imageUri}
+            type={step.videoUri ? 'video' : 'image'}
             css={{ aspectRatio: '1.5', objectFit: 'cover', width: '100%' }}
           />
 
