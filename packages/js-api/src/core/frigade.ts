@@ -164,9 +164,9 @@ export class Frigade extends Fetchable {
           if (
             target[key] &&
             target[key].flowState &&
-            (JSON.stringify(target[key].flowState) !== JSON.stringify(value.flowState) ||
-              JSON.stringify(target[key].stepStates) !== JSON.stringify(value.stepStates) ||
-              JSON.stringify(target[key].shouldTrigger) !== JSON.stringify(value.shouldTrigger))
+            (JSON.stringify(target[key].flowState) !== JSON.stringify(value?.flowState) ||
+              JSON.stringify(target[key].stepStates) !== JSON.stringify(value?.stepStates) ||
+              JSON.stringify(target[key].shouldTrigger) !== JSON.stringify(value?.shouldTrigger))
           ) {
             that.triggerEventHandlers(target[key])
           }

@@ -1,5 +1,4 @@
 import { FlowStep, Frigade } from '../src'
-import { generateGuestId } from '../src/shared/utils'
 import { getRandomID } from './util'
 import { Flow } from '../src/.'
 
@@ -28,7 +27,7 @@ test('flows have fields set', async () => {
 
 test('read and set flow state', async () => {
   const frigade = new Frigade(testAPIKey, {
-    userId: generateGuestId(),
+    userId: getRandomID(),
   })
   const flow = await frigade.getFlow(testFlowId)
   expect(flow).toBeDefined()
@@ -41,7 +40,7 @@ test('read and set flow state', async () => {
 test('read and set flow state with flow overrides and readonly enabled', async () => {
   const madeUpFlowId = 'flow_abc'
   const frigade = new Frigade(testAPIKey, {
-    userId: generateGuestId(),
+    userId: getRandomID(),
     __flowConfigOverrides: {
       [madeUpFlowId]: JSON.stringify({
         steps: [
@@ -73,7 +72,7 @@ test('read and set flow state with flow overrides and readonly enabled', async (
 
 test('read and set flow step state', async () => {
   const frigade = new Frigade(testAPIKey, {
-    userId: generateGuestId(),
+    userId: getRandomID(),
   })
   const flow = await frigade.getFlow(testFlowId)
   expect(flow).toBeDefined()
@@ -95,8 +94,9 @@ test('read and set flow step state', async () => {
 })
 
 test('navigates back and forth in a flow', async () => {
+  const userId = getRandomID()
   const frigade = new Frigade(testAPIKey, {
-    userId: generateGuestId(),
+    userId,
   })
   const flow = await frigade.getFlow(testFlowId)
   expect(flow).toBeDefined()
@@ -115,6 +115,39 @@ test('navigates back and forth in a flow', async () => {
   expect(flow.getCurrentStepIndex()).toEqual(0)
   expect(previousStep.isStarted).toBeTruthy()
   expect(previousStep.isCompleted).toBeFalsy()
+})
+
+test('restart a flow', async () => {
+  const userId = getRandomID()
+  const frigade = new Frigade(testAPIKey, {
+    userId,
+  })
+  const flow = await frigade.getFlow(testFlowId)
+  const step = flow.steps.get(testFlowStepId)
+  expect(flow).toBeDefined()
+  expect(flow.id).toEqual(testFlowId)
+  expect(flow.isVisible).toBeTruthy()
+  await step.start()
+  expect(step.isStarted).toBeTruthy()
+  expect(flow.isCompleted).toBeFalsy()
+  await flow.complete()
+  expect(flow.isCompleted).toBeTruthy()
+  expect(flow.isVisible).toBeFalsy()
+  // Create event handler to check if flow is restarted
+  const myCallback = jest.fn((flow: Flow) => {
+    expect(flow).toBeDefined()
+    expect(flow.id).toEqual(testFlowId)
+    expect(flow.isCompleted).toBeFalsy()
+    expect(flow.isVisible).toBeTruthy()
+    expect(flow.isStarted).toBeFalsy()
+  })
+  frigade.onStateChange(myCallback)
+  await flow.restart()
+  expect(flow.isCompleted).toBeFalsy()
+  expect(myCallback).toHaveBeenCalled()
+  expect(flow.isVisible).toBeTruthy()
+  frigade.removeStateChangeHandler(myCallback)
+  jest.resetAllMocks()
 })
 
 test('handle flow event changes', async () => {
