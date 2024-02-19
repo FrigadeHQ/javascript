@@ -13,10 +13,10 @@ import { Text, TextProps } from '../Text'
 import { getDotPosition } from './getDotPosition'
 import { mapTooltipPropsToPopoverProps } from './mapTooltipPropsToPopoverProps'
 
-interface MergedRadixPopoverProps
+export interface MergedRadixPopoverProps
   extends Pick<Popover.PopoverProps, 'defaultOpen' | 'modal' | 'onOpenChange' | 'open'>,
     Omit<Popover.PopoverContentProps, 'align' | 'asChild'> {}
-export interface TooltipProps extends MergedRadixPopoverProps {
+export interface TooltipProps {
   /**
    * How to align the Tooltip relative to the anchor.
    * Uses the same notation as the `align` property in [Radix Popover](https://www.radix-ui.com/primitives/docs/components/popover).
@@ -40,7 +40,7 @@ export function Tooltip({
   spotlight = false,
   style,
   ...props
-}: TooltipProps) {
+}: TooltipProps & MergedRadixPopoverProps) {
   const { node: contentNode, rect: contentRect, ref: contentRef } = useBoundingClientRect()
   const { node: anchorNode, rect: anchorRect, ref: anchorRef } = useBoundingClientRect()
   const { contentProps, rootProps } = mapTooltipPropsToPopoverProps(props, contentRect)
