@@ -17,8 +17,18 @@ interface MergedRadixPopoverProps
   extends Pick<Popover.PopoverProps, 'defaultOpen' | 'modal' | 'onOpenChange' | 'open'>,
     Omit<Popover.PopoverContentProps, 'align' | 'asChild'> {}
 export interface TooltipProps extends MergedRadixPopoverProps {
+  /**
+   * How to align the Tooltip relative to the anchor.
+   * Uses the same notation as the `align` property in [Radix Popover](https://www.radix-ui.com/primitives/docs/components/popover).
+   */
   align?: Popover.PopoverContentProps['align'] | 'before' | 'after'
+  /**
+   * @ignore
+   */
   anchor?: string
+  /**
+   * Whether to show a spotlight behind the anchor. This will darken the rest of the page and highlight the anchor.
+   */
   spotlight?: boolean
   style?: React.CSSProperties
 }

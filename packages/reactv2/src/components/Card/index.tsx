@@ -19,6 +19,7 @@ interface CardComponent
   Title: (props: TextProps) => EmotionJSX.Element
 }
 
+// Do not remove this as typedoc depends on it.
 export interface CardProps extends FlowComponentProps {}
 
 export const Card = React.forwardRef(({ as, children, ...props }: FlowComponentProps, ref) => {
