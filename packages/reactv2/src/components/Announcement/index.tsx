@@ -13,8 +13,10 @@ export function Announcement(props: AnnouncementProps) {
     <FlowComponent>
       {({ flow, handlePrimary, handleSecondary, step }) => (
         <>
-          <Dialog.Title>{step.title}</Dialog.Title>
-          <Dialog.Subtitle>{step.subtitle}</Dialog.Subtitle>
+          <Flex.Column gap={1} part="announcement-header">
+            <Dialog.Title>{step.title}</Dialog.Title>
+            <Dialog.Subtitle>{step.subtitle}</Dialog.Subtitle>
+          </Flex.Column>
 
           <Dialog.Media
             src={step.videoUri ?? step.imageUri}
@@ -34,6 +36,7 @@ export function Announcement(props: AnnouncementProps) {
               },
             }}
             gap={3}
+            part="announcement-footer"
           >
             {step.secondaryButtonTitle && (
               <Dialog.Secondary title={step.secondaryButtonTitle} onClick={handleSecondary} />

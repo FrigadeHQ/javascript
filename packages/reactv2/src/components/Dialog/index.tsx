@@ -59,7 +59,7 @@ Dialog.Close = (props: ButtonProps) => {
 Dialog.Subtitle = ({ children, ...props }: TextProps) => {
   return (
     <RadixDialog.Description asChild>
-      <Text.Body2 mb={5} part="subtitle" {...props}>
+      <Text.Body2 part="subtitle" {...props}>
         {children}
       </Text.Body2>
     </RadixDialog.Description>
@@ -99,7 +99,7 @@ Dialog.ProgressDots = ({ current, total }: { current: number; total: number }) =
     <Box
       as="svg"
       height="8px"
-      margin="5 auto"
+      marginInline="auto"
       part="progress"
       viewBox={`0 0 ${16 * total - 8} 8`}
       width={16 * total - 8}
@@ -118,7 +118,7 @@ Dialog.Secondary = ({ onClick, title, ...props }: ButtonProps) => {
 Dialog.Title = ({ children, ...props }: TextProps) => {
   return (
     <RadixDialog.Title asChild>
-      <Text.H3 mb={1} part="title" {...props}>
+      <Text.H3 part="title" {...props}>
         {children}
       </Text.H3>
     </RadixDialog.Title>

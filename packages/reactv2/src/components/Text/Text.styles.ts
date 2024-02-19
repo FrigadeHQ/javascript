@@ -21,28 +21,28 @@ export const Display2 = {
 export const H1 = {
   ...base,
   fontSize: '3xl',
-  fontWeight: 'bold',
+  fontWeight: 'demibold',
   lineHeight: '2xl',
 }
 
 export const H2 = {
   ...base,
   fontSize: '2xl',
-  fontWeight: 'bold',
+  fontWeight: 'demibold',
   lineHeight: 'xl',
 }
 
 export const H3 = {
   ...base,
   fontSize: 'xl',
-  fontWeight: 'bold',
+  fontWeight: 'demibold',
   lineHeight: 'lg',
 }
 
 export const H4 = {
   ...base,
   fontSize: 'lg',
-  fontWeight: 'bold',
+  fontWeight: 'demibold',
   lineHeight: 'md',
 }
 
@@ -57,12 +57,12 @@ export const Body2 = {
   ...base,
   fontSize: 'sm',
   fontWeight: 'regular',
-  lineHeight: 'md',
+  lineHeight: 'sm',
 }
 
 export const Caption = {
   ...base,
   fontSize: 'xs',
   fontWeight: 'regular',
-  lineHeight: 'sm',
+  lineHeight: 'xs',
 }

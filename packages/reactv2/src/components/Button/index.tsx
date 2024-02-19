@@ -18,7 +18,16 @@ function BaseButton({ as, children, part, title, variant = 'Primary', ...props }
     <Box as={as ?? 'button'} part={[`button-${variantPart}`, part]} {...styles[variant]} {...props}>
       {children}
       {title && (
-        <Text.Body2 flexGrow="1" fontWeight="demibold" color="inherit">
+        <Text.Body2
+          color="inherit"
+          flexGrow="1"
+          fontWeight="demibold"
+          transform="translateY(1px)"
+          css={{
+            '-webkit-font-smoothing': 'antialiased',
+            '-moz-osx-font-smoothing': 'grayscale',
+          }}
+        >
           {title}
         </Text.Body2>
       )}
@@ -38,7 +47,7 @@ const buttonVariantComponents = Object.fromEntries(
       )
     }
 
-    component.displayName = `Text.${variant}`
+    component.displayName = `Button.${variant}`
 
     return [variant, component]
   })
