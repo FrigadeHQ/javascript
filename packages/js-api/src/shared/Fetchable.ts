@@ -19,6 +19,9 @@ export class Fetchable {
     }
   }
 
+  /**
+   * @ignore
+   */
   public async fetch(path: string, options?: Record<any, any>) {
     if (this.config.__readOnly) {
       return getEmptyResponse()
@@ -30,6 +33,9 @@ export class Fetchable {
     })
   }
 
+  /**
+   * @ignore
+   */
   protected getGlobalState(): FrigadeGlobalState {
     const globalStateKey = getGlobalStateKey(this.config)
     if (!frigadeGlobalState[globalStateKey]) {

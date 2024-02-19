@@ -1,4 +1,7 @@
 export interface FrigadeConfig {
+  /**
+   * Frigade API key. You can find your API key in the Frigade Dashboard under "Developer".
+   */
   apiKey?: string
   /**
    * API url to use for all requests. Defaults to https://api.frigade.com
@@ -6,12 +9,12 @@ export interface FrigadeConfig {
   apiUrl?: string
 
   /**
-   * User ID to use for all requests
+   * User ID to use for all requests. If not provided, a Guest ID will be generated.
    */
   userId?: string
 
   /**
-   * Group ID (organization) to use for all requests
+   * Group ID (organization) to use for all requests.
    */
   groupId?: string
 
@@ -28,6 +31,9 @@ export interface FrigadeConfig {
    */
   __flowConfigOverrides?: Record<string, string>
 
+  /**
+   * @ignore Internal use only.
+   */
   __instanceId?: string
 }
 

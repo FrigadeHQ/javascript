@@ -15,53 +15,63 @@ import { Fetchable } from '../shared/Fetchable'
 
 export class Flow extends Fetchable {
   /**
-   * THe Flow ID / slug of the flow
+   * The Flow's ID.
    */
   public id: string
   /**
-   * The raw data defined in `config.yml` as a JSON decoded object
+   * The raw data defined in `config.yml` as a JSON decoded object.
+   * @ignore
    */
   public configYmlAsJson: any
   /**
-   * Ordered map from Step ID to step data. The `steps` array in `config.yml`
+   * Ordered map from Step ID to step data. The `steps` array in the YAML config.
    */
   public steps: Map<string, FlowStep>
   /**
-   * The user-facing title of the flow, if defined at the top level of `config.yml`
+   * The user-facing title of the Flow, if defined at the top level of the YAML config.
    */
   public title?: string
   /**
-   * The user-facing description of the flow, if defined at the top level of `config.yml`
+   * The user-facing description of the Flow, if defined at the top level of the YAML config.
    */
   public subtitle?: string
   /**
-   * The metadata of the flow.
+   * The metadata of the Flow.
+   * @ignore
    */
   public rawData: FlowDataRaw
   /**
-   * Whether the flow is completed or not
+   * Whether the Flow is completed or not.
    */
   public isCompleted: boolean
   /**
-   * Whether the flow is started or not
+   * Whether the Flow is started or not.
    */
   public isStarted: boolean
   /**
-   * Whether the flow has been skipped or not
+   * Whether the Flow has been skipped or not.
    */
   public isSkipped: boolean
   /**
-   * Whether the flow is visible to the user based on the current user/group's state
+   * Whether the Flow is visible to the user based on the current user/group's state.
    */
   public isVisible: boolean = false
-
+  /**
+   * @ignore
+   */
   private readonly flowDataRaw: FlowDataRaw
-
+  /**
+   * @ignore
+   */
   private userFlowStateRaw?: UserFlowState
-
+  /**
+   * @ignore
+   */
   private lastStepUpdate: Map<(step: FlowStep, previousStep: FlowStep) => void, FlowStep> =
     new Map()
-
+  /**
+   * @ignore
+   */
   private lastUsedVariables = {}
 
   constructor(config: FrigadeConfig, flowDataRaw: FlowDataRaw) {
@@ -70,10 +80,16 @@ export class Flow extends Fetchable {
     this.initFromRawData(flowDataRaw)
   }
 
+  /**
+   * Reload the Flow data from the server
+   */
   reload() {
     this.initFromRawData(this.flowDataRaw)
   }
 
+  /**
+   * @ignore
+   */
   private initFromRawData(flowDataRaw: FlowDataRaw) {
     const flowDataYml = JSON.parse(flowDataRaw.data)
     const steps = flowDataYml.steps ?? flowDataYml.data ?? []
@@ -343,6 +359,9 @@ export class Flow extends Fetchable {
     this.initFromRawData(this.flowDataRaw)
   }
 
+  /**
+   * @ignore
+   */
   private optimisticallyMarkFlowCompleted() {
     this.isStarted = true
     this.isCompleted = true
@@ -443,6 +462,9 @@ export class Flow extends Fetchable {
     return this.steps.get(currentStepId)
   }
 
+  /**
+   * Get the index of the current step. Starts at 0
+   */
   public getCurrentStepIndex(): number {
     const currentStep = this.getCurrentStep()
     return Array.from(this.steps.keys()).indexOf(currentStep.id)
@@ -462,6 +484,9 @@ export class Flow extends Fetchable {
     return Array.from(this.steps.values()).filter((step) => !step.isHidden).length
   }
 
+  /**
+   * @ignore
+   */
   public onStateChange(handler: (flow: Flow, previousFlow: Flow) => void) {
     const wrapperHandler = (flow: Flow, previousFlow: Flow) => {
       if (
@@ -479,6 +504,9 @@ export class Flow extends Fetchable {
     this.getGlobalState().onFlowStateChangeHandlers.push(wrapperHandler)
   }
 
+  /**
+   * @ignore
+   */
   public removeStateChangeHandler(handler: (flow: Flow, previousFlow: Flow) => void) {
     const wrapperHandler = this.getGlobalState().onFlowStateChangeHandlerWrappers.get(handler)
     if (wrapperHandler) {
@@ -487,6 +515,9 @@ export class Flow extends Fetchable {
     }
   }
 
+  /**
+   * @ignore
+   */
   public applyVariables(variables: Record<string, any>) {
     // Replace ${variable} with the value of the variable
     const replaceVariables = (str: string) => {
@@ -515,11 +546,17 @@ export class Flow extends Fetchable {
     this.lastUsedVariables = variables
   }
 
+  /**
+   * @ignore
+   */
   private getUserFlowState(): UserFlowState {
     const userFlowStates = this.getGlobalState().userFlowStates
     return userFlowStates[this.id]
   }
 
+  /**
+   * @ignore
+   */
   private async refreshUserFlowState() {
     await this.getGlobalState().refreshUserFlowStates()
   }

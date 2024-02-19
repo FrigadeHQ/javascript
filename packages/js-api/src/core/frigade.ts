@@ -6,10 +6,22 @@ import { frigadeGlobalState, getGlobalStateKey } from '../shared/state'
 import { Fetchable } from '../shared/Fetchable'
 
 export class Frigade extends Fetchable {
+  /**
+   * @ignore
+   */
   private flows: Flow[] = []
+  /**
+   * @ignore
+   */
   private initPromise: Promise<void>
+  /**
+   * @ignore
+   */
   private hasFailed = false
 
+  /**
+   * @ignore
+   */
   private visibilityChangeHandler = async () => {
     if (document.visibilityState === 'visible') {
       await this.refreshFlows()
@@ -28,6 +40,9 @@ export class Frigade extends Fetchable {
     }
   }
 
+  /**
+   * @ignore
+   */
   destroy() {
     if (isWeb()) {
       document.removeEventListener('visibilitychange', this.visibilityChangeHandler)
@@ -39,6 +54,9 @@ export class Frigade extends Fetchable {
     }
   }
 
+  /**
+   * @ignore
+   */
   private async init(config: FrigadeConfig): Promise<void> {
     this.config = {
       ...this.config,
@@ -53,6 +71,11 @@ export class Frigade extends Fetchable {
     return this.initPromise
   }
 
+  /**
+   * Set the current user.
+   * @param userId
+   * @param properties
+   */
   public async identify(userId: string, properties?: Record<string, any>): Promise<void> {
     this.config = { ...this.config, userId }
     await this.initIfNeeded()
@@ -66,6 +89,11 @@ export class Frigade extends Fetchable {
     await this.refreshUserFlowStates()
   }
 
+  /**
+   * Set the group for the current user.
+   * @param groupId
+   * @param properties
+   */
   public async group(groupId: string, properties?: Record<string, any>): Promise<void> {
     await this.initIfNeeded()
     this.config.groupId = groupId
@@ -80,6 +108,11 @@ export class Frigade extends Fetchable {
     await this.refreshUserFlowStates()
   }
 
+  /**
+   * Track an event for the current user (and group if set).
+   * @param event
+   * @param properties
+   */
   public async track(event: string, properties?: Record<string, any>): Promise<void> {
     await this.initIfNeeded()
     await this.fetch('/track', {
@@ -93,10 +126,17 @@ export class Frigade extends Fetchable {
     })
   }
 
+  /**
+   * @ignore
+   */
   public isReady(): boolean {
     return Boolean(this.config.__instanceId && this.config.apiKey && this.initPromise)
   }
 
+  /**
+   * Get a Flow by its ID.
+   * @param flowId
+   */
   public async getFlow(flowId: string) {
     await this.initIfNeeded()
 
@@ -129,22 +169,33 @@ export class Frigade extends Fetchable {
     })
   }
 
+  /**
+   * Event handler that captures all changes that happen to the state of the Flows.
+   * @param handler
+   */
   public onStateChange(handler: (flow: Flow, previousFlow?: Flow) => void) {
     this.getGlobalState().onFlowStateChangeHandlers.push(handler)
   }
 
   /**
-   * Returns true of Frigade has failed to call the API.
+   * Returns true if the JS SDK failed to connect to the Frigade API.
    */
   hasFailedToLoad() {
     return this.hasFailed
   }
 
+  /**
+   * Removes the given handler from the list of event handlers.
+   * @param handler
+   */
   public removeStateChangeHandler(handler: (flow: Flow, previousFlow?: Flow) => void) {
     this.getGlobalState().onFlowStateChangeHandlers =
       this.getGlobalState().onFlowStateChangeHandlers.filter((h) => h !== handler)
   }
 
+  /**
+   * @ignore
+   */
   private async initIfNeeded() {
     if (this.initPromise !== null) {
       return this.initPromise
@@ -153,6 +204,9 @@ export class Frigade extends Fetchable {
     }
   }
 
+  /**
+   * @ignore
+   */
   private async refreshUserFlowStates(): Promise<void> {
     const globalStateKey = getGlobalStateKey(this.config)
 
@@ -235,6 +289,9 @@ export class Frigade extends Fetchable {
     await frigadeGlobalState[globalStateKey].refreshUserFlowStates()
   }
 
+  /**
+   * @ignore
+   */
   private async refreshFlows() {
     this.flows = []
 
@@ -258,6 +315,9 @@ export class Frigade extends Fetchable {
     }
   }
 
+  /**
+   * @ignore
+   */
   private mockFlowConfigs() {
     Object.keys(this.config.__flowConfigOverrides).forEach((flowId) => {
       this.flows.push(
@@ -280,6 +340,9 @@ export class Frigade extends Fetchable {
     })
   }
 
+  /**
+   * @ignore
+   */
   private mockUserFlowStates(globalStateKey: string) {
     Object.keys(this.config.__flowConfigOverrides).forEach((flowId) => {
       const parsed = JSON.parse(this.config.__flowConfigOverrides[flowId])
@@ -306,6 +369,9 @@ export class Frigade extends Fetchable {
     })
   }
 
+  /**
+   * @ignore
+   */
   private async triggerEventHandlers(previousUserFlowState: UserFlowState) {
     if (previousUserFlowState) {
       this.flows.forEach((flow) => {
