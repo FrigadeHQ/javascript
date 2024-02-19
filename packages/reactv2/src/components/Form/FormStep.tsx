@@ -3,7 +3,14 @@ import { useController, useForm } from 'react-hook-form'
 import { Button } from '@/components/Button'
 import { Flex } from '@/components/Flex'
 
-import { type FormFieldData, type FormProps, type ValidationRules } from '.'
+import { type FlowComponentChildrenProps } from '@/hooks/useFlowComponent'
+
+import type { FieldTypes, FormFieldData, ValidationRules } from '.'
+import { SyntheticEvent } from 'react'
+
+export interface FormStepProps extends FlowComponentChildrenProps {
+  fieldTypes?: FieldTypes
+}
 
 // See: https://react-hook-form.com/get-started#Applyvalidation
 // NOTE: "validate" is intentionally omitted
@@ -35,7 +42,7 @@ function FieldWrapper({ fieldComponent: FieldComponent, control, fieldData }) {
   return <FieldComponent {...controller} fieldData={fieldData} />
 }
 
-export function FormStep({ fieldTypes, step }: Pick<FormProps, 'fieldTypes' | 'step'>) {
+export function FormStep({ fieldTypes, handlePrimary, handleSecondary, step }: FormStepProps) {
   const { control, handleSubmit } = useForm({
     delayError: 2000,
     mode: 'onChange',
@@ -43,8 +50,18 @@ export function FormStep({ fieldTypes, step }: Pick<FormProps, 'fieldTypes' | 's
   const fields = []
 
   // TODO: Type for data
-  function onSubmit(data: unknown) {
-    step.complete(data)
+  function onPrimarySubmit(
+    data: Record<string | number, unknown>,
+    e: SyntheticEvent<object, unknown>
+  ) {
+    handlePrimary(e, data)
+  }
+
+  function onSecondarySubmit(
+    data: Record<string | number, unknown>,
+    e: SyntheticEvent<object, unknown>
+  ) {
+    handleSecondary(e, data)
   }
 
   step.fields?.forEach((fieldData: FormFieldData) => {
@@ -63,10 +80,16 @@ export function FormStep({ fieldTypes, step }: Pick<FormProps, 'fieldTypes' | 's
   return (
     <>
       {fields}
-      <Flex.Row key="form-footer" justifyContent="flex-end">
+      <Flex.Row key="form-footer" part="form-footer" justifyContent="flex-end" gap={3}>
+        {step.secondaryButtonTitle && (
+          <Button.Secondary
+            title={step.secondaryButtonTitle}
+            onClick={handleSubmit(onSecondarySubmit)}
+          />
+        )}
         <Button.Primary
           title={step.primaryButtonTitle ?? 'Submit'}
-          onClick={handleSubmit(onSubmit)}
+          onClick={handleSubmit(onPrimarySubmit)}
         />
       </Flex.Row>
     </>

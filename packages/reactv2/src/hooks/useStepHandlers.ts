@@ -1,12 +1,13 @@
-import { MouseEvent, useCallback, useContext } from 'react'
+import { type SyntheticEvent, useCallback, useContext } from 'react'
 
 import type { FlowStep } from '@frigade/js'
 
 import { FrigadeContext } from '../components/Provider'
 
+// TODO: Fix order of args
 export type StepHandlerProp = (
   step: FlowStep,
-  event?: React.MouseEvent<unknown>
+  event?: SyntheticEvent<object, unknown>
 ) => Promise<boolean | void> | (boolean | void)
 
 export interface StepHandlerProps {
@@ -14,14 +15,17 @@ export interface StepHandlerProps {
   onSecondary?: StepHandlerProp
 }
 
-export type StepHandler = (e: React.MouseEvent<unknown>) => Promise<boolean | void>
+export type StepHandler = (
+  event: SyntheticEvent<object, unknown>,
+  properties?: Record<string | number, unknown>
+) => Promise<boolean>
 
 export function useStepHandlers(step: FlowStep, { onPrimary, onSecondary }: StepHandlerProps = {}) {
   const { navigate } = useContext(FrigadeContext)
 
   return {
     handlePrimary: useCallback<StepHandler>(
-      async (e: React.MouseEvent<unknown>) => {
+      async (e, properties) => {
         const continueDefault = await onPrimary?.(step, e)
 
         if (continueDefault === false) {
@@ -29,17 +33,19 @@ export function useStepHandlers(step: FlowStep, { onPrimary, onSecondary }: Step
           return false
         }
 
-        await step.complete()
+        await step.complete(properties)
 
         if (step.primaryButtonUri != null) {
           navigate(step.primaryButtonUri, step.primaryButtonUriTarget)
         }
+
+        return true
       },
       [step]
     ),
 
     handleSecondary: useCallback<StepHandler>(
-      async (e: React.MouseEvent<unknown>) => {
+      async (e, properties) => {
         const continueDefault = await onSecondary?.(step, e)
 
         if (continueDefault === false) {
@@ -48,11 +54,13 @@ export function useStepHandlers(step: FlowStep, { onPrimary, onSecondary }: Step
         }
 
         // Should there be a step.skip method?
-        await step.complete()
+        await step.complete(properties)
 
         if (step.secondaryButtonUri != null) {
           navigate(step.secondaryButtonUri, step.secondaryButtonUriTarget)
         }
+
+        return true
       },
       [step]
     ),

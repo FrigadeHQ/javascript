@@ -66,7 +66,7 @@ export function Form({ fieldTypes = {}, ...props }: FormProps) {
 
   return (
     <FlowComponent>
-      {({ step }) => <FormStep fieldTypes={mergedFieldTypes} step={step} {...props} />}
+      {(childProps) => <FormStep fieldTypes={mergedFieldTypes} {...childProps} />}
     </FlowComponent>
   )
 }
