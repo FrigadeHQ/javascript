@@ -9,7 +9,7 @@ import { useFlowComponent } from '@/hooks/useFlowComponent'
 
 import type { FlowComponentProps } from '@/shared/types'
 
-interface BannerProps extends FlowComponentProps {}
+export interface BannerProps extends FlowComponentProps {}
 
 export function Banner(props: BannerProps) {
   const { FlowComponent } = useFlowComponent(props)

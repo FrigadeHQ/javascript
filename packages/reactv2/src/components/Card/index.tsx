@@ -1,5 +1,5 @@
-import * as React from 'react'
 import type { ForwardRefExoticComponent, RefAttributes } from 'react'
+import * as React from 'react'
 import { EmotionJSX } from '@emotion/react/types/jsx-namespace'
 
 import { Button, type ButtonProps } from '../Button'
@@ -18,6 +18,8 @@ interface CardComponent
   Subtitle: (props: TextProps) => EmotionJSX.Element
   Title: (props: TextProps) => EmotionJSX.Element
 }
+
+export interface CardProps extends FlowComponentProps {}
 
 export const Card = React.forwardRef(({ as, children, ...props }: FlowComponentProps, ref) => {
   // If props.flowId is set, render FlowCard instead
