@@ -89,9 +89,9 @@ export const Default = {
             part="tooltip-footer"
             pt={4}
           >
-            <Tooltip.Progress>0/0</Tooltip.Progress>
+            <Tooltip.Progress marginRight="auto">0/0</Tooltip.Progress>
 
-            <Tooltip.Secondary marginLeft="auto" title="Secondary" />
+            <Tooltip.Secondary title="Secondary" />
             <Tooltip.Primary title="Primary" />
           </Flex.Row>
         </Tooltip>
