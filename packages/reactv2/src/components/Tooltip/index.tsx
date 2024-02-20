@@ -164,8 +164,9 @@ Tooltip.Media = ({ src, ...props }: MediaProps) => {
       borderWidth="0"
       css={{
         aspectRatio: '2',
+        objectFit: 'cover',
       }}
-      margin="-5 -5 5"
+      margin="-5 -5 0"
       src={src}
       {...props}
     />
@@ -182,9 +183,9 @@ Tooltip.Progress = ({ children, ...props }: TextProps) => {
   if (children == null) return null
 
   return (
-    <Text.Body2 fontWeight="demibold" part="progress" {...props}>
+    <Text.H4 part="progress" {...props}>
       {children}
-    </Text.Body2>
+    </Text.H4>
   )
 }
 
@@ -208,8 +209,8 @@ Tooltip.Title = ({ children, ...props }: TextProps) => {
   if (children == null) return null
 
   return (
-    <Text.Body1 fontWeight="bold" mb={1} part="title" {...props}>
+    <Text.H4 part="title" {...props}>
       {children}
-    </Text.Body1>
+    </Text.H4>
   )
 }

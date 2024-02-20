@@ -65,7 +65,7 @@ Card.Subtitle = ({ children, ...props }: TextProps) => {
   if (children == null) return null
 
   return (
-    <Text.Body2 display="block" part="subtitle" mt={1} {...props}>
+    <Text.Body2 display="block" part="subtitle" {...props}>
       {children}
     </Text.Body2>
   )

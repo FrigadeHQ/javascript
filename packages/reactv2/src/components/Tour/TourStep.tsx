@@ -45,11 +45,13 @@ export function TourStep({
         type={step.videoUri ? 'video' : 'image'}
       />
 
-      <Tooltip.Title>{step.title}</Tooltip.Title>
-      <Tooltip.Subtitle>{step.subtitle}</Tooltip.Subtitle>
+      <Flex.Column gap={1} part="tooltip-header">
+        <Tooltip.Title>{step.title}</Tooltip.Title>
+        <Tooltip.Subtitle color="gray500">{step.subtitle}</Tooltip.Subtitle>
+      </Flex.Column>
 
-      <Flex.Row alignItems="center" gap={3} justifyContent="flex-end" part="tooltip-footer" pt={4}>
-        <Tooltip.Progress>{`${
+      <Flex.Row alignItems="center" gap={3} justifyContent="flex-end" part="tooltip-footer">
+        <Tooltip.Progress transform="translateY(1px)">{`${
           flow.getNumberOfCompletedSteps() + 1
         }/${flow.getNumberOfAvailableSteps()}`}</Tooltip.Progress>
 

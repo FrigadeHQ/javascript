@@ -18,7 +18,7 @@ export function Banner(props: BannerProps) {
     <FlowComponent
       as={Card}
       border="md"
-      borderColor="gray900"
+      borderColor="neutral.border"
       display="flex"
       flexDirection="row"
       gap={3}
@@ -32,7 +32,7 @@ export function Banner(props: BannerProps) {
             )}
             <Flex.Column>
               <Text.H4 mb={1}>{step.title}</Text.H4>
-              <Text.Body2>{step.subtitle}</Text.Body2>
+              <Text.Body2 color="gray500">{step.subtitle}</Text.Body2>
             </Flex.Column>
           </Flex.Row>
 

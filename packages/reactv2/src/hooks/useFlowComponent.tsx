@@ -36,7 +36,7 @@ export function CloseButton(props: ButtonProps) {
 export function useFlowComponent({
   as,
   container,
-  dismissible = true,
+  dismissible = container === 'dialog' ? true : false,
   flowId,
   onComplete,
   onDismiss,

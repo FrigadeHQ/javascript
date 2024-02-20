@@ -30,23 +30,24 @@ const RadioItem = React.forwardRef<HTMLButtonElement, SelectItemProps>(
   ({ label, value }, forwardedRef) => (
     <Box
       as="label"
-      htmlFor={value}
+      backgroundColor="neutral.background"
+      borderColor="neutral.border"
+      borderRadius="md"
+      borderStyle="solid"
+      borderWidth="md"
       display="flex"
+      htmlFor={value}
       justifyContent="space-between"
       part="field-radio"
       px={4}
       py={2}
-      borderWidth="md"
-      borderStyle="solid"
-      borderColor="neutral.border"
-      borderRadius="md"
     >
       <Text.Body2 part="field-radio-label">{label}</Text.Body2>
 
       <RadioGroup.Item id={value} value={value} ref={forwardedRef} asChild>
         <Box
           as="button"
-          backgroundColor="neutral.background"
+          backgroundColor="inherit"
           borderWidth="md"
           borderStyle="solid"
           borderColor="neutral.border"
