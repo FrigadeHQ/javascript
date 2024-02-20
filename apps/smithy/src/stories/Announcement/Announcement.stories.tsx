@@ -28,8 +28,6 @@ export const TestReset = {
       const { frigade } = useFrigade();
       const { flow } = useFlow(args.flowId);
 
-      console.log("RENDERING STORY: ", flow);
-
       return (
         <div>
           <Story {...args} />

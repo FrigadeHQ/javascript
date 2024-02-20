@@ -1,15 +1,14 @@
+import { SyntheticEvent } from 'react'
 import { useController, useForm } from 'react-hook-form'
 
 import { Button } from '@/components/Button'
 import { Card } from '@/components/Card'
 import { Flex } from '@/components/Flex'
 
-import { type FlowComponentChildrenProps } from '@/hooks/useFlowComponent'
+import { type FlowChildrenProps } from '@/components/Flow'
+import type { FieldTypes, FormFieldData, ValidationRules } from '@/components/Form'
 
-import type { FieldTypes, FormFieldData, ValidationRules } from '.'
-import { SyntheticEvent } from 'react'
-
-export interface FormStepProps extends FlowComponentChildrenProps {
+export interface FormStepProps extends FlowChildrenProps {
   fieldTypes?: FieldTypes
 }
 
@@ -72,7 +71,7 @@ export function FormStep({
     handleSecondary(e, data)
   }
 
-  // @ts-ignore TODO: fix ts issue here
+  // @ts-expect-error TODO: Add type to step.fields
   step.fields?.forEach((fieldData: FormFieldData) => {
     if (fieldTypes[fieldData.type] != null) {
       fields.push(

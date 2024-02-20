@@ -1,13 +1,14 @@
 import { useEffect } from 'react'
 
-import { type FlowComponentProps } from '../../shared/types'
-import { type TooltipProps } from '../Tooltip'
-import { TourStep } from './TourStep'
-import { useFlow } from '../../hooks/useFlow'
-import { useFlowHandlers } from '../../hooks/useFlowHandlers'
-import { useModal } from '../../hooks/useModal'
+import { type FlowProps } from '@/components/Flow'
+import { type TooltipProps } from '@/components/Tooltip'
+import { TourStep } from '@/components/Tour/TourStep'
 
-export interface TourProps extends TooltipProps, FlowComponentProps {}
+import { useFlow } from '@/hooks/useFlow'
+import { useFlowHandlers } from '@/hooks/useFlowHandlers'
+import { useModal } from '@/hooks/useModal'
+
+export interface TourProps extends TooltipProps, FlowProps {}
 
 export function Tour({ flowId, onComplete, variables, ...props }: TourProps) {
   const { flow } = useFlow(flowId, {

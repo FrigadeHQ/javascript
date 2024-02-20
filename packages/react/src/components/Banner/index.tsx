@@ -1,19 +1,14 @@
 import { Button } from '@/components/Button'
 import { Card } from '@/components/Card'
 import { Flex } from '@/components/Flex'
+import { Flow, type FlowProps } from '@/components/Flow'
 import { Text } from '@/components/Text'
 
-import { useFlowComponent } from '@/hooks/useFlowComponent'
-
-import type { FlowComponentProps } from '@/shared/types'
-
-export interface BannerProps extends FlowComponentProps {}
+export interface BannerProps extends FlowProps {}
 
 export function Banner(props: BannerProps) {
-  const { FlowComponent } = useFlowComponent(props)
-
   return (
-    <FlowComponent
+    <Flow
       as={Card}
       border="md"
       borderColor="neutral.border"
@@ -21,6 +16,7 @@ export function Banner(props: BannerProps) {
       flexDirection="row"
       gap={3}
       justifyContent="space-between"
+      {...props}
     >
       {({ handleDismiss, handlePrimary, handleSecondary, step }) => (
         <>
@@ -43,6 +39,6 @@ export function Banner(props: BannerProps) {
           </Flex.Row>
         </>
       )}
-    </FlowComponent>
+    </Flow>
   )
 }

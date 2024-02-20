@@ -1,19 +1,16 @@
-import { useFlowComponent } from '@/hooks/useFlowComponent'
-import { type FlowComponentProps } from '@/shared/types'
+import { Card } from '@/components/Card'
+import { Flex } from '@/components/Flex'
+import { Flow, type FlowProps } from '@/components/Flow'
 
-import { Card } from './'
-import { Flex } from '../Flex'
-
-export function FlowCard(props: FlowComponentProps) {
-  const { FlowComponent } = useFlowComponent(props)
-
+export function FlowCard(props: FlowProps) {
   return (
-    <FlowComponent
+    <Flow
       as={Card}
       gap={5}
       borderColor="neutral.border"
       borderStyle="solid"
       borderWidth="md"
+      {...props}
     >
       {({ handleDismiss, handlePrimary, handleSecondary, parentProps: { dismissible }, step }) => (
         <>
@@ -37,6 +34,6 @@ export function FlowCard(props: FlowComponentProps) {
           </Flex.Row>
         </>
       )}
-    </FlowComponent>
+    </Flow>
   )
 }

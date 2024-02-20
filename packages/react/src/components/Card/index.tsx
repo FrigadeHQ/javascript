@@ -5,14 +5,13 @@ import { XMarkIcon } from '@heroicons/react/24/solid'
 
 import { Button, type ButtonProps } from '../Button'
 import { Flex } from '../Flex'
+import { type FlowProps } from '@/components/Flow'
 import { FlowCard } from './FlowCard'
 import { Media, type MediaProps } from '../Media'
 import { Text, type TextProps } from '../Text'
 
-import { type FlowComponentProps } from '@/shared/types'
-
 interface CardComponent
-  extends ForwardRefExoticComponent<Omit<FlowComponentProps, 'ref'> & RefAttributes<unknown>> {
+  extends ForwardRefExoticComponent<Omit<FlowProps, 'ref'> & RefAttributes<unknown>> {
   Dismiss: (props: ButtonProps) => EmotionJSX.Element
   Media: (props: MediaProps) => EmotionJSX.Element
   Primary: (props: ButtonProps) => EmotionJSX.Element
@@ -22,15 +21,15 @@ interface CardComponent
 }
 
 // Do not remove this as typedoc depends on it.
-export interface CardProps extends FlowComponentProps {}
+export interface CardProps extends FlowProps {}
 
-export const Card = React.forwardRef(({ as, children, ...props }: FlowComponentProps, ref) => {
+export const Card = React.forwardRef((props: CardProps, ref) => {
   // If props.flowId is set, render FlowCard instead
   if (props.flowId != null) {
-    return <FlowCard as={as} {...props} />
+    return <FlowCard {...props} />
   }
 
-  const Component = as ?? Flex.Column
+  const Component = props.as ?? Flex.Column
   return (
     <Component
       backgroundColor="neutral.background"
@@ -39,9 +38,7 @@ export const Card = React.forwardRef(({ as, children, ...props }: FlowComponentP
       p={5}
       {...props}
       ref={ref}
-    >
-      {children}
-    </Component>
+    />
   )
 }) as CardComponent
 

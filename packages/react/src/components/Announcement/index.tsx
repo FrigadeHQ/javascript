@@ -1,16 +1,12 @@
-import { Dialog, type DialogProps } from '../Dialog'
-import { Flex } from '../Flex'
-import { type FlowComponentProps } from '@/shared/types'
-import { useFlowComponent } from '@/hooks/useFlowComponent'
+import { Dialog, type DialogProps } from '@/components/Dialog'
+import { Flex } from '@/components/Flex'
+import { Flow, type FlowProps } from '@/components/Flow'
 
-export interface AnnouncementProps extends FlowComponentProps, Omit<DialogProps, 'container'> {}
+export interface AnnouncementProps extends FlowProps, DialogProps {}
 
 export function Announcement(props: AnnouncementProps) {
-  // TODO: Make Dialog subcomponents agnostic once Card is fleshed out, remove forced container='dialog'
-  const { FlowComponent } = useFlowComponent({ ...props, container: 'dialog' })
-
   return (
-    <FlowComponent>
+    <Flow as={Dialog} dismissible={true} {...props}>
       {({
         flow,
         handleDismiss,
@@ -59,6 +55,6 @@ export function Announcement(props: AnnouncementProps) {
           </Flex.Row>
         </>
       )}
-    </FlowComponent>
+    </Flow>
   )
 }
