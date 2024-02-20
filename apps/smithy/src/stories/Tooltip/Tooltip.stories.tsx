@@ -79,15 +79,16 @@ export const Default = {
 
           <Tooltip.Media src="https://placekitten.com/300/150" type="image" />
 
-          <Tooltip.Title>Title</Tooltip.Title>
-          <Tooltip.Subtitle>Subtitle</Tooltip.Subtitle>
+          <Flex.Column gap={1}>
+            <Tooltip.Title>Title</Tooltip.Title>
+            <Tooltip.Subtitle>Subtitle</Tooltip.Subtitle>
+          </Flex.Column>
 
           <Flex.Row
             alignItems="center"
             gap={3}
             justifyContent="flex-end"
             part="tooltip-footer"
-            pt={4}
           >
             <Tooltip.Progress marginRight="auto">0/0</Tooltip.Progress>
 
