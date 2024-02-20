@@ -18,9 +18,8 @@
     "dev": "tsup --watch",
     "test": "jest",
     "lint": "eslint --fix --ext .ts,.tsx .",
-    "build": "yarn copy-version-number && tsup",
-    "local-release": "tsup",
-    "copy-version-number": "node ./scripts/copy-version-number.js"
+    "build": "tsup",
+    "local-release": "tsup"
   },
   "repository": {
     "type": "git",
