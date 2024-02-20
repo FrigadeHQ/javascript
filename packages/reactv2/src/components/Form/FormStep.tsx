@@ -72,6 +72,7 @@ export function FormStep({
     handleSecondary(e, data)
   }
 
+  // @ts-ignore TODO: fix ts issue here
   step.fields?.forEach((fieldData: FormFieldData) => {
     if (fieldTypes[fieldData.type] != null) {
       fields.push(

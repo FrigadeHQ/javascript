@@ -110,13 +110,21 @@ export interface FlowStep {
   props?: any
   /**
    * Criteria that needs to be met for the step to complete.
+   * Completion criteria uses Frigade's [Targeting Engine](https://docs.frigade.com/v2/platform/targeting) to determine if the step should be completed.
    */
   completionCriteria?: string
 
   /**
    * Criteria that needs to be met for the step to start.
+   * Start criteria uses Frigade's [Targeting Engine](https://docs.frigade.com/v2/platform/targeting) to determine if the step should be started.
    */
   startCriteria?: string
+
+  /**
+   * Criteria that needs to be met for the step to be visible.
+   * Visibility criteria uses Frigade's [Targeting Engine](https://docs.frigade.com/v2/platform/targeting) to determine if the step should be visible.
+   */
+  visibilityCriteria?: string
 
   /**
    * Progress if the step is tied to another Frigade Flow through completionCriteria.

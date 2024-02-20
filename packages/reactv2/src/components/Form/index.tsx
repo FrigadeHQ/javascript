@@ -1,5 +1,5 @@
 import { FlowStep } from '@frigade/js'
-import { type ControllerFieldState, type ValidationRule, type Message } from 'react-hook-form'
+import { type ControllerFieldState, type Message, type ValidationRule } from 'react-hook-form'
 
 import { type FlowComponentProps } from '@/shared/types'
 import { useFlowComponent } from '@/hooks/useFlowComponent'
@@ -56,6 +56,10 @@ export interface FormFieldProps {
 }
 
 export interface FormProps extends FlowComponentProps {
+  /**
+   * Custom field types to be used in the Form.
+   * You can use this to build your own custom form fields in a `Form`.
+   */
   fieldTypes?: FieldTypes
 }
 
