@@ -5,13 +5,15 @@ import { XMarkIcon } from '@heroicons/react/24/solid'
 
 import { Button, type ButtonProps } from '../Button'
 import { Flex } from '../Flex'
-import { type FlowProps } from '@/components/Flow'
+import { type FlowPropsWithoutChildren } from '@/components/Flow'
 import { FlowCard } from './FlowCard'
 import { Media, type MediaProps } from '../Media'
 import { Text, type TextProps } from '../Text'
 
 interface CardComponent
-  extends ForwardRefExoticComponent<Omit<FlowProps, 'ref'> & RefAttributes<unknown>> {
+  extends ForwardRefExoticComponent<
+    Omit<FlowPropsWithoutChildren, 'ref'> & RefAttributes<unknown>
+  > {
   Dismiss: (props: ButtonProps) => EmotionJSX.Element
   Media: (props: MediaProps) => EmotionJSX.Element
   Primary: (props: ButtonProps) => EmotionJSX.Element
@@ -20,25 +22,31 @@ interface CardComponent
   Title: (props: TextProps) => EmotionJSX.Element
 }
 
-// Do not remove this as typedoc depends on it.
-export interface CardProps extends FlowProps {}
+export interface CardProps extends FlowPropsWithoutChildren {
+  children: React.ReactNode
+}
 
-export const Card = React.forwardRef((props: CardProps, ref) => {
+export const Card = React.forwardRef(({ children, flowId, ...props }: CardProps, ref) => {
   // If props.flowId is set, render FlowCard instead
-  if (props.flowId != null) {
-    return <FlowCard {...props} />
+  if (flowId != null) {
+    return <FlowCard flowId={flowId} {...props} />
   }
 
   const Component = props.as ?? Flex.Column
   return (
     <Component
       backgroundColor="neutral.background"
+      borderColor="neutral.border"
+      borderStyle="solid"
       borderRadius="md"
+      borderWidth="0"
       gap={5}
       p={5}
       {...props}
       ref={ref}
-    />
+    >
+      {children}
+    </Component>
   )
 }) as CardComponent
 

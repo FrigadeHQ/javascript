@@ -1,7 +1,7 @@
 import { FlowStep } from '@frigade/js'
 import { type ControllerFieldState, type Message, type ValidationRule } from 'react-hook-form'
 
-import { Flow, type FlowProps } from '@/components/Flow'
+import { Flow, type FlowPropsWithoutChildren } from '@/components/Flow'
 
 import { FormStep } from './FormStep'
 import { RadioField } from './fields/RadioField'
@@ -50,7 +50,7 @@ export interface FormFieldProps {
   fieldState: ControllerFieldState
 }
 
-export interface FormProps extends FlowProps {
+export interface FormProps extends FlowPropsWithoutChildren {
   /**
    * Custom field types to be used in the Form.
    * You can use this to build your own custom form fields in a `Form`.
@@ -58,11 +58,11 @@ export interface FormProps extends FlowProps {
   fieldTypes?: FieldTypes
 }
 
-export function Form({ fieldTypes = {}, ...props }: FormProps) {
+export function Form({ fieldTypes = {}, flowId, ...props }: FormProps) {
   const mergedFieldTypes = Object.assign({}, defaultFieldTypes, fieldTypes)
 
   return (
-    <Flow part="form" {...props}>
+    <Flow flowId={flowId} part="form" {...props}>
       {(childProps) => <FormStep fieldTypes={mergedFieldTypes} {...childProps} />}
     </Flow>
   )

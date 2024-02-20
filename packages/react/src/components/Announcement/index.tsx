@@ -1,12 +1,12 @@
 import { Dialog, type DialogProps } from '@/components/Dialog'
 import { Flex } from '@/components/Flex'
-import { Flow, type FlowProps } from '@/components/Flow'
+import { Flow, type FlowPropsWithoutChildren } from '@/components/Flow'
 
-export interface AnnouncementProps extends FlowProps, DialogProps {}
+export interface AnnouncementProps extends FlowPropsWithoutChildren, DialogProps {}
 
-export function Announcement(props: AnnouncementProps) {
+export function Announcement({ flowId, ...props }: AnnouncementProps) {
   return (
-    <Flow as={Dialog} dismissible={true} {...props}>
+    <Flow as={Dialog} dismissible={true} flowId={flowId} {...props}>
       {({
         flow,
         handleDismiss,

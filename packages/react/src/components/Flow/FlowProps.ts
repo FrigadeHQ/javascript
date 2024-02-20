@@ -6,11 +6,11 @@ import type { BoxProps } from '@/components/Box'
 import type { DismissHandler, FlowHandlerProp } from '@/hooks/useFlowHandlers'
 import type { StepHandler, StepHandlerProp } from '@/hooks/useStepHandlers'
 
-export interface FlowProps extends Omit<BoxProps, 'container'> {
+export interface FlowProps extends BoxProps {
   /**
    * Flow accepts a render function as its only child, whose props are described in FlowChildrenProps
    */
-  children: (props: FlowChildrenProps) => ReactNode
+  children?: (props: FlowChildrenProps) => ReactNode
   /**
    * Whether the Flow is dismissible or not
    *
@@ -43,6 +43,8 @@ export interface FlowProps extends Omit<BoxProps, 'container'> {
    */
   variables?: Record<string, unknown>
 }
+
+export interface FlowPropsWithoutChildren extends Omit<FlowProps, 'children'> {}
 
 export interface FlowChildrenProps {
   flow: FlowType

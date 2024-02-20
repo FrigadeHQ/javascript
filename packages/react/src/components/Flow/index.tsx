@@ -8,7 +8,11 @@ import { useStepHandlers } from '@/hooks/useStepHandlers'
 import { useModal } from '@/hooks/useModal'
 
 import type { FlowProps } from '@/components/Flow/FlowProps'
-export type { FlowProps, FlowChildrenProps } from '@/components/Flow/FlowProps'
+export type {
+  FlowChildrenProps,
+  FlowProps,
+  FlowPropsWithoutChildren,
+} from '@/components/Flow/FlowProps'
 
 export function Flow({
   as,

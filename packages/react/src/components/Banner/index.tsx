@@ -1,19 +1,19 @@
 import { Button } from '@/components/Button'
 import { Card } from '@/components/Card'
 import { Flex } from '@/components/Flex'
-import { Flow, type FlowProps } from '@/components/Flow'
+import { Flow, type FlowPropsWithoutChildren } from '@/components/Flow'
 import { Text } from '@/components/Text'
 
-export interface BannerProps extends FlowProps {}
+export interface BannerProps extends FlowPropsWithoutChildren {}
 
-export function Banner(props: BannerProps) {
+export function Banner({ flowId, ...props }: BannerProps) {
   return (
     <Flow
       as={Card}
-      border="md"
-      borderColor="neutral.border"
+      borderWidth="md"
       display="flex"
       flexDirection="row"
+      flowId={flowId}
       gap={3}
       justifyContent="space-between"
       part="banner"
