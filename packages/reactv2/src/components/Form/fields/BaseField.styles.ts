@@ -1,7 +1,3 @@
-export const field = {
-  marginBottom: '5',
-}
-
 export const input = {
   px: '4',
   py: '2',

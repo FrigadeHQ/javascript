@@ -14,6 +14,7 @@ export default {
 export const Default = {
   args: {
     container: "none",
+    dismissible: true,
     flowId: "flow_GSfKhVKmWXTw2wdt",
     width: "400px",
   },

@@ -11,8 +11,16 @@ export function Announcement(props: AnnouncementProps) {
 
   return (
     <FlowComponent>
-      {({ flow, handlePrimary, handleSecondary, step }) => (
+      {({
+        flow,
+        handleDismiss,
+        handlePrimary,
+        handleSecondary,
+        parentProps: { dismissible },
+        step,
+      }) => (
         <>
+          {dismissible && <Dialog.Dismiss onClick={handleDismiss} />}
           <Flex.Column gap={1} part="announcement-header">
             <Dialog.Title>{step.title}</Dialog.Title>
             <Dialog.Subtitle>{step.subtitle}</Dialog.Subtitle>

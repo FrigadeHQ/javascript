@@ -1,6 +1,7 @@
 import { useController, useForm } from 'react-hook-form'
 
 import { Button } from '@/components/Button'
+import { Card } from '@/components/Card'
 import { Flex } from '@/components/Flex'
 
 import { type FlowComponentChildrenProps } from '@/hooks/useFlowComponent'
@@ -42,7 +43,14 @@ function FieldWrapper({ fieldComponent: FieldComponent, control, fieldData }) {
   return <FieldComponent {...controller} fieldData={fieldData} />
 }
 
-export function FormStep({ fieldTypes, handlePrimary, handleSecondary, step }: FormStepProps) {
+export function FormStep({
+  fieldTypes,
+  handleDismiss,
+  handlePrimary,
+  handleSecondary,
+  parentProps: { dismissible },
+  step,
+}: FormStepProps) {
   const { control, handleSubmit } = useForm({
     delayError: 2000,
     mode: 'onChange',
@@ -78,8 +86,21 @@ export function FormStep({ fieldTypes, handlePrimary, handleSecondary, step }: F
   })
 
   return (
-    <>
+    <Flex.Column gap={5}>
+      <Flex.Row
+        alignItems="center"
+        flexWrap="wrap"
+        gap={1}
+        justifyContent="space-between"
+        part="form-header"
+      >
+        <Card.Title>{step.title}</Card.Title>
+        {dismissible && <Card.Dismiss onClick={handleDismiss} />}
+        <Card.Subtitle flexBasis="100%">{step.subtitle}</Card.Subtitle>
+      </Flex.Row>
+
       {fields}
+
       <Flex.Row key="form-footer" part="form-footer" justifyContent="flex-end" gap={3}>
         {step.secondaryButtonTitle && (
           <Button.Secondary
@@ -92,6 +113,6 @@ export function FormStep({ fieldTypes, handlePrimary, handleSecondary, step }: F
           onClick={handleSubmit(onPrimarySubmit)}
         />
       </Flex.Row>
-    </>
+    </Flex.Column>
   )
 }

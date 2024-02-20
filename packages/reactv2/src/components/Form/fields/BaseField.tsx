@@ -24,7 +24,7 @@ export function BaseField({ children, field, fieldData, fieldState }: BaseFieldP
   }
 
   return (
-    <Box {...styles.field} part="field">
+    <Box part="field">
       <Label id={id} required={!!fieldData.required}>
         {label}
       </Label>

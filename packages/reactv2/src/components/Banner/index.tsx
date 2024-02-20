@@ -3,8 +3,6 @@ import { Card } from '@/components/Card'
 import { Flex } from '@/components/Flex'
 import { Text } from '@/components/Text'
 
-import { XMarkIcon } from '@heroicons/react/24/solid'
-
 import { useFlowComponent } from '@/hooks/useFlowComponent'
 
 import type { FlowComponentProps } from '@/shared/types'
@@ -41,11 +39,7 @@ export function Banner(props: BannerProps) {
               <Button.Secondary title={step.secondaryButtonTitle} onClick={handleSecondary} />
             )}
             <Button.Primary title={step.primaryButtonTitle} onClick={handlePrimary} />
-            {props.dismissible && props.container != 'dialog' && (
-              <Button.Plain part="banner-close" onClick={handleDismiss}>
-                <XMarkIcon height="24" fill="currentColor" />
-              </Button.Plain>
-            )}
+            {props.dismissible && <Card.Dismiss onClick={handleDismiss} />}
           </Flex.Row>
         </>
       )}

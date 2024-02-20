@@ -18,6 +18,7 @@ export interface FlowComponentChildrenProps {
   handleDismiss: DismissHandler
   handlePrimary: StepHandler
   handleSecondary: StepHandler
+  parentProps: Record<string, unknown>
   step: FlowStep
 }
 
@@ -46,7 +47,6 @@ export function useFlowComponent({
   ...props
 }: FlowComponentProps) {
   const ContainerElement = container === 'dialog' ? Dialog : as ?? Box
-  const DismissElement = ContainerElement.Close ?? CloseButton
 
   // useMemo this component so it isn't recreated on every render
   const FlowComponent = function FlowComponent({
@@ -85,13 +85,18 @@ export function useFlowComponent({
 
     return (
       <ContainerElement position="relative" {...flowComponentProps} {...props}>
-        {dismissible && <DismissElement onClick={handleDismiss} />}
-
         {children({
           flow,
           handleDismiss,
           handlePrimary,
           handleSecondary,
+          parentProps: {
+            container,
+            dismissible,
+            flowId,
+            variables,
+            ...props,
+          },
           step,
         })}
       </ContainerElement>

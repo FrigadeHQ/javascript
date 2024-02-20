@@ -1,6 +1,7 @@
 import type { ForwardRefExoticComponent, RefAttributes } from 'react'
 import * as React from 'react'
 import { EmotionJSX } from '@emotion/react/types/jsx-namespace'
+import { XMarkIcon } from '@heroicons/react/24/solid'
 
 import { Button, type ButtonProps } from '../Button'
 import { Flex } from '../Flex'
@@ -12,6 +13,7 @@ import { type FlowComponentProps } from '@/shared/types'
 
 interface CardComponent
   extends ForwardRefExoticComponent<Omit<FlowComponentProps, 'ref'> & RefAttributes<unknown>> {
+  Dismiss: (props: ButtonProps) => EmotionJSX.Element
   Media: (props: MediaProps) => EmotionJSX.Element
   Primary: (props: ButtonProps) => EmotionJSX.Element
   Secondary: (props: ButtonProps) => EmotionJSX.Element
@@ -42,6 +44,14 @@ export const Card = React.forwardRef(({ as, children, ...props }: FlowComponentP
     </Component>
   )
 }) as CardComponent
+
+Card.Dismiss = (props: ButtonProps) => {
+  return (
+    <Button.Plain part="dismiss" padding={0} {...props}>
+      <XMarkIcon height="24" fill="currentColor" />
+    </Button.Plain>
+  )
+}
 
 Card.Media = ({ src, ...props }: MediaProps) => {
   if (src == null) return null

@@ -46,7 +46,7 @@ export function Dialog({ children, ...props }: DialogProps) {
   )
 }
 
-Dialog.Close = (props: ButtonProps) => {
+Dialog.Dismiss = (props: ButtonProps) => {
   return (
     <RadixDialog.Close aria-label="Close" asChild>
       <Button.Plain part="close" position="absolute" right="-4px" top="4px" {...props}>

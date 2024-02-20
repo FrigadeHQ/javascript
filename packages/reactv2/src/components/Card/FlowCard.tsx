@@ -15,12 +15,19 @@ export function FlowCard(props: FlowComponentProps) {
       borderStyle="solid"
       borderWidth="md"
     >
-      {({ handlePrimary, handleSecondary, step }) => (
+      {({ handleDismiss, handlePrimary, handleSecondary, parentProps: { dismissible }, step }) => (
         <>
-          <Flex.Column gap={1} part="card-header">
+          <Flex.Row
+            alignItems="center"
+            flexWrap="wrap"
+            gap={1}
+            justifyContent="space-between"
+            part="card-header"
+          >
             <Card.Title>{step.title}</Card.Title>
-            <Card.Subtitle>{step.subtitle}</Card.Subtitle>
-          </Flex.Column>
+            {dismissible && <Card.Dismiss onClick={handleDismiss} />}
+            <Card.Subtitle flexBasis="100%">{step.subtitle}</Card.Subtitle>
+          </Flex.Row>
 
           <Card.Media src={step.imageUri} css={{ objectFit: 'contain', width: '100%' }} />
 
