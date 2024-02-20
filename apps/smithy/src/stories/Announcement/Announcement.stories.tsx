@@ -3,12 +3,6 @@ import { Announcement, useFlow, useFrigade } from "@frigade/react";
 export default {
   title: "Components/Announcement",
   component: Announcement,
-  argTypes: {
-    container: {
-      type: "select",
-      options: ["none", "dialog"],
-    },
-  },
 };
 
 export const Default = {
