@@ -40,6 +40,7 @@ export function Announcement(props: AnnouncementProps) {
           <Flex.Row
             css={{
               '& > button': {
+                flexBasis: '50%',
                 flexGrow: 1,
               },
             }}
@@ -47,9 +48,14 @@ export function Announcement(props: AnnouncementProps) {
             part="announcement-footer"
           >
             {step.secondaryButtonTitle && (
-              <Dialog.Secondary title={step.secondaryButtonTitle} onClick={handleSecondary} />
+              <Dialog.Secondary onClick={handleSecondary} title={step.secondaryButtonTitle} />
             )}
-            <Dialog.Primary title={step.primaryButtonTitle ?? 'Continue'} onClick={handlePrimary} />
+            {step.primaryButtonTitle && (
+              <Dialog.Primary
+                onClick={handlePrimary}
+                title={step.primaryButtonTitle ?? 'Continue'}
+              />
+            )}
           </Flex.Row>
         </>
       )}
