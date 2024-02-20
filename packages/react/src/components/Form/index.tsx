@@ -62,7 +62,7 @@ export function Form({ fieldTypes = {}, ...props }: FormProps) {
   const mergedFieldTypes = Object.assign({}, defaultFieldTypes, fieldTypes)
 
   return (
-    <Flow {...props}>
+    <Flow part="form" {...props}>
       {(childProps) => <FormStep fieldTypes={mergedFieldTypes} {...childProps} />}
     </Flow>
   )

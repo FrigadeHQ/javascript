@@ -30,7 +30,7 @@ export function Dialog({ children, ...props }: DialogProps) {
               left="50%"
               maxWidth="430px"
               p={8}
-              part="dialog-content"
+              part="dialog"
               position="fixed"
               textAlign="center"
               top="50%"

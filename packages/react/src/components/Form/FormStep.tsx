@@ -86,13 +86,13 @@ export function FormStep({
   })
 
   return (
-    <Flex.Column gap={5}>
+    <Flex.Column gap={5} part="form-step">
       <Flex.Row
         alignItems="center"
         flexWrap="wrap"
         gap={1}
         justifyContent="space-between"
-        part="form-header"
+        part="form-step-header"
       >
         <Card.Title>{step.title}</Card.Title>
         {dismissible && <Card.Dismiss onClick={handleDismiss} />}
@@ -101,7 +101,7 @@ export function FormStep({
 
       {fields}
 
-      <Flex.Row key="form-footer" part="form-footer" justifyContent="flex-end" gap={3}>
+      <Flex.Row key="form-footer" part="form-step-footer" justifyContent="flex-end" gap={3}>
         {step.secondaryButtonTitle && (
           <Button.Secondary
             title={step.secondaryButtonTitle}

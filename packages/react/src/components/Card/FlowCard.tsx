@@ -10,6 +10,7 @@ export function FlowCard(props: FlowProps) {
       borderColor="neutral.border"
       borderStyle="solid"
       borderWidth="md"
+      part="card"
       {...props}
     >
       {({ handleDismiss, handlePrimary, handleSecondary, parentProps: { dismissible }, step }) => (

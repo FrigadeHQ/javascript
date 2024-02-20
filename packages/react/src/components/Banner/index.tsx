@@ -16,6 +16,7 @@ export function Banner(props: BannerProps) {
       flexDirection="row"
       gap={3}
       justifyContent="space-between"
+      part="banner"
       {...props}
     >
       {({ handleDismiss, handlePrimary, handleSecondary, step }) => (
