@@ -100,7 +100,15 @@ export function Tooltip({
       <Popover.Portal>
         <div
           className={className}
-          css={{ bottom: 0, left: 0, position: 'absolute', right: 0, top: 0, zIndex: 9999 }}
+          css={{
+            bottom: 0,
+            left: 0,
+            position: 'absolute',
+            right: 0,
+            top: 0,
+            zIndex: 9999,
+            pointerEvents: 'none',
+          }}
         >
           {spotlight && (
             <Box
@@ -123,6 +131,7 @@ export function Tooltip({
               position="relative"
               css={{
                 maxWidth: '360px',
+                pointerEvents: 'auto',
                 ...style,
               }}
             >
