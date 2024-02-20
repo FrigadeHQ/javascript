@@ -1,5 +1,5 @@
-import { Box, Flex, Tooltip } from "@frigade/reactv2";
-import { StoryFn, StoryContext } from "@storybook/react";
+import { Box, Flex, Tooltip } from "@frigade/react";
+import { StoryContext, StoryFn } from "@storybook/react";
 
 export default {
   title: "Design System/Tooltip",

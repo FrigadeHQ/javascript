@@ -1,4 +1,4 @@
-import { Box, Tour } from "@frigade/reactv2";
+import { Box, Tour } from "@frigade/react";
 import { StoryContext, StoryFn } from "@storybook/react";
 
 export default {

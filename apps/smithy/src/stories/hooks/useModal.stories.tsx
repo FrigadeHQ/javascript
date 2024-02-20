@@ -1,4 +1,4 @@
-import { Announcement, Tour } from "@frigade/reactv2";
+import { Announcement, Tour } from "@frigade/react";
 
 export default {
   title: "Hooks/useModal",

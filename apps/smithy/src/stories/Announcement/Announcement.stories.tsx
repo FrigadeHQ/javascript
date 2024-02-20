@@ -1,4 +1,4 @@
-import { Announcement, useFrigade, useFlow } from "@frigade/reactv2";
+import { Announcement, useFlow, useFrigade } from "@frigade/react";
 
 export default {
   title: "Components/Announcement",

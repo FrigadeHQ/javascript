@@ -15,10 +15,6 @@
     },
     "clean": {
       "cache": false
-    },
-    "copy-version-number": {
-        "steps": ["yarn copy-version-number"],
-        "outputs": ["src/**"]
     }
   }
 }

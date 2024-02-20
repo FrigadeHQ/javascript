@@ -1,7 +1,7 @@
 import "./global.css";
 
 import * as React from "react";
-import { Provider } from "@frigade/reactv2";
+import {Provider} from "@frigade/react";
 
 // LOCAL DEV
 // const FRIGADE_API_KEY =

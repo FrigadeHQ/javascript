@@ -1,4 +1,4 @@
-import { Box, Button } from "@frigade/reactv2";
+import { Box, Button } from "@frigade/react";
 
 export default {
   title: "Design System/Button",

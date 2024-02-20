@@ -1,4 +1,4 @@
-import { useGroup } from "@frigade/reactv2";
+import { useGroup } from "@frigade/react";
 import { useEffect, useState } from "react";
 
 export default {

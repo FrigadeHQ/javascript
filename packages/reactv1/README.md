@@ -35,12 +35,6 @@ yarn add @frigade/react
 npm install @frigade/react
 ```
 
-#### With pnpm
-
-```bash
-pnpm install @frigade/react
-```
-
 ### About Frigade
 [Frigade](<https://frigade.com>) is a developer-first platform for building quality product onboarding. A powerful, flexible API and native SDKs allow you to build onboarding 10x faster, experiment more easily, and drive customer success.
 

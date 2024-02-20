@@ -1,4 +1,4 @@
-import { Banner } from "@frigade/reactv2";
+import { Banner } from "@frigade/react";
 
 export default {
   title: "Components/Banner",

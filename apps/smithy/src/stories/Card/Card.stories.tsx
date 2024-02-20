@@ -1,4 +1,4 @@
-import { Box, Card, Flex } from "@frigade/reactv2";
+import { Box, Card, Flex } from "@frigade/react";
 import { type Meta } from "@storybook/react";
 
 export default {

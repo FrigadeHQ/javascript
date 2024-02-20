@@ -1,41 +1,40 @@
 {
   "compilerOptions": {
-    "outDir": "./lib",
-    "rootDir": "./src",
-    "module": "esnext",
-    "types": ["jest"],
-    "target": "ES6",
-    "lib": ["DOM", "esnext", "ES6", "DOM.Iterable", "ScriptHost", "ES2016.Array.Include"],
+    "alwaysStrict": false,
     "declaration": true,
+    // interop between ESM and CJS modules. Recommended by TS
+    "esModuleInterop": true,
+    // error out if import and file system have a casing mismatch. Recommended by TS
+    "forceConsistentCasingInFileNames": true,
+    // transpile JSX to React.createElement
+    "jsx": "react-jsx",
+    "jsxImportSource": "@emotion/react",
+    "lib": ["DOM", "ESNext"],
+    "module": "esnext",
+    // use Node's module resolution algorithm, instead of the legacy TS one
+    "moduleResolution": "node",
+    "noEmit": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": false,
+    // linter checks for common issues
+    "noImplicitReturns": false,
+    // noUnused* overlap with @typescript-eslint/no-unused-vars, can disable if duplicative
+    "noUnusedParameters": true,
+    "outDir": "./dist",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "rootDir": "./src",
+    // significant perf increase by skipping checking .d.ts files, particularly those in node_modules. Recommended by TS
+    "skipLibCheck": true,
     // output .js.map sourcemap files for consumers
     "sourceMap": true,
     // match output dir to input dir. e.g. dist/index instead of dist/src/index
     // stricter type-checking for stronger correctness. Recommended by TS
     "strict": true,
     "strictNullChecks": false,
-    // linter checks for common issues
-    "noImplicitReturns": false,
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitAny": false,
-    // noUnused* overlap with @typescript-eslint/no-unused-vars, can disable if duplicative
-    "noUnusedParameters": true,
-    // use Node's module resolution algorithm, instead of the legacy TS one
-    "moduleResolution": "node",
-    // transpile JSX to React.createElement
-    "jsx": "react",
-    // interop between ESM and CJS modules. Recommended by TS
-    "esModuleInterop": true,
-    // significant perf increase by skipping checking .d.ts files, particularly those in node_modules. Recommended by TS
-    "skipLibCheck": true,
-    // error out if import and file system have a casing mismatch. Recommended by TS
-    "forceConsistentCasingInFileNames": true,
-    "alwaysStrict": false,
-    "noEmit": true
+    "types": ["jest", "node"]
   },
-  "include": ["src"],
-  "exclude": ["**/__tests__/*",
-    "../../apps/**/*",
-    "../../node_modules/**/*",
-    "../../packages/reactv2/**/*"
-  ],
+  "exclude": [],
+  "include": ["src"]
 }

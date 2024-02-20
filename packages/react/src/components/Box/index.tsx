@@ -1,105 +1,61 @@
-import React, { ComponentPropsWithoutRef, CSSProperties, ElementType, ReactNode } from 'react'
-import styled, { ThemeProvider, useTheme } from 'styled-components'
-import {
-  border,
-  BorderProps,
-  color,
-  ColorProps,
-  compose,
-  get,
-  LayoutProps,
-  shadow,
-  ShadowProps,
-  space,
-  SpaceProps,
-  system,
-  typography,
-  TypographyProps,
-} from 'styled-system'
-import { deepmerge } from '../../shared/deepmerge'
+import * as React from 'react'
+import { clsx } from 'clsx'
 
-interface Overrides extends Record<string, Overrides | CSSProperties> {}
+import { type StyleProps } from './styleProps'
+import { stylePropsToCss } from './stylePropsToCss'
+import { sanitize } from '../../shared/sanitize'
 
-// Drop the size property from layout props, it conflicts with our own size prop
-// SEE: https://github.com/styled-system/styled-system/blob/master/packages/layout/src/index.js
-const layoutWithoutSize = {
-  width: {
-    property: 'width',
-    scale: 'sizes',
-    transform: (n, scale) =>
-      get(scale, n, !(typeof n === 'number' && !isNaN(n)) || n > 1 ? n : n * 100 + '%'),
-  },
-  height: {
-    property: 'height',
-    scale: 'sizes',
-  },
-  minWidth: {
-    property: 'minWidth',
-    scale: 'sizes',
-  },
-  minHeight: {
-    property: 'minHeight',
-    scale: 'sizes',
-  },
-  maxWidth: {
-    property: 'maxWidth',
-    scale: 'sizes',
-  },
-  maxHeight: {
-    property: 'maxHeight',
-    scale: 'sizes',
-  },
-  overflow: true,
-  overflowX: true,
-  overflowY: true,
-  display: true,
-  verticalAlign: true,
+function prefixPart(part: string | undefined) {
+  return part ? `fr-${part}` : part
 }
 
-export type BoxProps<T extends ElementType = 'div'> = {
+function processPart(part: Part | undefined) {
+  if (!part) return part
+
+  return Array.isArray(part) ? part.map((p) => processPart(p)).join(' ') : prefixPart(part)
+}
+
+type Part = string | Part[]
+
+export type BoxProps<T extends React.ElementType = React.ElementType> = {
   as?: T
-  css?: Record<string, any> // TODO: Fix any
-  children?: ReactNode
-  overrides?: Overrides
-} & BorderProps &
-  ColorProps &
-  Exclude<LayoutProps, 'size'> &
-  ShadowProps &
-  SpaceProps &
-  TypographyProps &
-  ComponentPropsWithoutRef<T>
+  part?: Part
+} & StyleProps &
+  React.ComponentPropsWithoutRef<T>
 
-const StyledBox = styled('div')(
-  ({ css }) => css,
-  compose(border, color, shadow, space, typography, system(layoutWithoutSize))
-)
+function BoxWithRef<T extends React.ElementType = React.ElementType>(
+  { as, children, className, css = {}, part, ...props }: BoxProps<T>,
+  ref: React.ForwardedRef<HTMLDivElement>
+) {
+  const Component = as ?? 'div'
 
-export const Box = <T extends React.ElementType = 'div'>({
-  as,
-  children,
-  overrides,
-  ...rest
-}: BoxProps<T>) => {
-  const theme = useTheme()
+  const { cssFromProps, unmatchedProps } = stylePropsToCss(props, Component)
 
-  const styleResetProps = {
-    border: 'none',
-    boxSizing: 'border-box',
-    m: 0,
-    p: 0,
+  const processedPart = processPart(part)
+  const classNameWithPart = className || processedPart ? clsx(className, processedPart) : undefined
+  const cssProp = [{ boxSizing: 'border-box' }, cssFromProps, css]
+
+  if (typeof children === 'string') {
+    return (
+      <Component
+        className={classNameWithPart}
+        css={cssProp}
+        {...unmatchedProps}
+        ref={ref}
+        dangerouslySetInnerHTML={sanitize(children)}
+      />
+    )
   }
 
-  const renderBox = () => (
-    <StyledBox as={as} {...styleResetProps} {...rest}>
+  return (
+    <Component className={classNameWithPart} css={cssProp} {...unmatchedProps} ref={ref}>
       {children}
-    </StyledBox>
+    </Component>
   )
-
-  if (overrides !== undefined) {
-    const newTheme = deepmerge(theme, overrides)
-
-    return <ThemeProvider theme={newTheme}>{renderBox()}</ThemeProvider>
-  }
-
-  return renderBox()
 }
+
+export const Box = React.forwardRef(BoxWithRef) as <
+  T extends React.ElementType = React.ElementType
+>(
+  props: BoxProps<T>
+) => React.ReactElement

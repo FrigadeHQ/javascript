@@ -1,4 +1,4 @@
-import { Flex, Text } from "@frigade/reactv2";
+import { Flex, Text } from "@frigade/react";
 
 export default {
   title: "Design System/Flex",

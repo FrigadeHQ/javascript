@@ -1,4 +1,4 @@
-import { useUser } from "@frigade/reactv2";
+import { useUser } from "@frigade/react";
 import { useEffect, useState } from "react";
 
 export default {

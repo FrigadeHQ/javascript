@@ -1,4 +1,4 @@
-import { Box, Text } from "@frigade/reactv2";
+import { Box, Text } from "@frigade/react";
 
 export default {
   title: "Design System/Text",

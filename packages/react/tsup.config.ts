@@ -47,6 +47,7 @@ export default defineConfig([
     ...commonConfig,
     esbuildOptions: (options) => {
       options.bundle = true
+      options.jsxImportSource = '@emotion/react'
     },
     entry: ['src/index.ts'],
     async onSuccess() {

@@ -1,4 +1,4 @@
-import { Form } from "@frigade/reactv2";
+import { Form } from "@frigade/react";
 
 export default {
   title: "Components/Form",

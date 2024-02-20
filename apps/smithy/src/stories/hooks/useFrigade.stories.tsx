@@ -1,4 +1,4 @@
-import { Announcement, useFrigade } from "@frigade/reactv2";
+import { Announcement, useFrigade } from "@frigade/react";
 import { useEffect, useState } from "react";
 
 export default {
