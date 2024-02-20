@@ -22,10 +22,9 @@ function BaseButton({ as, children, part, title, variant = 'Primary', ...props }
           color="inherit"
           flexGrow="1"
           fontWeight="demibold"
-          transform="translateY(1px)"
           css={{
-            '-webkit-font-smoothing': 'antialiased',
-            '-moz-osx-font-smoothing': 'grayscale',
+            WebkitFontSmoothing: 'antialiased',
+            MozOsxFontSmoothing: 'grayscale',
           }}
         >
           {title}
