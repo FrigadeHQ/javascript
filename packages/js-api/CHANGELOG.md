@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.2.21
+
+### Patch Changes
+
+- e493231: Updated typescript documentation
+
 ## 0.2.20
 
 ### Patch Changes
