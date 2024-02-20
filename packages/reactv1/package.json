@@ -3,6 +3,7 @@
   "version": "1.38.37",
   "description": "Build better product onboarding, faster.",
   "main": "./dist/index.js",
+  "private": true,
   "types": "./dist/index.d.ts",
   "files": [
     "./dist"
