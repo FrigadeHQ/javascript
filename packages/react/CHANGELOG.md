@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.0.1
+
+### Patch Changes
+
+- 25ee0b2: Fixes an issue with tours freezing up the page until actions are taken. Adds additional exports for theming
+
 ## 2.0.0
 
 ### Major Changes
