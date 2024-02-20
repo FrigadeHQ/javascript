@@ -9,7 +9,7 @@ export function useGroup() {
    * Sets properties for the current group
    * @param properties
    */
-  async function setProperties(properties?: Record<string, unknown>) {
+  async function addProperties(properties: Record<string, unknown>) {
     if (!groupId) {
       console.error('No Group ID is set. Cannot set properties without a Group ID.')
       return
@@ -26,5 +26,5 @@ export function useGroup() {
     await frigade.track(eventName, properties)
   }
 
-  return { groupId, setProperties, track }
+  return { groupId, addProperties, track }
 }

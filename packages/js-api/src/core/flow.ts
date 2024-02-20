@@ -24,7 +24,8 @@ export class Flow extends Fetchable {
    */
   public configYmlAsJson: any
   /**
-   * Ordered map from Step ID to step data. The `steps` array in the YAML config.
+   * Ordered map of the Steps in the Flow.
+   * See [Flow Step Definition](https://docs.frigade.com/v2/sdk/js/step) for more information.
    */
   public steps: Map<string, FlowStep>
   /**
