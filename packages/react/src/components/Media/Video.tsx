@@ -19,7 +19,7 @@ function getVideoEmbedSrc(videoUri: string) {
     return `https://loom.com/embed/${videoId}?hideEmbedTopBar=true&hide_title=true&hide_share=true&hide_owner=true`
   }
 
-  throw new Error('Could not map videoUri to a known provider (Youtube, Vimeo, Wistia, Loom).')
+  return null
 }
 
 export interface VideoProps extends BoxProps {
@@ -28,6 +28,18 @@ export interface VideoProps extends BoxProps {
 
 export function Video({ part, src, ...props }: VideoProps) {
   const videoEmbedSrc = getVideoEmbedSrc(src)
+
+  if (!videoEmbedSrc) {
+    // Check if it's a url that ends in .mp4
+    if (src?.endsWith('.mp4')) {
+      return <Box as="video" controls part={['video', part]} src={src} {...props}></Box>
+    }
+
+    console.error(
+      `Could not map videoUri ${src} to a known provider (Youtube, Vimeo, Wistia, Loom) or valid mp4 file.`
+    )
+    return null
+  }
 
   // TODO: Add play button overtop?
   return (
