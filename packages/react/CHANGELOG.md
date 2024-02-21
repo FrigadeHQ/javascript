@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.0.2
+
+### Patch Changes
+
+- 8a509b1: Fixed TS complaints about FlowProps, fixed default Card border styles
+
 ## 2.0.1
 
 ### Patch Changes
