@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.0.3
+
+### Patch Changes
+
+- 14af95c: Fixes an issue where useUser and useGroup track() function was causing 404s
+
 ## 2.0.2
 
 ### Patch Changes
