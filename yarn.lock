@@ -2402,17 +2402,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@frigade/js@npm:^0.2.22":
-  version: 0.2.22
-  resolution: "@frigade/js@npm:0.2.22"
-  dependencies:
-    cross-fetch: ^4.0.0
-    uuid: ^9.0.0
-  checksum: 5c2e97c1bb402766eff26b6bb2ad45663311582534e2039a2deeb1fe1153338c4ae1460ba0f4a00e2b7cd4b4987061e60e6fa0d3f1bf0b4cc11cd88669775e6b
-  languageName: node
-  linkType: hard
-
-"@frigade/js@workspace:packages/js-api":
+"@frigade/js@^0.2.22, @frigade/js@workspace:packages/js-api":
   version: 0.0.0-use.local
   resolution: "@frigade/js@workspace:packages/js-api"
   dependencies:
