@@ -41,7 +41,6 @@ export function Video({ part, src, ...props }: VideoProps) {
     return null
   }
 
-  // TODO: Add play button overtop?
   return (
     <Box
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

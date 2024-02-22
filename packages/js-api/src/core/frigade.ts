@@ -115,15 +115,38 @@ export class Frigade extends Fetchable {
    */
   public async track(event: string, properties?: Record<string, any>): Promise<void> {
     await this.initIfNeeded()
-    await this.fetch('/track', {
-      method: 'POST',
-      body: JSON.stringify({
-        foreignUserId: this.config.userId,
-        foreignUserGroupId: this.config.groupId,
-        event,
-        properties,
-      }),
-    })
+    if (!event) {
+      console.error('Event name is required to track an event')
+      return
+    }
+    if (this.config.userId && this.config.groupId) {
+      await this.fetch('/userGroups', {
+        method: 'POST',
+        body: JSON.stringify({
+          foreignUserId: this.config.userId,
+          foreignUserGroupId: this.config.groupId,
+          events: [
+            {
+              event,
+              properties,
+            },
+          ],
+        }),
+      })
+    } else if (this.config.userId) {
+      await this.fetch('/users', {
+        method: 'POST',
+        body: JSON.stringify({
+          foreignId: this.config.userId,
+          events: [
+            {
+              event,
+              properties,
+            },
+          ],
+        }),
+      })
+    }
   }
 
   /**
