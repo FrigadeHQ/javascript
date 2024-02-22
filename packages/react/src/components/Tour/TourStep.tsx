@@ -36,6 +36,7 @@ export function TourStep({
       anchor={step.selector as string}
       onOpenAutoFocus={(e) => e.preventDefault()}
       onPointerDownOutside={(e) => e.preventDefault()}
+      onInteractOutside={(e) => e.preventDefault()}
       {...props}
     >
       {dismissible && <Tooltip.Close onClick={handleDismiss} />}
