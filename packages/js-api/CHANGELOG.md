@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.2.22
+
+### Patch Changes
+
+- ee29dfb: Fixes an issue where frigade.track used the wrong endpoint
+
 ## 0.2.21
 
 ### Patch Changes
