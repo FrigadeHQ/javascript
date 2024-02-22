@@ -7,7 +7,7 @@ export default {
 
 export const Default = {
   args: {
-    flowId: "flow_Xqer5qrkMQ10gvJ3",
+    flowId: "flow_K2dmIlteW8eGbGoo",
     width: "500px",
   },
 };

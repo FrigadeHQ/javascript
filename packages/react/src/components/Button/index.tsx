@@ -20,12 +20,13 @@ function BaseButton({ as, children, part, title, variant = 'Primary', ...props }
       {title && (
         <Text.Body2
           color="inherit"
-          flexGrow="1"
-          fontWeight="demibold"
           css={{
             WebkitFontSmoothing: 'antialiased',
             MozOsxFontSmoothing: 'grayscale',
           }}
+          flexGrow="1"
+          fontWeight="demibold"
+          part="button-title"
         >
           {title}
         </Text.Body2>
