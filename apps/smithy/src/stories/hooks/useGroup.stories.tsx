@@ -6,11 +6,11 @@ export default {
 };
 
 export function Default() {
-  const { setProperties } = useGroup();
+  const { addProperties } = useGroup();
   const [hasSetProps, setHasSetProps] = useState(false);
   useEffect(() => {
     async function setProps() {
-      await setProperties({
+      await addProperties({
         orgPicture: "https://placekitten.com/24/24",
       });
       setHasSetProps(true);

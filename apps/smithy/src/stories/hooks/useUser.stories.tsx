@@ -6,13 +6,16 @@ export default {
 };
 
 export function Default() {
-  const { setProperties } = useUser();
+  const { addProperties, track } = useUser();
 
   const [hasSetProps, setHasSetProps] = useState(false);
   useEffect(() => {
     async function setProps() {
-      await setProperties({
+      await addProperties({
         email: "smeagol@aragon.com",
+      });
+      await track("User Properties Set", {
+        sword: "sting",
       });
       setHasSetProps(true);
     }
