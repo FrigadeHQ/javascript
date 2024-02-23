@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.2.25
+
+### Patch Changes
+
+- 68037f6: Fixes an issue where event handlers are not called on tab change
+
 ## 0.2.24
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.0.7
+
+### Patch Changes
+
+- bba7576: Changes the default behavior of checklists to not auto open the next item
+- Updated dependencies [68037f6]
+  - @frigade/js@0.2.25
+
 ## 2.0.6
 
 ### Patch Changes
