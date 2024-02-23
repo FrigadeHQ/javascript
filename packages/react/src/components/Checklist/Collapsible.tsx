@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import { Card } from '@/components/Card'
 import { Flex } from '@/components/Flex'
@@ -49,9 +49,10 @@ interface ChecklistContentProps extends FlowChildrenProps, Pick<CollapsibleProps
 function ChecklistContent({ flow, step, stepTypes, ...props }: ChecklistContentProps) {
   const [openStepId, setOpenStepId] = useState(step.id)
 
-  useEffect(() => {
-    setOpenStepId(step.id)
-  }, [step.id])
+  // Commenting this out for now as it should be a config option
+  // useEffect(() => {
+  //   setOpenStepId(step.id)
+  // }, [step.id])
 
   const mergedStepTypes = {
     ...defaultStepTypes,
@@ -63,7 +64,9 @@ function ChecklistContent({ flow, step, stepTypes, ...props }: ChecklistContentP
 
     function onOpenChange(isOpening: boolean) {
       setOpenStepId(isOpening ? s.id : null)
-      flow.steps?.get(s.id)?.start()
+      if (isOpening && !flow.steps.get(s.id)?.isCompleted) {
+        flow.steps?.get(s.id)?.start()
+      }
     }
 
     return (
