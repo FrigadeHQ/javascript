@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.2.24
+
+### Patch Changes
+
+- 0f3db7f: Sends the current user id to the API when initiated
+
 ## 0.2.23
 
 ### Patch Changes
