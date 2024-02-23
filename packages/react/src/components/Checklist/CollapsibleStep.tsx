@@ -95,10 +95,10 @@ export function Content({ children }) {
         gap={5}
       >
         {/*
-              This humble box is doing yeoman's work, don't remove it.
-              It creates a flex gap at the top of this column, which animates smoothly.
-              Other forms of whitespace like margin or padding? Not so smooth!
-            */}
+          This humble box is doing yeoman's work, don't remove it.
+          It creates a flex gap at the top of this column, which animates smoothly.
+          Other forms of whitespace like margin or padding? Not so smooth!
+        */}
         <Box />
 
         {children}
@@ -132,10 +132,18 @@ export function Root({
 export function Trigger({ isCompleted, title }) {
   return (
     <Collapsible.Trigger asChild>
-      <Flex.Row alignItems="center" justifyContent="space-between">
+      <Flex.Row
+        alignItems="center"
+        justifyContent="space-between"
+        margin={-5}
+        padding={5}
+        zIndex={1}
+      >
         <Flex.Row alignItems="center" gap={2}>
           <CheckIndicator checked={isCompleted} />
-          <Text.Body2 fontWeight="demibold">{title}</Text.Body2>
+          <Text.Body2 fontWeight="demibold" userSelect="none">
+            {title}
+          </Text.Body2>
         </Flex.Row>
 
         <Box
