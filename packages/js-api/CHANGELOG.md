@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.2.23
+
+### Patch Changes
+
+- be25d4e: Fixes an issue where flow state was not reset after tracking events
+
 ## 0.2.22
 
 ### Patch Changes
