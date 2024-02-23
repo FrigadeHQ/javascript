@@ -147,20 +147,21 @@ export class Flow extends Fetchable {
 
         this.getGlobalState().userFlowStates[this.id] = copy
 
-        await this.fetch('/flowResponses', {
-          method: 'POST',
-          body: JSON.stringify({
-            foreignUserId: this.config.userId,
-            foreignUserGroupId: this.config.groupId,
-            flowSlug: this.id,
-            stepId: thisStep.id,
-            data: properties ?? {},
-            createdAt: new Date().toISOString(),
-            actionType: STARTED_STEP,
-          }),
-        })
-
-        await this.refreshUserFlowState()
+        if (!thisStep.isCompleted) {
+          await this.fetch('/flowResponses', {
+            method: 'POST',
+            body: JSON.stringify({
+              foreignUserId: this.config.userId,
+              foreignUserGroupId: this.config.groupId,
+              flowSlug: this.id,
+              stepId: thisStep.id,
+              data: properties ?? {},
+              createdAt: new Date().toISOString(),
+              actionType: STARTED_STEP,
+            }),
+          })
+          await this.refreshUserFlowState()
+        }
 
         const updatedUserFlowState = this.getUserFlowState()
         thisStep.isCompleted =

@@ -1,5 +1,5 @@
 import { FrigadeConfig, UserFlowState } from '../types'
-import { clearCache, cloneFlow, isWeb, resetAllLocalStorage } from '../shared/utils'
+import { clearCache, cloneFlow, GUEST_PREFIX, isWeb, resetAllLocalStorage } from '../shared/utils'
 import { Flow } from './flow'
 import { FlowDataRaw, FlowStatus, FlowType, TriggerType } from './types'
 import { frigadeGlobalState, getGlobalStateKey } from '../shared/state'
@@ -66,6 +66,14 @@ export class Frigade extends Fetchable {
     this.initPromise = (async () => {
       await this.refreshUserFlowStates()
       await this.refreshFlows()
+      if (this.config.userId && !this.config.userId?.startsWith(GUEST_PREFIX)) {
+        await this.fetch('/users', {
+          method: 'POST',
+          body: JSON.stringify({
+            foreignId: this.config.userId,
+          }),
+        })
+      }
     })()
 
     return this.initPromise
