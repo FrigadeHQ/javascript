@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.0.5
+
+### Patch Changes
+
+- 7cedb33: Fixes an issue where steps in checklists are not started when changing index
+
 ## 2.0.4
 
 ### Patch Changes
