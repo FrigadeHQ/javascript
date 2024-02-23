@@ -86,7 +86,7 @@ export class Frigade extends Fetchable {
         properties,
       }),
     })
-    await this.refreshUserFlowStates()
+    await this.resync()
   }
 
   /**
@@ -105,7 +105,7 @@ export class Frigade extends Fetchable {
         properties,
       }),
     })
-    await this.refreshUserFlowStates()
+    await this.resync()
   }
 
   /**
@@ -147,6 +147,7 @@ export class Frigade extends Fetchable {
         }),
       })
     }
+    await this.resync()
   }
 
   /**
@@ -183,6 +184,18 @@ export class Frigade extends Fetchable {
     this.initPromise = null
     await this.init(this.config)
     // Trigger all event handlers
+    this.flows.forEach((flow) => {
+      this.getGlobalState().onFlowStateChangeHandlers.forEach((handler) => {
+        const lastFlow = this.getGlobalState().previousFlows.get(flow.id)
+        handler(flow, lastFlow)
+        this.getGlobalState().previousFlows.set(flow.id, cloneFlow(flow))
+      })
+    })
+  }
+
+  private async resync() {
+    this.initPromise = null
+    await this.init(this.config)
     this.flows.forEach((flow) => {
       this.getGlobalState().onFlowStateChangeHandlers.forEach((handler) => {
         const lastFlow = this.getGlobalState().previousFlows.get(flow.id)
