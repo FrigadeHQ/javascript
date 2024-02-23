@@ -63,6 +63,7 @@ function ChecklistContent({ flow, step, stepTypes, ...props }: ChecklistContentP
 
     function onOpenChange(isOpening: boolean) {
       setOpenStepId(isOpening ? s.id : null)
+      flow.steps?.get(s.id)?.start()
     }
 
     return (
