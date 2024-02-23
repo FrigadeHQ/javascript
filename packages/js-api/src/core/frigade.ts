@@ -26,6 +26,14 @@ export class Frigade extends Fetchable {
     if (document.visibilityState === 'visible') {
       await this.refreshFlows()
       await this.refreshUserFlowStates()
+      // Trigger all event handlers
+      this.flows.forEach((flow) => {
+        this.getGlobalState().onFlowStateChangeHandlers.forEach((handler) => {
+          const lastFlow = this.getGlobalState().previousFlows.get(flow.id)
+          handler(flow, lastFlow)
+          this.getGlobalState().previousFlows.set(flow.id, cloneFlow(flow))
+        })
+      })
     }
   }
 
