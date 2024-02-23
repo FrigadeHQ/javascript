@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.0.4
+
+### Patch Changes
+
+- 4017abf: Fixes an issue where Flows were flows do not auto advance based on backend tracking events and props
+
 ## 2.0.3
 
 ### Patch Changes
