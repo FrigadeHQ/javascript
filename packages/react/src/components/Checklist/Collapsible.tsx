@@ -3,6 +3,8 @@ import { useState } from 'react'
 import { Card } from '@/components/Card'
 import { Flex } from '@/components/Flex'
 import { Flow, type FlowChildrenProps, type FlowPropsWithoutChildren } from '@/components/Flow'
+import * as Progress from '@/components/Progress'
+import { Text } from '@/components/Text'
 
 import * as CollapsibleStep from '@/components/Checklist/CollapsibleStep'
 
@@ -59,7 +61,7 @@ function ChecklistContent({ flow, step, stepTypes, ...props }: ChecklistContentP
     ...stepTypes,
   }
 
-  const stepList = Array.from(flow.steps?.entries()).map(([, s]) => {
+  const stepList = Array.from(flow.steps.entries()).map(([, s]) => {
     const StepComponent = mergedStepTypes[s.type as string] ?? DefaultCollapsibleStep
 
     function onOpenChange(isOpening: boolean) {
@@ -81,11 +83,21 @@ function ChecklistContent({ flow, step, stepTypes, ...props }: ChecklistContentP
     )
   })
 
+  const currentSteps = flow.getNumberOfCompletedSteps()
+  const availableSteps = flow.getNumberOfAvailableSteps()
+
   return (
     <>
       <Flex.Column gap={2}>
         <Card.Title>{flow.title}</Card.Title>
         <Card.Subtitle color="gray500">{flow.subtitle}</Card.Subtitle>
+
+        <Flex.Row alignItems="center" gap={2}>
+          <Text.Body2 fontWeight="demibold">
+            {currentSteps}/{availableSteps}
+          </Text.Body2>
+          <Progress.Bar current={currentSteps} total={availableSteps} flexGrow={1} />
+        </Flex.Row>
       </Flex.Column>
 
       {stepList}

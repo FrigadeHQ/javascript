@@ -9,6 +9,7 @@ export type { CollapsibleProps, CollapsibleStepProps } from './components/Checkl
 export { Button, type ButtonProps } from './components/Button'
 export { Flex } from './components/Flex'
 export { Form } from './components/Form'
+export * as Progress from './components/Progress'
 export { Provider, type ProviderProps } from './components/Provider'
 export { Text, type TextProps } from './components/Text'
 export { Tooltip, type TooltipProps } from './components/Tooltip'
