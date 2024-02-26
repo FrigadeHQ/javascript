@@ -98,7 +98,7 @@ export function Tooltip({
     <Popover.Root defaultOpen={true} {...rootProps}>
       <Popover.Anchor virtualRef={anchorVirtualRef} />
       <Popover.Portal>
-        <div
+        <Box
           className={className}
           css={{
             bottom: 0,
@@ -109,6 +109,8 @@ export function Tooltip({
             zIndex: 9999,
             pointerEvents: 'none',
           }}
+          as="div"
+          part="tooltip-portal"
         >
           {spotlight && (
             <Box
@@ -140,7 +142,7 @@ export function Tooltip({
               {children}
             </Card>
           </Popover.Content>
-        </div>
+        </Box>
       </Popover.Portal>
     </Popover.Root>
   )
