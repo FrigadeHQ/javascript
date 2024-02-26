@@ -65,14 +65,6 @@ export const Default = {
           anchor="#tooltip-anchor"
           onOpenAutoFocus={(e) => e.preventDefault()}
           onPointerDownOutside={(e) => e.preventDefault()}
-          css={{
-            ".fr-tooltip-content .fr-tooltip-close": {
-              backgroundColor: "pink",
-            },
-            ".fr-button-primary": {
-              backgroundColor: "fuchsia",
-            },
-          }}
           {...options.args}
         >
           <Tooltip.Close />

@@ -4,7 +4,7 @@ import { XMarkIcon } from '@heroicons/react/24/solid'
 import * as Popover from '@radix-ui/react-popover'
 
 import { useBoundingClientRect } from '../../hooks/useBoundingClientRect'
-import { Box } from '../Box'
+import { Box, type BoxProps } from '../Box'
 import { Button, ButtonProps } from '../Button'
 import { Card } from '../Card'
 import { Dot } from './Dot'
@@ -15,8 +15,8 @@ import { mapTooltipPropsToPopoverProps } from './mapTooltipPropsToPopoverProps'
 
 export interface MergedRadixPopoverProps
   extends Pick<Popover.PopoverProps, 'defaultOpen' | 'modal' | 'onOpenChange' | 'open'>,
-    Omit<Popover.PopoverContentProps, 'align' | 'asChild'> {}
-export interface TooltipProps {
+    Omit<Popover.PopoverContentProps, 'align' | 'asChild' | 'color' | 'content' | 'translate'> {}
+export interface TooltipProps extends BoxProps, MergedRadixPopoverProps {
   /**
    * How to align the Tooltip relative to the anchor.
    * Uses the same notation as the `align` property in [Radix Popover](https://www.radix-ui.com/primitives/docs/components/popover).
@@ -40,10 +40,10 @@ export function Tooltip({
   spotlight = false,
   style,
   ...props
-}: TooltipProps & MergedRadixPopoverProps) {
+}: TooltipProps) {
   const { node: contentNode, rect: contentRect, ref: contentRef } = useBoundingClientRect()
   const { node: anchorNode, rect: anchorRect, ref: anchorRef } = useBoundingClientRect()
-  const { contentProps, rootProps } = mapTooltipPropsToPopoverProps(props, contentRect)
+  const { contentProps, otherProps, rootProps } = mapTooltipPropsToPopoverProps(props, contentRect)
 
   const [alignAttr, setAlignAttr] = useState(contentProps.align)
   const [sideAttr, setSideAttr] = useState(contentProps.side)
@@ -98,18 +98,7 @@ export function Tooltip({
     <Popover.Root defaultOpen={true} {...rootProps}>
       <Popover.Anchor virtualRef={anchorVirtualRef} />
       <Popover.Portal>
-        <div
-          className={className}
-          css={{
-            bottom: 0,
-            left: 0,
-            position: 'absolute',
-            right: 0,
-            top: 0,
-            zIndex: 9999,
-            pointerEvents: 'none',
-          }}
-        >
+        <>
           {spotlight && (
             <Box
               part="tooltip-spotlight"
@@ -129,18 +118,20 @@ export function Tooltip({
               boxShadow="md"
               part="tooltip"
               position="relative"
+              className={className}
               css={{
                 maxWidth: '360px',
                 pointerEvents: 'auto',
-                ...style,
               }}
+              style={style}
+              {...otherProps}
             >
               <Dot style={dotPosition} />
 
               {children}
             </Card>
           </Popover.Content>
-        </div>
+        </>
       </Popover.Portal>
     </Popover.Root>
   )

@@ -35,6 +35,14 @@ export function mapTooltipPropsToPopoverProps(props: TooltipProps, contentRect: 
       .filter((propEntry) => propEntry[1] !== undefined)
   )
 
+  const otherProps = {}
+
+  for (const propName of Object.keys(props)) {
+    if (!RADIX_PROPS.content.includes(propName) && !RADIX_PROPS.root.includes(propName)) {
+      otherProps[propName] = props[propName]
+    }
+  }
+
   // Default to align=after, side=bottom
   contentProps.align = contentProps.align ?? 'after'
   contentProps.side = contentProps.side ?? 'bottom'
@@ -107,6 +115,7 @@ export function mapTooltipPropsToPopoverProps(props: TooltipProps, contentRect: 
 
   return {
     contentProps,
+    otherProps,
     rootProps,
   }
 }
