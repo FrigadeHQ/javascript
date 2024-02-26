@@ -37,9 +37,7 @@ export const Default = {
         </Box>
         <Tour
           flowId="flow_U63A5pndRrvCwxNs"
-          onComplete={(flow, prevFlow) =>
-            console.log("COMPLETE", flow, prevFlow)
-          }
+          onComplete={(flow) => console.log("COMPLETE", flow)}
           variables={{
             firstName: "Smeagol",
           }}
