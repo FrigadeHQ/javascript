@@ -1,20 +1,39 @@
-import { useState } from 'react'
+import { createContext, type Dispatch, type SetStateAction, useContext, useState } from 'react'
 
 import { Card } from '@/components/Card'
+import * as CollapsibleStep from '@/components/Checklist/CollapsibleStep'
 import { Flex } from '@/components/Flex'
 import { Flow, type FlowChildrenProps, type FlowPropsWithoutChildren } from '@/components/Flow'
 import * as Progress from '@/components/Progress'
 import { Text } from '@/components/Text'
 
-import * as CollapsibleStep from '@/components/Checklist/CollapsibleStep'
-
-export interface CollapsibleProps extends FlowPropsWithoutChildren {
-  stepTypes?: Record<string, (props: FlowChildrenProps) => React.ReactNode>
-}
+import { type StepHandlerProp, useStepHandlers } from '@/hooks/useStepHandlers'
 
 export interface CollapsibleStepProps extends FlowChildrenProps {
   onOpenChange: (isOpening: boolean) => void
   open: boolean
+}
+
+export type StepTypes = Record<string, (props: CollapsibleStepProps) => React.ReactNode>
+
+export interface CollapsibleContextType {
+  onPrimary: StepHandlerProp
+  onSecondary: StepHandlerProp
+  openStepId: string | null
+  setOpenStepId: Dispatch<SetStateAction<string>>
+  stepTypes: StepTypes
+}
+
+const CollapsibleContext = createContext<CollapsibleContextType>({
+  onPrimary: () => {},
+  onSecondary: () => {},
+  openStepId: null,
+  setOpenStepId: () => {},
+  stepTypes: {},
+})
+
+export interface CollapsibleProps extends FlowPropsWithoutChildren {
+  stepTypes?: StepTypes
 }
 
 function DefaultCollapsibleStep({
@@ -46,69 +65,84 @@ const defaultStepTypes = {
   default: DefaultCollapsibleStep,
 }
 
-interface ChecklistContentProps extends FlowChildrenProps, Pick<CollapsibleProps, 'stepTypes'> {}
+function StepWrapper({ flow, step, ...props }: FlowChildrenProps) {
+  const { onPrimary, onSecondary, openStepId, setOpenStepId, stepTypes } =
+    useContext(CollapsibleContext)
+  const { handlePrimary, handleSecondary } = useStepHandlers(step, { onPrimary, onSecondary })
 
-function ChecklistContent({ flow, step, stepTypes, ...props }: ChecklistContentProps) {
-  const [openStepId, setOpenStepId] = useState(step.id)
+  const open = (openStepId ?? flow.getCurrentStep().id) === step.id
 
-  // Commenting this out for now as it should be a config option
-  // useEffect(() => {
-  //   setOpenStepId(step.id)
-  // }, [step.id])
+  const StepComponent = stepTypes[step.type as string] ?? DefaultCollapsibleStep
 
-  const mergedStepTypes = {
+  async function onOpenChange(isOpening: boolean) {
+    setOpenStepId(isOpening ? step.id : '')
+
+    if (isOpening && !step.isCompleted) {
+      await step.start()
+    }
+  }
+
+  // TODO: Allow user override of onOpenChange w/ same behavior as other handlers
+  return (
+    <StepComponent
+      flow={flow}
+      key={step.id}
+      onOpenChange={onOpenChange}
+      open={open}
+      step={step}
+      {...props}
+      handlePrimary={handlePrimary}
+      handleSecondary={handleSecondary}
+    />
+  )
+}
+
+export function Collapsible({
+  flowId,
+  onPrimary,
+  onSecondary,
+  stepTypes = {},
+  ...props
+}: CollapsibleProps) {
+  const [openStepId, setOpenStepId] = useState(null)
+
+  const mergedStepTypes: StepTypes = {
     ...defaultStepTypes,
     ...stepTypes,
   }
 
-  const stepList = Array.from(flow.steps.entries()).map(([, s]) => {
-    const StepComponent = mergedStepTypes[s.type as string] ?? DefaultCollapsibleStep
-
-    function onOpenChange(isOpening: boolean) {
-      setOpenStepId(isOpening ? s.id : null)
-      if (isOpening && !flow.steps.get(s.id)?.isCompleted) {
-        flow.steps?.get(s.id)?.start()
-      }
-    }
-
-    return (
-      <StepComponent
-        flow={flow}
-        key={s.id}
-        onOpenChange={onOpenChange}
-        open={s.id === openStepId}
-        step={s}
-        {...props}
-      />
-    )
-  })
-
-  const currentSteps = flow.getNumberOfCompletedSteps()
-  const availableSteps = flow.getNumberOfAvailableSteps()
-
   return (
-    <>
-      <Flex.Column gap={2}>
-        <Card.Title>{flow.title}</Card.Title>
-        <Card.Subtitle color="gray500">{flow.subtitle}</Card.Subtitle>
+    <CollapsibleContext.Provider
+      value={{ openStepId, setOpenStepId, onPrimary, onSecondary, stepTypes: mergedStepTypes }}
+    >
+      <Flow as={Card} borderWidth="md" flowId={flowId} part="checklist" {...props}>
+        {({ flow, ...childrenProps }) => {
+          const stepList = Array.from(flow.steps.entries()).map(([, s]) => (
+            <StepWrapper key={s.id} flow={flow} {...childrenProps} step={s} />
+          ))
 
-        <Flex.Row alignItems="center" gap={2}>
-          <Text.Body2 fontWeight="demibold">
-            {currentSteps}/{availableSteps}
-          </Text.Body2>
-          <Progress.Bar current={currentSteps} total={availableSteps} flexGrow={1} />
-        </Flex.Row>
-      </Flex.Column>
+          const currentSteps = flow.getNumberOfCompletedSteps()
+          const availableSteps = flow.getNumberOfAvailableSteps()
 
-      {stepList}
-    </>
-  )
-}
+          return (
+            <>
+              <Flex.Column gap={2}>
+                <Card.Title>{flow.title}</Card.Title>
+                <Card.Subtitle color="gray500">{flow.subtitle}</Card.Subtitle>
 
-export function Collapsible({ flowId, stepTypes = {}, ...props }: CollapsibleProps) {
-  return (
-    <Flow as={Card} borderWidth="md" flowId={flowId} part="checklist" {...props}>
-      {(childrenProps) => <ChecklistContent stepTypes={stepTypes} {...childrenProps} />}
-    </Flow>
+                <Flex.Row alignItems="center" gap={2}>
+                  <Text.Body2 fontWeight="demibold">
+                    {currentSteps}/{availableSteps}
+                  </Text.Body2>
+                  <Progress.Bar current={currentSteps} total={availableSteps} flexGrow={1} />
+                </Flex.Row>
+              </Flex.Column>
+
+              {stepList}
+            </>
+          )
+        }}
+      </Flow>
+    </CollapsibleContext.Provider>
   )
 }
