@@ -9,7 +9,7 @@ import { Text } from '@/components/Text'
 import * as CollapsibleStep from '@/components/Checklist/CollapsibleStep'
 
 export interface CollapsibleProps extends FlowPropsWithoutChildren {
-  stepTypes: Record<string, (props: FlowChildrenProps) => React.ReactNode>
+  stepTypes?: Record<string, (props: FlowChildrenProps) => React.ReactNode>
 }
 
 export interface CollapsibleStepProps extends FlowChildrenProps {
