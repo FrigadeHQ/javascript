@@ -94,6 +94,12 @@ export const CornerModal: FC<CornerModalProps> = ({
 }) => {
   const [initialBodyOverflow, setInitialBodyOverflow] = useState('')
 
+  function handleDismiss() {
+    const bodyStyle = document.body.style
+    bodyStyle.setProperty('overflow', initialBodyOverflow)
+    onClose()
+  }
+
   useEffect(() => {
     const initialOverflow = getComputedStyle(document.body).getPropertyValue('overflow')
     setInitialBodyOverflow(initialOverflow)
@@ -103,7 +109,7 @@ export const CornerModal: FC<CornerModalProps> = ({
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        onClose()
+        handleDismiss()
       }
     }
     document.addEventListener('keydown', handleEscape)
@@ -139,7 +145,7 @@ export const CornerModal: FC<CornerModalProps> = ({
         {dismissible && (
           <CornerModalClose
             className={getClassName('cornerModalClose', appearance)}
-            onClick={() => onClose()}
+            onClick={handleDismiss}
           >
             <Close />
           </CornerModalClose>
