@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.0.9
+
+### Patch Changes
+
+- 088e2a6: Fixes a series of bugs related to tours and checklists
+
 ## 2.0.8
 
 ### Patch Changes
