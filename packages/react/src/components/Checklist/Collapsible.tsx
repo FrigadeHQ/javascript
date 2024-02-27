@@ -99,6 +99,7 @@ function StepWrapper({ flow, step, ...props }: FlowChildrenProps) {
 }
 
 export function Collapsible({
+  dismissible,
   flowId,
   onPrimary,
   onSecondary,
@@ -117,9 +118,15 @@ export function Collapsible({
       value={{ openStepId, setOpenStepId, onPrimary, onSecondary, stepTypes: mergedStepTypes }}
     >
       <Flow as={Card} borderWidth="md" flowId={flowId} part="checklist" {...props}>
-        {({ flow, ...childrenProps }) => {
+        {({ flow, handleDismiss, ...childrenProps }) => {
           const stepList = Array.from(flow.steps.entries()).map(([, s]) => (
-            <StepWrapper key={s.id} flow={flow} {...childrenProps} step={s} />
+            <StepWrapper
+              key={s.id}
+              flow={flow}
+              handleDismiss={handleDismiss}
+              {...childrenProps}
+              step={s}
+            />
           ))
 
           const currentSteps = flow.getNumberOfCompletedSteps()
@@ -128,8 +135,19 @@ export function Collapsible({
           return (
             <>
               <Flex.Column gap={2}>
-                <Card.Title>{flow.title}</Card.Title>
-                <Card.Subtitle color="gray500">{flow.subtitle}</Card.Subtitle>
+                <Flex.Row
+                  alignItems="center"
+                  flexWrap="wrap"
+                  gap={1}
+                  justifyContent="space-between"
+                  part="checklist-header"
+                >
+                  <Card.Title>{flow.title}</Card.Title>
+                  {dismissible && <Card.Dismiss onClick={handleDismiss} />}
+                  <Card.Subtitle color="gray500" flexBasis="100%">
+                    {flow.subtitle}
+                  </Card.Subtitle>
+                </Flex.Row>
 
                 <Flex.Row alignItems="center" gap={2}>
                   <Text.Body2 fontWeight="demibold">

@@ -1,5 +1,5 @@
 import { keyframes } from '@emotion/react'
-import { ChevronDownIcon } from '@heroicons/react/16/solid'
+import { ChevronDownIcon } from '@heroicons/react/24/outline'
 import * as Collapsible from '@radix-ui/react-collapsible'
 
 import { Box } from '@/components/Box'
@@ -149,6 +149,11 @@ export function Trigger({ isCompleted, title }) {
         <Box
           as={ChevronDownIcon}
           color="gray100"
+          css={{
+            '& path': {
+              vectorEffect: 'non-scaling-stroke',
+            },
+          }}
           display="block"
           height="16px"
           order={2}
