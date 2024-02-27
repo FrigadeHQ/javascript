@@ -12,7 +12,6 @@ import { Media, MediaProps } from '../Media'
 import { Text, TextProps } from '../Text'
 import { getDotPosition } from './getDotPosition'
 import { mapTooltipPropsToPopoverProps } from './mapTooltipPropsToPopoverProps'
-import { useDebug } from '@/hooks/useDebug'
 
 export interface MergedRadixPopoverProps
   extends Pick<Popover.PopoverProps, 'defaultOpen' | 'modal' | 'onOpenChange' | 'open'>,
@@ -49,7 +48,6 @@ export function Tooltip({
   const { node: contentNode, rect: contentRect, ref: contentRef } = useBoundingClientRect()
   const { node: anchorNode, rect: anchorRect, ref: anchorRef } = useBoundingClientRect()
   const { contentProps, otherProps, rootProps } = mapTooltipPropsToPopoverProps(props, contentRect)
-  const { debugLog } = useDebug()
 
   const [alignAttr, setAlignAttr] = useState(contentProps.align)
   const [sideAttr, setSideAttr] = useState(contentProps.side)
@@ -80,7 +78,7 @@ export function Tooltip({
       anchorRef(anchorQuery)
       anchorVirtualRef.current = anchorQuery
     } else {
-      debugLog(`No anchor found for query: ${anchor}`)
+      console.debug(`No anchor found for query: ${anchor}`)
     }
   }, [anchor])
 

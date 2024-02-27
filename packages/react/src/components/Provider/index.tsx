@@ -46,11 +46,6 @@ export interface ProviderProps {
    * The group ID to use for this context (optional).
    */
   groupId?: string
-  /**
-   * If enabled, Frigade will log useful information to the console to help debugging and troubleshooting.
-   * @default false
-   */
-  debug?: boolean
 
   /**
    * @ignore Internal use only.
@@ -70,7 +65,6 @@ interface ProviderContext extends Omit<ProviderProps, 'children' | 'theme'> {
   setModals: Dispatch<SetStateAction<Set<string>>>
   currentModal: string | null
   frigade?: Frigade
-  debug?: boolean
 }
 
 export const FrigadeContext = createContext<ProviderContext>({
@@ -79,7 +73,6 @@ export const FrigadeContext = createContext<ProviderContext>({
   setModals: () => {},
   currentModal: null,
   navigate: () => {},
-  debug: false,
 })
 
 export function Provider({ children, navigate, theme, ...props }: ProviderProps) {
