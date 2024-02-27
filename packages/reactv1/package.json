@@ -1,6 +1,6 @@
 {
   "name": "@frigade/reactv1",
-  "version": "1.38.37",
+  "version": "1.38.38",
   "description": "Build better product onboarding, faster.",
   "main": "./dist/index.js",
   "private": true,
