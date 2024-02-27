@@ -84,6 +84,7 @@ function StepWrapper({ flow, step, ...props }: FlowChildrenProps) {
 
   // TODO: Allow user override of onOpenChange w/ same behavior as other handlers
   return (
+    // @ts-ignore
     <StepComponent
       flow={flow}
       key={step.id}

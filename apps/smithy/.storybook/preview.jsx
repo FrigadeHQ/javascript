@@ -36,6 +36,7 @@ const preview = {
           apiUrl={API_URL}
           userId={userId}
           groupId={"Baggins"}
+          debug={true}
           // __readOnly={true}
           // __flowConfigOverrides={{
           //   flow_cvWFczn1RMHp9ZcK: JSON.stringify({
