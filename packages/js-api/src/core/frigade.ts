@@ -1,7 +1,7 @@
-import { FrigadeConfig, UserFlowState } from '../types'
+import { FlowType, FrigadeConfig, UserFlowState } from '../types'
 import { clearCache, cloneFlow, GUEST_PREFIX, isWeb, resetAllLocalStorage } from '../shared/utils'
 import { Flow } from './flow'
-import { FlowDataRaw, FlowStatus, FlowType, TriggerType } from './types'
+import { FlowDataRaw, FlowStatus, TriggerType } from './types'
 import { frigadeGlobalState, getGlobalStateKey } from '../shared/state'
 import { Fetchable } from '../shared/Fetchable'
 

@@ -63,3 +63,16 @@ export interface InternalConfig {
   organizationId?: string
   __instanceId?: string
 }
+
+export enum FlowType {
+  CHECKLIST = 'CHECKLIST',
+  FORM = 'FORM',
+  TOUR = 'TOUR',
+  SUPPORT = 'SUPPORT',
+  CUSTOM = 'CUSTOM',
+  BANNER = 'BANNER',
+  EMBEDDED_TIP = 'EMBEDDED_TIP',
+  NPS_SURVEY = 'NPS_SURVEY',
+  SURVEY = 'SURVEY',
+  CARD = 'CARD',
+}

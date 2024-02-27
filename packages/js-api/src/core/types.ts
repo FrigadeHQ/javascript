@@ -1,3 +1,5 @@
+import { FlowType } from '../types'
+
 export interface FlowDataRaw {
   id: number
   name: string
@@ -12,17 +14,6 @@ export interface FlowDataRaw {
   status: FlowStatus
   version: number
   active: boolean
-}
-
-export enum FlowType {
-  CHECKLIST = 'CHECKLIST',
-  FORM = 'FORM',
-  TOUR = 'TOUR',
-  SUPPORT = 'SUPPORT',
-  CUSTOM = 'CUSTOM',
-  BANNER = 'BANNER',
-  EMBEDDED_TIP = 'EMBEDDED_TIP',
-  NPS_SURVEY = 'NPS_SURVEY',
 }
 
 export enum TriggerType {
