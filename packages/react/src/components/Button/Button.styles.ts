@@ -12,6 +12,9 @@ export const Primary = {
   color: 'primary.foreground',
 
   'backgroundColor:hover': 'primary.hover.surface',
+
+  'backgroundColor:disabled': 'primary.surface',
+  'opacity:disabled': '0.7',
 }
 
 export const Secondary = {
@@ -24,6 +27,9 @@ export const Secondary = {
   color: 'secondary.foreground',
 
   'backgroundColor:hover': 'secondary.hover.background',
+
+  'backgroundColor:disabled': 'secondary.background',
+  'opacity:disabled': '0.7',
 }
 
 export const Link = {

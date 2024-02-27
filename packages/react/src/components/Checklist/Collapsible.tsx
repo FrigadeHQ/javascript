@@ -43,7 +43,7 @@ function DefaultCollapsibleStep({
   onOpenChange,
   step,
 }: CollapsibleStepProps) {
-  const { isCompleted, primaryButtonTitle, secondaryButtonTitle, subtitle, title } = step
+  const { isBlocked, isCompleted, primaryButtonTitle, secondaryButtonTitle, subtitle, title } = step
 
   return (
     <CollapsibleStep.Root open={open} onOpenChange={onOpenChange}>
@@ -53,8 +53,16 @@ function DefaultCollapsibleStep({
         <Card.Media aspectRatio={2.5} objectFit="cover" src={step.imageUri} />
         <Card.Subtitle color="gray500">{subtitle}</Card.Subtitle>
         <Flex.Row gap={3}>
-          <Card.Secondary title={secondaryButtonTitle} onClick={handleSecondary} />
-          <Card.Primary title={primaryButtonTitle} onClick={handlePrimary} />
+          <Card.Secondary
+            disabled={isCompleted || isBlocked ? true : false}
+            title={secondaryButtonTitle}
+            onClick={handleSecondary}
+          />
+          <Card.Primary
+            disabled={isCompleted || isBlocked ? true : false}
+            title={primaryButtonTitle}
+            onClick={handlePrimary}
+          />
         </Flex.Row>
       </CollapsibleStep.Content>
     </CollapsibleStep.Root>

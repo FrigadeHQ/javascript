@@ -95,7 +95,14 @@ export const stylePropShorthands = {
   py: ['paddingTop', 'paddingBottom'],
 } as const
 
-export const pseudoStyleProps = new Set(['active', 'focus', 'focusVisible', 'focusWithin', 'hover'])
+export const pseudoStyleProps = new Set([
+  'active',
+  'disabled',
+  'focus',
+  'focusVisible',
+  'focusWithin',
+  'hover',
+])
 
 type ThemedStyleProps = {
   [K in keyof typeof themedStyleProps]: keyof (typeof themedStyleProps)[K]
