@@ -5,5 +5,5 @@ import { FrigadeContext } from '../components/Provider'
 export function useFrigade() {
   const { frigade } = useContext(FrigadeContext)
 
-  return { frigade, isLoading: !Boolean(frigade?.isReady()) }
+  return { frigade, isLoading: !frigade?.isReady() }
 }

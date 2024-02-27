@@ -1,3 +1,4 @@
+import { EmotionJSX } from '@emotion/react/types/jsx-namespace'
 import { createContext, type Dispatch, type SetStateAction, useContext, useState } from 'react'
 
 import { Card } from '@/components/Card'
@@ -14,7 +15,7 @@ export interface CollapsibleStepProps extends FlowChildrenProps {
   open: boolean
 }
 
-export type StepTypes = Record<string, (props: CollapsibleStepProps) => React.ReactNode>
+export type StepTypes = Record<string, (props: CollapsibleStepProps) => EmotionJSX.Element>
 
 export interface CollapsibleContextType {
   onPrimary: StepHandlerProp
@@ -92,7 +93,6 @@ function StepWrapper({ flow, step, ...props }: FlowChildrenProps) {
 
   // TODO: Allow user override of onOpenChange w/ same behavior as other handlers
   return (
-    // @ts-ignore
     <StepComponent
       flow={flow}
       key={step.id}
