@@ -34,6 +34,20 @@ const CollapsibleContext = createContext<CollapsibleContextType>({
 })
 
 export interface CollapsibleProps extends FlowPropsWithoutChildren {
+  /**
+   * Map of step types to their respective components.
+   * Use this to build custom step components. The `type` defined on the step in the Flow YAML config should match the key in this object.
+   * For instance, if you have a step with `type: 'custom'`, you should provide a component for it like so:
+   * ```
+   * <Checklist.Collapsible stepTypes={{ custom: CustomStepComponent }} />
+   * ```
+   * The corresponding YAML config would look like:
+   * ```
+   * steps:
+   *  - id: custom-step
+   *    type: custom
+   * ```
+   */
   stepTypes?: StepTypes
 }
 
