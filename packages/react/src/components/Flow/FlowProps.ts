@@ -31,10 +31,12 @@ export interface FlowProps extends BoxProps {
   onDismiss?: FlowHandlerProp
   /**
    * Handler for when primary button is clicked.
+   * If this function a promise that evaluates to `false`, the step will not be automatically completed when clicked.
    */
   onPrimary?: StepHandlerProp
   /**
    * Handler for when secondary button is clicked.
+   * If this function a promise that evaluates to `false`, the step will not be automatically completed when clicked.
    */
   onSecondary?: StepHandlerProp
   /**
