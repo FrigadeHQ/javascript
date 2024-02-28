@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.2.26
+
+### Patch Changes
+
+- c76fd7f: Exports a series of convenient types
+
 ## 0.2.25
 
 ### Patch Changes
