@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.0.10
+
+### Patch Changes
+
+- f60a42a: Bumps @frigade/js to the latest version and adds better typescript docs
+
 ## 2.0.9
 
 ### Patch Changes
