@@ -65,6 +65,7 @@ export interface InternalConfig {
 }
 
 export enum FlowType {
+  ANNOUNCEMENT = 'ANNOUNCEMENT',
   CHECKLIST = 'CHECKLIST',
   FORM = 'FORM',
   TOUR = 'TOUR',
