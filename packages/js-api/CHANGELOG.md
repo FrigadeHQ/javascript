@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.2.27
+
+### Patch Changes
+
+- e2eb482: Adds a missing FlowType for Announcement
+
 ## 0.2.26
 
 ### Patch Changes
