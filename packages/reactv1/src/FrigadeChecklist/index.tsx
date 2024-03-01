@@ -136,7 +136,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
     return null
   }
 
-  if (!steps) {
+  if (!steps || !steps.length) {
     return null
   }
 
