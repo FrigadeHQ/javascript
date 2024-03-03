@@ -47,5 +47,6 @@ export const Default = {
       test: TestStep,
     },
     width: "500px",
+    forceMount: true,
   },
 };

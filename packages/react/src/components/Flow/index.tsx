@@ -8,6 +8,7 @@ import { useStepHandlers } from '@/hooks/useStepHandlers'
 import { useModal } from '@/hooks/useModal'
 
 import type { FlowProps } from '@/components/Flow/FlowProps'
+
 export type {
   FlowChildrenProps,
   FlowProps,
@@ -25,6 +26,7 @@ export function Flow({
   onPrimary,
   onSecondary,
   variables,
+  forceMount,
   ...props
 }: FlowProps) {
   const { flow } = useFlow(flowId, {
@@ -42,7 +44,9 @@ export function Flow({
     onSecondary,
   })
 
-  const { isCurrentModal, removeModal } = useModal(flow)
+  const isModal = as && typeof as === 'function' && as.displayName === 'Dialog'
+
+  const { isCurrentModal, removeModal } = useModal(flow, isModal)
 
   useEffect(() => {
     if (!flow?.isVisible && isCurrentModal) {
@@ -50,13 +54,20 @@ export function Flow({
     }
   }, [flow?.isVisible, isCurrentModal])
 
-  if (flow == null || !flow.isVisible || !isCurrentModal) {
+  if (flow == null || !isCurrentModal) {
     return null
   }
 
-  flow.start()
-  step.start()
+  const shouldForceMount = forceMount && flow.isTargeted
 
+  if (!flow.isVisible && !shouldForceMount) {
+    return null
+  }
+
+  if (!flow.isCompleted && !flow.isSkipped) {
+    flow.start()
+    step.start()
+  }
   const ContainerElement = as ?? Box
 
   return (

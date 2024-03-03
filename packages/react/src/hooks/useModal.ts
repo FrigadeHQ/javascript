@@ -3,12 +3,12 @@ import { useContext, useEffect, useState } from 'react'
 import { FrigadeContext } from '../components/Provider'
 import { Flow } from '@frigade/js'
 
-export function useModal(flow: Flow) {
+export function useModal(flow: Flow, isModal: boolean = true) {
   const { currentModal, modals, setModals } = useContext(FrigadeContext)
   const [isCurrentModal, setIsCurrentModal] = useState(false)
 
   useEffect(() => {
-    if (flow?.isVisible && flow && !modals.has(flow.id)) {
+    if (isModal && flow?.isVisible && flow && !modals.has(flow.id)) {
       setModals((prevModals) => new Set(prevModals).add(flow.id))
     }
   }, [flow?.id, flow?.isVisible])
@@ -16,12 +16,13 @@ export function useModal(flow: Flow) {
   useEffect(() => {
     const newIsCurrentModal = currentModal === flow?.id
 
-    if (flow?.id != null && newIsCurrentModal !== isCurrentModal) {
+    if (isModal && flow?.id != null && newIsCurrentModal !== isCurrentModal) {
       setIsCurrentModal(newIsCurrentModal)
     }
   }, [flow?.id, currentModal])
 
   function removeModal() {
+    if (!isModal) return
     if (modals.has(flow?.id)) {
       setModals((prevModals) => {
         const nextModals = new Set(prevModals)
@@ -33,7 +34,7 @@ export function useModal(flow: Flow) {
   }
 
   return {
-    isCurrentModal,
+    isCurrentModal: isCurrentModal || !isModal,
     removeModal,
   }
 }

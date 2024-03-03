@@ -124,3 +124,5 @@ Dialog.Title = ({ children, ...props }: TextProps) => {
     </RadixDialog.Title>
   )
 }
+
+Dialog.displayName = 'Dialog'
