@@ -65,7 +65,6 @@ export function Flow({
   }
 
   if (!flow.isCompleted && !flow.isSkipped) {
-    flow.start()
     step.start()
   }
   const ContainerElement = as ?? Box

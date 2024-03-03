@@ -11,7 +11,7 @@ import {
   STARTED_STEP,
 } from '../shared/utils'
 import { FlowStep } from './flow-step'
-import { Fetchable } from '../shared/Fetchable'
+import { Fetchable } from '../shared/fetchable'
 
 export class Flow extends Fetchable {
   /**

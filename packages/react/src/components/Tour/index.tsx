@@ -28,8 +28,6 @@ export function Tour({ flowId, onComplete, variables, ...props }: TourProps) {
     return null
   }
 
-  flow.start()
-
   const step = flow.getCurrentStep()
   step?.start()
 

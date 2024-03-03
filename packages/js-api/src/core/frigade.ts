@@ -3,7 +3,7 @@ import { clearCache, cloneFlow, GUEST_PREFIX, isWeb, resetAllLocalStorage } from
 import { Flow } from './flow'
 import { FlowDataRaw, FlowStatus, TriggerType } from './types'
 import { frigadeGlobalState, getGlobalStateKey } from '../shared/state'
-import { Fetchable } from '../shared/Fetchable'
+import { Fetchable } from '../shared/fetchable'
 
 export class Frigade extends Fetchable {
   /**
@@ -72,8 +72,6 @@ export class Frigade extends Fetchable {
     }
 
     this.initPromise = (async () => {
-      await this.refreshUserFlowStates()
-      await this.refreshFlows()
       if (this.config.userId && !this.config.userId?.startsWith(GUEST_PREFIX)) {
         await this.fetch('/users', {
           method: 'POST',
@@ -82,6 +80,8 @@ export class Frigade extends Fetchable {
           }),
         })
       }
+      await this.refreshUserFlowStates()
+      await this.refreshFlows()
     })()
 
     return this.initPromise
@@ -225,7 +225,8 @@ export class Frigade extends Fetchable {
    * Event handler that captures all changes that happen to the state of the Flows.
    * @param handler
    */
-  public onStateChange(handler: (flow: Flow, previousFlow?: Flow) => void) {
+  public async onStateChange(handler: (flow: Flow, previousFlow?: Flow) => void) {
+    await this.initIfNeeded()
     this.getGlobalState().onFlowStateChangeHandlers.push(handler)
   }
 
