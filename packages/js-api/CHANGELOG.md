@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.2.28
+
+### Patch Changes
+
+- 3cff936: Fixes a race condition that could occur when initializing Frigade
+
 ## 0.2.27
 
 ### Patch Changes
