@@ -58,7 +58,7 @@ export function Flow({
     return null
   }
 
-  const shouldForceMount = forceMount && flow.isTargeted
+  const shouldForceMount = forceMount && flow.isCompleted
 
   if (!flow.isVisible && !shouldForceMount) {
     return null

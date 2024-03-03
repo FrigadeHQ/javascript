@@ -58,7 +58,7 @@ export class Flow extends Fetchable {
    */
   public isVisible: boolean = false
   /**
-   * Whether the Flow targeting logic/audience mathces the current user/group.
+   * Whether the Flow targeting logic/audience matches the current user/group.
    */
   public isTargeted: boolean = false
   /**
@@ -120,7 +120,7 @@ export class Flow extends Fetchable {
     if (this.flowDataRaw.active === false) {
       this.isVisible = false
     }
-    this.isTargeted = targetingShouldHideFlow === false
+    this.isTargeted = !flowDataRaw.targetingLogic ? true : targetingShouldHideFlow === false
 
     const newSteps = new Map<string, FlowStep>()
 
