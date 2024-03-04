@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.2.30
+
+### Patch Changes
+
+- ffa18ec: Adds a missing null check to event handlers
+
 ## 0.2.29
 
 ### Patch Changes
