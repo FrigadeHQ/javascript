@@ -1,5 +1,5 @@
 import { generateGuestId, getEmptyResponse, getHeaders, gracefulFetch } from './utils'
-import { FrigadeConfig } from '../types'
+import { FrigadeConfig } from '../core/types'
 import { frigadeGlobalState, FrigadeGlobalState, getGlobalStateKey } from './state'
 
 export class Fetchable {

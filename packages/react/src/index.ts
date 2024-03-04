@@ -15,7 +15,7 @@ export { Text, type TextProps } from './components/Text'
 export { Tooltip, type TooltipProps } from './components/Tooltip'
 export { Tour, type TourProps } from './components/Tour'
 
-export { Flow, Frigade, FlowType, FlowStep } from '@frigade/js'
+export * from '@frigade/js'
 export { themeVariables } from './shared/theme'
 
 export { useBoundingClientRect } from './hooks/useBoundingClientRect'

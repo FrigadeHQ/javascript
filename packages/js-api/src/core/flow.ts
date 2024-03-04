@@ -1,5 +1,4 @@
-import { FrigadeConfig, UserFlowState } from '../types'
-import { FlowDataRaw } from './types'
+import { FlowDataRaw, FlowStep, FrigadeConfig, UserFlowState } from './types'
 import {
   clone,
   COMPLETED_FLOW,
@@ -10,7 +9,6 @@ import {
   STARTED_FLOW,
   STARTED_STEP,
 } from '../shared/utils'
-import { FlowStep } from './flow-step'
 import { Fetchable } from '../shared/fetchable'
 
 export class Flow extends Fetchable {

@@ -1,6 +1,5 @@
-import { FrigadeConfig, UserFlowState } from '../types'
+import { FlowStep, FrigadeConfig, UserFlowState } from '../core/types'
 import { Flow } from '../core/flow'
-import { FlowStep } from '../core/flow-step'
 
 export interface FrigadeGlobalState {
   refreshUserFlowStates: () => Promise<void>
