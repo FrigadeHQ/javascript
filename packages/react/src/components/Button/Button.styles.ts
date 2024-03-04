@@ -1,6 +1,7 @@
 const base = {
-  borderWidth: '0',
+  borderWidth: 'md',
   borderRadius: 'md',
+  borderStyle: 'solid',
   display: 'flex',
   gap: '2',
   padding: '2 4',
@@ -9,6 +10,7 @@ const base = {
 export const Primary = {
   ...base,
   backgroundColor: 'primary.surface',
+  borderColor: 'primary.border',
   color: 'primary.foreground',
 
   'backgroundColor:hover': 'primary.hover.surface',
@@ -22,8 +24,6 @@ export const Secondary = {
 
   backgroundColor: 'secondary.background',
   borderColor: 'secondary.border',
-  borderStyle: 'solid',
-  borderWidth: '1px',
   color: 'secondary.foreground',
 
   'backgroundColor:hover': 'secondary.hover.background',
@@ -36,6 +36,7 @@ export const Link = {
   ...base,
 
   backgroundColor: 'transparent',
+  borderColor: 'transparent',
   color: 'primary.surface',
 
   'color:hover': 'primary.hover.surface',
@@ -45,5 +46,6 @@ export const Plain = {
   ...base,
 
   backgroundColor: 'transparent',
+  borderColor: 'transparent',
   color: 'neutral.foreground',
 }

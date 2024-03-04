@@ -32,7 +32,6 @@ export function Dialog({ children, ...props }: DialogProps) {
               p={8}
               part="dialog"
               position="fixed"
-              textAlign="center"
               top="50%"
               transform="translate(-50%, -50%)"
               {...props}

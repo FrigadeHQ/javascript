@@ -6,7 +6,7 @@ export interface AnnouncementProps extends FlowPropsWithoutChildren, DialogProps
 
 export function Announcement({ flowId, ...props }: AnnouncementProps) {
   return (
-    <Flow as={Dialog} dismissible={true} flowId={flowId} {...props}>
+    <Flow as={Dialog} dismissible={true} flowId={flowId} textAlign="center" {...props}>
       {({
         flow,
         handleDismiss,
