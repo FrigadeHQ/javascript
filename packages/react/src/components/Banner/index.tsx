@@ -3,6 +3,7 @@ import { Card } from '@/components/Card'
 import { Flex } from '@/components/Flex'
 import { Flow, type FlowPropsWithoutChildren } from '@/components/Flow'
 import { Text } from '@/components/Text'
+import { Box } from '@/components/Box'
 
 export interface BannerProps extends FlowPropsWithoutChildren {}
 
@@ -23,11 +24,16 @@ export function Banner({ flowId, ...props }: BannerProps) {
         <>
           <Flex.Row gap={3}>
             {step.imageUri && (
-              <img src={step.imageUri} style={{ height: 40, width: 40, alignSelf: 'center' }} />
+              <Box
+                as="img"
+                part="image"
+                src={step.imageUri}
+                style={{ height: 40, width: 40, alignSelf: 'center' }}
+              />
             )}
             <Flex.Column>
-              <Text.H4 mb={1}>{step.title}</Text.H4>
-              <Text.Body2 color="gray500">{step.subtitle}</Text.Body2>
+              <Text.H4 part="title">{step.title}</Text.H4>
+              <Text.Body2 part="subtitle">{step.subtitle}</Text.Body2>
             </Flex.Column>
           </Flex.Row>
 
