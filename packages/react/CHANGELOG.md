@@ -1,5 +1,12 @@
 # @frigade/react
 
+## 2.0.13
+
+### Patch Changes
+
+- 8c266d1: Adds missing class names to banner
+- 084a20a: Bumps to the latest version of @frigade/js
+
 ## 2.0.12
 
 ### Patch Changes
