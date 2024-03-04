@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.2.29
+
+### Patch Changes
+
+- 4bba3c2: Fixes an issue where some exports are missing
+
 ## 0.2.28
 
 ### Patch Changes
