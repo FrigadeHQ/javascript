@@ -8,9 +8,10 @@ export function Bar({ current, total, ...props }: ProgressProps) {
   const barWidth = progressPercent === 0 ? '10px' : `${100 * progressPercent}%`
 
   return (
-    <Box backgroundColor="blue800" borderRadius="md" height="10px" {...props}>
+    <Box part="progress-bar" backgroundColor="blue800" borderRadius="md" height="10px" {...props}>
       <Box
         backgroundColor="primary.surface"
+        part="progress-bar-fill"
         borderRadius="md"
         height="100%"
         style={{
