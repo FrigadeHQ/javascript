@@ -132,7 +132,7 @@ describe('SDK integration test', () => {
       expect(flow.isCompleted).toBeFalsy()
       expect(flow.isStarted).toBeTruthy()
     })
-    frigade.onStateChange(callback1)
+    await frigade.onStateChange(callback1)
     const flow = await frigade.getFlow(testFlowId)
     expect(flow).toBeDefined()
     expect(flow.id).toEqual(testFlowId)
@@ -141,7 +141,7 @@ describe('SDK integration test', () => {
     await flow.getStepByIndex(0).complete()
     expect(flow.isCompleted).toBeFalsy()
     expect(callback1).toHaveBeenCalled()
-    frigade.removeStateChangeHandler(callback1)
+    await frigade.removeStateChangeHandler(callback1)
 
     const callback2 = jest.fn((flow) => {
       if (flow.id != testFlowId) {
@@ -164,12 +164,12 @@ describe('SDK integration test', () => {
       userId: getRandomID(),
     })
     const callback = jest.fn(() => {})
-    frigade.onStateChange(callback)
+    await frigade.onStateChange(callback)
     const flow = await frigade.getFlow(testFlowId)
     expect(flow).toBeDefined()
     expect(flow.id).toEqual(testFlowId)
     expect(flow.isCompleted).toBeFalsy()
-    frigade.removeStateChangeHandler(callback)
+    await frigade.removeStateChangeHandler(callback)
     await flow.complete()
     expect(flow.isCompleted).toBeTruthy()
     expect(callback).toHaveBeenCalledTimes(0)

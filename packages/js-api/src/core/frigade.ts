@@ -247,7 +247,8 @@ export class Frigade extends Fetchable {
    * Removes the given handler from the list of event handlers.
    * @param handler
    */
-  public removeStateChangeHandler(handler: (flow: Flow, previousFlow?: Flow) => void) {
+  public async removeStateChangeHandler(handler: (flow: Flow, previousFlow?: Flow) => void) {
+    await this.initIfNeeded()
     this.getGlobalState().onFlowStateChangeHandlers =
       this.getGlobalState().onFlowStateChangeHandlers.filter((h) => h !== handler)
   }
