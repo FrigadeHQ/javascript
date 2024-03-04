@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.2.31
+
+### Patch Changes
+
+- e934134: Name specific exports to avoid nextjs errors
+
 ## 0.2.30
 
 ### Patch Changes
