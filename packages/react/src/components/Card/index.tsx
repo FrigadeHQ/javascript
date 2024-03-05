@@ -10,7 +10,7 @@ import { FlowCard } from './FlowCard'
 import { Media, type MediaProps } from '../Media'
 import { Text, type TextProps } from '../Text'
 
-interface CardComponent
+export interface CardComponent
   extends ForwardRefExoticComponent<
     Omit<FlowPropsWithoutChildren, 'ref'> & RefAttributes<unknown>
   > {
