@@ -18,7 +18,11 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+
+    "paths": {
+      "@/*": ["../../packages/react/src/*"]
+    }
   },
   "include": ["src", ".storybook"],
   "references": [{ "path": "./tsconfig.node.json" }]

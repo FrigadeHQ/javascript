@@ -1,5 +1,6 @@
 import { keyframes } from '@emotion/react'
-import { Box, BoxProps } from '../Box'
+
+import { Box, type BoxProps } from '@/components/Box'
 
 const pulse = keyframes({
   '0%': {
