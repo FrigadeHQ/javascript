@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.2.32
+
+### Patch Changes
+
+- 8b3f6cf: Adds optimistic writes to skips
+
 ## 0.2.31
 
 ### Patch Changes
