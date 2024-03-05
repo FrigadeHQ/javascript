@@ -1,9 +1,9 @@
-import { Card } from '@/components/Card'
 import { Form, type FormProps } from '@/components/Form'
 
 import { NPSField } from './NPSField'
+import { Modal } from '@/components/Modal'
 
-export function NPS({ as = Card, flowId, fieldTypes, ...props }: FormProps) {
+export function NPS({ as = Modal, flowId, fieldTypes, ...props }: FormProps) {
   return (
     <Form
       as={as}
@@ -15,6 +15,7 @@ export function NPS({ as = Card, flowId, fieldTypes, ...props }: FormProps) {
       maxWidth="auto"
       minWidth="min-content"
       width="50vw"
+      align="bottom"
       {...props}
     />
   )

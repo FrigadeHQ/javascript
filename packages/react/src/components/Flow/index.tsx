@@ -44,7 +44,8 @@ export function Flow({
     onSecondary,
   })
 
-  const isModal = as && typeof as === 'function' && as.displayName === 'Dialog'
+  const isModal =
+    as && typeof as === 'function' && (as.displayName === 'Dialog' || as.displayName === 'Modal')
 
   const { isCurrentModal, removeModal } = useModal(flow, isModal)
 

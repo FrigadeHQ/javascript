@@ -1,4 +1,5 @@
-import { Dialog, Survey } from "@frigade/react";
+import { Box, Survey } from "@frigade/react";
+import { StoryContext, StoryFn } from "@storybook/react";
 
 export default {
   title: "Components/Survey",
@@ -7,8 +8,16 @@ export default {
 
 export const NPS = {
   args: {
-    as: Dialog,
     dismissible: true,
-    flowId: "flow_R7MOhuQ6FpjMQlan",
   },
+  decorators: [
+    (_: StoryFn, options: StoryContext) => {
+      return (
+        <>
+          <Box backgroundColor="blue">Other elements on the page</Box>
+          <Survey.NPS flowId="flow_R7MOhuQ6FpjMQlan" {...options.args} />
+        </>
+      );
+    },
+  ],
 };
