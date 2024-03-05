@@ -49,28 +49,19 @@ export function Modal({ children, align, ...props }: ModalProps) {
   }
 
   return (
-    <RadixDialog.Root defaultOpen={true} modal={true}>
-      <RadixDialog.Portal>
-        <Box inset="0" position="fixed" zIndex="9999" width="100vw" height="100vh">
-          <RadixDialog.Content
-            asChild
-            onOpenAutoFocus={(e) => e.preventDefault()}
-            onPointerDownOutside={(e) => e.preventDefault()}
-          >
-            <Card
-              boxShadow="md"
-              p={8}
-              part="modal"
-              {...getPositionArgs()}
-              {...props}
-              position="fixed"
-            >
-              {children}
-            </Card>
-          </RadixDialog.Content>
-        </Box>
-      </RadixDialog.Portal>
-    </RadixDialog.Root>
+    <Box inset="0" position="fixed" zIndex="9999" width="100vw" height="100vh" pointerEvents="none">
+      <Card
+        boxShadow="md"
+        p={8}
+        part="modal"
+        {...getPositionArgs()}
+        {...props}
+        position="fixed"
+        pointerEvents="all"
+      >
+        {children}
+      </Card>
+    </Box>
   )
 }
 

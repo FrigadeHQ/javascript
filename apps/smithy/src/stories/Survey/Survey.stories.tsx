@@ -14,7 +14,9 @@ export const NPS = {
     (_: StoryFn, options: StoryContext) => {
       return (
         <>
-          <Box backgroundColor="blue">Other elements on the page</Box>
+          <Box backgroundColor="blue" height="500px">
+            Other elements on the page
+          </Box>
           <Survey.NPS
             flowId="flow_R7MOhuQ6FpjMQlan"
             align="bottom-right"
