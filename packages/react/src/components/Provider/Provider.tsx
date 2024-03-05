@@ -1,11 +1,5 @@
-import {
-  createContext,
-  type Dispatch,
-  type SetStateAction,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react'
+import { Frigade } from '@frigade/js'
+import { useEffect, useMemo, useState } from 'react'
 import { Global, ThemeProvider } from '@emotion/react'
 
 import {
@@ -14,9 +8,10 @@ import {
   type Theme,
   themeVariables,
 } from '../../shared/theme'
-import { Frigade } from '@frigade/js'
 
-type NavigateHandler = (url: string, target?: string) => void
+import { FrigadeContext } from './FrigadeContext'
+
+export type NavigateHandler = (url: string, target?: string) => void
 
 // TODO: type theme something like Partial<typeof themeTokens>, but allow any value for those keys
 export interface ProviderProps {
@@ -59,21 +54,6 @@ export interface ProviderProps {
    */
   __flowConfigOverrides?: Record<string, string>
 }
-
-interface ProviderContext extends Omit<ProviderProps, 'children' | 'theme'> {
-  modals: Set<string>
-  setModals: Dispatch<SetStateAction<Set<string>>>
-  currentModal: string | null
-  frigade?: Frigade
-}
-
-export const FrigadeContext = createContext<ProviderContext>({
-  apiKey: '',
-  modals: new Set(),
-  setModals: () => {},
-  currentModal: null,
-  navigate: () => {},
-})
 
 export function Provider({ children, navigate, theme, ...props }: ProviderProps) {
   const themeOverrides = theme ? createThemeVariables(theme) : {}
