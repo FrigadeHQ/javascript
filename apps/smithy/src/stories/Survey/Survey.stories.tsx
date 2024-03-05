@@ -15,7 +15,11 @@ export const NPS = {
       return (
         <>
           <Box backgroundColor="blue">Other elements on the page</Box>
-          <Survey.NPS flowId="flow_R7MOhuQ6FpjMQlan" {...options.args} />
+          <Survey.NPS
+            flowId="flow_R7MOhuQ6FpjMQlan"
+            align="bottom-right"
+            {...options.args}
+          />
         </>
       );
     },

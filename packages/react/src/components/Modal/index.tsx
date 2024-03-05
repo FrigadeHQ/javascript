@@ -59,8 +59,6 @@ export function Modal({ children, align, ...props }: ModalProps) {
           >
             <Card
               boxShadow="md"
-              left="50%"
-              maxWidth="430px"
               p={8}
               part="modal"
               {...getPositionArgs()}

@@ -12,9 +12,8 @@ export function NPS({ as = Modal, flowId, fieldTypes, ...props }: FormProps) {
         nps: NPSField,
         ...fieldTypes,
       }}
-      maxWidth="auto"
-      minWidth="min-content"
-      width="50vw"
+      minWidth="620px"
+      width="620px"
       align="bottom"
       {...props}
     />

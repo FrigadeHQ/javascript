@@ -7,7 +7,7 @@ export function NPSField({ field }) {
     return <Component borderWidth="1px" key={i} onClick={() => field.onChange(i)} title={`${i}`} />
   })
   return (
-    <Flex.Row gap={2} justifyContent="center" part="field-nps">
+    <Flex.Row gap={2} justifyContent="space-between" part="field-nps">
       {buttons}
     </Flex.Row>
   )
