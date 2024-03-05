@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.0.19
+
+### Patch Changes
+
+- 919581e: Removes redundant radix props that freezes up the page when using NPS Survey
+
 ## 2.0.18
 
 ### Patch Changes
