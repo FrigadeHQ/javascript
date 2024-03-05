@@ -378,9 +378,26 @@ export class Flow extends Fetchable {
   }
 
   /**
+   * @ignore
+   */
+  private optimisticallyMarkFlowSkipped() {
+    this.isSkipped = true
+    const copy = clone(this.getGlobalState().userFlowStates[this.id])
+    copy.flowState = SKIPPED_FLOW
+    this.getGlobalState().userFlowStates[this.id] = copy
+    this.isVisible = false
+  }
+
+  /**
    * Marks the flow skipped
    */
   public async skip(properties?: Record<string | number, any>) {
+    if (this.isSkipped) {
+      return
+    }
+
+    this.optimisticallyMarkFlowSkipped()
+
     await this.fetch('/flowResponses', {
       method: 'POST',
       body: JSON.stringify({
