@@ -1,5 +1,12 @@
 # @frigade/react
 
+## 2.0.16
+
+### Patch Changes
+
+- 15465da: Adds the NPS Survey component
+- 8454f44: Adds class name selectors on progress dots
+
 ## 2.0.15
 
 ### Patch Changes
