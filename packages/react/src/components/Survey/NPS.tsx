@@ -1,11 +1,12 @@
+import { Dialog } from '@/components/Dialog'
 import { Form, type FormProps } from '@/components/Form'
 
 import { NPSField } from './NPSField'
-import { Modal } from '@/components/Modal'
 
-export function NPS({ as = Modal, flowId, fieldTypes, ...props }: FormProps) {
+export function NPS({ as = Dialog, flowId, fieldTypes, ...props }: FormProps) {
   return (
     <Form
+      alignSelf="end"
       as={as}
       flowId={flowId}
       fieldTypes={{
@@ -13,8 +14,8 @@ export function NPS({ as = Modal, flowId, fieldTypes, ...props }: FormProps) {
         ...fieldTypes,
       }}
       minWidth="620px"
+      modal={false}
       width="620px"
-      align="bottom"
       {...props}
     />
   )

@@ -7,34 +7,60 @@ import { Card } from '../Card'
 import { Media, MediaProps } from '../Media'
 import { Text, TextProps } from '../Text'
 
+import { mapDialogProps } from './mapDialogProps'
+
 import { theme } from '../../shared/theme'
 
-export interface DialogProps extends BoxProps {}
+interface MergedRadixDialogProps
+  extends RadixDialog.DialogProps,
+    Pick<
+      RadixDialog.DialogContentProps,
+      | 'onOpenAutoFocus'
+      | 'onCloseAutoFocus'
+      | 'onEscapeKeyDown'
+      | 'onPointerDownOutside'
+      | 'onInteractOutside'
+    > {}
 
-// TODO: Add any RadixDialog props we want to support here
-export function Dialog({ children, ...props }: DialogProps) {
+export interface DialogProps extends BoxProps, MergedRadixDialogProps {}
+
+export function Dialog({ children, className, modal = true, ...props }: DialogProps) {
+  const { rootProps, contentProps, otherProps } = mapDialogProps(props)
+
   return (
-    <RadixDialog.Root defaultOpen={true} modal={true}>
+    <RadixDialog.Root defaultOpen={true} modal={modal} {...rootProps}>
       <RadixDialog.Portal>
-        <Box inset="0" position="fixed" zIndex="9999">
+        <Box
+          className={className}
+          display="grid"
+          inset="0"
+          padding="6"
+          pointerEvents="none"
+          position="fixed"
+        >
           <RadixDialog.Overlay asChild>
-            <Box background="rgb(0 0 0 / 0.5)" part="dialog-overlay" position="fixed" inset="0" />
+            <Box
+              background="rgb(0 0 0 / 0.5)"
+              inset="0"
+              part="dialog-overlay"
+              position="absolute"
+            />
           </RadixDialog.Overlay>
           <RadixDialog.Content
             asChild
             onOpenAutoFocus={(e) => e.preventDefault()}
             onPointerDownOutside={(e) => e.preventDefault()}
+            {...contentProps}
           >
             <Card
+              alignSelf="center"
               boxShadow="md"
-              left="50%"
+              justifySelf="center"
               maxWidth="430px"
               p={8}
               part="dialog"
-              position="fixed"
-              top="50%"
-              transform="translate(-50%, -50%)"
-              {...props}
+              pointerEvents="auto"
+              {...otherProps}
             >
               {children}
             </Card>
