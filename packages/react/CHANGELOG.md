@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.0.17
+
+### Patch Changes
+
+- a4d4190: Fixes the Survey.NPS to not be a full screen modal
+
 ## 2.0.16
 
 ### Patch Changes
