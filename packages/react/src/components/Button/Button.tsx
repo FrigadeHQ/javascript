@@ -1,4 +1,4 @@
-import { Box, BoxProps } from '../Box'
+import { Box, type BoxProps } from '../Box'
 import { Text } from '../Text'
 
 import * as styles from './Button.styles'
@@ -53,4 +53,7 @@ const buttonVariantComponents = Object.fromEntries(
   })
 )
 
-export const Button = Object.assign(BaseButton, buttonVariantComponents)
+export const Primary = buttonVariantComponents['Primary']
+export const Secondary = buttonVariantComponents['Secondary']
+export const Link = buttonVariantComponents['Link']
+export const Plain = buttonVariantComponents['Plain']
