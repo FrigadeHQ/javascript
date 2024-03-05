@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.0.18
+
+### Patch Changes
+
+- 66c087b: Fixes the default styling of the NPS Component when positioning in corners
+
 ## 2.0.17
 
 ### Patch Changes
