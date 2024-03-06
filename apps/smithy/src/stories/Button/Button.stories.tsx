@@ -1,8 +1,10 @@
 import { Box, Button } from "@frigade/react";
 
+const buttonVariants = ["Primary", "Secondary", "Link", "Plain"] as const;
+
 export default {
   title: "Design System/Button",
-  component: Button,
+  component: Button.Primary,
 };
 
 export const Default = {
@@ -24,7 +26,7 @@ export const Variants = {
       <Box
         style={{ display: "inline-flex", flexDirection: "column", gap: "12px" }}
       >
-        {Object.keys(Button).map((variant) => {
+        {buttonVariants.map((variant) => {
           const Component = Button[variant];
           return <Component key={variant} title={`Button.${variant}`} />;
         })}

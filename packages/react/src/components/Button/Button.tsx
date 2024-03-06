@@ -3,8 +3,7 @@ import { Text } from '../Text'
 
 import * as styles from './Button.styles'
 
-// TODO: Generate this type from buttonVariantNames
-type ButtonVariant = 'Primary' | 'Secondary' | 'Link' | 'Plain'
+export type ButtonVariant = 'Primary' | 'Secondary' | 'Link' | 'Plain'
 
 export interface ButtonProps extends BoxProps {
   title?: string
@@ -35,25 +34,34 @@ function BaseButton({ as, children, part, title, variant = 'Primary', ...props }
   )
 }
 
-const buttonVariantNames: ButtonVariant[] = ['Primary', 'Secondary', 'Link', 'Plain']
+export function Primary({ children, ...props }: ButtonProps) {
+  return (
+    <BaseButton {...props} variant="Primary">
+      {children}
+    </BaseButton>
+  )
+}
 
-const buttonVariantComponents = Object.fromEntries(
-  buttonVariantNames.map((variant) => {
-    const component = (props: ButtonProps) => {
-      return (
-        <BaseButton {...props} variant={variant}>
-          {props.children}
-        </BaseButton>
-      )
-    }
+export function Secondary({ children, ...props }: ButtonProps) {
+  return (
+    <BaseButton {...props} variant="Secondary">
+      {children}
+    </BaseButton>
+  )
+}
 
-    component.displayName = `Button.${variant}`
+export function Link({ children, ...props }: ButtonProps) {
+  return (
+    <BaseButton {...props} variant="Link">
+      {children}
+    </BaseButton>
+  )
+}
 
-    return [variant, component]
-  })
-)
-
-export const Primary = buttonVariantComponents['Primary']
-export const Secondary = buttonVariantComponents['Secondary']
-export const Link = buttonVariantComponents['Link']
-export const Plain = buttonVariantComponents['Plain']
+export function Plain({ children, ...props }: ButtonProps) {
+  return (
+    <BaseButton {...props} variant="Plain">
+      {children}
+    </BaseButton>
+  )
+}

@@ -29,17 +29,10 @@
   ],
   "exports": {
     ".": {
+      "development": "./src/index.ts",
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
-      "require": "./dist/index.cjs",
-      "types": "./dist/index.d.ts"
-    },
-    "./css": {
-      "import": "./dist/index.css",
-      "require": "./dist/index.css"
-    },
-    "./src/": {
-      "import": "./src/",
-      "require": "./src/"
+      "require": "./dist/index.cjs"
     }
   },
   "files": [
