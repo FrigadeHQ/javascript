@@ -1,5 +1,5 @@
 import { Checklist, Tour, useUser } from "@frigade/react";
-import { StoryContext, StoryFn } from "@storybook/react";
+import type { StoryContext, StoryFn } from "@storybook/react";
 
 export default {
   title: "Components/Checklist/MutlipleChecklists",
