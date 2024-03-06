@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.0.22
+
+### Patch Changes
+
+- f80cd62: Fixes an issue where hot reloading Frigade caused errors in the console
+
 ## 2.0.21
 
 ### Patch Changes
