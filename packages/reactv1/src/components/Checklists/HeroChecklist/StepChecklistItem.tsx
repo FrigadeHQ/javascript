@@ -1,18 +1,18 @@
-import React, { CSSProperties, FC } from 'react';
-import { CheckBoxRow } from '../../CheckBoxRow';
-import { Appearance, StepData } from '../../../types';
-import { ChecklistStepItem, StepItemSelectedIndicator } from './styled';
-import { getClassName } from '../../../shared/appearance';
+import React, { CSSProperties, FC } from 'react'
+import { CheckBoxRow } from '../../CheckBoxRow'
+import { Appearance, StepData } from '../../../types'
+import { ChecklistStepItem, StepItemSelectedIndicator } from './styled'
+import { getClassName } from '../../../shared/appearance'
 
 interface StepItemProps {
-  data: StepData;
-  index: number;
-  listLength: number;
-  isSelected: boolean;
-  primaryColor: string;
-  style: CSSProperties;
-  onClick: () => void;
-  appearance: Appearance;
+  data: StepData
+  index: number
+  listLength: number
+  isSelected: boolean
+  primaryColor: string
+  style: CSSProperties
+  onClick: () => void
+  appearance: Appearance
 }
 
 export const StepChecklistItem: FC<StepItemProps> = ({
@@ -28,15 +28,15 @@ export const StepChecklistItem: FC<StepItemProps> = ({
     <div
       style={{ position: 'relative', paddingLeft: '0px' }}
       onClick={() => {
-        onClick();
+        onClick()
       }}
     >
       {isSelected && (
         <StepItemSelectedIndicator
           className={getClassName('checklistStepItemSelectedIndicator', appearance)}
-          layoutId="checklist-step-selected"
+          layoutId="checklis-step-selected"
           style={{ backgroundColor: appearance?.theme?.colorPrimary ?? primaryColor }}
-        />
+        ></StepItemSelectedIndicator>
       )}
       <ChecklistStepItem
         className={getClassName('checklistStepItem', appearance)}
@@ -44,17 +44,16 @@ export const StepChecklistItem: FC<StepItemProps> = ({
         appearance={appearance}
         role="listitem"
       >
-        <label style={{ display: 'inline-block', width: '100%' }}> {/* Added label wrapper */}
-          <CheckBoxRow
-            value={data.complete}
-            labelPosition="left"
-            label={data.stepName ?? data.title}
-            style={style}
-            primaryColor={appearance?.theme?.colorPrimary ?? primaryColor}
-            appearance={appearance}
-          />
-        </label>
+        <CheckBoxRow
+          value={data.complete}
+          labelPosition="left"
+          label={data.stepName ?? data.title}
+          aria-label={data.stepName ?? data.title}
+          style={style}
+          primaryColor={appearance?.theme?.colorPrimary ?? primaryColor}
+          appearance={appearance}
+        />
       </ChecklistStepItem>
     </div>
-  );
-};
+  )
+}
