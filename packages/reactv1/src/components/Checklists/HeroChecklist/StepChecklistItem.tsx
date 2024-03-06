@@ -48,6 +48,7 @@ export const StepChecklistItem: FC<StepItemProps> = ({
           value={data.complete}
           labelPosition="left"
           label={data.stepName ?? data.title}
+          aria-label={data.stepName ?? data.title}
           style={style}
           primaryColor={appearance?.theme?.colorPrimary ?? primaryColor}
           appearance={appearance}

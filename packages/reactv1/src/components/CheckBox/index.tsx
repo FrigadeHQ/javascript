@@ -114,6 +114,7 @@ export const CheckBox: FC<CheckBoxProps> = ({
       styleOverrides={checkBoxStyle}
       style={style}
       role="checkbox"
+      aria-checked={value === true} 
       className={mergeClasses(
         getClassName('checkIconContainer', appearance),
         getClassName(

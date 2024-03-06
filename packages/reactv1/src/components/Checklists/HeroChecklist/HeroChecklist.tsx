@@ -184,7 +184,7 @@ const HeroChecklist: FC<FrigadeChecklistProps> = ({
             appearance={appearance}
           />
         </ChecklistHeader>
-        <ChecklistStepsContainer className={getClassName('checklistStepsContainer', appearance)}>
+        <ChecklistStepsContainer role='list' className={getClassName('checklistStepsContainer', appearance)}>
           {steps.map((s: StepData, idx: number) => {
             return (
               <StepChecklistItem
