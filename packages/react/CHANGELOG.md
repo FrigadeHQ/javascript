@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.0.21
+
+### Patch Changes
+
+- 82c8173: Refactors the modal interface of NPS Surveys and other dialogs
+
 ## 2.0.20
 
 ### Patch Changes
