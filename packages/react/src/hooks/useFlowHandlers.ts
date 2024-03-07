@@ -39,7 +39,7 @@ export function useFlowHandlers(flow: Flow, { onComplete, onDismiss }: FlowHandl
           return false
         }
 
-        await flow.skip()
+        flow.skip()
       },
       [flow]
     ),

@@ -28,6 +28,7 @@ export class Fetchable {
     }
 
     return gracefulFetch(`${this.config.apiUrl}${path}`, {
+      keepalive: true,
       ...(options ?? {}),
       ...getHeaders(this.config.apiKey),
     })

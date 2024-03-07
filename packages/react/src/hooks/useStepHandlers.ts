@@ -33,7 +33,7 @@ export function useStepHandlers(step: FlowStep, { onPrimary, onSecondary }: Step
           return false
         }
 
-        await step.complete(properties)
+        step.complete(properties)
 
         if (step.primaryButtonUri != null) {
           navigate(step.primaryButtonUri, step.primaryButtonUriTarget)
@@ -54,7 +54,7 @@ export function useStepHandlers(step: FlowStep, { onPrimary, onSecondary }: Step
         }
 
         // Should there be a step.skip method?
-        await step.complete(properties)
+        step.complete(properties)
 
         if (step.secondaryButtonUri != null) {
           navigate(step.secondaryButtonUri, step.secondaryButtonUriTarget)
