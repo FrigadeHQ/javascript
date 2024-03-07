@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.2.34
+
+### Patch Changes
+
+- f8629a1: Adds keep-alive to requests
+
 ## 0.2.33
 
 ### Patch Changes
