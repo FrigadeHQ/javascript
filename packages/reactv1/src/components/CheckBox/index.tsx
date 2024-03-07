@@ -72,6 +72,7 @@ export interface CheckBoxProps {
   appearance?: Appearance
   className?: string
   style?: React.CSSProperties
+  label?: string
 }
 
 const CheckIconContainer = styled.div`
@@ -87,6 +88,7 @@ export const CheckBox: FC<CheckBoxProps> = ({
   appearance = DefaultAppearance,
   style,
   className,
+  label,
 }) => {
   let checkBoxStyle = getBaseStyle(type as CheckBoxType)
   let stateStyle = getStateStyle(type as CheckBoxType, value)
@@ -114,6 +116,8 @@ export const CheckBox: FC<CheckBoxProps> = ({
       styleOverrides={checkBoxStyle}
       style={style}
       role="checkbox"
+      aria-checked={value === true}
+      aria-label={label}
       className={mergeClasses(
         getClassName('checkIconContainer', appearance),
         getClassName(

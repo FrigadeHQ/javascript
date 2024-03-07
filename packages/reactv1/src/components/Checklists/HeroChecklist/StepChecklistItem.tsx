@@ -34,7 +34,7 @@ export const StepChecklistItem: FC<StepItemProps> = ({
       {isSelected && (
         <StepItemSelectedIndicator
           className={getClassName('checklistStepItemSelectedIndicator', appearance)}
-          layoutId="checklis-step-selected"
+          layoutId="checklist-step-selected"
           style={{ backgroundColor: appearance?.theme?.colorPrimary ?? primaryColor }}
         ></StepItemSelectedIndicator>
       )}

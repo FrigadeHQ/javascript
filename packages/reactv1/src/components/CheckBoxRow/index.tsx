@@ -72,6 +72,7 @@ export const CheckBoxRow: FC<CheckBoxRowProps> = ({
           appearance={appearance}
           value={value}
           type={checkBoxType}
+          label={label}
           primaryColor={primaryColor}
         />
         {labelPosition === 'right' && label && (
