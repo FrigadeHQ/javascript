@@ -2402,7 +2402,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@frigade/js@^0.2.32, @frigade/js@workspace:packages/js-api":
+"@frigade/js@npm:^0.2.34":
+  version: 0.2.34
+  resolution: "@frigade/js@npm:0.2.34"
+  dependencies:
+    cross-fetch: ^4.0.0
+    uuid: ^9.0.0
+  checksum: b47a2129962a10a7280e47c4a21d4771a8b35a0703ee3d2b488b807dd6b48cf5a8b85813415b9d6713151cd65361deb07d231ebdadbebf14e846c96d73e6a157
+  languageName: node
+  linkType: hard
+
+"@frigade/js@workspace:packages/js-api":
   version: 0.0.0-use.local
   resolution: "@frigade/js@workspace:packages/js-api"
   dependencies:
@@ -2435,7 +2445,7 @@ __metadata:
   resolution: "@frigade/react@workspace:packages/react"
   dependencies:
     "@emotion/react": ^11.11.1
-    "@frigade/js": ^0.2.32
+    "@frigade/js": ^0.2.34
     "@heroicons/react": ^2.0.18
     "@radix-ui/react-collapsible": ^1.0.3
     "@radix-ui/react-dialog": ^1.0.5
