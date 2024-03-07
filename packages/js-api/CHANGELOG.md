@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.2.33
+
+### Patch Changes
+
+- 4e3a1a3: Fixes an issue where React Native tries to access localStorage
+
 ## 0.2.32
 
 ### Patch Changes
