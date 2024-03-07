@@ -116,19 +116,19 @@ export const FrigadeNPSSurvey: React.FC<FrigadeNPSSurveyProps> = ({
           className={getClassName('npsNumberButtonContainer', appearance)}
           appearance={appearance}
         >
-          {Array.from(Array(10).keys()).map((i) => (
+          {Array.from(Array(11).keys()).map((i) => (
             <NPSNumberButton
               className={getClassName('npsNumberButton', appearance)}
-              selected={score === i + 1}
+              selected={score === i}
               key={i}
               onClick={async () => {
                 setKeepCompletedFlowOpenDuringSession(flowId)
-                setScore(i + 1)
-                await markStepCompleted(flowId, currentStep.id, { score: i + 1 })
+                setScore(i)
+                await markStepCompleted(flowId, currentStep.id, { score: i })
               }}
               appearance={appearance}
             >
-              {i + 1}
+              {i}
             </NPSNumberButton>
           ))}
         </NPSNumberButtonContainer>

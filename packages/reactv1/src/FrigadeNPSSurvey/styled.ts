@@ -5,14 +5,14 @@ export const NPSSurveyContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: 600px;
+  max-width: 650px;
   padding: 28px 18px;
   box-sizing: border-box;
   align-items: unset;
   background-color: ${(props) => props.appearance.theme.colorBackground};
   position: ${(props) => (props.type == 'modal' ? 'fixed' : 'relative')};
 
-  min-width: 550px;
+  min-width: 600px;
 
   ${(props) =>
     props.type == 'modal'
