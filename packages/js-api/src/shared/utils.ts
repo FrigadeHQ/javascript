@@ -168,5 +168,9 @@ export function fetcher(apiKey: string, path: string, options?: Record<any, any>
 }
 
 export function isWeb() {
-  return typeof window !== 'undefined'
+  return (
+    typeof window !== 'undefined' &&
+    typeof window.document !== 'undefined' &&
+    typeof window.localStorage !== 'undefined'
+  )
 }
