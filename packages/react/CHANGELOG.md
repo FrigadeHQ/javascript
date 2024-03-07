@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.0.23
+
+### Patch Changes
+
+- 321107d: Fixes an issue where navigation handlers waited for network calls
+
 ## 2.0.22
 
 ### Patch Changes
