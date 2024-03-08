@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.0.26
+
+### Patch Changes
+
+- cffe7c8: Fixes an NPE related to variables
+
 ## 2.0.25
 
 ### Patch Changes
