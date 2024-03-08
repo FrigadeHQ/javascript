@@ -52,7 +52,7 @@ export function useFlow(flowId: string, config?: FlowConfig) {
     }
 
     handler(flow)
-  }, [config.variables])
+  }, [config?.variables])
 
   return { flow }
 }
