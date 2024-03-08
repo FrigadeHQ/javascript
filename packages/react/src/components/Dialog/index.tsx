@@ -60,6 +60,7 @@ export function Dialog({ children, className, modal = true, ...props }: DialogPr
               p={8}
               part="dialog"
               pointerEvents="auto"
+              position="relative"
               {...otherProps}
             >
               {children}

@@ -1,5 +1,13 @@
-import { Box, Flex, Tooltip } from "@frigade/react";
+import {
+  Box,
+  Button,
+  Dialog,
+  Flex,
+  Tooltip,
+  type TooltipProps,
+} from "@frigade/react";
 import { StoryContext, StoryFn } from "@storybook/react";
+import { useState } from "react";
 
 export default {
   title: "Design System/Tooltip",
@@ -24,16 +32,46 @@ export default {
   },
 };
 
+function TestTooltip(props: TooltipProps) {
+  return (
+    <Tooltip
+      anchor="#tooltip-anchor"
+      onOpenAutoFocus={(e) => e.preventDefault()}
+      onPointerDownOutside={(e) => e.preventDefault()}
+      onInteractOutside={(e) => e.preventDefault()}
+      {...props}
+    >
+      <Tooltip.Close />
+
+      <Tooltip.Media src="https://placekitten.com/300/150" type="image" />
+
+      <Flex.Column gap={1}>
+        <Tooltip.Title>Title</Tooltip.Title>
+        <Tooltip.Subtitle>Subtitle</Tooltip.Subtitle>
+      </Flex.Column>
+
+      <Flex.Row
+        alignItems="center"
+        gap={3}
+        justifyContent="flex-end"
+        part="tooltip-footer"
+      >
+        <Tooltip.Progress marginRight="auto">0/0</Tooltip.Progress>
+
+        <Tooltip.Secondary title="Secondary" />
+        <Tooltip.Primary title="Primary" />
+      </Flex.Row>
+    </Tooltip>
+  );
+}
+
 export const Default = {
   args: {
     align: "after",
     alignOffset: 0,
-    primaryButtonTitle: "Primary button",
     side: "bottom",
     sideOffset: 0,
     spotlight: false,
-    subtitle: "Subtitle",
-    title: "Title",
   },
   decorators: [
     (_: StoryFn, options: StoryContext) => (
@@ -61,34 +99,50 @@ export const Default = {
           Also not the anchor
         </Box>
 
-        <Tooltip
-          anchor="#tooltip-anchor"
-          onOpenAutoFocus={(e) => e.preventDefault()}
-          onPointerDownOutside={(e) => e.preventDefault()}
-          {...options.args}
-        >
-          <Tooltip.Close />
-
-          <Tooltip.Media src="https://placekitten.com/300/150" type="image" />
-
-          <Flex.Column gap={1}>
-            <Tooltip.Title>Title</Tooltip.Title>
-            <Tooltip.Subtitle>Subtitle</Tooltip.Subtitle>
-          </Flex.Column>
-
-          <Flex.Row
-            alignItems="center"
-            gap={3}
-            justifyContent="flex-end"
-            part="tooltip-footer"
-          >
-            <Tooltip.Progress marginRight="auto">0/0</Tooltip.Progress>
-
-            <Tooltip.Secondary title="Secondary" />
-            <Tooltip.Primary title="Primary" />
-          </Flex.Row>
-        </Tooltip>
+        <TestTooltip {...options.args} />
       </Box>
     ),
+  ],
+};
+
+export const Mutations = {
+  args: {
+    align: "after",
+    alignOffset: 0,
+    side: "bottom",
+    sideOffset: 0,
+    spotlight: false,
+  },
+  decorators: [
+    (_: StoryFn, options: StoryContext) => {
+      const [open, setOpen] = useState(false);
+
+      return (
+        <Box
+          style={{
+            alignItems: "center",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            height: "calc(100vh - 32px)",
+          }}
+        >
+          <Button.Primary
+            title="Open dialog"
+            onClick={() => {
+              setOpen(!open);
+            }}
+          />
+
+          <Dialog open={open}>
+            <Dialog.Dismiss onClick={() => setOpen(false)} />
+            <Dialog.Title id="tooltip-anchor">
+              This is the anchor for the Tooltip
+            </Dialog.Title>
+          </Dialog>
+          <TestTooltip {...options.args} />
+        </Box>
+      );
+    },
   ],
 };

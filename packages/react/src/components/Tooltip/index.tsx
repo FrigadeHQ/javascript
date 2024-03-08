@@ -78,9 +78,71 @@ export function Tooltip({
       anchorRef(anchorQuery)
       anchorVirtualRef.current = anchorQuery
     } else {
-      console.debug(`No anchor found for query: ${anchor}`)
+      console.debug(`[frigade] Tooltip: No anchor found for query: ${anchor}`)
     }
   }, [anchor])
+
+  useEffect(() => {
+    function checkElementForAnchor(element: Element) {
+      if (element.matches(anchor)) {
+        return element
+      }
+
+      const anchorSelector = element.querySelectorAll(anchor)
+
+      if (anchorSelector.length > 0) {
+        return anchorSelector[0]
+      }
+
+      return null
+    }
+
+    const observer = new MutationObserver((mutations) => {
+      for (const mutation of mutations) {
+        if (mutation.type !== 'childList') {
+          continue
+        }
+
+        for (const node of mutation.addedNodes) {
+          if (node.nodeType !== Node.ELEMENT_NODE) {
+            continue
+          }
+
+          const maybeAnchor = checkElementForAnchor(node as Element)
+
+          if (maybeAnchor != null) {
+            anchorRef(maybeAnchor)
+            anchorVirtualRef.current = maybeAnchor
+
+            console.debug('[frigade] Tooltip: MutationObserver added anchor: ', maybeAnchor)
+
+            break
+          }
+        }
+
+        for (const node of mutation.removedNodes) {
+          if (node.nodeType !== Node.ELEMENT_NODE) {
+            continue
+          }
+
+          const maybeAnchor = checkElementForAnchor(node as Element)
+
+          if (maybeAnchor != null) {
+            anchorRef(null)
+            anchorVirtualRef.current = null
+
+            console.debug('[frigade] Tooltip: MutationObserver removed anchor: ', maybeAnchor)
+
+            break
+          }
+        }
+      }
+    })
+
+    observer.observe(document.querySelector('body'), { childList: true, subtree: true })
+
+    return () => observer.disconnect()
+  }, [])
 
   useEffect(() => {
     const { scrollX, scrollY } = window
