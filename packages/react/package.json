@@ -48,7 +48,7 @@
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
-    "@frigade/js": "^0.2.35",
+    "@frigade/js": "^0.2.36",
     "@heroicons/react": "^2.0.18",
     "@radix-ui/react-collapsible": "^1.0.3",
     "@radix-ui/react-dialog": "^1.0.5",
