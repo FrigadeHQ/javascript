@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.2.36
+
+### Patch Changes
+
+- 10ce215: Fixes an issue where babel returned import errors
+
 ## 0.2.35
 
 ### Patch Changes
