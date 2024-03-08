@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.0.25
+
+### Patch Changes
+
+- f7cd1fa: Remove 'Continue' from Cards when passing empty button
+
 ## 2.0.24
 
 ### Patch Changes
