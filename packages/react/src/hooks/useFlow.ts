@@ -46,5 +46,13 @@ export function useFlow(flowId: string, config?: FlowConfig) {
     }
   }, [])
 
+  useEffect(() => {
+    if (!config?.variables || !flow) {
+      return
+    }
+
+    handler(flow)
+  }, [config.variables])
+
   return { flow }
 }
