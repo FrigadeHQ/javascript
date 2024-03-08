@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.2.35
+
+### Patch Changes
+
+- 64dfb7a: Allows for variables to be replaced async
+
 ## 0.2.34
 
 ### Patch Changes
