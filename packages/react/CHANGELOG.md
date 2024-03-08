@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.0.27
+
+### Patch Changes
+
+- c7aa234: Fixes a babel import issue due to ??
+
 ## 2.0.26
 
 ### Patch Changes
