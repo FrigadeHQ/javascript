@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.0.24
+
+### Patch Changes
+
+- 8fec445: Fixes an issue where variables could not be set async. Also fixes an issue where spotlight areas are not clickable
+
 ## 2.0.23
 
 ### Patch Changes
