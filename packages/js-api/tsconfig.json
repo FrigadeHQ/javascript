@@ -5,6 +5,7 @@
     "module": "esnext",
     "types": ["jest"],
     "lib": ["dom", "esnext"],
+    "target": "ES6",
     "declaration": true,
     // output .js.map sourcemap files for consumers
     "sourceMap": true,

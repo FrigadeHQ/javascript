@@ -4,6 +4,7 @@
     "declaration": true,
     // interop between ESM and CJS modules. Recommended by TS
     "esModuleInterop": true,
+    "target": "ES6",
     // error out if import and file system have a casing mismatch. Recommended by TS
     "forceConsistentCasingInFileNames": true,
     // transpile JSX to React.createElement
