@@ -31,7 +31,7 @@ export function FlowCard(props: FlowProps) {
 
           <Flex.Row gap={3} justifyContent="flex-end" part="card-footer">
             <Card.Secondary title={step.secondaryButtonTitle} onClick={handleSecondary} />
-            <Card.Primary title={step.primaryButtonTitle ?? 'Continue'} onClick={handlePrimary} />
+            <Card.Primary title={step.primaryButtonTitle} onClick={handlePrimary} />
           </Flex.Row>
         </>
       )}
