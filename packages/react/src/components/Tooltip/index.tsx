@@ -107,11 +107,12 @@ export function Tooltip({
         <>
           {spotlight && (
             <Box
+              boxShadow="0 0 0 20000px rgb(0 0 0 / 0.5)"
               part="tooltip-spotlight"
+              pointerEvents="none"
               position="absolute"
               style={{
                 borderRadius: anchorRadius,
-                boxShadow: '0 0 0 20000px rgb(0 0 0 / 0.5)',
                 height: anchorRect.height,
                 left: spotlightLeft,
                 top: spotlightTop,
