@@ -28,7 +28,7 @@ export function useStepHandlers(step: FlowStep, { onPrimary, onSecondary }: Step
       async (e, properties) => {
         const continueDefault = await onPrimary?.(step, e)
 
-        if (continueDefault === false) {
+        if (continueDefault === false || !step.autoMarkCompleted) {
           e.preventDefault()
           return false
         }
