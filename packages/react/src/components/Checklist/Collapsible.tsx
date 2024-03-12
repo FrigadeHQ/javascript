@@ -60,8 +60,10 @@ function DefaultCollapsibleStep({
 }: CollapsibleStepProps) {
   const { isBlocked, isCompleted, primaryButtonTitle, secondaryButtonTitle, subtitle, title } = step
 
+  const stepProps = step.props ?? {}
+
   return (
-    <CollapsibleStep.Root open={open} onOpenChange={onOpenChange}>
+    <CollapsibleStep.Root open={open} onOpenChange={onOpenChange} {...stepProps}>
       <CollapsibleStep.Trigger isCompleted={isCompleted} title={title} />
 
       <CollapsibleStep.Content>

@@ -2,7 +2,7 @@ import { keyframes } from '@emotion/react'
 import { ChevronDownIcon } from '@heroicons/react/24/outline'
 import * as Collapsible from '@radix-ui/react-collapsible'
 
-import { Box } from '@/components/Box'
+import { Box, type BoxProps } from '@/components/Box'
 import { Card } from '@/components/Card'
 import { Flex } from '@/components/Flex'
 import { Text } from '@/components/Text'
@@ -109,11 +109,13 @@ export function Content({ children }) {
 
 export function Root({
   children,
-  open = false,
+  disabled = false,
   onOpenChange = () => {},
-}: Collapsible.CollapsibleProps) {
+  open = false,
+  ...props
+}: Collapsible.CollapsibleProps & BoxProps) {
   return (
-    <Collapsible.Root asChild open={open} onOpenChange={onOpenChange}>
+    <Collapsible.Root asChild disabled={disabled} open={open} onOpenChange={onOpenChange}>
       <Card
         borderWidth="md"
         css={{
@@ -122,6 +124,7 @@ export function Root({
           },
         }}
         gap={0}
+        {...props}
       >
         {children}
       </Card>

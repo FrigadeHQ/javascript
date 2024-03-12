@@ -56,6 +56,8 @@ export function FormStep({
   })
   const fields = []
 
+  const stepProps = step.props ?? {}
+
   // TODO: Type for data
   function onPrimarySubmit(
     data: Record<string | number, unknown>,
@@ -86,7 +88,7 @@ export function FormStep({
   })
 
   return (
-    <Flex.Column gap={5} part="form-step">
+    <Flex.Column gap={5} part="form-step" {...stepProps}>
       <Flex.Row
         alignItems="center"
         flexWrap="wrap"

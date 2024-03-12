@@ -1,3 +1,4 @@
+import { Box } from '@/components/Box'
 import { Dialog, type DialogProps } from '@/components/Dialog'
 import { Flex } from '@/components/Flex'
 import { Flow, type FlowPropsWithoutChildren } from '@/components/Flow'
@@ -6,7 +7,14 @@ export interface AnnouncementProps extends FlowPropsWithoutChildren, DialogProps
 
 export function Announcement({ flowId, ...props }: AnnouncementProps) {
   return (
-    <Flow as={Dialog} dismissible={true} flowId={flowId} textAlign="center" {...props}>
+    <Flow
+      as={Dialog}
+      dismissible={true}
+      flowId={flowId}
+      part="announcement"
+      textAlign="center"
+      {...props}
+    >
       {({
         flow,
         handleDismiss,
@@ -14,47 +22,51 @@ export function Announcement({ flowId, ...props }: AnnouncementProps) {
         handleSecondary,
         parentProps: { dismissible },
         step,
-      }) => (
-        <>
-          {dismissible && <Dialog.Dismiss onClick={handleDismiss} />}
-          <Flex.Column gap={1} part="announcement-header">
-            <Dialog.Title>{step.title}</Dialog.Title>
-            <Dialog.Subtitle>{step.subtitle}</Dialog.Subtitle>
-          </Flex.Column>
+      }) => {
+        const stepProps = step.props ?? {}
 
-          <Dialog.Media
-            src={step.videoUri ?? step.imageUri}
-            type={step.videoUri ? 'video' : 'image'}
-            css={{ aspectRatio: '1.5', objectFit: 'cover', width: '100%' }}
-          />
+        return (
+          <Box part="announcement-step" {...stepProps}>
+            {dismissible && <Dialog.Dismiss onClick={handleDismiss} />}
+            <Flex.Column gap={1} part="announcement-header">
+              <Dialog.Title>{step.title}</Dialog.Title>
+              <Dialog.Subtitle>{step.subtitle}</Dialog.Subtitle>
+            </Flex.Column>
 
-          <Dialog.ProgressDots
-            current={flow.getNumberOfCompletedSteps()}
-            total={flow.getNumberOfAvailableSteps()}
-          />
+            <Dialog.Media
+              src={step.videoUri ?? step.imageUri}
+              type={step.videoUri ? 'video' : 'image'}
+              css={{ aspectRatio: '1.5', objectFit: 'cover', width: '100%' }}
+            />
 
-          <Flex.Row
-            css={{
-              '& > button': {
-                flexBasis: '50%',
-                flexGrow: 1,
-              },
-            }}
-            gap={3}
-            part="announcement-footer"
-          >
-            {step.secondaryButtonTitle && (
-              <Dialog.Secondary onClick={handleSecondary} title={step.secondaryButtonTitle} />
-            )}
-            {step.primaryButtonTitle && (
-              <Dialog.Primary
-                onClick={handlePrimary}
-                title={step.primaryButtonTitle ?? 'Continue'}
-              />
-            )}
-          </Flex.Row>
-        </>
-      )}
+            <Dialog.ProgressDots
+              current={flow.getNumberOfCompletedSteps()}
+              total={flow.getNumberOfAvailableSteps()}
+            />
+
+            <Flex.Row
+              css={{
+                '& > button': {
+                  flexBasis: '50%',
+                  flexGrow: 1,
+                },
+              }}
+              gap={3}
+              part="announcement-footer"
+            >
+              {step.secondaryButtonTitle && (
+                <Dialog.Secondary onClick={handleSecondary} title={step.secondaryButtonTitle} />
+              )}
+              {step.primaryButtonTitle && (
+                <Dialog.Primary
+                  onClick={handlePrimary}
+                  title={step.primaryButtonTitle ?? 'Continue'}
+                />
+              )}
+            </Flex.Row>
+          </Box>
+        )
+      }}
     </Flow>
   )
 }

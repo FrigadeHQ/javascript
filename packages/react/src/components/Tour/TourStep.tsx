@@ -30,6 +30,8 @@ export function TourStep({
     onSecondary,
   })
 
+  const stepProps = step.props ?? {}
+
   return (
     <Tooltip
       key={step.id}
@@ -38,6 +40,7 @@ export function TourStep({
       onPointerDownOutside={(e) => e.preventDefault()}
       onInteractOutside={(e) => e.preventDefault()}
       {...props}
+      {...stepProps}
     >
       {dismissible && <Tooltip.Close onClick={handleDismiss} />}
 
