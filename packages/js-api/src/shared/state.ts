@@ -14,6 +14,7 @@ export interface FrigadeGlobalState {
   >
   onFlowStateChangeHandlers: ((flow: Flow, previousFlow: Flow) => void)[]
   previousFlows: Map<string, Flow>
+  variables: Record<string, Record<string, any>>
 }
 
 export let frigadeGlobalState: Record<string, FrigadeGlobalState> = {}

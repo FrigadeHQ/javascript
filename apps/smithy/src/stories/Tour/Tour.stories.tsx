@@ -18,7 +18,7 @@ export const Default = {
       useEffect(() => {
         setTimeout(() => {
           setName("Smeagol");
-        }, 1000);
+        }, 150);
       }, []);
 
       return (

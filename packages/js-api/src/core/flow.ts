@@ -72,10 +72,6 @@ export class Flow extends Fetchable {
    */
   private lastStepUpdate: Map<(step: FlowStep, previousStep: FlowStep) => void, FlowStep> =
     new Map()
-  /**
-   * @ignore
-   */
-  private lastUsedVariables = {}
 
   constructor(config: FrigadeConfig, flowDataRaw: FlowDataRaw) {
     super(config)
@@ -305,8 +301,12 @@ export class Flow extends Fetchable {
     })
     this.steps = newSteps
     // Check if empty object
-    if (Object.keys(this.lastUsedVariables).length > 0) {
-      this.applyVariables(this.lastUsedVariables)
+    if (
+      this.getGlobalState().variables &&
+      this.getGlobalState().variables[this.id] &&
+      Object.keys(this.getGlobalState().variables[this.id]).length > 0
+    ) {
+      this.applyVariables(this.getGlobalState().variables[this.id])
     }
   }
 
@@ -569,7 +569,8 @@ export class Flow extends Fetchable {
       })
     })
 
-    this.lastUsedVariables = variables
+    this.getGlobalState().variables = {}
+    this.getGlobalState().variables[this.id] = variables
   }
 
   /**

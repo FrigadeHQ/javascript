@@ -1,5 +1,5 @@
 import { type Flow } from '@frigade/js'
-import { useContext, useEffect, useState } from 'react'
+import { useCallback, useContext, useEffect, useState } from 'react'
 
 import { FrigadeContext } from '../components/Provider'
 
@@ -12,18 +12,21 @@ export function useFlow(flowId: string, config?: FlowConfig) {
   const [, setRandomString] = useState<string>('')
   const { frigade } = useContext(FrigadeContext)
 
-  const handler = (updatedFlow: Flow) => {
-    if (updatedFlow.id !== flowId) {
-      return
-    }
+  const handler = useCallback(
+    (updatedFlow: Flow) => {
+      if (updatedFlow.id !== flowId) {
+        return
+      }
 
-    if (config?.variables) {
-      updatedFlow.applyVariables(config.variables)
-    }
+      if (config?.variables) {
+        updatedFlow.applyVariables(config.variables)
+      }
 
-    setFlow(updatedFlow)
-    setRandomString(Math.random().toString())
-  }
+      setFlow(updatedFlow)
+      setRandomString(Math.random().toString())
+    },
+    [config?.variables]
+  )
 
   useEffect(() => {
     ;(async () => {
@@ -44,7 +47,7 @@ export function useFlow(flowId: string, config?: FlowConfig) {
     return () => {
       frigade.removeStateChangeHandler(handler)
     }
-  }, [])
+  }, [handler])
 
   useEffect(() => {
     if (!config?.variables || !flow) {

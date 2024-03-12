@@ -297,6 +297,7 @@ export class Frigade extends Fetchable {
         onStepStateChangeHandlerWrappers: new Map(),
         onFlowStateChangeHandlers: [],
         previousFlows: new Map(),
+        variables: {},
       }
 
       if (this.config.__readOnly && this.config.__flowConfigOverrides) {
