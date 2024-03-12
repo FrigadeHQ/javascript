@@ -12,7 +12,7 @@
 <span> · </span>
 <a href="https://github.com/FrigadeHQ">GitHub</a> 
 <span> · </span>
-<a href="https://docs.frigade.com">Docs</a></div>
+<a href="https://docs.frigade.com/v2/sdk/js/quickstart">Docs</a></div>
 
 <br />
 
@@ -56,6 +56,8 @@ await frigade.group('ORGANIZATION_ID', {
 ```
 
 ## API Reference
+
+See [full API Reference](https://docs.frigade.com/v2/sdk/js/quickstart)
 
 #### Get a flow:
 

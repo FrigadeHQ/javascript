@@ -13,7 +13,7 @@
 <span> · </span>
 <a href="https://github.com/FrigadeHQ">GitHub</a> 
 <span> · </span>
-<a href="https://docs.frigade.com">Docs</a></div>
+<a href="https://docs.frigade.com/v2/sdk/quickstart">Docs</a></div>
 
 <br />
 
