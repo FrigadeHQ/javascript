@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.0.29
+
+### Patch Changes
+
+- f66bb0c: Fixes an issue where individual step `props` were not passed from the YAML to the component
+
 ## 2.0.28
 
 ### Patch Changes
