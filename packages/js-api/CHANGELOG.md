@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.2.37
+
+### Patch Changes
+
+- dac5925: Fixes an edge case where customer variables could get flushed
+
 ## 0.2.36
 
 ### Patch Changes
