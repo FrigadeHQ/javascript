@@ -1,4 +1,3 @@
-import { Box } from '@/components/Box'
 import { Dialog, type DialogProps } from '@/components/Dialog'
 import { Flex } from '@/components/Flex'
 import { Flow, type FlowPropsWithoutChildren } from '@/components/Flow'
@@ -26,7 +25,7 @@ export function Announcement({ flowId, ...props }: AnnouncementProps) {
         const stepProps = step.props ?? {}
 
         return (
-          <Box part="announcement-step" {...stepProps}>
+          <Flex.Column gap={5} part="announcement-step" {...stepProps}>
             {dismissible && <Dialog.Dismiss onClick={handleDismiss} />}
             <Flex.Column gap={1} part="announcement-header">
               <Dialog.Title>{step.title}</Dialog.Title>
@@ -64,7 +63,7 @@ export function Announcement({ flowId, ...props }: AnnouncementProps) {
                 />
               )}
             </Flex.Row>
-          </Box>
+          </Flex.Column>
         )
       }}
     </Flow>
