@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.0.28
+
+### Patch Changes
+
+- 09e0b0d: Fixes an issue where Tour components failed to render correctly
+
 ## 2.0.27
 
 ### Patch Changes
