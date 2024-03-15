@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.0.31
+
+### Patch Changes
+
+- ec0425f: Edge case where NPS Survey gets dismissed on outside click
+
 ## 2.0.30
 
 ### Patch Changes
