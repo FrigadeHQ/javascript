@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.0.30
+
+### Patch Changes
+
+- 02c25b9: Updates the look and feel of the NPS Survey component
+
 ## 2.0.29
 
 ### Patch Changes
