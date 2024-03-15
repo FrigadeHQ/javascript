@@ -50,6 +50,7 @@ export function Dialog({ children, className, modal = true, ...props }: DialogPr
             asChild
             onOpenAutoFocus={(e) => e.preventDefault()}
             onPointerDownOutside={(e) => e.preventDefault()}
+            onInteractOutside={(e) => e.preventDefault()}
             {...contentProps}
           >
             <Card

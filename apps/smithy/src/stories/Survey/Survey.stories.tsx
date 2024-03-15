@@ -16,13 +16,13 @@ export const NPS = {
         <Box fontFamily="Arial">
           <Box backgroundColor="blue" height="500px">
             Other elements on the page
+            <Survey.NPS
+              flowId="flow_R7MOhuQ6FpjMQlan"
+              align="bottom-right"
+              fontFamily="Arial"
+              {...options.args}
+            />
           </Box>
-          <Survey.NPS
-            flowId="flow_R7MOhuQ6FpjMQlan"
-            align="bottom-right"
-            fontFamily="Arial"
-            {...options.args}
-          />
         </Box>
       );
     },
