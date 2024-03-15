@@ -16,7 +16,7 @@ export interface FormStepProps extends FlowChildrenProps {
 // NOTE: "validate" is intentionally omitted
 const ruleProps = new Set(['required', 'min', 'max', 'minLength', 'maxLength', 'pattern'])
 
-function FieldWrapper({ fieldComponent: FieldComponent, control, fieldData }) {
+function FieldWrapper({ fieldComponent: FieldComponent, control, fieldData, submit }) {
   // pattern validator comes as a string from YAML, convert it to RegExp
   if (fieldData.pattern != null) {
     if (typeof fieldData.pattern === 'string') {
@@ -39,7 +39,7 @@ function FieldWrapper({ fieldComponent: FieldComponent, control, fieldData }) {
     rules,
   })
 
-  return <FieldComponent {...controller} fieldData={fieldData} />
+  return <FieldComponent {...controller} fieldData={fieldData} submit={submit} />
 }
 
 export function FormStep({
@@ -82,6 +82,7 @@ export function FormStep({
           control={control}
           fieldComponent={fieldTypes[fieldData.type]}
           fieldData={fieldData}
+          submit={handleSubmit(onPrimarySubmit)}
         />
       )
     }

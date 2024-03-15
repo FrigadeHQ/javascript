@@ -2,8 +2,11 @@ import { Dialog } from '@/components/Dialog'
 import { Form, type FormProps } from '@/components/Form'
 
 import { NPSField } from './NPSField'
+import { useFlow } from '@/hooks/useFlow'
 
 export function NPS({ as = Dialog, flowId, fieldTypes, ...props }: FormProps) {
+  const { flow } = useFlow(flowId)
+
   return (
     <Form
       alignSelf="end"
@@ -16,6 +19,12 @@ export function NPS({ as = Dialog, flowId, fieldTypes, ...props }: FormProps) {
       minWidth="620px"
       modal={false}
       width="620px"
+      css={
+        // Hides the submit button on the first page
+        !flow || flow.getCurrentStepIndex() == 0
+          ? { '.fr-form-step-footer': { display: 'none' } }
+          : undefined
+      }
       {...props}
     />
   )

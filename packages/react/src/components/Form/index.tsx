@@ -48,6 +48,10 @@ export interface FormFieldProps {
   fieldData: FormFieldData
   formState: any // eslint-disable-line @typescript-eslint/no-explicit-any
   fieldState: ControllerFieldState
+  /**
+   * Function for submitting the current step of the form.
+   */
+  submit: () => void
 }
 
 export interface FormProps extends FlowPropsWithoutChildren {
