@@ -13,16 +13,17 @@ export const NPS = {
   decorators: [
     (_: StoryFn, options: StoryContext) => {
       return (
-        <>
+        <Box fontFamily="Arial">
           <Box backgroundColor="blue" height="500px">
             Other elements on the page
           </Box>
           <Survey.NPS
             flowId="flow_R7MOhuQ6FpjMQlan"
             align="bottom-right"
+            fontFamily="Arial"
             {...options.args}
           />
-        </>
+        </Box>
       );
     },
   ],
