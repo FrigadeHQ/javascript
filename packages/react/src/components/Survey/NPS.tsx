@@ -20,10 +20,18 @@ export function NPS({ as = Dialog, flowId, fieldTypes, ...props }: FormProps) {
       modal={false}
       width="620px"
       css={
+        {
+          ...(!flow || flow.getCurrentStepIndex() == 0
+            ? { '.fr-form-step-footer': { display: 'none' } }
+            : {}),
+          '.fr-form': {
+            padding: '20px',
+          },
+          '.fr-form-step': {
+            gap: '1',
+          },
+        }
         // Hides the submit button on the first page
-        !flow || flow.getCurrentStepIndex() == 0
-          ? { '.fr-form-step-footer': { display: 'none' } }
-          : undefined
       }
       {...props}
     />

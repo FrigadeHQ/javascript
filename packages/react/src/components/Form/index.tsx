@@ -50,6 +50,7 @@ export interface FormFieldProps {
   fieldState: ControllerFieldState
   /**
    * Function for submitting the current step of the form.
+   * @ignore
    */
   submit: () => void
 }
