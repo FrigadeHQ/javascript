@@ -13,7 +13,7 @@ export const Default = {
   },
   decorators: [
     (_: StoryFn, options: StoryContext) => {
-      const [name, setName] = useState();
+      const [name, setName] = useState<string>();
 
       useEffect(() => {
         setTimeout(() => {

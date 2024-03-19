@@ -180,7 +180,11 @@ export function Tooltip({
                 top: spotlightTop,
                 width: anchorRect.width,
               }}
-              zIndex={props.zIndex}
+              {...(props.zIndex != null
+                ? {
+                    zIndex: props.zIndex,
+                  }
+                : {})}
             />
           )}
           <Popover.Content asChild {...contentProps} ref={contentRef}>

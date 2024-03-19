@@ -112,7 +112,7 @@ export function stylePropsToCss(
     const [propName, pseudo] = getPseudoClass(fullPropName)
     const styleProp = stylePropsMap.get(propName)
 
-    if (styleProp != null) {
+    if (styleProp != null && propValue != null) {
       // Split space-separated values out and process them individually
       if (typeof propValue === 'string' && propValue.indexOf(' ') > -1) {
         const splitPropValues = propValue.split(' ')
