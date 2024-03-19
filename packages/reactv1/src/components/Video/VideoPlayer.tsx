@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { Appearance } from '../../types'
 import { VideoCard } from './VideoCard'
 
-export function VideoPlayer(props: {
+export const VideoPlayer = memo(function VideoPlayer(props: {
   videoUri: string
   autoplay: boolean
   appearance?: Appearance
@@ -18,4 +18,4 @@ export function VideoPlayer(props: {
       hideControls={props.hideControls}
     />
   )
-}
+})
