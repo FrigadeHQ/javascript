@@ -67,7 +67,12 @@ function DefaultCollapsibleStep({
       <CollapsibleStep.Trigger isCompleted={isCompleted} title={title} />
 
       <CollapsibleStep.Content>
-        <Card.Media aspectRatio={2.5} objectFit="cover" src={step.imageUri} />
+        <Card.Media
+          aspectRatio={2.5}
+          objectFit="cover"
+          src={step.videoUri ?? step.imageUri}
+          type={step.videoUri ? 'video' : 'image'}
+        />
         <Card.Subtitle color="gray500">{subtitle}</Card.Subtitle>
         <Flex.Row gap={3}>
           <Card.Secondary
