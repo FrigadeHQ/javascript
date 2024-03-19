@@ -8,7 +8,7 @@ export default {
 export const Default = {
   args: {
     // as: "img",
-    // src: "http://placekitten.com/60/60",
+    // src: "http://placehold.co/60x60",
     height: "60px",
     width: "60px",
     border: "1px solid fuchsia",

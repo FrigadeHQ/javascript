@@ -43,7 +43,7 @@ function TestTooltip(props: TooltipProps) {
     >
       <Tooltip.Close />
 
-      <Tooltip.Media src="https://placekitten.com/300/150" type="image" />
+      <Tooltip.Media src="https://placehold.co/300x150" type="image" />
 
       <Flex.Column gap={1}>
         <Tooltip.Title>Title</Tooltip.Title>
