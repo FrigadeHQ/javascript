@@ -8,7 +8,7 @@ export interface RulesGraphEdge {
   ruleId: string
 }
 
-type RulesGraphRegistryCallback = (visible: boolean) => void
+export type RulesGraphRegistryCallback = (visible: boolean) => void
 
 export type RulesGraphData = [string, RulesGraphNode][]
 

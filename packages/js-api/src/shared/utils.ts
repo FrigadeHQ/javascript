@@ -23,7 +23,11 @@ const POST_CACHE_TTL_MS = 1000
 const LOCAL_STORAGE_PREFIX = 'fr-js-'
 
 export function cloneFlow(flow: Flow): Flow {
-  const newFlow = new Flow(flow.config, flow.rawData)
+  const newFlow = new Flow({
+    config: flow.config,
+    flowDataRaw: flow.rawData,
+    rulesGraph: flow.rulesGraph,
+  })
   newFlow.isCompleted = flow.isCompleted
   newFlow.isStarted = flow.isStarted
   newFlow.isSkipped = flow.isSkipped

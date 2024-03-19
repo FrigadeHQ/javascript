@@ -10,6 +10,7 @@ import {
   STARTED_STEP,
 } from '../shared/utils'
 import { Fetchable } from '../shared/fetchable'
+import { RulesGraph, RulesGraphRegistryCallback } from './rules-graph'
 
 export class Flow extends Fetchable {
   /**
@@ -52,13 +53,32 @@ export class Flow extends Fetchable {
    */
   public isSkipped: boolean
   /**
+   * @ignore
+   */
+  private _isVisible: boolean = false
+  /**
    * Whether the Flow is visible to the user based on the current user/group's state.
    */
-  public isVisible: boolean = false
+  get isVisible() {
+    console.log(
+      'Internal visible: ',
+      this._isVisible,
+      ' graph visible: ',
+      this.rulesGraph.isFlowVisible(this.id)
+    )
+    return this._isVisible
+  }
+  set isVisible(visible: boolean) {
+    this._isVisible = visible
+  }
   /**
    * Whether the Flow targeting logic/audience matches the current user/group.
    */
   public isTargeted: boolean = false
+  /**
+   * @ignore - This is public because it's referenced in cloneFlow in utils.ts
+   */
+  public rulesGraph: RulesGraph
   /**
    * @ignore
    */
@@ -73,10 +93,19 @@ export class Flow extends Fetchable {
   private lastStepUpdate: Map<(step: FlowStep, previousStep: FlowStep) => void, FlowStep> =
     new Map()
 
-  constructor(config: FrigadeConfig, flowDataRaw: FlowDataRaw) {
+  constructor({
+    config,
+    flowDataRaw,
+    rulesGraph,
+  }: {
+    config: FrigadeConfig
+    flowDataRaw: FlowDataRaw
+    rulesGraph: RulesGraph
+  }) {
     super(config)
     this.flowDataRaw = flowDataRaw
     this.initFromRawData(flowDataRaw)
+    this.rulesGraph = rulesGraph
   }
 
   /**
@@ -586,5 +615,13 @@ export class Flow extends Fetchable {
    */
   private async refreshUserFlowState() {
     await this.getGlobalState().refreshUserFlowStates()
+  }
+
+  public register(callback?: RulesGraphRegistryCallback) {
+    this.rulesGraph.register(this.id, callback)
+  }
+
+  public unregister() {
+    this.rulesGraph.unregister(this.id)
   }
 }

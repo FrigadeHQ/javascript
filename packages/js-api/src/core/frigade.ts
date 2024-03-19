@@ -10,6 +10,7 @@ import { clearCache, cloneFlow, GUEST_PREFIX, isWeb, resetAllLocalStorage } from
 import { Flow } from './flow'
 import { frigadeGlobalState, getGlobalStateKey } from '../shared/state'
 import { Fetchable } from '../shared/fetchable'
+import { RulesGraph } from './rules-graph'
 
 export class Frigade extends Fetchable {
   /**
@@ -24,6 +25,11 @@ export class Frigade extends Fetchable {
    * @ignore
    */
   private hasFailed = false
+
+  /**
+   * @ignore
+   */
+  private rulesGraph: RulesGraph
 
   /**
    * @ignore
@@ -48,7 +54,11 @@ export class Frigade extends Fetchable {
       apiKey,
       ...config,
     })
+
     this.init(this.config)
+
+    this.rulesGraph = new RulesGraph([])
+
     if (isWeb()) {
       document.addEventListener('visibilitychange', this.visibilityChangeHandler)
     }
@@ -88,6 +98,9 @@ export class Frigade extends Fetchable {
       }
       await this.refreshUserFlowStates()
       await this.refreshFlows()
+
+      //TODO: Once we have actual rules data from the API, update it here
+      this.rulesGraph.ingestGraphData([])
     })()
 
     return this.initPromise
@@ -365,7 +378,9 @@ export class Frigade extends Fetchable {
     if (flowDataRaw && flowDataRaw.data) {
       let flowDatas = flowDataRaw.data as FlowDataRaw[]
       flowDatas.forEach((flowData) => {
-        this.flows.push(new Flow(this.config, flowData))
+        this.flows.push(
+          new Flow({ config: this.config, flowDataRaw: flowData, rulesGraph: this.rulesGraph })
+        )
         this.getGlobalState().previousFlows.set(
           flowData.slug,
           cloneFlow(this.flows[this.flows.length - 1])
@@ -382,20 +397,24 @@ export class Frigade extends Fetchable {
   private mockFlowConfigs() {
     Object.keys(this.config.__flowConfigOverrides).forEach((flowId) => {
       this.flows.push(
-        new Flow(this.config, {
-          id: -1,
-          name: '',
-          description: '',
-          data: this.config.__flowConfigOverrides[flowId],
-          createdAt: new Date().toISOString(),
-          modifiedAt: new Date().toISOString(),
-          slug: flowId,
-          targetingLogic: '',
-          type: FlowType.CHECKLIST,
-          triggerType: TriggerType.MANUAL,
-          status: FlowStatus.ACTIVE,
-          version: 1,
-          active: true,
+        new Flow({
+          config: this.config,
+          flowDataRaw: {
+            id: -1,
+            name: '',
+            description: '',
+            data: this.config.__flowConfigOverrides[flowId],
+            createdAt: new Date().toISOString(),
+            modifiedAt: new Date().toISOString(),
+            slug: flowId,
+            targetingLogic: '',
+            type: FlowType.CHECKLIST,
+            triggerType: TriggerType.MANUAL,
+            status: FlowStatus.ACTIVE,
+            version: 1,
+            active: true,
+          },
+          rulesGraph: this.rulesGraph,
         })
       )
     })
