@@ -59,19 +59,19 @@ Card.Dismiss = (props: ButtonProps) => {
 }
 
 Card.Media = ({ src, ...props }: MediaProps) => {
-  if (src == null) return null
+  if (src == null || src?.length === 0) return null
 
   return <Media borderRadius="md" src={src} {...props} />
 }
 
 Card.Primary = ({ onClick, title, ...props }: ButtonProps) => {
-  if (title == null) return null
+  if (title == null || title?.length === 0) return null
 
   return <Button.Primary title={title} onClick={onClick} {...props} />
 }
 
 Card.Secondary = ({ onClick, title, ...props }: ButtonProps) => {
-  if (title == null) return null
+  if (title == null || title?.length === 0) return null
 
   return <Button.Secondary title={title} onClick={onClick} {...props} />
 }
@@ -90,8 +90,8 @@ Card.Title = ({ children, ...props }: TextProps) => {
   if (children == null) return null
 
   return (
-    <Text.Body1 display="block" fontWeight="bold" part="title" {...props}>
+    <Text.H4 display="block" part="title" {...props}>
       {children}
-    </Text.Body1>
+    </Text.H4>
   )
 }
