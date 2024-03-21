@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.2.38
+
+### Patch Changes
+
+- f82c401: Allows overriding createdAt for events
+
 ## 0.2.37
 
 ### Patch Changes
