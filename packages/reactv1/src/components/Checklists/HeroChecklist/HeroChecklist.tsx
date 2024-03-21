@@ -196,7 +196,7 @@ const HeroChecklist: FC<FrigadeChecklistProps> = ({
         </ChecklistStepsContainer>
       </ChecklistHeaderContainer>
       <Divider appearance={appearance} className={getClassName('checklistDivider', appearance)} />
-      <HeroChecklistStepContentContainer>
+      <HeroChecklistStepContentContainer data-stepid={`${steps[selectedStepValue].id}`}>
         <StepContent appearance={appearance} stepData={steps[selectedStepValue]} />
       </HeroChecklistStepContentContainer>
     </HeroChecklistContainer>

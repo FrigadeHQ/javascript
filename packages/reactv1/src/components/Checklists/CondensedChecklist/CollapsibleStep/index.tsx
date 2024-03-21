@@ -121,6 +121,7 @@ export const CollapsibleStep: FC<CollapsibleStepProps> = ({
   return (
     <StepContainer
       data-testid={`step-${stepData.id}`}
+      data-stepid={`${stepData.id}`}
       className={getClassName('checklistStepContainer', appearance)}
       appearance={appearance}
     >
