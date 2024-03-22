@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.0.33
+
+### Patch Changes
+
+- 34210f1: Fixes a z-index issue for announcements
+
 ## 2.0.32
 
 ### Patch Changes
