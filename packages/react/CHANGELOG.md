@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.0.32
+
+### Patch Changes
+
+- cc1d50f: Bumps to the latest version of @frigade/js
+
 ## 2.0.31
 
 ### Patch Changes
