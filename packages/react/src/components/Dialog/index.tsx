@@ -11,21 +11,26 @@ import { mapDialogProps } from './mapDialogProps'
 
 import { theme } from '../../shared/theme'
 
-interface MergedRadixDialogProps
-  extends RadixDialog.DialogProps,
-    Pick<
-      RadixDialog.DialogContentProps,
-      | 'onOpenAutoFocus'
-      | 'onCloseAutoFocus'
-      | 'onEscapeKeyDown'
-      | 'onPointerDownOutside'
-      | 'onInteractOutside'
-    > {}
+export interface DialogContentProps
+  extends Pick<
+    RadixDialog.DialogContentProps,
+    | 'onOpenAutoFocus'
+    | 'onCloseAutoFocus'
+    | 'onEscapeKeyDown'
+    | 'onPointerDownOutside'
+    | 'onInteractOutside'
+  > {}
 
-export interface DialogProps extends BoxProps, MergedRadixDialogProps {}
+export interface DialogRootProps extends RadixDialog.DialogProps {}
+
+export interface DialogProps extends BoxProps, DialogRootProps, DialogContentProps {}
 
 export function Dialog({ children, className, modal = true, ...props }: DialogProps) {
-  const { rootProps, contentProps, otherProps } = mapDialogProps(props)
+  const {
+    rootProps,
+    contentProps,
+    otherProps: { zIndex, ...otherProps },
+  } = mapDialogProps(props)
 
   return (
     <RadixDialog.Root defaultOpen={true} modal={modal} {...rootProps}>
@@ -35,8 +40,10 @@ export function Dialog({ children, className, modal = true, ...props }: DialogPr
           display="grid"
           inset="0"
           padding="6"
+          part="dialog-wrapper"
           pointerEvents="none"
           position="fixed"
+          zIndex={zIndex}
         >
           <RadixDialog.Overlay asChild>
             <Box
