@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.0.34
+
+### Patch Changes
+
+- b3c20ca: Fixes the default label styling on forms to be to design spec
+
 ## 2.0.33
 
 ### Patch Changes
