@@ -1,10 +1,10 @@
-import { MouseEvent, useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 
 import { Flow } from '@frigade/js'
 
 export type FlowHandlerProp = (
   flow: Flow,
-  event?: MouseEvent<unknown>
+  event?: MouseEvent | KeyboardEvent
 ) => Promise<boolean | void> | (boolean | void)
 
 export interface FlowHandlerProps {
@@ -12,7 +12,7 @@ export interface FlowHandlerProps {
   onDismiss?: FlowHandlerProp
 }
 
-export type DismissHandler = (e: MouseEvent<unknown>) => Promise<boolean | void>
+export type DismissHandler = (e: MouseEvent | KeyboardEvent) => Promise<boolean | void>
 
 export function useFlowHandlers(flow: Flow, { onComplete, onDismiss }: FlowHandlerProps = {}) {
   const lastCompleted = useRef(null)
@@ -31,7 +31,7 @@ export function useFlowHandlers(flow: Flow, { onComplete, onDismiss }: FlowHandl
 
   return {
     handleDismiss: useCallback<DismissHandler>(
-      async (e: MouseEvent<unknown>) => {
+      async (e: MouseEvent | KeyboardEvent) => {
         const continueDefault = await onDismiss?.(flow, e)
 
         if (continueDefault === false) {

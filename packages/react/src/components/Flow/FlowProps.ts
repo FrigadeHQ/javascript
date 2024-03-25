@@ -14,13 +14,17 @@ export interface FlowProps extends BoxProps {
   /**
    * Whether the Flow is dismissible or not
    *
-   * @defaultValue `true`
    */
   dismissible?: boolean
   /**
    * The Flow ID to render. You can find the Flow ID in the Frigade dashboard.
    */
   flowId: string
+  /**
+   * If true, the Flow will be mounted even if it has already been completed or dismissed.
+   * However, if the user does not match the Flow's targeting, the Flow will not be mounted.
+   */
+  forceMount?: boolean
   /**
    * Handler for when the Flow is completed.
    */
@@ -44,11 +48,6 @@ export interface FlowProps extends BoxProps {
    * For instance, you can use `title: Hello, ${name}!` in the Flow configuration and pass `variables={{name: 'John'}}` to customize the copy.
    */
   variables?: Record<string, unknown>
-  /**
-   * If true, the Flow will be mounted even if it has already been completed or dismissed.
-   * However, if the user does not match the Flow's targeting, the Flow will not be mounted.
-   */
-  forceMount?: boolean
 }
 
 export interface FlowPropsWithoutChildren extends Omit<FlowProps, 'children'> {}

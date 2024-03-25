@@ -10,6 +10,7 @@ export const Default = {
     dismissible: true,
     flowId: "flow_cvWFczn1RMHp9ZcK",
     modal: true,
+    onDismiss: () => console.log("Dismissed"),
   },
 };
 
