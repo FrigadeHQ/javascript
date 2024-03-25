@@ -6,11 +6,9 @@ import type { BoxProps } from '@/components/Box'
 import type { DismissHandler, FlowHandlerProp } from '@/hooks/useFlowHandlers'
 import type { StepHandler, StepHandlerProp } from '@/hooks/useStepHandlers'
 
-export interface FlowProps extends BoxProps {
-  /**
-   * Flow accepts a render function as its only child, whose props are described in FlowChildrenProps
-   */
-  children?: (props: FlowChildrenProps) => ReactNode
+export interface BoxPropsWithoutChildren extends Omit<BoxProps, 'children'> {}
+
+export interface FlowPropsWithoutChildren extends BoxPropsWithoutChildren {
   /**
    * Whether the Flow is dismissible or not
    *
@@ -23,10 +21,12 @@ export interface FlowProps extends BoxProps {
   flowId: string
   /**
    * Handler for when the Flow is completed.
+   * If this function a promise that evaluates to `false`, the Flow will not be marked as completed.
    */
   onComplete?: FlowHandlerProp
   /**
    * Handler for when the Flow is dismissed.
+   * If this function a promise that evaluates to `false`, the Flow will not be marked as dismissed.
    */
   onDismiss?: FlowHandlerProp
   /**
@@ -51,7 +51,12 @@ export interface FlowProps extends BoxProps {
   forceMount?: boolean
 }
 
-export interface FlowPropsWithoutChildren extends Omit<FlowProps, 'children'> {}
+export interface FlowProps extends FlowPropsWithoutChildren {
+  /**
+   * Flow accepts a render function as its only child, whose props are described in FlowChildrenProps
+   */
+  children?: (props: FlowChildrenProps) => ReactNode
+}
 
 export interface FlowChildrenProps {
   flow: FlowType

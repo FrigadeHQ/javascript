@@ -2,7 +2,9 @@ import { Dialog, type DialogProps } from '@/components/Dialog'
 import { Flex } from '@/components/Flex'
 import { Flow, type FlowPropsWithoutChildren } from '@/components/Flow'
 
-export interface AnnouncementProps extends FlowPropsWithoutChildren, DialogProps {}
+export interface AnnouncementProps
+  extends FlowPropsWithoutChildren,
+    Omit<DialogProps, 'children'> {}
 
 export function Announcement({ flowId, ...props }: AnnouncementProps) {
   return (
