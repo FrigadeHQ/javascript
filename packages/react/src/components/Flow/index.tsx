@@ -18,7 +18,6 @@ export type {
 export function Flow({
   as,
   children,
-  container,
   dismissible = false,
   flowId,
   onComplete,
@@ -81,7 +80,6 @@ export function Flow({
         handlePrimary,
         handleSecondary,
         parentProps: {
-          container,
           dismissible,
           flowId,
           variables,
