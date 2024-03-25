@@ -24,7 +24,12 @@ export interface DialogContentProps
 
 export interface DialogRootProps extends RadixDialog.DialogProps {}
 
-export interface DialogProps extends BoxPropsWithoutChildren, DialogRootProps, DialogContentProps {}
+export interface DialogProps extends BoxPropsWithoutChildren, DialogRootProps, DialogContentProps {
+  /**
+   * The modality of the dialog. When set to `true`, interaction with outside elements will be disabled and only dialog content will be visible to screen readers.
+   */
+  modal?: boolean
+}
 
 export function Dialog({ children, className, modal = true, ...props }: DialogProps) {
   const {
