@@ -22,12 +22,9 @@ export interface DialogContentProps
     | 'onInteractOutside'
   > {}
 
-export interface DialogRootProps extends Omit<RadixDialog.DialogProps, 'children'> {}
+export interface DialogRootProps extends RadixDialog.DialogProps {}
 
-export interface DialogProps
-  extends BoxPropsWithoutChildren,
-    DialogRootProps,
-    Omit<DialogContentProps, 'children'> {}
+export interface DialogProps extends BoxPropsWithoutChildren, DialogRootProps, DialogContentProps {}
 
 export function Dialog({ children, className, modal = true, ...props }: DialogProps) {
   const {
