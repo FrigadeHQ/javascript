@@ -2,7 +2,20 @@ import { Dialog, type DialogProps } from '@/components/Dialog'
 import { Flex } from '@/components/Flex'
 import { Flow, type FlowPropsWithoutChildren } from '@/components/Flow'
 
-export interface AnnouncementProps extends FlowPropsWithoutChildren, DialogProps {}
+export interface AnnouncementProps extends FlowPropsWithoutChildren, DialogProps {
+  /**
+   * @ignore
+   */
+  children: React.ReactNode
+  /**
+   * @ignore
+   */
+  open?: boolean
+  /**
+   * @ignore
+   */
+  defaultOpen?: boolean
+}
 
 const flowPropNames = [
   'dismissible',

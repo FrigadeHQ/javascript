@@ -4,7 +4,7 @@ import { XMarkIcon } from '@heroicons/react/24/solid'
 import * as Popover from '@radix-ui/react-popover'
 
 import { useBoundingClientRect } from '../../hooks/useBoundingClientRect'
-import { Box, type BoxProps } from '../Box'
+import { Box } from '../Box'
 import { Button, ButtonProps } from '../Button'
 import { Card } from '../Card'
 import { Dot } from './Dot'
@@ -12,11 +12,17 @@ import { Media, MediaProps } from '../Media'
 import { Text, TextProps } from '../Text'
 import { getDotPosition } from './getDotPosition'
 import { mapTooltipPropsToPopoverProps } from './mapTooltipPropsToPopoverProps'
+import { BoxPropsWithoutChildren } from '@/components/Flow/FlowProps'
 
 export interface MergedRadixPopoverProps
   extends Pick<Popover.PopoverProps, 'defaultOpen' | 'modal' | 'onOpenChange' | 'open'>,
-    Omit<Popover.PopoverContentProps, 'align' | 'asChild' | 'color' | 'content' | 'translate'> {}
-export interface TooltipProps extends BoxProps, MergedRadixPopoverProps {
+    Omit<
+      Popover.PopoverContentProps,
+      'align' | 'asChild' | 'color' | 'content' | 'translate' | 'forceMount'
+    > {}
+export interface TooltipProps
+  extends BoxPropsWithoutChildren,
+    Omit<MergedRadixPopoverProps, 'children'> {
   /**
    * How to align the Tooltip relative to the anchor.
    * Uses the same notation as the `align` property in [Radix Popover](https://www.radix-ui.com/primitives/docs/components/popover).

@@ -8,7 +8,20 @@ import { useFlow } from '@/hooks/useFlow'
 import { useFlowHandlers } from '@/hooks/useFlowHandlers'
 import { useModal } from '@/hooks/useModal'
 
-export interface TourProps extends TooltipProps, FlowPropsWithoutChildren {}
+export interface TourProps extends TooltipProps, FlowPropsWithoutChildren {
+  /**
+   * @ignore
+   */
+  defaultOpen?: boolean
+  /**
+   * @ignore
+   */
+  open?: boolean
+  /**
+   * The modality of the tooltip. When set to `true`, interaction with outside elements will be disabled and only popover content will be visible to screen readers.
+   */
+  modal?: boolean
+}
 
 export function Tour({ flowId, onComplete, variables, ...props }: TourProps) {
   const { flow } = useFlow(flowId, {

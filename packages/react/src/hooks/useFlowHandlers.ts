@@ -2,8 +2,18 @@ import { useCallback, useEffect, useRef } from 'react'
 
 import { Flow } from '@frigade/js'
 
+/**
+ * A function that handles a Flow event.
+ * If the function returns a promise that evaluates to `false`, the Flow's state will not be updated for the current user (e.g. a Flow will not be marked as completed or dismissed).
+ */
 export type FlowHandlerProp = (
+  /**
+   * The Flow that the handler is being called on
+   */
   flow: Flow,
+  /**
+   * The event that triggered the handler
+   */
   event?: MouseEvent | KeyboardEvent
 ) => Promise<boolean | void> | (boolean | void)
 

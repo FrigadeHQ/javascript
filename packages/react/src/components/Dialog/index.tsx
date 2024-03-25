@@ -1,7 +1,7 @@
 import * as RadixDialog from '@radix-ui/react-dialog'
 import { XMarkIcon } from '@heroicons/react/24/solid'
 
-import { Box, type BoxProps } from '../Box'
+import { Box } from '../Box'
 import { Button, ButtonProps } from '../Button'
 import { Card } from '../Card'
 import { Media, MediaProps } from '../Media'
@@ -10,6 +10,7 @@ import { Text, TextProps } from '../Text'
 import { mapDialogProps } from './mapDialogProps'
 
 import { theme } from '../../shared/theme'
+import { BoxPropsWithoutChildren } from '@/components/Flow/FlowProps'
 
 export interface DialogContentProps
   extends Pick<
@@ -23,7 +24,12 @@ export interface DialogContentProps
 
 export interface DialogRootProps extends RadixDialog.DialogProps {}
 
-export interface DialogProps extends BoxProps, DialogRootProps, DialogContentProps {}
+export interface DialogProps extends BoxPropsWithoutChildren, DialogRootProps, DialogContentProps {
+  /**
+   * The modality of the dialog. When set to `true`, interaction with outside elements will be disabled and only dialog content will be visible to screen readers.
+   */
+  modal?: boolean
+}
 
 export function Dialog({ children, className, modal = true, ...props }: DialogProps) {
   const {
