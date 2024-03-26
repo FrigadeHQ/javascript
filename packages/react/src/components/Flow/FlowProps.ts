@@ -57,11 +57,18 @@ export interface FlowProps extends FlowPropsWithoutChildren {
   children?: (props: FlowChildrenProps) => ReactNode
 }
 
+type ParentProps = {
+  dismissible: boolean
+  flowId: string
+  variables: Record<string, unknown>
+  [x: string]: unknown
+}
+
 export interface FlowChildrenProps {
   flow: FlowType
   handleDismiss: DismissHandler
   handlePrimary: StepHandler
   handleSecondary: StepHandler
-  parentProps: Record<string, unknown>
+  parentProps: ParentProps
   step: FlowStep
 }

@@ -48,5 +48,6 @@ export const Default = {
     },
     width: "500px",
     forceMount: true,
+    dismissible: true,
   },
 };

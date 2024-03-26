@@ -164,19 +164,13 @@ export function Collapsible({
           return (
             <>
               <Flex.Column gap={2}>
-                <Flex.Row
-                  alignItems="center"
-                  flexWrap="wrap"
-                  gap={1}
-                  justifyContent="space-between"
+                <Card.Header
+                  dismissible={dismissible}
+                  handleDismiss={handleDismiss}
                   part="checklist-header"
-                >
-                  <Card.Title>{flow.title}</Card.Title>
-                  {dismissible && <Card.Dismiss onClick={handleDismiss} />}
-                  <Card.Subtitle color="gray500" flexBasis="100%">
-                    {flow.subtitle}
-                  </Card.Subtitle>
-                </Flex.Row>
+                  subtitle={flow.subtitle}
+                  title={flow.title}
+                />
 
                 <Flex.Row alignItems="center" gap={2}>
                   <Text.Body2 fontWeight="demibold">

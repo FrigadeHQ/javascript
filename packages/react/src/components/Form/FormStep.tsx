@@ -90,17 +90,13 @@ export function FormStep({
 
   return (
     <Flex.Column gap={5} part="form-step" {...stepProps}>
-      <Flex.Row
-        alignItems="center"
-        flexWrap="wrap"
-        gap={1}
-        justifyContent="space-between"
+      <Card.Header
+        dismissible={dismissible}
+        handleDismiss={handleDismiss}
         part="form-step-header"
-      >
-        <Card.Title>{step.title}</Card.Title>
-        {dismissible && <Card.Dismiss onClick={handleDismiss} />}
-        <Card.Subtitle flexBasis="100%">{step.subtitle}</Card.Subtitle>
-      </Flex.Row>
+        subtitle={step.subtitle}
+        title={step.title}
+      />
 
       {fields}
 
