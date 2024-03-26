@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.2.39
+
+### Patch Changes
+
+- c94f6ec: Allows specififying apiUrls in new formats
+
 ## 0.2.38
 
 ### Patch Changes
