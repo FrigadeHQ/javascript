@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.0.35
+
+### Patch Changes
+
+- b2dc6df: Make default spacing on error messages to spec
+- Updated dependencies [c94f6ec]
+  - @frigade/js@0.2.39
+
 ## 2.0.34
 
 ### Patch Changes
