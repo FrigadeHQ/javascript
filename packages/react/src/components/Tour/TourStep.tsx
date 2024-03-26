@@ -16,6 +16,7 @@ export function TourStep({
   dismissible = true,
   flow,
   onDismiss,
+  onEscapeKeyDown,
   onPrimary,
   onSecondary,
   step,
@@ -41,6 +42,15 @@ export function TourStep({
       onInteractOutside={(e) => e.preventDefault()}
       {...props}
       {...stepProps}
+      onEscapeKeyDown={(e) => {
+        if (typeof onEscapeKeyDown === 'function') {
+          onEscapeKeyDown(e)
+        }
+
+        if (!e.defaultPrevented) {
+          handleDismiss(e)
+        }
+      }}
     >
       {dismissible && <Tooltip.Close onClick={handleDismiss} />}
 

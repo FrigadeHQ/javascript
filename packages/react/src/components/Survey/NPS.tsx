@@ -18,6 +18,15 @@ export function NPS({ as = Dialog, flowId, fieldTypes, ...props }: FormProps) {
       }}
       minWidth="620px"
       modal={false}
+      onEscapeKeyDown={(e: KeyboardEvent) => {
+        if (typeof props.onEscapeKeyDown === 'function') {
+          props.onEscapeKeyDown(e)
+        }
+
+        if (!e.defaultPrevented) {
+          flow.skip()
+        }
+      }}
       width="620px"
       css={
         {
