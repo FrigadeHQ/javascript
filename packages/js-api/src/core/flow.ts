@@ -122,6 +122,7 @@ export class Flow extends Fetchable {
       const userFlowStateStep = userFlowState.stepStates[step.id]
       const stepObj = {
         ...step,
+        flow: this,
         isCompleted: userFlowStateStep.actionType == COMPLETED_STEP,
         isStarted: userFlowStateStep.actionType == STARTED_STEP,
         isHidden: userFlowStateStep.hidden,

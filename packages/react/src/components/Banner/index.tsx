@@ -11,6 +11,9 @@ export function Banner({ flowId, ...props }: BannerProps) {
       {({ handleDismiss, handlePrimary, handleSecondary, step }) => {
         const stepProps = step.props ?? {}
 
+        const primaryButtonTitle = step.primaryButton?.title ?? step.primaryButtonTitle
+        const secondaryButtonTitle = step.secondaryButton?.title ?? step.secondaryButtonTitle
+
         return (
           <Card
             alignItems="center"
@@ -37,8 +40,8 @@ export function Banner({ flowId, ...props }: BannerProps) {
               <Card.Subtitle part="subtitle">{step.subtitle}</Card.Subtitle>
             </Flex.Column>
 
-            <Card.Secondary title={step.secondaryButtonTitle} onClick={handleSecondary} />
-            <Card.Primary title={step.primaryButtonTitle} onClick={handlePrimary} />
+            <Card.Secondary title={secondaryButtonTitle} onClick={handleSecondary} />
+            <Card.Primary title={primaryButtonTitle} onClick={handlePrimary} />
             {props.dismissible && <Card.Dismiss onClick={handleDismiss} />}
           </Card>
         )

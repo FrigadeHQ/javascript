@@ -1,3 +1,5 @@
+import type { Flow } from './flow'
+
 export interface FlowDataRaw {
   id: number
   name: string
@@ -184,7 +186,7 @@ export interface FlowStep {
   reset: () => Promise<void>
 
   /**
-   * Event handler for this given step's state changes.
+   * Event handler called when this step's state changes.
    */
   onStateChange: (callback: (step: FlowStep, previousStep?: FlowStep) => void) => void
 
@@ -192,6 +194,11 @@ export interface FlowStep {
    * Removes the given callback from the list of event handlers.
    */
   removeStateChangeHandler: (callback: (step: FlowStep, previousStep?: FlowStep) => void) => void
+
+  /**
+   * Reference to this step's parent Flow
+   */
+  flow: Flow
 }
 
 export interface FrigadeConfig {

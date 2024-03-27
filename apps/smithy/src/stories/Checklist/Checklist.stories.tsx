@@ -20,7 +20,12 @@ function TestStep({
   onOpenChange,
   step,
 }: CollapsibleStepProps) {
-  const { isCompleted, primaryButtonTitle, secondaryButtonTitle, title } = step;
+  const { isCompleted, title } = step;
+
+  const primaryButtonTitle =
+    step.primaryButton?.title ?? step.primaryButtonTitle;
+  const secondaryButtonTitle =
+    step.secondaryButton?.title ?? step.secondaryButtonTitle;
 
   return (
     <CollapsibleStep.Root open={open} onOpenChange={onOpenChange}>
