@@ -48,6 +48,9 @@ export function Announcement({ flowId, ...props }: AnnouncementProps) {
       }) => {
         const stepProps = step.props ?? {}
 
+        const primaryButtonTitle = step.primaryButton?.title ?? step.primaryButtonTitle
+        const secondaryButtonTitle = step.secondaryButton?.title ?? step.secondaryButtonTitle
+
         return (
           <Dialog
             part="announcement"
@@ -91,14 +94,11 @@ export function Announcement({ flowId, ...props }: AnnouncementProps) {
                 gap={3}
                 part="announcement-footer"
               >
-                {step.secondaryButtonTitle && (
-                  <Dialog.Secondary onClick={handleSecondary} title={step.secondaryButtonTitle} />
+                {secondaryButtonTitle && (
+                  <Dialog.Secondary onClick={handleSecondary} title={secondaryButtonTitle} />
                 )}
-                {step.primaryButtonTitle && (
-                  <Dialog.Primary
-                    onClick={handlePrimary}
-                    title={step.primaryButtonTitle ?? 'Continue'}
-                  />
+                {primaryButtonTitle && (
+                  <Dialog.Primary onClick={handlePrimary} title={primaryButtonTitle} />
                 )}
               </Flex.Row>
             </Flex.Column>

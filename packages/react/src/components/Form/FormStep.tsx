@@ -88,6 +88,9 @@ export function FormStep({
     }
   })
 
+  const primaryButtonTitle = step.primaryButton?.title ?? step.primaryButtonTitle
+  const secondaryButtonTitle = step.secondaryButton?.title ?? step.secondaryButtonTitle
+
   return (
     <Flex.Column gap={5} part="form-step" {...stepProps}>
       <Card.Header
@@ -101,14 +104,14 @@ export function FormStep({
       {fields}
 
       <Flex.Row key="form-footer" part="form-step-footer" justifyContent="flex-end" gap={3}>
-        {step.secondaryButtonTitle && (
+        {secondaryButtonTitle && (
           <Button.Secondary
-            title={step.secondaryButtonTitle}
+            title={secondaryButtonTitle}
             onClick={handleSubmit(onSecondarySubmit)}
           />
         )}
         <Button.Primary
-          title={step.primaryButtonTitle ?? 'Submit'}
+          title={primaryButtonTitle ?? 'Submit'}
           onClick={handleSubmit(onPrimarySubmit)}
         />
       </Flex.Row>
