@@ -27,6 +27,17 @@ export enum FlowStatus {
   ARCHIVED = 'ARCHIVED',
 }
 
+export type StepAction =
+  | 'flow.back'
+  | 'flow.complete'
+  | 'flow.forward'
+  | 'flow.restart'
+  | 'flow.skip'
+  | 'flow.start'
+  | 'step.complete'
+  | 'step.reset'
+  | 'step.start'
+
 export interface FlowStep {
   /**
    * Unique identifier for the step.
@@ -54,32 +65,88 @@ export interface FlowStep {
   subtitle?: string
 
   /**
+   * Config for the primary button in this step
+   */
+  primaryButton?: {
+    /**
+     * Primary button action. (defaults to step.complete)
+     */
+    action?: StepAction
+
+    /**
+     * Primary button URI target (defaults to _self).
+     */
+    target?: string
+
+    /**
+     * Primary button title. If omitted, the primary button will not be shown.
+     */
+    title?: string
+
+    /**
+     * Primary button URI.
+     */
+    uri?: string
+  }
+
+  /**
+   * @deprecated use primaryButton.title instead
    * Primary button title. If omitted, the primary button will not be shown.
    */
   primaryButtonTitle?: string
 
   /**
+   * @deprecated use primaryButton.uri instead
    * Primary button URI.
    */
   primaryButtonUri?: string
 
   /**
-   * Primary button URI target (either _blank or _self).
+   * @deprecated use primaryButton.target instead
+   * Primary button URI target (defaults to _self).
    */
   primaryButtonUriTarget?: string
 
   /**
+   * Config for the secondary button in this step
+   */
+  secondaryButton?: {
+    /**
+     * Secondary button action. (defaults to step.complete)
+     */
+    action?: StepAction
+
+    /**
+     * Secondary button URI target (defaults to _self).
+     */
+    target?: string
+
+    /**
+     * Secondary button title. If omitted, the secondary button will not be shown.
+     */
+    title?: string
+
+    /**
+     * Secondary button URI.
+     */
+    uri?: string
+  }
+
+  /**
+   * @deprecated use secondaryButton.title instead
    * Secondary button title. If omitted, the secondary button will not be shown.
    */
   secondaryButtonTitle?: string
 
   /**
+   * @deprecated use secondaryButton.uri instead
    * Secondary button URI.
    */
   secondaryButtonUri?: string
 
   /**
-   * Secondary button URI target (either _blank or _self)
+   * @deprecated use secondaryButton.target instead
+   * Secondary button URI target (defaults to _self)
    */
   secondaryButtonUriTarget?: string
 
