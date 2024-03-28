@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.0.36
+
+### Patch Changes
+
+- 9529084: Improvements to onDismiss handling, new color palette
+- Updated dependencies [9529084]
+  - @frigade/js@0.2.40
+
 ## 2.0.35
 
 ### Patch Changes

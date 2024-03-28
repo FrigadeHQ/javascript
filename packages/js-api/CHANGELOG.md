@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.2.40
+
+### Patch Changes
+
+- 9529084: Improvements to onDismiss handling, new color palette
+
 ## 0.2.39
 
 ### Patch Changes
