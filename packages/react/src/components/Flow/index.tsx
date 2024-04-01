@@ -54,6 +54,14 @@ export function Flow({
     }
   }, [flow?.isVisible, isCurrentModal])
 
+  useEffect(() => {
+    if (flow?.isVisible) {
+      flow?.register()
+    } else {
+      flow?.unregister()
+    }
+  }, [flow?.isVisible])
+
   if (flow == null || !isCurrentModal) {
     return null
   }
