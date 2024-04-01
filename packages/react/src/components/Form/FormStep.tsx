@@ -16,7 +16,7 @@ export interface FormStepProps extends FlowChildrenProps {
 // NOTE: "validate" is intentionally omitted
 const ruleProps = new Set(['required', 'min', 'max', 'minLength', 'maxLength', 'pattern'])
 
-function FieldWrapper({ fieldComponent: FieldComponent, control, fieldData }) {
+function FieldWrapper({ fieldComponent: FieldComponent, control, fieldData, submit }) {
   // pattern validator comes as a string from YAML, convert it to RegExp
   if (fieldData.pattern != null) {
     if (typeof fieldData.pattern === 'string') {
@@ -39,7 +39,7 @@ function FieldWrapper({ fieldComponent: FieldComponent, control, fieldData }) {
     rules,
   })
 
-  return <FieldComponent {...controller} fieldData={fieldData} />
+  return <FieldComponent {...controller} fieldData={fieldData} submit={submit} />
 }
 
 export function FormStep({
@@ -82,36 +82,36 @@ export function FormStep({
           control={control}
           fieldComponent={fieldTypes[fieldData.type]}
           fieldData={fieldData}
+          submit={handleSubmit(onPrimarySubmit)}
         />
       )
     }
   })
 
+  const primaryButtonTitle = step.primaryButton?.title ?? step.primaryButtonTitle
+  const secondaryButtonTitle = step.secondaryButton?.title ?? step.secondaryButtonTitle
+
   return (
     <Flex.Column gap={5} part="form-step" {...stepProps}>
-      <Flex.Row
-        alignItems="center"
-        flexWrap="wrap"
-        gap={1}
-        justifyContent="space-between"
+      <Card.Header
+        dismissible={dismissible}
+        handleDismiss={handleDismiss}
         part="form-step-header"
-      >
-        <Card.Title>{step.title}</Card.Title>
-        {dismissible && <Card.Dismiss onClick={handleDismiss} />}
-        <Card.Subtitle flexBasis="100%">{step.subtitle}</Card.Subtitle>
-      </Flex.Row>
+        subtitle={step.subtitle}
+        title={step.title}
+      />
 
       {fields}
 
       <Flex.Row key="form-footer" part="form-step-footer" justifyContent="flex-end" gap={3}>
-        {step.secondaryButtonTitle && (
+        {secondaryButtonTitle && (
           <Button.Secondary
-            title={step.secondaryButtonTitle}
+            title={secondaryButtonTitle}
             onClick={handleSubmit(onSecondarySubmit)}
           />
         )}
         <Button.Primary
-          title={step.primaryButtonTitle ?? 'Submit'}
+          title={primaryButtonTitle ?? 'Submit'}
           onClick={handleSubmit(onPrimarySubmit)}
         />
       </Flex.Row>

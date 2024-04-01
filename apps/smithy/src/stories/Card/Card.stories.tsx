@@ -21,7 +21,7 @@ export const Default = {
           <Card.Title>Card.Title</Card.Title>
           <Card.Subtitle>Card.Subtitle</Card.Subtitle>
         </div>
-        <Card.Media src="https://placekitten.com/360/180" />
+        <Card.Media src="https://placehold.co/360x180" />
         <Flex.Row gap={3} justifyContent="flex-end">
           <Card.Secondary title="Card.Secondary" />
           <Card.Primary title="Card.Primary" />
@@ -35,7 +35,7 @@ export const Default = {
 export const FlowAwareCard = {
   args: {
     dismissible: true,
-    flowId: "flow_cvWFczn1RMHp9ZcK",
+    flowId: "flow_Kvwr5ow8",
     width: "400px",
   },
 };

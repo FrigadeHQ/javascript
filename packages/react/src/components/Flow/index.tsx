@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { Fragment, useEffect } from 'react'
 
 import { Box } from '@/components/Box'
 
@@ -18,7 +18,6 @@ export type {
 export function Flow({
   as,
   children,
-  container,
   dismissible = false,
   flowId,
   onComplete,
@@ -68,17 +67,19 @@ export function Flow({
   if (!flow.isCompleted && !flow.isSkipped) {
     step.start()
   }
-  const ContainerElement = as ?? Box
+
+  const ContainerElement = as === null ? Fragment : as ?? Box
+
+  const containerProps = as === null ? {} : props
 
   return (
-    <ContainerElement position="relative" {...props}>
+    <ContainerElement {...containerProps}>
       {children({
         flow,
         handleDismiss,
         handlePrimary,
         handleSecondary,
         parentProps: {
-          container,
           dismissible,
           flowId,
           variables,

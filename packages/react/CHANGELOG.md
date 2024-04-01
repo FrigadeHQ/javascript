@@ -1,5 +1,51 @@
 # @frigade/react
 
+## 2.0.36
+
+### Patch Changes
+
+- 9529084: Improvements to onDismiss handling, new color palette
+- Updated dependencies [9529084]
+  - @frigade/js@0.2.40
+
+## 2.0.35
+
+### Patch Changes
+
+- b2dc6df: Make default spacing on error messages to spec
+- Updated dependencies [c94f6ec]
+  - @frigade/js@0.2.39
+
+## 2.0.34
+
+### Patch Changes
+
+- b3c20ca: Fixes the default label styling on forms to be to design spec
+
+## 2.0.33
+
+### Patch Changes
+
+- 34210f1: Fixes a z-index issue for announcements
+
+## 2.0.32
+
+### Patch Changes
+
+- cc1d50f: Bumps to the latest version of @frigade/js
+
+## 2.0.31
+
+### Patch Changes
+
+- ec0425f: Edge case where NPS Survey gets dismissed on outside click
+
+## 2.0.30
+
+### Patch Changes
+
+- 02c25b9: Updates the look and feel of the NPS Survey component
+
 ## 2.0.29
 
 ### Patch Changes

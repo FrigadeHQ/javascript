@@ -1,5 +1,23 @@
 # @frigade/js
 
+## 0.2.40
+
+### Patch Changes
+
+- 9529084: Improvements to onDismiss handling, new color palette
+
+## 0.2.39
+
+### Patch Changes
+
+- c94f6ec: Allows specififying apiUrls in new formats
+
+## 0.2.38
+
+### Patch Changes
+
+- f82c401: Allows overriding createdAt for events
+
 ## 0.2.37
 
 ### Patch Changes

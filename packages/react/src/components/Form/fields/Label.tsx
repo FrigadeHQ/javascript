@@ -2,9 +2,9 @@ import { Text } from '@/components/Text'
 
 export function Label({ children, id, required = false }) {
   return (
-    <Text.H4 as="label" htmlFor={id} part="field-label">
+    <Text.Body2 as="label" htmlFor={id} part="field-label" fontWeight="bold" mb="2" display="block">
       {children}
       {required && ' *'}
-    </Text.H4>
+    </Text.Body2>
   )
 }

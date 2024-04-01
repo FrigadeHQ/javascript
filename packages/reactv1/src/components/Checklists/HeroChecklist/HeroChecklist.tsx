@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useMemo, useState } from 'react'
 
 import styled from 'styled-components'
 import { StepChecklistItem } from './StepChecklistItem'
@@ -133,24 +133,12 @@ const HeroChecklist: FC<FrigadeChecklistProps> = ({
 
   const completeCount = steps.filter((s) => s.complete === true).length
 
-  const StepContent = () => {
+  const StepContent = useMemo(() => {
     if (!steps[selectedStepValue]?.type || !mergedCustomStepTypes[steps[selectedStepValue].type]) {
-      return mergedCustomStepTypes[HERO_STEP_CONTENT_TYPE]({
-        stepData: steps[selectedStepValue],
-        appearance: appearance,
-      })
+      return mergedCustomStepTypes[HERO_STEP_CONTENT_TYPE]
     }
-
-    // Check if the custom step type is a functional component or a React component
-    if (typeof mergedCustomStepTypes[steps[selectedStepValue].type] !== 'function') {
-      return mergedCustomStepTypes[steps[selectedStepValue].type]
-    }
-
-    return mergedCustomStepTypes[steps[selectedStepValue].type]({
-      stepData: steps[selectedStepValue],
-      appearance: appearance,
-    })
-  }
+    return mergedCustomStepTypes[steps[selectedStepValue].type]
+  }, [selectedStepValue])
 
   return (
     <HeroChecklistContainer
@@ -184,13 +172,16 @@ const HeroChecklist: FC<FrigadeChecklistProps> = ({
             appearance={appearance}
           />
         </ChecklistHeader>
-        <ChecklistStepsContainer role='list' className={getClassName('checklistStepsContainer', appearance)}>
+        <ChecklistStepsContainer
+          role="list"
+          className={getClassName('checklistStepsContainer', appearance)}
+        >
           {steps.map((s: StepData, idx: number) => {
             return (
               <StepChecklistItem
                 data={s}
                 index={idx}
-                key={idx}
+                key={s.id}
                 listLength={steps.length}
                 isSelected={idx === selectedStepValue}
                 primaryColor={appearance.theme.colorPrimary}
@@ -205,8 +196,8 @@ const HeroChecklist: FC<FrigadeChecklistProps> = ({
         </ChecklistStepsContainer>
       </ChecklistHeaderContainer>
       <Divider appearance={appearance} className={getClassName('checklistDivider', appearance)} />
-      <HeroChecklistStepContentContainer>
-        <StepContent />
+      <HeroChecklistStepContentContainer data-stepid={`${steps[selectedStepValue].id}`}>
+        <StepContent appearance={appearance} stepData={steps[selectedStepValue]} />
       </HeroChecklistStepContentContainer>
     </HeroChecklistContainer>
   )

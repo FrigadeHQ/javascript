@@ -1,7 +1,7 @@
 import { Flex, Progress } from "@frigade/react";
 
 export default {
-  title: "Components/Progress",
+  title: "Design System/Progress",
   component: Progress.Bar,
 };
 

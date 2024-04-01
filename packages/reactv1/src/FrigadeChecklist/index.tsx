@@ -68,6 +68,7 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
   checklistStyle = 'default',
   autoExpandFirstIncompleteStep,
   autoExpandNextStep,
+  onComplete,
   ...guideProps
 }) => {
   const {
@@ -94,6 +95,8 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
   const showModal = visible === undefined ? getOpenFlowState(flowId) : visible
   const isModal = type === 'modal'
   const { mergeAppearanceWithDefault } = useTheme()
+  const [initialCompleteState, setInitialCompleteState] = useState<string>(COMPLETED_FLOW)
+  const flowStatus = getFlowStatus(flowId)
 
   useFlowImpressions(flowId, visible)
 
@@ -105,6 +108,18 @@ export const FrigadeChecklist: React.FC<FrigadeChecklistProps> = ({
   useEffect(() => {
     updateCustomVariables(customVariables)
   }, [customVariables, isLoading])
+
+  useEffect(() => {
+    if (flowStatus && flowStatus !== initialCompleteState && flowStatus !== COMPLETED_FLOW) {
+      setInitialCompleteState(flowStatus)
+    }
+    if (flowStatus && flowStatus === COMPLETED_FLOW && initialCompleteState !== COMPLETED_FLOW) {
+      if (onComplete) {
+        setInitialCompleteState(flowStatus)
+        onComplete()
+      }
+    }
+  }, [flowStatus])
 
   useEffect(() => {
     if (visible !== undefined) {

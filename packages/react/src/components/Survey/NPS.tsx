@@ -2,8 +2,11 @@ import { Dialog } from '@/components/Dialog'
 import { Form, type FormProps } from '@/components/Form'
 
 import { NPSField } from './NPSField'
+import { useFlow } from '@/hooks/useFlow'
 
 export function NPS({ as = Dialog, flowId, fieldTypes, ...props }: FormProps) {
+  const { flow } = useFlow(flowId)
+
   return (
     <Form
       alignSelf="end"
@@ -15,7 +18,30 @@ export function NPS({ as = Dialog, flowId, fieldTypes, ...props }: FormProps) {
       }}
       minWidth="620px"
       modal={false}
+      onEscapeKeyDown={(e: KeyboardEvent) => {
+        if (typeof props.onEscapeKeyDown === 'function') {
+          props.onEscapeKeyDown(e)
+        }
+
+        if (!e.defaultPrevented) {
+          flow.skip()
+        }
+      }}
       width="620px"
+      css={
+        {
+          ...(!flow || flow.getCurrentStepIndex() == 0
+            ? { '.fr-form-step-footer': { display: 'none' } }
+            : {}),
+          '.fr-form': {
+            padding: '20px',
+          },
+          '.fr-form-step': {
+            gap: '1',
+          },
+        }
+        // Hides the submit button on the first page
+      }
       {...props}
     />
   )

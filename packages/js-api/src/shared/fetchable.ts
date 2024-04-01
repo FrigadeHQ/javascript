@@ -27,11 +27,21 @@ export class Fetchable {
       return getEmptyResponse()
     }
 
-    return gracefulFetch(`${this.config.apiUrl}${path}`, {
+    return gracefulFetch(this.getAPIUrl(path), {
       keepalive: true,
       ...(options ?? {}),
       ...getHeaders(this.config.apiKey),
     })
+  }
+
+  private getAPIUrl(path: string) {
+    const pathPrefix = '/v1/public'
+    const apiUrl = new URL(
+      `${pathPrefix}${path}`,
+      this.config.apiUrl.replace(pathPrefix, '')
+    ).toString()
+
+    return apiUrl
   }
 
   /**

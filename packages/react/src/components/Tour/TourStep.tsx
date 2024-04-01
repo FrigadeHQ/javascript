@@ -16,6 +16,7 @@ export function TourStep({
   dismissible = true,
   flow,
   onDismiss,
+  onEscapeKeyDown,
   onPrimary,
   onSecondary,
   step,
@@ -32,6 +33,9 @@ export function TourStep({
 
   const stepProps = step.props ?? {}
 
+  const primaryButtonTitle = step.primaryButton?.title ?? step.primaryButtonTitle
+  const secondaryButtonTitle = step.secondaryButton?.title ?? step.secondaryButtonTitle
+
   return (
     <Tooltip
       key={step.id}
@@ -41,6 +45,15 @@ export function TourStep({
       onInteractOutside={(e) => e.preventDefault()}
       {...props}
       {...stepProps}
+      onEscapeKeyDown={(e) => {
+        if (typeof onEscapeKeyDown === 'function') {
+          onEscapeKeyDown(e)
+        }
+
+        if (!e.defaultPrevented) {
+          handleDismiss(e)
+        }
+      }}
     >
       {dismissible && <Tooltip.Close onClick={handleDismiss} />}
 
@@ -59,8 +72,8 @@ export function TourStep({
           flow.getNumberOfCompletedSteps() + 1
         }/${flow.getNumberOfAvailableSteps()}`}</Tooltip.Progress>
 
-        <Tooltip.Secondary title={step.secondaryButtonTitle} onClick={handleSecondary} />
-        <Tooltip.Primary title={step.primaryButtonTitle} onClick={handlePrimary} />
+        <Tooltip.Secondary title={secondaryButtonTitle} onClick={handleSecondary} />
+        <Tooltip.Primary title={primaryButtonTitle} onClick={handlePrimary} />
       </Flex.Row>
     </Tooltip>
   )

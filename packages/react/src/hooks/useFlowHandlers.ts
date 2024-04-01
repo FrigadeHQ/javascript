@@ -1,10 +1,20 @@
-import { MouseEvent, useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 
 import { Flow } from '@frigade/js'
 
+/**
+ * A function that handles a Flow event.
+ * If the function returns a promise that evaluates to `false`, the Flow's state will not be updated for the current user (e.g. a Flow will not be marked as completed or dismissed).
+ */
 export type FlowHandlerProp = (
+  /**
+   * The Flow that the handler is being called on
+   */
   flow: Flow,
-  event?: MouseEvent<unknown>
+  /**
+   * The event that triggered the handler
+   */
+  event?: MouseEvent | KeyboardEvent
 ) => Promise<boolean | void> | (boolean | void)
 
 export interface FlowHandlerProps {
@@ -12,7 +22,7 @@ export interface FlowHandlerProps {
   onDismiss?: FlowHandlerProp
 }
 
-export type DismissHandler = (e: MouseEvent<unknown>) => Promise<boolean | void>
+export type DismissHandler = (e: MouseEvent | KeyboardEvent) => Promise<boolean | void>
 
 export function useFlowHandlers(flow: Flow, { onComplete, onDismiss }: FlowHandlerProps = {}) {
   const lastCompleted = useRef(null)
@@ -31,7 +41,7 @@ export function useFlowHandlers(flow: Flow, { onComplete, onDismiss }: FlowHandl
 
   return {
     handleDismiss: useCallback<DismissHandler>(
-      async (e: MouseEvent<unknown>) => {
+      async (e: MouseEvent | KeyboardEvent) => {
         const continueDefault = await onDismiss?.(flow, e)
 
         if (continueDefault === false) {

@@ -11,7 +11,7 @@ export function Default() {
   useEffect(() => {
     async function setProps() {
       await addProperties({
-        orgPicture: "https://placekitten.com/24/24",
+        orgPicture: "https://placehold.co/24x24",
       });
       setHasSetProps(true);
     }

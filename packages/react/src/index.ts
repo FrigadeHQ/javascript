@@ -19,6 +19,7 @@ export { Tour, type TourProps } from './components/Tour'
 
 export { Flow, Frigade, FlowType } from '@frigade/js'
 export { themeVariables } from './shared/theme'
+export { tokens } from './shared/tokens'
 
 export { useBoundingClientRect } from './hooks/useBoundingClientRect'
 export { useFlow, type FlowConfig } from './hooks/useFlow'

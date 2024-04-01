@@ -1,7 +1,7 @@
 import * as RadixDialog from '@radix-ui/react-dialog'
 import { XMarkIcon } from '@heroicons/react/24/solid'
 
-import { Box, type BoxProps } from '../Box'
+import { Box } from '../Box'
 import { Button, ButtonProps } from '../Button'
 import { Card } from '../Card'
 import { Media, MediaProps } from '../Media'
@@ -10,22 +10,33 @@ import { Text, TextProps } from '../Text'
 import { mapDialogProps } from './mapDialogProps'
 
 import { theme } from '../../shared/theme'
+import { BoxPropsWithoutChildren } from '@/components/Flow/FlowProps'
 
-interface MergedRadixDialogProps
-  extends RadixDialog.DialogProps,
-    Pick<
-      RadixDialog.DialogContentProps,
-      | 'onOpenAutoFocus'
-      | 'onCloseAutoFocus'
-      | 'onEscapeKeyDown'
-      | 'onPointerDownOutside'
-      | 'onInteractOutside'
-    > {}
+export interface DialogContentProps
+  extends Pick<
+    RadixDialog.DialogContentProps,
+    | 'onOpenAutoFocus'
+    | 'onCloseAutoFocus'
+    | 'onEscapeKeyDown'
+    | 'onPointerDownOutside'
+    | 'onInteractOutside'
+  > {}
 
-export interface DialogProps extends BoxProps, MergedRadixDialogProps {}
+export interface DialogRootProps extends RadixDialog.DialogProps {}
+
+export interface DialogProps extends BoxPropsWithoutChildren, DialogRootProps, DialogContentProps {
+  /**
+   * The modality of the dialog. When set to `true`, interaction with outside elements will be disabled and only dialog content will be visible to screen readers.
+   */
+  modal?: boolean
+}
 
 export function Dialog({ children, className, modal = true, ...props }: DialogProps) {
-  const { rootProps, contentProps, otherProps } = mapDialogProps(props)
+  const {
+    rootProps,
+    contentProps,
+    otherProps: { zIndex, ...otherProps },
+  } = mapDialogProps(props)
 
   return (
     <RadixDialog.Root defaultOpen={true} modal={modal} {...rootProps}>
@@ -35,8 +46,10 @@ export function Dialog({ children, className, modal = true, ...props }: DialogPr
           display="grid"
           inset="0"
           padding="6"
+          part="dialog-wrapper"
           pointerEvents="none"
           position="fixed"
+          zIndex={zIndex}
         >
           <RadixDialog.Overlay asChild>
             <Box
@@ -50,6 +63,7 @@ export function Dialog({ children, className, modal = true, ...props }: DialogPr
             asChild
             onOpenAutoFocus={(e) => e.preventDefault()}
             onPointerDownOutside={(e) => e.preventDefault()}
+            onInteractOutside={(e) => e.preventDefault()}
             {...contentProps}
           >
             <Card

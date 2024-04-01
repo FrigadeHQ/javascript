@@ -113,8 +113,13 @@ export function stylePropsToCss(
     const styleProp = stylePropsMap.get(propName)
 
     if (styleProp != null) {
+      // Remove null / undefined style props
+      if (propValue == null) {
+        delete unmatchedProps[fullPropName]
+      }
+
       // Split space-separated values out and process them individually
-      if (typeof propValue === 'string' && propValue.indexOf(' ') > -1) {
+      else if (typeof propValue === 'string' && propValue.indexOf(' ') > -1) {
         const splitPropValues = propValue.split(' ')
 
         getTargetObject(pseudo)[propName] = splitPropValues

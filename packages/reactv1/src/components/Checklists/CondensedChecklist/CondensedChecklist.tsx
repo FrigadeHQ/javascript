@@ -52,22 +52,6 @@ const CondensedChecklist: FC<CondensedChecklistProps> = ({
     setCollapsedSteps(initCollapsedState)
   }, [])
 
-  //
-  // useEffect(() => {
-  //   if (!autoExpandFirstIncompleteStep) {
-  //     return
-  //   }
-  //   handleStepClick(selectedStep)
-  // }, [selectedStep])
-  //
-  // useEffect(() => {
-  //   if (!autoExpandNextStep) return
-  //   //  If selected step is not open, open it
-  //   if (collapsedSteps[selectedStep]) {
-  //     handleStepClick(selectedStep)
-  //   }
-  // }, [selectedStep])
-
   const handleStepClick = (idx: number) => {
     const newCollapsedState = [...collapsedSteps]
     if (autoCollapse) {
@@ -134,10 +118,16 @@ const CondensedChecklist: FC<CondensedChecklistProps> = ({
               if (step.handlePrimaryButtonClick) {
                 step.handlePrimaryButtonClick()
               }
+              if (autoExpandNextStep && idx < steps.length - 1) {
+                handleStepClick(idx + 1)
+              }
             }}
             onSecondaryButtonClick={() => {
               if (step.handleSecondaryButtonClick) {
                 step.handleSecondaryButtonClick()
+              }
+              if (autoExpandNextStep && idx < steps.length - 1) {
+                handleStepClick(idx + 1)
               }
             }}
             customStepTypes={customStepTypes}

@@ -151,6 +151,7 @@ export class Flow extends Fetchable {
       const userFlowStateStep = userFlowState.stepStates[step.id]
       const stepObj = {
         ...step,
+        flow: this,
         isCompleted: userFlowStateStep.actionType == COMPLETED_STEP,
         isStarted: userFlowStateStep.actionType == STARTED_STEP,
         isHidden: userFlowStateStep.hidden,
@@ -185,7 +186,9 @@ export class Flow extends Fetchable {
               flowSlug: this.id,
               stepId: thisStep.id,
               data: properties ?? {},
-              createdAt: new Date().toISOString(),
+              createdAt: properties?.createdAt
+                ? new Date(properties.createdAt)
+                : new Date().toISOString(),
               actionType: STARTED_STEP,
             }),
           })
@@ -242,7 +245,9 @@ export class Flow extends Fetchable {
             flowSlug: this.id,
             stepId: thisStep.id,
             data: properties ?? {},
-            createdAt: new Date().toISOString(),
+            createdAt: properties?.createdAt
+              ? new Date(properties.createdAt)
+              : new Date().toISOString(),
             actionType: COMPLETED_STEP,
           }),
         })
@@ -385,7 +390,9 @@ export class Flow extends Fetchable {
         flowSlug: this.id,
         stepId: this.getCurrentStep().id,
         data: properties ?? {},
-        createdAt: new Date().toISOString(),
+        createdAt: properties?.createdAt
+          ? new Date(properties.createdAt)
+          : new Date().toISOString(),
         actionType: COMPLETED_FLOW,
       }),
     })
@@ -435,7 +442,9 @@ export class Flow extends Fetchable {
         flowSlug: this.id,
         stepId: this.getCurrentStep().id,
         data: properties ?? {},
-        createdAt: new Date().toISOString(),
+        createdAt: properties?.createdAt
+          ? new Date(properties.createdAt)
+          : new Date().toISOString(),
         actionType: SKIPPED_FLOW,
       }),
     })

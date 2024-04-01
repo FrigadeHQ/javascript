@@ -11,7 +11,7 @@ import { Provider } from "@frigade/react";
 // FRIGADE DEV
 const FRIGADE_API_KEY =
   "api_public_GY6O5JS99XTL2HAXU0D6OQHYQ7I706P5I9C9I7CEZFNFUFRARD2DVDSMFW3YT3SV";
-const API_URL = "https://api.frigade.com/v1/public";
+const API_URL = "https://api.frigade.com";
 
 // const userId = `jonathan_livingston_smeagol`;
 const userId = `jonathan_livingston_smeagol_${Math.random()
