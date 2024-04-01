@@ -1,84 +1,66 @@
-import { RulesGraph, RulesGraphData } from '../src/core/rules-graph'
+import { RulesGraph } from '../src/core/rules-graph'
 
 /*
   Rule x: a, b, c
   Rule y: b, d
   Rule z: b, c, e
 */
-const testGraphData: RulesGraphData = [
-  [
-    'a',
-    {
-      visible: true,
-      edges: [],
-    },
-  ],
-  [
-    'b',
-    {
-      visible: true,
-      edges: [
-        {
-          head: 'a',
-          ruleId: 'x',
-        },
-      ],
-    },
-  ],
-  [
-    'c',
-    {
-      visible: true,
-      edges: [
-        {
-          head: 'b',
-          ruleId: 'x',
-        },
-        {
-          head: 'b',
-          ruleId: 'z',
-        },
-      ],
-    },
-  ],
-  [
-    'd',
-    {
-      visible: true,
-      edges: [
-        {
-          head: 'b',
-          ruleId: 'y',
-        },
-      ],
-    },
-  ],
-  [
-    'e',
-    {
-      visible: true,
-      edges: [
-        {
-          head: 'c',
-          ruleId: 'z',
-        },
-      ],
-    },
-  ],
-]
+const testGraphData = {
+  a: {
+    visible: true,
+    edges: [],
+  },
+  b: {
+    visible: true,
+    edges: [
+      {
+        head: 'a',
+        ruleId: 'x',
+      },
+    ],
+  },
+  c: {
+    visible: true,
+    edges: [
+      {
+        head: 'b',
+        ruleId: 'x',
+      },
+      {
+        head: 'b',
+        ruleId: 'z',
+      },
+    ],
+  },
+  d: {
+    visible: true,
+    edges: [
+      {
+        head: 'b',
+        ruleId: 'y',
+      },
+    ],
+  },
+  e: {
+    visible: true,
+    edges: [
+      {
+        head: 'c',
+        ruleId: 'z',
+      },
+    ],
+  },
+}
 
 describe('RulesGraph', () => {
   describe('register', () => {
     it('calls all callbacks when a flow is registered', () => {
-      const graphData: RulesGraphData = [
-        [
-          'a',
-          {
-            visible: true,
-            edges: [],
-          },
-        ],
-      ]
+      const graphData = {
+        a: {
+          visible: true,
+          edges: [],
+        },
+      }
 
       const rules = new RulesGraph(graphData)
 
@@ -96,15 +78,12 @@ describe('RulesGraph', () => {
     })
 
     it('calls all callbacks when a flow is unregistered', () => {
-      const graphData: RulesGraphData = [
-        [
-          'a',
-          {
-            visible: true,
-            edges: [],
-          },
-        ],
-      ]
+      const graphData = {
+        a: {
+          visible: true,
+          edges: [],
+        },
+      }
 
       const rules = new RulesGraph(graphData)
 
@@ -128,15 +107,12 @@ describe('RulesGraph', () => {
     })
 
     it('calls all callbacks when graph is ingested', () => {
-      const graphData: RulesGraphData = [
-        [
-          'a',
-          {
-            visible: true,
-            edges: [],
-          },
-        ],
-      ]
+      const graphData = {
+        a: {
+          visible: true,
+          edges: [],
+        },
+      }
 
       const rules = new RulesGraph(graphData)
 
@@ -170,67 +146,52 @@ describe('RulesGraph', () => {
 
   describe('isFlowVisible', () => {
     it('returns true when node is visible and registry is empty', () => {
-      const rules = new RulesGraph([
-        [
-          'a',
-          {
-            visible: true,
-            edges: [],
-          },
-        ],
-      ])
+      const rules = new RulesGraph({
+        a: {
+          visible: true,
+          edges: [],
+        },
+      })
 
       expect(rules.isFlowVisible('a')).toBe(true)
     })
 
     it('returns false when node is not visible and registry is empty', () => {
-      const rules = new RulesGraph([
-        [
-          'a',
-          {
-            visible: false,
-            edges: [],
-          },
-        ],
-      ])
+      const rules = new RulesGraph({
+        a: {
+          visible: false,
+          edges: [],
+        },
+      })
 
       expect(rules.isFlowVisible('a')).toBe(false)
     })
 
     it('returns false when descendant is registered and visible', () => {
-      const rules = new RulesGraph([
-        [
-          'a',
-          {
-            visible: true,
-            edges: [],
-          },
-        ],
-        [
-          'b',
-          {
-            visible: true,
-            edges: [
-              {
-                head: 'a',
-                ruleId: 'x',
-              },
-            ],
-          },
-        ],
-        [
-          'c',
-          {
-            visible: true,
-            edges: [
-              {
-                head: 'b',
-                ruleId: 'x',
-              },
-            ],
-          },
-        ],
-      ])
+      const rules = new RulesGraph({
+        a: {
+          visible: true,
+          edges: [],
+        },
+        b: {
+          visible: true,
+          edges: [
+            {
+              head: 'a',
+              ruleId: 'x',
+            },
+          ],
+        },
+        c: {
+          visible: true,
+          edges: [
+            {
+              head: 'b',
+              ruleId: 'x',
+            },
+          ],
+        },
+      })
 
       rules.register('a')
 
@@ -239,39 +200,30 @@ describe('RulesGraph', () => {
     })
 
     it('returns true when descendant is registered and not visible', () => {
-      const rules = new RulesGraph([
-        [
-          'a',
-          {
-            visible: false,
-            edges: [],
-          },
-        ],
-        [
-          'b',
-          {
-            visible: true,
-            edges: [
-              {
-                head: 'a',
-                ruleId: 'x',
-              },
-            ],
-          },
-        ],
-        [
-          'c',
-          {
-            visible: true,
-            edges: [
-              {
-                head: 'b',
-                ruleId: 'x',
-              },
-            ],
-          },
-        ],
-      ])
+      const rules = new RulesGraph({
+        a: {
+          visible: false,
+          edges: [],
+        },
+        b: {
+          visible: true,
+          edges: [
+            {
+              head: 'a',
+              ruleId: 'x',
+            },
+          ],
+        },
+        c: {
+          visible: true,
+          edges: [
+            {
+              head: 'b',
+              ruleId: 'x',
+            },
+          ],
+        },
+      })
 
       rules.register('a')
 
@@ -289,27 +241,21 @@ describe('RulesGraph', () => {
     })
 
     it('reports correct visibility after change in registry', () => {
-      const rules = new RulesGraph([
-        [
-          'a',
-          {
-            visible: true,
-            edges: [],
-          },
-        ],
-        [
-          'b',
-          {
-            visible: true,
-            edges: [
-              {
-                head: 'a',
-                ruleId: 'x',
-              },
-            ],
-          },
-        ],
-      ])
+      const rules = new RulesGraph({
+        a: {
+          visible: true,
+          edges: [],
+        },
+        b: {
+          visible: true,
+          edges: [
+            {
+              head: 'a',
+              ruleId: 'x',
+            },
+          ],
+        },
+      })
 
       rules.register('a')
 
@@ -321,27 +267,21 @@ describe('RulesGraph', () => {
     })
 
     it('ignores ancestor visibility/registration', () => {
-      const rules = new RulesGraph([
-        [
-          'a',
-          {
-            visible: true,
-            edges: [],
-          },
-        ],
-        [
-          'b',
-          {
-            visible: true,
-            edges: [
-              {
-                head: 'a',
-                ruleId: 'x',
-              },
-            ],
-          },
-        ],
-      ])
+      const rules = new RulesGraph({
+        a: {
+          visible: true,
+          edges: [],
+        },
+        b: {
+          visible: true,
+          edges: [
+            {
+              head: 'a',
+              ruleId: 'x',
+            },
+          ],
+        },
+      })
 
       rules.register('b')
 
@@ -349,38 +289,29 @@ describe('RulesGraph', () => {
     })
 
     it('follows multiple edges', () => {
-      const rules = new RulesGraph([
-        [
-          'a',
-          {
-            visible: true,
-            edges: [],
-          },
-        ],
-        [
-          'b',
-          {
-            visible: true,
-            edges: [],
-          },
-        ],
-        [
-          'c',
-          {
-            visible: true,
-            edges: [
-              {
-                head: 'a',
-                ruleId: 'x',
-              },
-              {
-                head: 'b',
-                ruleId: 'y',
-              },
-            ],
-          },
-        ],
-      ])
+      const rules = new RulesGraph({
+        a: {
+          visible: true,
+          edges: [],
+        },
+        b: {
+          visible: true,
+          edges: [],
+        },
+        c: {
+          visible: true,
+          edges: [
+            {
+              head: 'a',
+              ruleId: 'x',
+            },
+            {
+              head: 'b',
+              ruleId: 'y',
+            },
+          ],
+        },
+      })
 
       expect(rules.isFlowVisible('c')).toBe(true)
 

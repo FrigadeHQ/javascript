@@ -400,8 +400,23 @@ export class Frigade extends Fetchable {
         if (flow.id == previousState.flowSlug) {
           this.getGlobalState().onFlowStateChangeHandlers.forEach((handler) => {
             const lastFlow = this.getGlobalState().previousFlows.get(flow.id)
+            // function that gets the diff between two strings
+            function diff(s1: string, s2: string): string {
+              const diff = s2
+                .split('')
+                .filter((c, i) => c !== s1[i])
+                .join('')
+              return diff
+            }
             flow.resyncState(newState)
-            console.log('triggering event handler', newState, previousState)
+            console.log(
+              'triggering event handler',
+              JSON.stringify(newState),
+              JSON.stringify(previousState),
+              '**DIFF**',
+              diff(JSON.stringify(newState), JSON.stringify(previousState)),
+              '**********'
+            )
             handler(flow, lastFlow)
             this.getGlobalState().previousFlows.set(flow.id, cloneFlow(flow))
           })
