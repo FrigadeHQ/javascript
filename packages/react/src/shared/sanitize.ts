@@ -55,6 +55,7 @@ export function sanitize(dirty?: string) {
         'autoplay',
         'loop',
         'muted',
+        'playsinline',
       ],
     }),
   }
