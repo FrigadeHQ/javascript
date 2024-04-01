@@ -16,8 +16,9 @@ describe('SDK integration test', () => {
   test('flows have fields set', async () => {
     const frigade = new Frigade(testAPIKey, {})
     const flows = await frigade.getFlows()
+
     expect(
-      flows.filter((flow) => flow.id && flow.rawData && flow.rawData.type).length
+      flows.filter((flow) => flow.id && flow.isVisible && flow.rawData.flowType).length
     ).toBeGreaterThan(0)
     const flow = flows[0]
     flow.steps.forEach((step) => {
@@ -63,9 +64,9 @@ describe('SDK integration test', () => {
     expect(flow.id).toEqual(madeUpFlowId)
     expect(flow.isCompleted).toBeFalsy()
     await flow.steps.get('step-one').complete()
-    expect(flow.steps.get('step-one').isCompleted).toBeTruthy()
-    expect(flow.steps.get('step-two').isCompleted).toBeFalsy()
-    expect(flow.steps.get('step-two').isStarted).toBeTruthy()
+    expect(flow.steps.get('step-one').$state.completed).toBeTruthy()
+    expect(flow.steps.get('step-two').$state.completed).toBeFalsy()
+    expect(flow.steps.get('step-two').$state.started).toBeTruthy()
     expect(flow.getCurrentStepIndex()).toEqual(1)
     await flow.complete()
     expect(flow.isCompleted).toBeTruthy()
@@ -81,17 +82,17 @@ describe('SDK integration test', () => {
     const step = flow.steps.get(testFlowStepId)
     expect(flow.getCurrentStepIndex()).toEqual(0)
     expect(step).toBeDefined()
-    expect(step.isCompleted).toBeFalsy()
-    expect(step.isStarted).toBeFalsy()
+    expect(step.$state.completed).toBeFalsy()
+    expect(step.$state.started).toBeFalsy()
     await step.start()
     expect(flow.getCurrentStepIndex()).toEqual(0)
-    expect(step.isStarted).toBeTruthy()
+    expect(step.$state.started).toBeTruthy()
     await step.complete()
     expect(flow.getCurrentStepIndex()).toEqual(1)
-    expect(step.isCompleted).toBeTruthy()
+    expect(step.$state.completed).toBeTruthy()
     await step.reset()
-    expect(step.isCompleted).toBeFalsy()
-    expect(step.isStarted).toBeFalsy()
+    expect(step.$state.completed).toBeFalsy()
+    expect(step.$state.started).toBeFalsy()
   })
 
   test('navigates back and forth in a flow', async () => {
@@ -105,17 +106,17 @@ describe('SDK integration test', () => {
     const previousStep = flow.steps.get(testFlowStepId)
     expect(flow.getCurrentStepIndex()).toEqual(0)
     expect(previousStep).toBeDefined()
-    expect(previousStep.isCompleted).toBeFalsy()
-    expect(previousStep.isStarted).toBeFalsy()
+    expect(previousStep.$state.completed).toBeFalsy()
+    expect(previousStep.$state.started).toBeFalsy()
     await flow.forward()
     expect(flow.getCurrentStepIndex()).toEqual(1)
     const currentStep = flow.getCurrentStep()
-    expect(currentStep.isStarted).toBeTruthy()
-    expect(currentStep.isCompleted).toBeFalsy()
+    expect(currentStep.$state.started).toBeTruthy()
+    expect(currentStep.$state.completed).toBeFalsy()
     await flow.back()
     expect(flow.getCurrentStepIndex()).toEqual(0)
-    expect(previousStep.isStarted).toBeTruthy()
-    expect(previousStep.isCompleted).toBeFalsy()
+    expect(previousStep.$state.started).toBeTruthy()
+    expect(previousStep.$state.completed).toBeFalsy()
   })
 
   test('handle flow event changes', async () => {
@@ -217,7 +218,7 @@ describe('SDK integration test', () => {
     await flow.steps.get(testFlowStepId).start()
     expect(callback).toHaveBeenCalledTimes(1)
     await flow.steps.get(testFlowStepId).complete()
-    expect(callback).toHaveBeenCalledTimes(2)
+    expect(callback).toHaveBeenCalledTimes(3)
   })
 
   test('custom variables get substituted', async () => {
@@ -253,9 +254,9 @@ describe('SDK integration test', () => {
     expect(flow).toBeDefined()
     expect(flow.id).toEqual(testFlowId)
     expect(flow.isVisible).toBeTruthy()
-    expect(step.isStarted).toBeFalsy()
+    expect(step.$state.started).toBeFalsy()
     await step.start()
-    expect(step.isStarted).toBeTruthy()
+    expect(step.$state.started).toBeTruthy()
     expect(flow.isCompleted).toBeFalsy()
     await flow.complete()
     expect(flow.isCompleted).toBeTruthy()

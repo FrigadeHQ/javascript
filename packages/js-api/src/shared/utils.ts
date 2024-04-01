@@ -25,14 +25,8 @@ const LOCAL_STORAGE_PREFIX = 'fr-js-'
 export function cloneFlow(flow: Flow): Flow {
   const newFlow = new Flow({
     config: flow.config,
-    flowDataRaw: flow.rawData,
-    rulesGraph: flow.rulesGraph,
+    id: flow.id,
   })
-  newFlow.isCompleted = flow.isCompleted
-  newFlow.isStarted = flow.isStarted
-  newFlow.isSkipped = flow.isSkipped
-  newFlow.isVisible = flow.isVisible
-  newFlow.steps = flow.steps
   return newFlow
 }
 

@@ -17,12 +17,12 @@ export class RulesGraph {
   private graph: Map<string, RulesGraphNode> = new Map()
   private registry: Map<string, RulesGraphRegistryCallback> = new Map()
 
-  constructor(graphData: RulesGraphData) {
+  constructor(graphData: Record<string, RulesGraphNode>) {
     this.ingestGraphData(graphData)
   }
 
-  ingestGraphData(graphData: RulesGraphData) {
-    this.graph = new Map(graphData)
+  ingestGraphData(graphData: Record<string, RulesGraphNode>) {
+    this.graph = new Map(Object.entries(graphData))
 
     this.fireCallbacks()
   }

@@ -1,4 +1,4 @@
-import { FlowDataRaw, FlowStep, FrigadeConfig, UserFlowState } from './types'
+import { FlowStep, FrigadeConfig, StatefulFlow, StatefulStep } from './types'
 import {
   clone,
   COMPLETED_FLOW,
@@ -10,18 +10,13 @@ import {
   STARTED_STEP,
 } from '../shared/utils'
 import { Fetchable } from '../shared/fetchable'
-import { RulesGraph, RulesGraphRegistryCallback } from './rules-graph'
+import { RulesGraphRegistryCallback } from './rules-graph'
 
 export class Flow extends Fetchable {
   /**
    * The Flow's ID.
    */
   public id: string
-  /**
-   * The raw data defined in `config.yml` as a JSON decoded object.
-   * @ignore
-   */
-  public configYmlAsJson: any
   /**
    * Ordered map of the Steps in the Flow.
    * See [Flow Step Definition](https://docs.frigade.com/v2/sdk/js/step) for more information.
@@ -39,7 +34,7 @@ export class Flow extends Fetchable {
    * The metadata of the Flow.
    * @ignore
    */
-  public rawData: FlowDataRaw
+  public rawData: StatefulFlow
   /**
    * Whether the Flow is completed or not.
    */
@@ -60,124 +55,105 @@ export class Flow extends Fetchable {
    * Whether the Flow is visible to the user based on the current user/group's state.
    */
   get isVisible() {
-    console.log(
-      'Internal visible: ',
-      this._isVisible,
-      ' graph visible: ',
-      this.rulesGraph.isFlowVisible(this.id)
-    )
-    return this._isVisible
+    if (this._isVisible === false) {
+      return false
+    }
+
+    return this.getGlobalState().rulesGraph.isFlowVisible(this.id)
   }
   set isVisible(visible: boolean) {
     this._isVisible = visible
   }
-  /**
-   * Whether the Flow targeting logic/audience matches the current user/group.
-   */
-  public isTargeted: boolean = false
-  /**
-   * @ignore - This is public because it's referenced in cloneFlow in utils.ts
-   */
-  public rulesGraph: RulesGraph
-  /**
-   * @ignore
-   */
-  private readonly flowDataRaw: FlowDataRaw
-  /**
-   * @ignore
-   */
-  private userFlowStateRaw?: UserFlowState
+
   /**
    * @ignore
    */
   private lastStepUpdate: Map<(step: FlowStep, previousStep: FlowStep) => void, FlowStep> =
     new Map()
 
-  constructor({
-    config,
-    flowDataRaw,
-    rulesGraph,
-  }: {
-    config: FrigadeConfig
-    flowDataRaw: FlowDataRaw
-    rulesGraph: RulesGraph
-  }) {
+  constructor({ config, id }: { config: FrigadeConfig; id: string }) {
     super(config)
-    this.flowDataRaw = flowDataRaw
-    this.initFromRawData(flowDataRaw)
-    this.rulesGraph = rulesGraph
+    this.id = id
+    this.init()
   }
 
   /**
    * Reload the Flow data from the server
    */
   reload() {
-    this.initFromRawData(this.flowDataRaw)
+    this.init()
   }
 
   /**
    * @ignore
    */
-  private initFromRawData(flowDataRaw: FlowDataRaw) {
-    const flowDataYml = JSON.parse(flowDataRaw.data)
-    const steps = flowDataYml.steps ?? flowDataYml.data ?? []
-    this.id = flowDataRaw.slug
-    this.rawData = flowDataRaw
-    this.configYmlAsJson = flowDataYml
-    this.title = this.configYmlAsJson.title
-    this.subtitle = this.configYmlAsJson.subtitle
+  resyncState(overrideStatefulFlow?: StatefulFlow) {
+    const statefulFlow = overrideStatefulFlow ?? this.getStatefulFlow()
 
-    const userFlowState = this.getUserFlowState()
-    if (!userFlowState) {
-      return
-    }
-    this.userFlowStateRaw = userFlowState
+    this.rawData = statefulFlow
+    this.title = statefulFlow?.data?.title
+    this.subtitle = statefulFlow?.data?.subtitle
 
-    this.isCompleted = userFlowState.flowState == COMPLETED_FLOW
-    this.isStarted = userFlowState.flowState == STARTED_FLOW
-    this.isSkipped = userFlowState.flowState == SKIPPED_FLOW
-    const hasCompleted = this.isCompleted || this.isSkipped
-    const targetingShouldHideFlow =
-      flowDataRaw.targetingLogic && userFlowState.shouldTrigger === false
-    this.isVisible = !hasCompleted && !targetingShouldHideFlow
-    if (this.flowDataRaw.active === false) {
-      this.isVisible = false
-    }
-    this.isTargeted = !flowDataRaw.targetingLogic ? true : targetingShouldHideFlow === false
+    this.isCompleted = statefulFlow.$state.completed
+    this.isStarted = statefulFlow.$state.started
+    this.isSkipped = statefulFlow.$state.skipped
+    this._isVisible = statefulFlow.$state.visible
+
+    statefulFlow.data.steps.forEach((step, index) => {
+      const stepObj = this.initStepFromStatefulStep(step, index)
+
+      const existingStep = this.steps?.get(step.id)
+      if (existingStep) {
+        existingStep.$state = stepObj.$state
+      }
+    })
+  }
+
+  /**
+   * @ignore
+   */
+  private initStepFromStatefulStep(step: StatefulStep, index: number) {
+    return {
+      ...step,
+      $state: {
+        ...step.$state,
+        lastActionAt: step.$state.lastActionAt ? new Date(step.$state.lastActionAt) : undefined,
+      },
+      order: index,
+    } as FlowStep
+  }
+
+  /**
+   * @ignore
+   */
+  private init() {
+    const statefulFlow = this.getStatefulFlow()
+
+    this.resyncState()
 
     const newSteps = new Map<string, FlowStep>()
 
-    steps.forEach((step, index) => {
-      const userFlowStateStep = userFlowState.stepStates[step.id]
-      const stepObj = {
-        ...step,
-        flow: this,
-        isCompleted: userFlowStateStep.actionType == COMPLETED_STEP,
-        isStarted: userFlowStateStep.actionType == STARTED_STEP,
-        isHidden: userFlowStateStep.hidden,
-        isBlocked: userFlowStateStep.blocked,
-        lastActionAt: userFlowStateStep.lastActionAt
-          ? new Date(userFlowStateStep.lastActionAt)
-          : undefined,
-        order: index,
-      } as FlowStep
+    statefulFlow.data.steps.forEach((step, index) => {
+      const stepObj = this.initStepFromStatefulStep(step, index)
 
       stepObj.start = async (properties?: Record<string | number, any>) => {
         const thisStep = this.steps.get(step.id)
 
-        if (this.getCurrentStep().id === thisStep.id && thisStep.isStarted) {
+        if (this.getCurrentStep().id === thisStep.id && thisStep.$state.started) {
           return
         }
 
-        thisStep.isStarted = true
-        const copy = clone(this.getGlobalState().userFlowStates[this.id])
-        copy.stepStates[thisStep.id].actionType = STARTED_STEP
-        copy.stepStates[thisStep.id].lastActionAt = new Date().toISOString()
-        copy.lastStepId = thisStep.id
+        const copy = clone(this.getGlobalState().flowStates[this.id])
+        copy.data.steps[thisStep.order].$state.started = true
+        copy.data.steps[thisStep.order].$state.lastActionAt = new Date()
+        copy.$state.lastActionAt = new Date()
+        copy.$state.currentStepId = thisStep.id
+        copy.$state.currentStepIndex = thisStep.order
 
-        this.getGlobalState().userFlowStates[this.id] = copy
+        this.getGlobalState().flowStates[this.id] = copy
+        this.resyncState()
 
-        if (!thisStep.isCompleted) {
+        if (!thisStep.$state.completed) {
           await this.fetch('/flowResponses', {
             method: 'POST',
             body: JSON.stringify({
@@ -192,49 +168,42 @@ export class Flow extends Fetchable {
               actionType: STARTED_STEP,
             }),
           })
-          await this.refreshUserFlowState()
+          await this.refreshStateFromAPI()
         }
-
-        const updatedUserFlowState = this.getUserFlowState()
-        thisStep.isCompleted =
-          updatedUserFlowState.stepStates[thisStep.id].actionType == COMPLETED_STEP
-        thisStep.isStarted = updatedUserFlowState.stepStates[thisStep.id].actionType == STARTED_STEP
-        thisStep.lastActionAt = new Date()
       }
 
       stepObj.complete = async (properties?: Record<string | number, any>) => {
         const thisStep = this.steps.get(step.id)
 
-        if (thisStep.isCompleted) {
+        if (thisStep.$state.completed) {
           return
         }
 
         const numberOfCompletedSteps = this.getNumberOfCompletedSteps()
         const isLastStep = numberOfCompletedSteps + 1 == this.steps.size
+        const copy = clone(this.getGlobalState().flowStates[this.id])
 
-        thisStep.isCompleted = true
-        this.isStarted = true
-        const copy = clone(this.getGlobalState().userFlowStates[this.id])
-
-        copy.stepStates[thisStep.id].actionType = COMPLETED_STEP
-        copy.stepStates[thisStep.id].lastActionAt = new Date().toISOString()
-        copy.flowState = isLastStep ? COMPLETED_FLOW : STARTED_FLOW
+        copy.$state.started = true
+        copy.data.steps[thisStep.order].$state.completed = true
+        copy.data.steps[thisStep.order].$state.started = true
+        copy.data.steps[thisStep.order].$state.lastActionAt = new Date()
+        if (isLastStep) {
+          copy.$state.completed = true
+        }
 
         const nextStepId = Array.from(this.steps.keys())[index + 1]
         if (nextStepId) {
-          copy.lastStepId = nextStepId
-          copy.stepStates[nextStepId].actionType = STARTED_STEP
-          const lastAction = new Date()
-          copy.stepStates[nextStepId].lastActionAt = lastAction.toISOString()
-          this.steps.get(nextStepId).isStarted = true
-          this.steps.get(nextStepId).lastActionAt = lastAction
+          copy.$state.currentStepId = nextStepId
+          copy.data.steps[index + 1].$state.started = true
+          copy.data.steps[index + 1].$state.lastActionAt = new Date()
         }
 
         if (isLastStep) {
           this.optimisticallyMarkFlowCompleted()
         }
 
-        this.getGlobalState().userFlowStates[this.id] = copy
+        this.getGlobalState().flowStates[this.id] = copy
+        this.resyncState()
 
         // if all steps are now completed, mark flow completed
         await this.fetch('/flowResponses', {
@@ -251,31 +220,23 @@ export class Flow extends Fetchable {
             actionType: COMPLETED_STEP,
           }),
         })
-
-        await this.refreshUserFlowState()
-
-        const updatedUserFlowState = this.getUserFlowState()
-        thisStep.isCompleted =
-          updatedUserFlowState.stepStates[thisStep.id].actionType == COMPLETED_STEP
-        thisStep.isStarted = updatedUserFlowState.stepStates[thisStep.id].actionType == STARTED_STEP
-        thisStep.lastActionAt = new Date()
+        await this.refreshStateFromAPI()
       }
 
       stepObj.reset = async () => {
         const thisStep = this.steps.get(step.id)
 
-        if (!thisStep.isCompleted) {
+        if (!thisStep.$state.completed) {
           return
         }
 
-        thisStep.isCompleted = false
-        thisStep.isStarted = false
-        thisStep.lastActionAt = undefined
-        const copy = clone(this.getGlobalState().userFlowStates[this.id])
-        copy.stepStates[thisStep.id].actionType = NOT_STARTED_STEP
-        copy.stepStates[thisStep.id].lastActionAt = undefined
-        copy.flowState = STARTED_FLOW
-        this.getGlobalState().userFlowStates[this.id] = copy
+        const copy = clone(this.getGlobalState().flowStates[this.id])
+        copy.data.steps[thisStep.order].$state.started = false
+        copy.data.steps[thisStep.order].$state.completed = false
+        copy.data.steps[thisStep.order].$state.lastActionAt = undefined
+
+        this.getGlobalState().flowStates[this.id] = copy
+        this.resyncState()
 
         await this.fetch('/flowResponses', {
           method: 'POST',
@@ -289,14 +250,7 @@ export class Flow extends Fetchable {
             actionType: NOT_STARTED_STEP,
           }),
         })
-
-        await this.refreshUserFlowState()
-
-        const updatedUserFlowState = this.getUserFlowState()
-        thisStep.isCompleted =
-          updatedUserFlowState.stepStates[thisStep.id].actionType == COMPLETED_STEP
-        thisStep.isStarted = updatedUserFlowState.stepStates[thisStep.id].actionType == STARTED_STEP
-        thisStep.lastActionAt = undefined
+        await this.refreshStateFromAPI()
       }
 
       stepObj.onStateChange = (handler: (step: FlowStep, previousStep: FlowStep) => void) => {
@@ -308,10 +262,10 @@ export class Flow extends Fetchable {
           const previousStep = this.lastStepUpdate.get(handler)
 
           if (
-            thisStep.isCompleted !== previousStep?.isCompleted ||
-            thisStep.isStarted !== previousStep?.isStarted ||
-            thisStep.isHidden !== previousStep?.isHidden ||
-            thisStep.isBlocked !== previousStep?.isBlocked
+            thisStep.$state.completed !== previousStep?.$state.completed ||
+            thisStep.$state.started !== previousStep?.$state.started ||
+            thisStep.$state.visible !== previousStep?.$state.visible ||
+            thisStep.$state.blocked !== previousStep?.$state.blocked
           ) {
             handler(thisStep, previousStep ?? clone(thisStep))
             this.lastStepUpdate.set(handler, clone(thisStep))
@@ -351,11 +305,10 @@ export class Flow extends Fetchable {
     if (this.isStarted || this.isCompleted) {
       return
     }
-
-    this.isStarted = true
-    const copy = clone(this.getGlobalState().userFlowStates[this.id])
-    copy.flowState = STARTED_FLOW
-    this.getGlobalState().userFlowStates[this.id] = copy
+    const copy = clone(this.getGlobalState().flowStates[this.id])
+    copy.$state.started = true
+    this.getGlobalState().flowStates[this.id] = copy
+    this.resyncState()
 
     await this.fetch('/flowResponses', {
       method: 'POST',
@@ -369,8 +322,7 @@ export class Flow extends Fetchable {
         actionType: STARTED_FLOW,
       }),
     })
-    await this.refreshUserFlowState()
-    this.initFromRawData(this.flowDataRaw)
+    await this.refreshStateFromAPI()
   }
 
   /**
@@ -397,31 +349,7 @@ export class Flow extends Fetchable {
       }),
     })
 
-    await this.refreshUserFlowState()
-    this.initFromRawData(this.flowDataRaw)
-  }
-
-  /**
-   * @ignore
-   */
-  private optimisticallyMarkFlowCompleted() {
-    this.isStarted = true
-    this.isCompleted = true
-    const copy = clone(this.getGlobalState().userFlowStates[this.id])
-    copy.flowState = COMPLETED_FLOW
-    this.getGlobalState().userFlowStates[this.id] = copy
-    this.isVisible = false
-  }
-
-  /**
-   * @ignore
-   */
-  private optimisticallyMarkFlowSkipped() {
-    this.isSkipped = true
-    const copy = clone(this.getGlobalState().userFlowStates[this.id])
-    copy.flowState = SKIPPED_FLOW
-    this.getGlobalState().userFlowStates[this.id] = copy
-    this.isVisible = false
+    await this.refreshStateFromAPI()
   }
 
   /**
@@ -448,8 +376,7 @@ export class Flow extends Fetchable {
         actionType: SKIPPED_FLOW,
       }),
     })
-    await this.refreshUserFlowState()
-    this.initFromRawData(this.flowDataRaw)
+    await this.refreshStateFromAPI()
   }
 
   /**
@@ -489,8 +416,7 @@ export class Flow extends Fetchable {
       }),
     })
 
-    await this.refreshUserFlowState()
-    this.initFromRawData(this.flowDataRaw)
+    await this.refreshStateFromAPI()
   }
 
   /**
@@ -506,14 +432,16 @@ export class Flow extends Fetchable {
    */
   public getCurrentStep(): FlowStep {
     let maybeCurrentStepId = Array.from(this.steps.keys()).find(
-      (key) => this.steps.get(key).isCompleted === false && this.steps.get(key).isHidden === false
+      (key) =>
+        this.steps.get(key).$state.completed === false &&
+        this.steps.get(key).$state.visible !== false
     )
     Array.from(this.steps.keys()).forEach((key) => {
       if (
-        this.steps.get(key).isStarted &&
-        this.steps.get(key).lastActionAt &&
-        this.steps.get(key).lastActionAt >
-          (this.steps.get(maybeCurrentStepId)?.lastActionAt ?? new Date(0))
+        this.steps.get(key).$state.started &&
+        this.steps.get(key).$state.lastActionAt &&
+        this.steps.get(key).$state.lastActionAt >
+          (this.steps.get(maybeCurrentStepId)?.$state.lastActionAt ?? new Date(0))
       ) {
         maybeCurrentStepId = key
       }
@@ -535,14 +463,14 @@ export class Flow extends Fetchable {
    * Get the number of completed steps for the current user in the current flow
    */
   public getNumberOfCompletedSteps(): number {
-    return Array.from(this.steps.values()).filter((step) => step.isCompleted).length
+    return Array.from(this.steps.values()).filter((step) => step.$state.completed).length
   }
 
   /**
    * Get the number of available steps for the current user in the current flow. This is the number of steps that are not hidden.
    */
   public getNumberOfAvailableSteps(): number {
-    return Array.from(this.steps.values()).filter((step) => !step.isHidden).length
+    return Array.from(this.steps.values()).filter((step) => step.$state.visible).length
   }
 
   /**
@@ -552,11 +480,11 @@ export class Flow extends Fetchable {
     const wrapperHandler = (flow: Flow, previousFlow: Flow) => {
       if (
         (flow.id === this.id &&
-          (flow.isCompleted !== previousFlow.isCompleted ||
-            flow.isStarted !== previousFlow.isStarted ||
-            flow.isSkipped !== previousFlow.isSkipped ||
-            flow.isVisible !== previousFlow.isVisible)) ||
-        JSON.stringify(flow.steps) !== JSON.stringify(previousFlow.steps)
+          (flow.isCompleted !== previousFlow?.isCompleted ||
+            flow.isStarted !== previousFlow?.isStarted ||
+            flow.isSkipped !== previousFlow?.isSkipped ||
+            flow.isVisible !== previousFlow?.isVisible)) ||
+        JSON.stringify(flow.steps) !== JSON.stringify(previousFlow?.steps)
       ) {
         handler(flow, previousFlow)
       }
@@ -614,23 +542,47 @@ export class Flow extends Fetchable {
   /**
    * @ignore
    */
-  private getUserFlowState(): UserFlowState {
-    const userFlowStates = this.getGlobalState().userFlowStates
+  private getStatefulFlow(): StatefulFlow {
+    const userFlowStates = this.getGlobalState().flowStates
     return userFlowStates[this.id]
   }
 
   /**
    * @ignore
    */
-  private async refreshUserFlowState() {
-    await this.getGlobalState().refreshUserFlowStates()
+  private async refreshStateFromAPI() {
+    await this.getGlobalState().refreshStateFromAPI()
+    this.resyncState()
+  }
+
+  /**
+   * @ignore
+   */
+  private optimisticallyMarkFlowCompleted() {
+    const copy = clone(this.getGlobalState().flowStates[this.id])
+    copy.$state.completed = true
+    copy.$state.started = true
+    copy.$state.visible = false
+    this.getGlobalState().flowStates[this.id] = copy
+    this.resyncState()
+  }
+
+  /**
+   * @ignore
+   */
+  private optimisticallyMarkFlowSkipped() {
+    const copy = clone(this.getGlobalState().flowStates[this.id])
+    copy.$state.skipped = true
+    copy.$state.visible = false
+    this.getGlobalState().flowStates[this.id] = copy
+    this.resyncState()
   }
 
   public register(callback?: RulesGraphRegistryCallback) {
-    this.rulesGraph.register(this.id, callback)
+    this.getGlobalState().rulesGraph.register(this.id, callback)
   }
 
   public unregister() {
-    this.rulesGraph.unregister(this.id)
+    this.getGlobalState().rulesGraph.unregister(this.id)
   }
 }

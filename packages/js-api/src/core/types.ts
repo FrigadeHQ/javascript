@@ -1,20 +1,6 @@
 import type { Flow } from './flow'
 
-export interface FlowDataRaw {
-  id: number
-  name: string
-  description: string
-  data: string
-  createdAt: string
-  modifiedAt: string
-  slug: string
-  targetingLogic: string
-  type: FlowType
-  triggerType: TriggerType
-  status: FlowStatus
-  version: number
-  active: boolean
-}
+import { RulesGraphNode } from './rules-graph'
 
 export enum TriggerType {
   MANUAL = 'MANUAL',
@@ -38,12 +24,7 @@ export type StepAction =
   | 'step.reset'
   | 'step.start'
 
-export interface FlowStep {
-  /**
-   * Unique identifier for the step.
-   */
-  id: string
-
+export interface FlowStep extends StatefulStep {
   /**
    * Order of the step in the Flow.
    */
@@ -176,31 +157,6 @@ export interface FlowStep {
   autoMarkCompleted?: boolean
 
   /**
-   * Whether the step has been completed (equivalent to step status === COMPLETED_STEP).
-   */
-  isCompleted: boolean
-
-  /**
-   * Whether the step has been completed (equivalent to step status === COMPLETED_STEP).
-   */
-  isStarted: boolean
-
-  /**
-   * Whether the step is blocked (can't be accessed yet) based on `startCriteria`.
-   */
-  isBlocked: boolean
-
-  /**
-   * Whether the step is hidden (not shown in the list view) based on `visibilityCriteria`.
-   */
-  isHidden: boolean
-
-  /**
-   * Last state update.
-   */
-  lastActionAt?: Date
-
-  /**
    * @ignore
    */
   props?: any
@@ -307,24 +263,45 @@ export interface FrigadeConfig {
   __instanceId?: string
 }
 
-export interface UserFlowState {
-  flowId: string
-  flowState: 'COMPLETED_FLOW' | 'STARTED_FLOW' | 'SKIPPED_FLOW' | 'NOT_STARTED_FLOW'
-  lastStepId: string
-  userId: string
-  foreignUserId: string
-  stepStates: Record<string, UserFlowStepState>
-  shouldTrigger: boolean
+export interface StatefulStep {
+  id: string
+  $state: {
+    completed: boolean
+    started: boolean
+    visible: boolean
+    blocked: boolean
+    lastActionAt?: Date
+  }
+  // allow any other properties
+  [key: string]: any
 }
 
-export interface UserFlowStepState {
-  stepId: string
+export interface StatefulFlow {
   flowSlug: string
-  actionType: 'NOT_STARTED_STEP' | 'STARTED_STEP' | 'COMPLETED_STEP'
-  createdAt: string
-  blocked: boolean
-  hidden: boolean
-  lastActionAt?: string
+  flowName: string
+  flowType: FlowType
+  data: {
+    steps: StatefulStep[]
+    // allow any other properties
+    [key: string]: any
+  }
+  $state: {
+    currentStepId: string
+    currentStepIndex: number
+    completed: boolean
+    started: boolean
+    skipped: boolean
+    visible: boolean
+    lastActionAt?: Date
+  }
+}
+
+export interface FlowState {
+  eligibleFlows: StatefulFlow[]
+  ineligibleFlows: string[]
+  ruleGraph?: {
+    graph: Record<string, RulesGraphNode>
+  }
 }
 
 export interface InternalConfig {
