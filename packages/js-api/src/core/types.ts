@@ -72,20 +72,20 @@ export interface FlowStep extends StatefulStep {
   }
 
   /**
-   * @deprecated use primaryButton.title instead
-   * Primary button title. If omitted, the primary button will not be shown.
+   * @deprecated Use primaryButton.title instead
+   * @description Primary button title. If omitted, the primary button will not be shown.
    */
   primaryButtonTitle?: string
 
   /**
-   * @deprecated use primaryButton.uri instead
-   * Primary button URI.
+   * @deprecated Use primaryButton.uri instead
+   * @description Primary button URI.
    */
   primaryButtonUri?: string
 
   /**
-   * @deprecated use primaryButton.target instead
-   * Primary button URI target (defaults to _self).
+   * @deprecated Use primaryButton.target instead
+   * @description Primary button URI target (defaults to _self).
    */
   primaryButtonUriTarget?: string
 
@@ -115,20 +115,20 @@ export interface FlowStep extends StatefulStep {
   }
 
   /**
-   * @deprecated use secondaryButton.title instead
-   * Secondary button title. If omitted, the secondary button will not be shown.
+   * @deprecated Use secondaryButton.title instead
+   * @description Secondary button title. If omitted, the secondary button will not be shown.
    */
   secondaryButtonTitle?: string
 
   /**
-   * @deprecated use secondaryButton.uri instead
-   * Secondary button URI.
+   * @deprecated Use secondaryButton.uri instead
+   * @description Secondary button URI.
    */
   secondaryButtonUri?: string
 
   /**
-   * @deprecated use secondaryButton.target instead
-   * Secondary button URI target (defaults to _self)
+   * @deprecated Use secondaryButton.target instead
+   * @description Secondary button URI target (defaults to _self)
    */
   secondaryButtonUriTarget?: string
 
