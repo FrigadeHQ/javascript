@@ -73,7 +73,6 @@ export function Flow({
   }
 
   const shouldForceMount = forceMount && flow.isCompleted
-  flow?.register()
 
   if (!flow.isVisible && !shouldForceMount) {
     return null
