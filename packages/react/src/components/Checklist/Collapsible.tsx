@@ -58,13 +58,20 @@ function DefaultCollapsibleStep({
   onOpenChange,
   step,
 }: CollapsibleStepProps) {
-  const { isBlocked, isCompleted, primaryButtonTitle, secondaryButtonTitle, subtitle, title } = step
+  const {
+    $state: { blocked, completed },
+    subtitle,
+    title,
+  } = step
+
+  const primaryButtonTitle = step.primaryButton?.title ?? step.primaryButtonTitle
+  const secondaryButtonTitle = step.secondaryButton?.title ?? step.secondaryButtonTitle
 
   const stepProps = step.props ?? {}
 
   return (
     <CollapsibleStep.Root open={open} onOpenChange={onOpenChange} {...stepProps}>
-      <CollapsibleStep.Trigger isCompleted={isCompleted} title={title} />
+      <CollapsibleStep.Trigger isCompleted={completed} title={title} />
 
       <CollapsibleStep.Content>
         <Card.Media
@@ -76,12 +83,12 @@ function DefaultCollapsibleStep({
         <Card.Subtitle color="gray500">{subtitle}</Card.Subtitle>
         <Flex.Row gap={3}>
           <Card.Secondary
-            disabled={isCompleted || isBlocked ? true : false}
+            disabled={completed || blocked ? true : false}
             title={secondaryButtonTitle}
             onClick={handleSecondary}
           />
           <Card.Primary
-            disabled={isCompleted || isBlocked ? true : false}
+            disabled={completed || blocked ? true : false}
             title={primaryButtonTitle}
             onClick={handlePrimary}
           />
@@ -107,8 +114,9 @@ function StepWrapper({ flow, step, ...props }: FlowChildrenProps) {
   async function onOpenChange(isOpening: boolean) {
     setOpenStepId(isOpening ? step.id : '')
 
-    if (isOpening && !step.isCompleted) {
+    if (isOpening && !step.$state.completed) {
       await step.start()
+      setOpenStepId(null)
     }
   }
 
@@ -148,7 +156,11 @@ export function Collapsible({
     >
       <Flow as={Card} borderWidth="md" flowId={flowId} part="checklist" {...props}>
         {({ flow, handleDismiss, ...childrenProps }) => {
-          const stepList = Array.from(flow.steps.entries()).map(([, s]) => (
+          const visibleSteps = Array.from(flow.steps.entries()).filter(
+            ([, step]) => step.$state.visible === true
+          )
+
+          const stepList = visibleSteps.map(([, s]) => (
             <StepWrapper
               key={s.id}
               flow={flow}

@@ -46,10 +46,13 @@ export function useStepHandlers(step: FlowStep, { onPrimary, onSecondary }: Step
         }
 
         if (step.primaryButton != null) {
-          const primaryAction = stepActions[step.primaryButton.action]
+          const primaryAction =
+            step.primaryButton.action === false ? false : stepActions[step.primaryButton.action]
 
-          if (primaryAction != null) {
+          if (typeof primaryAction === 'function') {
             primaryAction()
+          } else if (primaryAction !== false) {
+            step.complete(properties)
           }
 
           if (step.primaryButton.uri != null) {
@@ -78,10 +81,13 @@ export function useStepHandlers(step: FlowStep, { onPrimary, onSecondary }: Step
         }
 
         if (step.secondaryButton != null) {
-          const secondaryAction = stepActions[step.secondaryButton.action]
+          const secondaryAction =
+            step.secondaryButton.action === false ? false : stepActions[step.secondaryButton.action]
 
-          if (secondaryAction != null) {
+          if (typeof secondaryAction === 'function') {
             secondaryAction()
+          } else if (secondaryAction !== false) {
+            step.complete(properties)
           }
 
           if (step.secondaryButton.uri != null) {

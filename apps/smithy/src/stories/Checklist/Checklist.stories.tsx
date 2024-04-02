@@ -20,7 +20,10 @@ function TestStep({
   onOpenChange,
   step,
 }: CollapsibleStepProps) {
-  const { isCompleted, title } = step;
+  const {
+    $state: { completed },
+    title,
+  } = step;
 
   const primaryButtonTitle =
     step.primaryButton?.title ?? step.primaryButtonTitle;
@@ -29,7 +32,7 @@ function TestStep({
 
   return (
     <CollapsibleStep.Root open={open} onOpenChange={onOpenChange}>
-      <CollapsibleStep.Trigger isCompleted={isCompleted} title={title} />
+      <CollapsibleStep.Trigger isCompleted={completed} title={title} />
 
       <CollapsibleStep.Content>
         <Text.H1>CUSTOM STEPPPPPP</Text.H1>

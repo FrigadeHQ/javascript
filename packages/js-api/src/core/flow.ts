@@ -115,12 +115,13 @@ export class Flow extends Fetchable {
   private initStepFromStatefulStep(step: StatefulStep, index: number) {
     return {
       ...step,
+      flow: this,
       $state: {
         ...step.$state,
         lastActionAt: step.$state.lastActionAt ? new Date(step.$state.lastActionAt) : undefined,
       },
       order: index,
-    } as FlowStep
+    } as Partial<FlowStep>
   }
 
   /**
@@ -285,7 +286,7 @@ export class Flow extends Fetchable {
         }
       }
 
-      newSteps.set(step.id, stepObj)
+      newSteps.set(step.id, stepObj as FlowStep)
     })
     this.steps = newSteps
     // Check if empty object

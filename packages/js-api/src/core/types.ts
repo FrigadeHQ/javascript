@@ -23,6 +23,7 @@ export type StepAction =
   | 'step.complete'
   | 'step.reset'
   | 'step.start'
+  | false
 
 export interface FlowStep extends StatefulStep {
   /**
