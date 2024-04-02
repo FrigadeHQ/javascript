@@ -1,5 +1,15 @@
 # @frigade/js
 
+## 0.3.0
+
+### Minor Changes
+
+- 2b75a17: Introduces a new API that reduces the API calls to Frigade by more than 50%
+
+### Patch Changes
+
+- 7d674dd: Added step actions to flow config
+
 ## 0.2.40
 
 ### Patch Changes

@@ -1,5 +1,17 @@
 # @frigade/react
 
+## 2.1.0
+
+### Minor Changes
+
+- 7d674dd: Added step actions to flow config
+
+### Patch Changes
+
+- Updated dependencies [2b75a17]
+- Updated dependencies [7d674dd]
+  - @frigade/js@0.3.0
+
 ## 2.0.36
 
 ### Patch Changes
