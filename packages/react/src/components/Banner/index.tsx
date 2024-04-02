@@ -5,7 +5,7 @@ import { Box } from '@/components/Box'
 
 export interface BannerProps extends FlowPropsWithoutChildren {}
 
-export function Banner({ flowId, ...props }: BannerProps) {
+export function Banner({ dismissible, flowId, ...props }: BannerProps) {
   return (
     <Flow as={null} flowId={flowId}>
       {({ handleDismiss, handlePrimary, handleSecondary, step }) => {
@@ -42,7 +42,7 @@ export function Banner({ flowId, ...props }: BannerProps) {
 
             <Card.Secondary title={secondaryButtonTitle} onClick={handleSecondary} />
             <Card.Primary title={primaryButtonTitle} onClick={handlePrimary} />
-            {props.dismissible && <Card.Dismiss onClick={handleDismiss} />}
+            {dismissible && <Card.Dismiss onClick={handleDismiss} />}
           </Card>
         )
       }}
