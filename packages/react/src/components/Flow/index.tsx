@@ -1,4 +1,4 @@
-import { Fragment, useEffect } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 
 import { Box } from '@/components/Box'
 
@@ -31,6 +31,8 @@ export function Flow({
   const { flow } = useFlow(flowId, {
     variables,
   })
+  const [hasFinishedFlowRegistration, setHasFinishedFlowRegistration] = useState(false)
+
   const step = flow?.getCurrentStep()
 
   const { handleDismiss } = useFlowHandlers(flow, {
@@ -54,13 +56,30 @@ export function Flow({
     }
   }, [flow?.isVisible, isCurrentModal])
 
+  useEffect(() => {
+    flow?.register(() => {
+      setHasFinishedFlowRegistration(true)
+    })
+  }, [flow])
+
+  useEffect(() => {
+    return () => {
+      flow?.unregister()
+    }
+  }, [flow])
+
   if (flow == null || !isCurrentModal) {
     return null
   }
 
   const shouldForceMount = forceMount && flow.isCompleted
+  flow?.register()
 
   if (!flow.isVisible && !shouldForceMount) {
+    return null
+  }
+
+  if (!hasFinishedFlowRegistration) {
     return null
   }
 

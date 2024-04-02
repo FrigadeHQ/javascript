@@ -1,9 +1,11 @@
-import { FlowStep, FrigadeConfig, UserFlowState } from '../core/types'
+import { FlowStep, FrigadeConfig, StatefulFlow } from '../core/types'
 import { Flow } from '../core/flow'
+import { RulesGraph } from '../core/rules-graph'
 
 export interface FrigadeGlobalState {
-  refreshUserFlowStates: () => Promise<void>
-  userFlowStates: Record<string, UserFlowState>
+  refreshStateFromAPI: () => Promise<void>
+  flowStates: Record<string, StatefulFlow>
+  rulesGraph: RulesGraph
   onFlowStateChangeHandlerWrappers: Map<
     (flow: Flow, previousFlow: Flow) => void,
     (flow: Flow, previousFlow: Flow) => void

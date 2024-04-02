@@ -1,15 +1,9 @@
-import {
-  FlowDataRaw,
-  FlowStatus,
-  FlowType,
-  FrigadeConfig,
-  TriggerType,
-  UserFlowState,
-} from './types'
+import { FlowState, FrigadeConfig, StatefulFlow, StatefulStep } from './types'
 import { clearCache, cloneFlow, GUEST_PREFIX, isWeb, resetAllLocalStorage } from '../shared/utils'
 import { Flow } from './flow'
 import { frigadeGlobalState, getGlobalStateKey } from '../shared/state'
 import { Fetchable } from '../shared/fetchable'
+import { RulesGraph } from './rules-graph'
 
 export class Frigade extends Fetchable {
   /**
@@ -30,16 +24,16 @@ export class Frigade extends Fetchable {
    */
   private visibilityChangeHandler = async () => {
     if (document.visibilityState === 'visible') {
-      await this.refreshFlows()
-      await this.refreshUserFlowStates()
-      // Trigger all event handlers
-      this.flows.forEach((flow) => {
-        this.getGlobalState().onFlowStateChangeHandlers.forEach((handler) => {
-          const lastFlow = this.getGlobalState().previousFlows.get(flow.id)
-          handler(flow, lastFlow)
-          this.getGlobalState().previousFlows.set(flow.id, cloneFlow(flow))
-        })
-      })
+      await this.refreshStateFromAPI()
+
+      // // Trigger all event handlers
+      // this.flows.forEach((flow) => {
+      //   this.getGlobalState().onFlowStateChangeHandlers.forEach((handler) => {
+      //     const lastFlow = this.getGlobalState().previousFlows.get(flow.id)
+      //     handler(flow, lastFlow)
+      //     this.getGlobalState().previousFlows.set(flow.id, cloneFlow(flow))
+      //   })
+      // })
     }
   }
 
@@ -86,8 +80,7 @@ export class Frigade extends Fetchable {
           }),
         })
       }
-      await this.refreshUserFlowStates()
-      await this.refreshFlows()
+      await this.refreshStateFromAPI()
     })()
 
     return this.initPromise
@@ -201,8 +194,7 @@ export class Frigade extends Fetchable {
   public async reload() {
     resetAllLocalStorage()
     clearCache()
-    await this.refreshUserFlowStates()
-    await this.refreshFlows()
+    await this.refreshStateFromAPI()
     this.initPromise = null
     await this.init(this.config)
     // Trigger all event handlers
@@ -267,7 +259,7 @@ export class Frigade extends Fetchable {
   /**
    * @ignore
    */
-  private async refreshUserFlowStates(): Promise<void> {
+  private async refreshStateFromAPI(): Promise<void> {
     const globalStateKey = getGlobalStateKey(this.config)
 
     if (!frigadeGlobalState[globalStateKey]) {
@@ -275,14 +267,12 @@ export class Frigade extends Fetchable {
 
       let validator = {
         set: function (target: any, key: any, value: any) {
-          if (
-            target[key] &&
-            target[key].flowState &&
-            (JSON.stringify(target[key].flowState) !== JSON.stringify(value?.flowState) ||
-              JSON.stringify(target[key].stepStates) !== JSON.stringify(value?.stepStates) ||
-              JSON.stringify(target[key].shouldTrigger) !== JSON.stringify(value?.shouldTrigger))
-          ) {
-            that.triggerEventHandlers(target[key])
+          if (target[key]) {
+            const previousState = target[key] as StatefulFlow
+            const newState = value as StatefulFlow
+            if (JSON.stringify(previousState) !== JSON.stringify(newState)) {
+              that.triggerEventHandlers(newState, previousState)
+            }
           }
 
           target[key] = value
@@ -291,8 +281,9 @@ export class Frigade extends Fetchable {
       }
 
       frigadeGlobalState[globalStateKey] = {
-        refreshUserFlowStates: async () => {},
-        userFlowStates: new Proxy({}, validator),
+        refreshStateFromAPI: async () => {},
+        rulesGraph: new RulesGraph({}),
+        flowStates: new Proxy({}, validator),
         onFlowStateChangeHandlerWrappers: new Map(),
         onStepStateChangeHandlerWrappers: new Map(),
         onFlowStateChangeHandlers: [],
@@ -301,43 +292,36 @@ export class Frigade extends Fetchable {
       }
 
       if (this.config.__readOnly && this.config.__flowConfigOverrides) {
-        this.mockUserFlowStates(globalStateKey)
+        this.mockFlowStates(globalStateKey)
 
         return
       }
 
-      frigadeGlobalState[globalStateKey].refreshUserFlowStates = async () => {
+      frigadeGlobalState[globalStateKey].refreshStateFromAPI = async () => {
         if (this.config.__readOnly) {
           return
         }
 
-        const userFlowStatesRaw = await this.fetch(
-          `/userFlowStates?foreignUserId=${encodeURIComponent(this.config.userId)}${
-            this.config.groupId
-              ? `&foreignUserGroupId=${encodeURIComponent(this.config.groupId)}`
-              : ''
+        const flowStatesRaw: FlowState = await this.fetch(
+          `/flowStates?userId=${encodeURIComponent(this.config.userId)}${
+            this.config.groupId ? `&groupId=${encodeURIComponent(this.config.groupId)}` : ''
           }`
         )
-        if (userFlowStatesRaw && userFlowStatesRaw.data) {
-          let userFlowStates = userFlowStatesRaw.data as UserFlowState[]
-          userFlowStates.forEach((userFlowState) => {
-            let shouldReload = false
-            const before = frigadeGlobalState[globalStateKey].userFlowStates[userFlowState.flowId]
+        frigadeGlobalState[globalStateKey].rulesGraph = new RulesGraph(
+          flowStatesRaw.ruleGraph?.graph ?? {},
+          frigadeGlobalState[globalStateKey]?.rulesGraph?.getRegistry()
+        )
 
-            // Special case: for flows that show up based on targeting logic/rules, we need to check if the flow should be triggered
-            if (before && before.shouldTrigger == false && userFlowState.shouldTrigger == true) {
-              shouldReload = true
-            }
-            frigadeGlobalState[globalStateKey].userFlowStates[userFlowState.flowId] = userFlowState
-            if (shouldReload) {
-              this.flows.forEach((flow) => {
-                if (flow.id == userFlowState.flowId) {
-                  flow.reload()
-                  this.triggerEventHandlers(
-                    frigadeGlobalState[globalStateKey].userFlowStates[flow.id]
-                  )
-                }
-              })
+        if (flowStatesRaw && flowStatesRaw.eligibleFlows) {
+          flowStatesRaw.eligibleFlows.forEach((statefulFlow) => {
+            frigadeGlobalState[globalStateKey].flowStates[statefulFlow.flowSlug] = statefulFlow
+            if (!this.flows.find((flow) => flow.id == statefulFlow.flowSlug)) {
+              this.flows.push(
+                new Flow({
+                  config: this.config,
+                  id: statefulFlow.flowSlug,
+                })
+              )
             }
           })
           this.hasFailed = false
@@ -347,33 +331,7 @@ export class Frigade extends Fetchable {
       }
     }
 
-    await frigadeGlobalState[globalStateKey].refreshUserFlowStates()
-  }
-
-  /**
-   * @ignore
-   */
-  private async refreshFlows() {
-    this.flows = []
-
-    if (this.config.__flowConfigOverrides) {
-      this.mockFlowConfigs()
-      return
-    }
-
-    const flowDataRaw = await this.fetch('/flows')
-    if (flowDataRaw && flowDataRaw.data) {
-      let flowDatas = flowDataRaw.data as FlowDataRaw[]
-      flowDatas.forEach((flowData) => {
-        this.flows.push(new Flow(this.config, flowData))
-        this.getGlobalState().previousFlows.set(
-          flowData.slug,
-          cloneFlow(this.flows[this.flows.length - 1])
-        )
-      })
-    } else {
-      this.hasFailed = true
-    }
+    await frigadeGlobalState[globalStateKey].refreshStateFromAPI()
   }
 
   /**
@@ -382,20 +340,9 @@ export class Frigade extends Fetchable {
   private mockFlowConfigs() {
     Object.keys(this.config.__flowConfigOverrides).forEach((flowId) => {
       this.flows.push(
-        new Flow(this.config, {
-          id: -1,
-          name: '',
-          description: '',
-          data: this.config.__flowConfigOverrides[flowId],
-          createdAt: new Date().toISOString(),
-          modifiedAt: new Date().toISOString(),
-          slug: flowId,
-          targetingLogic: '',
-          type: FlowType.CHECKLIST,
-          triggerType: TriggerType.MANUAL,
-          status: FlowStatus.ACTIVE,
-          version: 1,
-          active: true,
+        new Flow({
+          config: this.config,
+          id: flowId,
         })
       )
     })
@@ -404,41 +351,57 @@ export class Frigade extends Fetchable {
   /**
    * @ignore
    */
-  private mockUserFlowStates(globalStateKey: string) {
+  private mockFlowStates(globalStateKey: string) {
     Object.keys(this.config.__flowConfigOverrides).forEach((flowId) => {
       const parsed = JSON.parse(this.config.__flowConfigOverrides[flowId])
-      frigadeGlobalState[globalStateKey].userFlowStates[flowId] = {
-        flowId,
-        flowState: 'NOT_STARTED_FLOW',
-        lastStepId: null,
-        userId: this.config.userId,
-        foreignUserId: this.config.userId,
-        stepStates:
-          parsed?.steps?.reduce((acc, step) => {
-            acc[step.id] = {
-              stepId: step.id,
-              flowSlug: flowId,
-              actionType: 'NOT_STARTED_STEP',
-              createdAt: new Date().toISOString(),
-              blocked: false,
-              hidden: false,
+      frigadeGlobalState[globalStateKey].flowStates[flowId] = {
+        flowSlug: flowId,
+        flowName: parsed?.name ?? flowId,
+        flowType: parsed?.type ?? 'CHECKLIST',
+        data: {
+          ...parsed,
+          steps: (parsed?.steps ?? []).map((step: any): StatefulStep => {
+            return {
+              id: step.id,
+              $state: {
+                completed: false,
+                started: false,
+                visible: true,
+                blocked: false,
+              },
+              ...step,
             }
-            return acc
-          }, {}) ?? {},
-        shouldTrigger: false,
-      }
+          }),
+        },
+        $state: {
+          currentStepId: null,
+          currentStepIndex: -1,
+          completed: false,
+          started: false,
+          skipped: false,
+          visible: true,
+        },
+      } as StatefulFlow
+
+      this.flows.push(
+        new Flow({
+          config: this.config,
+          id: flowId,
+        })
+      )
     })
   }
 
   /**
    * @ignore
    */
-  private async triggerEventHandlers(previousUserFlowState: UserFlowState) {
-    if (previousUserFlowState) {
+  private async triggerEventHandlers(newState: StatefulFlow, previousState?: StatefulFlow) {
+    if (newState) {
       this.flows.forEach((flow) => {
-        if (flow.id == previousUserFlowState.flowId) {
+        if (flow.id == previousState.flowSlug) {
           this.getGlobalState().onFlowStateChangeHandlers.forEach((handler) => {
             const lastFlow = this.getGlobalState().previousFlows.get(flow.id)
+            flow.resyncState(newState)
             handler(flow, lastFlow)
             this.getGlobalState().previousFlows.set(flow.id, cloneFlow(flow))
           })
