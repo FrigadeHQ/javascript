@@ -6,7 +6,7 @@ export interface AnnouncementProps extends FlowPropsWithoutChildren, DialogProps
   /**
    * @ignore
    */
-  children: React.ReactNode
+  children?: React.ReactNode
   /**
    * @ignore
    */
