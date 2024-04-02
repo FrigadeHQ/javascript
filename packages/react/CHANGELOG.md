@@ -1,5 +1,12 @@
 # @frigade/react
 
+## 2.1.1
+
+### Patch Changes
+
+- fbb030b: Bump to the latest version of @emotion/react"
+- c8b5b01: Fixes a bug where children is not optional in Frigade.Announcement
+
 ## 2.1.0
 
 ### Minor Changes
