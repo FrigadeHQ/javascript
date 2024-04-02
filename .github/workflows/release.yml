@@ -21,9 +21,18 @@ jobs:
       - name: Set yarn version
         run: yarn set version 3.6.2
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install
       - name: Build
         run: yarn build
+      - name: Commit changes
+        uses: EndBug/add-and-commit@v9
+        with:
+          author_name: YarnInstaller
+          author_email: devs@frigade.com
+          message: "chore: yarn install"
+          cwd: ./
+          add: "yarn.lock"
+          push: true
       - name: Create Release Pull Request or Publish to npm
         id: changesets
         uses: changesets/action@v1
