@@ -307,10 +307,30 @@ export class Frigade extends Fetchable {
             this.config.groupId ? `&groupId=${encodeURIComponent(this.config.groupId)}` : ''
           }`
         )
+
+        const hasRuleGraphChanged =
+          JSON.stringify(frigadeGlobalState[globalStateKey].rulesGraph.rawGraphData) !==
+          JSON.stringify(flowStatesRaw.ruleGraph?.graph)
+
         frigadeGlobalState[globalStateKey].rulesGraph = new RulesGraph(
           flowStatesRaw.ruleGraph?.graph ?? {},
           frigadeGlobalState[globalStateKey]?.rulesGraph?.getRegistry()
         )
+
+        // Call all event handlers for the flows in the rulesgraph
+        if (hasRuleGraphChanged) {
+          this.flows.forEach((flow) => {
+            if (flowStatesRaw.ruleGraph?.graph[flow.id]) {
+              const flowState = flowStatesRaw.eligibleFlows.find((f) => f.flowSlug === flow.id)
+              const lastFlow = this.getGlobalState().previousFlows.get(flow.id)
+              flow.resyncState(flowState)
+              this.getGlobalState().onFlowStateChangeHandlers.forEach((handler) => {
+                handler(flow, lastFlow)
+                this.getGlobalState().previousFlows.set(flow.id, cloneFlow(flow))
+              })
+            }
+          })
+        }
 
         if (flowStatesRaw && flowStatesRaw.eligibleFlows) {
           flowStatesRaw.eligibleFlows.forEach((statefulFlow) => {

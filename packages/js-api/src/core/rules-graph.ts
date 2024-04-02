@@ -16,11 +16,16 @@ export type RulesGraphData = [string, RulesGraphNode][]
 export class RulesGraph {
   private graph: Map<string, RulesGraphNode> = new Map()
   private readonly registry: Map<string, RulesGraphRegistryCallback> = new Map()
+  private readonly _rawGraphData: Record<string, RulesGraphNode>
+  public get rawGraphData() {
+    return this._rawGraphData
+  }
 
   constructor(
     graphData: Record<string, RulesGraphNode>,
     registry?: Map<string, RulesGraphRegistryCallback>
   ) {
+    this._rawGraphData = graphData
     if (registry) {
       this.registry = registry
     }
