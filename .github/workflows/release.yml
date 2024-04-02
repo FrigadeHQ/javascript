@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: 'lts/*'
       - name: Set yarn version
-        run: yarn set version 3.6.2
+        run: yarn set version 3.6.2 && yarn config set -H enableImmutableInstalls false
       - name: Install dependencies
         run: yarn install
       - name: Build
@@ -41,4 +41,3 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          YARN_ENABLE_IMMUTABLE_INSTALLS: false
