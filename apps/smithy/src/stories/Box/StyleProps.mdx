@@ -4,22 +4,49 @@ import { Meta } from "@storybook/blocks";
 
 # Style Props
 
-Style props allow you to add any valid [CSS property](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference#a) as a React prop.
-Style props are converted to an object and passed to the [Emotion](https://emotion.sh/docs/css-prop) `css` prop.
+Style props allow you to add any valid [CSS property](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference#a) as a React prop. Style props are converted to an object and passed to the [Emotion](https://emotion.sh/docs/css-prop) `css` prop.
+
+Like so:
+
+```jsx
+<Box backgroundColor="#cc0000" padding="0 10px 3em" />
+```
+
+### Themed style props
+
+Most common style props will have relevant design tokens associated with them, so for example you could use color tokens in style props that control colors:
+
+```jsx
+// backgroundColor is linked to theme.colors, so "neutral.500" == theme.colors.neutral.500
+<Box backgroundColor="neutral.500" />
+```
+
+Also note that you can use themed style props with CSS shorthand properties:
+
+```jsx
+// padding is linked to theme.space, so these unitless values will be parsed out to theme.space.1 and theme.space.2
+<Box padding="1 2" />
+```
+
+For a full list of themed style props, check the [themedStyleProps](https://github.com/FrigadeHQ/javascript/blob/main/packages/react/src/components/Box/styleProps.ts#L42) constant in `styleProps.ts`.
+
+### Caveats
 
 The `alt`, `size`, and `src` CSS properties are not valid style props, because they conflict with HTML attributes (and they're not used for actual styling in CSS anyway). They will be skipped by style props and passed through to your component
 unaltered.
 
-The `width` and `height` props are a special case: They're used to set the
-intrinsic size of replaced elements (img, video, etc.), so two things
-happen:
+The `width` and `height` props are a special case: They're used to set the intrinsic size of replaced elements (img, video, etc.), so two things happen:
 
 1. The width and height props are converted to the width and height CSS
    properties as usual.
 
 2. If Box is rendering as a replaced element (
    `<canvas>, <embed>, <iframe>, <img>, <input>, <object>, or <video>`
-   ), preserve and pass width and height through as HTML attributes.
+   ), it will preserve and pass width and height through as HTML attributes.
+
+So TL;DR: The `width` and `height` props will used both as style props _and_ as HTML attributes.
+
+### Bypassing style props
 
 As an escape hatch, you can prefix any style prop with an underscore
 to prevent it from being converted to CSS. E.g.:
