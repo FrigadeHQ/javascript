@@ -24,7 +24,7 @@ jobs:
         run: yarn install
       - name: Build
         run: yarn build
-      - name: Commit changes
+      - name: Commit changes to yarn.lock
         uses: EndBug/add-and-commit@v9
         with:
           author_name: YarnInstaller
@@ -33,6 +33,7 @@ jobs:
           cwd: ./
           add: "yarn.lock"
           push: true
+          tag_push: '--force'
       - name: Create Release Pull Request or Publish to npm
         id: changesets
         uses: changesets/action@v1
