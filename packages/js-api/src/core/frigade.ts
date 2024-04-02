@@ -26,14 +26,14 @@ export class Frigade extends Fetchable {
     if (document.visibilityState === 'visible') {
       await this.refreshStateFromAPI()
 
-      // Trigger all event handlers
-      this.flows.forEach((flow) => {
-        this.getGlobalState().onFlowStateChangeHandlers.forEach((handler) => {
-          const lastFlow = this.getGlobalState().previousFlows.get(flow.id)
-          handler(flow, lastFlow)
-          this.getGlobalState().previousFlows.set(flow.id, cloneFlow(flow))
-        })
-      })
+      // // Trigger all event handlers
+      // this.flows.forEach((flow) => {
+      //   this.getGlobalState().onFlowStateChangeHandlers.forEach((handler) => {
+      //     const lastFlow = this.getGlobalState().previousFlows.get(flow.id)
+      //     handler(flow, lastFlow)
+      //     this.getGlobalState().previousFlows.set(flow.id, cloneFlow(flow))
+      //   })
+      // })
     }
   }
 
@@ -308,7 +308,8 @@ export class Frigade extends Fetchable {
           }`
         )
         frigadeGlobalState[globalStateKey].rulesGraph = new RulesGraph(
-          flowStatesRaw.ruleGraph?.graph ?? {}
+          flowStatesRaw.ruleGraph?.graph ?? {},
+          frigadeGlobalState[globalStateKey]?.rulesGraph?.getRegistry()
         )
 
         if (flowStatesRaw && flowStatesRaw.eligibleFlows) {

@@ -15,9 +15,15 @@ export type RulesGraphData = [string, RulesGraphNode][]
 // TODO: JSDoc this class
 export class RulesGraph {
   private graph: Map<string, RulesGraphNode> = new Map()
-  private registry: Map<string, RulesGraphRegistryCallback> = new Map()
+  private readonly registry: Map<string, RulesGraphRegistryCallback> = new Map()
 
-  constructor(graphData: Record<string, RulesGraphNode>) {
+  constructor(
+    graphData: Record<string, RulesGraphNode>,
+    registry?: Map<string, RulesGraphRegistryCallback>
+  ) {
+    if (registry) {
+      this.registry = registry
+    }
     this.ingestGraphData(graphData)
   }
 
@@ -76,6 +82,10 @@ export class RulesGraph {
     this.registry.delete(flowId)
 
     this.fireCallbacks()
+  }
+
+  getRegistry() {
+    return this.registry
   }
 
   private findRegisteredDescendant(nodeId: string, originId = nodeId, ruleId?: string) {

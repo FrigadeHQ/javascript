@@ -198,12 +198,12 @@ export class Flow extends Fetchable {
           copy.data.steps[index + 1].$state.lastActionAt = new Date()
         }
 
+        this.getGlobalState().flowStates[this.id] = copy
+        this.resyncState()
+
         if (isLastStep) {
           this.optimisticallyMarkFlowCompleted()
         }
-
-        this.getGlobalState().flowStates[this.id] = copy
-        this.resyncState()
 
         // if all steps are now completed, mark flow completed
         await this.fetch('/flowResponses', {
