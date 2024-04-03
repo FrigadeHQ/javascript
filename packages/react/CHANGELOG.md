@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.1.3
+
+### Patch Changes
+
+- 434827e: Updates the behavior for forms to not submit forms onSecondary CTA click
+
 ## 2.1.2
 
 ### Patch Changes
