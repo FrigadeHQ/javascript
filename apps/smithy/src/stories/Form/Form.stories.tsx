@@ -7,8 +7,13 @@ export default {
 
 export const Default = {
   args: {
-    dismissible: true,
+    dismissible: false,
     flowId: "flow_GSfKhVKmWXTw2wdt",
     width: "400px",
+    onPrimary: () => console.log("Primary"),
+    onSecondary: () => {
+      console.log("Secondary");
+      return true;
+    },
   },
 };

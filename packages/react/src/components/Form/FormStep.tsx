@@ -66,13 +66,6 @@ export function FormStep({
     handlePrimary(e, data)
   }
 
-  function onSecondarySubmit(
-    data: Record<string | number, unknown>,
-    e: SyntheticEvent<object, unknown>
-  ) {
-    handleSecondary(e, data)
-  }
-
   // @ts-expect-error TODO: Add type to step.fields
   step.fields?.forEach((fieldData: FormFieldData) => {
     if (fieldTypes[fieldData.type] != null) {
@@ -105,10 +98,7 @@ export function FormStep({
 
       <Flex.Row key="form-footer" part="form-step-footer" justifyContent="flex-end" gap={3}>
         {secondaryButtonTitle && (
-          <Button.Secondary
-            title={secondaryButtonTitle}
-            onClick={handleSubmit(onSecondarySubmit)}
-          />
+          <Button.Secondary title={secondaryButtonTitle} onClick={handleSecondary} />
         )}
         <Button.Primary
           title={primaryButtonTitle ?? 'Submit'}
