@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.1.2
+
+### Patch Changes
+
+- dd0b0d3: Bumps frigade/js to the latest version and fixes an issue related to forceMounting forms
+
 ## 2.1.1
 
 ### Patch Changes
