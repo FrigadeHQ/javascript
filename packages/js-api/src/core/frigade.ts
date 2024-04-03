@@ -282,7 +282,10 @@ export class Frigade extends Fetchable {
 
       frigadeGlobalState[globalStateKey] = {
         refreshStateFromAPI: async () => {},
-        rulesGraph: new RulesGraph({}),
+        rulesGraph: new RulesGraph({
+          graph: {},
+          ruleOrder: [],
+        }),
         flowStates: new Proxy({}, validator),
         onFlowStateChangeHandlerWrappers: new Map(),
         onStepStateChangeHandlerWrappers: new Map(),
@@ -313,7 +316,7 @@ export class Frigade extends Fetchable {
           JSON.stringify(flowStatesRaw.ruleGraph?.graph)
 
         frigadeGlobalState[globalStateKey].rulesGraph = new RulesGraph(
-          flowStatesRaw.ruleGraph?.graph ?? {},
+          flowStatesRaw.ruleGraph,
           frigadeGlobalState[globalStateKey]?.rulesGraph?.getRegistry()
         )
 

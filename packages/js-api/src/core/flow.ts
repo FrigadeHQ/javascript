@@ -479,15 +479,16 @@ export class Flow extends Fetchable {
    */
   public onStateChange(handler: (flow: Flow, previousFlow: Flow) => void) {
     const wrapperHandler = (flow: Flow, previousFlow: Flow) => {
-      if (
-        (flow.id === this.id &&
-          (flow.isCompleted !== previousFlow?.isCompleted ||
-            flow.isStarted !== previousFlow?.isStarted ||
-            flow.isSkipped !== previousFlow?.isSkipped ||
-            flow.isVisible !== previousFlow?.isVisible)) ||
-        JSON.stringify(flow.steps) !== JSON.stringify(previousFlow?.steps)
-      ) {
-        handler(flow, previousFlow)
+      if (flow.id === this.id) {
+        if (
+          flow.isCompleted !== previousFlow?.isCompleted ||
+          flow.isStarted !== previousFlow?.isStarted ||
+          flow.isSkipped !== previousFlow?.isSkipped ||
+          flow.isVisible !== previousFlow?.isVisible ||
+          JSON.stringify(flow.steps) !== JSON.stringify(previousFlow?.steps)
+        ) {
+          handler(flow, previousFlow)
+        }
       }
     }
     this.getGlobalState().onFlowStateChangeHandlerWrappers.set(handler, wrapperHandler)

@@ -297,12 +297,15 @@ export interface StatefulFlow {
   }
 }
 
+export interface RuleGraph {
+  ruleOrder: string[]
+  graph: Record<string, RulesGraphNode>
+}
+
 export interface FlowState {
   eligibleFlows: StatefulFlow[]
   ineligibleFlows: string[]
-  ruleGraph?: {
-    graph: Record<string, RulesGraphNode>
-  }
+  ruleGraph?: RuleGraph
 }
 
 export interface InternalConfig {
