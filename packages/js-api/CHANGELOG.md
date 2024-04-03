@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.3.1
+
+### Patch Changes
+
+- aeb5868: Updated documentation on deprecated types
+
 ## 0.3.0
 
 ### Minor Changes
