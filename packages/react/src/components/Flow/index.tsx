@@ -68,11 +68,15 @@ export function Flow({
     }
   }, [flow])
 
-  if (flow == null || !isCurrentModal) {
+  const shouldForceMount = forceMount && (flow?.isCompleted || flow?.isSkipped)
+
+  if (!flow) {
     return null
   }
 
-  const shouldForceMount = forceMount && flow.isCompleted
+  if (!shouldForceMount && !isCurrentModal) {
+    return null
+  }
 
   if (!flow.isVisible && !shouldForceMount) {
     return null
@@ -82,7 +86,7 @@ export function Flow({
     return null
   }
 
-  if (!flow.isCompleted && !flow.isSkipped) {
+  if (shouldForceMount || (!flow.isCompleted && !flow.isSkipped)) {
     step.start()
   }
 
