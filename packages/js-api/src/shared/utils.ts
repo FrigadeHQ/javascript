@@ -1,5 +1,4 @@
 import { VERSION_NUMBER } from '../core/version'
-import fetch from 'cross-fetch'
 import { v4 as uuidv4 } from 'uuid'
 import { Flow } from '../core/flow'
 import { frigadeGlobalState } from './state'
@@ -86,6 +85,12 @@ export function resetAllLocalStorage() {
 }
 
 export async function gracefulFetch(url: string, options: any) {
+  if (typeof globalThis.fetch !== 'function') {
+    return getEmptyResponse(
+      "- Attempted to call fetch() in an environment that doesn't support it."
+    )
+  }
+
   const lastCallAtKey = LAST_POST_CALL_AT + url
   const lastCallDataKey = LAST_POST_CALL_DATA + url
   if (isWeb() && options && options.body && options.method === 'POST') {

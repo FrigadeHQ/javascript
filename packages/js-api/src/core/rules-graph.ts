@@ -27,8 +27,8 @@ export class RulesGraph {
     if (registry) {
       this.registry = registry
     }
-    this.ruleOrder = graphData.ruleOrder
-    this.ingestGraphData(graphData.graph)
+    this.ruleOrder = graphData?.ruleOrder ?? []
+    this.ingestGraphData(graphData?.graph ?? {})
   }
 
   ingestGraphData(graphData: Record<string, RulesGraphNode>) {
