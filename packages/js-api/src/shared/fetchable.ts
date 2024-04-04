@@ -7,7 +7,7 @@ export class Fetchable {
     apiKey: '',
     apiUrl: 'https://api.frigade.com/v1/public',
     userId: generateGuestId(),
-    __instanceId: Math.random().toString(36).substring(7),
+    __instanceId: Math.random().toString(12).substring(4),
   }
 
   constructor(config: FrigadeConfig) {
@@ -50,7 +50,7 @@ export class Fetchable {
   protected getGlobalState(): FrigadeGlobalState {
     const globalStateKey = getGlobalStateKey(this.config)
     if (!frigadeGlobalState[globalStateKey]) {
-      throw new Error('Frigade not initialized')
+      throw new Error('Frigade has not yet been initialized')
     }
     return frigadeGlobalState[globalStateKey]
   }

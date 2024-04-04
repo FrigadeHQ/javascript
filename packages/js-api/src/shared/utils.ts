@@ -84,6 +84,34 @@ export function resetAllLocalStorage() {
   }
 }
 
+class CallQueue {
+  private queue: {
+    call: string
+    time: number
+  }[] = []
+  private readonly ttlInMS = 500
+  private readonly cacheSize = 5
+
+  public push(call: string) {
+    const now = new Date()
+    if (this.queue.length >= this.cacheSize) {
+      this.queue.shift()
+    }
+    this.queue.push({
+      call: call,
+      time: now.getTime(),
+    })
+  }
+
+  public hasIdenticalCall(call: string) {
+    const now = new Date()
+    this.queue = this.queue.filter((item) => now.getTime() - item.time < this.ttlInMS)
+    return this.queue.some((item) => item.call === call)
+  }
+}
+
+const callQueue = new CallQueue()
+
 export async function gracefulFetch(url: string, options: any) {
   if (typeof globalThis.fetch !== 'function') {
     return getEmptyResponse(
@@ -91,23 +119,12 @@ export async function gracefulFetch(url: string, options: any) {
     )
   }
 
-  const lastCallAtKey = LAST_POST_CALL_AT + url
-  const lastCallDataKey = LAST_POST_CALL_DATA + url
   if (isWeb() && options && options.body && options.method === 'POST') {
-    const lastCall = getLocalStorage(lastCallAtKey)
-    const lastCallData = getLocalStorage(lastCallDataKey)
-    if (lastCall && lastCallData && lastCallData == options.body) {
-      const lastCallDate = new Date(lastCall)
-      const now = new Date()
-      const diff = now.getTime() - lastCallDate.getTime()
-      // Throttle consecutive POST calls to 1 second
-      if (diff < POST_CACHE_TTL_MS) {
-        return getEmptyResponse()
-      }
+    const lastCallDataKey = `${url}${JSON.stringify(options.body ?? {})}`
+    if (callQueue.hasIdenticalCall(lastCallDataKey)) {
+      return getEmptyResponse()
     }
-    setLocalStorage(lastCallAtKey, new Date().toISOString())
-    setLocalStorage(lastCallDataKey, options.body)
-    clearCache()
+    callQueue.push(lastCallDataKey)
   }
 
   let response

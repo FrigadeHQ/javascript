@@ -2,10 +2,14 @@ import { FlowStep, Frigade } from '../src'
 import { getRandomID } from './util'
 import { Flow } from '../src/.'
 
+import fetch from 'cross-fetch'
+
 const testAPIKey = 'api_public_3MPLH7NJ9L0U963XKW7BPE2IT137GC6L742JLC2XCT6NOIYSI4QUI9I1RA3ZOGIL'
 const testFlowId = 'flow_yJfjksFrs5QEH0c8'
 const testFlowStepId = 'checklist-step-one'
 
+// make fetch globally available
+globalThis.fetch = fetch
 describe('SDK integration test', () => {
   test('can init Frigade', async () => {
     const frigade = new Frigade(testAPIKey, {})
