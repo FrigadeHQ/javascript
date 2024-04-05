@@ -8,6 +8,8 @@ export interface ProviderContext extends Omit<ProviderProps, 'children' | 'theme
   setModals: Dispatch<SetStateAction<Set<string>>>
   currentModal: string | null
   frigade?: Frigade
+  hasInitialized: boolean
+  registerComponent: (flowId: string, callback?: (visible: boolean) => void) => void
 }
 
 export const FrigadeContext = createContext<ProviderContext>({
@@ -16,4 +18,6 @@ export const FrigadeContext = createContext<ProviderContext>({
   setModals: () => {},
   currentModal: null,
   navigate: () => {},
+  hasInitialized: false,
+  registerComponent: () => {},
 })

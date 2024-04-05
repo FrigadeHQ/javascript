@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useContext, useEffect } from 'react'
 
 import { Box } from '@/components/Box'
 
@@ -8,6 +8,7 @@ import { useStepHandlers } from '@/hooks/useStepHandlers'
 import { useModal } from '@/hooks/useModal'
 
 import type { FlowProps } from '@/components/Flow/FlowProps'
+import { FrigadeContext } from '@/components/Provider'
 
 export type {
   FlowChildrenProps,
@@ -31,7 +32,8 @@ export function Flow({
   const { flow } = useFlow(flowId, {
     variables,
   })
-  const [hasFinishedFlowRegistration, setHasFinishedFlowRegistration] = useState(false)
+
+  const { hasInitialized, registerComponent } = useContext(FrigadeContext)
 
   const step = flow?.getCurrentStep()
 
@@ -56,18 +58,6 @@ export function Flow({
     }
   }, [flow?.isVisible, isCurrentModal])
 
-  useEffect(() => {
-    flow?.register(() => {
-      setHasFinishedFlowRegistration(true)
-    })
-  }, [flow])
-
-  useEffect(() => {
-    return () => {
-      flow?.unregister()
-    }
-  }, [flow])
-
   const shouldForceMount = forceMount && (flow?.isCompleted || flow?.isSkipped)
 
   if (!flow) {
@@ -82,7 +72,11 @@ export function Flow({
     return null
   }
 
-  if (!hasFinishedFlowRegistration) {
+  registerComponent(flowId, (visible) => {
+    console.log('rules graph callback: ', flowId, visible)
+  })
+
+  if (!hasInitialized) {
     return null
   }
 

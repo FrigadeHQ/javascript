@@ -310,6 +310,7 @@ export class Frigade extends Fetchable {
           JSON.stringify(frigadeGlobalState[globalStateKey].rulesGraph.rawGraphData) !==
           JSON.stringify(flowStateRaw.ruleGraph?.graph)
 
+        console.log('frigade: making new RulesGraph')
         frigadeGlobalState[globalStateKey].rulesGraph = new RulesGraph(
           flowStateRaw.ruleGraph,
           frigadeGlobalState[globalStateKey]?.rulesGraph?.getRegistry()

@@ -1,4 +1,4 @@
-import { Banner, Box } from "@frigade/react";
+import { Banner, Box, Flex } from "@frigade/react";
 import { StoryContext, StoryFn } from "@storybook/react";
 
 export default {
@@ -13,10 +13,14 @@ export const Default = {
   decorators: [
     (_: StoryFn, options: StoryContext) => {
       return (
-        <Box>
-          <Banner flowId="flow_ZZ6Fz6nt" />
-          <Banner flowId="flow_gY36aLgO" />
-        </Box>
+        <Flex.Row>
+          <Box flex="0 0 50%">
+            <Banner flowId="flow_ZZ6Fz6nt" />
+          </Box>
+          <Box flex="0 0 50%" marginLeft="auto">
+            <Banner flowId="flow_gY36aLgO" />
+          </Box>
+        </Flex.Row>
       );
     },
   ],
