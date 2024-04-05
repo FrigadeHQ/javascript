@@ -1,4 +1,12 @@
-import { FlowStep, FrigadeConfig, StatefulFlow, StatefulStep } from './types'
+import {
+  FlowActionType,
+  FlowStateDTO,
+  FlowStates,
+  FlowStep,
+  FrigadeConfig,
+  StatefulFlow,
+  StatefulStep,
+} from './types'
 import {
   clone,
   COMPLETED_FLOW,
@@ -99,6 +107,8 @@ export class Flow extends Fetchable {
     this.isSkipped = statefulFlow.$state.skipped
     this._isVisible = statefulFlow.$state.visible
 
+    // Set
+
     statefulFlow.data.steps.forEach((step, index) => {
       const stepObj = this.initStepFromStatefulStep(step, index)
 
@@ -155,19 +165,7 @@ export class Flow extends Fetchable {
         this.resyncState()
 
         if (!thisStep.$state.completed) {
-          await this.fetch('/flowResponses', {
-            method: 'POST',
-            body: JSON.stringify({
-              foreignUserId: this.config.userId,
-              foreignUserGroupId: this.config.groupId,
-              flowSlug: this.id,
-              stepId: thisStep.id,
-              data: properties ?? {},
-              createdAt: properties?.createdAt ? new Date(properties.createdAt) : undefined,
-              actionType: STARTED_STEP,
-            }),
-          })
-          await this.refreshStateFromAPI()
+          await this.sendFlowStateToAPI(STARTED_STEP, properties, thisStep.id)
         }
       }
 
@@ -190,13 +188,6 @@ export class Flow extends Fetchable {
           copy.$state.completed = true
         }
 
-        const nextStepId = this.getStepByIndex(index + 1)?.id
-        if (nextStepId) {
-          copy.$state.currentStepId = nextStepId
-          copy.data.steps[index + 1].$state.started = true
-          copy.data.steps[index + 1].$state.lastActionAt = new Date()
-        }
-
         this.getGlobalState().flowStates[this.id] = copy
         this.resyncState()
 
@@ -204,20 +195,7 @@ export class Flow extends Fetchable {
           this.optimisticallyMarkFlowCompleted()
         }
 
-        // if all steps are now completed, mark flow completed
-        await this.fetch('/flowResponses', {
-          method: 'POST',
-          body: JSON.stringify({
-            foreignUserId: this.config.userId,
-            foreignUserGroupId: this.config.groupId,
-            flowSlug: this.id,
-            stepId: thisStep.id,
-            data: properties ?? {},
-            createdAt: properties?.createdAt ? new Date(properties.createdAt) : undefined,
-            actionType: COMPLETED_STEP,
-          }),
-        })
-        await this.refreshStateFromAPI()
+        await this.sendFlowStateToAPI(COMPLETED_STEP, properties, thisStep.id)
       }
 
       stepObj.reset = async () => {
@@ -235,18 +213,7 @@ export class Flow extends Fetchable {
         this.getGlobalState().flowStates[this.id] = copy
         this.resyncState()
 
-        await this.fetch('/flowResponses', {
-          method: 'POST',
-          body: JSON.stringify({
-            foreignUserId: this.config.userId,
-            foreignUserGroupId: this.config.groupId,
-            flowSlug: this.id,
-            stepId: thisStep.id,
-            data: {},
-            actionType: NOT_STARTED_STEP,
-          }),
-        })
-        await this.refreshStateFromAPI()
+        await this.sendFlowStateToAPI(NOT_STARTED_STEP, undefined, thisStep.id)
       }
 
       stepObj.onStateChange = (handler: (step: FlowStep, previousStep: FlowStep) => void) => {
@@ -306,18 +273,7 @@ export class Flow extends Fetchable {
     this.getGlobalState().flowStates[this.id] = copy
     this.resyncState()
 
-    await this.fetch('/flowResponses', {
-      method: 'POST',
-      body: JSON.stringify({
-        foreignUserId: this.config.userId,
-        foreignUserGroupId: this.config.groupId,
-        flowSlug: this.id,
-        stepId: this.getCurrentStep().id,
-        data: properties ?? {},
-        actionType: STARTED_FLOW,
-      }),
-    })
-    await this.refreshStateFromAPI()
+    await this.sendFlowStateToAPI(STARTED_FLOW, properties)
   }
 
   /**
@@ -328,21 +284,7 @@ export class Flow extends Fetchable {
       return
     }
     this.optimisticallyMarkFlowCompleted()
-
-    await this.fetch('/flowResponses', {
-      method: 'POST',
-      body: JSON.stringify({
-        foreignUserId: this.config.userId,
-        foreignUserGroupId: this.config.groupId,
-        flowSlug: this.id,
-        stepId: this.getCurrentStep().id,
-        data: properties ?? {},
-        createdAt: properties?.createdAt ? new Date(properties.createdAt) : undefined,
-        actionType: COMPLETED_FLOW,
-      }),
-    })
-
-    await this.refreshStateFromAPI()
+    await this.sendFlowStateToAPI(COMPLETED_FLOW, properties)
   }
 
   /**
@@ -352,22 +294,8 @@ export class Flow extends Fetchable {
     if (this.isSkipped) {
       return
     }
-
     this.optimisticallyMarkFlowSkipped()
-
-    await this.fetch('/flowResponses', {
-      method: 'POST',
-      body: JSON.stringify({
-        foreignUserId: this.config.userId,
-        foreignUserGroupId: this.config.groupId,
-        flowSlug: this.id,
-        stepId: this.getCurrentStep().id,
-        data: properties ?? {},
-        createdAt: properties?.createdAt ? new Date(properties.createdAt) : undefined,
-        actionType: SKIPPED_FLOW,
-      }),
-    })
-    await this.refreshStateFromAPI()
+    await this.sendFlowStateToAPI(SKIPPED_FLOW, properties)
   }
 
   /**
@@ -377,6 +305,8 @@ export class Flow extends Fetchable {
     const nextStep = this.getStepByIndex(this.getCurrentStepIndex() + 1)
     if (nextStep) {
       await nextStep.start(properties)
+    } else {
+      await this.complete(properties)
     }
   }
 
@@ -394,19 +324,8 @@ export class Flow extends Fetchable {
    * Restarts the flow/marks it not started
    */
   public async restart() {
-    await this.fetch('/flowResponses', {
-      method: 'POST',
-      body: JSON.stringify({
-        foreignUserId: this.config.userId,
-        foreignUserGroupId: this.config.groupId,
-        flowSlug: this.id,
-        stepId: 'unknown',
-        data: {},
-        actionType: NOT_STARTED_FLOW,
-      }),
-    })
-
-    await this.refreshStateFromAPI()
+    this.optimisticallyMarkFlowNotStarted()
+    await this.sendFlowStateToAPI(NOT_STARTED_FLOW)
   }
 
   /**
@@ -421,24 +340,10 @@ export class Flow extends Fetchable {
    * Gets current step
    */
   public getCurrentStep(): FlowStep {
-    let maybeCurrentStepId = Array.from(this.steps.keys()).find(
-      (key) =>
-        this.steps.get(key).$state.completed === false &&
-        this.steps.get(key).$state.visible !== false
+    return (
+      this.steps.get(this.getStatefulFlow().$state.currentStepId) ??
+      this.steps.get(Array.from(this.steps.keys())[0])
     )
-    Array.from(this.steps.keys()).forEach((key) => {
-      if (
-        this.steps.get(key).$state.started &&
-        this.steps.get(key).$state.lastActionAt &&
-        this.steps.get(key).$state.lastActionAt >
-          (this.steps.get(maybeCurrentStepId)?.$state.lastActionAt ?? new Date(0))
-      ) {
-        maybeCurrentStepId = key
-      }
-    })
-
-    const currentStepId = maybeCurrentStepId ?? Array.from(this.steps.keys())[0]
-    return this.steps.get(currentStepId)
   }
 
   /**
@@ -541,14 +446,6 @@ export class Flow extends Fetchable {
   /**
    * @ignore
    */
-  private async refreshStateFromAPI() {
-    await this.getGlobalState().refreshStateFromAPI()
-    this.resyncState()
-  }
-
-  /**
-   * @ignore
-   */
   private optimisticallyMarkFlowCompleted() {
     const copy = clone(this.getGlobalState().flowStates[this.id])
     copy.$state.completed = true
@@ -556,6 +453,36 @@ export class Flow extends Fetchable {
     copy.$state.visible = false
     this.getGlobalState().flowStates[this.id] = copy
     this.resyncState()
+  }
+
+  /**
+   * @ignore
+   */
+  private optimisticallyMarkFlowNotStarted() {
+    const copy = clone(this.getGlobalState().flowStates[this.id])
+    copy.$state.completed = false
+    copy.$state.started = false
+    copy.$state.visible = true
+    this.getGlobalState().flowStates[this.id] = copy
+    this.resyncState()
+  }
+
+  private async sendFlowStateToAPI(
+    action: FlowActionType,
+    data?: Record<string | number, any>,
+    stepId?: string
+  ) {
+    const flowStatesRaw: FlowStates = await this.fetch('/flowStates', {
+      method: 'POST',
+      body: JSON.stringify({
+        userId: this.config.userId,
+        groupId: this.config.groupId,
+        flowSlug: this.id,
+        stepId: stepId ?? this.getCurrentStep().id,
+        data: data ? JSON.stringify(data) : {},
+        actionType: action,
+      } as FlowStateDTO),
+    })
   }
 
   /**

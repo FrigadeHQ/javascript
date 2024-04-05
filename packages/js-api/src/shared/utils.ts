@@ -10,15 +10,9 @@ export const STARTED_FLOW = 'STARTED_FLOW'
 export const NOT_STARTED_FLOW = 'NOT_STARTED_FLOW'
 export const COMPLETED_STEP = 'COMPLETED_STEP'
 export const STARTED_STEP = 'STARTED_STEP'
-export type StepActionType = 'STARTED_STEP' | 'COMPLETED_STEP' | 'NOT_STARTED_STEP'
-export type UserFlowStatus = 'NOT_STARTED_FLOW' | 'STARTED_FLOW' | 'COMPLETED_FLOW' | 'SKIPPED_FLOW'
-const LAST_POST_CALL_AT = 'frigade-last-call-at-'
-const LAST_POST_CALL_DATA = 'frigade-last-call-data-'
 const GUEST_KEY = 'frigade-guest-key'
 export const GUEST_PREFIX = 'guest_'
 const GET_CACHE_PREFIX = 'get-cache-'
-const GET_CACHE_TTL_MS = 1000
-const POST_CACHE_TTL_MS = 1000
 const LOCAL_STORAGE_PREFIX = 'fr-js-'
 
 export function cloneFlow(flow: Flow): Flow {
@@ -144,11 +138,17 @@ export async function gracefulFetch(url: string, options: any) {
   }
 
   try {
-    if (response.status === 204 || response.status === 201) {
+    if (response.status === 204) {
       return getEmptyResponse()
     }
 
-    const body = await response.json()
+    let body
+    try {
+      body = await response.json()
+    } catch (e) {
+      return getEmptyResponse()
+    }
+
     if (body.error) {
       return getEmptyResponse(body.error)
     }

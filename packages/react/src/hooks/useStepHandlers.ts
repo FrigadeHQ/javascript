@@ -30,7 +30,10 @@ export function useStepHandlers(step: FlowStep, { onPrimary, onSecondary }: Step
     'flow.restart': () => step.flow.restart(),
     'flow.skip': () => step.flow.skip(),
     'flow.start': () => step.flow.start(),
-    'step.complete': () => step.complete(),
+    'step.complete': () => {
+      step.complete()
+      step.flow.forward()
+    },
     'step.reset': () => step.reset(),
     'step.start': () => step.start(),
   }
@@ -53,6 +56,7 @@ export function useStepHandlers(step: FlowStep, { onPrimary, onSecondary }: Step
             primaryAction()
           } else if (primaryAction !== false) {
             step.complete(properties)
+            step.flow.forward()
           }
 
           if (step.primaryButton.uri != null) {
@@ -60,6 +64,7 @@ export function useStepHandlers(step: FlowStep, { onPrimary, onSecondary }: Step
           }
         } else {
           step.complete(properties)
+          step.flow.forward()
 
           if (step.primaryButtonUri != null) {
             navigate(step.primaryButtonUri, step.primaryButtonUriTarget)

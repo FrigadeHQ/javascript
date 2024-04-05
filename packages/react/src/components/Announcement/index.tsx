@@ -80,7 +80,7 @@ export function Announcement({ flowId, ...props }: AnnouncementProps) {
               />
 
               <Dialog.ProgressDots
-                current={flow.getNumberOfCompletedSteps()}
+                current={flow.getCurrentStepIndex()}
                 total={flow.getNumberOfAvailableSteps()}
               />
 

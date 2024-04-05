@@ -302,17 +302,10 @@ export interface RuleGraph {
   graph: Record<string, RulesGraphNode>
 }
 
-export interface FlowState {
+export interface FlowStates {
   eligibleFlows: StatefulFlow[]
   ineligibleFlows: string[]
   ruleGraph?: RuleGraph
-}
-
-export interface InternalConfig {
-  apiKey: string
-  userId?: string
-  organizationId?: string
-  __instanceId?: string
 }
 
 export enum FlowType {
@@ -327,4 +320,22 @@ export enum FlowType {
   NPS_SURVEY = 'NPS_SURVEY',
   SURVEY = 'SURVEY',
   CARD = 'CARD',
+}
+
+export type FlowActionType =
+  | 'STARTED_STEP'
+  | 'COMPLETED_STEP'
+  | 'NOT_STARTED_STEP'
+  | 'STARTED_FLOW'
+  | 'COMPLETED_FLOW'
+  | 'SKIPPED_FLOW'
+  | 'NOT_STARTED_FLOW'
+
+export class FlowStateDTO {
+  userId: string
+  groupId?: string
+  flowSlug: string
+  stepId?: string
+  data?: string
+  actionType: FlowActionType
 }
