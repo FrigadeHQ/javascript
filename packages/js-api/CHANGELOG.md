@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.4.0
+
+### Minor Changes
+
+- 812a8ed: Reduces the amount of network calls to Frigade by 75%
+
 ## 0.3.1
 
 ### Patch Changes
