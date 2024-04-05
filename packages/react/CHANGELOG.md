@@ -1,5 +1,12 @@
 # @frigade/react
 
+## 2.1.4
+
+### Patch Changes
+
+- Updated dependencies [812a8ed]
+  - @frigade/js@0.4.0
+
 ## 2.1.3
 
 ### Patch Changes
