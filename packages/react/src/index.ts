@@ -1,10 +1,10 @@
 /// <reference types="@emotion/react/types/css-prop" />
 
 export { Announcement, type AnnouncementProps } from './components/Announcement'
-export { Banner } from './components/Banner'
+export { Banner, type BannerProps } from './components/Banner'
 export { Box, type BoxProps } from './components/Box'
 export { Button, type ButtonProps } from './components/Button'
-export { Card } from './components/Card'
+export { Card, type CardProps, type CardHeaderProps } from './components/Card'
 export * as Checklist from './components/Checklist'
 export type { CollapsibleProps, CollapsibleStepProps } from './components/Checklist'
 export { Dialog, type DialogProps } from './components/Dialog'
@@ -16,16 +16,31 @@ export * as Survey from './components/Survey'
 export { Text, type TextProps } from './components/Text'
 export { Tooltip, type TooltipProps } from './components/Tooltip'
 export { Tour, type TourProps } from './components/Tour'
-
-export { Flow, Frigade, FlowType } from '@frigade/js'
-export { themeVariables } from './shared/theme'
-export { tokens } from './shared/tokens'
+export {
+  Flow,
+  type FlowChildrenProps,
+  type FlowProps,
+  type FlowPropsWithoutChildren,
+} from './components/Flow'
+export * as FrigadeJS from '@frigade/js'
+export { themeVariables, type Theme } from './shared/theme'
+export { tokens, type Tokens } from './shared/tokens'
 
 export { useBoundingClientRect } from './hooks/useBoundingClientRect'
 export { useFlow, type FlowConfig } from './hooks/useFlow'
-export { useFlowHandlers } from './hooks/useFlowHandlers'
+export {
+  useFlowHandlers,
+  type DismissHandler,
+  type FlowHandlerProp,
+  type FlowHandlerProps,
+} from './hooks/useFlowHandlers'
 export { useModal } from './hooks/useModal'
-export { useStepHandlers } from './hooks/useStepHandlers'
+export {
+  useStepHandlers,
+  type StepHandler,
+  type StepHandlerProp,
+  type StepHandlerProps,
+} from './hooks/useStepHandlers'
 export { useFrigade } from './hooks/useFrigade'
 export { useUser } from './hooks/useUser'
 export { useGroup } from './hooks/useGroup'
