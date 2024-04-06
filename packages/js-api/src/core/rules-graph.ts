@@ -77,7 +77,7 @@ export class RulesGraph {
   }
 
   register(flowId: string, callback?: RulesGraphRegistryCallback) {
-    this.registry.set(flowId, callback)
+    this.registry.set(flowId, callback ?? (() => {}))
 
     this.fireCallbacks()
   }

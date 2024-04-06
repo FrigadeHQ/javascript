@@ -9,6 +9,7 @@ import {
 } from './types'
 import {
   clone,
+  cloneFlow,
   COMPLETED_FLOW,
   COMPLETED_STEP,
   NOT_STARTED_FLOW,
@@ -511,7 +512,21 @@ export class Flow extends Fetchable {
   }
 
   public register(callback?: RulesGraphRegistryCallback) {
-    this.getGlobalState().rulesGraph.register(this.id, callback)
+    const globalState = this.getGlobalState()
+
+    globalState.rulesGraph.register(this.id, (visible) => {
+      const prevFlow = this.getGlobalState().previousFlows.get(this.id)
+
+      if (prevFlow?._isVisible !== visible) {
+        // TODO: Store these in a hash so we can grab this flow's handler and call it
+        this.getGlobalState().onFlowStateChangeHandlers.forEach((handler) => {
+          handler(this, prevFlow)
+          this.getGlobalState().previousFlows.set(this.id, cloneFlow(this))
+        })
+      }
+
+      callback?.(visible)
+    })
   }
 
   public unregister() {

@@ -72,9 +72,7 @@ export function Flow({
     return null
   }
 
-  registerComponent(flowId, (visible) => {
-    console.log('rules graph callback: ', flowId, visible)
-  })
+  registerComponent(flowId)
 
   if (!hasInitialized) {
     return null

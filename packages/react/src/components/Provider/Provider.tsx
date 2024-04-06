@@ -84,7 +84,7 @@ export function Provider({ children, navigate, theme, ...props }: ProviderProps)
     setHasInitialized(true)
   }
 
-  function registerComponent(flowId: string, callback: (visible: boolean) => void) {
+  function registerComponent(flowId: string, callback?: (visible: boolean) => void) {
     console.log('registerComponent: ', flowId)
 
     if (intervalRef.current) {
@@ -92,14 +92,22 @@ export function Provider({ children, navigate, theme, ...props }: ProviderProps)
     }
 
     if (hasInitialized) {
-      console.log('hasInitialized: true, skipping registration')
+      console.log('hasInitialized: true, skipping batch registration')
+
+      if (!registeredComponents.current.has(flowId)) {
+        console.log('Late registration: ', flowId)
+        frigade.getFlow(flowId).then((flow) => flow.register(callback))
+
+        registeredComponents.current.set(flowId, {})
+      }
+
       return
     }
 
     if (!registeredComponents.current.has(flowId)) {
       console.log('registeredComponents.set: ', flowId)
       registeredComponents.current.set(flowId, {
-        callback: callback ?? (() => {}),
+        callback,
       })
     }
 
