@@ -306,30 +306,10 @@ export class Frigade extends Fetchable {
               }`
             )
 
-        const hasRuleGraphChanged =
-          JSON.stringify(frigadeGlobalState[globalStateKey].rulesGraph.rawGraphData) !==
-          JSON.stringify(flowStateRaw.ruleGraph?.graph)
-
-        console.log('frigade: making new RulesGraph')
-        frigadeGlobalState[globalStateKey].rulesGraph = new RulesGraph(
-          flowStateRaw.ruleGraph,
-          frigadeGlobalState[globalStateKey]?.rulesGraph?.getRegistry()
+        // TODO: should this also take in order and check if it has changed?
+        frigadeGlobalState[globalStateKey].rulesGraph.ingestGraphData(
+          flowStateRaw.ruleGraph?.graph ?? {}
         )
-
-        // Call all event handlers for the flows in the rulesgraph
-        if (hasRuleGraphChanged) {
-          this.flows.forEach((flow) => {
-            if (flowStateRaw.ruleGraph?.graph[flow.id]) {
-              const flowState = flowStateRaw.eligibleFlows.find((f) => f.flowSlug === flow.id)
-              const lastFlow = this.getGlobalState().previousFlows.get(flow.id)
-              flow.resyncState(flowState)
-              this.getGlobalState().onFlowStateChangeHandlers.forEach((handler) => {
-                handler(flow, lastFlow)
-                this.getGlobalState().previousFlows.set(flow.id, cloneFlow(flow))
-              })
-            }
-          })
-        }
 
         if (flowStateRaw && flowStateRaw.eligibleFlows) {
           flowStateRaw.eligibleFlows.forEach((statefulFlow) => {

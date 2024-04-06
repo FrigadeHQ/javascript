@@ -297,7 +297,7 @@ export interface StatefulFlow {
   }
 }
 
-export interface RuleGraph {
+export interface RulesGraphData {
   ruleOrder: string[]
   graph: Record<string, RulesGraphNode>
 }
@@ -305,7 +305,7 @@ export interface RuleGraph {
 export interface FlowStates {
   eligibleFlows: StatefulFlow[]
   ineligibleFlows: string[]
-  ruleGraph?: RuleGraph
+  ruleGraph?: RulesGraphData
 }
 
 export enum FlowType {
