@@ -480,6 +480,7 @@ export class Flow extends Fetchable {
     stepId?: string
   ) {
     const date = new Date()
+    this.getGlobalState().lastSyncDate = date
     const flowStatesRaw: FlowStates = await this.fetch('/flowStates', {
       method: 'POST',
       body: JSON.stringify({
@@ -492,7 +493,10 @@ export class Flow extends Fetchable {
         createdAt: date,
       } as FlowStateDTO),
     })
-    await this.getGlobalState().refreshStateFromAPI(flowStatesRaw, date)
+    if (date < this.getGlobalState().lastSyncDate) {
+      return
+    }
+    await this.getGlobalState().refreshStateFromAPI(flowStatesRaw)
   }
 
   /**

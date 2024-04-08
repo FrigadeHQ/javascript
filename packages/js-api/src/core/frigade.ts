@@ -292,21 +292,9 @@ export class Frigade extends Fetchable {
       }
 
       frigadeGlobalState[globalStateKey].refreshStateFromAPI = async (
-        overrideFlowStateRaw?: FlowStates,
-        syncDate?: Date
+        overrideFlowStateRaw?: FlowStates
       ) => {
         if (this.config.__readOnly) {
-          return
-        }
-
-        const newestTimestamp = Math.max(
-          ...Object.values(frigadeGlobalState[globalStateKey].flowStates)
-            .map((flowState) => new Date(flowState.$state.lastActionAt).getTime())
-            .filter((timestamp) => !isNaN(timestamp))
-        )
-
-        // This ensures that we don't make an API call if we have a newer version stored already
-        if (overrideFlowStateRaw && syncDate?.getTime() < newestTimestamp) {
           return
         }
 
