@@ -355,20 +355,6 @@ export class Frigade extends Fetchable {
   /**
    * @ignore
    */
-  private mockFlowConfigs() {
-    Object.keys(this.config.__flowConfigOverrides).forEach((flowId) => {
-      this.flows.push(
-        new Flow({
-          config: this.config,
-          id: flowId,
-        })
-      )
-    })
-  }
-
-  /**
-   * @ignore
-   */
   private mockFlowStates(globalStateKey: string) {
     Object.keys(this.config.__flowConfigOverrides).forEach((flowId) => {
       const parsed = JSON.parse(this.config.__flowConfigOverrides[flowId])

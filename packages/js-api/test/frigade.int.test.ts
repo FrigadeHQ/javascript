@@ -93,7 +93,7 @@ describe('SDK integration test', () => {
     expect(flow.getCurrentStepIndex()).toEqual(0)
     expect(step.$state.started).toBeTruthy()
     await step.complete()
-    expect(flow.getCurrentStepIndex()).toEqual(0)
+    expect(flow.getCurrentStepIndex()).toEqual(1)
     expect(step.$state.completed).toBeTruthy()
     await step.reset()
     expect(step.$state.completed).toBeFalsy()
@@ -200,7 +200,7 @@ describe('SDK integration test', () => {
     expect(callback).toHaveBeenCalledTimes(0)
     await flow.complete()
     expect(flow.isCompleted).toBeTruthy()
-    expect(callback).toHaveBeenCalledTimes(1)
+    expect(callback).toHaveBeenCalledTimes(2)
     flow.removeStateChangeHandler(callback)
     expect(frigade.config.__instanceId).toEqual(instanceId)
     expect(flow.config.__instanceId).toEqual(instanceId)
@@ -223,7 +223,7 @@ describe('SDK integration test', () => {
     await flow.steps.get(testFlowStepId).start()
     expect(callback).toHaveBeenCalledTimes(1)
     await flow.steps.get(testFlowStepId).complete()
-    expect(callback).toHaveBeenCalledTimes(2)
+    expect(callback).toHaveBeenCalledTimes(3)
   })
 
   test('custom variables get substituted', async () => {

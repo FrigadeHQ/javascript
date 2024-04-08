@@ -184,6 +184,13 @@ export class Flow extends Fetchable {
         copy.data.steps[thisStep.order].$state.completed = true
         copy.data.steps[thisStep.order].$state.started = true
         copy.data.steps[thisStep.order].$state.lastActionAt = new Date()
+
+        // If there are more index, advance current step
+        if (!isLastStep) {
+          copy.$state.currentStepId = this.getStepByIndex(thisStep.order + 1).id
+          copy.$state.currentStepIndex = thisStep.order + 1
+        }
+
         if (isLastStep) {
           copy.$state.completed = true
         }
@@ -481,8 +488,10 @@ export class Flow extends Fetchable {
         stepId: stepId ?? this.getCurrentStep().id,
         data: data ? JSON.stringify(data) : {},
         actionType: action,
+        createdAt: new Date(),
       } as FlowStateDTO),
     })
+    await this.getGlobalState().refreshStateFromAPI(flowStatesRaw)
   }
 
   /**

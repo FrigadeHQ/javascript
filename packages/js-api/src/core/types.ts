@@ -338,4 +338,5 @@ export class FlowStateDTO {
   stepId?: string
   data?: string
   actionType: FlowActionType
+  createdAt?: Date
 }
