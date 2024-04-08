@@ -1,4 +1,4 @@
-import { Frigade } from '@frigade/js'
+import { Frigade, type RulesGraphRegistryCallback, type Flow } from '@frigade/js'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Global, ThemeProvider } from '@emotion/react'
 
@@ -12,7 +12,12 @@ import {
 import { FrigadeContext } from './FrigadeContext'
 
 export type NavigateHandler = (url: string, target?: string) => void
-export type RegisteredComponents = Map<string, Record<string, object>>
+export type RegisteredComponents = Map<
+  string,
+  {
+    callback?: RulesGraphRegistryCallback
+  }
+>
 
 // TODO: type theme something like Partial<typeof themeTokens>, but allow any value for those keys
 export interface ProviderProps {
@@ -78,13 +83,14 @@ export function Provider({ children, navigate, theme, ...props }: ProviderProps)
     console.log('Batch register: ', registeredComponents.current)
 
     for (const [flowId, options] of registeredComponents.current) {
-      frigade.getFlow(flowId).then((flow) => flow.register(options.callback))
+      console.log('CHECK: ', flowId, options.callback, typeof options.callback)
+      frigade.getFlow(flowId).then((flow: Flow) => flow.register(options.callback))
     }
 
     setHasInitialized(true)
   }
 
-  function registerComponent(flowId: string, callback?: (visible: boolean) => void) {
+  function registerComponent(flowId: string, callback?: RulesGraphRegistryCallback) {
     console.log('registerComponent: ', flowId)
 
     if (intervalRef.current) {
@@ -95,10 +101,11 @@ export function Provider({ children, navigate, theme, ...props }: ProviderProps)
       console.log('hasInitialized: true, skipping batch registration')
 
       if (!registeredComponents.current.has(flowId)) {
-        console.log('Late registration: ', flowId)
-        frigade.getFlow(flowId).then((flow) => flow.register(callback))
+        frigade.getFlow(flowId).then((flow: Flow) => flow.register(callback))
 
-        registeredComponents.current.set(flowId, {})
+        registeredComponents.current.set(flowId, {
+          callback: callback,
+        })
       }
 
       return
