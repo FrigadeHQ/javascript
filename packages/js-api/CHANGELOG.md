@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.4.1
+
+### Patch Changes
+
+- e18dfde: Fixes a race condition that in some cases could cause flickering in flows
+
 ## 0.4.0
 
 ### Minor Changes
