@@ -80,10 +80,7 @@ export function Provider({ children, navigate, theme, ...props }: ProviderProps)
   }, [props.userId, props.groupId, props.apiKey])
 
   function batchRegistration() {
-    console.log('Batch register: ', registeredComponents.current)
-
     for (const [flowId, options] of registeredComponents.current) {
-      console.log('CHECK: ', flowId, options.callback, typeof options.callback)
       frigade.getFlow(flowId).then((flow: Flow) => flow.register(options.callback))
     }
 
@@ -91,15 +88,11 @@ export function Provider({ children, navigate, theme, ...props }: ProviderProps)
   }
 
   function registerComponent(flowId: string, callback?: RulesGraphRegistryCallback) {
-    console.log('registerComponent: ', flowId)
-
     if (intervalRef.current) {
       clearTimeout(intervalRef.current)
     }
 
     if (hasInitialized) {
-      console.log('hasInitialized: true, skipping batch registration')
-
       if (!registeredComponents.current.has(flowId)) {
         frigade.getFlow(flowId).then((flow: Flow) => flow.register(callback))
 
@@ -112,7 +105,6 @@ export function Provider({ children, navigate, theme, ...props }: ProviderProps)
     }
 
     if (!registeredComponents.current.has(flowId)) {
-      console.log('registeredComponents.set: ', flowId)
       registeredComponents.current.set(flowId, {
         callback,
       })
