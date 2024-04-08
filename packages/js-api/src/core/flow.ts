@@ -479,6 +479,7 @@ export class Flow extends Fetchable {
     data?: Record<string | number, any>,
     stepId?: string
   ) {
+    const date = new Date()
     const flowStatesRaw: FlowStates = await this.fetch('/flowStates', {
       method: 'POST',
       body: JSON.stringify({
@@ -488,10 +489,10 @@ export class Flow extends Fetchable {
         stepId: stepId ?? this.getCurrentStep().id,
         data: data ? JSON.stringify(data) : {},
         actionType: action,
-        createdAt: new Date(),
+        createdAt: date,
       } as FlowStateDTO),
     })
-    await this.getGlobalState().refreshStateFromAPI(flowStatesRaw)
+    await this.getGlobalState().refreshStateFromAPI(flowStatesRaw, date)
   }
 
   /**

@@ -3,7 +3,7 @@ import { Flow } from '../core/flow'
 import { RulesGraph } from '../core/rules-graph'
 
 export interface FrigadeGlobalState {
-  refreshStateFromAPI: (overrideFlowStatesRaw?: FlowStates) => Promise<void>
+  refreshStateFromAPI: (overrideFlowStatesRaw?: FlowStates, syncDate?: Date) => Promise<void>
   flowStates: Record<string, StatefulFlow>
   rulesGraph: RulesGraph
   onFlowStateChangeHandlerWrappers: Map<
