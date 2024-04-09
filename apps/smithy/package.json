@@ -35,6 +35,6 @@
     "prop-types": "^15.8.1",
     "storybook": "latest",
     "typescript": "^5.0.2",
-    "vite": "^4.5.2"
+    "vite": "^4.5.3"
   }
 }
