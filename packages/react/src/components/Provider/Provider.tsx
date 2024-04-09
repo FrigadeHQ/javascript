@@ -1,5 +1,5 @@
-import { Frigade } from '@frigade/js'
-import { useEffect, useMemo, useState } from 'react'
+import { Frigade, type RulesGraphRegistryCallback, type Flow } from '@frigade/js'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Global, ThemeProvider } from '@emotion/react'
 
 import {
@@ -12,6 +12,12 @@ import {
 import { FrigadeContext } from './FrigadeContext'
 
 export type NavigateHandler = (url: string, target?: string) => void
+export type RegisteredComponents = Map<
+  string,
+  {
+    callback?: RulesGraphRegistryCallback
+  }
+>
 
 // TODO: type theme something like Partial<typeof themeTokens>, but allow any value for those keys
 export interface ProviderProps {
@@ -58,6 +64,10 @@ export interface ProviderProps {
 export function Provider({ children, navigate, theme, ...props }: ProviderProps) {
   const themeOverrides = theme ? createThemeVariables(theme) : {}
   const [modals, setModals] = useState(new Set<string>())
+  const registeredComponents = useRef<RegisteredComponents>(new Map())
+  const intervalRef = useRef<NodeJS.Timeout>()
+  const [hasInitialized, setHasInitialized] = useState(false)
+
   const frigade = useMemo<Frigade>(() => {
     return new Frigade(props.apiKey, {
       apiKey: props.apiKey,
@@ -68,6 +78,44 @@ export function Provider({ children, navigate, theme, ...props }: ProviderProps)
       __flowConfigOverrides: props.__flowConfigOverrides,
     })
   }, [props.userId, props.groupId, props.apiKey])
+
+  function batchRegistration() {
+    for (const [flowId, options] of registeredComponents.current) {
+      frigade.getFlow(flowId).then((flow: Flow) => flow.register(options.callback))
+    }
+
+    setHasInitialized(true)
+  }
+
+  function registerComponent(flowId: string, callback?: RulesGraphRegistryCallback) {
+    if (intervalRef.current) {
+      clearTimeout(intervalRef.current)
+    }
+
+    if (hasInitialized) {
+      if (!registeredComponents.current.has(flowId)) {
+        frigade.getFlow(flowId).then((flow: Flow) => flow.register(callback))
+
+        registeredComponents.current.set(flowId, {
+          callback: callback,
+        })
+      }
+
+      return
+    }
+
+    if (!registeredComponents.current.has(flowId)) {
+      registeredComponents.current.set(flowId, {
+        callback,
+      })
+    }
+
+    if (intervalRef.current) {
+      clearTimeout(intervalRef.current)
+    }
+
+    intervalRef.current = setTimeout(() => batchRegistration(), 0)
+  }
 
   const navigateHandler =
     navigate ??
@@ -92,6 +140,8 @@ export function Provider({ children, navigate, theme, ...props }: ProviderProps)
         navigate: navigateHandler,
         ...props,
         frigade: frigade,
+        registerComponent,
+        hasInitialized,
       }}
     >
       <Global styles={{ ':root': { ...themeVariables, ...themeOverrides } }} />

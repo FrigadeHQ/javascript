@@ -1,4 +1,4 @@
-import type { Frigade } from '@frigade/js'
+import type { Frigade, RulesGraphRegistryCallback } from '@frigade/js'
 import { createContext, type Dispatch, type SetStateAction } from 'react'
 
 import type { ProviderProps } from './Provider'
@@ -8,6 +8,8 @@ export interface ProviderContext extends Omit<ProviderProps, 'children' | 'theme
   setModals: Dispatch<SetStateAction<Set<string>>>
   currentModal: string | null
   frigade?: Frigade
+  hasInitialized: boolean
+  registerComponent: (flowId: string, callback?: RulesGraphRegistryCallback) => void
 }
 
 export const FrigadeContext = createContext<ProviderContext>({
@@ -16,4 +18,6 @@ export const FrigadeContext = createContext<ProviderContext>({
   setModals: () => {},
   currentModal: null,
   navigate: () => {},
+  hasInitialized: false,
+  registerComponent: () => {},
 })

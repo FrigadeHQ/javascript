@@ -1,6 +1,7 @@
-import { useEffect } from 'react'
+import { useContext, useEffect } from 'react'
 
 import { type FlowPropsWithoutChildren } from '@/components/Flow'
+import { FrigadeContext } from '@/components/Provider'
 import { type TooltipProps } from '@/components/Tooltip'
 import { TourStep } from '@/components/Tour/TourStep'
 
@@ -27,6 +28,9 @@ export function Tour({ flowId, onComplete, variables, ...props }: TourProps) {
   const { flow } = useFlow(flowId, {
     variables,
   })
+
+  const { hasInitialized, registerComponent } = useContext(FrigadeContext)
+
   useFlowHandlers(flow, { onComplete })
 
   const { isCurrentModal, removeModal } = useModal(flow)
@@ -38,6 +42,12 @@ export function Tour({ flowId, onComplete, variables, ...props }: TourProps) {
   }, [flow?.isVisible, isCurrentModal])
 
   if (flow == null || flow.isVisible === false || !isCurrentModal) {
+    return null
+  }
+
+  registerComponent(flowId)
+
+  if (!hasInitialized) {
     return null
   }
 

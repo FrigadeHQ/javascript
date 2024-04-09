@@ -1,4 +1,5 @@
-import { Banner, Box } from "@frigade/react";
+import { useEffect, useState } from "react";
+import { Banner, Box, Flex } from "@frigade/react";
 import { StoryContext, StoryFn } from "@storybook/react";
 
 export default {
@@ -12,11 +13,23 @@ export const Default = {
   },
   decorators: [
     (_: StoryFn, options: StoryContext) => {
+      const [showLateBanner, setShowLateBanner] = useState(false);
+
+      useEffect(() => {
+        setTimeout(() => {
+          setShowLateBanner(true);
+        }, 3000);
+      }, []);
+
       return (
-        <Box>
-          <Banner flowId="flow_ZZ6Fz6nt" />
-          <Banner flowId="flow_gY36aLgO" />
-        </Box>
+        <Flex.Row>
+          <Box flex="0 0 50%">
+            <Banner flowId="flow_ZZ6Fz6nt" />
+          </Box>
+          <Box flex="0 0 50%" marginLeft="auto">
+            {showLateBanner && <Banner flowId="flow_gY36aLgO" />}
+          </Box>
+        </Flex.Row>
       );
     },
   ],

@@ -1,4 +1,4 @@
-import { RuleGraph } from './types'
+import { RulesGraphData } from './types'
 
 export interface RulesGraphNode {
   visible: boolean
@@ -16,17 +16,9 @@ export type RulesGraphRegistryCallback = (visible: boolean) => void
 export class RulesGraph {
   private graph: Map<string, RulesGraphNode> = new Map()
   private readonly registry: Map<string, RulesGraphRegistryCallback> = new Map()
-  private readonly _rawGraphData: RuleGraph
   private readonly ruleOrder: string[] = []
-  public get rawGraphData() {
-    return this._rawGraphData
-  }
 
-  constructor(graphData: RuleGraph, registry?: Map<string, RulesGraphRegistryCallback>) {
-    this._rawGraphData = graphData
-    if (registry) {
-      this.registry = registry
-    }
+  constructor(graphData: RulesGraphData) {
     this.ruleOrder = graphData?.ruleOrder ?? []
     this.ingestGraphData(graphData?.graph ?? {})
   }
@@ -77,7 +69,7 @@ export class RulesGraph {
   }
 
   register(flowId: string, callback?: RulesGraphRegistryCallback) {
-    this.registry.set(flowId, callback)
+    this.registry.set(flowId, callback ?? (() => {}))
 
     this.fireCallbacks()
   }
