@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.1.7
+
+### Patch Changes
+
+- 779e355: Bumps to the latest version of @frigade/js
+
 ## 2.1.6
 
 ### Patch Changes
