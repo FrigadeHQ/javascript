@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.1.6
+
+### Patch Changes
+
+- 45d510d: Moves rule graph execution to the provider level
+- Updated dependencies [45d510d]
+  - @frigade/js@0.4.2
+
 ## 2.1.5
 
 ### Patch Changes
