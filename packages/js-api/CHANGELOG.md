@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.4.2
+
+### Patch Changes
+
+- 45d510d: Moves rule graph execution to the provider level
+
 ## 0.4.1
 
 ### Patch Changes
