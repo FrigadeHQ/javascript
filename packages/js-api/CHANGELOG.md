@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.4.3
+
+### Patch Changes
+
+- aebda3a: Fixes an issue where enums were undefined at runtime
+
 ## 0.4.2
 
 ### Patch Changes
