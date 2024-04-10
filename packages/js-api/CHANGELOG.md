@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.4.5
+
+### Patch Changes
+
+- 36bf434: Fixes an issue related to indexing of tours
+
 ## 0.4.4
 
 ### Patch Changes

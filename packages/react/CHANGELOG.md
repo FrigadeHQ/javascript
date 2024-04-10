@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.1.8
+
+### Patch Changes
+
+- 36bf434: Fixes an issue related to indexing of tours
+- Updated dependencies [36bf434]
+  - @frigade/js@0.4.5
+
 ## 2.1.7
 
 ### Patch Changes
