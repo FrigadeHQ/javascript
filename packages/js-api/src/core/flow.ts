@@ -177,8 +177,7 @@ export class Flow extends Fetchable {
           return
         }
 
-        const numberOfCompletedSteps = this.getNumberOfCompletedSteps()
-        const isLastStep = numberOfCompletedSteps + 1 == this.steps.size
+        const isLastStep = thisStep.order + 1 === this.getNumberOfAvailableSteps()
         const copy = clone(this.getGlobalState().flowStates[this.id])
 
         copy.$state.started = true
