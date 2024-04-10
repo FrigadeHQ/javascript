@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.4.4
+
+### Patch Changes
+
+- 8fc0942: Fixes an issue where form data could be double serialized
+
 ## 0.4.3
 
 ### Patch Changes
