@@ -489,7 +489,7 @@ export class Flow extends Fetchable {
         groupId: this.config.groupId,
         flowSlug: this.id,
         stepId: stepId ?? this.getCurrentStep().id,
-        data: data ? JSON.stringify(data) : {},
+        data: data ? data : {},
         actionType: action,
         createdAt: date,
       } as FlowStateDTO),

@@ -336,7 +336,7 @@ export class FlowStateDTO {
   groupId?: string
   flowSlug: string
   stepId?: string
-  data?: string
+  data?: any
   actionType: FlowActionType
   createdAt?: Date
 }
