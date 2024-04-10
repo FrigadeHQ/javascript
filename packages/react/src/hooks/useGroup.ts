@@ -26,5 +26,14 @@ export function useGroup() {
     await frigade.track(eventName, properties)
   }
 
-  return { groupId, addProperties, track }
+  /**
+   * Sets the current group. Note that this can cause issues if separately setting the group in the FrigadeProvider.
+   * @param groupId
+   * @param properties Optional properties to set for the group
+   */
+  async function setGroupId(groupId: string, properties?: Record<string, unknown>) {
+    await frigade.group(groupId, properties)
+  }
+
+  return { groupId, setGroupId, addProperties, track }
 }
