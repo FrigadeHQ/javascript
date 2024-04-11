@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.4.6
+
+### Patch Changes
+
+- fe35351: Fixes an issue where flow.restart() did not reset the index to 0
+
 ## 0.4.5
 
 ### Patch Changes
