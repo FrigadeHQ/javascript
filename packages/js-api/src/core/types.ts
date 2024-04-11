@@ -302,10 +302,22 @@ export interface RulesGraphData {
   graph: Record<string, RulesGraphNode>
 }
 
+export interface ComputedRule {
+  ruleId: string
+  flowId: string
+  visible: boolean
+}
+
+export interface RulesMetadata {
+  computedOrder: ComputedRule[]
+}
+
 export interface FlowStates {
   eligibleFlows: StatefulFlow[]
   ineligibleFlows: string[]
+  // TODO: Remove ruleGraph and rules once migration is complete
   ruleGraph?: RulesGraphData
+  rules?: RulesMetadata
 }
 
 export enum FlowType {
