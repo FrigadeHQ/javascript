@@ -1,4 +1,4 @@
-import { Box, Tour } from "@frigade/react";
+import { Box, Tour, useFlow } from "@frigade/react";
 import { StoryContext, StoryFn } from "@storybook/react";
 import { useEffect, useState } from "react";
 
@@ -14,6 +14,7 @@ export const Default = {
   decorators: [
     (_: StoryFn, options: StoryContext) => {
       const [name, setName] = useState<string>();
+      const { flow } = useFlow("flow_U63A5pndRrvCwxNs");
 
       useEffect(() => {
         setTimeout(() => {
@@ -31,6 +32,13 @@ export const Default = {
             height: "calc(100vh - 32px)",
           }}
         >
+          <input
+            value="Restart Flow"
+            type="button"
+            onClick={() => {
+              flow?.restart();
+            }}
+          />
           <Box
             id="tooltip-storybook-0"
             p={4}
@@ -51,7 +59,7 @@ export const Default = {
             variables={{
               firstName: name,
             }}
-            spotlight={true}
+            // spotlight={true}
             {...options.args}
           />
         </Box>
