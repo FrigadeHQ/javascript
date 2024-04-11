@@ -3,7 +3,7 @@ import { Banner, Box, Flex } from "@frigade/react";
 import { StoryContext, StoryFn } from "@storybook/react";
 
 export default {
-  title: "rules/Two Banners",
+  title: "Rules/Two Banners",
   component: Banner,
 };
 
