@@ -12,22 +12,18 @@ export interface Rule
     visible: boolean
   }> {}
 
-export interface RulesData {
-  rules: {
-    [ruleId: string]: Rule
-  }
-}
+export interface RulesData extends Map<string, Rule> {}
 
 export class Rules {
   private readonly registry: Map<string, RulesRegistryItem> = new Map()
   private rules: Map<string, Rule> = new Map()
 
   constructor(rulesData: RulesData) {
-    this.ingestRulesData(rulesData?.rules ?? {})
+    this.ingestRulesData(rulesData)
   }
 
-  ingestRulesData(rulesData: RulesData['rules']) {
-    this.rules = new Map(Object.entries(rulesData))
+  ingestRulesData(rulesData: RulesData) {
+    this.rules = rulesData
 
     if (this.registry.size > 0) {
       this.processRules()
@@ -45,7 +41,13 @@ export class Rules {
   }
 
   isFlowVisible(flowId: string) {
-    return this.registry.get(flowId)?.visible
+    const registeredFlow = this.registry.get(flowId)
+
+    if (registeredFlow == null || registeredFlow?.visited === false) {
+      return true
+    }
+
+    return registeredFlow.visible
   }
 
   processRules() {
@@ -67,13 +69,13 @@ export class Rules {
         }
 
         // The API can force a flow to be hidden due to cool-offs, etc.
-        if (visibleAPIOverride === false && registeredFlow.visible !== false) {
+        if (visibleAPIOverride === false && registeredFlow.visible !== true) {
           this.visit(flowId, false)
           continue
         }
 
-        // If this flow is already visible according to processRules, it will stay visible until next time processRules runs
-        if (registeredFlow.visible && registeredFlow.visited) {
+        // If this flow has already been processed in a previous rule, it shouldn't change visibility until next time we run processRules
+        if (registeredFlow.visited) {
           continue
         }
 
@@ -134,88 +136,3 @@ export class Rules {
     this.registry.set(flowId, item)
   }
 }
-
-const rulesData = {
-  rule_1: [
-    {
-      flowId: 'flow_a',
-      visible: false,
-    },
-    {
-      flowId: 'flow_b',
-      visible: true,
-    },
-    {
-      flowId: 'flow_c',
-      visible: true,
-    },
-  ],
-
-  rule_2: [
-    {
-      flowId: 'flow_c',
-      visible: true,
-    },
-    {
-      flowId: 'flow_b',
-      visible: true,
-    },
-    {
-      flowId: 'flow_a',
-      visible: false,
-    },
-  ],
-
-  rule_3: [
-    {
-      flowId: 'flow_d',
-      visible: true,
-    },
-    {
-      flowId: 'flow_a',
-      visible: false,
-    },
-    {
-      flowId: 'flow_b',
-      visible: true,
-    },
-  ],
-
-  rule_4: [
-    {
-      flowId: 'flow_e',
-      visible: true,
-    },
-    {
-      flowId: 'flow_d',
-      visible: true,
-    },
-    {
-      flowId: 'flow_b',
-      visible: true,
-    },
-  ],
-
-  // rule_4: [
-  //   {
-  //     flowId: 'flow_b',
-  //     visible: true,
-  //   },
-  //   {
-  //     flowId: 'flow_d',
-  //     visible: true,
-  //   },
-  //   {
-  //     flowId: 'flow_e',
-  //     visible: true,
-  //   },
-  // ],
-}
-
-const rules = new Rules({ rules: rulesData })
-
-rules.register('flow_a')
-rules.register('flow_b')
-rules.register('flow_c')
-rules.register('flow_d')
-rules.register('flow_e')
