@@ -19,7 +19,7 @@ import {
   STARTED_STEP,
 } from '../shared/utils'
 import { Fetchable } from '../shared/fetchable'
-import { RulesGraphRegistryCallback } from './rules-graph'
+import { RulesRegistryCallback } from './rules'
 
 export class Flow extends Fetchable {
   /**
@@ -513,7 +513,7 @@ export class Flow extends Fetchable {
     this.resyncState()
   }
 
-  public register(callback?: RulesGraphRegistryCallback) {
+  public register(callback?: RulesRegistryCallback) {
     const globalState = this.getGlobalState()
 
     globalState.rules.register(this.id, (visible) => {

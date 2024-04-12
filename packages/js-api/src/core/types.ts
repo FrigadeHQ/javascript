@@ -1,7 +1,5 @@
 import type { Flow } from './flow'
 
-import { RulesGraphNode } from './rules-graph'
-
 export enum TriggerType {
   MANUAL = 'MANUAL',
   AUTOMATIC = 'AUTOMATIC',
@@ -297,11 +295,6 @@ export interface StatefulFlow {
   }
 }
 
-export interface RulesGraphData {
-  ruleOrder: string[]
-  graph: Record<string, RulesGraphNode>
-}
-
 export interface ComputedRule {
   ruleId: string
   flowId: string
@@ -315,8 +308,6 @@ export interface RulesMetadata {
 export interface FlowStates {
   eligibleFlows: StatefulFlow[]
   ineligibleFlows: string[]
-  // TODO: Remove ruleGraph and rules once migration is complete
-  ruleGraph?: RulesGraphData
   rules?: RulesMetadata
 }
 

@@ -1,4 +1,4 @@
-import { Frigade, type RulesGraphRegistryCallback, type Flow } from '@frigade/js'
+import { Frigade, type RulesRegistryCallback, type Flow } from '@frigade/js'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Global, ThemeProvider } from '@emotion/react'
 
@@ -15,7 +15,7 @@ export type NavigateHandler = (url: string, target?: string) => void
 export type RegisteredComponents = Map<
   string,
   {
-    callback?: RulesGraphRegistryCallback
+    callback?: RulesRegistryCallback
   }
 >
 
@@ -87,7 +87,7 @@ export function Provider({ children, navigate, theme, ...props }: ProviderProps)
     setHasInitialized(true)
   }
 
-  function registerComponent(flowId: string, callback?: RulesGraphRegistryCallback) {
+  function registerComponent(flowId: string, callback?: RulesRegistryCallback) {
     if (intervalRef.current) {
       clearTimeout(intervalRef.current)
     }
