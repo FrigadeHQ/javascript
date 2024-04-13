@@ -1,4 +1,4 @@
-import { FlowStates, FrigadeConfig, StatefulFlow, StatefulStep } from './types'
+import { FlowStates, FrigadeConfig, SessionDTO, StatefulFlow, StatefulStep } from './types'
 import { clearCache, cloneFlow, GUEST_PREFIX, isWeb, resetAllLocalStorage } from '../shared/utils'
 import { Flow } from './flow'
 import { frigadeGlobalState, getGlobalStateKey } from '../shared/state'
@@ -63,12 +63,16 @@ export class Frigade extends Fetchable {
     }
 
     this.initPromise = (async () => {
-      if (this.config.userId && !this.config.userId?.startsWith(GUEST_PREFIX)) {
-        await this.fetch('/users', {
-          method: 'POST',
-          body: JSON.stringify({
-            foreignId: this.config.userId,
-          }),
+      if (this.config.userId?.startsWith(GUEST_PREFIX)) {
+        // do nothing
+      } else if (this.config.userId && this.config.groupId) {
+        await this.session({
+          userId: this.config.userId,
+          groupId: this.config.groupId,
+        })
+      } else if (this.config.userId) {
+        await this.session({
+          userId: this.config.userId,
         })
       }
       await this.refreshStateFromAPI()
@@ -85,12 +89,9 @@ export class Frigade extends Fetchable {
   public async identify(userId: string, properties?: Record<string, any>): Promise<void> {
     this.config = { ...this.config, userId }
     await this.initIfNeeded()
-    await this.fetch('/users', {
-      method: 'POST',
-      body: JSON.stringify({
-        foreignId: this.config.userId,
-        properties,
-      }),
+    await this.session({
+      userId: this.config.userId,
+      userProperties: properties,
     })
     await this.resync()
   }
@@ -100,16 +101,13 @@ export class Frigade extends Fetchable {
    * @param groupId
    * @param properties
    */
-  public async group(groupId: string, properties?: Record<string, any>): Promise<void> {
+  public async group(groupId?: string, properties?: Record<string, any>): Promise<void> {
     await this.initIfNeeded()
     this.config.groupId = groupId
-    await this.fetch('/userGroups', {
-      method: 'POST',
-      body: JSON.stringify({
-        foreignUserId: this.config.userId,
-        foreignUserGroupId: this.config.groupId,
-        properties,
-      }),
+    await this.session({
+      userId: this.config.userId,
+      groupId: this.config.groupId,
+      groupProperties: properties,
     })
     await this.resync()
   }
@@ -126,34 +124,44 @@ export class Frigade extends Fetchable {
       return
     }
     if (this.config.userId && this.config.groupId) {
-      await this.fetch('/userGroups', {
-        method: 'POST',
-        body: JSON.stringify({
-          foreignUserId: this.config.userId,
-          foreignUserGroupId: this.config.groupId,
-          events: [
-            {
-              event,
-              properties,
-            },
-          ],
-        }),
+      await this.session({
+        userId: this.config.userId,
+        groupId: this.config.groupId,
+        groupEvents: [
+          {
+            event,
+            properties,
+          },
+        ],
+        userEvents: [
+          {
+            event,
+            properties,
+          },
+        ],
       })
     } else if (this.config.userId) {
-      await this.fetch('/users', {
-        method: 'POST',
-        body: JSON.stringify({
-          foreignId: this.config.userId,
-          events: [
-            {
-              event,
-              properties,
-            },
-          ],
-        }),
+      await this.session({
+        userId: this.config.userId,
+        userEvents: [
+          {
+            event,
+            properties,
+          },
+        ],
       })
     }
     await this.resync()
+  }
+
+  /**
+   * @ignore
+   */
+  private async session(sessionDTO: SessionDTO) {
+    await this.fetch('/sessions', {
+      method: 'POST',
+      body: JSON.stringify(sessionDTO),
+    })
   }
 
   /**

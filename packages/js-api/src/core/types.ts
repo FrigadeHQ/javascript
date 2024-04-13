@@ -334,7 +334,7 @@ export type FlowActionType =
   | 'SKIPPED_FLOW'
   | 'NOT_STARTED_FLOW'
 
-export class FlowStateDTO {
+export interface FlowStateDTO {
   userId: string
   groupId?: string
   flowSlug: string
@@ -342,4 +342,19 @@ export class FlowStateDTO {
   data?: any
   actionType: FlowActionType
   createdAt?: Date
+}
+
+export interface TrackingEvent {
+  event: string
+  properties?: { [key: string]: any }
+}
+
+export interface SessionDTO {
+  userId: string
+  groupId?: string
+  userProperties?: { [key: string]: any }
+  userEvents?: TrackingEvent[]
+  groupProperties?: { [key: string]: any }
+  groupEvents?: TrackingEvent[]
+  linkGuestId?: string
 }
