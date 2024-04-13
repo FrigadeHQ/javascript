@@ -19,7 +19,7 @@ import {
   STARTED_STEP,
 } from '../shared/utils'
 import { Fetchable } from '../shared/fetchable'
-import { RulesGraphRegistryCallback } from './rules-graph'
+import { RulesRegistryCallback } from './rules'
 
 export class Flow extends Fetchable {
   /**
@@ -68,7 +68,7 @@ export class Flow extends Fetchable {
       return false
     }
 
-    return this.getGlobalState().rulesGraph.isFlowVisible(this.id)
+    return this.getGlobalState().rules.isFlowVisible(this.id)
   }
   set isVisible(visible: boolean) {
     this._isVisible = visible
@@ -513,10 +513,10 @@ export class Flow extends Fetchable {
     this.resyncState()
   }
 
-  public register(callback?: RulesGraphRegistryCallback) {
+  public register(callback?: RulesRegistryCallback) {
     const globalState = this.getGlobalState()
 
-    globalState.rulesGraph.register(this.id, (visible) => {
+    globalState.rules.register(this.id, (visible) => {
       const prevFlow = this.getGlobalState().previousFlows.get(this.id)
 
       if (prevFlow?._isVisible !== visible) {
@@ -532,6 +532,6 @@ export class Flow extends Fetchable {
   }
 
   public unregister() {
-    this.getGlobalState().rulesGraph.unregister(this.id)
+    this.getGlobalState().rules.unregister(this.id)
   }
 }

@@ -3,7 +3,7 @@ import { clearCache, cloneFlow, GUEST_PREFIX, isWeb, resetAllLocalStorage } from
 import { Flow } from './flow'
 import { frigadeGlobalState, getGlobalStateKey } from '../shared/state'
 import { Fetchable } from '../shared/fetchable'
-import { RulesGraph } from './rules-graph'
+import { Rules } from './rules'
 
 export class Frigade extends Fetchable {
   /**
@@ -273,10 +273,7 @@ export class Frigade extends Fetchable {
 
       frigadeGlobalState[globalStateKey] = {
         refreshStateFromAPI: async () => {},
-        rulesGraph: new RulesGraph({
-          graph: {},
-          ruleOrder: [],
-        }),
+        rules: new Rules(new Map()),
         flowStates: new Proxy({}, validator),
         onFlowStateChangeHandlerWrappers: new Map(),
         onStepStateChangeHandlerWrappers: new Map(),
@@ -306,10 +303,20 @@ export class Frigade extends Fetchable {
               }`
             )
 
-        // TODO: should this also take in order and check if it has changed?
-        frigadeGlobalState[globalStateKey].rulesGraph.ingestGraphData(
-          flowStateRaw.ruleGraph?.graph ?? {}
-        )
+        const rulesData = new Map()
+
+        flowStateRaw.rules?.computedOrder?.forEach(({ ruleId, flowId, visible }) => {
+          const currentRule = rulesData.get(ruleId) ?? []
+
+          currentRule.push({
+            flowId,
+            visible,
+          })
+
+          rulesData.set(ruleId, currentRule)
+        })
+
+        frigadeGlobalState[globalStateKey].rules.ingestRulesData(rulesData)
 
         if (flowStateRaw && flowStateRaw.eligibleFlows) {
           flowStateRaw.eligibleFlows.forEach((statefulFlow) => {
