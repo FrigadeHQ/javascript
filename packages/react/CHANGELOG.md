@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.1.9
+
+### Patch Changes
+
+- 3f0ef68: Bumps to the latest version of @frigade/js
+- Updated dependencies [3f0ef68]
+  - @frigade/js@0.4.7
+
 ## 2.1.8
 
 ### Patch Changes
