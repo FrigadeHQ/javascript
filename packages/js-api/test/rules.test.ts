@@ -1,13 +1,5 @@
 import { Rules, type RulesData } from '../src/core/rules'
 
-// const rules = new Rules(new Map(Object.entries(rulesData)))
-
-// rules.register('flow_a')
-// rules.register('flow_b')
-// rules.register('flow_c')
-// rules.register('flow_d')
-// rules.register('flow_e')
-
 describe('Rules', () => {
   describe('register', () => {
     it('calls all callbacks when a flow is registered', () => {
