@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.4.7
+
+### Patch Changes
+
+- 3f0ef68: Bumps to the latest version of @frigade/js
+
 ## 0.4.6
 
 ### Patch Changes
