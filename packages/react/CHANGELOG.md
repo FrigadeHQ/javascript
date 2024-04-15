@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.1.10
+
+### Patch Changes
+
+- 22bf78a: Improvements to Rules parsing
+- Updated dependencies [22bf78a]
+  - @frigade/js@0.4.8
+
 ## 2.1.9
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.4.8
+
+### Patch Changes
+
+- 22bf78a: Improvements to Rules parsing
+
 ## 0.4.7
 
 ### Patch Changes
