@@ -22,7 +22,7 @@ export function Default() {
 
   return (
     <div>
-      <Announcement flowId="flow_cvWFczn1RMHp9ZcK" />
+      <Announcement flowId="flow_tmkXJzhw" />
     </div>
   );
 }
