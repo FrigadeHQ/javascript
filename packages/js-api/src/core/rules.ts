@@ -17,6 +17,7 @@ export interface RulesData extends Map<string, Rule> {}
 export class Rules {
   private readonly registry: Map<string, RulesRegistryItem> = new Map()
   private rules: Map<string, Rule> = new Map()
+  private flowsInRules: Set<string> = new Set()
 
   constructor(rulesData: RulesData) {
     this.ingestRulesData(rulesData)
@@ -25,7 +26,14 @@ export class Rules {
   ingestRulesData(rulesData: RulesData) {
     this.rules = rulesData
 
+    for (const [, rule] of this.rules) {
+      for (const { flowId } of rule) {
+        this.flowsInRules.add(flowId)
+      }
+    }
+
     if (this.registry.size > 0) {
+      this.resetRegistryState()
       this.processRules()
     }
 
@@ -42,23 +50,25 @@ export class Rules {
 
   isFlowVisible(flowId: string) {
     const registeredFlow = this.registry.get(flowId)
+    const flowInRules = this.flowsInRules.has(flowId)
 
-    if (registeredFlow == null || registeredFlow?.visited === false) {
+    if (registeredFlow == null || !flowInRules) {
       return true
     }
 
     return registeredFlow.visible
   }
 
-  processRules() {
-    // Reset registry to unprocessed state before each run
+  resetRegistryState() {
     for (const [flowId, item] of this.registry) {
-      item.visible = null
+      item.visible = false
       item.visited = false
 
       this.registry.set(flowId, item)
     }
+  }
 
+  processRules() {
     for (const [, rule] of this.rules) {
       for (const { flowId, visible: visibleAPIOverride } of rule) {
         const registeredFlow = this.registry.get(flowId)
@@ -106,7 +116,7 @@ export class Rules {
   register(flowId: string, callback?: RulesRegistryCallback) {
     this.registry.set(flowId, {
       callback: callback ?? (() => {}),
-      visible: null,
+      visible: false,
       visited: false,
     })
 
@@ -118,6 +128,7 @@ export class Rules {
   unregister(flowId: string) {
     this.registry.delete(flowId)
 
+    this.resetRegistryState()
     this.processRules()
 
     this.fireCallbacks()

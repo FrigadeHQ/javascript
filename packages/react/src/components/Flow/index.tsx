@@ -1,4 +1,4 @@
-import { Fragment, useContext, useEffect } from 'react'
+import { Fragment, useContext, useEffect, useState } from 'react'
 
 import { Box } from '@/components/Box'
 
@@ -29,6 +29,8 @@ export function Flow({
   forceMount,
   ...props
 }: FlowProps) {
+  const [computedVisibility, setComputedVisibility] = useState(false)
+
   const { flow } = useFlow(flowId, {
     variables,
   })
@@ -47,8 +49,7 @@ export function Flow({
     onSecondary,
   })
 
-  const isModal =
-    as && typeof as === 'function' && (as.displayName === 'Dialog' || as.displayName === 'Modal')
+  const isModal = as && typeof as === 'function' && as.displayName === 'Dialog'
 
   const { isCurrentModal, removeModal } = useModal(flow, isModal)
 
@@ -68,11 +69,15 @@ export function Flow({
     return null
   }
 
-  if (!flow.isVisible && !shouldForceMount) {
+  registerComponent(flowId, (ruleVisibility) => {
+    if (ruleVisibility !== computedVisibility) {
+      setComputedVisibility(ruleVisibility)
+    }
+  })
+
+  if (!computedVisibility && !shouldForceMount) {
     return null
   }
-
-  registerComponent(flowId)
 
   if (!hasInitialized) {
     return null
