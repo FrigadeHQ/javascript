@@ -24,8 +24,20 @@ export function NPSField({ field, submit }: FormFieldProps) {
     )
   })
   return (
-    <Flex.Column gap={2}>
-      <Flex.Row gap={2} justifyContent="space-between" part="field-nps">
+    <Flex.Column
+      gap={2}
+      css={{
+        '.fr-field-nps': {
+          '@media (min-width: 660px)': {
+            flexWrap: 'nowrap',
+            justifyContent: 'space-between',
+          },
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+        },
+      }}
+    >
+      <Flex.Row gap={2} part="field-nps">
         {buttons}
       </Flex.Row>
       <Flex.Row justifyContent="space-between" part="field-nps-label">
