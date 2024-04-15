@@ -16,7 +16,6 @@ export function NPS({ as = Dialog, flowId, fieldTypes, ...props }: FormProps) {
         nps: NPSField,
         ...fieldTypes,
       }}
-      minWidth="620px"
       modal={false}
       onEscapeKeyDown={(e: KeyboardEvent) => {
         if (typeof props.onEscapeKeyDown === 'function') {
@@ -27,21 +26,25 @@ export function NPS({ as = Dialog, flowId, fieldTypes, ...props }: FormProps) {
           flow.skip()
         }
       }}
-      width="620px"
-      css={
-        {
-          ...(!flow || flow.getCurrentStepIndex() == 0
-            ? { '.fr-form-step-footer': { display: 'none' } }
-            : {}),
-          '.fr-form': {
-            padding: '20px',
+      css={{
+        // Hides the submit button on the first page
+        ...(!flow || flow.getCurrentStepIndex() == 0
+          ? { '.fr-form-step-footer': { display: 'none' } }
+          : {}),
+        '.fr-form': {
+          padding: '20px',
+          '@media (min-width: 660px)': {
+            minWidth: '620px',
           },
-          '.fr-form-step': {
+          minWidth: '100%',
+        },
+        '.fr-form-step': {
+          gap: '14px',
+          '@media (min-width: 660px)': {
             gap: '1',
           },
-        }
-        // Hides the submit button on the first page
-      }
+        },
+      }}
       {...props}
     />
   )
