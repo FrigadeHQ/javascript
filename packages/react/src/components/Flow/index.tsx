@@ -29,7 +29,7 @@ export function Flow({
   forceMount,
   ...props
 }: FlowProps) {
-  const [computedVisibility, setComputedVisibility] = useState(false)
+  const [hasProcessedRules, setHasProcessedRules] = useState(false)
 
   const { flow } = useFlow(flowId, {
     variables,
@@ -69,17 +69,17 @@ export function Flow({
     return null
   }
 
-  registerComponent(flowId, (ruleVisibility) => {
-    if (ruleVisibility !== computedVisibility) {
-      setComputedVisibility(ruleVisibility)
+  registerComponent(flowId, () => {
+    if (!hasProcessedRules) {
+      setHasProcessedRules(true)
     }
   })
 
-  if (!computedVisibility && !shouldForceMount) {
+  if (!flow.isVisible && !shouldForceMount) {
     return null
   }
 
-  if (!hasInitialized) {
+  if (!hasInitialized || !hasProcessedRules) {
     return null
   }
 
