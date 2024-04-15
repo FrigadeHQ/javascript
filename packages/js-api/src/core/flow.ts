@@ -487,8 +487,8 @@ export class Flow extends Fetchable {
     const flowStatesRaw: FlowStates = await this.fetch('/flowStates', {
       method: 'POST',
       body: JSON.stringify({
-        userId: this.config.userId,
-        groupId: this.config.groupId,
+        userId: this.getGlobalState().config.userId,
+        groupId: this.getGlobalState().config.groupId,
         flowSlug: this.id,
         stepId: stepId ?? this.getCurrentStep().id,
         data: data ? data : {},

@@ -57,10 +57,10 @@ export class Frigade extends Fetchable {
    * @ignore
    */
   private async init(config: FrigadeConfig): Promise<void> {
-    this.config = {
+    this.updateConfig({
       ...this.config,
       ...config,
-    }
+    })
 
     this.initPromise = (async () => {
       if (this.config.userId?.startsWith(GUEST_PREFIX)) {
@@ -87,7 +87,7 @@ export class Frigade extends Fetchable {
    * @param properties
    */
   public async identify(userId: string, properties?: Record<string, any>): Promise<void> {
-    this.config = { ...this.config, userId }
+    this.updateConfig({ ...this.config, userId })
     await this.initIfNeeded()
     await this.session({
       userId: this.config.userId,
@@ -103,7 +103,7 @@ export class Frigade extends Fetchable {
    */
   public async group(groupId?: string, properties?: Record<string, any>): Promise<void> {
     await this.initIfNeeded()
-    this.config.groupId = groupId
+    this.updateConfig({ ...this.config, groupId })
     await this.session({
       userId: this.config.userId,
       groupId: this.config.groupId,
@@ -207,15 +207,7 @@ export class Frigade extends Fetchable {
   }
 
   private async resync() {
-    this.initPromise = null
-    await this.init(this.config)
-    this.flows.forEach((flow) => {
-      this.getGlobalState().onFlowStateChangeHandlers.forEach((handler) => {
-        const lastFlow = this.getGlobalState().previousFlows.get(flow.id)
-        handler(flow, lastFlow)
-        this.getGlobalState().previousFlows.set(flow.id, cloneFlow(flow))
-      })
-    })
+    await this.refreshStateFromAPI()
   }
 
   /**
@@ -288,6 +280,7 @@ export class Frigade extends Fetchable {
         onFlowStateChangeHandlers: [],
         previousFlows: new Map(),
         variables: {},
+        config: this.config,
       }
 
       if (this.config.__readOnly && this.config.__flowConfigOverrides) {
@@ -390,6 +383,19 @@ export class Frigade extends Fetchable {
         })
       )
     })
+  }
+
+  /**
+   * @ignore
+   */
+  private async updateConfig(config: FrigadeConfig) {
+    this.config = {
+      ...this.config,
+      ...config,
+    }
+    if (frigadeGlobalState[getGlobalStateKey(this.config)]) {
+      this.getGlobalState().config = this.config
+    }
   }
 
   /**

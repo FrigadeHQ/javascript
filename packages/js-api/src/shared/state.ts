@@ -18,12 +18,11 @@ export interface FrigadeGlobalState {
   previousFlows: Map<string, Flow>
   variables: Record<string, Record<string, any>>
   lastSyncDate?: Date
+  config: FrigadeConfig
 }
 
 export let frigadeGlobalState: Record<string, FrigadeGlobalState> = {}
 
 export function getGlobalStateKey(internalConfig: FrigadeConfig): string {
-  return `${internalConfig.__instanceId}-${internalConfig.apiKey}:${internalConfig.userId ?? ''}:${
-    internalConfig.groupId ?? ''
-  }`
+  return `${internalConfig.__instanceId}-${internalConfig.apiKey}`
 }

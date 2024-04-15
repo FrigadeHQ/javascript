@@ -3,18 +3,18 @@ import { useContext } from 'react'
 import { FrigadeContext } from '../components/Provider'
 
 export function useGroup() {
-  const { groupId, frigade } = useContext(FrigadeContext)
+  const { frigade } = useContext(FrigadeContext)
 
   /**
    * Sets properties for the current group
    * @param properties
    */
   async function addProperties(properties: Record<string, unknown>) {
-    if (!groupId) {
+    if (!frigade.config.groupId) {
       console.error('No Group ID is set. Cannot set properties without a Group ID.')
       return
     }
-    await frigade.group(groupId, properties)
+    await frigade.group(frigade.config.groupId, properties)
   }
 
   /**
@@ -35,5 +35,5 @@ export function useGroup() {
     await frigade.group(groupId, properties)
   }
 
-  return { groupId, setGroupId, addProperties, track }
+  return { groupId: frigade.config.groupId, setGroupId, addProperties, track }
 }

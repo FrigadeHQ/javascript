@@ -1,5 +1,5 @@
-import { useGroup } from "@frigade/react";
-import { useEffect, useState } from "react";
+import { Announcement, useGroup } from "@frigade/react";
+import { useEffect } from "react";
 
 export default {
   title: "Hooks/useGroup",
@@ -7,24 +7,22 @@ export default {
 
 export function Default() {
   const { addProperties, setGroupId } = useGroup();
-  const [hasSetProps, setHasSetProps] = useState(false);
   useEffect(() => {
     async function setProps() {
-      await setGroupId("group_12345");
+      await setGroupId("my-group-id");
+      // Doesn't fire?
       await addProperties({
-        orgPicture: "https://placehold.co/24x24",
+        isSuperAdmin: false,
       });
-      setHasSetProps(true);
     }
-
-    setProps();
+    setTimeout(() => {
+      setProps();
+    }, 3000);
   }, []);
 
   return (
     <div>
-      <div id="">
-        hasSuccessFullySentPropsToFrigadeAPI: {hasSetProps ? "true" : "false"}
-      </div>
+      <Announcement flowId="flow_cvWFczn1RMHp9ZcK" />
     </div>
   );
 }
