@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.1.11
+
+### Patch Changes
+
+- ebbdbdc: Fixes an issue where flows with group-based audiences failed to show
+- Updated dependencies [ebbdbdc]
+  - @frigade/js@0.4.9
+
 ## 2.1.10
 
 ### Patch Changes

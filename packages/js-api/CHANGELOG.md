@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.4.9
+
+### Patch Changes
+
+- ebbdbdc: Fixes an issue where flows with group-based audiences failed to show
+
 ## 0.4.8
 
 ### Patch Changes
