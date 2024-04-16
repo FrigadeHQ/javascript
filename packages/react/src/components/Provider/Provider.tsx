@@ -1,4 +1,4 @@
-import { Frigade, type RulesRegistryCallback, type Flow } from '@frigade/js'
+import { type Flow, Frigade, RulesRegistryBatch, type RulesRegistryCallback } from '@frigade/js'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Global, ThemeProvider } from '@emotion/react'
 
@@ -83,7 +83,7 @@ export function Provider({ children, navigate, theme, ...props }: ProviderProps)
     const batchedFlowIds = [...registeredComponents.current.entries()].map(([flowId, options]) => [
       flowId,
       options.callback,
-    ])
+    ]) as RulesRegistryBatch
 
     frigade.batchRegister(batchedFlowIds)
 

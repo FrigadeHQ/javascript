@@ -231,15 +231,15 @@ describe('Rules', () => {
           [
             {
               flowId: 'flow_c',
-              visible: true,
+              visible: false,
             },
             {
               flowId: 'flow_b',
-              visible: true,
+              visible: false,
             },
             {
               flowId: 'flow_a',
-              visible: true,
+              visible: false,
             },
           ],
         ],
@@ -253,11 +253,11 @@ describe('Rules', () => {
             },
             {
               flowId: 'flow_a',
-              visible: true,
+              visible: false,
             },
             {
               flowId: 'flow_b',
-              visible: true,
+              visible: false,
             },
           ],
         ],
@@ -267,11 +267,11 @@ describe('Rules', () => {
           [
             {
               flowId: 'flow_b',
-              visible: true,
+              visible: false,
             },
             {
               flowId: 'flow_d',
-              visible: true,
+              visible: false,
             },
             {
               flowId: 'flow_e',
