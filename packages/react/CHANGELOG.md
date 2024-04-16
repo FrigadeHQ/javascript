@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.1.13
+
+### Patch Changes
+
+- 0b328f2: Fix HSL colors in Safari
+
 ## 2.1.12
 
 ### Patch Changes
