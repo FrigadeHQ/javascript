@@ -58,13 +58,13 @@ const scaledColors = {} as ScaledColors
 
 for (const [name, { h, s, l: scale }] of Object.entries(hues)) {
   scaledColors[name] = Object.fromEntries(
-    scale.map((l, i) => [`${(i + 1) * 100}`, `hsl(${h} ${s} ${l})`])
+    scale.map((l, i) => [`${(i + 1) * 100}`, `hsl(${h} ${s}% ${l}%)`])
   )
 }
 
 export const palette = {
-  black: 'hsl(0 0 0)',
-  white: 'hsl(0 0 100%)',
+  black: 'hsl(0 0% 0%)',
+  white: 'hsl(0 0% 100%)',
 
   ...(scaledColors as ScaledColors),
 
