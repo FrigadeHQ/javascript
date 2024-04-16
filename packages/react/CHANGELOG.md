@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.1.12
+
+### Patch Changes
+
+- 838ef17: Fixes an issue where rules were not always honored for Flows in the same DOM tree
+- Updated dependencies [838ef17]
+  - @frigade/js@0.4.10
+
 ## 2.1.11
 
 ### Patch Changes
