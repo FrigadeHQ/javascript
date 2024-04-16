@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.4.10
+
+### Patch Changes
+
+- 838ef17: Fixes an issue where rules were not always honored for Flows in the same DOM tree
+
 ## 0.4.9
 
 ### Patch Changes
