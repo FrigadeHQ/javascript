@@ -1,21 +1,23 @@
 export type RulesRegistryCallback = (visible: boolean) => void
 
+export type RulesRegistryBatch = [string, RulesRegistryCallback][]
+
 export interface RulesRegistryItem {
   visible: boolean
   visited: boolean
   callback: RulesRegistryCallback
 }
 
-export interface Rule
-  extends Array<{
-    flowId: string
-    visible: boolean
-  }> {}
+export type Rule = Array<{
+  flowId: string
+  visible: boolean
+}>
 
-export interface RulesData extends Map<string, Rule> {}
+export type RulesData = Map<string, Rule>
 
 export class Rules {
   private readonly registry: Map<string, RulesRegistryItem> = new Map()
+  private registryStateLocked: boolean = false
   private rules: Map<string, Rule> = new Map()
   private flowsInRules: Set<string> = new Set()
 
@@ -33,7 +35,10 @@ export class Rules {
     }
 
     if (this.registry.size > 0) {
-      this.resetRegistryState()
+      if (!this.registryStateLocked) {
+        this.resetRegistryState()
+      }
+
       this.processRules()
     }
 
@@ -59,6 +64,14 @@ export class Rules {
     return registeredFlow.visible
   }
 
+  lockRegistryState() {
+    this.registryStateLocked = true
+  }
+
+  unlockRegistryState() {
+    this.registryStateLocked = false
+  }
+
   resetRegistryState() {
     for (const [flowId, item] of this.registry) {
       item.visible = false
@@ -73,7 +86,7 @@ export class Rules {
       for (const { flowId, visible: visibleAPIOverride } of rule) {
         const registeredFlow = this.registry.get(flowId)
 
-        // If this flow isn't registered, it can't be visible
+        // If this flow in the rule isn't registered, we have no opinion on it yet
         if (registeredFlow == null) {
           continue
         }
@@ -84,8 +97,9 @@ export class Rules {
           continue
         }
 
-        // If this flow has already been processed in a previous rule, it shouldn't change visibility until next time we run processRules
-        if (registeredFlow.visited) {
+        // If this flow was processed in a previous rule and the registry is locked,
+        // visibility shouldn't change until next time we run processRules
+        if (registeredFlow.visited && this.registryStateLocked) {
           continue
         }
 
@@ -107,20 +121,49 @@ export class Rules {
           continue
         }
 
-        // no other flows are visible, so this flow is visible
+        // No other flows are visible, so this flow is visible by default
         this.visit(flowId)
       }
     }
   }
 
-  register(flowId: string, callback?: RulesRegistryCallback) {
+  register(flowId: string | RulesRegistryBatch, callback?: RulesRegistryCallback) {
+    if (Array.isArray(flowId)) {
+      this.batchRegister(flowId)
+      return
+    }
+
     this.registry.set(flowId, {
       callback: callback ?? (() => {}),
       visible: false,
       visited: false,
     })
 
+    if (!this.registryStateLocked) {
+      this.resetRegistryState()
+    }
+
     this.processRules()
+
+    this.fireCallbacks()
+  }
+
+  batchRegister(flowIds: RulesRegistryBatch) {
+    flowIds.forEach(([flowId, callback]) => {
+      this.registry.set(flowId, {
+        callback: callback ?? (() => {}),
+        visible: false,
+        visited: false,
+      })
+    })
+
+    if (!this.registryStateLocked) {
+      this.resetRegistryState()
+    }
+
+    this.processRules()
+
+    this.lockRegistryState()
 
     this.fireCallbacks()
   }

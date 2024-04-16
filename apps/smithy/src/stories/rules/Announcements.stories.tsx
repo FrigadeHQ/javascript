@@ -1,21 +1,24 @@
 import { Announcement } from "@frigade/react";
-import { StoryContext, StoryFn } from "@storybook/react";
 
 export default {
   title: "Rules/Two Announcements",
   component: Announcement,
 };
 
+const ANNOUNCEMENT_X = "flow_rGnGbp4D";
+const ANNOUNCEMENT_Y = "flow_lxi6FPxr";
+
 export const TwoAnnouncements = {
   args: {
     dismissible: true,
   },
   decorators: [
-    (_: StoryFn, options: StoryContext) => {
+    () => {
       return (
         <>
-          <Announcement flowId="flow_rGnGbp4D" />
-          <Announcement flowId="flow_lxi6FPxr" />
+          {/* Announcement X */}
+          <Announcement flowId={ANNOUNCEMENT_X} />
+          <Announcement flowId={ANNOUNCEMENT_Y} />
         </>
       );
     },

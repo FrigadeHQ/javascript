@@ -3,7 +3,7 @@ import { clearCache, cloneFlow, GUEST_PREFIX, isWeb, resetAllLocalStorage } from
 import { Flow } from './flow'
 import { frigadeGlobalState, getGlobalStateKey } from '../shared/state'
 import { Fetchable } from '../shared/fetchable'
-import { Rules } from './rules'
+import { Rules, type RulesRegistryBatch } from './rules'
 
 export class Frigade extends Fetchable {
   /**
@@ -414,5 +414,33 @@ export class Frigade extends Fetchable {
         }
       })
     }
+  }
+
+  /**
+   * @ignore
+   */
+  async batchRegister(flowIds: RulesRegistryBatch) {
+    const flowIdsWithWrappedCallbacks = flowIds.map(async ([flowId, callback]) => {
+      const currentFlow = await this.getFlow(flowId)
+      const wrappedCallback = (visible: boolean) => {
+        const prevFlow = this.getGlobalState().previousFlows.get(flowId)
+
+        if (prevFlow?.isVisible !== visible) {
+          // TODO: Store these in a hash so we can grab this flow's handler and call it
+          this.getGlobalState().onFlowStateChangeHandlers.forEach((handler) => {
+            handler(currentFlow, prevFlow)
+            this.getGlobalState().previousFlows.set(flowId, cloneFlow(currentFlow))
+          })
+        }
+
+        callback?.(visible)
+      }
+
+      return [flowId, wrappedCallback] as RulesRegistryBatch[number]
+    })
+
+    Promise.all(flowIdsWithWrappedCallbacks).then((results) => {
+      this.getGlobalState().rules.batchRegister(results)
+    })
   }
 }

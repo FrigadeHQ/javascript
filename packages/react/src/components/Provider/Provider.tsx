@@ -80,9 +80,12 @@ export function Provider({ children, navigate, theme, ...props }: ProviderProps)
   }, [props.userId, props.groupId, props.apiKey])
 
   function batchRegistration() {
-    for (const [flowId, options] of registeredComponents.current) {
-      frigade.getFlow(flowId).then((flow: Flow) => flow.register(options.callback))
-    }
+    const batchedFlowIds = [...registeredComponents.current.entries()].map(([flowId, options]) => [
+      flowId,
+      options.callback,
+    ])
+
+    frigade.batchRegister(batchedFlowIds)
 
     setHasInitialized(true)
   }
