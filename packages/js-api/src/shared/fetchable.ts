@@ -5,7 +5,7 @@ import { frigadeGlobalState, FrigadeGlobalState, getGlobalStateKey } from './sta
 export class Fetchable {
   public config: FrigadeConfig = {
     apiKey: '',
-    apiUrl: 'https://api.frigade.com/v1/public',
+    apiUrl: 'https://api.frigade.com',
     userId: generateGuestId(),
     __instanceId: Math.random().toString(12).substring(4),
   }
@@ -35,13 +35,7 @@ export class Fetchable {
   }
 
   private getAPIUrl(path: string) {
-    const pathPrefix = '/v1/public'
-    const apiUrl = new URL(
-      `${pathPrefix}${path}`,
-      this.config.apiUrl.replace(pathPrefix, '')
-    ).toString()
-
-    return apiUrl
+    return `${this.config.apiUrl.replace(/\/$/, '')}/${path.replace(/^\//, '')}`
   }
 
   /**

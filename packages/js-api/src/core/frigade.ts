@@ -158,7 +158,7 @@ export class Frigade extends Fetchable {
    * @ignore
    */
   private async session(sessionDTO: SessionDTO) {
-    await this.fetch('/sessions', {
+    await this.fetch('/v1/public/sessions', {
       method: 'POST',
       body: JSON.stringify(sessionDTO),
     })
@@ -299,7 +299,7 @@ export class Frigade extends Fetchable {
         const flowStateRaw: FlowStates = overrideFlowStateRaw
           ? overrideFlowStateRaw
           : await this.fetch(
-              `/flowStates?userId=${encodeURIComponent(this.config.userId)}${
+              `/v1/public/flowStates?userId=${encodeURIComponent(this.config.userId)}${
                 this.config.groupId ? `&groupId=${encodeURIComponent(this.config.groupId)}` : ''
               }`
             )

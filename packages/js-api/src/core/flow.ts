@@ -484,7 +484,7 @@ export class Flow extends Fetchable {
   ) {
     const date = new Date()
     this.getGlobalState().lastSyncDate = date
-    const flowStatesRaw: FlowStates = await this.fetch('/flowStates', {
+    const flowStatesRaw: FlowStates = await this.fetch('/v1/public/flowStates', {
       method: 'POST',
       body: JSON.stringify({
         userId: this.getGlobalState().config.userId,
