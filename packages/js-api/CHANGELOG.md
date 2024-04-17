@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.4.11
+
+### Patch Changes
+
+- dc2611d: Fixes an issue where reverse proxy urls did not support paths
+
 ## 0.4.10
 
 ### Patch Changes

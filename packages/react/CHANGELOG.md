@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.1.14
+
+### Patch Changes
+
+- dc2611d: Fixes an issue where reverse proxy urls did not support paths
+- Updated dependencies [dc2611d]
+  - @frigade/js@0.4.11
+
 ## 2.1.13
 
 ### Patch Changes
