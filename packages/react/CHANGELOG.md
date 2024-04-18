@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.1.15
+
+### Patch Changes
+
+- 0ce2e77: Makes forms submit data without optimistic writes
+- Updated dependencies [0ce2e77]
+  - @frigade/js@0.4.12
+
 ## 2.1.14
 
 ### Patch Changes

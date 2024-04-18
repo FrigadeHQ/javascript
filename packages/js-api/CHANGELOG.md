@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.4.12
+
+### Patch Changes
+
+- 0ce2e77: Makes forms submit data without optimistic writes
+
 ## 0.4.11
 
 ### Patch Changes
