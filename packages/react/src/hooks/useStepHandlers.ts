@@ -49,9 +49,8 @@ export function useStepHandlers(step: FlowStep, { onPrimary, onSecondary }: Step
 
   return {
     handlePrimary: useCallback<StepHandler>(
-      async (e, properties, optimistic) => {
+      async (e, properties, optimistic = true) => {
         const continueDefault = await onPrimary?.(step, e, properties)
-        const optimisticValue = optimistic !== false
         if (continueDefault === false) {
           e.preventDefault()
           return false
@@ -64,14 +63,14 @@ export function useStepHandlers(step: FlowStep, { onPrimary, onSecondary }: Step
           if (typeof primaryAction === 'function') {
             primaryAction()
           } else if (primaryAction !== false) {
-            step.complete(properties, optimisticValue)
+            step.complete(properties, optimistic)
           }
 
           if (step.primaryButton.uri != null) {
             navigate(step.primaryButton.uri, step.primaryButton.target)
           }
         } else {
-          step.complete(properties, optimisticValue)
+          step.complete(properties, optimistic)
 
           if (step.primaryButtonUri != null) {
             navigate(step.primaryButtonUri, step.primaryButtonUriTarget)

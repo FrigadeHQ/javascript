@@ -1,4 +1,4 @@
-import { SyntheticEvent } from 'react'
+import { SyntheticEvent, useState } from 'react'
 import { useController, useForm } from 'react-hook-form'
 
 import { Button } from '@/components/Button'
@@ -55,12 +55,14 @@ export function FormStep({
     delayError: 2000,
     mode: 'onChange',
   })
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const fields = []
 
   const stepProps = step.props ?? {}
 
   function onPrimarySubmit(properties: PropertyPayload, e: SyntheticEvent<object, unknown>) {
-    handlePrimary(e, properties, false)
+    setIsSubmitting(true)
+    handlePrimary(e, properties, false).then(() => setIsSubmitting(false))
   }
 
   // @ts-expect-error TODO: Add type to step.fields
@@ -100,6 +102,7 @@ export function FormStep({
         <Button.Primary
           title={primaryButtonTitle ?? 'Submit'}
           onClick={handleSubmit(onPrimarySubmit)}
+          disabled={isSubmitting}
         />
       </Flex.Row>
     </Flex.Column>

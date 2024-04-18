@@ -23,7 +23,7 @@ export type StepAction =
   | 'step.start'
   | false
 
-export type PropertyPayload = Record<string | number, any>
+export type PropertyPayload = Record<string, any>
 
 export interface FlowStep extends StatefulStep {
   /**
