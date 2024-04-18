@@ -23,6 +23,8 @@ export type StepAction =
   | 'step.start'
   | false
 
+export type PropertyPayload = Record<string, any>
+
 export interface FlowStep extends StatefulStep {
   /**
    * Order of the step in the Flow.
@@ -195,12 +197,13 @@ export interface FlowStep extends StatefulStep {
   /**
    * Marks the step started.
    */
-  start: (properties?: Record<string | number, any>) => Promise<void>
+  start: (properties?: PropertyPayload) => Promise<void>
 
   /**
    * Marks the step completed.
+   * @param optimistic If true, the step will be marked as completed without waiting for the API and validation of any targeting rules.
    */
-  complete: (properties?: Record<string | number, any>) => Promise<void>
+  complete: (properties?: PropertyPayload, optimistic?: boolean) => Promise<void>
 
   /**
    * Resets the step (useful for undoing a finished step).

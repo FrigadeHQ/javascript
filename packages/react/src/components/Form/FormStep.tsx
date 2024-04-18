@@ -1,4 +1,4 @@
-import { SyntheticEvent } from 'react'
+import { SyntheticEvent, useState } from 'react'
 import { useController, useForm } from 'react-hook-form'
 
 import { Button } from '@/components/Button'
@@ -7,6 +7,7 @@ import { Flex } from '@/components/Flex'
 
 import { type FlowChildrenProps } from '@/components/Flow'
 import type { FieldTypes, FormFieldData, ValidationRules } from '@/components/Form'
+import { PropertyPayload } from '@frigade/js'
 
 export interface FormStepProps extends FlowChildrenProps {
   fieldTypes?: FieldTypes
@@ -54,16 +55,14 @@ export function FormStep({
     delayError: 2000,
     mode: 'onChange',
   })
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const fields = []
 
   const stepProps = step.props ?? {}
 
-  // TODO: Type for data
-  function onPrimarySubmit(
-    data: Record<string | number, unknown>,
-    e: SyntheticEvent<object, unknown>
-  ) {
-    handlePrimary(e, data)
+  function onPrimarySubmit(properties: PropertyPayload, e: SyntheticEvent<object, unknown>) {
+    setIsSubmitting(true)
+    handlePrimary(e, properties, false).then(() => setIsSubmitting(false))
   }
 
   // @ts-expect-error TODO: Add type to step.fields
@@ -71,7 +70,7 @@ export function FormStep({
     if (fieldTypes[fieldData.type] != null) {
       fields.push(
         <FieldWrapper
-          key={fieldData.id}
+          key={`${step.flow.id}-${fieldData.id}`}
           control={control}
           fieldComponent={fieldTypes[fieldData.type]}
           fieldData={fieldData}
@@ -103,6 +102,7 @@ export function FormStep({
         <Button.Primary
           title={primaryButtonTitle ?? 'Submit'}
           onClick={handleSubmit(onPrimarySubmit)}
+          disabled={isSubmitting}
         />
       </Flex.Row>
     </Flex.Column>

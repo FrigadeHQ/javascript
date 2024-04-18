@@ -17,3 +17,17 @@ export const Default = {
     },
   },
 };
+
+export const FormBranching = {
+  args: {
+    dismissible: false,
+    flowId: "flow_fpJlqkbl",
+    width: "400px",
+    onPrimary: (step, e, properties) =>
+      console.log("Primary", step, e, properties),
+    onSecondary: () => {
+      console.log("Secondary");
+      return true;
+    },
+  },
+};

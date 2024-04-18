@@ -1,13 +1,14 @@
 import { type SyntheticEvent, useCallback, useContext } from 'react'
 
-import type { FlowStep } from '@frigade/js'
+import type { FlowStep, PropertyPayload } from '@frigade/js'
 
 import { FrigadeContext } from '../components/Provider'
 
 // TODO: Fix order of args
 export type StepHandlerProp = (
   step: FlowStep,
-  event?: SyntheticEvent<object, unknown>
+  event?: SyntheticEvent<object, unknown>,
+  properties?: PropertyPayload
 ) => Promise<boolean | void> | (boolean | void)
 
 export interface StepHandlerProps {
@@ -16,8 +17,19 @@ export interface StepHandlerProps {
 }
 
 export type StepHandler = (
+  /**
+   * The native event that triggered this handler.
+   */
   event: SyntheticEvent<object, unknown>,
-  properties?: Record<string | number, unknown>
+  /**
+   * Additional properties to pass to the step.
+   */
+  properties?: PropertyPayload,
+  /**
+   * If true, the step will be marked as completed without waiting for the API and validation of any targeting rules.
+   * @default true
+   */
+  optimistic?: boolean
 ) => Promise<boolean>
 
 export function useStepHandlers(step: FlowStep, { onPrimary, onSecondary }: StepHandlerProps = {}) {
@@ -37,9 +49,8 @@ export function useStepHandlers(step: FlowStep, { onPrimary, onSecondary }: Step
 
   return {
     handlePrimary: useCallback<StepHandler>(
-      async (e, properties) => {
-        const continueDefault = await onPrimary?.(step, e)
-
+      async (e, properties, optimistic = true) => {
+        const continueDefault = await onPrimary?.(step, e, properties)
         if (continueDefault === false) {
           e.preventDefault()
           return false
@@ -52,14 +63,14 @@ export function useStepHandlers(step: FlowStep, { onPrimary, onSecondary }: Step
           if (typeof primaryAction === 'function') {
             primaryAction()
           } else if (primaryAction !== false) {
-            step.complete(properties)
+            step.complete(properties, optimistic)
           }
 
           if (step.primaryButton.uri != null) {
             navigate(step.primaryButton.uri, step.primaryButton.target)
           }
         } else {
-          step.complete(properties)
+          step.complete(properties, optimistic)
 
           if (step.primaryButtonUri != null) {
             navigate(step.primaryButtonUri, step.primaryButtonUriTarget)
@@ -73,7 +84,7 @@ export function useStepHandlers(step: FlowStep, { onPrimary, onSecondary }: Step
 
     handleSecondary: useCallback<StepHandler>(
       async (e, properties) => {
-        const continueDefault = await onSecondary?.(step, e)
+        const continueDefault = await onSecondary?.(step, e, properties)
 
         if (continueDefault === false) {
           e.preventDefault()
