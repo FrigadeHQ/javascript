@@ -4,6 +4,7 @@ import {
   FlowStates,
   FlowStep,
   FrigadeConfig,
+  PropertyPayload,
   StatefulFlow,
   StatefulStep,
 } from './types'
@@ -148,7 +149,7 @@ export class Flow extends Fetchable {
     statefulFlow.data.steps.forEach((step, index) => {
       const stepObj = this.initStepFromStatefulStep(step, index)
 
-      stepObj.start = async (properties?: Record<string | number, any>) => {
+      stepObj.start = async (properties?: PropertyPayload) => {
         const thisStep = this.steps.get(step.id)
 
         if (this.getCurrentStep().id === thisStep.id && thisStep.$state.started) {
@@ -170,7 +171,7 @@ export class Flow extends Fetchable {
         }
       }
 
-      stepObj.complete = async (properties?: Record<string | number, any>) => {
+      stepObj.complete = async (properties?: PropertyPayload) => {
         const thisStep = this.steps.get(step.id)
 
         if (thisStep.$state.completed) {
@@ -271,7 +272,7 @@ export class Flow extends Fetchable {
   /**
    * Marks the flow started
    */
-  public async start(properties?: Record<string | number, any>) {
+  public async start(properties?: PropertyPayload) {
     if (this.isStarted || this.isCompleted) {
       return
     }
@@ -286,7 +287,7 @@ export class Flow extends Fetchable {
   /**
    * Marks the flow completed
    */
-  public async complete(properties?: Record<string | number, any>) {
+  public async complete(properties?: PropertyPayload) {
     if (this.isCompleted) {
       return
     }
@@ -297,7 +298,7 @@ export class Flow extends Fetchable {
   /**
    * Marks the flow skipped
    */
-  public async skip(properties?: Record<string | number, any>) {
+  public async skip(properties?: PropertyPayload) {
     if (this.isSkipped) {
       return
     }
@@ -308,7 +309,7 @@ export class Flow extends Fetchable {
   /**
    * Navigates the flow to the next step if one exists. This will mark that step started, but will not complete the previous step.
    */
-  public async forward(properties?: Record<string | number, any>) {
+  public async forward(properties?: PropertyPayload) {
     const nextStep = this.getStepByIndex(this.getCurrentStepIndex() + 1)
     if (nextStep) {
       await nextStep.start(properties)
@@ -320,7 +321,7 @@ export class Flow extends Fetchable {
   /**
    * Navigates the flow to the previous step if one exists. This will mark that step started, but will not complete the previous step.
    */
-  public async back(properties?: Record<string | number, any>) {
+  public async back(properties?: PropertyPayload) {
     const previousStep = this.getStepByIndex(this.getCurrentStepIndex() - 1)
     if (previousStep) {
       await previousStep.start(properties)
@@ -479,7 +480,7 @@ export class Flow extends Fetchable {
 
   private async sendFlowStateToAPI(
     action: FlowActionType,
-    data?: Record<string | number, any>,
+    data?: PropertyPayload,
     stepId?: string
   ) {
     const date = new Date()

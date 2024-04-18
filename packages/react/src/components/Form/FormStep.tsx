@@ -7,6 +7,7 @@ import { Flex } from '@/components/Flex'
 
 import { type FlowChildrenProps } from '@/components/Flow'
 import type { FieldTypes, FormFieldData, ValidationRules } from '@/components/Form'
+import { PropertyPayload } from '@frigade/js'
 
 export interface FormStepProps extends FlowChildrenProps {
   fieldTypes?: FieldTypes
@@ -58,11 +59,7 @@ export function FormStep({
 
   const stepProps = step.props ?? {}
 
-  // TODO: Type for data
-  function onPrimarySubmit(
-    data: Record<string | number, unknown>,
-    e: SyntheticEvent<object, unknown>
-  ) {
+  function onPrimarySubmit(data: PropertyPayload, e: SyntheticEvent<object, unknown>) {
     handlePrimary(e, data)
   }
 

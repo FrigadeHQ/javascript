@@ -1,13 +1,14 @@
 import { type SyntheticEvent, useCallback, useContext } from 'react'
 
-import type { FlowStep } from '@frigade/js'
+import type { FlowStep, PropertyPayload } from '@frigade/js'
 
 import { FrigadeContext } from '../components/Provider'
 
 // TODO: Fix order of args
 export type StepHandlerProp = (
   step: FlowStep,
-  event?: SyntheticEvent<object, unknown>
+  event?: SyntheticEvent<object, unknown>,
+  properties?: PropertyPayload
 ) => Promise<boolean | void> | (boolean | void)
 
 export interface StepHandlerProps {
@@ -17,7 +18,7 @@ export interface StepHandlerProps {
 
 export type StepHandler = (
   event: SyntheticEvent<object, unknown>,
-  properties?: Record<string | number, unknown>
+  properties?: PropertyPayload
 ) => Promise<boolean>
 
 export function useStepHandlers(step: FlowStep, { onPrimary, onSecondary }: StepHandlerProps = {}) {
@@ -38,7 +39,7 @@ export function useStepHandlers(step: FlowStep, { onPrimary, onSecondary }: Step
   return {
     handlePrimary: useCallback<StepHandler>(
       async (e, properties) => {
-        const continueDefault = await onPrimary?.(step, e)
+        const continueDefault = await onPrimary?.(step, e, properties)
 
         if (continueDefault === false) {
           e.preventDefault()
@@ -73,7 +74,7 @@ export function useStepHandlers(step: FlowStep, { onPrimary, onSecondary }: Step
 
     handleSecondary: useCallback<StepHandler>(
       async (e, properties) => {
-        const continueDefault = await onSecondary?.(step, e)
+        const continueDefault = await onSecondary?.(step, e, properties)
 
         if (continueDefault === false) {
           e.preventDefault()

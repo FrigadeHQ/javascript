@@ -1,4 +1,11 @@
-import { FlowStates, FrigadeConfig, SessionDTO, StatefulFlow, StatefulStep } from './types'
+import {
+  FlowStates,
+  FrigadeConfig,
+  PropertyPayload,
+  SessionDTO,
+  StatefulFlow,
+  StatefulStep,
+} from './types'
 import { clearCache, cloneFlow, GUEST_PREFIX, isWeb, resetAllLocalStorage } from '../shared/utils'
 import { Flow } from './flow'
 import { frigadeGlobalState, getGlobalStateKey } from '../shared/state'
@@ -86,7 +93,7 @@ export class Frigade extends Fetchable {
    * @param userId
    * @param properties
    */
-  public async identify(userId: string, properties?: Record<string, any>): Promise<void> {
+  public async identify(userId: string, properties?: PropertyPayload): Promise<void> {
     this.updateConfig({ ...this.config, userId })
     await this.initIfNeeded()
     await this.session({
@@ -101,7 +108,7 @@ export class Frigade extends Fetchable {
    * @param groupId
    * @param properties
    */
-  public async group(groupId?: string, properties?: Record<string, any>): Promise<void> {
+  public async group(groupId?: string, properties?: PropertyPayload): Promise<void> {
     await this.initIfNeeded()
     this.updateConfig({ ...this.config, groupId })
     await this.session({
@@ -117,7 +124,7 @@ export class Frigade extends Fetchable {
    * @param event
    * @param properties
    */
-  public async track(event: string, properties?: Record<string, any>): Promise<void> {
+  public async track(event: string, properties?: PropertyPayload): Promise<void> {
     await this.initIfNeeded()
     if (!event) {
       console.error('Event name is required to track an event')
