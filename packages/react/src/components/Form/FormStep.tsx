@@ -59,8 +59,8 @@ export function FormStep({
 
   const stepProps = step.props ?? {}
 
-  function onPrimarySubmit(data: PropertyPayload, e: SyntheticEvent<object, unknown>) {
-    handlePrimary(e, data)
+  function onPrimarySubmit(properties: PropertyPayload, e: SyntheticEvent<object, unknown>) {
+    handlePrimary(e, properties, false)
   }
 
   // @ts-expect-error TODO: Add type to step.fields
@@ -68,7 +68,7 @@ export function FormStep({
     if (fieldTypes[fieldData.type] != null) {
       fields.push(
         <FieldWrapper
-          key={fieldData.id}
+          key={`${step.flow.id}-${fieldData.id}`}
           control={control}
           fieldComponent={fieldTypes[fieldData.type]}
           fieldData={fieldData}

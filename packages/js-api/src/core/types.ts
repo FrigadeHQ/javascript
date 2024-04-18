@@ -201,8 +201,9 @@ export interface FlowStep extends StatefulStep {
 
   /**
    * Marks the step completed.
+   * @param optimistic If true, the step will be marked as completed without waiting for the API and validation of any targeting rules.
    */
-  complete: (properties?: PropertyPayload) => Promise<void>
+  complete: (properties?: PropertyPayload, optimistic?: boolean) => Promise<void>
 
   /**
    * Resets the step (useful for undoing a finished step).

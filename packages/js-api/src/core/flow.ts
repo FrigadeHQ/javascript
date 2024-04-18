@@ -171,36 +171,38 @@ export class Flow extends Fetchable {
         }
       }
 
-      stepObj.complete = async (properties?: PropertyPayload) => {
+      stepObj.complete = async (properties?: PropertyPayload, optimistic: boolean = true) => {
         const thisStep = this.steps.get(step.id)
 
         if (thisStep.$state.completed) {
           return
         }
 
-        const isLastStep = thisStep.order + 1 === this.getNumberOfAvailableSteps()
-        const copy = clone(this.getGlobalState().flowStates[this.id])
+        if (optimistic) {
+          const isLastStep = thisStep.order + 1 === this.getNumberOfAvailableSteps()
+          const copy = clone(this.getGlobalState().flowStates[this.id])
 
-        copy.$state.started = true
-        copy.data.steps[thisStep.order].$state.completed = true
-        copy.data.steps[thisStep.order].$state.started = true
-        copy.data.steps[thisStep.order].$state.lastActionAt = new Date()
+          copy.$state.started = true
+          copy.data.steps[thisStep.order].$state.completed = true
+          copy.data.steps[thisStep.order].$state.started = true
+          copy.data.steps[thisStep.order].$state.lastActionAt = new Date()
 
-        // If there are more index, advance current step
-        if (!isLastStep) {
-          copy.$state.currentStepId = this.getStepByIndex(thisStep.order + 1).id
-          copy.$state.currentStepIndex = thisStep.order + 1
-        }
+          // If there are more index, advance current step
+          if (!isLastStep) {
+            copy.$state.currentStepId = this.getStepByIndex(thisStep.order + 1).id
+            copy.$state.currentStepIndex = thisStep.order + 1
+          }
 
-        if (isLastStep) {
-          copy.$state.completed = true
-        }
+          if (isLastStep) {
+            copy.$state.completed = true
+          }
 
-        this.getGlobalState().flowStates[this.id] = copy
-        this.resyncState()
+          this.getGlobalState().flowStates[this.id] = copy
+          this.resyncState()
 
-        if (isLastStep) {
-          this.optimisticallyMarkFlowCompleted()
+          if (isLastStep) {
+            this.optimisticallyMarkFlowCompleted()
+          }
         }
 
         await this.sendFlowStateToAPI(COMPLETED_STEP, properties, thisStep.id)

@@ -17,8 +17,19 @@ export interface StepHandlerProps {
 }
 
 export type StepHandler = (
+  /**
+   * The native event that triggered this handler.
+   */
   event: SyntheticEvent<object, unknown>,
-  properties?: PropertyPayload
+  /**
+   * Additional properties to pass to the step.
+   */
+  properties?: PropertyPayload,
+  /**
+   * If true, the step will be marked as completed without waiting for the API and validation of any targeting rules.
+   * @default true
+   */
+  optimistic?: boolean
 ) => Promise<boolean>
 
 export function useStepHandlers(step: FlowStep, { onPrimary, onSecondary }: StepHandlerProps = {}) {
@@ -38,9 +49,9 @@ export function useStepHandlers(step: FlowStep, { onPrimary, onSecondary }: Step
 
   return {
     handlePrimary: useCallback<StepHandler>(
-      async (e, properties) => {
+      async (e, properties, optimistic) => {
         const continueDefault = await onPrimary?.(step, e, properties)
-
+        const optimisticValue = optimistic !== false
         if (continueDefault === false) {
           e.preventDefault()
           return false
@@ -53,14 +64,14 @@ export function useStepHandlers(step: FlowStep, { onPrimary, onSecondary }: Step
           if (typeof primaryAction === 'function') {
             primaryAction()
           } else if (primaryAction !== false) {
-            step.complete(properties)
+            step.complete(properties, optimisticValue)
           }
 
           if (step.primaryButton.uri != null) {
             navigate(step.primaryButton.uri, step.primaryButton.target)
           }
         } else {
-          step.complete(properties)
+          step.complete(properties, optimisticValue)
 
           if (step.primaryButtonUri != null) {
             navigate(step.primaryButtonUri, step.primaryButtonUriTarget)
