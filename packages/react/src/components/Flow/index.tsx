@@ -1,4 +1,4 @@
-import { Fragment, useContext, useEffect, useState } from 'react'
+import { Fragment, useContext, useEffect } from 'react'
 
 import { Box } from '@/components/Box'
 
@@ -29,13 +29,11 @@ export function Flow({
   forceMount,
   ...props
 }: FlowProps) {
-  const [hasProcessedRules, setHasProcessedRules] = useState(false)
-
   const { flow } = useFlow(flowId, {
     variables,
   })
 
-  const { hasInitialized, registerComponent } = useContext(FrigadeContext)
+  const { hasInitialized, registerComponent, registeredComponents } = useContext(FrigadeContext)
 
   const step = flow?.getCurrentStep()
 
@@ -69,17 +67,13 @@ export function Flow({
     return null
   }
 
-  registerComponent(flowId, () => {
-    if (!hasProcessedRules) {
-      setHasProcessedRules(true)
-    }
-  })
+  registerComponent(flowId)
 
   if (!flow.isVisible && !shouldForceMount) {
     return null
   }
 
-  if (!hasInitialized || !hasProcessedRules) {
+  if (!hasInitialized) {
     return null
   }
 
