@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.1.16
+
+### Patch Changes
+
+- a8c72be: Fixes an issue where components that remounted after first mounting were not visible
+
 ## 2.1.15
 
 ### Patch Changes
