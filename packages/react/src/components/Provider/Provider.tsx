@@ -151,7 +151,6 @@ export function Provider({ children, navigate, theme, ...props }: ProviderProps)
         frigade: frigade,
         registerComponent,
         hasInitialized,
-        registeredComponents: registeredComponents.current,
       }}
     >
       <Global styles={{ ':root': { ...themeVariables, ...themeOverrides } }} />

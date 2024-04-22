@@ -2,7 +2,6 @@ import type { Frigade, RulesRegistryCallback } from '@frigade/js'
 import { createContext, type Dispatch, type SetStateAction } from 'react'
 
 import type { ProviderProps } from './Provider'
-import { RegisteredComponents } from './Provider'
 
 export interface ProviderContext extends Omit<ProviderProps, 'children' | 'theme'> {
   modals: Set<string>
@@ -11,7 +10,6 @@ export interface ProviderContext extends Omit<ProviderProps, 'children' | 'theme
   frigade?: Frigade
   hasInitialized: boolean
   registerComponent: (flowId: string, callback?: RulesRegistryCallback) => void
-  registeredComponents: RegisteredComponents
 }
 
 export const FrigadeContext = createContext<ProviderContext>({
@@ -22,5 +20,4 @@ export const FrigadeContext = createContext<ProviderContext>({
   navigate: () => {},
   hasInitialized: false,
   registerComponent: () => {},
-  registeredComponents: new Map(),
 })

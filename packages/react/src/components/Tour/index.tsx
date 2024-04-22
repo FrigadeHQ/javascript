@@ -29,7 +29,7 @@ export function Tour({ flowId, onComplete, variables, ...props }: TourProps) {
     variables,
   })
 
-  const { hasInitialized, registerComponent, registeredComponents } = useContext(FrigadeContext)
+  const { hasInitialized, registerComponent } = useContext(FrigadeContext)
 
   useFlowHandlers(flow, { onComplete })
 
@@ -47,7 +47,7 @@ export function Tour({ flowId, onComplete, variables, ...props }: TourProps) {
 
   registerComponent(flowId)
 
-  if (!hasInitialized || !registeredComponents.has(flowId)) {
+  if (!hasInitialized) {
     return null
   }
 
