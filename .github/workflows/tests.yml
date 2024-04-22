@@ -20,6 +20,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - run: yarn set version 3.6.2
+        run: yarn set version 4.1.1
       - run: yarn install
       - run: yarn run turbo test

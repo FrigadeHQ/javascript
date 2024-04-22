@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: 'lts/*'
       - name: Set yarn version
-        run: yarn set version 3.6.2
+        run: yarn set version 4.1.1
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Build
