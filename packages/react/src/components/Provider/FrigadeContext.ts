@@ -10,6 +10,7 @@ export interface ProviderContext extends Omit<ProviderProps, 'children' | 'theme
   frigade?: Frigade
   hasInitialized: boolean
   registerComponent: (flowId: string, callback?: RulesRegistryCallback) => void
+  unregisterComponent: (flowId: string) => void
 }
 
 export const FrigadeContext = createContext<ProviderContext>({
@@ -20,4 +21,5 @@ export const FrigadeContext = createContext<ProviderContext>({
   navigate: () => {},
   hasInitialized: false,
   registerComponent: () => {},
+  unregisterComponent: () => {},
 })

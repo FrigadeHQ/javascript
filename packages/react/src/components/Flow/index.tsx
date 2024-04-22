@@ -35,7 +35,7 @@ export function Flow({
     variables,
   })
 
-  const { hasInitialized, registerComponent } = useContext(FrigadeContext)
+  const { hasInitialized, registerComponent, unregisterComponent } = useContext(FrigadeContext)
 
   const step = flow?.getCurrentStep()
 
@@ -58,6 +58,12 @@ export function Flow({
       removeModal()
     }
   }, [flow?.isVisible, isCurrentModal])
+
+  useEffect(() => {
+    return () => {
+      unregisterComponent(flowId)
+    }
+  }, [])
 
   const shouldForceMount = forceMount && (flow?.isCompleted || flow?.isSkipped)
 

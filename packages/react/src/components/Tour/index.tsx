@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 
 import { type FlowPropsWithoutChildren } from '@/components/Flow'
 import { FrigadeContext } from '@/components/Provider'
@@ -25,11 +25,13 @@ export interface TourProps extends TooltipProps, FlowPropsWithoutChildren {
 }
 
 export function Tour({ flowId, onComplete, variables, ...props }: TourProps) {
+  const [hasProcessedRules, setHasProcessedRules] = useState(false)
+
   const { flow } = useFlow(flowId, {
     variables,
   })
 
-  const { hasInitialized, registerComponent } = useContext(FrigadeContext)
+  const { hasInitialized, registerComponent, unregisterComponent } = useContext(FrigadeContext)
 
   useFlowHandlers(flow, { onComplete })
 
@@ -41,13 +43,23 @@ export function Tour({ flowId, onComplete, variables, ...props }: TourProps) {
     }
   }, [flow?.isVisible, isCurrentModal])
 
+  useEffect(() => {
+    return () => {
+      unregisterComponent(flowId)
+    }
+  }, [])
+
   if (flow == null || flow.isVisible === false || !isCurrentModal) {
     return null
   }
 
-  registerComponent(flowId)
+  registerComponent(flowId, () => {
+    if (!hasProcessedRules) {
+      setHasProcessedRules(true)
+    }
+  })
 
-  if (!hasInitialized) {
+  if (!hasInitialized || !hasProcessedRules) {
     return null
   }
 

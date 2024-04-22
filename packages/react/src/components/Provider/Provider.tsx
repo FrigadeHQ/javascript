@@ -126,6 +126,15 @@ export function Provider({ children, navigate, theme, ...props }: ProviderProps)
     intervalRef.current = setTimeout(() => batchRegistration(), 0)
   }
 
+  function unregisterComponent(flowId: string) {
+    if (registeredComponents.current.has(flowId)) {
+      frigade.getFlow(flowId).then((flow: Flow) => {
+        registeredComponents.current.delete(flowId)
+        flow.unregister()
+      })
+    }
+  }
+
   const navigateHandler =
     navigate ??
     ((url, target = '_self') => {
@@ -150,6 +159,7 @@ export function Provider({ children, navigate, theme, ...props }: ProviderProps)
         ...props,
         frigade: frigade,
         registerComponent,
+        unregisterComponent,
         hasInitialized,
       }}
     >
