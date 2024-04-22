@@ -1,11 +1,4 @@
-import {
-  FlowStates,
-  FrigadeConfig,
-  PropertyPayload,
-  SessionDTO,
-  StatefulFlow,
-  StatefulStep,
-} from './types'
+import { FlowStates, FrigadeConfig, PropertyPayload, SessionDTO, StatefulFlow } from './types'
 import { clearCache, cloneFlow, GUEST_PREFIX, isWeb, resetAllLocalStorage } from '../shared/utils'
 import { Flow } from './flow'
 import { frigadeGlobalState, getGlobalStateKey } from '../shared/state'
@@ -290,7 +283,7 @@ export class Frigade extends Fetchable {
         config: this.config,
       }
 
-      if (this.config.__readOnly && this.config.__flowConfigOverrides) {
+      if (this.config.__readOnly && this.config.__flowStateOverrides) {
         this.mockFlowStates(globalStateKey)
 
         return
@@ -352,36 +345,9 @@ export class Frigade extends Fetchable {
    * @ignore
    */
   private mockFlowStates(globalStateKey: string) {
-    Object.keys(this.config.__flowConfigOverrides).forEach((flowId) => {
-      const parsed = JSON.parse(this.config.__flowConfigOverrides[flowId])
-      frigadeGlobalState[globalStateKey].flowStates[flowId] = {
-        flowSlug: flowId,
-        flowName: parsed?.name ?? flowId,
-        flowType: parsed?.type ?? 'CHECKLIST',
-        data: {
-          ...parsed,
-          steps: (parsed?.steps ?? []).map((step: any): StatefulStep => {
-            return {
-              id: step.id,
-              $state: {
-                completed: false,
-                started: false,
-                visible: true,
-                blocked: false,
-              },
-              ...step,
-            }
-          }),
-        },
-        $state: {
-          currentStepId: null,
-          currentStepIndex: -1,
-          completed: false,
-          started: false,
-          skipped: false,
-          visible: true,
-        },
-      } as StatefulFlow
+    Object.keys(this.config.__flowStateOverrides).forEach((flowId) => {
+      frigadeGlobalState[globalStateKey].flowStates[flowId] =
+        this.config.__flowStateOverrides[flowId]
 
       this.flows.push(
         new Flow({

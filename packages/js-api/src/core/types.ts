@@ -254,10 +254,9 @@ export interface FrigadeConfig {
 
   /**
    * @ignore Internal use only.
-   * Map of Flow ID to Flow Config for all flows in the app.
-   * Configs will have to be provided in serialized JSON format rather than YAML.
+   * Map of Flow ID to Flow State for all flows in the app that should be mocked.
    */
-  __flowConfigOverrides?: Record<string, string>
+  __flowStateOverrides?: Record<string, StatefulFlow>
 
   /**
    * @ignore Internal use only.

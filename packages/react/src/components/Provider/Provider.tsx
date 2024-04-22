@@ -1,4 +1,11 @@
-import { type Flow, Frigade, RulesRegistryBatch, type RulesRegistryCallback } from '@frigade/js'
+import {
+  type Flow,
+  Frigade,
+  FrigadeConfig,
+  RulesRegistryBatch,
+  type RulesRegistryCallback,
+  StatefulFlow,
+} from '@frigade/js'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Global, ThemeProvider } from '@emotion/react'
 
@@ -55,10 +62,9 @@ export interface ProviderProps {
   __readOnly?: boolean
   /**
    * @ignore Internal use only.
-   * Map of Flow ID to Flow Config for all flows in the app.
-   * Configs will have to be provided in serialized JSON format rather than YAML.
+   * Map of Flow ID to Flow State for all flows in the app that should be mocked.
    */
-  __flowConfigOverrides?: Record<string, string>
+  __flowStateOverrides?: Record<string, StatefulFlow>
 }
 
 export function Provider({ children, navigate, theme, ...props }: ProviderProps) {
@@ -75,8 +81,8 @@ export function Provider({ children, navigate, theme, ...props }: ProviderProps)
       userId: props.userId,
       groupId: props.groupId,
       __readOnly: props.__readOnly,
-      __flowConfigOverrides: props.__flowConfigOverrides,
-    })
+      __flowStateOverrides: props.__flowStateOverrides,
+    } as FrigadeConfig)
   }, [props.userId, props.groupId, props.apiKey])
 
   function batchRegistration() {

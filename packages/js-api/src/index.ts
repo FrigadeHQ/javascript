@@ -5,6 +5,7 @@ export {
   type FlowStep,
   type FrigadeConfig,
   FlowType,
+  type StatefulFlow,
   TriggerType,
   PropertyPayload,
 } from './core/types'

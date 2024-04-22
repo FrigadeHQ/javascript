@@ -3,6 +3,7 @@ import { getRandomID } from './util'
 import { Flow } from '../src/.'
 
 import fetch from 'cross-fetch'
+import { FlowType } from '@frigade/reactv1'
 
 const testAPIKey = 'api_public_3MPLH7NJ9L0U963XKW7BPE2IT137GC6L742JLC2XCT6NOIYSI4QUI9I1RA3ZOGIL'
 const testFlowId = 'flow_yJfjksFrs5QEH0c8'
@@ -47,19 +48,42 @@ describe('SDK integration test', () => {
     const madeUpFlowId = 'flow_abc'
     const frigade = new Frigade(testAPIKey, {
       userId: getRandomID(),
-      __flowConfigOverrides: {
-        [madeUpFlowId]: JSON.stringify({
-          steps: [
-            {
-              id: 'step-one',
-              title: 'Some step',
-            },
-            {
-              id: 'step-two',
-              title: 'Some step',
-            },
-          ],
-        }),
+      __flowStateOverrides: {
+        [madeUpFlowId]: {
+          flowSlug: 'some-flow',
+          flowName: 'Some flow',
+          flowType: FlowType.CHECKLIST,
+          data: {
+            steps: [
+              {
+                id: 'step-one',
+                $state: {
+                  completed: false,
+                  started: false,
+                  visible: true,
+                  blocked: false,
+                },
+              },
+              {
+                id: 'step-two',
+                $state: {
+                  completed: false,
+                  started: false,
+                  visible: true,
+                  blocked: false,
+                },
+              },
+            ],
+          },
+          $state: {
+            currentStepId: 'step-one',
+            visible: true,
+            started: false,
+            completed: false,
+            skipped: false,
+            currentStepIndex: -1,
+          },
+        },
       },
       __readOnly: true,
     })
@@ -72,6 +96,57 @@ describe('SDK integration test', () => {
     expect(flow.steps.get('step-two').$state.completed).toBeFalsy()
     await flow.steps.get('step-two').start()
     expect(flow.steps.get('step-two').$state.started).toBeTruthy()
+    expect(flow.getCurrentStepIndex()).toEqual(1)
+    await flow.complete()
+    expect(flow.isCompleted).toBeTruthy()
+  })
+
+  test('read and set flow state with flow overrides, including current step index', async () => {
+    const madeUpFlowId = 'flow_abc'
+    const frigade = new Frigade(testAPIKey, {
+      userId: getRandomID(),
+      __flowStateOverrides: {
+        [madeUpFlowId]: {
+          flowSlug: 'some-flow',
+          flowName: 'Some flow',
+          flowType: FlowType.CHECKLIST,
+          data: {
+            steps: [
+              {
+                id: 'step-one',
+                $state: {
+                  completed: false,
+                  started: false,
+                  visible: true,
+                  blocked: false,
+                },
+              },
+              {
+                id: 'step-two',
+                $state: {
+                  completed: false,
+                  started: false,
+                  visible: true,
+                  blocked: false,
+                },
+              },
+            ],
+          },
+          $state: {
+            currentStepId: 'step-two',
+            visible: true,
+            started: true,
+            completed: false,
+            skipped: false,
+            currentStepIndex: 1,
+          },
+        },
+      },
+      __readOnly: true,
+    })
+    const flow = await frigade.getFlow(madeUpFlowId)
+    expect(flow).toBeDefined()
+    expect(flow.id).toEqual(madeUpFlowId)
     expect(flow.getCurrentStepIndex()).toEqual(1)
     await flow.complete()
     expect(flow.isCompleted).toBeTruthy()
