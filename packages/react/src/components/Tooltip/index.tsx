@@ -1,3 +1,4 @@
+import { keyframes } from '@emotion/react'
 import React, { useEffect, useRef, useState } from 'react'
 
 import { XMarkIcon } from '@heroicons/react/24/solid'
@@ -13,6 +14,18 @@ import { Text, TextProps } from '../Text'
 import { getDotPosition } from './getDotPosition'
 import { mapTooltipPropsToPopoverProps } from './mapTooltipPropsToPopoverProps'
 import { BoxPropsWithoutChildren } from '@/components/Flow/FlowProps'
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  25% {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`
 
 export interface MergedRadixPopoverProps
   extends Pick<Popover.PopoverProps, 'defaultOpen' | 'modal' | 'onOpenChange' | 'open'>,
@@ -175,6 +188,7 @@ export function Tooltip({
         <>
           {spotlight && (
             <Box
+              animation={`${fadeIn} 300ms ease-out`}
               boxShadow="0 0 0 20000px rgb(0 0 0 / 0.5)"
               part="tooltip-spotlight"
               pointerEvents="none"
@@ -195,6 +209,7 @@ export function Tooltip({
           )}
           <Popover.Content asChild {...contentProps} ref={contentRef}>
             <Card
+              animation={`${fadeIn} 300ms ease-out`}
               boxShadow="md"
               part="tooltip"
               position="relative"

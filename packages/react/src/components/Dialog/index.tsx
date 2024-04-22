@@ -1,3 +1,4 @@
+import { keyframes } from '@emotion/react'
 import * as RadixDialog from '@radix-ui/react-dialog'
 import { XMarkIcon } from '@heroicons/react/24/solid'
 
@@ -11,6 +12,18 @@ import { mapDialogProps } from './mapDialogProps'
 
 import { theme } from '../../shared/theme'
 import { BoxPropsWithoutChildren } from '@/components/Flow/FlowProps'
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  25% {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`
 
 export interface DialogContentProps
   extends Pick<
@@ -42,6 +55,7 @@ export function Dialog({ children, className, modal = true, ...props }: DialogPr
     <RadixDialog.Root defaultOpen={true} modal={modal} {...rootProps}>
       <RadixDialog.Portal>
         <Box
+          animation={`${fadeIn} 300ms ease-out`}
           className={className}
           display="grid"
           inset="0"
