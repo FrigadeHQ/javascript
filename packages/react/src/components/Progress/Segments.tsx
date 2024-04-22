@@ -15,7 +15,7 @@ export function Segments({ current, total, ...props }: ProgressProps) {
   ))
 
   return (
-    <Flex.Row gap={1} height="10px" {...props}>
+    <Flex.Row gap={1} height="10px" part="progress-segments" {...props}>
       {segments}
     </Flex.Row>
   )
