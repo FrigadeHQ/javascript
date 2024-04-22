@@ -1,5 +1,14 @@
 # @frigade/react
 
+## 2.1.17
+
+### Patch Changes
+
+- 314b2bf: Updates the list of allowed html tags and Flow mocking capabilities
+- ddda17d: Unregister Flow on unmount
+- Updated dependencies [314b2bf]
+  - @frigade/js@0.4.13
+
 ## 2.1.16
 
 ### Patch Changes

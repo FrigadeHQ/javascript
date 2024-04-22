@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.4.13
+
+### Patch Changes
+
+- 314b2bf: Updates the list of allowed html tags and Flow mocking capabilities
+
 ## 0.4.12
 
 ### Patch Changes
