@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.4.14
+
+### Patch Changes
+
+- 976eb45: Fixes an issue where mocked flow configurations would not live update
+
 ## 0.4.13
 
 ### Patch Changes
