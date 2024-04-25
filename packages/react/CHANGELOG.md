@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.1.19
+
+### Patch Changes
+
+- a4baf5b: Fixes an issue where hot reloading copy updates to Flows would need full refresh
+- Updated dependencies [a4baf5b]
+  - @frigade/js@0.4.15
+
 ## 2.1.18
 
 ### Patch Changes
