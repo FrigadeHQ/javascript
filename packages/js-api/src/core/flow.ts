@@ -109,16 +109,19 @@ export class Flow extends Fetchable {
     this.isSkipped = statefulFlow.$state.skipped
     this._isVisible = statefulFlow.$state.visible
 
-    // Set
-
     statefulFlow.data.steps.forEach((step, index) => {
       const stepObj = this.initStepFromStatefulStep(step, index)
 
       const existingStep = this.steps?.get(step.id)
       if (existingStep) {
-        existingStep.$state = stepObj.$state
+        Object.keys(stepObj).forEach((key) => {
+          existingStep[key] = stepObj[key]
+        })
       }
     })
+    if (this.steps && this.steps.size > 0) {
+      this.applyVariables(this.getGlobalState().variables[this.id] ?? {})
+    }
   }
 
   /**

@@ -114,6 +114,7 @@ describe('SDK integration test', () => {
             steps: [
               {
                 id: 'step-one',
+                title: 'Step One',
                 $state: {
                   completed: false,
                   started: false,
@@ -123,6 +124,7 @@ describe('SDK integration test', () => {
               },
               {
                 id: 'step-two',
+                title: 'Step Two',
                 $state: {
                   completed: false,
                   started: false,
@@ -147,6 +149,7 @@ describe('SDK integration test', () => {
     const flow = await frigade.getFlow(madeUpFlowId)
     expect(flow).toBeDefined()
     expect(flow.id).toEqual(madeUpFlowId)
+    expect(flow.getStepByIndex(0).title).toEqual('Step One')
     expect(flow.getCurrentStepIndex()).toEqual(1)
     await flow.complete()
     expect(flow.isCompleted).toBeTruthy()
@@ -164,6 +167,7 @@ describe('SDK integration test', () => {
           steps: [
             {
               id: 'step-one',
+              title: 'Step One Updated',
               $state: {
                 completed: false,
                 started: false,
@@ -173,6 +177,7 @@ describe('SDK integration test', () => {
             },
             {
               id: 'step-two',
+              title: 'Step Two Updated',
               $state: {
                 completed: false,
                 started: false,
@@ -201,6 +206,7 @@ describe('SDK integration test', () => {
     const updatedFlow = await frigade.getFlow(madeUpFlowId)
     expect(updatedFlow.isCompleted).toBeFalsy()
     expect(updatedFlow.isVisible).toBeTruthy()
+    expect(updatedFlow.getStepByIndex(0).title).toEqual('Step One Updated')
 
     expect(updatedFlow).toBeDefined()
     expect(updatedFlow.id).toEqual(madeUpFlowId)
