@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.1.18
+
+### Patch Changes
+
+- 976eb45: Fixes an issue where mocked flow configurations would not live update
+- Updated dependencies [976eb45]
+  - @frigade/js@0.4.14
+
 ## 2.1.17
 
 ### Patch Changes
