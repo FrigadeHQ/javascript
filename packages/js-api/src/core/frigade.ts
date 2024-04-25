@@ -40,6 +40,13 @@ export class Frigade extends Fetchable {
   }
 
   /**
+   * Gets the current configuration.
+   */
+  getConfig() {
+    return this.config
+  }
+
+  /**
    * @ignore
    */
   destroy() {
@@ -63,17 +70,19 @@ export class Frigade extends Fetchable {
     })
 
     this.initPromise = (async () => {
-      if (this.config.userId?.startsWith(GUEST_PREFIX)) {
-        // do nothing
-      } else if (this.config.userId && this.config.groupId) {
-        await this.session({
-          userId: this.config.userId,
-          groupId: this.config.groupId,
-        })
-      } else if (this.config.userId) {
-        await this.session({
-          userId: this.config.userId,
-        })
+      if (!this.config.__readOnly) {
+        if (this.config.userId?.startsWith(GUEST_PREFIX)) {
+          // do nothing
+        } else if (this.config.userId && this.config.groupId) {
+          await this.session({
+            userId: this.config.userId,
+            groupId: this.config.groupId,
+          })
+        } else if (this.config.userId) {
+          await this.session({
+            userId: this.config.userId,
+          })
+        }
       }
       await this.refreshStateFromAPI()
     })()
@@ -189,11 +198,15 @@ export class Frigade extends Fetchable {
   /**
    * Reload the current state of the flows by calling the Frigade API.
    * This will trigger all event handlers.
+   * @param config optional config to use when reloading. If not passed, the current config will be used.
    */
-  public async reload() {
+  public async reload(config?: FrigadeConfig) {
     resetAllLocalStorage()
     clearCache()
-    await this.refreshStateFromAPI()
+    if (config) {
+      await this.updateConfig(config)
+      this.mockFlowStates(getGlobalStateKey(this.config))
+    }
     this.initPromise = null
     await this.init(this.config)
     // Trigger all event handlers
@@ -349,12 +362,20 @@ export class Frigade extends Fetchable {
       frigadeGlobalState[globalStateKey].flowStates[flowId] =
         this.config.__flowStateOverrides[flowId]
 
-      this.flows.push(
-        new Flow({
-          config: this.config,
-          id: flowId,
+      if (!this.flows.find((flow) => flow.id == flowId)) {
+        this.flows.push(
+          new Flow({
+            config: this.config,
+            id: flowId,
+          })
+        )
+      } else {
+        this.flows.forEach((flow) => {
+          if (flow.id == flowId) {
+            flow.resyncState(this.config.__flowStateOverrides[flowId])
+          }
         })
-      )
+      }
     })
   }
 

@@ -150,6 +150,61 @@ describe('SDK integration test', () => {
     expect(flow.getCurrentStepIndex()).toEqual(1)
     await flow.complete()
     expect(flow.isCompleted).toBeTruthy()
+    expect(flow.isVisible).toBeFalsy()
+
+    // Now get the config and update the current step index to be 0
+    const config = frigade.getConfig()
+    config.__flowStateOverrides = {
+      ...config.__flowStateOverrides,
+      [madeUpFlowId]: {
+        flowSlug: 'some-flow',
+        flowName: 'Some flow',
+        flowType: FlowType.CHECKLIST,
+        data: {
+          steps: [
+            {
+              id: 'step-one',
+              $state: {
+                completed: false,
+                started: false,
+                visible: true,
+                blocked: false,
+              },
+            },
+            {
+              id: 'step-two',
+              $state: {
+                completed: false,
+                started: false,
+                visible: true,
+                blocked: false,
+              },
+            },
+          ],
+        },
+        $state: {
+          currentStepId: 'step-one',
+          visible: true,
+          started: true,
+          completed: false,
+          skipped: false,
+          currentStepIndex: 0,
+        },
+      },
+    }
+    // set event handler
+    const callback = jest.fn(() => {})
+    await frigade.onStateChange(callback)
+    expect(callback).toHaveBeenCalledTimes(0)
+    await frigade.reload(config)
+    expect(callback).toHaveBeenCalled()
+    const updatedFlow = await frigade.getFlow(madeUpFlowId)
+    expect(updatedFlow.isCompleted).toBeFalsy()
+    expect(updatedFlow.isVisible).toBeTruthy()
+
+    expect(updatedFlow).toBeDefined()
+    expect(updatedFlow.id).toEqual(madeUpFlowId)
+    expect(updatedFlow.getCurrentStepIndex()).toEqual(0)
   })
 
   test('read and set flow step state', async () => {

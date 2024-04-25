@@ -85,6 +85,14 @@ export function Provider({ children, navigate, theme, ...props }: ProviderProps)
     } as FrigadeConfig)
   }, [props.userId, props.groupId, props.apiKey])
 
+  useEffect(() => {
+    if (props.__flowStateOverrides) {
+      const config = frigade.getConfig()
+      config.__flowStateOverrides = props.__flowStateOverrides
+      frigade.reload(config)
+    }
+  }, [props.__flowStateOverrides])
+
   function batchRegistration() {
     const batchedFlowIds = [...registeredComponents.current.entries()].map(([flowId, options]) => [
       flowId,

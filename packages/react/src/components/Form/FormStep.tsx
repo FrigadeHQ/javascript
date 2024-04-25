@@ -1,4 +1,4 @@
-import { SyntheticEvent, useState } from 'react'
+import { SyntheticEvent, useContext, useState } from 'react'
 import { useController, useForm } from 'react-hook-form'
 
 import { Button } from '@/components/Button'
@@ -8,6 +8,7 @@ import { Flex } from '@/components/Flex'
 import { type FlowChildrenProps } from '@/components/Flow'
 import type { FieldTypes, FormFieldData, ValidationRules } from '@/components/Form'
 import { PropertyPayload } from '@frigade/js'
+import { FrigadeContext } from '@/components/Provider'
 
 export interface FormStepProps extends FlowChildrenProps {
   fieldTypes?: FieldTypes
@@ -51,6 +52,7 @@ export function FormStep({
   parentProps: { dismissible },
   step,
 }: FormStepProps) {
+  const { __readOnly } = useContext(FrigadeContext)
   const { control, handleSubmit } = useForm({
     delayError: 2000,
     mode: 'onChange',
@@ -62,7 +64,7 @@ export function FormStep({
 
   function onPrimarySubmit(properties: PropertyPayload, e: SyntheticEvent<object, unknown>) {
     setIsSubmitting(true)
-    handlePrimary(e, properties, false).then(() => setIsSubmitting(false))
+    handlePrimary(e, properties, __readOnly === true).then(() => setIsSubmitting(false))
   }
 
   // @ts-expect-error TODO: Add type to step.fields
