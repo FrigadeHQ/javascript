@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.4.15
+
+### Patch Changes
+
+- a4baf5b: Fixes an issue where hot reloading copy updates to Flows would need full refresh
+
 ## 0.4.14
 
 ### Patch Changes
