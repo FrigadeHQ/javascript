@@ -8,7 +8,18 @@ export type Theme = DeepPartial<Tokens>
 // Transform tokens to a flat list of CSS variables and values to inject into the page
 // IN: { colors: { black: '#000' } }, OUT: { '--fr-colors-black': '#000' }
 export function createThemeVariables(tokens: Theme) {
-  return flattenObject(tokens, '--fr', '-')
+  const flattenedTokens = flattenObject(tokens, '--fr', '-')
+
+  for (const [key, value] of Object.entries(flattenedTokens)) {
+    if (key.indexOf('.') > -1) {
+      const cssSafeKey = key.replace(/\./g, '-')
+
+      flattenedTokens[cssSafeKey] = value
+      delete flattenedTokens[key]
+    }
+  }
+
+  return flattenedTokens
 }
 
 // Swap token values out and replace them with the CSS variables we defined
@@ -19,10 +30,12 @@ function mapTokensToThemeVariables(tokens: Tokens, path = '--fr'): Theme {
   Object.keys(tokens).forEach((key) => {
     const currentValue = tokens[key]
 
+    const cssSafeKey = key.replace(/\./g, '-')
+
     if (typeof currentValue === 'object' && currentValue !== null && !Array.isArray(currentValue)) {
       newObj[key] = mapTokensToThemeVariables(currentValue, `${path}-${key}`)
     } else {
-      newObj[key] = `var(${path}-${key})`
+      newObj[key] = `var(${path}-${cssSafeKey})`
     }
   })
 
