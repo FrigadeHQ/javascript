@@ -11,7 +11,7 @@ export const Default = {
     // src: "http://placehold.co/60x60",
     height: "60px",
     width: "60px",
-    border: "1px solid fuchsia",
+    border: "md solid primary.border",
     "bg:hover": "orange",
   },
 };

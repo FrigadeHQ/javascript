@@ -44,7 +44,7 @@ const themedStyleProps = {
   backgroundColor: colorTokens,
   borderColor: colorTokens,
 
-  border: theme.borders,
+  border: { ...theme.borderWidths, ...colorTokens },
   borderRadius: theme.radii,
   borderWidth: theme.borderWidths,
   boxShadow: theme.shadows,
