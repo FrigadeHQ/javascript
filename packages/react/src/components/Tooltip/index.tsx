@@ -66,7 +66,11 @@ export function Tooltip({
 }: TooltipProps) {
   const { node: contentNode, rect: contentRect, ref: contentRef } = useBoundingClientRect()
   const { node: anchorNode, rect: anchorRect, ref: anchorRef } = useBoundingClientRect()
-  const { contentProps, otherProps, rootProps } = mapTooltipPropsToPopoverProps(props, contentRect)
+  const {
+    contentProps,
+    otherProps: { part, ...otherProps },
+    rootProps,
+  } = mapTooltipPropsToPopoverProps(props, contentRect)
 
   const [alignAttr, setAlignAttr] = useState(contentProps.align)
   const [sideAttr, setSideAttr] = useState(contentProps.side)
@@ -211,13 +215,13 @@ export function Tooltip({
             <Card
               animation={`${fadeIn} 300ms ease-out`}
               boxShadow="md"
-              part="tooltip"
               position="relative"
               className={className}
               css={{
                 maxWidth: '360px',
                 pointerEvents: 'auto',
               }}
+              part={['tooltip', part]}
               style={style}
               {...otherProps}
             >

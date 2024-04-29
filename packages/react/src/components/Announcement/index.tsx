@@ -28,7 +28,7 @@ const flowPropNames = [
   'variables',
 ]
 
-export function Announcement({ flowId, ...props }: AnnouncementProps) {
+export function Announcement({ flowId, part, ...props }: AnnouncementProps) {
   const flowProps = Object.fromEntries(
     Object.entries(props).filter(([k]) => flowPropNames.some((name) => k === name))
   )
@@ -55,7 +55,7 @@ export function Announcement({ flowId, ...props }: AnnouncementProps) {
 
         return (
           <Dialog
-            part="announcement"
+            part={['announcement', part]}
             textAlign="center"
             {...dialogProps}
             onEscapeKeyDown={(e) => {

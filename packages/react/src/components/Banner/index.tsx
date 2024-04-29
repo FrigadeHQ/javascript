@@ -5,7 +5,7 @@ import { Box } from '@/components/Box'
 
 export interface BannerProps extends FlowPropsWithoutChildren {}
 
-export function Banner({ dismissible, flowId, ...props }: BannerProps) {
+export function Banner({ dismissible, flowId, part, ...props }: BannerProps) {
   return (
     <Flow as={null} flowId={flowId}>
       {({ handleDismiss, handlePrimary, handleSecondary, step }) => {
@@ -24,7 +24,7 @@ export function Banner({ dismissible, flowId, ...props }: BannerProps) {
             flexDirection="row"
             gap={3}
             justifyContent="flex-start"
-            part="banner"
+            part={['banner', part]}
             {...props}
             {...stepProps}
           >

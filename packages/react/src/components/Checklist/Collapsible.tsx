@@ -138,6 +138,7 @@ export function Collapsible({
   flowId,
   onPrimary,
   onSecondary,
+  part,
   stepTypes = {},
   ...props
 }: CollapsibleProps) {
@@ -152,7 +153,7 @@ export function Collapsible({
     <CollapsibleContext.Provider
       value={{ openStepId, setOpenStepId, onPrimary, onSecondary, stepTypes: mergedStepTypes }}
     >
-      <Flow as={Card} borderWidth="md" flowId={flowId} part="checklist" {...props}>
+      <Flow as={Card} borderWidth="md" flowId={flowId} part={['checklist', part]} {...props}>
         {({ flow, handleDismiss, ...childrenProps }) => {
           const visibleSteps = Array.from(flow.steps.entries()).filter(
             ([, step]) => step.$state.visible === true

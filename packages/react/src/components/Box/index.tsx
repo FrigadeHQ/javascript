@@ -12,7 +12,12 @@ function prefixPart(part: string | undefined) {
 function processPart(part: Part | undefined) {
   if (!part) return part
 
-  return Array.isArray(part) ? part.map((p) => processPart(p)).join(' ') : prefixPart(part)
+  return Array.isArray(part)
+    ? part
+        .filter((p) => p != null)
+        .map((p) => processPart(p))
+        .join(' ')
+    : prefixPart(part)
 }
 
 type Part = string | Part[]

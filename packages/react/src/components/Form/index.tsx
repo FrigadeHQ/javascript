@@ -63,11 +63,11 @@ export interface FormProps extends FlowPropsWithoutChildren {
   fieldTypes?: FieldTypes
 }
 
-export function Form({ fieldTypes = {}, flowId, ...props }: FormProps) {
+export function Form({ fieldTypes = {}, flowId, part, ...props }: FormProps) {
   const mergedFieldTypes = Object.assign({}, defaultFieldTypes, fieldTypes)
 
   return (
-    <Flow flowId={flowId} part="form" {...props}>
+    <Flow flowId={flowId} part={['form', part]} {...props}>
       {(childProps) => <FormStep fieldTypes={mergedFieldTypes} {...childProps} />}
     </Flow>
   )

@@ -4,7 +4,7 @@ import { Form, type FormProps } from '@/components/Form'
 import { NPSField } from './NPSField'
 import { useFlow } from '@/hooks/useFlow'
 
-export function NPS({ as = Dialog, flowId, fieldTypes, ...props }: FormProps) {
+export function NPS({ as = Dialog, flowId, fieldTypes, part, ...props }: FormProps) {
   const { flow } = useFlow(flowId)
 
   return (
@@ -26,6 +26,7 @@ export function NPS({ as = Dialog, flowId, fieldTypes, ...props }: FormProps) {
           flow.skip()
         }
       }}
+      part={['nps', part]}
       css={{
         // Hides the submit button on the first page
         ...(!flow || flow.getCurrentStepIndex() == 0

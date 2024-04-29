@@ -35,7 +35,7 @@ export function mapTooltipPropsToPopoverProps(props: TooltipProps, contentRect: 
       .filter((propEntry) => propEntry[1] !== undefined)
   )
 
-  const otherProps = {}
+  const otherProps: Partial<TooltipProps> = {}
 
   for (const propName of Object.keys(props)) {
     if (!RADIX_PROPS.content.includes(propName) && !RADIX_PROPS.root.includes(propName)) {

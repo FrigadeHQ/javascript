@@ -24,7 +24,7 @@ export interface TourProps extends TooltipProps, FlowPropsWithoutChildren {
   modal?: boolean
 }
 
-export function Tour({ flowId, onComplete, variables, ...props }: TourProps) {
+export function Tour({ flowId, onComplete, variables, part, ...props }: TourProps) {
   const [hasProcessedRules, setHasProcessedRules] = useState(false)
 
   const { flow } = useFlow(flowId, {
@@ -66,5 +66,5 @@ export function Tour({ flowId, onComplete, variables, ...props }: TourProps) {
   const step = flow.getCurrentStep()
   step?.start()
 
-  return <TourStep step={step} flow={flow} {...props} />
+  return <TourStep flow={flow} part={['tour', part]} step={step} {...props} />
 }

@@ -2,7 +2,7 @@ import { Card } from '@/components/Card'
 import { Flex } from '@/components/Flex'
 import { Flow, type FlowProps } from '@/components/Flow'
 
-export function FlowCard(props: FlowProps) {
+export function FlowCard({ part, ...props }: FlowProps) {
   return (
     <Flow
       as={Card}
@@ -10,7 +10,7 @@ export function FlowCard(props: FlowProps) {
       borderColor="neutral.border"
       borderStyle="solid"
       borderWidth="md"
-      part="card"
+      part={['card', part]}
       {...props}
     >
       {({ handleDismiss, handlePrimary, handleSecondary, parentProps: { dismissible }, step }) => {
