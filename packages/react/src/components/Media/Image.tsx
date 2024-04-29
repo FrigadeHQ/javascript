@@ -5,5 +5,5 @@ export interface ImageProps extends BoxProps {
 }
 
 export function Image({ part, src, ...props }: ImageProps) {
-  return <Box as="img" part={['image', part]} src={src} {...props} />
+  return <Box as="img" maxWidth="unset" part={['image', part]} src={src} {...props} />
 }
