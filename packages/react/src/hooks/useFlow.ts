@@ -22,8 +22,15 @@ export function useFlow(flowId: string, config?: FlowConfig) {
         updatedFlow.applyVariables(config.variables)
       }
 
-      setFlow(updatedFlow)
-      setRandomString(Math.random().toString())
+      /*
+        @frigade/js can call this handler at any time, so let's bump our state setters
+        out of the current call stack to avoid a potential "Cannot update a component
+        while rendering a different component" warning.
+      */
+      setTimeout(() => {
+        setFlow(updatedFlow)
+        setRandomString(Math.random().toString())
+      }, 0)
     },
     [config?.variables]
   )
