@@ -1,5 +1,5 @@
-import { Box, type BoxProps } from '../Box'
-import { Text } from '../Text'
+import { Box, type BoxProps } from '@/components/Box'
+import { Text } from '@/components/Text'
 
 import * as styles from './Button.styles'
 

@@ -1,8 +1,8 @@
 import kcp from 'known-css-properties'
 import type { CSSProperties } from 'react'
 
-import { theme } from '../../shared/theme'
-import { flattenObject } from '../../shared/flattenObject'
+import { theme } from '@/shared/theme'
+import { flattenObject } from '@/shared/flattenObject'
 
 // Don't use these as CSS props, pass them through to HTML
 const omittedCSSProperties = new Set([

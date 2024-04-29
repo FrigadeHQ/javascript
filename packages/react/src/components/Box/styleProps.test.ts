@@ -1,4 +1,4 @@
-import { theme } from '../../shared/theme'
+import { theme } from '@/shared/theme'
 
 import { styleProps } from './styleProps'
 import { stylePropsToCss } from './stylePropsToCss'

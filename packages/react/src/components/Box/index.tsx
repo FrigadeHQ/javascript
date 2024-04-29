@@ -3,7 +3,7 @@ import { clsx } from 'clsx'
 
 import { type StyleProps } from './styleProps'
 import { stylePropsToCss } from './stylePropsToCss'
-import { sanitize } from '../../shared/sanitize'
+import { sanitize } from '@/shared/sanitize'
 
 function prefixPart(part: string | undefined) {
   return part ? `fr-${part}` : part

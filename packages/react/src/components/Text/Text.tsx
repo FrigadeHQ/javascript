@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { Box, type BoxProps } from '../Box'
+import { Box, type BoxProps } from '@/components/Box'
 
 import * as styles from './Text.styles'
 

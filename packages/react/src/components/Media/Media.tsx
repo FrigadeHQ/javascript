@@ -1,6 +1,6 @@
 import { Image } from './Image'
 import { Video } from './Video'
-import { BoxProps } from '../Box'
+import { BoxProps } from '@/components/Box'
 
 export interface MediaProps extends BoxProps {
   src: string

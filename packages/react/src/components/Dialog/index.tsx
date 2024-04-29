@@ -2,15 +2,15 @@ import { keyframes } from '@emotion/react'
 import * as RadixDialog from '@radix-ui/react-dialog'
 import { XMarkIcon } from '@heroicons/react/24/solid'
 
-import { Box } from '../Box'
-import { Button, ButtonProps } from '../Button'
-import { Card } from '../Card'
-import { Media, MediaProps } from '../Media'
-import { Text, TextProps } from '../Text'
+import { Box } from '@/components/Box'
+import { Button, ButtonProps } from '@/components/Button'
+import { Card } from '@/components/Card'
+import { Media, MediaProps } from '@/components/Media'
+import { Text, TextProps } from '@/components/Text'
 
 import { mapDialogProps } from './mapDialogProps'
 
-import { theme } from '../../shared/theme'
+import { theme } from '@/shared/theme'
 import { BoxPropsWithoutChildren } from '@/components/Flow/FlowProps'
 
 const fadeIn = keyframes`

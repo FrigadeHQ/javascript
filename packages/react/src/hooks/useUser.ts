@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 
-import { FrigadeContext } from '../components/Provider'
+import { FrigadeContext } from '@/components/Provider'
 
 export function useUser() {
   const { userId, frigade } = useContext(FrigadeContext)

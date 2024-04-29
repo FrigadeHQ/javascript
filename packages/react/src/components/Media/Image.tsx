@@ -1,4 +1,4 @@
-import { Box, BoxProps } from '../Box'
+import { Box, BoxProps } from '@/components/Box'
 
 export interface ImageProps extends BoxProps {
   src: string

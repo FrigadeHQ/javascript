@@ -14,7 +14,7 @@ import {
   theme as themeTokens,
   type Theme,
   themeVariables,
-} from '../../shared/theme'
+} from '@/shared/theme'
 
 import { FrigadeContext } from './FrigadeContext'
 

@@ -1,5 +1,5 @@
-import { tokens, Tokens } from '../tokens'
-import { flattenObject } from '../flattenObject'
+import { tokens, Tokens } from '@/shared/tokens'
+import { flattenObject } from '@/shared/flattenObject'
 
 import type { DeepPartial } from '@/shared/types'
 

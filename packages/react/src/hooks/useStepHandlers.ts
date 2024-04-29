@@ -2,7 +2,7 @@ import { type SyntheticEvent, useCallback, useContext } from 'react'
 
 import type { FlowStep, PropertyPayload } from '@frigade/js'
 
-import { FrigadeContext } from '../components/Provider'
+import { FrigadeContext } from '@/components/Provider'
 
 // TODO: Fix order of args
 export type StepHandlerProp = (

@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react'
 
-import { FrigadeContext } from '../components/Provider'
+import { FrigadeContext } from '@/components/Provider'
 import type { Flow } from '@frigade/js'
 
 export function useModal(flow: Flow, isModal: boolean = true) {

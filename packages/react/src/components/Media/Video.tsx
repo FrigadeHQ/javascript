@@ -1,4 +1,4 @@
-import { Box, BoxProps } from '../Box'
+import { Box, BoxProps } from '@/components/Box'
 
 function getVideoEmbedSrc(videoUri: string) {
   if (videoUri.includes('youtube')) {

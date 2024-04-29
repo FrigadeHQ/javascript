@@ -1,11 +1,11 @@
 import type { Flow, FlowStep } from '@frigade/js'
 
 import { TourProps } from '.'
-import { useFlowHandlers } from '../../hooks/useFlowHandlers'
-import { useStepHandlers } from '../../hooks/useStepHandlers'
+import { useFlowHandlers } from '@/hooks/useFlowHandlers'
+import { useStepHandlers } from '@/hooks/useStepHandlers'
 
-import { Flex } from '../Flex'
-import { Tooltip } from '../Tooltip'
+import { Flex } from '@/components/Flex'
+import { Tooltip } from '@/components/Tooltip'
 
 export interface TourStepProps extends Omit<TourProps, 'flowId'> {
   step: FlowStep

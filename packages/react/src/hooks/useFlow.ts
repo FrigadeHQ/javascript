@@ -1,7 +1,7 @@
 import { type Flow } from '@frigade/js'
 import { useCallback, useContext, useEffect, useState } from 'react'
 
-import { FrigadeContext } from '../components/Provider'
+import { FrigadeContext } from '@/components/Provider'
 
 export interface FlowConfig {
   variables?: Record<string, unknown>
