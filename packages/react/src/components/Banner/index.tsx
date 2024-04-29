@@ -14,6 +14,8 @@ export function Banner({ dismissible, flowId, ...props }: BannerProps) {
         const primaryButtonTitle = step.primaryButton?.title ?? step.primaryButtonTitle
         const secondaryButtonTitle = step.secondaryButton?.title ?? step.secondaryButtonTitle
 
+        const disabled = step.$state.completed || step.$state.blocked ? true : false
+
         return (
           <Card
             alignItems="center"
@@ -40,8 +42,12 @@ export function Banner({ dismissible, flowId, ...props }: BannerProps) {
               <Card.Subtitle part="subtitle">{step.subtitle}</Card.Subtitle>
             </Flex.Column>
 
-            <Card.Secondary title={secondaryButtonTitle} onClick={handleSecondary} />
-            <Card.Primary title={primaryButtonTitle} onClick={handlePrimary} />
+            <Card.Secondary
+              disabled={disabled}
+              title={secondaryButtonTitle}
+              onClick={handleSecondary}
+            />
+            <Card.Primary disabled={disabled} title={primaryButtonTitle} onClick={handlePrimary} />
             {dismissible && <Card.Dismiss onClick={handleDismiss} />}
           </Card>
         )

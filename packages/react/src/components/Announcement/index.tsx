@@ -51,6 +51,8 @@ export function Announcement({ flowId, ...props }: AnnouncementProps) {
         const primaryButtonTitle = step.primaryButton?.title ?? step.primaryButtonTitle
         const secondaryButtonTitle = step.secondaryButton?.title ?? step.secondaryButtonTitle
 
+        const disabled = step.$state.completed || step.$state.blocked ? true : false
+
         return (
           <Dialog
             part="announcement"
@@ -95,10 +97,18 @@ export function Announcement({ flowId, ...props }: AnnouncementProps) {
                 part="announcement-footer"
               >
                 {secondaryButtonTitle && (
-                  <Dialog.Secondary onClick={handleSecondary} title={secondaryButtonTitle} />
+                  <Dialog.Secondary
+                    disabled={disabled}
+                    onClick={handleSecondary}
+                    title={secondaryButtonTitle}
+                  />
                 )}
                 {primaryButtonTitle && (
-                  <Dialog.Primary onClick={handlePrimary} title={primaryButtonTitle} />
+                  <Dialog.Primary
+                    disabled={disabled}
+                    onClick={handlePrimary}
+                    title={primaryButtonTitle}
+                  />
                 )}
               </Flex.Row>
             </Flex.Column>

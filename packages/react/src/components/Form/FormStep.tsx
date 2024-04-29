@@ -85,6 +85,8 @@ export function FormStep({
   const primaryButtonTitle = step.primaryButton?.title ?? step.primaryButtonTitle
   const secondaryButtonTitle = step.secondaryButton?.title ?? step.secondaryButtonTitle
 
+  const disabled = step.$state.completed || step.$state.blocked ? true : false
+
   return (
     <Flex.Column gap={5} part="form-step" {...stepProps}>
       <Card.Header
@@ -99,12 +101,16 @@ export function FormStep({
 
       <Flex.Row key="form-footer" part="form-step-footer" justifyContent="flex-end" gap={3}>
         {secondaryButtonTitle && (
-          <Button.Secondary title={secondaryButtonTitle} onClick={handleSecondary} />
+          <Button.Secondary
+            disabled={disabled}
+            onClick={handleSecondary}
+            title={secondaryButtonTitle}
+          />
         )}
         <Button.Primary
-          title={primaryButtonTitle ?? 'Submit'}
+          disabled={disabled || isSubmitting}
           onClick={handleSubmit(onPrimarySubmit)}
-          disabled={isSubmitting}
+          title={primaryButtonTitle ?? 'Submit'}
         />
       </Flex.Row>
     </Flex.Column>

@@ -69,6 +69,8 @@ function DefaultCollapsibleStep({
 
   const stepProps = step.props ?? {}
 
+  const disabled = completed || blocked ? true : false
+
   return (
     <CollapsibleStep.Root open={open} onOpenChange={onOpenChange} {...stepProps}>
       <CollapsibleStep.Trigger isCompleted={completed} title={title} />
@@ -83,15 +85,11 @@ function DefaultCollapsibleStep({
         <Card.Subtitle color="gray500">{subtitle}</Card.Subtitle>
         <Flex.Row gap={3}>
           <Card.Secondary
-            disabled={completed || blocked ? true : false}
+            disabled={disabled}
             title={secondaryButtonTitle}
             onClick={handleSecondary}
           />
-          <Card.Primary
-            disabled={completed || blocked ? true : false}
-            title={primaryButtonTitle}
-            onClick={handlePrimary}
-          />
+          <Card.Primary disabled={disabled} title={primaryButtonTitle} onClick={handlePrimary} />
         </Flex.Row>
       </CollapsibleStep.Content>
     </CollapsibleStep.Root>

@@ -36,6 +36,8 @@ export function TourStep({
   const primaryButtonTitle = step.primaryButton?.title ?? step.primaryButtonTitle
   const secondaryButtonTitle = step.secondaryButton?.title ?? step.secondaryButtonTitle
 
+  const disabled = step.$state.completed || step.$state.blocked ? true : false
+
   return (
     <Tooltip
       key={step.id}
@@ -74,8 +76,12 @@ export function TourStep({
           }/${flow.getNumberOfAvailableSteps()}`}</Tooltip.Progress>
         )}
 
-        <Tooltip.Secondary title={secondaryButtonTitle} onClick={handleSecondary} />
-        <Tooltip.Primary title={primaryButtonTitle} onClick={handlePrimary} />
+        <Tooltip.Secondary
+          disabled={disabled}
+          onClick={handleSecondary}
+          title={secondaryButtonTitle}
+        />
+        <Tooltip.Primary disabled={disabled} onClick={handlePrimary} title={primaryButtonTitle} />
       </Flex.Row>
     </Tooltip>
   )
