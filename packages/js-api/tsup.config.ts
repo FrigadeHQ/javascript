@@ -5,7 +5,7 @@ const commonConfig: Options = {
   dts: true,
   format: ['esm', 'cjs'],
   sourcemap: true,
-  clean: true,
+  clean: false,
 }
 export default defineConfig([
   {
