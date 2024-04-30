@@ -74,7 +74,7 @@ Card.Header = ({ dismissible, handleDismiss, subtitle, title, ...props }) => {
     <Flex.Row alignItems="flex-start" flexWrap="wrap" gap={1} part="card-header" {...props}>
       <Card.Title maxWidth="calc(100% - 32px)">{title}</Card.Title>
       {dismissible && <Card.Dismiss onClick={handleDismiss} marginLeft="auto" />}
-      <Card.Subtitle color="gray400" flexBasis="100%">
+      <Card.Subtitle color="neutral400" flexBasis="100%">
         {subtitle}
       </Card.Subtitle>
     </Flex.Row>
@@ -103,7 +103,7 @@ Card.Subtitle = ({ children, ...props }: TextProps) => {
   if (children == null) return null
 
   return (
-    <Text.Body2 display="block" color="gray400" part="subtitle" {...props}>
+    <Text.Body2 display="block" color="neutral400" part="subtitle" {...props}>
       {children}
     </Text.Body2>
   )

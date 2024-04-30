@@ -22,7 +22,7 @@ export function Banner({ dismissible, flowId, part, ...props }: BannerProps) {
             borderWidth="md"
             display="flex"
             flexDirection="row"
-            gap={4}
+            gap={3}
             justifyContent="flex-start"
             part={['banner', part]}
             {...props}
