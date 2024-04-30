@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.4.16
+
+### Patch Changes
+
+- 2a6ce05: A series of fixes related to component tour styling as well as intermittent not-fatal React errors
+
 ## 0.4.15
 
 ### Patch Changes
