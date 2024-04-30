@@ -103,8 +103,8 @@ export function Dialog({ children, className, modal = true, ...props }: DialogPr
 Dialog.Dismiss = (props: ButtonProps) => {
   return (
     <RadixDialog.Close aria-label="Close" asChild>
-      <Button.Plain part="close" position="absolute" right="-4px" top="4px" {...props}>
-        <XMarkIcon height="24" fill="currentColor" />
+      <Button.Plain part="close" position="absolute" right="2px" top="2px" {...props}>
+        <XMarkIcon height="20" fill="currentColor" />
       </Button.Plain>
     </RadixDialog.Close>
   )
@@ -174,9 +174,9 @@ Dialog.Secondary = ({ onClick, title, ...props }: ButtonProps) => {
 Dialog.Title = ({ children, ...props }: TextProps) => {
   return (
     <RadixDialog.Title asChild>
-      <Text.H3 part="title" {...props}>
+      <Text.H4 part="title" {...props}>
         {children}
-      </Text.H3>
+      </Text.H4>
     </RadixDialog.Title>
   )
 }

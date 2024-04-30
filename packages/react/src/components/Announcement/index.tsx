@@ -68,7 +68,7 @@ export function Announcement({ flowId, part, ...props }: AnnouncementProps) {
               }
             }}
           >
-            <Flex.Column gap={5} part="announcement-step" {...stepProps}>
+            <Flex.Column gap={7} part="announcement-step" {...stepProps}>
               {dismissible && <Dialog.Dismiss onClick={handleDismiss} />}
               <Flex.Column gap={1} part="announcement-header">
                 <Dialog.Title>{step.title}</Dialog.Title>

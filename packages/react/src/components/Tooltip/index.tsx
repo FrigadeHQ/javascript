@@ -241,14 +241,14 @@ Tooltip.Close = (props: ButtonProps) => {
     <Popover.Close aria-label="Close" asChild>
       <Button.Plain
         css={{
-          top: '12px',
-          right: '4px',
+          top: '0px',
+          right: '-6px',
         }}
         part="close"
         position="absolute"
         {...props}
       >
-        <XMarkIcon height="24" fill="currentColor" />
+        <XMarkIcon height="20" fill="currentColor" />
       </Button.Plain>
     </Popover.Close>
   )
@@ -282,9 +282,9 @@ Tooltip.Progress = ({ children, ...props }: TextProps) => {
   if (children == null) return null
 
   return (
-    <Text.H4 part="progress" {...props}>
+    <Text.Body2 part="progress" {...props}>
       {children}
-    </Text.H4>
+    </Text.Body2>
   )
 }
 

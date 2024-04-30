@@ -64,7 +64,7 @@ export const Card = React.forwardRef(({ children, flowId, ...props }: CardProps,
 Card.Dismiss = (props: ButtonProps) => {
   return (
     <Button.Plain part="dismiss" padding={0} {...props}>
-      <XMarkIcon height="24" fill="currentColor" />
+      <XMarkIcon height="20" fill="currentColor" />
     </Button.Plain>
   )
 }
@@ -74,7 +74,7 @@ Card.Header = ({ dismissible, handleDismiss, subtitle, title, ...props }) => {
     <Flex.Row alignItems="flex-start" flexWrap="wrap" gap={1} part="card-header" {...props}>
       <Card.Title maxWidth="calc(100% - 32px)">{title}</Card.Title>
       {dismissible && <Card.Dismiss onClick={handleDismiss} marginLeft="auto" />}
-      <Card.Subtitle color="gray500" flexBasis="100%">
+      <Card.Subtitle color="gray400" flexBasis="100%">
         {subtitle}
       </Card.Subtitle>
     </Flex.Row>

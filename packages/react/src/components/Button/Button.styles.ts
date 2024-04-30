@@ -5,6 +5,7 @@ const base = {
   display: 'flex',
   gap: '2',
   padding: '2 4',
+  fontFamily: 'inherit',
 }
 
 export const Primary = {
