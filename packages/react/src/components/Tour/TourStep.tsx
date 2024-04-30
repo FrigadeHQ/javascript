@@ -66,7 +66,7 @@ export function TourStep({
 
       <Flex.Column gap={1} part="tooltip-header">
         <Tooltip.Title>{step.title}</Tooltip.Title>
-        <Tooltip.Subtitle color="gray500">{step.subtitle}</Tooltip.Subtitle>
+        <Tooltip.Subtitle color="neutral400">{step.subtitle}</Tooltip.Subtitle>
       </Flex.Column>
 
       <Flex.Row alignItems="center" gap={3} justifyContent="flex-end" part="tooltip-footer">

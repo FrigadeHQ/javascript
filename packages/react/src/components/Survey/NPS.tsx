@@ -35,7 +35,7 @@ export function NPS({ as = Dialog, flowId, fieldTypes, part, ...props }: FormPro
         '.fr-form': {
           padding: '20px',
           '@media (min-width: 660px)': {
-            minWidth: '620px',
+            minWidth: '520px',
           },
           minWidth: '100%',
         },

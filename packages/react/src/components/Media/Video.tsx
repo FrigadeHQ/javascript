@@ -46,7 +46,7 @@ export function Video({ part, src, ...props }: VideoProps) {
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
       allowFullScreen
       as="iframe"
-      backgroundColor="gray100"
+      backgroundColor="neutral100"
       borderWidth="0"
       part={['video', part]}
       src={videoEmbedSrc}

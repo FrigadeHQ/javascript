@@ -61,7 +61,7 @@ export function SelectField(props: FormFieldProps) {
               <Select.Icon>
                 <Box
                   as={ChevronDownIcon}
-                  color="gray100"
+                  color="neutral100"
                   display="block"
                   height="24px"
                   part="field-select-icon"

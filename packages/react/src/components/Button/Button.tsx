@@ -24,8 +24,9 @@ function BaseButton({ as, children, part, title, variant = 'Primary', ...props }
             MozOsxFontSmoothing: 'grayscale',
           }}
           flexGrow="1"
-          fontWeight="demibold"
+          fontWeight="medium"
           part="button-title"
+          textWrap="nowrap"
         >
           {title}
         </Text.Body2>

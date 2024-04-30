@@ -82,7 +82,7 @@ function DefaultCollapsibleStep({
           src={step.videoUri ?? step.imageUri}
           type={step.videoUri ? 'video' : 'image'}
         />
-        <Card.Subtitle color="gray500">{subtitle}</Card.Subtitle>
+        <Card.Subtitle color="neutral400">{subtitle}</Card.Subtitle>
         <Flex.Row gap={3}>
           <Card.Secondary
             disabled={disabled}

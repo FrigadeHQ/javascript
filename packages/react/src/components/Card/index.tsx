@@ -1,7 +1,7 @@
 import type { ForwardRefExoticComponent, RefAttributes } from 'react'
 import * as React from 'react'
 import { EmotionJSX } from '@emotion/react/types/jsx-namespace'
-import { XMarkIcon } from '@heroicons/react/24/solid'
+import { XMarkIcon } from '@heroicons/react/20/solid'
 
 import type { BoxProps } from '@/components/Box'
 import { Button, type ButtonProps } from '@/components/Button'
@@ -64,7 +64,7 @@ export const Card = React.forwardRef(({ children, flowId, ...props }: CardProps,
 Card.Dismiss = (props: ButtonProps) => {
   return (
     <Button.Plain part="dismiss" padding={0} {...props}>
-      <XMarkIcon height="24" fill="currentColor" />
+      <XMarkIcon height="20" fill="currentColor" />
     </Button.Plain>
   )
 }
@@ -74,7 +74,7 @@ Card.Header = ({ dismissible, handleDismiss, subtitle, title, ...props }) => {
     <Flex.Row alignItems="flex-start" flexWrap="wrap" gap={1} part="card-header" {...props}>
       <Card.Title maxWidth="calc(100% - 32px)">{title}</Card.Title>
       {dismissible && <Card.Dismiss onClick={handleDismiss} marginLeft="auto" />}
-      <Card.Subtitle color="gray500" flexBasis="100%">
+      <Card.Subtitle color="neutral400" flexBasis="100%">
         {subtitle}
       </Card.Subtitle>
     </Flex.Row>
@@ -103,7 +103,7 @@ Card.Subtitle = ({ children, ...props }: TextProps) => {
   if (children == null) return null
 
   return (
-    <Text.Body2 display="block" part="subtitle" {...props}>
+    <Text.Body2 display="block" color="neutral400" part="subtitle" {...props}>
       {children}
     </Text.Body2>
   )
