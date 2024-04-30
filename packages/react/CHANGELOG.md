@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.1.20
+
+### Patch Changes
+
+- 2a6ce05: A series of fixes related to component tour styling as well as intermittent not-fatal React errors
+- Updated dependencies [2a6ce05]
+  - @frigade/js@0.4.16
+
 ## 2.1.19
 
 ### Patch Changes
