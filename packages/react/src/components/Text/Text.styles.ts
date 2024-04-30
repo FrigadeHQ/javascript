@@ -41,7 +41,7 @@ export const H3 = {
 
 export const H4 = {
   ...base,
-  fontSize: 'lg',
+  fontSize: 'md',
   fontWeight: 'demibold',
   lineHeight: 'md',
 }

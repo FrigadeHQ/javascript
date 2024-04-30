@@ -1,6 +1,6 @@
 import { keyframes } from '@emotion/react'
 import * as RadixDialog from '@radix-ui/react-dialog'
-import { XMarkIcon } from '@heroicons/react/24/solid'
+import { XMarkIcon } from '@heroicons/react/20/solid'
 
 import { Box } from '@/components/Box'
 import { Button, ButtonProps } from '@/components/Button'

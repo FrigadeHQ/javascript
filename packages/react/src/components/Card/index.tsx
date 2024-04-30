@@ -1,7 +1,7 @@
 import type { ForwardRefExoticComponent, RefAttributes } from 'react'
 import * as React from 'react'
 import { EmotionJSX } from '@emotion/react/types/jsx-namespace'
-import { XMarkIcon } from '@heroicons/react/24/solid'
+import { XMarkIcon } from '@heroicons/react/20/solid'
 
 import type { BoxProps } from '@/components/Box'
 import { Button, type ButtonProps } from '@/components/Button'
@@ -113,7 +113,7 @@ Card.Title = ({ children, ...props }: TextProps) => {
   if (children == null) return null
 
   return (
-    <Text.H4 fontSize="md" display="block" part="title" {...props}>
+    <Text.H4 display="block" part="title" {...props}>
       {children}
     </Text.H4>
   )

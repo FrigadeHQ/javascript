@@ -31,34 +31,32 @@ const preview = {
   decorators: [
     (Story) => {
       return (
-        <>
-          <Provider
-            apiKey={FRIGADE_API_KEY}
-            apiUrl={API_URL}
-            userId={userId}
-            // __readOnly={true}
-            // __flowConfigOverrides={{
-            //   flow_cvWFczn1RMHp9ZcK: JSON.stringify({
-            //     steps: [
-            //       {
-            //         id: "test",
-            //         title: "Title 1",
-            //         subtitle: "Subtitle 1",
-            //         primaryButtonTitle: "Next",
-            //       },
-            //       {
-            //         id: "test2",
-            //         title: "Title 2",
-            //         subtitle: "Subtitle 2",
-            //         primaryButtonTitle: "Done",
-            //       },
-            //     ],
-            //   }),
-            // }}
-          >
-            <Story />
-          </Provider>
-        </>
+        <Provider
+          apiKey={FRIGADE_API_KEY}
+          apiUrl={API_URL}
+          userId={userId}
+          // __readOnly={true}
+          // __flowConfigOverrides={{
+          //   flow_cvWFczn1RMHp9ZcK: JSON.stringify({
+          //     steps: [
+          //       {
+          //         id: "test",
+          //         title: "Title 1",
+          //         subtitle: "Subtitle 1",
+          //         primaryButtonTitle: "Next",
+          //       },
+          //       {
+          //         id: "test2",
+          //         title: "Title 2",
+          //         subtitle: "Subtitle 2",
+          //         primaryButtonTitle: "Done",
+          //       },
+          //     ],
+          //   }),
+          // }}
+        >
+          <Story />
+        </Provider>
       );
     },
   ],

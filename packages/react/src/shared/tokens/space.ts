@@ -1,4 +1,4 @@
-const SPACE_VALUE = 3
+const SPACE_VALUE = 4
 const SPACE_UNIT = 'px'
 
 const spaceValue = (key: SpaceKeys[number]) =>
