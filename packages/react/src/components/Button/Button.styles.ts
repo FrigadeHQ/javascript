@@ -4,7 +4,7 @@ const base = {
   borderStyle: 'solid',
   display: 'flex',
   gap: '2',
-  padding: '2 4',
+  padding: '1 3',
   fontFamily: 'inherit',
 }
 

@@ -7,6 +7,7 @@ export function FlowCard({ part, ...props }: FlowProps) {
     <Flow
       as={Card}
       gap={5}
+      padding={4}
       borderColor="neutral.border"
       borderStyle="solid"
       borderWidth="md"
@@ -28,9 +29,9 @@ export function FlowCard({ part, ...props }: FlowProps) {
 
             <Card.Media src={step.imageUri} css={{ objectFit: 'contain', width: '100%' }} />
 
-            <Flex.Row gap={3} justifyContent="flex-end" part="card-footer">
-              <Card.Secondary title={secondaryButtonTitle} onClick={handleSecondary} />
+            <Flex.Row gap={3} justifyContent="flex-start" part="card-footer">
               <Card.Primary title={primaryButtonTitle} onClick={handlePrimary} />
+              <Card.Secondary title={secondaryButtonTitle} onClick={handleSecondary} />
             </Flex.Row>
           </>
         )
