@@ -216,6 +216,18 @@ export class Frigade extends Fetchable {
     return this.flows
   }
 
+  public async getCollection(collectionId: string) {
+    await this.initIfNeeded()
+    const collection = this.getGlobalState().rules.getRule(collectionId)
+
+    return Promise.all(
+      collection.map(async (item) => ({
+        ...item,
+        flow: await this.getFlow(item.flowId),
+      }))
+    )
+  }
+
   /**
    * Reload the current state of the flows by calling the Frigade API.
    * This will trigger all event handlers.

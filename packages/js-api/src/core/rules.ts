@@ -25,6 +25,10 @@ export class Rules {
     this.ingestRulesData(rulesData)
   }
 
+  getRule(ruleId: string) {
+    return this.rules.get(ruleId)
+  }
+
   ingestRulesData(rulesData: RulesData) {
     this.rules = rulesData
 

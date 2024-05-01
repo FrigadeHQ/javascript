@@ -7,6 +7,7 @@ export { Button, type ButtonProps } from './components/Button'
 export { Card, type CardProps, type CardHeaderProps } from './components/Card'
 export * as Checklist from './components/Checklist'
 export type { CollapsibleProps, CollapsibleStepProps } from './components/Checklist'
+export { Collection } from './components/Collection'
 export { Dialog, type DialogProps } from './components/Dialog'
 export { Flex } from './components/Flex'
 export {

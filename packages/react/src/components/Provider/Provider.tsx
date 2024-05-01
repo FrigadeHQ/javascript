@@ -143,6 +143,7 @@ export function Provider({ children, css = {}, navigate, theme, ...props }: Prov
   }
 
   function registerComponent(flowId: string, callback?: RulesRegistryCallback) {
+    console.log('Register: ', flowId)
     if (intervalRef.current) {
       clearTimeout(intervalRef.current)
     }
@@ -154,6 +155,9 @@ export function Provider({ children, css = {}, navigate, theme, ...props }: Prov
         registeredComponents.current.set(flowId, {
           callback: callback,
         })
+      } else {
+        // If component is already registered, fire its callback to let the downstream consumer know its current state
+        frigade.getFlow(flowId).then((flow: Flow) => callback(flow.isVisible))
       }
 
       return
@@ -173,6 +177,7 @@ export function Provider({ children, css = {}, navigate, theme, ...props }: Prov
   }
 
   function unregisterComponent(flowId: string) {
+    console.log('Unregister: ', flowId)
     if (registeredComponents.current.has(flowId)) {
       frigade.getFlow(flowId).then((flow: Flow) => {
         registeredComponents.current.delete(flowId)
@@ -205,6 +210,7 @@ export function Provider({ children, css = {}, navigate, theme, ...props }: Prov
         ...props,
         frigade: frigade,
         registerComponent,
+        registeredComponents: registeredComponents.current,
         unregisterComponent,
         hasInitialized,
       }}
