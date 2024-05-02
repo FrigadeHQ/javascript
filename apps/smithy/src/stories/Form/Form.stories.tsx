@@ -1,9 +1,15 @@
-import { Form } from "@frigade/react";
+import { Form, type FormFieldProps } from "@frigade/react";
 
 export default {
   title: "Components/Form",
   component: Form,
 };
+
+function CustomStep({ formContext }: FormFieldProps) {
+  const values = formContext.getValues();
+  console.log("custom render", values);
+  return null;
+}
 
 export const Default = {
   args: {
@@ -14,6 +20,9 @@ export const Default = {
     onSecondary: () => {
       console.log("Secondary");
       return true;
+    },
+    fieldTypes: {
+      customTest: CustomStep,
     },
   },
 };

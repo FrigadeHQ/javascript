@@ -1,5 +1,5 @@
 import { FlowStep } from '@frigade/js'
-import { type ControllerFieldState, type Message, type ValidationRule } from 'react-hook-form'
+import type { ControllerFieldState, Message, ValidationRule, UseFormReturn } from 'react-hook-form'
 
 import { Flow, type FlowPropsWithoutChildren } from '@/components/Flow'
 
@@ -46,7 +46,7 @@ export interface FormFieldData extends ValidationRules {
 export interface FormFieldProps {
   field: any // eslint-disable-line @typescript-eslint/no-explicit-any
   fieldData: FormFieldData
-  formState: any // eslint-disable-line @typescript-eslint/no-explicit-any
+  formContext: UseFormReturn
   fieldState: ControllerFieldState
   /**
    * Function for submitting the current step of the form.

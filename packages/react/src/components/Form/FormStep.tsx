@@ -1,5 +1,5 @@
 import { SyntheticEvent, useContext, useState } from 'react'
-import { useController, useForm } from 'react-hook-form'
+import { FormProvider, useController, useForm, useFormContext } from 'react-hook-form'
 
 import { Button } from '@/components/Button'
 import { Card } from '@/components/Card'
@@ -19,6 +19,8 @@ export interface FormStepProps extends FlowChildrenProps {
 const ruleProps = new Set(['required', 'min', 'max', 'minLength', 'maxLength', 'pattern'])
 
 function FieldWrapper({ fieldComponent: FieldComponent, control, fieldData, submit }) {
+  const formContext = useFormContext()
+
   // pattern validator comes as a string from YAML, convert it to RegExp
   if (fieldData.pattern != null) {
     if (typeof fieldData.pattern === 'string') {
@@ -41,7 +43,14 @@ function FieldWrapper({ fieldComponent: FieldComponent, control, fieldData, subm
     rules,
   })
 
-  return <FieldComponent {...controller} fieldData={fieldData} submit={submit} />
+  return (
+    <FieldComponent
+      {...controller}
+      fieldData={fieldData}
+      formContext={formContext}
+      submit={submit}
+    />
+  )
 }
 
 export function FormStep({
@@ -53,12 +62,14 @@ export function FormStep({
   step,
 }: FormStepProps) {
   const { __readOnly } = useContext(FrigadeContext)
-  const { control, handleSubmit } = useForm({
+  const formContext = useForm({
     delayError: 2000,
     mode: 'onChange',
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const fields = []
+
+  const { control, handleSubmit } = formContext
 
   const stepProps = step.props ?? {}
 
@@ -97,7 +108,7 @@ export function FormStep({
         title={step.title}
       />
 
-      {fields}
+      <FormProvider {...formContext}>{fields}</FormProvider>
 
       <Flex.Row key="form-footer" part="form-step-footer" justifyContent="flex-end" gap={3}>
         {secondaryButtonTitle && (

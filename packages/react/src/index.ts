@@ -9,7 +9,13 @@ export * as Checklist from './components/Checklist'
 export type { CollapsibleProps, CollapsibleStepProps } from './components/Checklist'
 export { Dialog, type DialogProps } from './components/Dialog'
 export { Flex } from './components/Flex'
-export { Form } from './components/Form'
+export {
+  type FieldTypes,
+  Form,
+  type FormProps,
+  type FormFieldData,
+  type FormFieldProps,
+} from './components/Form'
 export * as Progress from './components/Progress'
 export { Provider, type ProviderProps } from './components/Provider'
 export * as Survey from './components/Survey'
