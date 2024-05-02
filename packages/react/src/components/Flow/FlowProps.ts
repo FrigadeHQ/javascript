@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import * as React from 'react'
 import type { Flow as FlowType, FlowStep } from '@frigade/js'
 
 import type { BoxProps } from '@/components/Box'
@@ -48,6 +49,12 @@ export interface FlowPropsWithoutChildren extends BoxPropsWithoutChildren {
    * For instance, you can use `title: Hello, ${name}!` in the Flow configuration and pass `variables={{name: 'John'}}` to customize the copy.
    */
   variables?: Record<string, unknown>
+
+  /**
+   * Optional component type to wrap the child components in. Use the`as={Box}` component for inline placement or the `as={Dialog}` component for modal placement.
+   * If you want to wrap the Flow in a custom component (such as your own modal), you can pass the custom component here.
+   */
+  as?: React.ElementType
 }
 
 export interface FlowProps extends FlowPropsWithoutChildren {
