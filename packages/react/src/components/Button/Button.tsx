@@ -25,6 +25,7 @@ function BaseButton({ as, children, part, title, variant = 'Primary', ...props }
           }}
           flexGrow="1"
           fontWeight="medium"
+          lineHeight="20px"
           part="button-title"
           textWrap="nowrap"
         >
