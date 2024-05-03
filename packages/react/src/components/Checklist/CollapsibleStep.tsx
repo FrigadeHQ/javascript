@@ -151,7 +151,7 @@ export function Trigger({ isCompleted, title }) {
 
         <Box
           as={ChevronDownIcon}
-          color="neutral100"
+          color="neutral.100"
           css={{
             '& path': {
               vectorEffect: 'non-scaling-stroke',

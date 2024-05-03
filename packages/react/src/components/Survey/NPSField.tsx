@@ -40,10 +40,10 @@ export function NPSField({ field, submit }: FormFieldProps) {
         {buttons}
       </Flex.Row>
       <Flex.Row justifyContent="space-between" part="field-nps-label">
-        <Text.Caption part="field-nps-left-label" color="neutral400">
+        <Text.Caption part="field-nps-left-label" color="neutral.400">
           Not likely at all
         </Text.Caption>
-        <Text.Caption part="field-nps-right-label" color="neutral400">
+        <Text.Caption part="field-nps-right-label" color="neutral.400">
           Extremely likely
         </Text.Caption>
       </Flex.Row>
