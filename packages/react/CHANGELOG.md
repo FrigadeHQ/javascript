@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.1.21
+
+### Patch Changes
+
+- 3f81a79: Fixes a series of issues related to customization of forms
+
 ## 2.1.20
 
 ### Patch Changes
