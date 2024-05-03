@@ -1,5 +1,5 @@
 import { FlowStep } from '@frigade/js'
-import type { ControllerFieldState, Message, ValidationRule, UseFormReturn } from 'react-hook-form'
+import type { ControllerFieldState, Message, UseFormReturn, ValidationRule } from 'react-hook-form'
 
 import { Flow, type FlowPropsWithoutChildren } from '@/components/Flow'
 
@@ -44,9 +44,23 @@ export interface FormFieldData extends ValidationRules {
 
 // TODO: Wire UseControllerReturn into this type
 export interface FormFieldProps {
+  /**
+   * React Hook Form's controller for the field. Use field.onChange() to update the field value.
+   * See https://react-hook-form.com/api/usecontroller for more.
+   */
   field: any // eslint-disable-line @typescript-eslint/no-explicit-any
+  /**
+   * Form-specific data for decorating the field.
+   */
   fieldData: FormFieldData
+  /**
+   * React Hook Form's form context. See https://react-hook-form.com/api/useformcontext for more.
+   */
   formContext: UseFormReturn
+  /**
+   * Function for submitting the current field.
+   * @ignore
+   */
   fieldState: ControllerFieldState
   /**
    * Function for submitting the current step of the form.
@@ -59,6 +73,26 @@ export interface FormProps extends FlowPropsWithoutChildren {
   /**
    * Custom field types to be used in the Form.
    * You can use this to build your own custom form fields in a `Form`.
+   *
+   * For example, if you want to use a custom field type called `calendar`:
+   *
+   * ```tsx
+   * import { Form, FormFieldProps } from '@frigade/react'
+   *
+   * function CalendarField({ field, submit }: FormFieldProps) {
+   *   return (
+   *    <div>
+   *      <input type="date" onChange={field.onChange} value={field.value} />
+   *    </div>
+   *   )
+   * }
+   *
+   *  // ...
+   *
+   *  <Form flowId="my-flow-id" fieldTypes={{ calendar: CalendarField }} />
+   *
+   *  ```
+   *
    */
   fieldTypes?: FieldTypes
 }
