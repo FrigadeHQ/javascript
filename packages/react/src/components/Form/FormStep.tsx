@@ -122,6 +122,7 @@ export function FormStep({
           disabled={disabled || isSubmitting}
           onClick={handleSubmit(onPrimarySubmit)}
           title={primaryButtonTitle ?? 'Submit'}
+          loading={isSubmitting}
         />
       </Flex.Row>
     </Flex.Column>

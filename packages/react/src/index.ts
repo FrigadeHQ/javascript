@@ -16,6 +16,12 @@ export {
   type FormFieldData,
   type FormFieldProps,
 } from './components/Form'
+export { SelectField } from './components/Form/fields/SelectField'
+export { TextField } from './components/Form/fields/TextField'
+export { RadioField } from './components/Form/fields/RadioField'
+export { Label } from './components/Form/fields/Label'
+export { BaseField } from './components/Form/fields/BaseField'
+
 export * as Progress from './components/Progress'
 export { Provider, type ProviderProps } from './components/Provider'
 export * as Survey from './components/Survey'

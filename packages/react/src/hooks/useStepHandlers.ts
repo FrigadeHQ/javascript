@@ -63,14 +63,14 @@ export function useStepHandlers(step: FlowStep, { onPrimary, onSecondary }: Step
           if (typeof primaryAction === 'function') {
             primaryAction()
           } else if (primaryAction !== false) {
-            step.complete(properties, optimistic)
+            await step.complete(properties, optimistic)
           }
 
           if (step.primaryButton.uri != null) {
             navigate(step.primaryButton.uri, step.primaryButton.target)
           }
         } else {
-          step.complete(properties, optimistic)
+          await step.complete(properties, optimistic)
 
           if (step.primaryButtonUri != null) {
             navigate(step.primaryButtonUri, step.primaryButtonUriTarget)

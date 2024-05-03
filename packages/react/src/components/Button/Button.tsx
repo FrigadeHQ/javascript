@@ -2,19 +2,31 @@ import { Box, type BoxProps } from '@/components/Box'
 import { Text } from '@/components/Text'
 
 import * as styles from './Button.styles'
+import { loadingCSSStyle } from './Button.styles'
 
 export type ButtonVariant = 'Primary' | 'Secondary' | 'Link' | 'Plain'
 
 export interface ButtonProps extends BoxProps {
   title?: string
   variant?: ButtonVariant
+  loading?: boolean
 }
 
 function BaseButton({ as, children, part, title, variant = 'Primary', ...props }: ButtonProps) {
   const variantPart = variant.toLocaleLowerCase()
 
   return (
-    <Box as={as ?? 'button'} part={[`button-${variantPart}`, part]} {...styles[variant]} {...props}>
+    <Box
+      as={as ?? 'button'}
+      part={[`button-${variantPart}`, part]}
+      {...styles[variant]}
+      css={{
+        ...(props.css ?? {}),
+        ...(props.loading ? loadingCSSStyle : {}),
+      }}
+      {...props}
+      loading={undefined}
+    >
       {children}
       {title && (
         <Text.Body2

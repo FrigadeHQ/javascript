@@ -1,4 +1,4 @@
-import { Form, type FormFieldProps } from "@frigade/react";
+import { Form, type FormFieldProps, SelectField } from "@frigade/react";
 
 export default {
   title: "Components/Form",
@@ -32,6 +32,40 @@ export const FormBranching = {
     dismissible: false,
     flowId: "flow_fpJlqkbl",
     width: "400px",
+    onPrimary: (step, e, properties) =>
+      console.log("Primary", step, e, properties),
+    onSecondary: () => {
+      console.log("Secondary");
+      return true;
+    },
+  },
+};
+
+export const CustomForm = {
+  args: {
+    dismissible: false,
+    flowId: "flow_DNfUtMXH",
+    width: "400px",
+    fieldTypes: {
+      DynamicFollowUpBasedOnCategory: (props: FormFieldProps) => {
+        const categoryValue = props.formContext.watch("category");
+        const field = props.fieldData.props.mappings[categoryValue];
+
+        if (!field) {
+          return null;
+        }
+
+        return (
+          <SelectField
+            {...props}
+            fieldData={{
+              ...props.fieldData,
+              ...field,
+            }}
+          />
+        );
+      },
+    },
     onPrimary: (step, e, properties) =>
       console.log("Primary", step, e, properties),
     onSecondary: () => {
