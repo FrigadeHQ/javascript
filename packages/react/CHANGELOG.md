@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.1.22
+
+### Patch Changes
+
+- 269edcf: Bump the latest @frigade/js
+- Updated dependencies [269edcf]
+  - @frigade/js@0.4.17
+
 ## 2.1.21
 
 ### Patch Changes
