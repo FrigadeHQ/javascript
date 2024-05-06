@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.1.23
+
+### Patch Changes
+
+- 54dfe27: Fixes an issue where neutral colors were not displaying correctly
+
 ## 2.1.22
 
 ### Patch Changes
