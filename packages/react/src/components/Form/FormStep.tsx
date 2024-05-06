@@ -96,7 +96,8 @@ export function FormStep({
   const primaryButtonTitle = step.primaryButton?.title ?? step.primaryButtonTitle
   const secondaryButtonTitle = step.secondaryButton?.title ?? step.secondaryButtonTitle
 
-  const disabled = step.$state.completed || step.$state.blocked ? true : false
+  const disabled =
+    step.$state.completed || step.$state.blocked || !formContext.formState.isValid ? true : false
 
   return (
     <Flex.Column gap={5} part="form-step" {...stepProps}>
