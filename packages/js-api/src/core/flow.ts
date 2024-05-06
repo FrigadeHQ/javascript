@@ -28,6 +28,10 @@ export class Flow extends Fetchable {
    */
   public id: string
   /**
+   * The Flow's component ID.
+   */
+  public componentId: string
+  /**
    * Ordered map of the Steps in the Flow.
    * See [Flow Step Definition](https://docs.frigade.com/v2/sdk/js/step) for more information.
    */

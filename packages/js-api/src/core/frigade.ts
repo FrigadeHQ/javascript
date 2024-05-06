@@ -319,15 +319,15 @@ export class Frigade extends Fetchable {
 
         const rulesData = new Map()
 
-        flowStateRaw.rules?.computedOrder?.forEach(({ ruleId, flowId, visible }) => {
-          const currentRule = rulesData.get(ruleId) ?? []
+        flowStateRaw.collections?.computedOrder?.forEach(({ collectionId, flowId, visible }) => {
+          const currentRule = rulesData.get(collectionId) ?? []
 
           currentRule.push({
             flowId,
             visible,
           })
 
-          rulesData.set(ruleId, currentRule)
+          rulesData.set(collectionId, currentRule)
         })
 
         frigadeGlobalState[globalStateKey].rules.ingestRulesData(rulesData)

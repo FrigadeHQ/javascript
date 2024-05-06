@@ -16,7 +16,8 @@ export const Default = {
     dismissible: false,
     flowId: "flow_GSfKhVKmWXTw2wdt",
     width: "400px",
-    onPrimary: () => console.log("Primary"),
+    onPrimary: (step, e, properties) =>
+      console.log("Primary", step, e, properties),
     onSecondary: () => {
       console.log("Secondary");
       return true;

@@ -297,20 +297,20 @@ export interface StatefulFlow {
   }
 }
 
-export interface ComputedRule {
-  ruleId: string
+export interface ComputedCollection {
+  collectionId: string
   flowId: string
   visible: boolean
 }
 
-export interface RulesMetadata {
-  computedOrder: ComputedRule[]
+export interface CollectionMetadata {
+  computedOrder: ComputedCollection[]
 }
 
 export interface FlowStates {
   eligibleFlows: StatefulFlow[]
   ineligibleFlows: string[]
-  rules?: RulesMetadata
+  collections?: CollectionMetadata
 }
 
 export enum FlowType {

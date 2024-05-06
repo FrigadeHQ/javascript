@@ -16,6 +16,7 @@ describe('SDK integration test', () => {
     const frigade = new Frigade(testAPIKey, {})
     const flows = await frigade.getFlows()
     expect(flows.length).toBeGreaterThan(0)
+    expect(frigade.isReady()).toBeTruthy()
   })
 
   test('flows have fields set', async () => {

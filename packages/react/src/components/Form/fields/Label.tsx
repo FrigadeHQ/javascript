@@ -1,4 +1,6 @@
 import { Text } from '@/components/Text'
+import React from 'react'
+import { Box } from '@/components/Box'
 
 export function Label({ children, id, required = false }) {
   return (
@@ -11,7 +13,9 @@ export function Label({ children, id, required = false }) {
       display="block"
     >
       {children}
-      {required && '*'}
+      <Box part="field-label-required" display="inline">
+        {required && '*'}
+      </Box>
     </Text.Body2>
   )
 }
