@@ -35,5 +35,5 @@ export function useGroup() {
     await frigade.group(groupId, properties)
   }
 
-  return { groupId: frigade.config.groupId, setGroupId, addProperties, track }
+  return { groupId: frigade?.config?.groupId, setGroupId, addProperties, track }
 }
