@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.1.24
+
+### Patch Changes
+
+- 649ccde: Fixes for useGroup and Form
+
 ## 2.1.23
 
 ### Patch Changes
