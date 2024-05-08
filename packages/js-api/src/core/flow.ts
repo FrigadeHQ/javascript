@@ -123,6 +123,7 @@ export class Flow extends Fetchable {
         })
       }
     })
+
     if (this.steps && this.steps.size > 0) {
       this.applyVariables(this.getGlobalState().variables[this.id] ?? {})
     }
@@ -418,7 +419,8 @@ export class Flow extends Fetchable {
   }
 
   /**
-   * @ignore
+   * Apply variables to the flow. This will replace any `${variable}` in the title, subtitle, and step fields with the value of the variable.
+   * @param variables A record of variables to apply to the flow.
    */
   public applyVariables(variables: Record<string, any>) {
     // Replace ${variable} with the value of the variable
@@ -448,7 +450,6 @@ export class Flow extends Fetchable {
       })
     })
 
-    this.getGlobalState().variables = {}
     this.getGlobalState().variables[this.id] = variables
   }
 

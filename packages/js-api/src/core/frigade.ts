@@ -96,7 +96,7 @@ export class Frigade extends Fetchable {
    * @param properties
    */
   public async identify(userId: string, properties?: PropertyPayload): Promise<void> {
-    this.updateConfig({ ...this.config, userId })
+    await this.updateConfig({ ...this.config, userId })
     await this.initIfNeeded()
     await this.session({
       userId: this.config.userId,
@@ -342,6 +342,12 @@ export class Frigade extends Fetchable {
                   id: statefulFlow.flowSlug,
                 })
               )
+            } else {
+              this.flows.forEach((flow) => {
+                if (flow.id == statefulFlow.flowSlug) {
+                  flow.resyncState(statefulFlow)
+                }
+              })
             }
           })
           this.hasFailed = false

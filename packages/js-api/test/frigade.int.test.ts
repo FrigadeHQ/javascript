@@ -388,10 +388,16 @@ describe('SDK integration test', () => {
 
   test('restart a flow', async () => {
     const userId = getRandomID()
-    const frigade = new Frigade(testAPIKey, {
+    let frigade = new Frigade(testAPIKey, {
       userId,
     })
-    const flow = await frigade.getFlow(testFlowId)
+    let flow = await frigade.getFlow(testFlowId)
+    expect(flow.isVisible).toBeFalsy()
+    await frigade.identify(userId, {
+      createdAt: new Date().toISOString(),
+    })
+    flow = await frigade.getFlow(testFlowId)
+    expect(flow.isVisible).toBeTruthy()
     const step = flow.steps.get(testFlowStepId)
     expect(flow).toBeDefined()
     expect(flow.id).toEqual(testFlowId)
