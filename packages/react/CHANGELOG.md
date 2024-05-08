@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.1.25
+
+### Patch Changes
+
+- 2de5a2e: Fixes an issue related to updating flow state after adding properties to a user
+- Updated dependencies [2de5a2e]
+  - @frigade/js@0.4.18
+
 ## 2.1.24
 
 ### Patch Changes
