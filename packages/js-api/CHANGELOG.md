@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.4.18
+
+### Patch Changes
+
+- 2de5a2e: Fixes an issue related to updating flow state after adding properties to a user
+
 ## 0.4.17
 
 ### Patch Changes
