@@ -339,11 +339,17 @@ export type FlowActionType =
 export interface FlowStateDTO {
   userId: string
   groupId?: string
-  flowSlug: string
+  flowSlug?: string
   stepId?: string
   data?: any
-  actionType: FlowActionType
+  actionType?: FlowActionType
   createdAt?: Date
+  context?: FlowStateContext
+}
+
+export interface FlowStateContext {
+  url?: string
+  userAgent?: string
 }
 
 export interface TrackingEvent {

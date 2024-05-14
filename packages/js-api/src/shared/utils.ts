@@ -2,6 +2,7 @@ import { VERSION_NUMBER } from '../core/version'
 import { v4 as uuidv4 } from 'uuid'
 import { Flow } from '../core/flow'
 import { frigadeGlobalState } from './state'
+import { FlowStateContext } from '../core/types'
 
 export const NOT_STARTED_STEP = 'NOT_STARTED_STEP'
 export const COMPLETED_FLOW = 'COMPLETED_FLOW'
@@ -83,7 +84,7 @@ class CallQueue {
     call: string
     time: number
   }[] = []
-  private readonly ttlInMS = 500
+  private readonly ttlInMS = 100
   private readonly cacheSize = 5
 
   public push(call: string) {
@@ -193,4 +194,15 @@ export function isWeb() {
     typeof window.document !== 'undefined' &&
     typeof window.localStorage !== 'undefined'
   )
+}
+
+export function getContext(): FlowStateContext {
+  if (!isWeb()) {
+    return {}
+  }
+
+  return {
+    url: window.location.href,
+    userAgent: navigator.userAgent,
+  }
 }

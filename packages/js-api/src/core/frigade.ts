@@ -1,5 +1,19 @@
-import { FlowStates, FrigadeConfig, PropertyPayload, SessionDTO, StatefulFlow } from './types'
-import { clearCache, cloneFlow, GUEST_PREFIX, isWeb, resetAllLocalStorage } from '../shared/utils'
+import {
+  FlowStateDTO,
+  FlowStates,
+  FrigadeConfig,
+  PropertyPayload,
+  SessionDTO,
+  StatefulFlow,
+} from './types'
+import {
+  clearCache,
+  cloneFlow,
+  getContext,
+  GUEST_PREFIX,
+  isWeb,
+  resetAllLocalStorage,
+} from '../shared/utils'
 import { Flow } from './flow'
 import { frigadeGlobalState, getGlobalStateKey } from '../shared/state'
 import { Fetchable } from '../shared/fetchable'
@@ -311,11 +325,14 @@ export class Frigade extends Fetchable {
 
         const flowStateRaw: FlowStates = overrideFlowStateRaw
           ? overrideFlowStateRaw
-          : await this.fetch(
-              `/v1/public/flowStates?userId=${encodeURIComponent(this.config.userId)}${
-                this.config.groupId ? `&groupId=${encodeURIComponent(this.config.groupId)}` : ''
-              }`
-            )
+          : await this.fetch('/v1/public/flowStates', {
+              method: 'POST',
+              body: JSON.stringify({
+                userId: this.getGlobalState().config.userId,
+                groupId: this.getGlobalState().config.groupId,
+                context: getContext(),
+              } as FlowStateDTO),
+            })
 
         const rulesData = new Map()
 
