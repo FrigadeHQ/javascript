@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.1.26
+
+### Patch Changes
+
+- 4673fee: Fixes an issue related to navigating back and forth in a Flow repeatedly
+- Updated dependencies [4673fee]
+  - @frigade/js@0.4.19
+
 ## 2.1.25
 
 ### Patch Changes

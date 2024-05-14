@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.4.19
+
+### Patch Changes
+
+- 4673fee: Fixes an issue related to navigating back and forth in a Flow repeatedly
+
 ## 0.4.18
 
 ### Patch Changes
