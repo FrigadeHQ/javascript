@@ -51,7 +51,7 @@ export function Announcement({ flowId, part, ...props }: AnnouncementProps) {
         const primaryButtonTitle = step.primaryButton?.title ?? step.primaryButtonTitle
         const secondaryButtonTitle = step.secondaryButton?.title ?? step.secondaryButtonTitle
 
-        const disabled = step.$state.completed || step.$state.blocked ? true : false
+        const disabled = step.$state.blocked ? true : false
 
         return (
           <Dialog

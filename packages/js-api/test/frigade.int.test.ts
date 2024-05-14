@@ -239,12 +239,16 @@ describe('SDK integration test', () => {
 
   test('navigates back and forth in a flow', async () => {
     const userId = getRandomID()
-    const frigade = new Frigade(testAPIKey, {
+    let frigade = new Frigade(testAPIKey, {
       userId,
     })
-    const flow = await frigade.getFlow(testFlowId)
+    let flow = await frigade.getFlow(testFlowId)
     expect(flow).toBeDefined()
     expect(flow.id).toEqual(testFlowId)
+
+    await flow.start()
+    expect(flow.isStarted).toBeTruthy()
+
     const previousStep = flow.steps.get(testFlowStepId)
     expect(flow.getCurrentStepIndex()).toEqual(0)
     expect(previousStep).toBeDefined()
@@ -259,6 +263,27 @@ describe('SDK integration test', () => {
     expect(flow.getCurrentStepIndex()).toEqual(0)
     expect(previousStep.$state.started).toBeTruthy()
     expect(previousStep.$state.completed).toBeFalsy()
+    await flow.forward()
+    expect(flow.getCurrentStepIndex()).toEqual(1)
+    expect(currentStep.$state.started).toBeTruthy()
+    // reset the frigade instance and ensure index is still the same (this is the equivalent of a page refresh)
+    frigade = new Frigade(testAPIKey, {
+      userId,
+    })
+    flow = await frigade.getFlow(testFlowId)
+    expect(flow.getCurrentStepIndex()).toEqual(1)
+    await flow.back()
+    expect(flow.getCurrentStepIndex()).toEqual(0)
+    await flow.getStepByIndex(0).complete()
+    expect(flow.isCompleted).toBeFalsy()
+    expect(flow.getCurrentStepIndex()).toEqual(1)
+    await flow.back()
+    expect(flow.getCurrentStepIndex()).toEqual(0)
+    frigade = new Frigade(testAPIKey, {
+      userId,
+    })
+    flow = await frigade.getFlow(testFlowId)
+    expect(flow.getCurrentStepIndex()).toEqual(0)
   })
 
   test('handle flow event changes', async () => {

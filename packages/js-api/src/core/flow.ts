@@ -174,17 +174,11 @@ export class Flow extends Fetchable {
         this.getGlobalState().flowStates[this.id] = copy
         this.resyncState()
 
-        if (!thisStep.$state.completed) {
-          await this.sendFlowStateToAPI(STARTED_STEP, properties, thisStep.id)
-        }
+        await this.sendFlowStateToAPI(STARTED_STEP, properties, thisStep.id)
       }
 
       stepObj.complete = async (properties?: PropertyPayload, optimistic: boolean = true) => {
         const thisStep = this.steps.get(step.id)
-
-        if (thisStep.$state.completed) {
-          return
-        }
 
         if (optimistic) {
           const isLastStep = thisStep.order + 1 === this.getNumberOfAvailableSteps()
@@ -286,10 +280,7 @@ export class Flow extends Fetchable {
     if (this.isStarted || this.isCompleted) {
       return
     }
-    const copy = clone(this.getGlobalState().flowStates[this.id])
-    copy.$state.started = true
-    this.getGlobalState().flowStates[this.id] = copy
-    this.resyncState()
+    this.optimisticallyMarkFlowStarted()
 
     await this.sendFlowStateToAPI(STARTED_FLOW, properties)
   }
@@ -469,6 +460,16 @@ export class Flow extends Fetchable {
     copy.$state.completed = true
     copy.$state.started = true
     copy.$state.visible = false
+    this.getGlobalState().flowStates[this.id] = copy
+    this.resyncState()
+  }
+
+  /**
+   * @ignore
+   */
+  private optimisticallyMarkFlowStarted() {
+    const copy = clone(this.getGlobalState().flowStates[this.id])
+    copy.$state.started = true
     this.getGlobalState().flowStates[this.id] = copy
     this.resyncState()
   }
