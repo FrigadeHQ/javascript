@@ -8,11 +8,14 @@ export class Fetchable {
     apiUrl: 'https://api.frigade.com',
     userId: generateGuestId(),
     __instanceId: Math.random().toString(12).substring(4),
+    generateGuestId: true,
   }
 
   constructor(config: FrigadeConfig) {
     const filteredConfig = Object.fromEntries(Object.entries(config).filter(([_, v]) => v != null))
-
+    if (!config.userId && config.generateGuestId === false) {
+      delete this.config.userId
+    }
     this.config = {
       ...this.config,
       ...filteredConfig,

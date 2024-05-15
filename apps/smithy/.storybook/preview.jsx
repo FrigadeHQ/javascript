@@ -1,6 +1,7 @@
 import "./global.css";
 
 import * as React from "react";
+import { useEffect } from "react";
 import { Provider } from "@frigade/react";
 
 // LOCAL DEV
@@ -30,11 +31,29 @@ const preview = {
   },
   decorators: [
     (Story) => {
+      const [delayedUserId, setDelayedUserId] = React.useState(undefined);
+
+      useEffect(() => {
+        setTimeout(() => {
+          setDelayedUserId(userId);
+        }, 1000);
+      }, []);
+
       return (
         <Provider
           apiKey={FRIGADE_API_KEY}
           apiUrl={API_URL}
+          // generateGuestId={false}
+          // userId={delayedUserId}
           userId={userId}
+          userProperties={{
+            firstName: "Jonathan",
+            lastName: "Livingston",
+            name: "Jonathan Livingston",
+            email: "jonathan.livingston@frigade.com",
+            image:
+              "https://cdn.frigade.com/6a05066d-6781-46f9-8476-bbbde3c39960.jpeg",
+          }}
           // __readOnly={true}
           // __flowConfigOverrides={{
           //   flow_cvWFczn1RMHp9ZcK: JSON.stringify({

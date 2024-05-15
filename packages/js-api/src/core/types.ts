@@ -247,6 +247,24 @@ export interface FrigadeConfig {
   groupId?: string
 
   /**
+   * Optional user properties to send to the API.
+   */
+  userProperties?: PropertyPayload
+
+  /**
+   * Optional group properties to send to the API.
+   */
+  groupProperties?: PropertyPayload
+
+  /**
+   * Whether to generate a Guest ID and session if no userId is not provided on initialization.
+   * If set to false, Frigade will not initialize until a userId is provided via `frigade.identify()`.
+   *
+   * Defaults to true.
+   */
+  generateGuestId?: boolean
+
+  /**
    * @ignore Internal use only.
    * If enabled, Frigade will not send any data to the API. A user's state will be reset on page refresh.
    */
@@ -354,15 +372,15 @@ export interface FlowStateContext {
 
 export interface TrackingEvent {
   event: string
-  properties?: { [key: string]: any }
+  properties?: PropertyPayload
 }
 
 export interface SessionDTO {
   userId: string
   groupId?: string
-  userProperties?: { [key: string]: any }
+  userProperties?: PropertyPayload
   userEvents?: TrackingEvent[]
-  groupProperties?: { [key: string]: any }
+  groupProperties?: PropertyPayload
   groupEvents?: TrackingEvent[]
   linkGuestId?: string
 }

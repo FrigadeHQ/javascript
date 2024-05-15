@@ -2,6 +2,7 @@ import {
   type Flow,
   Frigade,
   FrigadeConfig,
+  PropertyPayload,
   RulesRegistryBatch,
   type RulesRegistryCallback,
   StatefulFlow,
@@ -68,6 +69,23 @@ export interface ProviderProps {
   userId?: string
 
   /**
+   * Optional user properties to attach to the userId on initialization.
+   */
+  userProperties?: PropertyPayload
+
+  /**
+   * Optional group properties to attach to the groupId on initialization.
+   */
+  groupProperties?: PropertyPayload
+
+  /**
+   * Whether to generate a Guest ID and session if no userId is provided at render time.
+   * If set to false, Frigade will not initialize or render any Flows until a userId is provided.
+   * Defaults to true.
+   */
+  generateGuestId?: boolean
+
+  /**
    * @ignore Internal use only.
    * If enabled, Frigade will not send any data to the API. A user's state will be reset on page refresh.
    */
@@ -88,11 +106,18 @@ export function Provider({ children, css = {}, navigate, theme, ...props }: Prov
   const [hasInitialized, setHasInitialized] = useState(false)
 
   const frigade = useMemo<Frigade>(() => {
+    setHasInitialized(false)
+    intervalRef.current = undefined
+    setModals(new Set<string>())
+
     return new Frigade(props.apiKey, {
       apiKey: props.apiKey,
       apiUrl: props.apiUrl,
       userId: props.userId,
       groupId: props.groupId,
+      userProperties: props.userProperties,
+      groupProperties: props.groupProperties,
+      generateGuestId: props.generateGuestId,
       __readOnly: props.__readOnly,
       __flowStateOverrides: props.__flowStateOverrides,
     } as FrigadeConfig)
@@ -151,7 +176,7 @@ export function Provider({ children, css = {}, navigate, theme, ...props }: Prov
     if (registeredComponents.current.has(flowId)) {
       frigade.getFlow(flowId).then((flow: Flow) => {
         registeredComponents.current.delete(flowId)
-        flow.unregister()
+        flow?.unregister()
       })
     }
   }

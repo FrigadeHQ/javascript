@@ -178,6 +178,8 @@ export function generateGuestId() {
       setLocalStorage(GUEST_KEY, guestId)
     }
     return guestId
+  } else {
+    return `${GUEST_PREFIX}${uuidv4()}`
   }
 }
 

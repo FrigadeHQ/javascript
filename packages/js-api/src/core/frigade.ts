@@ -83,6 +83,10 @@ export class Frigade extends Fetchable {
       ...config,
     })
 
+    if (!this.config.userId && this.config.generateGuestId === false) {
+      return
+    }
+
     this.initPromise = (async () => {
       if (!this.config.__readOnly) {
         if (this.config.userId?.startsWith(GUEST_PREFIX)) {
@@ -91,10 +95,13 @@ export class Frigade extends Fetchable {
           await this.session({
             userId: this.config.userId,
             groupId: this.config.groupId,
+            userProperties: this.config.userProperties,
+            groupProperties: this.config.groupProperties,
           })
         } else if (this.config.userId) {
           await this.session({
             userId: this.config.userId,
+            userProperties: this.config.userProperties,
           })
         }
       }
@@ -267,7 +274,7 @@ export class Frigade extends Fetchable {
    * @ignore
    */
   private async initIfNeeded() {
-    if (this.initPromise !== null) {
+    if (this.initPromise) {
       return this.initPromise
     } else {
       return this.init(this.config)
