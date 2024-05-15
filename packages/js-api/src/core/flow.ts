@@ -544,6 +544,9 @@ export class Flow extends Fetchable {
   }
 
   public unregister() {
+    if (!this.getGlobalState().rules) {
+      return
+    }
     this.getGlobalState().rules.unregister(this.id)
   }
 }

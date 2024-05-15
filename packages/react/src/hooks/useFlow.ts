@@ -32,10 +32,14 @@ export function useFlow(flowId: string, config?: FlowConfig) {
         setRandomString(Math.random().toString())
       }, 0)
     },
-    [config?.variables]
+    [config?.variables, frigade]
   )
 
   useEffect(() => {
+    if (!frigade?.isReady()) {
+      return
+    }
+
     ;(async () => {
       const flowInstance: Flow = await frigade.getFlow(flowId)
       if (!flowInstance || frigade.hasFailedToLoad()) {
@@ -54,7 +58,7 @@ export function useFlow(flowId: string, config?: FlowConfig) {
     return () => {
       frigade.removeStateChangeHandler(handler)
     }
-  }, [handler])
+  }, [handler, frigade])
 
   useEffect(() => {
     if (!config?.variables || !flow) {

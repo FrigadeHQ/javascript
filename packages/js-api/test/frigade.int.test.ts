@@ -19,6 +19,19 @@ describe('SDK integration test', () => {
     expect(frigade.isReady()).toBeTruthy()
   })
 
+  test('can disable guest id generation', async () => {
+    const frigade = new Frigade(testAPIKey, {
+      generateGuestId: false,
+    })
+    let flows = await frigade.getFlows()
+    expect(flows.length).toEqual(0)
+    expect(frigade.isReady()).toBeFalsy()
+    await frigade.identify(getRandomID())
+    flows = await frigade.getFlows()
+    expect(flows.length).toBeGreaterThan(0)
+    expect(frigade.isReady()).toBeTruthy()
+  })
+
   test('flows have fields set', async () => {
     const frigade = new Frigade(testAPIKey, {})
     const flows = await frigade.getFlows()
