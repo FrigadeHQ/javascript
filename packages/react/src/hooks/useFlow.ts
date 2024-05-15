@@ -7,7 +7,7 @@ export interface FlowConfig {
   variables?: Record<string, unknown>
 }
 
-export function useFlow(flowId: string, config?: FlowConfig) {
+export function useFlow(flowId: string, config?: FlowConfig): { flow?: Flow } {
   const [flow, setFlow] = useState<Flow>()
   const [, setRandomString] = useState<string>('')
   const { frigade } = useContext(FrigadeContext)
