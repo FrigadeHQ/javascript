@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.4.20
+
+### Patch Changes
+
+- d00c2cf: Enables the option to delay setting a userId without generating a Guest ID
+
 ## 0.4.19
 
 ### Patch Changes

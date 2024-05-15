@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.1.27
+
+### Patch Changes
+
+- d00c2cf: Enables the option to delay setting a userId without generating a Guest ID
+- Updated dependencies [d00c2cf]
+  - @frigade/js@0.4.20
+
 ## 2.1.26
 
 ### Patch Changes
