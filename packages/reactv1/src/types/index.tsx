@@ -118,6 +118,47 @@ export interface StepData {
    * Whether to show a highlight in the page where the step is shown. Typically used in tooltips for creating small pings.
    */
   showHighlight?: boolean
+
+  /**
+   * Config for the primary button in this step
+   */
+  primaryButton?: {
+    /**
+     * Primary button URI target (defaults to _self).
+     */
+    target?: string
+
+    /**
+     * Primary button title. If omitted, the primary button will not be shown.
+     */
+    title?: string
+
+    /**
+     * Primary button URI.
+     */
+    uri?: string
+  }
+
+  /**
+   * Config for the secondary button in this step
+   */
+  secondaryButton?: {
+    /**
+     * Secondary button URI target (defaults to _self).
+     */
+    target?: string
+
+    /**
+     * Secondary button title. If omitted, the secondary button will not be shown.
+     */
+    title?: string
+
+    /**
+     * Secondary button URI.
+     */
+    uri?: string
+  }
+
   /**
    * Any other additional props defined in config.yml
    */

@@ -160,7 +160,7 @@ export function useFlows() {
     return steps
       .map((step: StepData) => {
         const autoCalculatedProgress = getStepOptionalProgress(step)
-        return {
+        let returnData = {
           handleSecondaryButtonClick: () => {
             if (step.skippable === true) {
               markStepCompleted(flowId, step.id, { skipped: true })
@@ -188,6 +188,46 @@ export function useFlows() {
           },
           progress: autoCalculatedProgress,
         }
+
+        if (step.primaryButton && step.primaryButton.title) {
+          returnData = {
+            ...returnData,
+            primaryButtonTitle: step.primaryButton.title,
+          }
+        }
+        if (step.primaryButton && step.primaryButton.uri) {
+          returnData = {
+            ...returnData,
+            primaryButtonUri: step.primaryButton.uri,
+          }
+        }
+        if (step.primaryButton && step.primaryButton.target) {
+          returnData = {
+            ...returnData,
+            primaryButtonUriTarget: step.primaryButton.target,
+          }
+        }
+
+        if (step.secondaryButton && step.secondaryButton.title) {
+          returnData = {
+            ...returnData,
+            secondaryButtonTitle: step.secondaryButton.title,
+          }
+        }
+        if (step.secondaryButton && step.secondaryButton.uri) {
+          returnData = {
+            ...returnData,
+            secondaryButtonUri: step.secondaryButton.uri,
+          }
+        }
+        if (step.secondaryButton && step.secondaryButton.target) {
+          returnData = {
+            ...returnData,
+            secondaryButtonUriTarget: step.secondaryButton.target,
+          }
+        }
+
+        return returnData
       })
       .filter((step: StepData) => !(step.hidden === true))
   }
