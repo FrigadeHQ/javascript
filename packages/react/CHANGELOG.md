@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.1.28
+
+### Patch Changes
+
+- 2d419f6: Fixes an issue where onPrimary and onSecondary are not called for banners
+
 ## 2.1.27
 
 ### Patch Changes
