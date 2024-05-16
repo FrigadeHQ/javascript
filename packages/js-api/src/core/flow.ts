@@ -180,6 +180,10 @@ export class Flow extends Fetchable {
       stepObj.complete = async (properties?: PropertyPayload, optimistic: boolean = true) => {
         const thisStep = this.steps.get(step.id)
 
+        if (thisStep.$state.completed && optimistic) {
+          return
+        }
+
         if (optimistic) {
           const isLastStep = thisStep.order + 1 === this.getNumberOfAvailableSteps()
           const copy = clone(this.getGlobalState().flowStates[this.id])
