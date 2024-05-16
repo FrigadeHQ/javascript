@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.4.21
+
+### Patch Changes
+
+- eeaa6e3: Fixes an issue where calling step.complete() makes redundant network calls
+
 ## 0.4.20
 
 ### Patch Changes
