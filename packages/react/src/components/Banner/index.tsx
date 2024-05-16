@@ -7,7 +7,7 @@ export interface BannerProps extends FlowPropsWithoutChildren {}
 
 export function Banner({ dismissible, flowId, part, ...props }: BannerProps) {
   return (
-    <Flow as={null} flowId={flowId}>
+    <Flow as={null} flowId={flowId} {...props}>
       {({ handleDismiss, handlePrimary, handleSecondary, step }) => {
         const stepProps = step.props ?? {}
 
