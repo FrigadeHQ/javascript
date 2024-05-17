@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.1.30
+
+### Patch Changes
+
+- 86a4063: Adds url and user agent context to all remaining calls
+- Updated dependencies [86a4063]
+  - @frigade/js@0.4.22
+
 ## 2.1.29
 
 ### Patch Changes
