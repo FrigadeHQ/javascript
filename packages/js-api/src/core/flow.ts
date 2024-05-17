@@ -13,6 +13,7 @@ import {
   cloneFlow,
   COMPLETED_FLOW,
   COMPLETED_STEP,
+  getContext,
   NOT_STARTED_FLOW,
   NOT_STARTED_STEP,
   SKIPPED_FLOW,
@@ -510,6 +511,7 @@ export class Flow extends Fetchable {
         data: data ? data : {},
         actionType: action,
         createdAt: date,
+        context: getContext(),
       } as FlowStateDTO),
     })
     if (date < this.getGlobalState().lastSyncDate) {
