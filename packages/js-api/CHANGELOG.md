@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.4.22
+
+### Patch Changes
+
+- 86a4063: Adds url and user agent context to all remaining calls
+
 ## 0.4.21
 
 ### Patch Changes
