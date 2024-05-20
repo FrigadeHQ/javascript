@@ -218,7 +218,11 @@ export class Frigade extends Fetchable {
 
   public async getCollection(collectionId: string) {
     await this.initIfNeeded()
-    const collection = this.getGlobalState().rules.getRule(collectionId)
+    const collection = this.getGlobalState().collections.getRule(collectionId)
+
+    if (collection == null) {
+      return undefined
+    }
 
     return Promise.all(
       collection.map(async (item) => ({
@@ -319,7 +323,7 @@ export class Frigade extends Fetchable {
 
       frigadeGlobalState[globalStateKey] = {
         refreshStateFromAPI: async () => {},
-        rules: new Rules(new Map()),
+        collections: new Rules(new Map()),
         flowStates: new Proxy({}, validator),
         onFlowStateChangeHandlerWrappers: new Map(),
         onStepStateChangeHandlerWrappers: new Map(),
@@ -366,7 +370,7 @@ export class Frigade extends Fetchable {
           rulesData.set(collectionId, currentRule)
         })
 
-        frigadeGlobalState[globalStateKey].rules.ingestRulesData(rulesData)
+        frigadeGlobalState[globalStateKey].collections.ingestRulesData(rulesData)
 
         if (flowStateRaw && flowStateRaw.eligibleFlows) {
           flowStateRaw.eligibleFlows.forEach((statefulFlow) => {
@@ -476,7 +480,7 @@ export class Frigade extends Fetchable {
     })
 
     Promise.all(flowIdsWithWrappedCallbacks).then((results) => {
-      this.getGlobalState().rules.batchRegister(results)
+      this.getGlobalState().collections.batchRegister(results)
     })
   }
 }

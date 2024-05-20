@@ -143,7 +143,6 @@ export function Provider({ children, css = {}, navigate, theme, ...props }: Prov
   }
 
   function registerComponent(flowId: string, callback?: RulesRegistryCallback) {
-    console.log('Register: ', flowId)
     if (intervalRef.current) {
       clearTimeout(intervalRef.current)
     }
