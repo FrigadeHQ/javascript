@@ -48,7 +48,7 @@ export function Collection({ collectionId, part, ...props }: CollectionProps) {
   }
 
   return (
-    <Box part={['collection', part]} {...props}>
+    <Box part={['collection', part]} data-collection-id={collectionId} {...props}>
       <FlowComponent flowId={currentFlow.id} />
     </Box>
   )

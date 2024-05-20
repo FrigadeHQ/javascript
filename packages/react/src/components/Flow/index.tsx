@@ -95,10 +95,13 @@ export function Flow({
 
   const ContainerElement = as === null ? Fragment : as ?? Box
 
-  const containerProps = as === null ? {} : props
+  const containerProps = {
+    ...props,
+    'data-flow-id': flow.id,
+  }
 
   return (
-    <ContainerElement {...containerProps}>
+    <ContainerElement {...(as === null ? {} : containerProps)}>
       {children({
         flow,
         handleDismiss,
@@ -108,7 +111,7 @@ export function Flow({
           dismissible,
           flowId,
           variables,
-          ...props,
+          containerProps,
         },
         step,
       })}

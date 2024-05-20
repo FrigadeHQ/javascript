@@ -65,10 +65,10 @@ export interface FlowProps extends FlowPropsWithoutChildren {
 }
 
 type ParentProps = {
+  containerProps: Record<string, unknown>
   dismissible: boolean
   flowId: string
   variables: Record<string, unknown>
-  [x: string]: unknown
 }
 
 export interface FlowChildrenProps {
