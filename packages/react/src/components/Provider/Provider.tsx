@@ -209,7 +209,6 @@ export function Provider({ children, css = {}, navigate, theme, ...props }: Prov
         ...props,
         frigade: frigade,
         registerComponent,
-        registeredComponents: registeredComponents.current,
         unregisterComponent,
         hasInitialized,
       }}
