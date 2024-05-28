@@ -315,10 +315,17 @@ export interface StatefulFlow {
   }
 }
 
+export enum CollectionType {
+  CUSTOM = 'CUSTOM',
+  DEFAULT = 'DEFAULT',
+}
+
 export interface ComputedCollection {
   collectionId: string
   flowId: string
   visible: boolean
+  allowedComponents: []
+  collectionType: CollectionType
 }
 
 export interface CollectionMetadata {
