@@ -396,9 +396,9 @@ describe('SDK integration test', () => {
     flow.steps.get(testFlowStepId).onStateChange(callback)
     expect(callback).toHaveBeenCalledTimes(0)
     await flow.steps.get(testFlowStepId).start()
-    expect(callback).toHaveBeenCalledTimes(1)
-    await flow.steps.get(testFlowStepId).complete()
     expect(callback).toHaveBeenCalledTimes(2)
+    await flow.steps.get(testFlowStepId).complete()
+    expect(callback).toHaveBeenCalledTimes(3)
   })
 
   test('custom variables get substituted', async () => {
