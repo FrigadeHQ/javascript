@@ -14,13 +14,9 @@ export const Default = {
 export const MultipleComponents = {
   args: {
     collectionId: "collection_zrwaSVhX",
-    css: {
-      ".fr-banner[data-id='flow_ZZ6Fz6nt']": {
-        backgroundColor: "turquoise",
-      },
-    },
   },
   decorators: [
+    // @ts-expect-error -- Story ain't got no Storybook types added yet
     (_, { args }) => {
       return (
         <>
