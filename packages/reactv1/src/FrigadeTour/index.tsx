@@ -248,7 +248,9 @@ export const FrigadeTour: FC<
   }
 
   async function handleViewTooltip(index: number) {
-    await markStepStarted(flowId, steps[index].id)
+    if (showTooltipsSimultaneously) {
+      await markStepStarted(flowId, steps[index].id)
+    }
   }
 
   const isCurrentSelectorMissing = !Boolean(document.querySelector(steps[selectedStep].selector))
