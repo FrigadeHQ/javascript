@@ -43,6 +43,7 @@ const preview = {
         <Provider
           apiKey={FRIGADE_API_KEY}
           apiUrl={API_URL}
+          defaultCollection={false}
           // generateGuestId={false}
           // userId={delayedUserId}
           userId={userId}

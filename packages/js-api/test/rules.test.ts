@@ -1,15 +1,23 @@
-import { Rules, type RulesData } from '../src/core/rules'
+import { Rules, type Rule, type RulesList } from '../src/core/rules'
+
+function mockRule(flows: Rule['flows'] = []) {
+  return {
+    allowedComponents: [],
+    collectionType: 'DEFAULT',
+    flows,
+  } as Rule
+}
 
 describe('Rules', () => {
   describe('register', () => {
     it('calls all callbacks when a flow is registered', () => {
-      const rulesData: RulesData = new Map([
+      const rulesData: RulesList = new Map([
         [
           'rule_1',
-          [
+          mockRule([
             { flowId: 'flow_a', visible: true },
             { flowId: 'flow_b', visible: true },
-          ],
+          ]),
         ],
       ])
 
@@ -29,13 +37,13 @@ describe('Rules', () => {
     })
 
     it('calls all callbacks when a flow is unregistered', () => {
-      const rulesData: RulesData = new Map([
+      const rulesData: RulesList = new Map([
         [
           'rule_1',
-          [
+          mockRule([
             { flowId: 'flow_a', visible: true },
             { flowId: 'flow_b', visible: true },
-          ],
+          ]),
         ],
       ])
 
@@ -57,13 +65,13 @@ describe('Rules', () => {
     })
 
     it('calls all callbacks when rules are ingested', () => {
-      const rulesData: RulesData = new Map([
+      const rulesData: RulesList = new Map([
         [
           'rule_1',
-          [
+          mockRule([
             { flowId: 'flow_a', visible: true },
             { flowId: 'flow_b', visible: true },
-          ],
+          ]),
         ],
       ])
 
@@ -82,13 +90,13 @@ describe('Rules', () => {
     })
 
     it('calls callbacks with current flow visibility', () => {
-      const rulesData: RulesData = new Map([
+      const rulesData: RulesList = new Map([
         [
           'rule_1',
-          [
+          mockRule([
             { flowId: 'flow_a', visible: true },
             { flowId: 'flow_b', visible: true },
-          ],
+          ]),
         ],
       ])
 
@@ -110,7 +118,9 @@ describe('Rules', () => {
 
   describe('isFlowVisible', () => {
     it('returns true when node is visible and not registered', () => {
-      const rulesData: RulesData = new Map([['rule_1', [{ flowId: 'flow_a', visible: true }]]])
+      const rulesData: RulesList = new Map([
+        ['rule_1', mockRule([{ flowId: 'flow_a', visible: true }])],
+      ])
 
       const rules = new Rules(rulesData)
 
@@ -118,7 +128,9 @@ describe('Rules', () => {
     })
 
     it('returns true when node is not visible and not registered', () => {
-      const rulesData: RulesData = new Map([['rule_1', [{ flowId: 'flow_a', visible: false }]]])
+      const rulesData: RulesList = new Map([
+        ['rule_1', mockRule([{ flowId: 'flow_a', visible: false }])],
+      ])
 
       const rules = new Rules(rulesData)
 
@@ -127,7 +139,9 @@ describe('Rules', () => {
     })
 
     it('returns true when node is registered and not in a rule', () => {
-      const rulesData: RulesData = new Map([['rule_1', [{ flowId: 'flow_a', visible: false }]]])
+      const rulesData: RulesList = new Map([
+        ['rule_1', mockRule([{ flowId: 'flow_a', visible: false }])],
+      ])
 
       const rules = new Rules(rulesData)
 
@@ -138,7 +152,9 @@ describe('Rules', () => {
     })
 
     it('returns true when node is not registered and not in a rule', () => {
-      const rulesData: RulesData = new Map([['rule_1', [{ flowId: 'flow_a', visible: false }]]])
+      const rulesData: RulesList = new Map([
+        ['rule_1', mockRule([{ flowId: 'flow_a', visible: false }])],
+      ])
 
       const rules = new Rules(rulesData)
 
@@ -146,13 +162,13 @@ describe('Rules', () => {
     })
 
     it('shows first flow and hides second flow in a rule when both are registered and visible', () => {
-      const rulesData: RulesData = new Map([
+      const rulesData: RulesList = new Map([
         [
           'rule_1',
-          [
+          mockRule([
             { flowId: 'flow_a', visible: true },
             { flowId: 'flow_b', visible: true },
-          ],
+          ]),
         ],
       ])
 
@@ -166,13 +182,13 @@ describe('Rules', () => {
     })
 
     it('hides first flow and shows second flow in a rule when both are registered and first is not visible', () => {
-      const rulesData: RulesData = new Map([
+      const rulesData: RulesList = new Map([
         [
           'rule_1',
-          [
+          mockRule([
             { flowId: 'flow_a', visible: false },
             { flowId: 'flow_b', visible: true },
-          ],
+          ]),
         ],
       ])
 
@@ -186,14 +202,14 @@ describe('Rules', () => {
     })
 
     it('hides first flow in rule when second flow is visible due to previous rule', () => {
-      const rulesData: RulesData = new Map([
-        ['rule_1', [{ flowId: 'flow_a', visible: true }]],
+      const rulesData: RulesList = new Map([
+        ['rule_1', mockRule([{ flowId: 'flow_a', visible: true }])],
         [
           'rule_2',
-          [
+          mockRule([
             { flowId: 'flow_b', visible: true },
             { flowId: 'flow_a', visible: true },
-          ],
+          ]),
         ],
       ])
 
@@ -207,10 +223,10 @@ describe('Rules', () => {
     })
 
     it('actually, give me one with everything...', () => {
-      const rulesData = new Map([
+      const rulesData: RulesList = new Map([
         [
           'rule_1',
-          [
+          mockRule([
             {
               flowId: 'flow_a',
               visible: true,
@@ -223,12 +239,12 @@ describe('Rules', () => {
               flowId: 'flow_c',
               visible: true,
             },
-          ],
+          ]),
         ],
 
         [
           'rule_2',
-          [
+          mockRule([
             {
               flowId: 'flow_c',
               visible: false,
@@ -241,12 +257,12 @@ describe('Rules', () => {
               flowId: 'flow_a',
               visible: false,
             },
-          ],
+          ]),
         ],
 
         [
           'rule_3',
-          [
+          mockRule([
             {
               flowId: 'flow_d',
               visible: true,
@@ -259,12 +275,12 @@ describe('Rules', () => {
               flowId: 'flow_b',
               visible: false,
             },
-          ],
+          ]),
         ],
 
         [
           'rule_4',
-          [
+          mockRule([
             {
               flowId: 'flow_b',
               visible: false,
@@ -277,7 +293,7 @@ describe('Rules', () => {
               flowId: 'flow_e',
               visible: true,
             },
-          ],
+          ]),
         ],
       ])
 

@@ -1,13 +1,7 @@
 import { useContext, useEffect, useState } from 'react'
-import type { Flow, Rule } from '@frigade/js'
+import type { EnrichedRule } from '@frigade/js'
 
 import { FrigadeContext } from '@/components/Provider'
-
-type EnrichedRule = Array<
-  Rule[number] & {
-    flow: Flow
-  }
->
 
 export function useCollection(collectionId: string) {
   const [collection, setCollection] = useState<EnrichedRule>()

@@ -17,7 +17,13 @@ import {
 import { Flow } from './flow'
 import { frigadeGlobalState, getGlobalStateKey } from '../shared/state'
 import { Fetchable } from '../shared/fetchable'
-import { Rules, type RulesRegistryBatch } from './rules'
+import {
+  Rules,
+  type EnrichedRule,
+  type Rule,
+  type RulesList,
+  type RulesRegistryBatch,
+} from './rules'
 
 export class Frigade extends Fetchable {
   /**
@@ -224,12 +230,27 @@ export class Frigade extends Fetchable {
       return undefined
     }
 
-    return Promise.all(
-      collection.map(async (item) => ({
+    const enrichedFlows = await Promise.all(
+      collection.flows.map(async (item) => ({
         ...item,
         flow: await this.getFlow(item.flowId),
       }))
     )
+
+    collection.flows = enrichedFlows
+
+    return collection as EnrichedRule
+  }
+
+  public async getCollections() {
+    await this.initIfNeeded()
+    const collections = this.getGlobalState().collections.getRules()
+
+    if (collections == null) {
+      return undefined
+    }
+
+    return collections
   }
 
   /**
@@ -357,18 +378,24 @@ export class Frigade extends Fetchable {
               } as FlowStateDTO),
             })
 
-        const rulesData = new Map()
+        const rulesData: RulesList = new Map()
 
-        flowStateRaw.collections?.computedOrder?.forEach(({ collectionId, flowId, visible }) => {
-          const currentRule = rulesData.get(collectionId) ?? []
+        flowStateRaw.collections?.computedOrder?.forEach(
+          ({ allowedComponents, collectionId, collectionType, flowId, visible }) => {
+            const currentRule: Rule = rulesData.get(collectionId) ?? {
+              allowedComponents,
+              collectionType,
+              flows: [],
+            }
 
-          currentRule.push({
-            flowId,
-            visible,
-          })
+            currentRule.flows.push({
+              flowId,
+              visible,
+            })
 
-          rulesData.set(collectionId, currentRule)
-        })
+            rulesData.set(collectionId, currentRule)
+          }
+        )
 
         frigadeGlobalState[globalStateKey].collections.ingestRulesData(rulesData)
 
