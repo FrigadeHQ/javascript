@@ -1,5 +1,16 @@
 # @frigade/react
 
+## 2.2.0
+
+### Minor Changes
+
+- f5c40a4: Implementation of Frigade Collections
+
+### Patch Changes
+
+- Updated dependencies [f5c40a4]
+  - @frigade/js@0.5.0
+
 ## 2.1.30
 
 ### Patch Changes
