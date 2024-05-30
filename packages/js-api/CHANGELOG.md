@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.5.0
+
+### Minor Changes
+
+- f5c40a4: Implementation of Frigade Collections
+
 ## 0.4.22
 
 ### Patch Changes

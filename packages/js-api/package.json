@@ -1,6 +1,6 @@
 {
   "name": "@frigade/js",
-  "version": "0.4.22",
+  "version": "0.5.0",
   "description": "The official Javascript SDK for Frigade.",
   "type": "module",
   "main": "./dist/index.js",
