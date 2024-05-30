@@ -10,6 +10,8 @@ import {
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Global, ThemeProvider } from '@emotion/react'
 
+import { DefaultCollection } from '@/components/Provider/DefaultCollection'
+
 import {
   createThemeVariables,
   theme as themeTokens,
@@ -48,9 +50,26 @@ export interface ProviderProps {
   css?: Record<string, unknown>
 
   /**
+   * By default, Frigade.Provider will render a built-in Collection to allow no-code deploys of Announcements and other floating Components. Set this to `false` if you want to manually control the rendering of the default Collection.
+   */
+  defaultCollection?: boolean
+
+  /**
+   * Whether to generate a Guest ID and session if no userId is provided at render time.
+   * If set to false, Frigade will not initialize or render any Flows until a userId is provided.
+   * Defaults to true.
+   */
+  generateGuestId?: boolean
+
+  /**
    * The group ID to use for this context (optional).
    */
   groupId?: string
+
+  /**
+   * Optional group properties to attach to the groupId on initialization.
+   */
+  groupProperties?: PropertyPayload
 
   /**
    * A function to handle navigation. By default, Frigade will use `window.open` if not provided.
@@ -74,18 +93,6 @@ export interface ProviderProps {
   userProperties?: PropertyPayload
 
   /**
-   * Optional group properties to attach to the groupId on initialization.
-   */
-  groupProperties?: PropertyPayload
-
-  /**
-   * Whether to generate a Guest ID and session if no userId is provided at render time.
-   * If set to false, Frigade will not initialize or render any Flows until a userId is provided.
-   * Defaults to true.
-   */
-  generateGuestId?: boolean
-
-  /**
    * @ignore Internal use only.
    * If enabled, Frigade will not send any data to the API. A user's state will be reset on page refresh.
    */
@@ -98,7 +105,14 @@ export interface ProviderProps {
   __flowStateOverrides?: Record<string, StatefulFlow>
 }
 
-export function Provider({ children, css = {}, navigate, theme, ...props }: ProviderProps) {
+export function Provider({
+  children,
+  css = {},
+  defaultCollection = true,
+  navigate,
+  theme,
+  ...props
+}: ProviderProps) {
   const themeOverrides = theme ? createThemeVariables(theme) : {}
   const [modals, setModals] = useState(new Set<string>())
   const registeredComponents = useRef<RegisteredComponents>(new Map())
@@ -154,6 +168,9 @@ export function Provider({ children, css = {}, navigate, theme, ...props }: Prov
         registeredComponents.current.set(flowId, {
           callback: callback,
         })
+      } else {
+        // If component is already registered, fire its callback to let the downstream consumer know its current state
+        frigade.getFlow(flowId).then((flow: Flow) => callback(flow.isVisible))
       }
 
       return
@@ -210,7 +227,10 @@ export function Provider({ children, css = {}, navigate, theme, ...props }: Prov
       }}
     >
       <Global styles={{ ':root': { ...themeVariables, ...themeOverrides, ...css } }} />
-      <ThemeProvider theme={themeTokens}>{children}</ThemeProvider>
+      <ThemeProvider theme={themeTokens}>
+        {defaultCollection && <DefaultCollection />}
+        {children}
+      </ThemeProvider>
     </FrigadeContext.Provider>
   )
 }

@@ -43,7 +43,7 @@ export function Announcement({ flowId, part, ...props }: AnnouncementProps) {
         handleDismiss,
         handlePrimary,
         handleSecondary,
-        parentProps: { dismissible },
+        parentProps: { containerProps, dismissible },
         step,
       }) => {
         const stepProps = step.props ?? {}
@@ -57,6 +57,7 @@ export function Announcement({ flowId, part, ...props }: AnnouncementProps) {
           <Dialog
             part={['announcement', part]}
             textAlign="center"
+            {...containerProps}
             {...dialogProps}
             onEscapeKeyDown={(e) => {
               if (typeof props.onEscapeKeyDown === 'function') {

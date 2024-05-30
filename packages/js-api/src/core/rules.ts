@@ -1,3 +1,5 @@
+import type { Flow } from './flow'
+
 export type RulesRegistryCallback = (visible: boolean) => void
 
 export type RulesRegistryBatch = [string, RulesRegistryCallback][]
@@ -8,28 +10,48 @@ export interface RulesRegistryItem {
   callback: RulesRegistryCallback
 }
 
-export type Rule = Array<{
-  flowId: string
-  visible: boolean
-}>
+export interface Rule {
+  allowedComponents: string[]
+  collectionType: 'DEFAULT' | 'CUSTOM'
+  flows: {
+    flowId: string
+    visible: boolean
+  }[]
+}
 
-export type RulesData = Map<string, Rule>
+export interface EnrichedRule extends Omit<Rule, 'flows'> {
+  flows: Array<
+    Rule['flows'][number] & {
+      flow: Flow
+    }
+  >
+}
+
+export type RulesList = Map<string, Rule>
 
 export class Rules {
   private readonly registry: Map<string, RulesRegistryItem> = new Map()
   private registryStateLocked: boolean = false
-  private rules: Map<string, Rule> = new Map()
+  private rules: RulesList = new Map()
   private flowsInRules: Set<string> = new Set()
 
-  constructor(rulesData: RulesData) {
+  constructor(rulesData: RulesList) {
     this.ingestRulesData(rulesData)
   }
 
-  ingestRulesData(rulesData: RulesData) {
+  getRule(ruleId: string) {
+    return this.rules.get(ruleId)
+  }
+
+  getRules() {
+    return this.rules
+  }
+
+  ingestRulesData(rulesData: RulesList) {
     this.rules = rulesData
 
     for (const [, rule] of this.rules) {
-      for (const { flowId } of rule) {
+      for (const { flowId } of rule.flows) {
         this.flowsInRules.add(flowId)
       }
     }
@@ -83,7 +105,7 @@ export class Rules {
 
   processRules() {
     for (const [, rule] of this.rules) {
-      for (const { flowId, visible: visibleAPIOverride } of rule) {
+      for (const { flowId, visible: visibleAPIOverride } of rule.flows) {
         const registeredFlow = this.registry.get(flowId)
 
         // If this flow in the rule isn't registered, we have no opinion on it yet
@@ -103,7 +125,7 @@ export class Rules {
           continue
         }
 
-        const flowIdsInThisRule = rule
+        const flowIdsInThisRule = rule.flows
           .map(({ flowId: otherFlowId }) => otherFlowId)
           .filter((otherFlowId) => otherFlowId !== flowId)
 

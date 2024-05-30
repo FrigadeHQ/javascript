@@ -9,4 +9,10 @@ export {
   TriggerType,
   PropertyPayload,
 } from './core/types'
-export type { RulesRegistryCallback, RulesRegistryBatch } from './core/rules'
+export type {
+  EnrichedRule,
+  Rule,
+  RulesList,
+  RulesRegistryCallback,
+  RulesRegistryBatch,
+} from './core/rules'

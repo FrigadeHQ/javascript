@@ -66,5 +66,7 @@ export function Tour({ flowId, onComplete, variables, part, ...props }: TourProp
   const step = flow.getCurrentStep()
   step?.start()
 
-  return <TourStep flow={flow} part={['tour', part]} step={step} {...props} />
+  return (
+    <TourStep data-flow-id={flow.id} flow={flow} part={['tour', part]} step={step} {...props} />
+  )
 }

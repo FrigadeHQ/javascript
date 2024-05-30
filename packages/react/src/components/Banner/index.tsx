@@ -8,7 +8,13 @@ export interface BannerProps extends FlowPropsWithoutChildren {}
 export function Banner({ dismissible, flowId, part, ...props }: BannerProps) {
   return (
     <Flow as={null} flowId={flowId} {...props}>
-      {({ handleDismiss, handlePrimary, handleSecondary, step }) => {
+      {({
+        handleDismiss,
+        handlePrimary,
+        handleSecondary,
+        parentProps: { containerProps },
+        step,
+      }) => {
         const stepProps = step.props ?? {}
 
         const primaryButtonTitle = step.primaryButton?.title ?? step.primaryButtonTitle
@@ -25,7 +31,7 @@ export function Banner({ dismissible, flowId, part, ...props }: BannerProps) {
             gap={3}
             justifyContent="flex-start"
             part={['banner', part]}
-            {...props}
+            {...containerProps}
             {...stepProps}
           >
             {step.imageUri && (
