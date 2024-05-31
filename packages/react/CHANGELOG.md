@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.2.1
+
+### Patch Changes
+
+- b15f30b: Ensures that current URL is passed to the API on navigation changes
+- Updated dependencies [b15f30b]
+  - @frigade/js@0.5.1
+
 ## 2.2.0
 
 ### Minor Changes
