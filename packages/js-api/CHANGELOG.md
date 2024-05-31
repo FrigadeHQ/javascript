@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.5.1
+
+### Patch Changes
+
+- b15f30b: Ensures that current URL is passed to the API on navigation changes
+
 ## 0.5.0
 
 ### Minor Changes
