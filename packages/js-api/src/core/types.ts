@@ -265,6 +265,11 @@ export interface FrigadeConfig {
   generateGuestId?: boolean
 
   /**
+   * Whether to sync state with Frigade on URL or focus change. Defaults to true.
+   */
+  syncOnWindowUpdates?: boolean
+
+  /**
    * @ignore Internal use only.
    * If enabled, Frigade will not send any data to the API. A user's state will be reset on page refresh.
    */

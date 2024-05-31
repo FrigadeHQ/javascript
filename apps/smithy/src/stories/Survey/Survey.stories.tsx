@@ -1,4 +1,4 @@
-import { Box, Survey } from "@frigade/react";
+import { Box, Button, Survey } from "@frigade/react";
 import { StoryContext, StoryFn } from "@storybook/react";
 
 export default {
@@ -16,6 +16,13 @@ export const NPS = {
         <Box fontFamily="Arial">
           <Box backgroundColor="blue" height="500px">
             Other elements on the page
+            <Button.Primary
+              onClick={() => {
+                window.history.pushState({}, "", "/new-url");
+              }}
+            >
+              Change url
+            </Button.Primary>
             <Survey.NPS
               flowId="flow_SJjL59eSt9A112vJ"
               alignSelf="flex-end"

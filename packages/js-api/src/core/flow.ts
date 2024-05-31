@@ -511,7 +511,7 @@ export class Flow extends Fetchable {
         data: data ? data : {},
         actionType: action,
         createdAt: date,
-        context: getContext(),
+        context: getContext(this.getGlobalState().currentUrl),
       } as FlowStateDTO),
     })
     if (date < this.getGlobalState().lastSyncDate) {

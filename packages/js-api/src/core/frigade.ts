@@ -18,9 +18,9 @@ import { Flow } from './flow'
 import { frigadeGlobalState, getGlobalStateKey } from '../shared/state'
 import { Fetchable } from '../shared/fetchable'
 import {
-  Rules,
   type EnrichedRule,
   type Rule,
+  Rules,
   type RulesList,
   type RulesRegistryBatch,
 } from './rules'
@@ -54,8 +54,19 @@ export class Frigade extends Fetchable {
       ...config,
     })
     this.init(this.config)
-    if (isWeb()) {
+    if (isWeb() && this.config.syncOnWindowUpdates !== false) {
       document.addEventListener('visibilitychange', this.visibilityChangeHandler)
+      // @ts-ignore
+      if (window.navigation) {
+        // @ts-ignore
+        window.navigation.addEventListener('navigate', async (event) => {
+          if (this.getGlobalState().currentUrl === event.destination.url) {
+            return
+          }
+          this.getGlobalState().currentUrl = event.destination.url
+          this.refreshStateFromAPI()
+        })
+      }
     }
   }
 
@@ -352,6 +363,7 @@ export class Frigade extends Fetchable {
         previousFlows: new Map(),
         variables: {},
         config: this.config,
+        currentUrl: isWeb() ? window.location.href : '',
       }
 
       if (this.config.__readOnly && this.config.__flowStateOverrides) {
@@ -374,7 +386,7 @@ export class Frigade extends Fetchable {
               body: JSON.stringify({
                 userId: this.getGlobalState().config.userId,
                 groupId: this.getGlobalState().config.groupId,
-                context: getContext(),
+                context: getContext(this.getGlobalState().currentUrl),
               } as FlowStateDTO),
             })
 

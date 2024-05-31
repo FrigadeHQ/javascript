@@ -62,6 +62,11 @@ export interface ProviderProps {
   generateGuestId?: boolean
 
   /**
+   * Whether to sync state with Frigade on URL or focus change. Defaults to true.
+   */
+  syncOnWindowUpdates?: boolean
+
+  /**
    * The group ID to use for this context (optional).
    */
   groupId?: string
@@ -132,6 +137,7 @@ export function Provider({
       userProperties: props.userProperties,
       groupProperties: props.groupProperties,
       generateGuestId: props.generateGuestId,
+      syncOnWindowUpdates: props.syncOnWindowUpdates,
       __readOnly: props.__readOnly,
       __flowStateOverrides: props.__flowStateOverrides,
     } as FrigadeConfig)

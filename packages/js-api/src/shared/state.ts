@@ -19,6 +19,7 @@ export interface FrigadeGlobalState {
   variables: Record<string, Record<string, any>>
   lastSyncDate?: Date
   config: FrigadeConfig
+  currentUrl: string
 }
 
 export let frigadeGlobalState: Record<string, FrigadeGlobalState> = {}

@@ -47,6 +47,7 @@ const preview = {
           // generateGuestId={false}
           // userId={delayedUserId}
           userId={userId}
+          // syncOnWindowUpdates={false}
           userProperties={{
             firstName: "Jonathan",
             lastName: "Livingston",

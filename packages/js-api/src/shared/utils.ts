@@ -198,13 +198,13 @@ export function isWeb() {
   )
 }
 
-export function getContext(): FlowStateContext {
+export function getContext(currentUrl: string): FlowStateContext {
   if (!isWeb()) {
     return {}
   }
 
   return {
-    url: window.location.href,
+    url: currentUrl,
     userAgent: navigator.userAgent,
   }
 }
