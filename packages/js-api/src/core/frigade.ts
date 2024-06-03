@@ -60,10 +60,11 @@ export class Frigade extends Fetchable {
       if (window.navigation) {
         // @ts-ignore
         window.navigation.addEventListener('navigate', async (event) => {
-          if (this.getGlobalState().currentUrl === event.destination.url) {
-            return
-          }
           try {
+            if (this.getGlobalState().currentUrl === event.destination.url) {
+              return
+            }
+
             this.getGlobalState().currentUrl = event.destination.url
             this.refreshStateFromAPI()
           } catch (e) {}
