@@ -20,6 +20,7 @@ import {
 } from '@/shared/theme'
 
 import { FrigadeContext } from './FrigadeContext'
+import { ImagePreloader } from '@/components/Provider/ImagePreloader'
 
 export type NavigateHandler = (url: string, target?: string) => void
 export type RegisteredComponents = Map<
@@ -96,6 +97,11 @@ export interface ProviderProps {
    * Optional user properties to attach to the userId on initialization.
    */
   userProperties?: PropertyPayload
+
+  /**
+   * Whether to preload images in Flows. Defaults to true.
+   */
+  preloadImages?: boolean
 
   /**
    * @ignore Internal use only.
@@ -237,6 +243,7 @@ export function Provider({
         {defaultCollection && <DefaultCollection />}
         {children}
       </ThemeProvider>
+      {props.preloadImages !== false && <ImagePreloader />}
     </FrigadeContext.Provider>
   )
 }
