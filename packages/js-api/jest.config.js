@@ -1,6 +1,6 @@
 export default {
   preset: 'ts-jest',
-  testEnvironment: 'jsdom',
+  testEnvironment: './jsdom-env.js',
   collectCoverage: true,
   collectCoverageFrom: ['src/**/*.{ts}'],
   setupFilesAfterEnv: ['./jest.setup.js'],
