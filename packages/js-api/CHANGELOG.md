@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.5.2
+
+### Patch Changes
+
+- 38420ac: Fixes a race condition where Frigade in some cases would throw an error on navigation change
+
 ## 0.5.1
 
 ### Patch Changes

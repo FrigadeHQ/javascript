@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.2.2
+
+### Patch Changes
+
+- 38420ac: Fixes a race condition where Frigade in some cases would throw an error on navigation change
+- Updated dependencies [38420ac]
+  - @frigade/js@0.5.2
+
 ## 2.2.1
 
 ### Patch Changes
