@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.5.4
+
+### Patch Changes
+
+- 5b7823f: Fix bug where repeated requests had empty responses
+
 ## 0.5.3
 
 ### Patch Changes

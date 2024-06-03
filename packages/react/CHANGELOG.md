@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.2.4
+
+### Patch Changes
+
+- 5b7823f: Fix bug where repeated requests had empty responses
+- Updated dependencies [5b7823f]
+  - @frigade/js@0.5.4
+
 ## 2.2.3
 
 ### Patch Changes
