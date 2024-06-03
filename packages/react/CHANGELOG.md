@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.2.3
+
+### Patch Changes
+
+- b434ceb: Adds additional error resiliency for capturing navigation changes
+- Updated dependencies [b434ceb]
+  - @frigade/js@0.5.3
+
 ## 2.2.2
 
 ### Patch Changes

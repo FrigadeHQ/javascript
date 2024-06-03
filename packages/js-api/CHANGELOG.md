@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.5.3
+
+### Patch Changes
+
+- b434ceb: Adds additional error resiliency for capturing navigation changes
+
 ## 0.5.2
 
 ### Patch Changes
