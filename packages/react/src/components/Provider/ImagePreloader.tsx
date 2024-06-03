@@ -23,5 +23,5 @@ export function ImagePreloader() {
     })()
   }, [])
 
-  return <></>
+  return null
 }
