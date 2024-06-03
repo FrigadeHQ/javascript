@@ -63,8 +63,10 @@ export class Frigade extends Fetchable {
           if (this.getGlobalState().currentUrl === event.destination.url) {
             return
           }
-          this.getGlobalState().currentUrl = event.destination.url
-          this.refreshStateFromAPI()
+          try {
+            this.getGlobalState().currentUrl = event.destination.url
+            this.refreshStateFromAPI()
+          } catch (e) {}
         })
       }
     }
