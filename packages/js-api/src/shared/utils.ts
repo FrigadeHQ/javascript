@@ -83,11 +83,12 @@ class CallQueue {
   private queue: {
     call: string
     time: number
+    response?: Promise<Response>
   }[] = []
-  private readonly ttlInMS = 100
+  private readonly ttlInMS = 250
   private readonly cacheSize = 5
 
-  public push(call: string) {
+  public push(call: string, response?: Promise<Response>) {
     const now = new Date()
     if (this.queue.length >= this.cacheSize) {
       this.queue.shift()
@@ -95,13 +96,14 @@ class CallQueue {
     this.queue.push({
       call: call,
       time: now.getTime(),
+      response: response ?? null,
     })
   }
 
   public hasIdenticalCall(call: string) {
     const now = new Date()
     this.queue = this.queue.filter((item) => now.getTime() - item.time < this.ttlInMS)
-    return this.queue.some((item) => item.call === call)
+    return this.queue.find((item) => item.call === call)
   }
 }
 
@@ -114,20 +116,30 @@ export async function gracefulFetch(url: string, options: any) {
     )
   }
 
-  if (isWeb() && options && options.body && options.method === 'POST') {
-    const lastCallDataKey = `${url}${JSON.stringify(options.body ?? {})}`
-    if (callQueue.hasIdenticalCall(lastCallDataKey)) {
-      return getEmptyResponse()
-    }
-    callQueue.push(lastCallDataKey)
-  }
-
+  const lastCallDataKey = `${url}${JSON.stringify(options.body ?? {})}`
   let response
-  try {
-    response = fetch(url, options)
-    response = await response
-  } catch (error) {
-    return getEmptyResponse(error)
+
+  if (isWeb() && options && options.body && options.method === 'POST') {
+    const cachedCall = callQueue.hasIdenticalCall(lastCallDataKey)
+
+    if (cachedCall != null && cachedCall.response != null) {
+      const cachedResponse = await cachedCall.response
+
+      response = cachedResponse.clone()
+    } else {
+      try {
+        const pendingResponse = fetch(url, options)
+
+        callQueue.push(
+          lastCallDataKey,
+          pendingResponse.then((res) => res.clone())
+        )
+
+        response = await pendingResponse
+      } catch (error) {
+        return getEmptyResponse(error)
+      }
+    }
   }
 
   if (!response) {
@@ -153,6 +165,7 @@ export async function gracefulFetch(url: string, options: any) {
     if (body.error) {
       return getEmptyResponse(body.error)
     }
+
     return body
   } catch (e) {
     return getEmptyResponse(e)

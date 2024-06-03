@@ -412,7 +412,9 @@ export class Frigade extends Fetchable {
           }
         )
 
-        frigadeGlobalState[globalStateKey].collections.ingestRulesData(rulesData)
+        if (rulesData.size > 0) {
+          frigadeGlobalState[globalStateKey].collections.ingestRulesData(rulesData)
+        }
 
         if (flowStateRaw && flowStateRaw.eligibleFlows) {
           flowStateRaw.eligibleFlows.forEach((statefulFlow) => {

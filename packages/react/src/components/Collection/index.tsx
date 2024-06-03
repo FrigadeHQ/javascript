@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react'
+import { type Flow } from '@frigade/js'
 import { EmotionJSX } from '@emotion/react/types/jsx-namespace'
 
 import { Announcement } from '@/components/Announcement'
@@ -27,9 +29,20 @@ export function Collection({ collectionId, part, ...props }: CollectionProps) {
     TOUR: Tour,
   }
 
+  const [currentFlow, setCurrentFlow] = useState<Flow>()
   const { collection } = useCollection(collectionId)
 
-  const currentFlow = collection?.flows.find(({ flow }) => flow.isVisible)?.flow
+  useEffect(() => {
+    if (collection == null) {
+      return
+    }
+
+    const foundFlow = collection.flows.find(({ flow }) => flow.isVisible)?.flow
+
+    if (foundFlow != null) {
+      setCurrentFlow(foundFlow)
+    }
+  }, [collection])
 
   const FlowComponent: EmotionJSX.ElementType =
     flowTypeMap[currentFlow?.rawData?.flowType] ?? (() => null)
