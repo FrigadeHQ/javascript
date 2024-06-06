@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.2.5
+
+### Patch Changes
+
+- d01bfc4: Fixes an issue where dialog still closes on escape with dismissible false
+
 ## 2.2.4
 
 ### Patch Changes
