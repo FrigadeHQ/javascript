@@ -60,6 +60,10 @@ export function Announcement({ flowId, part, ...props }: AnnouncementProps) {
             {...containerProps}
             {...dialogProps}
             onEscapeKeyDown={(e) => {
+              if (props.dismissible === false) {
+                e.preventDefault()
+                return
+              }
               if (typeof props.onEscapeKeyDown === 'function') {
                 props.onEscapeKeyDown(e)
               }
