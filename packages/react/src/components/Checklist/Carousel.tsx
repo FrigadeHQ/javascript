@@ -46,7 +46,7 @@ export function Carousel({ ...props }: FlowProps) {
       setHasPrev(emblaApi.canScrollPrev())
     }
 
-    emblaApi.on('settle', () => {
+    emblaApi.on('select', () => {
       setHasNext(emblaApi.canScrollNext())
       setHasPrev(emblaApi.canScrollPrev())
     })
