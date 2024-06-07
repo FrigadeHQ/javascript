@@ -3,7 +3,7 @@ import { Flex } from '@/components/Flex'
 import { FormFieldProps } from '@/components/Form'
 import { Text } from '@/components/Text'
 
-export function NPSField({ field, submit }: FormFieldProps) {
+export function NPSField({ field, fieldData, submit }: FormFieldProps) {
   const buttons = [...Array(11)].map((_, i) => {
     const Component = field.value === i ? Button.Primary : Button.Secondary
     return (
@@ -41,10 +41,10 @@ export function NPSField({ field, submit }: FormFieldProps) {
       </Flex.Row>
       <Flex.Row justifyContent="space-between" part="field-nps-label">
         <Text.Caption part="field-nps-left-label" color="neutral.400">
-          Not likely at all
+          {fieldData.negativeLabel ?? `Not likely at all`}
         </Text.Caption>
         <Text.Caption part="field-nps-right-label" color="neutral.400">
-          Extremely likely
+          {fieldData.positiveLabel ?? `Extremely likely`}
         </Text.Caption>
       </Flex.Row>
     </Flex.Column>

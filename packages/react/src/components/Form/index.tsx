@@ -40,6 +40,8 @@ export interface FormFieldData extends ValidationRules {
   placeholder?: string
   label?: string
   type: string
+  // allow any other custom properties
+  [key: string]: any
 }
 
 // TODO: Wire UseControllerReturn into this type
