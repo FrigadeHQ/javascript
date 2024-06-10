@@ -39,7 +39,9 @@ export function CarouselStep({ onPrimary, onSecondary, step }: CarouselStepProps
       userSelect="none"
     >
       <Flex.Row marginBottom="2" part="carousel-step-header">
-        {step.iconUri && <Card.Media height="24px" src={step.iconUri} width="24px" />}
+        {step.iconUri && (
+          <Card.Media borderRadius="0" height="24px" src={step.iconUri} width="24px" />
+        )}
         <CheckIndicator checked={step.$state.completed} marginLeft="auto" />
       </Flex.Row>
       <Card.Title>{step.title}</Card.Title>
