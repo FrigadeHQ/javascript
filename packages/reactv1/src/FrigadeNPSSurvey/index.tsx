@@ -8,6 +8,7 @@ import { RenderInlineStyles } from '../components/RenderInlineStyles'
 import { Portal } from 'react-portal'
 import {
   DismissButton,
+  NPSCTAContainer,
   NPSLabel,
   NPSLabelContainer,
   NPSNumberButton,
@@ -50,12 +51,14 @@ export const FrigadeNPSSurvey: React.FC<FrigadeNPSSurveyProps> = ({
     getFlowSteps,
     getFlowStatus,
     getFlowMetadata,
+    markStepNotStarted,
   } = useFlows()
   const { primaryCTAClickSideEffects } = useCTAClickSideEffects()
   const { mergeAppearanceWithDefault } = useTheme()
   const [score, setScore] = React.useState<number | null>(null)
   const [feedbackText, setFeedbackText] = React.useState<string>('')
   const metadata = getFlowMetadata(flowId)
+  const numberOfStepsCompleted = getNumberOfStepsCompleted(flowId)
   const {
     hasOpenModals,
     setKeepCompletedFlowOpenDuringSession,
@@ -68,6 +71,16 @@ export const FrigadeNPSSurvey: React.FC<FrigadeNPSSurveyProps> = ({
   useEffect(() => {
     updateCustomVariables(customVariables)
   }, [customVariables, isLoading])
+
+  useEffect(() => {
+    if (
+      numberOfStepsCompleted === 1 &&
+      !shouldKeepCompletedFlowOpenDuringSession(flowId) &&
+      getFlowStatus(flowId) !== COMPLETED_FLOW
+    ) {
+      markFlowSkipped(flowId)
+    }
+  }, [numberOfStepsCompleted])
 
   if (isLoading) {
     return null
@@ -151,6 +164,7 @@ export const FrigadeNPSSurvey: React.FC<FrigadeNPSSurveyProps> = ({
           <TitleSubtitle
             appearance={appearance}
             title={currentStep.title ?? `Why did you choose this score?`}
+            subtitle={currentStep.subtitle ?? undefined}
             size="large"
           />
         </TextContainer>
@@ -160,38 +174,56 @@ export const FrigadeNPSSurvey: React.FC<FrigadeNPSSurveyProps> = ({
           onChange={(e) => {
             setFeedbackText(e.target.value)
           }}
-          placeholder="Add your optional feedback here..."
+          placeholder={currentStep.placeholder ?? 'Add your optional feedback here...'}
         ></TextArea>
         <NPSNumberButtonContainer
           appearance={appearance}
           className={getClassName('npsNumberButtonContainer', appearance)}
         >
-          <Button
-            size={'large'}
-            withMargin={false}
-            onClick={async () => {
-              await markFlowCompleted(flowId)
-              if (onButtonClick) {
-                onButtonClick(currentStep, 1, 'primary')
-              }
-            }}
+          {currentStep.backButtonTitle && (
+            <Button
+              size={'large'}
+              withMargin={false}
+              onClick={async () => {
+                markStepNotStarted(flowId, steps[0].id)
+                markStepNotStarted(flowId, currentStep.id)
+              }}
+              appearance={appearance}
+              title={currentStep.backButtonTitle}
+              secondary
+            />
+          )}
+          <NPSCTAContainer
             appearance={appearance}
-            title={currentStep.secondaryButtonTitle || 'Skip'}
-            secondary
-          />
-          <Button
-            size={'large'}
-            withMargin={false}
-            onClick={async () => {
-              await markStepCompleted(flowId, currentStep.id, { feedbackText })
-              await markFlowCompleted(flowId)
-              if (onButtonClick) {
-                onButtonClick(currentStep, 1, 'primary')
-              }
-            }}
-            appearance={appearance}
-            title={currentStep.primaryButtonTitle || 'Submit'}
-          />
+            className={getClassName('npsCTAContainer', appearance)}
+          >
+            <Button
+              size={'large'}
+              withMargin={false}
+              onClick={async () => {
+                await markFlowCompleted(flowId)
+                if (onButtonClick) {
+                  onButtonClick(currentStep, 1, 'primary')
+                }
+              }}
+              appearance={appearance}
+              title={currentStep.secondaryButtonTitle || 'Skip'}
+              secondary
+            />
+            <Button
+              size={'large'}
+              withMargin={false}
+              onClick={async () => {
+                await markStepCompleted(flowId, currentStep.id, { feedbackText })
+                await markFlowCompleted(flowId)
+                if (onButtonClick) {
+                  onButtonClick(currentStep, 1, 'primary')
+                }
+              }}
+              appearance={appearance}
+              title={currentStep.primaryButtonTitle || 'Submit'}
+            />
+          </NPSCTAContainer>
         </NPSNumberButtonContainer>
       </>
     )

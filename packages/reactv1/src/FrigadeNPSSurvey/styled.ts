@@ -100,6 +100,7 @@ export const TextArea = styled.textarea`
     width: 100%;
     height: 100px;
     resize: none;
+    box-sizing: border-box;
   }
 `
 
@@ -114,4 +115,11 @@ export const DismissButton = styled.div`
       opacity: 0.8;
     }
   }
+`
+
+export const NPSCTAContainer = styled.div`
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 8px;
+  display: flex;
 `

@@ -7,6 +7,6 @@ export default {
 
 export const NPSSurvey = {
   args: {
-    flowId: 'flow_SJjL59eSt9A112vJ',
+    flowId: 'flow_p52B6fT0',
   },
 }
