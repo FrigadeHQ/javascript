@@ -153,6 +153,11 @@ export interface FlowStep extends StatefulStep {
   imageUri?: string | null
 
   /**
+   * Icon url to be shown for components supporting image.
+   */
+  iconUri?: string | null
+
+  /**
    * Automatically mark the step as completed when the primary button is clicked. Default is false.
    */
   autoMarkCompleted?: boolean

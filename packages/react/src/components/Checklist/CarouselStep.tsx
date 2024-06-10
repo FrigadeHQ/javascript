@@ -38,10 +38,11 @@ export function CarouselStep({ onPrimary, onSecondary, step }: CarouselStepProps
       part="carousel-step"
       userSelect="none"
     >
-      <Flex.Row justifyContent="space-between" part="carousel-step-header">
-        <Card.Title>{step.title}</Card.Title>
-        <CheckIndicator checked={step.$state.completed} />
+      <Flex.Row marginBottom="2" part="carousel-step-header">
+        {step.iconUri && <Card.Media height="24px" src={step.iconUri} width="24px" />}
+        <CheckIndicator checked={step.$state.completed} marginLeft="auto" />
       </Flex.Row>
+      <Card.Title>{step.title}</Card.Title>
       <Card.Subtitle>{step.subtitle}</Card.Subtitle>
       <Flex.Row
         css={{

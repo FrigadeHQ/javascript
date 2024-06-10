@@ -1,4 +1,4 @@
-import { Box } from '@/components/Box'
+import { Box, type BoxProps } from '@/components/Box'
 
 function CheckIcon() {
   return (
@@ -22,7 +22,11 @@ function CheckIcon() {
   )
 }
 
-export function CheckIndicator({ checked = false }) {
+interface CheckIndicatorProps extends BoxProps {
+  checked?: boolean
+}
+
+export function CheckIndicator({ checked = false, ...props }: CheckIndicatorProps) {
   return (
     <Box
       backgroundColor="inherit"
@@ -35,6 +39,7 @@ export function CheckIndicator({ checked = false }) {
       position="relative"
       height="22px"
       width="22px"
+      {...props}
     >
       {checked && (
         <Box

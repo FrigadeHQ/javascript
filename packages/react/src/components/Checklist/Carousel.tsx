@@ -28,7 +28,6 @@ export function Carousel({ ...props }: FlowProps) {
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: 'start',
     container: '.fr-carousel-content',
-    containScroll: 'trimSnaps',
     skipSnaps: true,
     slides: '.fr-carousel-step',
   })
@@ -104,7 +103,7 @@ export function Carousel({ ...props }: FlowProps) {
               {hasPrev && (
                 <Flex.Column
                   animation={`${fadeIn} 300ms ease-out`}
-                  background="linear-gradient(to right, #fff, transparent)"
+                  background="linear-gradient(to right, rgba(255, 255, 255, 0.5), transparent 50%)"
                   bottom="0"
                   left="0"
                   justifyContent="center"
@@ -116,6 +115,7 @@ export function Carousel({ ...props }: FlowProps) {
                   <Button.Plain
                     border="1px solid neutral.border"
                     borderRadius="100%"
+                    boxShadow="md"
                     backgroundColor="neutral.background"
                     color="primary.surface"
                     onClick={() => emblaApi.scrollPrev()}
@@ -129,7 +129,7 @@ export function Carousel({ ...props }: FlowProps) {
               {hasNext && (
                 <Flex.Column
                   animation={`${fadeIn} 300ms ease-out`}
-                  background="linear-gradient(to left, #fff, transparent)"
+                  background="linear-gradient(to left, rgba(255, 255, 255, 0.5), transparent 50%)"
                   bottom="0"
                   justifyContent="center"
                   paddingRight="3"
@@ -141,6 +141,7 @@ export function Carousel({ ...props }: FlowProps) {
                   <Button.Plain
                     border="1px solid neutral.border"
                     borderRadius="100%"
+                    boxShadow="md"
                     backgroundColor="neutral.background"
                     color="primary.surface"
                     onClick={() => emblaApi.scrollNext()}
