@@ -48,12 +48,12 @@ export function CarouselStep({ onPrimary, onSecondary, step }: CarouselStepProps
       <Card.Subtitle>{step.subtitle}</Card.Subtitle>
       <Flex.Row
         css={{
-          '& > button': {
-            flexBasis: '50%',
-            flexGrow: 1,
-          },
-
           '@container (max-width: 200px)': {
+            '& > button': {
+              flexBasis: '50%',
+              flexGrow: 1,
+            },
+
             flexDirection: 'column-reverse',
           },
         }}
