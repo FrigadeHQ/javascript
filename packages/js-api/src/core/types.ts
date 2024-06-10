@@ -153,7 +153,7 @@ export interface FlowStep extends StatefulStep {
   imageUri?: string | null
 
   /**
-   * Icon url to be shown for components supporting image.
+   * Icon url to be shown for components supporting icons.
    */
   iconUri?: string | null
 
