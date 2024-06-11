@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.2.6
+
+### Patch Changes
+
+- 7e1c262: Added Carousel Component
+- Updated dependencies [7e1c262]
+  - @frigade/js@0.5.5
+
 ## 2.2.5
 
 ### Patch Changes
