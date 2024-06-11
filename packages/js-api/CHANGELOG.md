@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.5.5
+
+### Patch Changes
+
+- 7e1c262: Added Carousel Component
+
 ## 0.5.4
 
 ### Patch Changes
