@@ -258,6 +258,11 @@ export class Frigade extends Fetchable {
 
   public async getCollections() {
     await this.initIfNeeded()
+
+    if (!this.config.userId && this.config.generateGuestId === false) {
+      return undefined
+    }
+
     const collections = this.getGlobalState().collections.getRules()
 
     if (collections == null) {
