@@ -85,7 +85,7 @@ export function Carousel({ ...props }: FlowProps) {
               margin={`0 ${theme.space[-4]}`}
               overflow="hidden"
               part="carousel-wrapper"
-              px="5"
+              px="4"
               position="relative"
               ref={emblaRef}
             >
