@@ -48,7 +48,14 @@ function TestStep({
   );
 }
 
-export const Default = {
+export const Carousel = {
+  args: {
+    flowId: "flow_ArnxGil9",
+  },
+  decorators: [(_, { args }) => <Checklist.Carousel {...args} />],
+};
+
+export const Collapsible = {
   args: {
     flowId: "flow_K2dmIlteW8eGbGoo",
     stepTypes: {
