@@ -73,7 +73,11 @@ function DefaultCollapsibleStep({
 
   return (
     <CollapsibleStep.Root open={open} onOpenChange={onOpenChange} {...stepProps}>
-      <CollapsibleStep.Trigger isCompleted={completed} title={title} />
+      <CollapsibleStep.Trigger
+        isBlocked={step.$state.blocked}
+        isCompleted={completed}
+        title={title}
+      />
 
       <CollapsibleStep.Content>
         <Card.Media

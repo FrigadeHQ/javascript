@@ -15,7 +15,7 @@ interface CarouselStepProps {
 export function CarouselStep({ onPrimary, onSecondary, step }: CarouselStepProps) {
   const { handlePrimary, handleSecondary } = useStepHandlers(step, { onPrimary, onSecondary })
 
-  const disabled = step.$state.completed || step.$state.blocked ? true : false
+  const primaryCTADisabled = step.$state.completed || step.$state.blocked ? true : false
 
   return (
     <Card
@@ -37,6 +37,8 @@ export function CarouselStep({ onPrimary, onSecondary, step }: CarouselStepProps
       p="4"
       part="carousel-step"
       userSelect="none"
+      disabled={step.$state.blocked}
+      opacity={step.$state.blocked ? 0.4 : 1}
     >
       <Flex.Row marginBottom="2" part="carousel-step-header">
         {step.iconUri && (
@@ -46,6 +48,7 @@ export function CarouselStep({ onPrimary, onSecondary, step }: CarouselStepProps
       </Flex.Row>
       <Card.Title>{step.title}</Card.Title>
       <Card.Subtitle>{step.subtitle}</Card.Subtitle>
+
       <Flex.Row
         css={{
           '@container (max-width: 200px)': {
@@ -63,12 +66,12 @@ export function CarouselStep({ onPrimary, onSecondary, step }: CarouselStepProps
         part="carousel-step-footer"
       >
         <Card.Secondary
-          disabled={disabled}
+          disabled={step.$state.completed}
           onClick={handleSecondary}
           title={step.secondaryButton?.title}
         />
         <Card.Primary
-          disabled={disabled}
+          disabled={step.$state.completed}
           onClick={handlePrimary}
           title={step.primaryButton?.title}
         />

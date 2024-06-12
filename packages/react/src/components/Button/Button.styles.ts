@@ -19,7 +19,7 @@ export const Primary = {
   'backgroundColor:hover': 'primary.hover.surface',
 
   'backgroundColor:disabled': 'primary.surface',
-  'opacity:disabled': '0.7',
+  'opacity:disabled': '0.6',
 }
 
 export const Secondary = {
@@ -32,7 +32,7 @@ export const Secondary = {
   'backgroundColor:hover': 'secondary.hover.background',
 
   'backgroundColor:disabled': 'secondary.background',
-  'opacity:disabled': '0.7',
+  'opacity:disabled': '0.6',
 }
 
 export const Link = {
