@@ -1,5 +1,12 @@
 # @frigade/js
 
+## 0.5.6
+
+### Patch Changes
+
+- 0add935: Fixes a race condition where steps in checklists could sometime appear unchecked even if being checked
+- ba00163: Fixes an issue where collections throw an error when guest id generation is turned off
+
 ## 0.5.5
 
 ### Patch Changes
