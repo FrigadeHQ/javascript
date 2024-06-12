@@ -18,6 +18,7 @@ export interface FrigadeGlobalState {
   previousFlows: Map<string, Flow>
   variables: Record<string, Record<string, any>>
   lastSyncDate?: Date
+  pendingRequests: number
   config: FrigadeConfig
   currentUrl: string
 }

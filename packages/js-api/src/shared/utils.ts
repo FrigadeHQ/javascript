@@ -52,14 +52,6 @@ function setLocalStorage(key: string, value: string) {
   }
 }
 
-function setGlobalState(key: string, value: any) {
-  frigadeGlobalState[key] = value
-}
-
-function getGlobalState(key: string): any {
-  return frigadeGlobalState[key]
-}
-
 export function clearCache() {
   Object.keys(frigadeGlobalState).forEach((key) => {
     if (key.startsWith(GET_CACHE_PREFIX)) {

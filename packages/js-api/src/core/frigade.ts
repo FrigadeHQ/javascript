@@ -372,6 +372,7 @@ export class Frigade extends Fetchable {
         variables: {},
         config: this.config,
         currentUrl: isWeb() ? window.location.href : '',
+        pendingRequests: 0,
       }
 
       if (this.config.__readOnly && this.config.__flowStateOverrides) {

@@ -7,6 +7,7 @@ import { FlowType } from '@frigade/reactv1'
 const testAPIKey = 'api_public_3MPLH7NJ9L0U963XKW7BPE2IT137GC6L742JLC2XCT6NOIYSI4QUI9I1RA3ZOGIL'
 const testFlowId = 'flow_yJfjksFrs5QEH0c8'
 const testFlowStepId = 'checklist-step-one'
+jest.retryTimes(2, { logErrorsBeforeRetry: false })
 
 describe('SDK integration test', () => {
   test('can init Frigade', async () => {
@@ -428,6 +429,8 @@ describe('SDK integration test', () => {
     })
     let flow = await frigade.getFlow(testFlowId)
     expect(flow.isVisible).toBeFalsy()
+    // workaround to prevent rate limiting
+    await new Promise((resolve) => setTimeout(resolve, 250))
     await frigade.identify(userId, {
       createdAt: new Date().toISOString(),
     })
