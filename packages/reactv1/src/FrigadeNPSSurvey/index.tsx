@@ -23,6 +23,7 @@ import { TitleSubtitle } from '../components/TitleSubtitle/TitleSubtitle'
 import { useFlowOpens } from '../api/flow-opens'
 import { Button } from '../components/Button'
 import { useFlowImpressions } from '../hooks/useFlowImpressions'
+import { removeHTMLChars } from '../shared/sanitizer'
 
 export interface FrigadeNPSSurveyProps extends DefaultFrigadeFlowProps {
   dismissible?: boolean
@@ -174,7 +175,9 @@ export const FrigadeNPSSurvey: React.FC<FrigadeNPSSurveyProps> = ({
           onChange={(e) => {
             setFeedbackText(e.target.value)
           }}
-          placeholder={currentStep.placeholder ?? 'Add your optional feedback here...'}
+          placeholder={
+            removeHTMLChars(currentStep.placeholder) ?? 'Add your optional feedback here...'
+          }
         ></TextArea>
         <NPSNumberButtonContainer
           appearance={appearance}

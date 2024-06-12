@@ -49,3 +49,17 @@ export function sanitize(dirty?: string) {
     }),
   }
 }
+
+export function removeHTMLChars(encoded?: string | unknown) {
+  if (!encoded) {
+    return ''
+  }
+
+  if (typeof encoded !== 'string') {
+    return encoded
+  }
+
+  return encoded.replace(/&#(\d+);/g, function (_, dec) {
+    return String.fromCharCode(dec)
+  })
+}
