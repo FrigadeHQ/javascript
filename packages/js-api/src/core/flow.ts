@@ -489,6 +489,16 @@ export class Flow extends Fetchable {
     copy.$state.visible = true
     copy.$state.currentStepIndex = 0
     copy.$state.currentStepId = this.getStepByIndex(0)?.id
+    // clear all step states too
+    copy.data.steps.forEach((step) => {
+      step.$state = {
+        completed: false,
+        started: false,
+        visible: true,
+        blocked: false,
+        lastActionAt: undefined,
+      }
+    })
 
     this.getGlobalState().flowStates[this.id] = copy
     this.resyncState()
