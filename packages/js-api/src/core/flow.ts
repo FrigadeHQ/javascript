@@ -198,6 +198,8 @@ export class Flow extends Fetchable {
           if (!isLastStep) {
             copy.$state.currentStepId = this.getStepByIndex(thisStep.order + 1).id
             copy.$state.currentStepIndex = thisStep.order + 1
+            // mark the next step as started
+            copy.data.steps[thisStep.order + 1].$state.started = true
           }
 
           if (isLastStep) {
