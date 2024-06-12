@@ -256,7 +256,7 @@ export class Frigade extends Fetchable {
     return collection as EnrichedRule
   }
 
-  public async getCollections() {
+  public async getCollections(): Promise<RulesList | undefined> {
     await this.initIfNeeded()
 
     if (!this.config.userId && this.config.generateGuestId === false) {

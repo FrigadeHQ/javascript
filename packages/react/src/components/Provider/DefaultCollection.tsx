@@ -9,7 +9,7 @@ export function DefaultCollection() {
 
   useEffect(() => {
     frigade.getCollections().then((collections) => {
-      collections.forEach((c, id) => {
+      collections?.forEach((c, id) => {
         if (c.collectionType === 'DEFAULT') {
           setCollectionId(id)
         }
