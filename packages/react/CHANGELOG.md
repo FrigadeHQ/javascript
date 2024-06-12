@@ -1,5 +1,15 @@
 # @frigade/react
 
+## 2.2.7
+
+### Patch Changes
+
+- 0add935: Fixes a race condition where steps in checklists could sometime appear unchecked even if being checked
+- ba00163: Fixes an issue where collections throw an error when guest id generation is turned off
+- Updated dependencies [0add935]
+- Updated dependencies [ba00163]
+  - @frigade/js@0.5.6
+
 ## 2.2.6
 
 ### Patch Changes
