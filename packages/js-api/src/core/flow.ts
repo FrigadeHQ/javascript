@@ -182,6 +182,12 @@ export class Flow extends Fetchable {
         const thisStep = this.steps.get(step.id)
 
         if (thisStep.$state.completed && optimistic) {
+          // mark the next step started to advance.
+          const nextStep = this.getStepByIndex(thisStep.order + 1)
+          if (nextStep) {
+            await nextStep.start()
+          }
+
           return
         }
 
