@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.2.8
+
+### Patch Changes
+
+- c9190b0: Fixes an inconsistency in Flow navigation where currentStep does not match step.$state.started
+- Updated dependencies [c9190b0]
+  - @frigade/js@0.5.7
+
 ## 2.2.7
 
 ### Patch Changes
