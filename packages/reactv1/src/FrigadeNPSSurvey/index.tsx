@@ -23,7 +23,7 @@ import { TitleSubtitle } from '../components/TitleSubtitle/TitleSubtitle'
 import { useFlowOpens } from '../api/flow-opens'
 import { Button } from '../components/Button'
 import { useFlowImpressions } from '../hooks/useFlowImpressions'
-import { removeHTMLChars } from '../shared/sanitizer'
+import { removeHTMLChars, sanitize } from '../shared/sanitizer'
 
 export interface FrigadeNPSSurveyProps extends DefaultFrigadeFlowProps {
   dismissible?: boolean
@@ -147,12 +147,14 @@ export const FrigadeNPSSurvey: React.FC<FrigadeNPSSurveyProps> = ({
           ))}
         </NPSNumberButtonContainer>
         <NPSLabelContainer appearance={appearance}>
-          <NPSLabel appearance={appearance}>
-            {metadata?.negativeLabel ?? `Not likely at all`}
-          </NPSLabel>
-          <NPSLabel appearance={appearance}>
-            {metadata?.positiveLabel ?? `Extremely likely`}
-          </NPSLabel>
+          <NPSLabel
+            appearance={appearance}
+            dangerouslySetInnerHTML={sanitize(metadata?.negativeLabel ?? `Not likely at all`)}
+          />
+          <NPSLabel
+            appearance={appearance}
+            dangerouslySetInnerHTML={sanitize(metadata?.positiveLabel ?? `Extremely likely`)}
+          />
         </NPSLabelContainer>
       </>
     )
