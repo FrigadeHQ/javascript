@@ -264,7 +264,7 @@ describe('SDK integration test', () => {
     expect(flow.getCurrentStepIndex()).toEqual(0)
     expect(previousStep).toBeDefined()
     expect(previousStep.$state.completed).toBeFalsy()
-    expect(previousStep.$state.started).toBeFalsy()
+    expect(previousStep.$state.started).toBeTruthy()
     await flow.forward()
     expect(flow.getCurrentStepIndex()).toEqual(1)
     const currentStep = flow.getCurrentStep()
