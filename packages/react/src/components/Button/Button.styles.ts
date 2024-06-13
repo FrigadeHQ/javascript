@@ -4,6 +4,7 @@ const base = {
   borderWidth: 'md',
   borderRadius: 'md',
   borderStyle: 'solid',
+  'cursor:disabled': 'not-allowed',
   display: 'flex',
   gap: '2',
   padding: '2 4',
@@ -16,10 +17,12 @@ export const Primary = {
   borderColor: 'primary.border',
   color: 'primary.foreground',
 
+  'backgroundColor:disabled': 'primary.surface',
   'backgroundColor:hover': 'primary.hover.surface',
 
-  'backgroundColor:disabled': 'primary.surface',
-  'opacity:disabled': '0.7',
+  'opacity:disabled': '0.6',
+
+  'pointerEvents:disabled': 'none',
 }
 
 export const Secondary = {
@@ -32,7 +35,7 @@ export const Secondary = {
   'backgroundColor:hover': 'secondary.hover.background',
 
   'backgroundColor:disabled': 'secondary.background',
-  'opacity:disabled': '0.7',
+  'opacity:disabled': '0.6',
 }
 
 export const Link = {

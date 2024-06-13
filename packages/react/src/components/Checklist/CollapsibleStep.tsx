@@ -132,7 +132,7 @@ export function Root({
   )
 }
 
-export function Trigger({ isCompleted, title }) {
+export function Trigger({ isCompleted, isBlocked, title }) {
   return (
     <Collapsible.Trigger asChild>
       <Flex.Row
@@ -141,6 +141,10 @@ export function Trigger({ isCompleted, title }) {
         margin={-5}
         padding={5}
         zIndex={1}
+        opacity={isBlocked ? 0.4 : 1}
+        disabled={isBlocked}
+        pointerEvents={isBlocked ? 'none' : 'auto'}
+        cursor={isBlocked ? 'not-allowed' : 'pointer'}
       >
         <Flex.Row alignItems="center" gap={2}>
           <CheckIndicator checked={isCompleted} />

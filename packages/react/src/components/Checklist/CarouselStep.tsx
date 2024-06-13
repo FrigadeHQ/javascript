@@ -1,5 +1,7 @@
 import type { FlowStep } from '@frigade/js'
+import { LockClosedIcon } from '@heroicons/react/24/outline'
 
+import { Box } from '@/components/Box'
 import { CheckIndicator } from '@/components/CheckIndicator'
 import { Flex } from '@/components/Flex'
 import { Card } from '@/components/Card'
@@ -15,7 +17,14 @@ interface CarouselStepProps {
 export function CarouselStep({ onPrimary, onSecondary, step }: CarouselStepProps) {
   const { handlePrimary, handleSecondary } = useStepHandlers(step, { onPrimary, onSecondary })
 
-  const disabled = step.$state.completed || step.$state.blocked ? true : false
+  const { blocked, completed } = step.$state
+
+  const topRightIcon =
+    completed || !blocked ? (
+      <CheckIndicator checked={completed} marginLeft="auto" />
+    ) : (
+      <Box as={LockClosedIcon} height="22px" marginLeft="auto" width="22px" />
+    )
 
   return (
     <Card
@@ -37,15 +46,18 @@ export function CarouselStep({ onPrimary, onSecondary, step }: CarouselStepProps
       p="4"
       part="carousel-step"
       userSelect="none"
+      disabled={blocked}
+      opacity={blocked ? 0.5 : 1}
     >
       <Flex.Row marginBottom="2" part="carousel-step-header">
         {step.iconUri && (
           <Card.Media borderRadius="0" height="24px" src={step.iconUri} width="24px" />
         )}
-        <CheckIndicator checked={step.$state.completed} marginLeft="auto" />
+        {topRightIcon}
       </Flex.Row>
       <Card.Title>{step.title}</Card.Title>
       <Card.Subtitle>{step.subtitle}</Card.Subtitle>
+
       <Flex.Row
         css={{
           '@container (max-width: 200px)': {
@@ -63,12 +75,12 @@ export function CarouselStep({ onPrimary, onSecondary, step }: CarouselStepProps
         part="carousel-step-footer"
       >
         <Card.Secondary
-          disabled={disabled}
+          disabled={completed}
           onClick={handleSecondary}
           title={step.secondaryButton?.title}
         />
         <Card.Primary
-          disabled={disabled}
+          disabled={completed || blocked}
           onClick={handlePrimary}
           title={step.primaryButton?.title}
         />
