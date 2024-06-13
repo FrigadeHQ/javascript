@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.5.8
+
+### Patch Changes
+
+- 78c413a: Fixes an edge case that could cause an infinite loop of API calls
+
 ## 0.5.7
 
 ### Patch Changes

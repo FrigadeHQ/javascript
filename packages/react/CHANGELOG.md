@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.2.9
+
+### Patch Changes
+
+- 78c413a: Fixes an edge case that could cause an infinite loop of API calls
+- Updated dependencies [78c413a]
+  - @frigade/js@0.5.8
+
 ## 2.2.8
 
 ### Patch Changes
