@@ -40,8 +40,9 @@ export function TourStep({
 
   return (
     <Tooltip
-      key={step.id}
       anchor={step.selector as string}
+      collisionPadding={12}
+      key={step.id}
       onOpenAutoFocus={(e) => e.preventDefault()}
       onPointerDownOutside={(e) => e.preventDefault()}
       onInteractOutside={(e) => e.preventDefault()}

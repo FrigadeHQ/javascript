@@ -217,11 +217,9 @@ export function Tooltip({
               boxShadow="md"
               position="relative"
               className={className}
-              css={{
-                maxWidth: '360px',
-                pointerEvents: 'auto',
-              }}
+              maxWidth="min(360px, calc(100vw - 25px))"
               part={['tooltip', part]}
+              pointerEvents="auto"
               style={style}
               {...otherProps}
             >
