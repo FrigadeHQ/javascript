@@ -73,16 +73,6 @@ export const FrigadeNPSSurvey: React.FC<FrigadeNPSSurveyProps> = ({
     updateCustomVariables(customVariables)
   }, [customVariables, isLoading])
 
-  useEffect(() => {
-    if (
-      numberOfStepsCompleted === 1 &&
-      !shouldKeepCompletedFlowOpenDuringSession(flowId) &&
-      getFlowStatus(flowId) !== COMPLETED_FLOW
-    ) {
-      markFlowSkipped(flowId)
-    }
-  }, [numberOfStepsCompleted])
-
   if (isLoading) {
     return null
   }
@@ -97,13 +87,6 @@ export const FrigadeNPSSurvey: React.FC<FrigadeNPSSurveyProps> = ({
   }
 
   if (getFlowStatus(flowId) === COMPLETED_FLOW) {
-    return null
-  }
-
-  if (
-    getNumberOfStepsCompleted(flowId) === 1 &&
-    !shouldKeepCompletedFlowOpenDuringSession(flowId)
-  ) {
     return null
   }
 
