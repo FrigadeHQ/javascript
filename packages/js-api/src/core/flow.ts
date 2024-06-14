@@ -46,6 +46,7 @@ export class Flow extends Fetchable {
    */
   public subtitle?: string
   /**
+   * @ignore Internal use only.
    * Props to pass through to the Flow Component in the React SDK.
    */
   public props?: Record<string, unknown> = {}
