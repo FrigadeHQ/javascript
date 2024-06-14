@@ -1,4 +1,4 @@
-import type { Frigade, RulesRegistryCallback } from '@frigade/js'
+import type { CollectionsRegistryCallback, Frigade } from '@frigade/js'
 import { createContext, type Dispatch, type SetStateAction } from 'react'
 
 import type { ProviderProps } from './Provider'
@@ -9,7 +9,7 @@ export interface ProviderContext extends Omit<ProviderProps, 'children' | 'theme
   currentModal: string | null
   frigade?: Frigade
   hasInitialized: boolean
-  registerComponent: (flowId: string, callback?: RulesRegistryCallback) => void
+  registerComponent: (flowId: string, callback?: CollectionsRegistryCallback) => void
   unregisterComponent: (flowId: string) => void
 }
 

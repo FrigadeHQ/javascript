@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { Banner, Box, Flex } from "@frigade/react";
+import { Banner, Box, Flex } from "@/index.ts";
 import { StoryContext, StoryFn } from "@storybook/react";
 
 export default {
-  title: "Rules/Late Registration",
+  title: "collections/Late Registration",
   component: Banner,
 };
 

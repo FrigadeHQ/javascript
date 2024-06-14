@@ -1,17 +1,17 @@
-import { Rules, type Rule, type RulesList } from '../src/core/rules'
+import { type Collection, Collections, type CollectionsList } from '../src/core/collections'
 
-function mockRule(flows: Rule['flows'] = []) {
+function mockRule(flows: Collection['flows'] = []) {
   return {
     allowedComponents: [],
     collectionType: 'DEFAULT',
     flows,
-  } as Rule
+  } as Collection
 }
 
 describe('Rules', () => {
   describe('register', () => {
     it('calls all callbacks when a flow is registered', () => {
-      const rulesData: RulesList = new Map([
+      const rulesData: CollectionsList = new Map([
         [
           'rule_1',
           mockRule([
@@ -24,7 +24,7 @@ describe('Rules', () => {
       const cb1 = jest.fn()
       const cb2 = jest.fn()
 
-      const rules = new Rules(rulesData)
+      const rules = new Collections(rulesData)
 
       rules.register('flow_a', cb1)
 
@@ -37,7 +37,7 @@ describe('Rules', () => {
     })
 
     it('calls all callbacks when a flow is unregistered', () => {
-      const rulesData: RulesList = new Map([
+      const rulesData: CollectionsList = new Map([
         [
           'rule_1',
           mockRule([
@@ -50,7 +50,7 @@ describe('Rules', () => {
       const cb1 = jest.fn()
       const cb2 = jest.fn()
 
-      const rules = new Rules(rulesData)
+      const rules = new Collections(rulesData)
 
       rules.register('flow_a', cb1)
       rules.register('flow_b', cb2)
@@ -65,7 +65,7 @@ describe('Rules', () => {
     })
 
     it('calls all callbacks when rules are ingested', () => {
-      const rulesData: RulesList = new Map([
+      const rulesData: CollectionsList = new Map([
         [
           'rule_1',
           mockRule([
@@ -78,19 +78,19 @@ describe('Rules', () => {
       const cb1 = jest.fn()
       const cb2 = jest.fn()
 
-      const rules = new Rules(rulesData)
+      const rules = new Collections(rulesData)
 
       rules.register('flow_a', cb1)
       rules.register('flow_b', cb2)
 
-      rules.ingestRulesData(rulesData)
+      rules.ingestCollectionsData(rulesData)
 
       expect(cb1).toHaveBeenCalledTimes(3)
       expect(cb2).toHaveBeenCalledTimes(2)
     })
 
     it('calls callbacks with current flow visibility', () => {
-      const rulesData: RulesList = new Map([
+      const rulesData: CollectionsList = new Map([
         [
           'rule_1',
           mockRule([
@@ -103,7 +103,7 @@ describe('Rules', () => {
       const cb1 = jest.fn()
       const cb2 = jest.fn()
 
-      const rules = new Rules(rulesData)
+      const rules = new Collections(rulesData)
 
       rules.register('flow_a', cb1)
 
@@ -118,32 +118,32 @@ describe('Rules', () => {
 
   describe('isFlowVisible', () => {
     it('returns true when node is visible and not registered', () => {
-      const rulesData: RulesList = new Map([
+      const rulesData: CollectionsList = new Map([
         ['rule_1', mockRule([{ flowId: 'flow_a', visible: true }])],
       ])
 
-      const rules = new Rules(rulesData)
+      const rules = new Collections(rulesData)
 
       expect(rules.isFlowVisible('flow_a')).toBe(true)
     })
 
     it('returns true when node is not visible and not registered', () => {
-      const rulesData: RulesList = new Map([
+      const rulesData: CollectionsList = new Map([
         ['rule_1', mockRule([{ flowId: 'flow_a', visible: false }])],
       ])
 
-      const rules = new Rules(rulesData)
+      const rules = new Collections(rulesData)
 
       // Potentially counterintuitive: Rules has no opinion on non-registered flows, so "true" == "I have no reason to prevent this from rendering"
       expect(rules.isFlowVisible('flow_a')).toBe(true)
     })
 
     it('returns true when node is registered and not in a rule', () => {
-      const rulesData: RulesList = new Map([
+      const rulesData: CollectionsList = new Map([
         ['rule_1', mockRule([{ flowId: 'flow_a', visible: false }])],
       ])
 
-      const rules = new Rules(rulesData)
+      const rules = new Collections(rulesData)
 
       rules.register('flow_b')
 
@@ -152,17 +152,17 @@ describe('Rules', () => {
     })
 
     it('returns true when node is not registered and not in a rule', () => {
-      const rulesData: RulesList = new Map([
+      const rulesData: CollectionsList = new Map([
         ['rule_1', mockRule([{ flowId: 'flow_a', visible: false }])],
       ])
 
-      const rules = new Rules(rulesData)
+      const rules = new Collections(rulesData)
 
       expect(rules.isFlowVisible('flow_b')).toBe(true)
     })
 
     it('shows first flow and hides second flow in a rule when both are registered and visible', () => {
-      const rulesData: RulesList = new Map([
+      const rulesData: CollectionsList = new Map([
         [
           'rule_1',
           mockRule([
@@ -172,7 +172,7 @@ describe('Rules', () => {
         ],
       ])
 
-      const rules = new Rules(rulesData)
+      const rules = new Collections(rulesData)
 
       rules.register('flow_a')
       rules.register('flow_b')
@@ -182,7 +182,7 @@ describe('Rules', () => {
     })
 
     it('hides first flow and shows second flow in a rule when both are registered and first is not visible', () => {
-      const rulesData: RulesList = new Map([
+      const rulesData: CollectionsList = new Map([
         [
           'rule_1',
           mockRule([
@@ -192,7 +192,7 @@ describe('Rules', () => {
         ],
       ])
 
-      const rules = new Rules(rulesData)
+      const rules = new Collections(rulesData)
 
       rules.register('flow_a')
       rules.register('flow_b')
@@ -202,7 +202,7 @@ describe('Rules', () => {
     })
 
     it('hides first flow in rule when second flow is visible due to previous rule', () => {
-      const rulesData: RulesList = new Map([
+      const rulesData: CollectionsList = new Map([
         ['rule_1', mockRule([{ flowId: 'flow_a', visible: true }])],
         [
           'rule_2',
@@ -213,7 +213,7 @@ describe('Rules', () => {
         ],
       ])
 
-      const rules = new Rules(rulesData)
+      const rules = new Collections(rulesData)
 
       rules.register('flow_a')
       rules.register('flow_b')
@@ -223,7 +223,7 @@ describe('Rules', () => {
     })
 
     it('actually, give me one with everything...', () => {
-      const rulesData: RulesList = new Map([
+      const rulesData: CollectionsList = new Map([
         [
           'rule_1',
           mockRule([
@@ -297,7 +297,7 @@ describe('Rules', () => {
         ],
       ])
 
-      const rules = new Rules(rulesData)
+      const rules = new Collections(rulesData)
 
       rules.register('flow_a')
       rules.register('flow_b')

@@ -1,16 +1,16 @@
 import type { Flow } from './flow'
 
-export type RulesRegistryCallback = (visible: boolean) => void
+export type CollectionsRegistryCallback = (visible: boolean) => void
 
-export type RulesRegistryBatch = [string, RulesRegistryCallback][]
+export type CollectionsRegistryBatch = [string, CollectionsRegistryCallback][]
 
-export interface RulesRegistryItem {
+export interface CollectionsRegistryItem {
   visible: boolean
   visited: boolean
-  callback: RulesRegistryCallback
+  callback: CollectionsRegistryCallback
 }
 
-export interface Rule {
+export interface Collection {
   allowedComponents: string[]
   collectionType: 'DEFAULT' | 'CUSTOM'
   flows: {
@@ -19,40 +19,40 @@ export interface Rule {
   }[]
 }
 
-export interface EnrichedRule extends Omit<Rule, 'flows'> {
+export interface EnrichedCollection extends Omit<Collection, 'flows'> {
   flows: Array<
-    Rule['flows'][number] & {
+    Collection['flows'][number] & {
       flow: Flow
     }
   >
 }
 
-export type RulesList = Map<string, Rule>
+export type CollectionsList = Map<string, Collection>
 
-export class Rules {
-  private readonly registry: Map<string, RulesRegistryItem> = new Map()
+export class Collections {
+  private readonly registry: Map<string, CollectionsRegistryItem> = new Map()
   private registryStateLocked: boolean = false
-  private rules: RulesList = new Map()
-  private flowsInRules: Set<string> = new Set()
+  private collections: CollectionsList = new Map()
+  private flowsInCollections: Set<string> = new Set()
 
-  constructor(rulesData: RulesList) {
-    this.ingestRulesData(rulesData)
+  constructor(collecdtionsData: CollectionsList) {
+    this.ingestCollectionsData(collecdtionsData)
   }
 
-  getRule(ruleId: string) {
-    return this.rules.get(ruleId)
+  getCollection(collectionId: string) {
+    return this.collections.get(collectionId)
   }
 
-  getRules() {
-    return this.rules
+  getCollections() {
+    return this.collections
   }
 
-  ingestRulesData(rulesData: RulesList) {
-    this.rules = rulesData
+  ingestCollectionsData(collectionsData: CollectionsList) {
+    this.collections = collectionsData
 
-    for (const [, rule] of this.rules) {
-      for (const { flowId } of rule.flows) {
-        this.flowsInRules.add(flowId)
+    for (const [, collection] of this.collections) {
+      for (const { flowId } of collection.flows) {
+        this.flowsInCollections.add(flowId)
       }
     }
 
@@ -61,7 +61,7 @@ export class Rules {
         this.resetRegistryState()
       }
 
-      this.processRules()
+      this.processCollections()
     }
 
     this.fireCallbacks()
@@ -77,9 +77,9 @@ export class Rules {
 
   isFlowVisible(flowId: string) {
     const registeredFlow = this.registry.get(flowId)
-    const flowInRules = this.flowsInRules.has(flowId)
+    const flowInCollections = this.flowsInCollections.has(flowId)
 
-    if (registeredFlow == null || !flowInRules) {
+    if (registeredFlow == null || !flowInCollections) {
       return true
     }
 
@@ -103,12 +103,12 @@ export class Rules {
     }
   }
 
-  processRules() {
-    for (const [, rule] of this.rules) {
-      for (const { flowId, visible: visibleAPIOverride } of rule.flows) {
+  processCollections() {
+    for (const [, collection] of this.collections) {
+      for (const { flowId, visible: visibleAPIOverride } of collection.flows) {
         const registeredFlow = this.registry.get(flowId)
 
-        // If this flow in the rule isn't registered, we have no opinion on it yet
+        // If this flow in the collection isn't registered, we have no opinion on it yet
         if (registeredFlow == null) {
           continue
         }
@@ -119,25 +119,25 @@ export class Rules {
           continue
         }
 
-        // If this flow was processed in a previous rule and the registry is locked,
-        // visibility shouldn't change until next time we run processRules
+        // If this flow was processed in a previous collection and the registry is locked,
+        // visibility shouldn't change until next time we run processCollections
         if (registeredFlow.visited && this.registryStateLocked) {
           continue
         }
 
-        const flowIdsInThisRule = rule.flows
+        const flowIdsInThisCollection = collection.flows
           .map(({ flowId: otherFlowId }) => otherFlowId)
           .filter((otherFlowId) => otherFlowId !== flowId)
 
-        // If another flow in this rule has been visited already and is visible...
-        const anotherFlowInThisRuleIsVisible = flowIdsInThisRule.some((otherId) => {
+        // If another flow in this collection has been visited already and is visible...
+        const anotherFlowInThisCollectionIsVisible = flowIdsInThisCollection.some((otherId) => {
           const { visible: otherVisible, visited: otherVisited } = this.registry.get(otherId) ?? {}
 
           return otherVisible && otherVisited
         })
 
         // ...then this flow is hidden
-        if (anotherFlowInThisRuleIsVisible) {
+        if (anotherFlowInThisCollectionIsVisible) {
           this.visit(flowId, false)
 
           continue
@@ -149,7 +149,7 @@ export class Rules {
     }
   }
 
-  register(flowId: string | RulesRegistryBatch, callback?: RulesRegistryCallback) {
+  register(flowId: string | CollectionsRegistryBatch, callback?: CollectionsRegistryCallback) {
     if (Array.isArray(flowId)) {
       this.batchRegister(flowId)
       return
@@ -165,12 +165,12 @@ export class Rules {
       this.resetRegistryState()
     }
 
-    this.processRules()
+    this.processCollections()
 
     this.fireCallbacks()
   }
 
-  batchRegister(flowIds: RulesRegistryBatch) {
+  batchRegister(flowIds: CollectionsRegistryBatch) {
     flowIds.forEach(([flowId, callback]) => {
       this.registry.set(flowId, {
         callback: callback ?? (() => {}),
@@ -183,7 +183,7 @@ export class Rules {
       this.resetRegistryState()
     }
 
-    this.processRules()
+    this.processCollections()
 
     this.lockRegistryState()
 
@@ -194,7 +194,7 @@ export class Rules {
     this.registry.delete(flowId)
 
     this.resetRegistryState()
-    this.processRules()
+    this.processCollections()
 
     this.fireCallbacks()
   }

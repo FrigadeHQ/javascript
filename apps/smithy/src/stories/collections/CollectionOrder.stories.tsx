@@ -1,11 +1,11 @@
-import { Banner, Flex } from "@frigade/react";
+import { Banner, Flex } from "@/index.ts";
 
 export default {
-  title: "Rules/Rule Order",
+  title: "collections/Collection Order",
   component: Banner,
 };
 
-export const RuleOrder = {
+export const CollectionOrder = {
   args: {
     dismissible: true,
   },

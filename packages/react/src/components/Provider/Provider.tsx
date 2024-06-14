@@ -1,10 +1,10 @@
 import {
+  CollectionsRegistryBatch,
+  type CollectionsRegistryCallback,
   type Flow,
   Frigade,
   FrigadeConfig,
   PropertyPayload,
-  RulesRegistryBatch,
-  type RulesRegistryCallback,
   StatefulFlow,
 } from '@frigade/js'
 import { useEffect, useMemo, useRef, useState } from 'react'
@@ -26,7 +26,7 @@ export type NavigateHandler = (url: string, target?: string) => void
 export type RegisteredComponents = Map<
   string,
   {
-    callback?: RulesRegistryCallback
+    callback?: CollectionsRegistryCallback
   }
 >
 
@@ -161,14 +161,14 @@ export function Provider({
     const batchedFlowIds = [...registeredComponents.current.entries()].map(([flowId, options]) => [
       flowId,
       options.callback,
-    ]) as RulesRegistryBatch
+    ]) as CollectionsRegistryBatch
 
     frigade.batchRegister(batchedFlowIds)
 
     setHasInitialized(true)
   }
 
-  function registerComponent(flowId: string, callback?: RulesRegistryCallback) {
+  function registerComponent(flowId: string, callback?: CollectionsRegistryCallback) {
     if (intervalRef.current) {
       clearTimeout(intervalRef.current)
     }

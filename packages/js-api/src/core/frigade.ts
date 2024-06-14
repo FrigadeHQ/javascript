@@ -18,12 +18,12 @@ import { Flow } from './flow'
 import { frigadeGlobalState, getGlobalStateKey } from '../shared/state'
 import { Fetchable } from '../shared/fetchable'
 import {
-  type EnrichedRule,
-  type Rule,
-  Rules,
-  type RulesList,
-  type RulesRegistryBatch,
-} from './rules'
+  type Collection,
+  Collections,
+  type CollectionsList,
+  type CollectionsRegistryBatch,
+  type EnrichedCollection,
+} from './collections'
 
 export class Frigade extends Fetchable {
   /**
@@ -238,7 +238,7 @@ export class Frigade extends Fetchable {
 
   public async getCollection(collectionId: string) {
     await this.initIfNeeded()
-    const collection = this.getGlobalState().collections.getRule(collectionId)
+    const collection = this.getGlobalState().collections.getCollection(collectionId)
 
     if (collection == null) {
       return undefined
@@ -253,17 +253,17 @@ export class Frigade extends Fetchable {
 
     collection.flows = enrichedFlows
 
-    return collection as EnrichedRule
+    return collection as EnrichedCollection
   }
 
-  public async getCollections(): Promise<RulesList | undefined> {
+  public async getCollections(): Promise<CollectionsList | undefined> {
     await this.initIfNeeded()
 
     if (!this.config.userId && this.config.generateGuestId === false) {
       return undefined
     }
 
-    const collections = this.getGlobalState().collections.getRules()
+    const collections = this.getGlobalState().collections.getCollections()
 
     if (collections == null) {
       return undefined
@@ -363,7 +363,7 @@ export class Frigade extends Fetchable {
 
       frigadeGlobalState[globalStateKey] = {
         refreshStateFromAPI: async () => {},
-        collections: new Rules(new Map()),
+        collections: new Collections(new Map()),
         flowStates: new Proxy({}, validator),
         onFlowStateChangeHandlerWrappers: new Map(),
         onStepStateChangeHandlerWrappers: new Map(),
@@ -399,27 +399,27 @@ export class Frigade extends Fetchable {
               } as FlowStateDTO),
             })
 
-        const rulesData: RulesList = new Map()
+        const collectionsData: CollectionsList = new Map()
 
         flowStateRaw.collections?.computedOrder?.forEach(
           ({ allowedComponents, collectionId, collectionType, flowId, visible }) => {
-            const currentRule: Rule = rulesData.get(collectionId) ?? {
+            const currentCollection: Collection = collectionsData.get(collectionId) ?? {
               allowedComponents,
               collectionType,
               flows: [],
             }
 
-            currentRule.flows.push({
+            currentCollection.flows.push({
               flowId,
               visible,
             })
 
-            rulesData.set(collectionId, currentRule)
+            collectionsData.set(collectionId, currentCollection)
           }
         )
 
-        if (rulesData.size > 0) {
-          frigadeGlobalState[globalStateKey].collections.ingestRulesData(rulesData)
+        if (collectionsData.size > 0) {
+          frigadeGlobalState[globalStateKey].collections.ingestCollectionsData(collectionsData)
         }
 
         if (flowStateRaw && flowStateRaw.eligibleFlows) {
@@ -509,7 +509,7 @@ export class Frigade extends Fetchable {
   /**
    * @ignore
    */
-  async batchRegister(flowIds: RulesRegistryBatch) {
+  async batchRegister(flowIds: CollectionsRegistryBatch) {
     const flowIdsWithWrappedCallbacks = flowIds.map(async ([flowId, callback]) => {
       const currentFlow = await this.getFlow(flowId)
       const wrappedCallback = (visible: boolean) => {
@@ -526,7 +526,7 @@ export class Frigade extends Fetchable {
         callback?.(visible)
       }
 
-      return [flowId, wrappedCallback] as RulesRegistryBatch[number]
+      return [flowId, wrappedCallback] as CollectionsRegistryBatch[number]
     })
 
     Promise.all(flowIdsWithWrappedCallbacks).then((results) => {

@@ -21,7 +21,7 @@ import {
   STARTED_STEP,
 } from '../shared/utils'
 import { Fetchable } from '../shared/fetchable'
-import { RulesRegistryCallback } from './rules'
+import { CollectionsRegistryCallback } from './collections'
 
 export class Flow extends Fetchable {
   /**
@@ -568,7 +568,7 @@ export class Flow extends Fetchable {
     this.resyncState()
   }
 
-  public register(callback?: RulesRegistryCallback) {
+  public register(callback?: CollectionsRegistryCallback) {
     const globalState = this.getGlobalState()
 
     globalState.collections.register(this.id, (visible) => {

@@ -1,7 +1,7 @@
-import { Announcement } from "@frigade/react";
+import { Announcement } from "@/index.ts";
 
 export default {
-  title: "Rules/Two Announcements",
+  title: "collections/Two Announcements",
   component: Announcement,
 };
 

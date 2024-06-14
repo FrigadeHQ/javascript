@@ -10,9 +10,9 @@ export {
   PropertyPayload,
 } from './core/types'
 export type {
-  EnrichedRule,
-  Rule,
-  RulesList,
-  RulesRegistryCallback,
-  RulesRegistryBatch,
-} from './core/rules'
+  EnrichedCollection,
+  Collection,
+  CollectionsList,
+  CollectionsRegistryCallback,
+  CollectionsRegistryBatch,
+} from './core/collections'
