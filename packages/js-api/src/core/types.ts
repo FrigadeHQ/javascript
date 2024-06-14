@@ -294,6 +294,20 @@ export interface FrigadeConfig {
 
 export interface StatefulStep {
   id: string
+  /**
+   * The state of the step for the given user in the given Flow.
+   * Example:
+   * ```
+   * {
+   *  completed: true,
+   *  skipped: false,
+   *  started: true,
+   *  visible: true,
+   *  blocked: false,
+   *  lastActionAt: "2014-01-01T23:28:56.782Z"
+   * }
+   * ```
+   */
   $state: {
     completed: boolean
     started: boolean

@@ -1,4 +1,4 @@
-import { Form, type FormFieldProps, SelectField } from "@frigade/react";
+import { Dialog, Form, type FormFieldProps, SelectField } from "@frigade/react";
 
 export default {
   title: "Components/Form",
@@ -24,6 +24,12 @@ export const Default = {
     },
     fieldTypes: {
       customTest: CustomStep,
+    },
+    as: Dialog,
+    onOpenChange: (isOpen) => {
+      if (!isOpen) {
+        flow.skip();
+      }
     },
   },
 };
