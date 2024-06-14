@@ -399,6 +399,7 @@ export interface FlowStateDTO {
 export interface FlowStateContext {
   url?: string
   userAgent?: string
+  registeredCollectionIds?: string[]
 }
 
 export interface TrackingEvent {

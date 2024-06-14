@@ -244,6 +244,8 @@ export class Frigade extends Fetchable {
       return undefined
     }
 
+    this.getGlobalState().registeredCollectionIds.add(collectionId)
+
     const enrichedFlows = await Promise.all(
       collection.flows.map(async (item) => ({
         ...item,
@@ -364,6 +366,7 @@ export class Frigade extends Fetchable {
       frigadeGlobalState[globalStateKey] = {
         refreshStateFromAPI: async () => {},
         collections: new Collections(new Map()),
+        registeredCollectionIds: new Set(),
         flowStates: new Proxy({}, validator),
         onFlowStateChangeHandlerWrappers: new Map(),
         onStepStateChangeHandlerWrappers: new Map(),
@@ -395,7 +398,7 @@ export class Frigade extends Fetchable {
               body: JSON.stringify({
                 userId: this.getGlobalState().config.userId,
                 groupId: this.getGlobalState().config.groupId,
-                context: getContext(this.getGlobalState().currentUrl),
+                context: getContext(this.getGlobalState()),
               } as FlowStateDTO),
             })
 

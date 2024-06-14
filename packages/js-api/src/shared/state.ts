@@ -6,6 +6,7 @@ export interface FrigadeGlobalState {
   refreshStateFromAPI: (overrideFlowStatesRaw?: FlowStates) => Promise<void>
   flowStates: Record<string, StatefulFlow>
   collections: Collections
+  registeredCollectionIds: Set<string>
   onFlowStateChangeHandlerWrappers: Map<
     (flow: Flow, previousFlow: Flow) => void,
     (flow: Flow, previousFlow: Flow) => void

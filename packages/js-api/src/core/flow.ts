@@ -545,7 +545,7 @@ export class Flow extends Fetchable {
         data: data ? data : {},
         actionType: action,
         createdAt: date,
-        context: getContext(this.getGlobalState().currentUrl),
+        context: getContext(this.getGlobalState()),
       } as FlowStateDTO),
     })
     this.getGlobalState().pendingRequests -= 1

@@ -1,7 +1,7 @@
 import { VERSION_NUMBER } from '../core/version'
 import { v4 as uuidv4 } from 'uuid'
 import { Flow } from '../core/flow'
-import { frigadeGlobalState } from './state'
+import { FrigadeGlobalState, frigadeGlobalState } from './state'
 import { FlowStateContext } from '../core/types'
 
 export const NOT_STARTED_STEP = 'NOT_STARTED_STEP'
@@ -203,13 +203,18 @@ export function isWeb() {
   )
 }
 
-export function getContext(currentUrl: string): FlowStateContext {
+export function getContext(state: FrigadeGlobalState): FlowStateContext {
+  let context: FlowStateContext = {
+    registeredCollectionIds: Array.from(state.registeredCollectionIds),
+  }
+
   if (!isWeb()) {
-    return {}
+    return context
   }
 
   return {
-    url: currentUrl,
+    url: state.currentUrl,
     userAgent: navigator.userAgent,
+    ...context,
   }
 }
