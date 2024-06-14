@@ -1,4 +1,5 @@
 import { Fragment, useContext, useEffect, useState } from 'react'
+import { FlowType } from '@frigade/js'
 
 import { Box } from '@/components/Box'
 
@@ -19,14 +20,13 @@ export type {
 export function Flow({
   as,
   children,
-  dismissible = false,
   flowId,
   onComplete,
   onDismiss,
   onPrimary,
   onSecondary,
   variables,
-  forceMount,
+
   ...props
 }: FlowProps) {
   const [hasProcessedRules, setHasProcessedRules] = useState(false)
@@ -34,6 +34,16 @@ export function Flow({
   const { flow } = useFlow(flowId, {
     variables,
   })
+
+  const {
+    dismissible = false,
+    forceMount = false,
+    modal = false,
+    ...mergedProps
+  } = {
+    ...(flow?.props ?? {}),
+    ...props,
+  }
 
   const { hasInitialized, registerComponent, unregisterComponent } = useContext(FrigadeContext)
 
@@ -49,7 +59,10 @@ export function Flow({
     onSecondary,
   })
 
-  const isModal = as && typeof as === 'function' && as.displayName === 'Dialog'
+  const isModal =
+    modal ||
+    (typeof as === 'function' && as?.displayName === 'Dialog') ||
+    [FlowType.ANNOUNCEMENT, FlowType.TOUR].includes(flow?.rawData?.flowType)
 
   const { isCurrentModal, removeModal } = useModal(flow, isModal)
 
@@ -96,7 +109,7 @@ export function Flow({
   const ContainerElement = as === null ? Fragment : as ?? Box
 
   const containerProps = {
-    ...props,
+    ...mergedProps,
     'data-flow-id': flow.id,
   }
 

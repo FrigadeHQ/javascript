@@ -25,6 +25,10 @@ export interface FlowPropsWithoutChildren extends BoxPropsWithoutChildren {
    */
   forceMount?: boolean
   /**
+   * Register the Flow as a modal to prevent popup collisions (only one modal Flow will render at a time).
+   */
+  modal?: boolean
+  /**
    * Handler for when the Flow is completed.
    * If this function a promise that evaluates to `false`, the Flow will not be marked as completed.
    */
@@ -51,8 +55,7 @@ export interface FlowPropsWithoutChildren extends BoxPropsWithoutChildren {
   variables?: Record<string, unknown>
 
   /**
-   * Optional component type to wrap the child components in. Use the`as={Box}` component for inline placement or the `as={Dialog}` component for modal placement.
-   * If you want to wrap the Flow in a custom component (such as your own modal), you can pass the custom component here.
+   * Optional component to wrap the child components in, e.g. `as={Dialog}` will render the Flow in a modal Dialog. Defaults to `Box`.
    */
   as?: React.ElementType
 }

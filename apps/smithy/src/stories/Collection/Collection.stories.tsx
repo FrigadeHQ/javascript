@@ -36,3 +36,17 @@ export const MultipleComponents = {
     },
   ],
 };
+
+export const MultipleAnnouncements = {
+  decorators: [
+    () => (
+      <>
+        {/* Built in Dialogs Collection */}
+        <Collection collectionId="collection_49A28miL" />
+
+        {/* Storybook X & Y Announcements */}
+        <Collection collectionId="collection_DrlkZoXK" />
+      </>
+    ),
+  ],
+};
