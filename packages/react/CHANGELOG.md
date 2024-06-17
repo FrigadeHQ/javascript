@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.2.10
+
+### Patch Changes
+
+- 8fd7be6: Fixes a race condition where tours changing urls sometimes will get a stale state
+- Updated dependencies [8fd7be6]
+  - @frigade/js@0.5.9
+
 ## 2.2.9
 
 ### Patch Changes

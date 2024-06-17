@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.5.9
+
+### Patch Changes
+
+- 8fd7be6: Fixes a race condition where tours changing urls sometimes will get a stale state
+
 ## 0.5.8
 
 ### Patch Changes
