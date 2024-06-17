@@ -402,6 +402,11 @@ export class Frigade extends Fetchable {
               } as FlowStateDTO),
             })
 
+        // Avoids any race condition where the state is being refreshed while a write request is still pending
+        if (!overrideFlowStateRaw && this.getGlobalState().pendingRequests > 0) {
+          return
+        }
+
         const collectionsData: CollectionsList = new Map()
 
         flowStateRaw.collections?.computedOrder?.forEach(
