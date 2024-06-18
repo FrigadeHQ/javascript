@@ -51,8 +51,8 @@ export class Flow extends Fetchable {
    */
   public props?: Record<string, unknown> = {}
   /**
-   * The metadata of the Flow.
-   * @ignore
+   * The raw metadata of the Flow. Contains all properties defined in the Flow's YAML config as well as the current state of the Flow.
+   * Generally this should only be used when building custom components to access custom high-level props on the Flow.
    */
   public rawData: StatefulFlow
   /**
