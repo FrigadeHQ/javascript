@@ -35,8 +35,8 @@ export class Collections {
   private collections: CollectionsList = new Map()
   private flowsInCollections: Set<string> = new Set()
 
-  constructor(collecdtionsData: CollectionsList) {
-    this.ingestCollectionsData(collecdtionsData)
+  constructor(collectionsData: CollectionsList) {
+    this.ingestCollectionsData(collectionsData)
   }
 
   getCollection(collectionId: string) {

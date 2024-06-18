@@ -7,7 +7,7 @@ export interface FlowConfig {
   variables?: Record<string, unknown>
 }
 
-export function useFlow(flowId: string, config?: FlowConfig): { flow?: Flow } {
+export function useFlow(flowId: string | null, config?: FlowConfig): { flow?: Flow } {
   const [flow, setFlow] = useState<Flow>()
   const [, setRandomString] = useState<string>('')
   const { frigade } = useContext(FrigadeContext)
@@ -32,11 +32,11 @@ export function useFlow(flowId: string, config?: FlowConfig): { flow?: Flow } {
         setRandomString(Math.random().toString())
       }, 0)
     },
-    [config?.variables, frigade]
+    [config?.variables, flowId, frigade]
   )
 
   useEffect(() => {
-    if (!frigade?.isReady()) {
+    if (!frigade?.isReady() || flowId == null) {
       return
     }
 
@@ -58,7 +58,7 @@ export function useFlow(flowId: string, config?: FlowConfig): { flow?: Flow } {
     return () => {
       frigade.removeStateChangeHandler(handler)
     }
-  }, [handler, frigade])
+  }, [flowId, frigade, handler])
 
   useEffect(() => {
     if (!config?.variables || !flow) {
