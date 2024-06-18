@@ -111,26 +111,32 @@ export async function gracefulFetch(url: string, options: any) {
   const lastCallDataKey = `${url}${JSON.stringify(options.body ?? {})}`
   let response
 
-  if (isWeb() && options && options.body && options.method === 'POST') {
+  const isWebPostRequest = isWeb() && options && options.body && options.method === 'POST'
+
+  if (isWebPostRequest) {
     const cachedCall = callQueue.hasIdenticalCall(lastCallDataKey)
 
     if (cachedCall != null && cachedCall.response != null) {
       const cachedResponse = await cachedCall.response
 
       response = cachedResponse.clone()
-    } else {
-      try {
-        const pendingResponse = fetch(url, options)
+    }
+  }
 
+  if (!response) {
+    try {
+      const pendingResponse = fetch(url, options)
+
+      if (isWebPostRequest) {
         callQueue.push(
           lastCallDataKey,
           pendingResponse.then((res) => res.clone())
         )
-
-        response = await pendingResponse
-      } catch (error) {
-        return getEmptyResponse(error)
       }
+
+      response = await pendingResponse
+    } catch (error) {
+      return getEmptyResponse(error)
     }
   }
 
