@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.5.10
+
+### Patch Changes
+
+- ea44c6b: Fixes an issue with Node JS 18 where frigade.identify() calls fail
+
 ## 0.5.9
 
 ### Patch Changes
