@@ -27,6 +27,13 @@ const fadeIn = keyframes`
   }
 `
 
+function isVisible(elem: Element) {
+  if (!(elem instanceof HTMLElement)) {
+    return false
+  }
+  return !!(elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length)
+}
+
 export interface MergedRadixPopoverProps
   extends Pick<Popover.PopoverProps, 'defaultOpen' | 'modal' | 'onOpenChange' | 'open'>,
     Omit<
@@ -108,13 +115,21 @@ export function Tooltip({
   useEffect(() => {
     function checkElementForAnchor(element: Element) {
       if (element.matches(anchor)) {
-        return element
+        if (isVisible(element)) {
+          return element
+        } else {
+          return null
+        }
       }
 
       const anchorSelector = element.querySelectorAll(anchor)
 
       if (anchorSelector.length > 0) {
-        return anchorSelector[0]
+        if (isVisible(anchorSelector[0])) {
+          return anchorSelector[0]
+        } else {
+          return null
+        }
       }
 
       return null

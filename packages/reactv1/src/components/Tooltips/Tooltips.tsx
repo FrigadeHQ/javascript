@@ -94,6 +94,12 @@ const HighlightContainer = styled(PositionWrapper)`
   width: ${HIGHLIGHT_RADIUS + 12}px;
   height: ${HIGHLIGHT_RADIUS + 12}px;
 `
+function isVisible(elem: Element) {
+  if (!(elem instanceof HTMLElement)) {
+    return false
+  }
+  return !!(elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length)
+}
 
 const Tooltips: FC<ToolTipPropsInternal> = ({
   steps = [],
@@ -167,7 +173,7 @@ const Tooltips: FC<ToolTipPropsInternal> = ({
     }
 
     const elem = document.querySelector(steps[selectedStep].selector)
-    if (!elem) {
+    if (!elem || !isVisible(elem)) {
       setLastBoundingRect(undefined)
       setElem(null)
       logErrorIfDebugMode(
