@@ -46,7 +46,7 @@ const preview = {
           defaultCollection={false}
           // generateGuestId={false}
           // userId={delayedUserId}
-          userId="jonathan_livingston_smeagol_jun19"
+          userId={userId}
           // syncOnWindowUpdates={false}
           userProperties={{
             firstName: "Jonathan",
