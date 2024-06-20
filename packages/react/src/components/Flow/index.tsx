@@ -78,6 +78,12 @@ export function Flow({
     }
   }, [])
 
+  useEffect(() => {
+    if (flow?.isCompleted || flow?.isSkipped) {
+      unregisterComponent(flowId)
+    }
+  }, [flow?.isCompleted, flow?.isSkipped])
+
   const shouldForceMount = forceMount && (flow?.isCompleted || flow?.isSkipped)
 
   if (!flow) {
