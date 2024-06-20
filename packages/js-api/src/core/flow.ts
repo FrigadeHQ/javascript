@@ -206,8 +206,8 @@ export class Flow extends Fetchable {
           return
         }
 
+        const isLastStep = this.getCurrentStepOrder() + 1 === this.getNumberOfAvailableSteps()
         if (optimistic) {
-          const isLastStep = thisStep.order + 1 === this.getNumberOfAvailableSteps()
           const copy = clone(this.getGlobalState().flowStates[this.id])
 
           copy.$state.started = true
@@ -236,6 +236,10 @@ export class Flow extends Fetchable {
         }
 
         await this.sendFlowStateToAPI(COMPLETED_STEP, properties, thisStep.id)
+        if (isLastStep) {
+          console.log('gonna complete flow')
+          await this.sendFlowStateToAPI(COMPLETED_FLOW)
+        }
       }
 
       stepObj.reset = async () => {
@@ -416,6 +420,17 @@ export class Flow extends Fetchable {
    */
   public getNumberOfAvailableSteps(): number {
     return Array.from(this.steps.values()).filter((step) => step.$state.visible).length
+  }
+
+  /**
+   * Returns the current step's order based on the number of available steps.
+   * Works similar to getCurrentStepIndex but takes into account hidden steps due to visibilityCriteria.
+   */
+  public getCurrentStepOrder(): number {
+    const currentStep = this.getCurrentStep()
+    return Array.from(this.steps.values())
+      .filter((step) => step.$state.visible)
+      .indexOf(currentStep)
   }
 
   /**

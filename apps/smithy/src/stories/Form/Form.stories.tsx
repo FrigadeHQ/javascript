@@ -1,4 +1,10 @@
-import { Dialog, Form, type FormFieldProps, SelectField } from "@frigade/react";
+import {
+  Announcement,
+  Dialog,
+  Form,
+  type FormFieldProps,
+  SelectField,
+} from "@frigade/react";
 
 export default {
   title: "Components/Form",
@@ -80,4 +86,21 @@ export const CustomForm = {
       return true;
     },
   },
+};
+
+export const ChainingOfFlows = {
+  args: {
+    dismissible: true,
+    flowId: "flow_fpJlqkbl",
+  },
+  decorators: [
+    (Story, { args }) => {
+      return (
+        <div>
+          <Story {...args} />
+          <Announcement flowId="flow_LUjHxjFO" />
+        </div>
+      );
+    },
+  ],
 };
