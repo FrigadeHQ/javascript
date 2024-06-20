@@ -1,5 +1,15 @@
 # @frigade/js
 
+## 0.6.0
+
+### Minor Changes
+
+- ce63b9f: Introduces `flow.getCurrentStepOrder()` for getting the step index relative to the total number of steps available. This will trigger an explicit completion event when finishing the last step in a Flow
+
+### Patch Changes
+
+- d0ac424: Fixes an issue where flow.back() would send users to hidden steps
+
 ## 0.5.10
 
 ### Patch Changes
