@@ -339,11 +339,16 @@ export class Flow extends Fetchable {
    * Navigates the flow to the next step if one exists. This will mark that step started, but will not complete the previous step.
    */
   public async forward(properties?: PropertyPayload) {
-    const nextStep = this.getStepByIndex(this.getCurrentStepIndex() + 1)
+    let nextStep = this.getStepByIndex(this.getCurrentStepIndex() + 1)
+    while (nextStep && !nextStep.$state.visible) {
+      if (nextStep.order === this.steps.size - 1) {
+        break
+      }
+      nextStep = this.getStepByIndex(nextStep.order + 1)
+    }
+
     if (nextStep) {
       await nextStep.start(properties)
-    } else {
-      await this.complete(properties)
     }
   }
 
@@ -351,7 +356,15 @@ export class Flow extends Fetchable {
    * Navigates the flow to the previous step if one exists. This will mark that step started, but will not complete the previous step.
    */
   public async back(properties?: PropertyPayload) {
-    const previousStep = this.getStepByIndex(this.getCurrentStepIndex() - 1)
+    // Continue back until a visible step is found
+    let previousStep = this.getStepByIndex(this.getCurrentStepIndex() - 1)
+    while (previousStep && !previousStep.$state.visible) {
+      if (previousStep.order === 0) {
+        break
+      }
+      previousStep = this.getStepByIndex(previousStep.order - 1)
+    }
+
     if (previousStep) {
       await previousStep.start(properties)
     }
