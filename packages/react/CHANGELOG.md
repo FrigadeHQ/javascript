@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.3.1
+
+### Patch Changes
+
+- 0058041: Fixes an edge case related to collection registration
+- Updated dependencies [0058041]
+  - @frigade/js@0.6.1
+
 ## 2.3.0
 
 ### Minor Changes

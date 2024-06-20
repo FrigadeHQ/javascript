@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.6.1
+
+### Patch Changes
+
+- 0058041: Fixes an edge case related to collection registration
+
 ## 0.6.0
 
 ### Minor Changes
