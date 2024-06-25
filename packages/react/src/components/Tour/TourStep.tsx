@@ -73,7 +73,7 @@ export function TourStep({
       <Flex.Row alignItems="center" gap={3} justifyContent="flex-end" part="tooltip-footer">
         {flow.getNumberOfAvailableSteps() > 1 && (
           <Tooltip.Progress marginRight="auto" transform="translateY(1px)">{`${
-            flow.getCurrentStepIndex() + 1
+            flow.getCurrentStepOrder() + 1
           }/${flow.getNumberOfAvailableSteps()}`}</Tooltip.Progress>
         )}
 

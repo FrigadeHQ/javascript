@@ -189,7 +189,13 @@ export class Flow extends Fetchable {
 
         if (thisStep.$state.completed && optimistic) {
           // mark the next step started to advance.
-          const nextStep = this.getStepByIndex(thisStep.order + 1)
+          let nextStep: FlowStep | undefined = this.getStepByIndex(thisStep.order + 1)
+          while (nextStep && !nextStep.$state.visible) {
+            if (nextStep.order === this.steps.size - 1) {
+              break
+            }
+            nextStep = this.getStepByIndex(nextStep.order + 1)
+          }
           if (nextStep) {
             // optimistically mark the next step as started
             const copy = clone(this.getGlobalState().flowStates[this.id])
@@ -215,15 +221,14 @@ export class Flow extends Fetchable {
           copy.data.steps[thisStep.order].$state.started = true
           copy.data.steps[thisStep.order].$state.lastActionAt = new Date()
 
-          // If there are more index, advance current step
           if (!isLastStep) {
-            copy.$state.currentStepId = this.getStepByIndex(thisStep.order + 1).id
-            copy.$state.currentStepIndex = thisStep.order + 1
-            // mark the next step as started
-            copy.data.steps[thisStep.order + 1].$state.started = true
-          }
-
-          if (isLastStep) {
+            const nextStepIndex = this.getNextVisibleStepIndexAfterIndex(thisStep.order)
+            if (nextStepIndex !== -1) {
+              copy.$state.currentStepId = this.getStepByIndex(nextStepIndex).id
+              copy.$state.currentStepIndex = nextStepIndex
+              copy.data.steps[nextStepIndex].$state.started = true
+            }
+          } else {
             copy.$state.completed = true
           }
 
@@ -237,7 +242,6 @@ export class Flow extends Fetchable {
 
         await this.sendFlowStateToAPI(COMPLETED_STEP, properties, thisStep.id)
         if (isLastStep) {
-          console.log('gonna complete flow')
           await this.sendFlowStateToAPI(COMPLETED_FLOW)
         }
       }
@@ -343,13 +347,9 @@ export class Flow extends Fetchable {
    * Navigates the flow to the next step if one exists. This will mark that step started, but will not complete the previous step.
    */
   public async forward(properties?: PropertyPayload) {
-    let nextStep = this.getStepByIndex(this.getCurrentStepIndex() + 1)
-    while (nextStep && !nextStep.$state.visible) {
-      if (nextStep.order === this.steps.size - 1) {
-        break
-      }
-      nextStep = this.getStepByIndex(nextStep.order + 1)
-    }
+    const nextStep = this.getStepByIndex(
+      this.getNextVisibleStepIndexAfterIndex(this.getCurrentStepIndex())
+    )
 
     if (nextStep) {
       await nextStep.start(properties)
@@ -378,7 +378,6 @@ export class Flow extends Fetchable {
    * Restarts the flow/marks it not started
    */
   public async restart() {
-    this.optimisticallyMarkFlowNotStarted()
     await this.sendFlowStateToAPI(NOT_STARTED_FLOW)
   }
 
@@ -391,13 +390,37 @@ export class Flow extends Fetchable {
   }
 
   /**
-   * Gets current step
+   * Gets current step. If the current step is not visible, it will return the first visible step after it.
+   * If no steps are visible, it will return undefined.
    */
-  public getCurrentStep(): FlowStep {
-    return (
-      this.steps.get(this.getStatefulFlow().$state.currentStepId) ??
-      this.steps.get(Array.from(this.steps.keys())[0])
-    )
+  public getCurrentStep(): FlowStep | undefined {
+    let currentStep = this.steps.get(this.getStatefulFlow().$state.currentStepId)
+    if (currentStep) {
+      return currentStep
+    }
+    currentStep = this.getFirstVisibleStep()
+
+    return currentStep
+  }
+
+  /**
+   * @ignore
+   */
+  private getFirstVisibleStep() {
+    return this.getStepByIndex(this.getNextVisibleStepIndexAfterIndex(-1))
+  }
+
+  /**
+   * @ignore
+   */
+  private getNextVisibleStepIndexAfterIndex(index: number): number {
+    const steps = Array.from(this.steps.values())
+    for (let i = index + 1; i < steps.length; i++) {
+      if (steps[i].$state.visible) {
+        return i
+      }
+    }
+    return -1
   }
 
   /**
@@ -530,31 +553,6 @@ export class Flow extends Fetchable {
     this.resyncState()
   }
 
-  /**
-   * @ignore
-   */
-  private optimisticallyMarkFlowNotStarted() {
-    const copy = clone(this.getGlobalState().flowStates[this.id])
-    copy.$state.completed = false
-    copy.$state.started = false
-    copy.$state.visible = true
-    copy.$state.currentStepIndex = 0
-    copy.$state.currentStepId = this.getStepByIndex(0)?.id
-    // clear all step states too
-    copy.data.steps.forEach((step) => {
-      step.$state = {
-        completed: false,
-        started: false,
-        visible: true,
-        blocked: false,
-        lastActionAt: undefined,
-      }
-    })
-
-    this.getGlobalState().flowStates[this.id] = copy
-    this.resyncState()
-  }
-
   private async sendFlowStateToAPI(
     action: FlowActionType,
     data?: PropertyPayload,
@@ -569,7 +567,7 @@ export class Flow extends Fetchable {
         userId: this.getGlobalState().config.userId,
         groupId: this.getGlobalState().config.groupId,
         flowSlug: this.id,
-        stepId: stepId ?? this.getCurrentStep().id,
+        stepId: stepId,
         data: data ? data : {},
         actionType: action,
         createdAt: date,

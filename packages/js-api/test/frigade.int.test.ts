@@ -6,10 +6,11 @@ import { FlowType } from '@frigade/reactv1'
 
 const testAPIKey = 'api_public_3MPLH7NJ9L0U963XKW7BPE2IT137GC6L742JLC2XCT6NOIYSI4QUI9I1RA3ZOGIL'
 const testFlowId = 'flow_yJfjksFrs5QEH0c8'
+const testFlowIdWithTargeting = 'flow_61YBPQek'
 const testFlowStepId = 'checklist-step-one'
 jest.retryTimes(2, { logErrorsBeforeRetry: false })
 
-describe('SDK integration test', () => {
+describe('Basic Checklist integration test', () => {
   test('can init Frigade', async () => {
     const frigade = new Frigade(testAPIKey, {})
     const flows = await frigade.getFlows()
@@ -37,7 +38,7 @@ describe('SDK integration test', () => {
     expect(
       flows.filter((flow) => flow.id && flow.isVisible && flow.rawData.flowType).length
     ).toBeGreaterThan(0)
-    const flow = flows[0]
+    const flow = flows.find((flow) => flow.id === testFlowId)
     flow.steps.forEach((step) => {
       expect(step.id).toBeDefined()
       expect(step.title).toBeDefined()
@@ -264,7 +265,7 @@ describe('SDK integration test', () => {
     expect(flow.getCurrentStepIndex()).toEqual(0)
     expect(previousStep).toBeDefined()
     expect(previousStep.$state.completed).toBeFalsy()
-    expect(previousStep.$state.started).toBeTruthy()
+    expect(previousStep.$state.started).toBeFalsy()
     await flow.forward()
     expect(flow.getCurrentStepIndex()).toEqual(1)
     const currentStep = flow.getCurrentStep()
@@ -451,4 +452,49 @@ describe('SDK integration test', () => {
     expect(flow.isCompleted).toBeFalsy()
     expect(flow.isVisible).toBeTruthy()
   })
+})
+
+describe('Advanced Checklist integration test', () => {
+  test('shows and hides steps based on visibilityCriteria', async () => {
+    const frigade = new Frigade(testAPIKey, {})
+    await frigade.identify(getRandomID())
+    const flow = await frigade.getFlow(testFlowIdWithTargeting)
+    // First step should not be visible
+    expect(flow.getStepByIndex(0).$state.visible).toBeFalsy()
+    // Current step ID should be the second step
+    expect(flow.getCurrentStep().id).toEqual('step2')
+    // Complete current step
+    await flow.getCurrentStep().complete()
+    // Current step index should be 2
+    expect(flow.getCurrentStepIndex()).toEqual(2)
+    // Reset the flow. Index should be back to 1
+    await flow.restart()
+    expect(flow.getCurrentStepIndex()).toEqual(1)
+  })
+
+  // test('steps automatically complete and move the cursor forward based on completionCriteria', async () => {
+  //   const frigade = new Frigade(testAPIKey, {
+  //     userId: getRandomID(),
+  //     userProperties: {
+  //       myProperty: 'myValue',
+  //     },
+  //   })
+  //   const userId = getRandomID()
+  //   await frigade.identify(userId)
+  //   let flow = await frigade.getFlow(testFlowIdWithTargeting)
+  //   // await flow.getCurrentStep().complete()
+  //   // Add the prop to the user `myProperty` = `myValue`
+  //   await frigade.identify(userId, {
+  //     myProperty: 'myValue',
+  //   })
+  //
+  //   flow = await frigade.getFlow(testFlowIdWithTargeting)
+  //   // get step by id
+  //   const step = flow.steps.get('step3')
+  //   expect(step).toBeDefined()
+  //
+  //   // console.log(step.$state)
+  //   // The step should be completed
+  //   expect(step.$state.completed).toBeTruthy()
+  // })
 })

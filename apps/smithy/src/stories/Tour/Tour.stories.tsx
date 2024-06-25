@@ -63,7 +63,7 @@ export const Default = {
             {...options.args}
             onPrimary={() => {
               // change url without redirecdt to be current url plus /new-url
-              window.history.pushState({}, "", "/new-url");
+              // window.history.pushState({}, "", "/new-url");
             }}
           />
         </Box>
