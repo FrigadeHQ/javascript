@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.6.2
+
+### Patch Changes
+
+- 6b169cc: Fixes an issue related to restarting flows causing temporary flickering of ineligible flows
+
 ## 0.6.1
 
 ### Patch Changes

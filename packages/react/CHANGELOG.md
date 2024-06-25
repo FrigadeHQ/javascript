@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.3.2
+
+### Patch Changes
+
+- 6b169cc: Fixes an issue related to restarting flows causing temporary flickering of ineligible flows
+- Updated dependencies [6b169cc]
+  - @frigade/js@0.6.2
+
 ## 2.3.1
 
 ### Patch Changes
