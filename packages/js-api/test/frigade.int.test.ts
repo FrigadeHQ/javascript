@@ -472,29 +472,26 @@ describe('Advanced Checklist integration test', () => {
     expect(flow.getCurrentStepIndex()).toEqual(1)
   })
 
-  // test('steps automatically complete and move the cursor forward based on completionCriteria', async () => {
-  //   const frigade = new Frigade(testAPIKey, {
-  //     userId: getRandomID(),
-  //     userProperties: {
-  //       myProperty: 'myValue',
-  //     },
-  //   })
-  //   const userId = getRandomID()
-  //   await frigade.identify(userId)
-  //   let flow = await frigade.getFlow(testFlowIdWithTargeting)
-  //   // await flow.getCurrentStep().complete()
-  //   // Add the prop to the user `myProperty` = `myValue`
-  //   await frigade.identify(userId, {
-  //     myProperty: 'myValue',
-  //   })
-  //
-  //   flow = await frigade.getFlow(testFlowIdWithTargeting)
-  //   // get step by id
-  //   const step = flow.steps.get('step3')
-  //   expect(step).toBeDefined()
-  //
-  //   // console.log(step.$state)
-  //   // The step should be completed
-  //   expect(step.$state.completed).toBeTruthy()
-  // })
+  test('steps automatically complete and move the cursor forward based on completionCriteria', async () => {
+    const userId = getRandomID()
+    const frigade = new Frigade(testAPIKey, {
+      userId: userId,
+    })
+    await frigade.identify(userId)
+    let flow = await frigade.getFlow(testFlowIdWithTargeting)
+    // await flow.getCurrentStep().complete()
+    // Add the prop to the user `myProperty` = `myValue`
+    await frigade.identify(userId, {
+      testProp: true,
+    })
+
+    flow = await frigade.getFlow(testFlowIdWithTargeting)
+    // get step by id
+    const step = flow.steps.get('step3')
+    expect(step).toBeDefined()
+
+    // console.log(step.$state)
+    // The step should be completed
+    expect(step.$state.completed).toBeTruthy()
+  })
 })
