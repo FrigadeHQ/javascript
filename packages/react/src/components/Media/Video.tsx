@@ -5,6 +5,10 @@ function getVideoEmbedSrc(videoUri: string) {
     const videoId = videoUri.split('v=')[1]?.split('&')[0]
 
     return `https://www.youtube.com/embed/${videoId}`
+  } else if (videoUri.includes('youtu.be')) {
+    const videoId = videoUri.split('youtu.be/')[1]?.split('&')[0]
+
+    return `https://www.youtube.com/embed/${videoId}`
   } else if (videoUri.includes('vimeo')) {
     const videoId = videoUri.split('vimeo.com/')[1]?.split('&')[0]
 

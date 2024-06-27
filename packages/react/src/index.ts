@@ -22,6 +22,7 @@ export { TextField } from './components/Form/fields/TextField'
 export { RadioField } from './components/Form/fields/RadioField'
 export { Label } from './components/Form/fields/Label'
 export { BaseField } from './components/Form/fields/BaseField'
+export { Media, Image, Video } from './components/Media'
 
 export * as Progress from './components/Progress'
 export { Provider, type ProviderProps } from './components/Provider'
