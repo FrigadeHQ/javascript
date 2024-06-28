@@ -60,6 +60,8 @@ export const NPSNumberButtonContainer = styled.div`
   gap: 8px;
 `
 
+export const NPSFooter = styled.div``
+
 export const NPSLabelContainer = styled.div`
   display: flex;
   justify-content: space-between;

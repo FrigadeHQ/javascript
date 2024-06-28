@@ -9,6 +9,7 @@ import { Portal } from 'react-portal'
 import {
   DismissButton,
   NPSCTAContainer,
+  NPSFooter,
   NPSLabel,
   NPSLabelContainer,
   NPSNumberButton,
@@ -109,36 +110,38 @@ export const FrigadeNPSSurvey: React.FC<FrigadeNPSSurveyProps> = ({
             subtitle={currentStep.subtitle}
           />
         </TextContainer>
-        <NPSNumberButtonContainer
-          className={getClassName('npsNumberButtonContainer', appearance)}
-          appearance={appearance}
-        >
-          {Array.from(Array(11).keys()).map((i) => (
-            <NPSNumberButton
-              className={getClassName('npsNumberButton', appearance)}
-              selected={score === i}
-              key={i}
-              onClick={async () => {
-                setKeepCompletedFlowOpenDuringSession(flowId)
-                setScore(i)
-                await markStepCompleted(flowId, currentStep.id, { score: i })
-              }}
+        <NPSFooter appearance={appearance} className={getClassName('npsFooter', appearance)}>
+          <NPSNumberButtonContainer
+            className={getClassName('npsNumberButtonContainer', appearance)}
+            appearance={appearance}
+          >
+            {Array.from(Array(11).keys()).map((i) => (
+              <NPSNumberButton
+                className={getClassName('npsNumberButton', appearance)}
+                selected={score === i}
+                key={i}
+                onClick={async () => {
+                  setKeepCompletedFlowOpenDuringSession(flowId)
+                  setScore(i)
+                  await markStepCompleted(flowId, currentStep.id, { score: i })
+                }}
+                appearance={appearance}
+              >
+                {i}
+              </NPSNumberButton>
+            ))}
+          </NPSNumberButtonContainer>
+          <NPSLabelContainer appearance={appearance}>
+            <NPSLabel
               appearance={appearance}
-            >
-              {i}
-            </NPSNumberButton>
-          ))}
-        </NPSNumberButtonContainer>
-        <NPSLabelContainer appearance={appearance}>
-          <NPSLabel
-            appearance={appearance}
-            dangerouslySetInnerHTML={sanitize(metadata?.negativeLabel ?? `Not likely at all`)}
-          />
-          <NPSLabel
-            appearance={appearance}
-            dangerouslySetInnerHTML={sanitize(metadata?.positiveLabel ?? `Extremely likely`)}
-          />
-        </NPSLabelContainer>
+              dangerouslySetInnerHTML={sanitize(metadata?.negativeLabel ?? `Not likely at all`)}
+            />
+            <NPSLabel
+              appearance={appearance}
+              dangerouslySetInnerHTML={sanitize(metadata?.positiveLabel ?? `Extremely likely`)}
+            />
+          </NPSLabelContainer>
+        </NPSFooter>
       </>
     )
   }
