@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.3.3
+
+### Patch Changes
+
+- 60c9885: Adds missing exports for media as well as support for certain YouTube urls
+
 ## 2.3.2
 
 ### Patch Changes
