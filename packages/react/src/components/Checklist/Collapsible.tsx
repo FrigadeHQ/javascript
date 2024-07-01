@@ -88,11 +88,7 @@ function DefaultCollapsibleStep({
         />
         <Card.Subtitle color="neutral.400">{subtitle}</Card.Subtitle>
         <Flex.Row gap={3}>
-          <Card.Secondary
-            disabled={disabled}
-            title={secondaryButtonTitle}
-            onClick={handleSecondary}
-          />
+          <Card.Secondary title={secondaryButtonTitle} onClick={handleSecondary} />
           <Card.Primary disabled={disabled} title={primaryButtonTitle} onClick={handlePrimary} />
         </Flex.Row>
       </CollapsibleStep.Content>

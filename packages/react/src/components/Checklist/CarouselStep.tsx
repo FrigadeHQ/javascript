@@ -75,7 +75,7 @@ export function CarouselStep({ onPrimary, onSecondary, step }: CarouselStepProps
         part="carousel-step-footer"
       >
         <Card.Secondary
-          disabled={completed}
+          disabled={blocked}
           onClick={handleSecondary}
           title={step.secondaryButton?.title}
         />

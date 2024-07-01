@@ -36,7 +36,7 @@ export function TourStep({
   const primaryButtonTitle = step.primaryButton?.title ?? step.primaryButtonTitle
   const secondaryButtonTitle = step.secondaryButton?.title ?? step.secondaryButtonTitle
 
-  const disabled = step.$state.blocked ? true : false
+  const disabled = step.$state.blocked
 
   return (
     <Tooltip
