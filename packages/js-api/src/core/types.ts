@@ -19,6 +19,7 @@ export type StepAction =
   | 'flow.skip'
   | 'flow.start'
   | 'step.complete'
+  | 'step.skip'
   | 'step.reset'
   | 'step.start'
   | false
@@ -211,6 +212,11 @@ export interface FlowStep extends StatefulStep {
   complete: (properties?: PropertyPayload, optimistic?: boolean) => Promise<void>
 
   /**
+   * Marks the step skipped. Works similar to step.complete()
+   */
+  skip: (properties?: PropertyPayload, optimistic?: boolean) => Promise<void>
+
+  /**
    * Resets the step (useful for undoing a finished step).
    */
   reset: () => Promise<void>
@@ -310,6 +316,7 @@ export interface StatefulStep {
    */
   $state: {
     completed: boolean
+    skipped: boolean
     started: boolean
     visible: boolean
     blocked: boolean
@@ -385,6 +392,7 @@ export enum FlowType {
 export type FlowActionType =
   | 'STARTED_STEP'
   | 'COMPLETED_STEP'
+  | 'SKIPPED_STEP'
   | 'NOT_STARTED_STEP'
   | 'STARTED_FLOW'
   | 'COMPLETED_FLOW'

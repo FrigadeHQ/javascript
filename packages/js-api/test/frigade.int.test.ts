@@ -75,6 +75,7 @@ describe('Basic Checklist integration test', () => {
                   started: false,
                   visible: true,
                   blocked: false,
+                  skipped: false,
                 },
               },
               {
@@ -84,6 +85,7 @@ describe('Basic Checklist integration test', () => {
                   started: false,
                   visible: true,
                   blocked: false,
+                  skipped: false,
                 },
               },
             ],
@@ -133,6 +135,7 @@ describe('Basic Checklist integration test', () => {
                   started: false,
                   visible: true,
                   blocked: false,
+                  skipped: false,
                 },
               },
               {
@@ -143,6 +146,7 @@ describe('Basic Checklist integration test', () => {
                   started: false,
                   visible: true,
                   blocked: false,
+                  skipped: false,
                 },
               },
             ],
@@ -186,6 +190,7 @@ describe('Basic Checklist integration test', () => {
                 started: false,
                 visible: true,
                 blocked: false,
+                skipped: false,
               },
             },
             {
@@ -196,6 +201,7 @@ describe('Basic Checklist integration test', () => {
                 started: false,
                 visible: true,
                 blocked: false,
+                skipped: false,
               },
             },
           ],

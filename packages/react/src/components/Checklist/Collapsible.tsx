@@ -59,7 +59,7 @@ function DefaultCollapsibleStep({
   step,
 }: CollapsibleStepProps) {
   const {
-    $state: { blocked, completed },
+    $state: { blocked, completed, skipped },
     subtitle,
     title,
   } = step
@@ -69,13 +69,14 @@ function DefaultCollapsibleStep({
 
   const stepProps = step.props ?? {}
 
-  const disabled = completed || blocked ? true : false
+  // TODO: Consider adding a specific UI state for Skipped
+  const disabled = completed || blocked || skipped ? true : false
 
   return (
     <CollapsibleStep.Root open={open} onOpenChange={onOpenChange} {...stepProps}>
       <CollapsibleStep.Trigger
         isBlocked={step.$state.blocked}
-        isCompleted={completed}
+        isCompleted={completed || skipped}
         title={title}
       />
 
