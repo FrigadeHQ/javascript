@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.4.2
+
+### Patch Changes
+
+- 5fcbd2e: Adds missing class names to the Collapsible Checklist
+
 ## 2.4.1
 
 ### Patch Changes
