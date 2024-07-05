@@ -87,7 +87,7 @@ function DefaultCollapsibleStep({
           type={step.videoUri ? 'video' : 'image'}
         />
         <Card.Subtitle color="neutral.400">{subtitle}</Card.Subtitle>
-        <Flex.Row gap={3}>
+        <Flex.Row gap={3} part="collapsible-footer">
           <Card.Secondary title={secondaryButtonTitle} onClick={handleSecondary} />
           <Card.Primary disabled={disabled} title={primaryButtonTitle} onClick={handlePrimary} />
         </Flex.Row>

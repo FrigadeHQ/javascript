@@ -93,6 +93,7 @@ export function Content({ children }) {
           overflow: 'hidden',
         }}
         gap={5}
+        part="collapsible-content"
       >
         {/*
           This humble box is doing yeoman's work, don't remove it.
@@ -124,6 +125,7 @@ export function Root({
           },
         }}
         gap={0}
+        part="collapsible-step"
         {...props}
       >
         {children}
@@ -145,10 +147,11 @@ export function Trigger({ isCompleted, isBlocked, title }) {
         disabled={isBlocked}
         pointerEvents={isBlocked ? 'none' : 'auto'}
         cursor={isBlocked ? 'not-allowed' : 'pointer'}
+        part="collapsible-header"
       >
         <Flex.Row alignItems="center" gap={2}>
           <CheckIndicator checked={isCompleted} />
-          <Text.Body2 fontWeight="demibold" userSelect="none">
+          <Text.Body2 fontWeight="demibold" userSelect="none" part="collapsible-title">
             {title}
           </Text.Body2>
         </Flex.Row>
