@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.4.1
+
+### Patch Changes
+
+- ce45f2d: CTA buttons are no longer disabled if a step is completed
+
 ## 2.4.0
 
 ### Minor Changes
