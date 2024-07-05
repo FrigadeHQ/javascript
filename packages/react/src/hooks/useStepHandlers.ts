@@ -43,6 +43,7 @@ export function useStepHandlers(step: FlowStep, { onPrimary, onSecondary }: Step
     'flow.skip': () => step.flow.skip(),
     'flow.start': () => step.flow.start(),
     'step.complete': () => step.complete(),
+    'step.skip': () => step.skip(),
     'step.reset': () => step.reset(),
     'step.start': () => step.start(),
   }

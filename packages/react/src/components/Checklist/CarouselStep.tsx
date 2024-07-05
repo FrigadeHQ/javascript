@@ -17,11 +17,12 @@ interface CarouselStepProps {
 export function CarouselStep({ onPrimary, onSecondary, step }: CarouselStepProps) {
   const { handlePrimary, handleSecondary } = useStepHandlers(step, { onPrimary, onSecondary })
 
-  const { blocked, completed } = step.$state
+  const { blocked, completed, skipped } = step.$state
 
   const topRightIcon =
-    completed || !blocked ? (
-      <CheckIndicator checked={completed} marginLeft="auto" />
+    // TODO: Consider adding a specific UI state for Skipped
+    completed || skipped || !blocked ? (
+      <CheckIndicator checked={completed || skipped} marginLeft="auto" />
     ) : (
       <Box as={LockClosedIcon} height="22px" marginLeft="auto" width="22px" />
     )

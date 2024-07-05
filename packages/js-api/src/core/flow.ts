@@ -17,6 +17,7 @@ import {
   NOT_STARTED_FLOW,
   NOT_STARTED_STEP,
   SKIPPED_FLOW,
+  SKIPPED_STEP,
   STARTED_FLOW,
   STARTED_STEP,
 } from '../shared/utils'
@@ -184,10 +185,14 @@ export class Flow extends Fetchable {
         await this.sendFlowStateToAPI(STARTED_STEP, properties, thisStep.id)
       }
 
-      stepObj.complete = async (properties?: PropertyPayload, optimistic: boolean = true) => {
+      const internalComplete = async (
+        eventType: 'complete' | 'skip',
+        properties?: PropertyPayload,
+        optimistic: boolean = true
+      ) => {
         const thisStep = this.steps.get(step.id)
 
-        if (thisStep.$state.completed && optimistic) {
+        if ((thisStep.$state.completed || thisStep.$state.skipped) && optimistic) {
           // mark the next step started to advance.
           let nextStep: FlowStep | undefined = this.getStepByIndex(thisStep.order + 1)
           while (nextStep && !nextStep.$state.visible) {
@@ -206,6 +211,8 @@ export class Flow extends Fetchable {
 
             this.getGlobalState().flowStates[this.id] = copy
 
+            await this.sendFlowStateToAPI(STARTED_STEP, undefined, nextStep.id)
+
             this.resyncState()
           }
 
@@ -217,7 +224,11 @@ export class Flow extends Fetchable {
           const copy = clone(this.getGlobalState().flowStates[this.id])
 
           copy.$state.started = true
-          copy.data.steps[thisStep.order].$state.completed = true
+          if (eventType == 'complete') {
+            copy.data.steps[thisStep.order].$state.completed = true
+          } else {
+            copy.data.steps[thisStep.order].$state.skipped = true
+          }
           copy.data.steps[thisStep.order].$state.started = true
           copy.data.steps[thisStep.order].$state.lastActionAt = new Date()
 
@@ -229,7 +240,11 @@ export class Flow extends Fetchable {
               copy.data.steps[nextStepIndex].$state.started = true
             }
           } else {
-            copy.$state.completed = true
+            if (eventType == 'complete') {
+              copy.$state.completed = true
+            } else {
+              copy.$state.skipped = true
+            }
           }
 
           this.getGlobalState().flowStates[this.id] = copy
@@ -240,10 +255,22 @@ export class Flow extends Fetchable {
           }
         }
 
-        await this.sendFlowStateToAPI(COMPLETED_STEP, properties, thisStep.id)
+        await this.sendFlowStateToAPI(
+          eventType == 'complete' ? COMPLETED_STEP : SKIPPED_STEP,
+          properties,
+          thisStep.id
+        )
         if (isLastStep) {
           await this.sendFlowStateToAPI(COMPLETED_FLOW)
         }
+      }
+
+      stepObj.complete = async (properties?: PropertyPayload, optimistic: boolean = true) => {
+        await internalComplete('complete', properties, optimistic)
+      }
+
+      stepObj.skip = async (properties?: PropertyPayload, optimistic: boolean = true) => {
+        await internalComplete('skip', properties, optimistic)
       }
 
       stepObj.reset = async () => {
