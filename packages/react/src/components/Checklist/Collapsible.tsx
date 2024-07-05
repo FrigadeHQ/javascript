@@ -69,8 +69,7 @@ function DefaultCollapsibleStep({
 
   const stepProps = step.props ?? {}
 
-  // TODO: Consider adding a specific UI state for Skipped
-  const disabled = completed || blocked || skipped ? true : false
+  const disabled = blocked ? true : false
 
   return (
     <CollapsibleStep.Root open={open} onOpenChange={onOpenChange} {...stepProps}>
