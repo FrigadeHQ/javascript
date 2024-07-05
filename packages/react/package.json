@@ -1,6 +1,6 @@
 {
   "name": "@frigade/react",
-  "version": "2.3.3",
+  "version": "2.4.0",
   "description": "Build better product onboarding, faster.",
   "type": "module",
   "main": "./dist/index.js",
@@ -48,7 +48,7 @@
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
-    "@frigade/js": "^0.6.2",
+    "@frigade/js": "^0.7.0",
     "@heroicons/react": "^2.0.18",
     "@radix-ui/react-collapsible": "^1.0.3",
     "@radix-ui/react-dialog": "^1.0.5",

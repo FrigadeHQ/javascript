@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.7.0
+
+### Minor Changes
+
+- 80b08f1: Adds support for step.skip()
+
 ## 0.6.2
 
 ### Patch Changes
