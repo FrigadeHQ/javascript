@@ -1,5 +1,16 @@
 # @frigade/react
 
+## 2.4.0
+
+### Minor Changes
+
+- 80b08f1: Adds support for step.skip()
+
+### Patch Changes
+
+- Updated dependencies [80b08f1]
+  - @frigade/js@0.7.0
+
 ## 2.3.3
 
 ### Patch Changes
