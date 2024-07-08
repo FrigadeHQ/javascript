@@ -16,6 +16,7 @@ import type { StepHandlerProps } from '@/hooks/useStepHandlers'
 import { CarouselStep } from '@/components/Checklist/CarouselStep'
 
 import { theme } from '@/shared/theme'
+import { CarouselProps } from '@/components/Checklist/Carousel'
 
 const fadeIn = keyframes`
   from {
@@ -28,17 +29,22 @@ const fadeIn = keyframes`
 
 export function CarouselEmblaWrapper({
   flow,
+  sorting,
   parentProps: { containerProps },
-  step,
-}: FlowChildrenProps) {
-  const currentStepIndex = flow.getCurrentStepIndex()
+}: FlowChildrenProps & CarouselProps) {
+  const [stepOrder, setStepOrder] = useState<string[]>()
 
   const [emblaOptions] = useState<Partial<EmblaOptionsType>>({
     align: 'start',
     container: '.fr-carousel-content',
     skipSnaps: true,
     slides: '.fr-carousel-step',
-    startIndex: currentStepIndex,
+    startIndex:
+      sorting == 'completed-last'
+        ? 0
+        : Array.from(flow.steps.values()).find(
+            (step) => !step.$state.completed && !step.$state.skipped
+          )?.order ?? 0,
   })
 
   const [emblaRef, emblaApi] = useEmblaCarousel(emblaOptions)
@@ -66,26 +72,35 @@ export function CarouselEmblaWrapper({
   }, [emblaApi])
 
   useEffect(() => {
-    function handleChange() {
-      const currentStepIndex = flow.getCurrentStepIndex()
-      const selectedScrollSnap = emblaApi.selectedScrollSnap()
+    // check if hasCompletedInitialSort. If not then sort the steps from not completed not skipped to completed/skipped
+    if (!stepOrder) {
+      const steps = Array.from(flow.steps.values())
+      const completedOrSkippedSteps = steps
+        .filter((step) => step.$state.completed || step.$state.skipped)
+        .sort((a, b) => a.order - b.order)
 
-      if (currentStepIndex !== selectedScrollSnap) {
-        emblaApi.scrollTo(currentStepIndex)
+      const nonCompletedOrSkippedSteps = steps
+        .filter((step) => !step.$state.completed && !step.$state.skipped)
+        .sort((a, b) => a.order - b.order)
+
+      if (sorting === 'completed-last') {
+        setStepOrder(
+          [...nonCompletedOrSkippedSteps, ...completedOrSkippedSteps].map((step) => step.id)
+        )
+      } else {
+        setStepOrder(steps.map((step) => step.id))
       }
     }
-
-    step.onStateChange(handleChange)
-
-    return () => {
-      step.removeStateChangeHandler(handleChange)
-    }
-  }, [emblaApi, flow, step])
+  }, [])
 
   const completedSteps = flow.getNumberOfCompletedSteps()
   const availableSteps = flow.getNumberOfAvailableSteps()
 
   const { onPrimary, onSecondary }: StepHandlerProps = containerProps
+
+  if (!stepOrder) {
+    return null
+  }
 
   return (
     <>
@@ -120,14 +135,16 @@ export function CarouselEmblaWrapper({
         ref={emblaRef}
       >
         <Flex.Row gap={4} part="carousel-content">
-          {Array.from(flow.steps.values()).map((step) => (
-            <CarouselStep
-              key={step.id}
-              onPrimary={onPrimary}
-              onSecondary={onSecondary}
-              step={step}
-            />
-          ))}
+          {Array.from(flow.steps.values())
+            .sort((a, b) => stepOrder.indexOf(a.id) - stepOrder.indexOf(b.id))
+            .map((step) => (
+              <CarouselStep
+                key={step.id}
+                onPrimary={onPrimary}
+                onSecondary={onSecondary}
+                step={step}
+              />
+            ))}
         </Flex.Row>
 
         {hasPrev && (
