@@ -537,14 +537,27 @@ export class Flow extends Fetchable {
 
     this.title = replaceVariables(this.title ?? '')
     this.subtitle = replaceVariables(this.subtitle ?? '')
-    this.steps.forEach((step) => {
-      // Iterate over every string field in the step and replace variables
+    const applyVariablesToStep = (step: any) => {
+      if (!step) {
+        return
+      }
+
       Object.keys(step).forEach((key) => {
         if (typeof step[key] === 'string') {
           // @ts-ignore
           step[key] = replaceVariables(step[key])
+        } else if (typeof step[key] === 'object') {
+          applyVariablesToStep(step[key])
+        } else if (Array.isArray(step[key])) {
+          step[key].forEach((item: any) => {
+            applyVariablesToStep(item)
+          })
         }
       })
+    }
+
+    this.steps.forEach((step) => {
+      applyVariablesToStep(step)
     })
 
     this.getGlobalState().variables[this.id] = variables
