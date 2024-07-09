@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.4.3
+
+### Patch Changes
+
+- 6df712a: Add sorting to Carousel
+
 ## 2.4.2
 
 ### Patch Changes
