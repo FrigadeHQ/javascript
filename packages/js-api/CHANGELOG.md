@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.7.1
+
+### Patch Changes
+
+- fa4218e: Fixes an issue where variables are not applied to nested fields
+
 ## 0.7.0
 
 ### Minor Changes
