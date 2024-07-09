@@ -29,7 +29,7 @@ const fadeIn = keyframes`
 
 export function CarouselEmblaWrapper({
   flow,
-  sorting,
+  sort,
   parentProps: { containerProps },
 }: FlowChildrenProps & CarouselProps) {
   const [stepOrder, setStepOrder] = useState<string[]>()
@@ -40,7 +40,7 @@ export function CarouselEmblaWrapper({
     skipSnaps: true,
     slides: '.fr-carousel-step',
     startIndex:
-      sorting == 'completed-last'
+      sort == 'completed-last'
         ? 0
         : Array.from(flow.steps.values()).find(
             (step) => !step.$state.completed && !step.$state.skipped
@@ -83,7 +83,7 @@ export function CarouselEmblaWrapper({
         .filter((step) => !step.$state.completed && !step.$state.skipped)
         .sort((a, b) => a.order - b.order)
 
-      if (sorting === 'completed-last') {
+      if (sort === 'completed-last') {
         setStepOrder(
           [...nonCompletedOrSkippedSteps, ...completedOrSkippedSteps].map((step) => step.id)
         )

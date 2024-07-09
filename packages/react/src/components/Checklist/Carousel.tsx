@@ -13,7 +13,7 @@ export interface CarouselProps extends FlowPropsWithoutChildren {
    * - `completed-last` will sort the completed/skips steps to the end of the carousel.
    * - `default` will keep the order of the steps as they are in the flow.
    */
-  sorting?: 'completed-last' | 'default'
+  sort?: 'completed-last' | 'default'
 }
 
 export function Carousel({ ...props }: CarouselProps) {

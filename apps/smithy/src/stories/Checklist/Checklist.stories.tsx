@@ -51,6 +51,7 @@ function TestStep({
 export const Carousel = {
   args: {
     flowId: "flow_ArnxGil9",
+    // sort: "completed-last",
   },
   decorators: [(_, { args }) => <Checklist.Carousel {...args} />],
 };
