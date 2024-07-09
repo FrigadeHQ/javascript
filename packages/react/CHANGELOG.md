@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.4.4
+
+### Patch Changes
+
+- fa4218e: Fixes an issue where variables are not applied to nested fields
+- Updated dependencies [fa4218e]
+  - @frigade/js@0.7.1
+
 ## 2.4.3
 
 ### Patch Changes
