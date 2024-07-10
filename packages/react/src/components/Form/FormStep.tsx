@@ -112,11 +112,7 @@ export function FormStep({
 
       <Flex.Row key="form-footer" part="form-step-footer" justifyContent="flex-end" gap={3}>
         {secondaryButtonTitle && (
-          <Button.Secondary
-            disabled={disabled}
-            onClick={handleSecondary}
-            title={secondaryButtonTitle}
-          />
+          <Button.Secondary onClick={handleSecondary} title={secondaryButtonTitle} />
         )}
         <Button.Primary
           disabled={disabled || isSubmitting}
