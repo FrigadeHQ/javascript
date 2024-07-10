@@ -1,5 +1,12 @@
 # @frigade/react
 
+## 2.4.5
+
+### Patch Changes
+
+- 8655dc9: Prevent secondary buttons from being disabled in forms
+- 49e565e: Adds a missing export for TextareaField
+
 ## 2.4.4
 
 ### Patch Changes
