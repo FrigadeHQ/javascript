@@ -71,19 +71,21 @@ export function SelectField(props: FormFieldProps) {
             </Text.Body2>
           </Select.Trigger>
 
-          <Select.Content position="popper" sideOffset={4} asChild>
-            <Box
-              {...baseStyles.input}
-              boxShadow="md"
-              maxHeight="var(--radix-select-content-available-height)"
-              p="1"
-              part="field-select-options"
-              width="var(--radix-popper-anchor-width)"
-              zIndex="99999"
-            >
-              <Select.Viewport>{selectItems}</Select.Viewport>
-            </Box>
-          </Select.Content>
+          <Select.Portal>
+            <Select.Content position="popper" sideOffset={4} asChild>
+              <Box
+                {...baseStyles.input}
+                boxShadow="md"
+                maxHeight="var(--radix-select-content-available-height)"
+                p="1"
+                part="field-select-options"
+                width="var(--radix-popper-anchor-width)"
+                zIndex="99999"
+              >
+                <Select.Viewport>{selectItems}</Select.Viewport>
+              </Box>
+            </Select.Content>
+          </Select.Portal>
         </Select.Root>
       )}
     </BaseField>
