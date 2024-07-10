@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.4.6
+
+### Patch Changes
+
+- dd0950a: Add Select.Portal to SelectField
+
 ## 2.4.5
 
 ### Patch Changes
