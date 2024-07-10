@@ -18,6 +18,7 @@ export {
   type FormFieldProps,
 } from './components/Form'
 export { SelectField } from './components/Form/fields/SelectField'
+export { TextareaField } from './components/Form/fields/TextareaField'
 export { TextField } from './components/Form/fields/TextField'
 export { RadioField } from './components/Form/fields/RadioField'
 export { Label } from './components/Form/fields/Label'
