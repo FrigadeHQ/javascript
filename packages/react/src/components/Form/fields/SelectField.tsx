@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as Select from '@radix-ui/react-select'
-import { ChevronDownIcon } from '@heroicons/react/24/outline'
+import { ChevronDownMiniIcon } from '@/components/Icon/ChevronDownMiniIcon'
 
 import { Box } from '@/components/Box'
 import { Text } from '@/components/Text'
@@ -60,7 +60,7 @@ export function SelectField(props: FormFieldProps) {
 
               <Select.Icon>
                 <Box
-                  as={ChevronDownIcon}
+                  as={ChevronDownMiniIcon}
                   color="neutral.100"
                   display="block"
                   height="24px"

@@ -1,7 +1,7 @@
 import { keyframes } from '@emotion/react'
 import React, { useEffect, useRef, useState } from 'react'
 
-import { XMarkIcon } from '@heroicons/react/20/solid'
+import { XMarkIcon } from '@/components/Icon/XMarkIcon'
 import * as Popover from '@radix-ui/react-popover'
 
 import { useBoundingClientRect } from '@/hooks/useBoundingClientRect'

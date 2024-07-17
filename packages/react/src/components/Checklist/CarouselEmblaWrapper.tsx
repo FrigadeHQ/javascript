@@ -1,6 +1,5 @@
 import { useEffect, useLayoutEffect, useState } from 'react'
 import { keyframes } from '@emotion/react'
-import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/outline'
 import useEmblaCarousel from 'embla-carousel-react'
 import type { EmblaOptionsType } from 'embla-carousel'
 
@@ -17,6 +16,8 @@ import { CarouselStep } from '@/components/Checklist/CarouselStep'
 
 import { theme } from '@/shared/theme'
 import { CarouselProps } from '@/components/Checklist/Carousel'
+import { ArrowRightIcon } from '@/components/Icon/ArrowRightIcon'
+import { ArrowLeftIcon } from '@/components/Icon/ArrowLeftIcon'
 
 const fadeIn = keyframes`
   from {

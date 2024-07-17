@@ -2436,7 +2436,6 @@ __metadata:
   dependencies:
     "@emotion/react": "npm:^11.11.4"
     "@frigade/js": "npm:^0.7.1"
-    "@heroicons/react": "npm:^2.0.18"
     "@radix-ui/react-collapsible": "npm:^1.0.3"
     "@radix-ui/react-dialog": "npm:^1.0.5"
     "@radix-ui/react-popover": "npm:^1.0.7"
@@ -2538,15 +2537,6 @@ __metadata:
     turbo: "npm:^1.10.14"
   languageName: unknown
   linkType: soft
-
-"@heroicons/react@npm:^2.0.18":
-  version: 2.1.1
-  resolution: "@heroicons/react@npm:2.1.1"
-  peerDependencies:
-    react: ">= 16"
-  checksum: 10/037b1cc1c05f6e8a61ba23f2a0005303c614a6dd627c9947a97f70848ab4c3a9c4a6f8712caff843b12a2a9db93e9e352832335dcf13eed029d00ccb2c11752e
-  languageName: node
-  linkType: hard
 
 "@humanwhocodes/config-array@npm:^0.11.13":
   version: 0.11.14

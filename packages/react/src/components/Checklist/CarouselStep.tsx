@@ -1,5 +1,5 @@
 import type { FlowStep } from '@frigade/js'
-import { LockClosedIcon } from '@heroicons/react/24/outline'
+import { LockClosedIcon } from '@/components/Icon/LockClosedIcon'
 
 import { Box } from '@/components/Box'
 import { CheckIndicator } from '@/components/CheckIndicator'

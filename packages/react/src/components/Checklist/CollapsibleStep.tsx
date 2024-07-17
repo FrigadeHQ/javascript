@@ -1,5 +1,5 @@
 import { keyframes } from '@emotion/react'
-import { ChevronDownIcon } from '@heroicons/react/24/outline'
+import { ChevronDownIcon } from '@/components/Icon/ChevronDownIcon'
 import * as Collapsible from '@radix-ui/react-collapsible'
 
 import { Box, type BoxProps } from '@/components/Box'

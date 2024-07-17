@@ -1,7 +1,6 @@
 import type { ForwardRefExoticComponent, RefAttributes } from 'react'
 import * as React from 'react'
 import { EmotionJSX } from '@emotion/react/types/jsx-namespace'
-import { XMarkIcon } from '@heroicons/react/20/solid'
 
 import type { BoxProps } from '@/components/Box'
 import { Button, type ButtonProps } from '@/components/Button'
@@ -12,6 +11,7 @@ import { Media, type MediaProps } from '@/components/Media'
 import { Text, type TextProps } from '@/components/Text'
 
 import type { DismissHandler } from '@/hooks/useFlowHandlers'
+import { XMarkIcon } from '@/components/Icon/XMarkIcon'
 
 export interface CardHeaderProps extends BoxProps {
   dismissible?: boolean
