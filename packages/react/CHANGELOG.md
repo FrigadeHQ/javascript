@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.4.7
+
+### Patch Changes
+
+- 55d725b: Removes hero icons depenendency
+
 ## 2.4.6
 
 ### Patch Changes
