@@ -10,6 +10,8 @@ import * as Survey from '@/components/Survey'
 import { Tour } from '@/components/Tour'
 
 import { useCollection } from '@/hooks/useCollection'
+import { FlowType } from '@frigade/js'
+import { Dialog } from '@/components/Dialog'
 
 export interface CollectionProps extends BoxProps {
   collectionId: string
@@ -24,6 +26,7 @@ export function Collection({ collectionId, part, ...props }: CollectionProps) {
     EMBEDDED_TIP: Card,
     FORM: Form,
     NPS_SURVEY: Survey.NPS,
+    SURVEY: Survey.NPS,
     TOUR: Tour,
   }
 
@@ -33,6 +36,14 @@ export function Collection({ collectionId, part, ...props }: CollectionProps) {
 
   if (currentFlow == null || FlowComponent == null) {
     return null
+  }
+
+  if (currentFlow?.rawData?.flowType === FlowType.FORM) {
+    return (
+      <Box part={['collection', part]} data-collection-id={collectionId} {...props}>
+        <Form flowId={currentFlow.id} key={currentFlow.id} as={Dialog} />
+      </Box>
+    )
   }
 
   return (
