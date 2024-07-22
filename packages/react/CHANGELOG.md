@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.4.8
+
+### Patch Changes
+
+- 8983f7b: Fixes an issue where NPS surveys and Forms render incorrectly in the default collection
+
 ## 2.4.7
 
 ### Patch Changes
