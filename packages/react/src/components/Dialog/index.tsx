@@ -63,7 +63,7 @@ export function Dialog({ children, className, modal = true, ...props }: DialogPr
           part="dialog-wrapper"
           pointerEvents="none"
           position="fixed"
-          zIndex={zIndex}
+          zIndex={zIndex ?? 10}
         >
           <RadixDialog.Overlay asChild>
             <Box
