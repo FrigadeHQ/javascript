@@ -52,6 +52,7 @@ export const Carousel = {
   args: {
     flowId: "flow_ArnxGil9",
     // sort: "completed-last",
+    onSecondary: (step, event) => console.log("Secondary", step, event),
   },
   decorators: [(_, { args }) => <Checklist.Carousel {...args} />],
 };

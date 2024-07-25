@@ -10,8 +10,6 @@ import type { FlowChildrenProps } from '@/components/Flow'
 import * as Progress from '@/components/Progress'
 import { Text } from '@/components/Text'
 
-import type { StepHandlerProps } from '@/hooks/useStepHandlers'
-
 import { CarouselStep } from '@/components/Checklist/CarouselStep'
 
 import { theme } from '@/shared/theme'
@@ -31,7 +29,8 @@ const fadeIn = keyframes`
 export function CarouselEmblaWrapper({
   flow,
   sort,
-  parentProps: { containerProps },
+  onPrimary,
+  onSecondary,
 }: FlowChildrenProps & CarouselProps) {
   const [stepOrder, setStepOrder] = useState<string[]>()
 
@@ -96,8 +95,6 @@ export function CarouselEmblaWrapper({
 
   const completedSteps = flow.getNumberOfCompletedSteps()
   const availableSteps = flow.getNumberOfAvailableSteps()
-
-  const { onPrimary, onSecondary }: StepHandlerProps = containerProps
 
   if (!stepOrder) {
     return null
