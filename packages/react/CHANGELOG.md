@@ -1,5 +1,12 @@
 # @frigade/react
 
+## 2.4.9
+
+### Patch Changes
+
+- 9057874: Fixes an issue where onPrimary and onSecondary does not work in carousel checklists
+- 5731a4a: Fixes the default zIndex to be non zero
+
 ## 2.4.8
 
 ### Patch Changes
