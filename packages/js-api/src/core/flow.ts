@@ -109,7 +109,7 @@ export class Flow extends Fetchable {
    * @ignore
    */
   resyncState(overrideStatefulFlow?: StatefulFlow) {
-    const statefulFlow = overrideStatefulFlow ?? this.getStatefulFlow()
+    const statefulFlow = clone(overrideStatefulFlow ?? this.getStatefulFlow())
 
     this.rawData = statefulFlow
     this.title = statefulFlow?.data?.title
@@ -132,7 +132,7 @@ export class Flow extends Fetchable {
       }
     })
 
-    if (this.steps && this.steps.size > 0) {
+    if (this.getGlobalState().variables[this.id]) {
       this.applyVariables(this.getGlobalState().variables[this.id] ?? {})
     }
   }
@@ -520,6 +520,17 @@ export class Flow extends Fetchable {
    * @param variables A record of variables to apply to the flow.
    */
   public applyVariables(variables: Record<string, any>) {
+    // Check if variables have changed
+
+    if (this.getGlobalState().variables[this.id]) {
+      // If they have changed, reset the flow's content so variables can be replaced again.
+      if (JSON.stringify(this.getGlobalState().variables[this.id]) !== JSON.stringify(variables)) {
+        this.getGlobalState().variables[this.id] = variables
+        this.reload()
+        return
+      }
+    }
+
     // Replace ${variable} with the value of the variable
     const replaceVariables = (str: string) => {
       const matches = str.match(/\${(.*?)}/g)
@@ -556,9 +567,11 @@ export class Flow extends Fetchable {
       })
     }
 
-    this.steps.forEach((step) => {
-      applyVariablesToStep(step)
-    })
+    if (this.steps) {
+      this.steps.forEach((step) => {
+        applyVariablesToStep(step)
+      })
+    }
 
     this.getGlobalState().variables[this.id] = variables
   }

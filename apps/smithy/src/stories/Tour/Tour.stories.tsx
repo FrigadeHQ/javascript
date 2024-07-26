@@ -57,7 +57,7 @@ export const Default = {
             flowId="flow_U63A5pndRrvCwxNs"
             onComplete={(flow) => console.log("COMPLETE", flow)}
             variables={{
-              firstName: name,
+              firstName: "John",
             }}
             // spotlight={true}
             {...options.args}
