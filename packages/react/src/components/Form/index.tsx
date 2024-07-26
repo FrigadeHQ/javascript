@@ -8,10 +8,12 @@ import { RadioField } from './fields/RadioField'
 import { SelectField } from './fields/SelectField'
 import { TextField } from './fields/TextField'
 import { TextareaField } from './fields/TextareaField'
+import { CheckboxField } from '@/components/Form/fields/CheckboxField'
 
 export type FieldTypes = Record<string, React.ComponentType<FormFieldProps>>
 
 const defaultFieldTypes: FieldTypes = {
+  checkbox: CheckboxField,
   radio: RadioField,
   select: SelectField,
   text: TextField,
