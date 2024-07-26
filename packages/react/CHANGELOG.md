@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.4.11
+
+### Patch Changes
+
+- 6541572: Adds support for the checkbox field type in forms
+
 ## 2.4.10
 
 ### Patch Changes
