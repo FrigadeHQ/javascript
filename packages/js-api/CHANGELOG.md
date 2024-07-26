@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.7.2
+
+### Patch Changes
+
+- c051ed8: Fixes an issue where variables are not dynamically updated when changed for the same component
+
 ## 0.7.1
 
 ### Patch Changes
