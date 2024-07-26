@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.4.10
+
+### Patch Changes
+
+- c051ed8: Fixes an issue where variables are not dynamically updated when changed for the same component
+- Updated dependencies [c051ed8]
+  - @frigade/js@0.7.2
+
 ## 2.4.9
 
 ### Patch Changes
