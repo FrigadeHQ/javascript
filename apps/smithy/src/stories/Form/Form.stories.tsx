@@ -37,6 +37,9 @@ export const Default = {
         flow.skip();
       }
     },
+    variables: {
+      testVar: "hello world",
+    },
   },
 };
 

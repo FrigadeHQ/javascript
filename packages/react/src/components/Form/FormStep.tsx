@@ -65,6 +65,11 @@ export function FormStep({
   const formContext = useForm({
     delayError: 2000,
     mode: 'onChange',
+    // @ts-ignore
+    defaultValues: (step.fields ?? []).reduce((acc, field) => {
+      acc[field.id] = field.value ?? ''
+      return acc
+    }, {}),
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const fields = []
