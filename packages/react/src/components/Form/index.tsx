@@ -43,6 +43,7 @@ export interface FormFieldData extends ValidationRules {
   label?: string
   type: string
   value?: string
+  multiple?: boolean
   // allow any other custom properties
   [key: string]: any
 }

@@ -8,6 +8,7 @@ import { Text } from '@/components/Text'
 import { type FormFieldProps } from '..'
 import { BaseField } from './BaseField'
 import * as baseStyles from './BaseField.styles'
+import { SelectMultipleField } from '@/components/Form/fields/SelectMultipleField'
 
 export interface SelectItemProps {
   label: string
@@ -43,6 +44,10 @@ export function SelectField(props: FormFieldProps) {
   const selectItems = options.map(({ label, value }) => (
     <SelectItem key={value} value={value} label={label} />
   ))
+
+  if (props.fieldData.multiple) {
+    return <SelectMultipleField {...props} />
+  }
 
   return (
     <BaseField {...props}>

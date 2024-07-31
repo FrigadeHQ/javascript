@@ -62,11 +62,15 @@ export function FormStep({
   step,
 }: FormStepProps) {
   const { __readOnly } = useContext(FrigadeContext)
+  // @ts-expect-error TODO: Add type to step.fields
+  const fieldDatas = (step.fields ?? []).filter(
+    (field: any) => fieldTypes[field.type] != null && field.id
+  ) as FormFieldData[]
   const formContext = useForm({
     delayError: 2000,
     mode: 'onChange',
-    // @ts-ignore
-    defaultValues: (step.fields ?? []).reduce((acc, field) => {
+
+    defaultValues: fieldDatas.reduce((acc, field) => {
       acc[field.id] = field.value ?? ''
       return acc
     }, {}),
@@ -83,8 +87,7 @@ export function FormStep({
     handlePrimary(e, properties, __readOnly === true).then(() => setIsSubmitting(false))
   }
 
-  // @ts-expect-error TODO: Add type to step.fields
-  step.fields?.forEach((fieldData: FormFieldData) => {
+  fieldDatas.forEach((fieldData: FormFieldData) => {
     if (fieldTypes[fieldData.type] != null) {
       fields.push(
         <FieldWrapper
