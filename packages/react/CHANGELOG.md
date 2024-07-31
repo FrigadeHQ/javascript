@@ -1,5 +1,12 @@
 # @frigade/react
 
+## 2.4.12
+
+### Patch Changes
+
+- 6dc0d80: Adds support for `multiple: true` for the `select` Form field
+- 75b42e6: Adds the ability to prefill forms
+
 ## 2.4.11
 
 ### Patch Changes
