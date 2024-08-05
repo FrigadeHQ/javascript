@@ -1,5 +1,5 @@
 import { type Flow } from '@frigade/js'
-import { useCallback, useContext, useEffect, useState } from 'react'
+import { useCallback, useContext, useState, useSyncExternalStore } from 'react'
 
 import { FrigadeContext } from '@/components/Provider'
 
@@ -7,66 +7,43 @@ export interface FlowConfig {
   variables?: Record<string, unknown>
 }
 
-export function useFlow(flowId: string | null, config?: FlowConfig): { flow?: Flow } {
-  const [flow, setFlow] = useState<Flow>()
-  const [, setRandomString] = useState<string>('')
+export function useFlow(flowId: string | null, config?: FlowConfig) {
   const { frigade } = useContext(FrigadeContext)
+  const [, setForceRender] = useState<boolean>(false)
 
-  const handler = useCallback(
-    (updatedFlow: Flow) => {
-      if (updatedFlow.id !== flowId) {
-        return
+  const subscribe = useCallback(
+    (cb: () => void) => {
+      // TODO: Why is there a noticeable delay when this is commented out?
+      frigade.getFlow(flowId).then(() => {
+        cb()
+      })
+
+      const handler = (updatedFlow: Flow) => {
+        if (updatedFlow.id !== flowId) {
+          return
+        }
+
+        setForceRender((forceRender) => !forceRender)
+
+        cb()
       }
 
-      if (config?.variables) {
-        updatedFlow.applyVariables(config.variables)
-      }
+      frigade.onStateChange(handler)
 
-      /*
-        @frigade/js can call this handler at any time, so let's bump our state setters
-        out of the current call stack to avoid a potential "Cannot update a component
-        while rendering a different component" warning.
-      */
-      setTimeout(() => {
-        setFlow(updatedFlow)
-        setRandomString(Math.random().toString())
-      }, 0)
+      return () => {
+        frigade.removeStateChangeHandler(handler)
+      }
     },
-    [config?.variables, flowId, frigade]
+    [flowId]
   )
 
-  useEffect(() => {
-    if (!frigade?.isReady() || flowId == null) {
-      return
-    }
+  const flow = useSyncExternalStore(subscribe, () => frigade.getFlowSync(flowId))
 
-    ;(async () => {
-      const flowInstance: Flow = await frigade.getFlow(flowId)
-      if (!flowInstance || frigade.hasFailedToLoad()) {
-        setFlow(undefined)
-        return
-      }
-      if (config?.variables) {
-        flowInstance.applyVariables(config.variables)
-      }
+  if (flow != null && config?.variables) {
+    flow.applyVariables(config.variables)
+  }
 
-      setFlow(flowInstance)
-    })()
-
-    frigade.onStateChange(handler)
-
-    return () => {
-      frigade.removeStateChangeHandler(handler)
-    }
-  }, [flowId, frigade, handler])
-
-  useEffect(() => {
-    if (!config?.variables || !flow) {
-      return
-    }
-
-    handler(flow)
-  }, [config?.variables])
-
-  return { flow }
+  return {
+    flow,
+  }
 }
