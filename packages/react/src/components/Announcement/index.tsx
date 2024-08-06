@@ -83,7 +83,7 @@ export function Announcement({ flowId, part, ...props }: AnnouncementProps) {
               <Dialog.Media
                 src={step.videoUri ?? step.imageUri}
                 type={step.videoUri ? 'video' : 'image'}
-                css={{ aspectRatio: '1.5', objectFit: 'cover', width: '100%' }}
+                css={{ objectFit: 'cover', width: '100%' }}
               />
 
               <Dialog.ProgressDots
