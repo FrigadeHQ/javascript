@@ -81,9 +81,13 @@ export function Announcement({ flowId, part, ...props }: AnnouncementProps) {
               </Flex.Column>
 
               <Dialog.Media
+                aspectRatio="1.5"
+                objectFit="cover"
+                overflowClipMargin="unset"
                 src={step.videoUri ?? step.imageUri}
+                transform="translate3d(0, 0, 1px)"
                 type={step.videoUri ? 'video' : 'image'}
-                css={{ objectFit: 'cover', width: '100%' }}
+                width="100%"
               />
 
               <Dialog.ProgressDots

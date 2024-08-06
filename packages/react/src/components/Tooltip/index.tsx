@@ -272,14 +272,14 @@ Tooltip.Media = ({ src, ...props }: MediaProps) => {
 
   return (
     <Media
+      aspectRatio="2"
       borderRadius="md md 0 0"
       borderWidth="0"
-      css={{
-        aspectRatio: '2',
-        objectFit: 'cover',
-      }}
       margin="-5 -5 0"
+      objectFit="cover"
+      overflowClipMargin="unset"
       src={src}
+      transform="translate3d(0, 0, 1px)"
       {...props}
     />
   )

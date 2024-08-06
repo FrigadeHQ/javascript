@@ -83,7 +83,9 @@ function DefaultCollapsibleStep({
         <Card.Media
           aspectRatio={2.5}
           objectFit="cover"
+          overflowClipMargin="unset"
           src={step.videoUri ?? step.imageUri}
+          transform="translate3d(0, 0, 1px)"
           type={step.videoUri ? 'video' : 'image'}
         />
         <Card.Subtitle color="neutral.400">{subtitle}</Card.Subtitle>
