@@ -173,7 +173,7 @@ export async function gracefulFetch(url: string, options: any) {
 
 export function getEmptyResponse(error?: any) {
   if (error) {
-    console.log('Call to Frigade failed', error)
+    console.warn('Call to Frigade failed', error)
   }
 
   // Create empty response that contains the .json method and returns an empty object
