@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.4.13
+
+### Patch Changes
+
+- 1f99976: Fixes an issue where images in announcements appear blurry/pixelated
+
 ## 2.4.12
 
 ### Patch Changes
