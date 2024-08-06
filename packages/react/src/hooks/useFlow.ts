@@ -27,9 +27,11 @@ export function useFlow(flowId: string | null, config?: FlowConfig) {
          * NOTE: Since React doesn't re-render on deep object diffs,
          * we need to gently prod it here by creating a state update.
          */
-        setForceRender((forceRender) => !forceRender)
+        setTimeout(() => {
+          setForceRender((forceRender) => !forceRender)
 
-        cb()
+          cb()
+        }, 0)
       }
 
       frigade.onStateChange(handler)

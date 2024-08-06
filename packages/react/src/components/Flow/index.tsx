@@ -1,4 +1,4 @@
-import { Fragment, useContext, useEffect, useState } from 'react'
+import { Fragment, useEffect } from 'react'
 import { FlowType } from '@frigade/js'
 
 import { Box } from '@/components/Box'
@@ -9,7 +9,7 @@ import { useStepHandlers } from '@/hooks/useStepHandlers'
 import { useModal } from '@/hooks/useModal'
 
 import type { FlowProps } from '@/components/Flow/FlowProps'
-import { FrigadeContext } from '@/components/Provider'
+// import { FrigadeContext } from '@/components/Provider'
 
 export type {
   FlowChildrenProps,
@@ -29,7 +29,7 @@ export function Flow({
 
   ...props
 }: FlowProps) {
-  const [hasProcessedRules, setHasProcessedRules] = useState(false)
+  // const [hasProcessedRules, setHasProcessedRules] = useState(false)
 
   const { flow } = useFlow(flowId, {
     variables,
@@ -45,7 +45,7 @@ export function Flow({
     ...props,
   }
 
-  const { hasInitialized, registerComponent, unregisterComponent } = useContext(FrigadeContext)
+  // const { hasInitialized, registerComponent, unregisterComponent } = useContext(FrigadeContext)
 
   const step = flow?.getCurrentStep()
 
@@ -72,17 +72,17 @@ export function Flow({
     }
   }, [flow?.isVisible, isCurrentModal])
 
-  useEffect(() => {
-    return () => {
-      unregisterComponent(flowId)
-    }
-  }, [])
+  // useEffect(() => {
+  //   return () => {
+  //     unregisterComponent(flowId)
+  //   }
+  // }, [])
 
-  useEffect(() => {
-    if (flow?.isCompleted || flow?.isSkipped) {
-      unregisterComponent(flowId)
-    }
-  }, [flow?.isCompleted, flow?.isSkipped])
+  // useEffect(() => {
+  //   if (flow?.isCompleted || flow?.isSkipped) {
+  //     unregisterComponent(flowId)
+  //   }
+  // }, [flow?.isCompleted, flow?.isSkipped])
 
   const shouldForceMount = forceMount && (flow?.isCompleted || flow?.isSkipped)
 
@@ -94,19 +94,19 @@ export function Flow({
     return null
   }
 
-  registerComponent(flowId, () => {
-    if (!hasProcessedRules) {
-      setHasProcessedRules(true)
-    }
-  })
+  // registerComponent(flowId, () => {
+  //   if (!hasProcessedRules) {
+  //     setHasProcessedRules(true)
+  //   }
+  // })
 
   if (!flow.isVisible && !shouldForceMount) {
     return null
   }
 
-  if (!hasInitialized || !hasProcessedRules) {
-    return null
-  }
+  // if (!hasInitialized || !hasProcessedRules) {
+  //   return null
+  // }
 
   if (shouldForceMount || (!flow.isCompleted && !flow.isSkipped)) {
     step.start()
