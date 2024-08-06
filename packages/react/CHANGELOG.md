@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.4.14
+
+### Patch Changes
+
+- 2933324: Fix blurry images when altering object-fit and aspect-ratio
+
 ## 2.4.13
 
 ### Patch Changes
