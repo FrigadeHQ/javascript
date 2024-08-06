@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.7.3
+
+### Patch Changes
+
+- 60ea96c: Move error calls to console.warn
+
 ## 0.7.2
 
 ### Patch Changes
