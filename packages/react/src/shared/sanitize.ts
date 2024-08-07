@@ -47,6 +47,7 @@ export function sanitize(dirty?: string) {
         'h4',
         'video',
         'p',
+        'style',
       ],
       ALLOWED_ATTR: [
         'style',
