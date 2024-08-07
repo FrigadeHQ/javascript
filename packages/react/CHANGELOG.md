@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.4.15
+
+### Patch Changes
+
+- 44947d5: Add style to list of allowed tags
+
 ## 2.4.14
 
 ### Patch Changes
