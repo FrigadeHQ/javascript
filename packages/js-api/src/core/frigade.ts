@@ -228,6 +228,13 @@ export class Frigade extends Fetchable {
   public async getFlow(flowId: string) {
     await this.initIfNeeded()
 
+    return this.getFlowSync(flowId)
+  }
+
+  /**
+   * @ignore
+   */
+  public getFlowSync(flowId: string) {
     return this.flows.find((flow) => flow.id == flowId)
   }
 

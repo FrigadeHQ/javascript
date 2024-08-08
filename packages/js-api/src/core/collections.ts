@@ -130,18 +130,18 @@ export class Collections {
           .filter((otherFlowId) => otherFlowId !== flowId)
 
         // If another flow in this collection has been visited already and is visible...
-        const anotherFlowInThisCollectionIsVisible = flowIdsInThisCollection.some((otherId) => {
-          const { visible: otherVisible, visited: otherVisited } = this.registry.get(otherId) ?? {}
+        // const anotherFlowInThisCollectionIsVisible = flowIdsInThisCollection.some((otherId) => {
+        //   const { visible: otherVisible, visited: otherVisited } = this.registry.get(otherId) ?? {}
 
-          return otherVisible && otherVisited
-        })
+        //   return otherVisible && otherVisited
+        // })
 
         // ...then this flow is hidden
-        if (anotherFlowInThisCollectionIsVisible) {
-          this.visit(flowId, false)
+        // if (anotherFlowInThisCollectionIsVisible) {
+        //   this.visit(flowId, false)
 
-          continue
-        }
+        //   continue
+        // }
 
         // No other flows are visible, so this flow is visible by default
         this.visit(flowId)

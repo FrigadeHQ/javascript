@@ -76,11 +76,13 @@ export class Flow extends Fetchable {
    * Whether the Flow is visible to the user based on the current user/group's state.
    */
   get isVisible() {
-    if (this._isVisible === false) {
-      return false
-    }
+    return this._isVisible
 
-    return this.getGlobalState().collections.isFlowVisible(this.id)
+    // if (this._isVisible === false) {
+    //   return false
+    // }
+
+    // return this.getGlobalState().collections.isFlowVisible(this.id)
   }
   set isVisible(visible: boolean) {
     this._isVisible = visible

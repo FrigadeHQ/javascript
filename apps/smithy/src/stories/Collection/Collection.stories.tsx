@@ -23,11 +23,11 @@ export const CollectionAndSharedFlow = {
           <Text.H4 mt="8">Collection:</Text.H4>
           <Collection {...args} />
 
-          <Text.H4 mt="8">Banner in same Collection:</Text.H4>
-
+          <Text.H4 mt="8">Most important banner:</Text.H4>
           {/* Most important banner */}
           <Banner flowId="flow_gY36aLgO" />
 
+          <Text.H4 mt="8">Least important banner:</Text.H4>
           {/* Least important banner */}
           <Banner flowId="flow_ZZ6Fz6nt" />
         </>
@@ -82,6 +82,20 @@ export const CollectionAndOutsideFlow = {
   ],
 };
 
+export const SameCollectionTwice = {
+  decorators: [
+    () => (
+      <>
+        <Text.H4 mt="8">Rule Order 1:</Text.H4>
+        <Collection collectionId="collection_rwhODKBk" />
+
+        <Text.H4 mt="8">Rule Order 1:</Text.H4>
+        <Collection collectionId="collection_rwhODKBk" />
+      </>
+    ),
+  ],
+};
+
 export const TwoCollectionsSeparate = {
   decorators: [
     () => (
@@ -119,6 +133,25 @@ export const TwoCollectionsSharedDifferentOrder = {
 
         <Text.H4 mt="8">Rule Order 3:</Text.H4>
         <Collection collectionId="collection_oZpFAyyl" />
+      </>
+    ),
+  ],
+};
+
+export const TwoCollectionsSharedWithATC = {
+  decorators: [
+    () => (
+      <>
+        <Text.H4 mt="8">Rule Order 1:</Text.H4>
+        <Collection collectionId="collection_rwhODKBk" />
+
+        <Text.H4 mt="8">Rule Order 2:</Text.H4>
+        <Collection collectionId="collection_2x7NBos7" />
+
+        <Text.H4>
+          Not visible: "Outside Cool-offs" Collection running ATC for prev 2
+          Collections
+        </Text.H4>
       </>
     ),
   ],
