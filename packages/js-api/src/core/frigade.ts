@@ -231,6 +231,9 @@ export class Frigade extends Fetchable {
     return this.getFlowSync(flowId)
   }
 
+  /**
+   * @ignore
+   */
   public getFlowSync(flowId: string) {
     return this.flows.find((flow) => flow.id == flowId)
   }
