@@ -1,4 +1,4 @@
-import { Banner, Collection, Text } from "@frigade/react";
+import { Banner, Collection, Text, useUser } from "@frigade/react";
 
 export default {
   title: "Components/Collection",
@@ -168,5 +168,29 @@ export const MultipleAnnouncements = {
         <Collection collectionId="collection_DrlkZoXK" />
       </>
     ),
+  ],
+};
+
+export const FlowVisibilityChange = {
+  decorators: [
+    () => {
+      const { addProperties } = useUser();
+
+      function handleClick() {
+        addProperties({
+          testProperty: "bananas",
+        });
+      }
+      return (
+        <>
+          <button onClick={handleClick}>Add testProperty</button>
+          <Text.H4 mt="8">Rule Order 1 Collection:</Text.H4>
+          <Collection collectionId="collection_rwhODKBk" />
+
+          <Text.H4 mt="8">Rule order - A Flow:</Text.H4>
+          <Banner flowId="flow_EwYzCB3L" />
+        </>
+      );
+    },
   ],
 };

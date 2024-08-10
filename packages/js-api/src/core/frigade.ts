@@ -265,6 +265,21 @@ export class Frigade extends Fetchable {
     return collection as EnrichedCollection
   }
 
+  /**
+   * @ignore
+   */
+  public getCollectionSync(collectionId: string) {
+    const collection = this.getGlobalState().collections.getCollection(collectionId)
+
+    if (collection == null) {
+      return undefined
+    }
+
+    this.getGlobalState().registeredCollectionIds.add(collectionId)
+
+    return collection
+  }
+
   public async getCollections(): Promise<CollectionsList | undefined> {
     await this.initIfNeeded()
 

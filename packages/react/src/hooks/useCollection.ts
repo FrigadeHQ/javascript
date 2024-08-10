@@ -1,34 +1,69 @@
-import { useContext, useEffect, useState } from 'react'
-import type { EnrichedCollection } from '@frigade/js'
+import { useCallback, useContext, useState, useSyncExternalStore } from 'react'
 
 import { FrigadeContext } from '@/components/Provider'
 
 import { useFlow } from '@/hooks/useFlow'
 
 export function useCollection(collectionId: string) {
-  const [collection, setCollection] = useState<EnrichedCollection>()
-  const [currentFlowId, setCurrentFlowId] = useState<string>()
-  const { flow: currentFlow } = useFlow(currentFlowId)
   const { frigade } = useContext(FrigadeContext)
+  const [, setForceRender] = useState<boolean>(false)
 
-  useEffect(() => {
-    ;(async () => {
-      const apiCollection = await frigade.getCollection(collectionId)
+  let debounceTimeout: ReturnType<typeof setTimeout>
 
-      if (!apiCollection || frigade.hasFailedToLoad()) {
-        setCollection(undefined)
-        return
+  const subscribe = useCallback(
+    (cb: () => void) => {
+      // TODO: Why is there a noticeable delay when this is commented out?
+      frigade.getCollection(collectionId).then(() => {
+        cb()
+      })
+
+      const handler = () => {
+        clearTimeout(debounceTimeout)
+
+        /*
+         * NOTE: Since React doesn't re-render on deep object diffs,
+         * we need to gently prod it here by creating a state update.
+         */
+        debounceTimeout = setTimeout(() => {
+          setForceRender((forceRender) => !forceRender)
+
+          cb()
+        }, 100)
       }
 
-      const foundFlow = apiCollection.flows.find(({ flow }) => flow.isVisible)?.flow
+      frigade.onStateChange(handler)
 
-      if (foundFlow != null && foundFlow.id !== currentFlowId) {
-        setCurrentFlowId(foundFlow.id)
+      return () => {
+        frigade.removeStateChangeHandler(handler)
       }
+    },
+    [collectionId]
+  )
 
-      setCollection(apiCollection)
-    })()
-  }, [collectionId, currentFlow?.isVisible])
+  const collection = useSyncExternalStore(subscribe, () => {
+    let result = undefined
 
-  return { collection, currentFlow }
+    try {
+      result = frigade.getCollectionSync(collectionId)
+    } catch (noGlobalStateYet) {
+      // no-op
+    }
+
+    return result
+  })
+
+  const enrichedFlows =
+    collection?.flows?.map((item) => ({
+      ...item,
+      flow: frigade.getFlowSync(item.flowId),
+    })) ?? []
+
+  const flowId = enrichedFlows.find(({ flow }) => flow.isVisible)?.flowId
+
+  const { flow } = useFlow(flowId)
+
+  return {
+    collection,
+    currentFlow: flow,
+  }
 }
