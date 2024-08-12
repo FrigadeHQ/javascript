@@ -75,6 +75,7 @@ export class Frigade extends Fetchable {
 
   /**
    * Gets the current configuration.
+   * See  [FrigadeConfig](https://github.com/FrigadeHQ/javascript/blob/main/packages/js-api/src/core/types.ts#L240) for a list of available options.
    */
   getConfig() {
     return this.config

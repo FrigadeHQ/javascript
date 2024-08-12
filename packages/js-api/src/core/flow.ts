@@ -74,6 +74,8 @@ export class Flow extends Fetchable {
   private _isVisible: boolean = false
   /**
    * Whether the Flow is visible to the user based on the current user/group's state.
+   * This function will return `false` if the user has already completed or dismissed the Flow or if the user
+   * does not match the Flow's targeting/audience.
    */
   get isVisible() {
     return this._isVisible
