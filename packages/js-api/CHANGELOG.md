@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.7.4
+
+### Patch Changes
+
+- bb2b75d: Improvements to useFlow and useCollection hooks, add overlay prop to Dialog
+
 ## 0.7.3
 
 ### Patch Changes
