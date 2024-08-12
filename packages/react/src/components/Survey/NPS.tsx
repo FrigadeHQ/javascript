@@ -11,22 +11,6 @@ export function NPS({ as = Dialog, flowId, fieldTypes, part, ...props }: FormPro
     <Form
       alignSelf="end"
       as={as}
-      flowId={flowId}
-      fieldTypes={{
-        nps: NPSField,
-        ...fieldTypes,
-      }}
-      modal={false}
-      onEscapeKeyDown={(e: KeyboardEvent) => {
-        if (typeof props.onEscapeKeyDown === 'function') {
-          props.onEscapeKeyDown(e)
-        }
-
-        if (!e.defaultPrevented) {
-          flow.skip()
-        }
-      }}
-      part={['nps', part]}
       css={{
         // Hides the submit button on the first page
         ...(!flow || flow.getCurrentStepIndex() == 0
@@ -46,6 +30,23 @@ export function NPS({ as = Dialog, flowId, fieldTypes, part, ...props }: FormPro
           },
         },
       }}
+      fieldTypes={{
+        nps: NPSField,
+        ...fieldTypes,
+      }}
+      flowId={flowId}
+      onEscapeKeyDown={(e: KeyboardEvent) => {
+        if (typeof props.onEscapeKeyDown === 'function') {
+          props.onEscapeKeyDown(e)
+        }
+
+        if (!e.defaultPrevented) {
+          flow.skip()
+        }
+      }}
+      overlay={false}
+      modal={false}
+      part={['nps', part]}
       {...props}
     />
   )

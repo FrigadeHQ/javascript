@@ -39,12 +39,24 @@ export interface DialogRootProps extends RadixDialog.DialogProps {}
 
 export interface DialogProps extends BoxPropsWithoutChildren, DialogRootProps, DialogContentProps {
   /**
+   * Whether to display an overlay behind the Dialog.
+   * @default true
+   */
+  overlay?: boolean
+  /**
    * The modality of the dialog. When set to `true`, interaction with outside elements will be disabled and only dialog content will be visible to screen readers.
+   * @default false
    */
   modal?: boolean
 }
 
-export function Dialog({ children, className, modal = true, ...props }: DialogProps) {
+export function Dialog({
+  children,
+  className,
+  overlay = true,
+  modal = true,
+  ...props
+}: DialogProps) {
   const {
     rootProps,
     contentProps,
@@ -65,14 +77,16 @@ export function Dialog({ children, className, modal = true, ...props }: DialogPr
           position="fixed"
           zIndex={zIndex ?? 10}
         >
-          <RadixDialog.Overlay asChild>
-            <Box
-              background="rgb(0 0 0 / 0.5)"
-              inset="0"
-              part="dialog-overlay"
-              position="absolute"
-            />
-          </RadixDialog.Overlay>
+          {overlay && (
+            <RadixDialog.Overlay asChild>
+              <Box
+                background="rgb(0 0 0 / 0.5)"
+                inset="0"
+                part="dialog-overlay"
+                position="absolute"
+              />
+            </RadixDialog.Overlay>
+          )}
           <RadixDialog.Content
             asChild
             onOpenAutoFocus={(e) => e.preventDefault()}
