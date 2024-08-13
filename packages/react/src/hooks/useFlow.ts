@@ -14,7 +14,7 @@ export function useFlow(flowId: string | null, config?: FlowConfig) {
   const subscribe = useCallback(
     (cb: () => void) => {
       // TODO: Why is there a noticeable delay when this is commented out?
-      frigade.getFlow(flowId).then(() => {
+      frigade?.getFlow(flowId).then(() => {
         cb()
       })
 
@@ -34,7 +34,7 @@ export function useFlow(flowId: string | null, config?: FlowConfig) {
         }, 0)
       }
 
-      frigade.onStateChange(handler)
+      frigade?.onStateChange(handler)
 
       return () => {
         frigade.removeStateChangeHandler(handler)
@@ -43,7 +43,7 @@ export function useFlow(flowId: string | null, config?: FlowConfig) {
     [flowId]
   )
 
-  const flow = useSyncExternalStore(subscribe, () => frigade.getFlowSync(flowId))
+  const flow = useSyncExternalStore(subscribe, () => frigade?.getFlowSync(flowId))
 
   if (flow != null && config?.variables) {
     flow.applyVariables(config.variables)
