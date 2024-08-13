@@ -1,4 +1,4 @@
-import { Box, Tour, useFlow } from "@frigade/react";
+import { Box, Button, Tour } from "@frigade/react";
 import { StoryContext, StoryFn } from "@storybook/react";
 
 export default {
@@ -9,18 +9,10 @@ export default {
 export const Default = {
   args: {
     dismissible: true,
+    defaultOpen: false,
   },
   decorators: [
     (_: StoryFn, options: StoryContext) => {
-      // const [name, setName] = useState<string>("John");
-      const { flow } = useFlow("flow_U63A5pndRrvCwxNs");
-
-      // useEffect(() => {
-      //   setTimeout(() => {
-      //     setName("Smeagol");
-      //   }, 1050);
-      // }, []);
-
       return (
         <Box
           style={{
@@ -31,19 +23,13 @@ export const Default = {
             height: "calc(100vh - 32px)",
           }}
         >
-          <input
-            value="Restart Flow"
-            type="button"
-            onClick={() => {
-              flow?.restart();
-            }}
-          />
+          <input value="Restart Flow" type="button" />
           <Box
             id="tooltip-storybook-0"
             p={4}
             style={{ background: "pink", width: "20vw" }}
           >
-            Anchor here
+            <Button.Primary title="Anchor here" />
           </Box>
           <Box
             id="tooltip-storybook-1"
@@ -54,16 +40,10 @@ export const Default = {
           </Box>
           <Tour
             flowId="flow_U63A5pndRrvCwxNs"
-            onComplete={(flow) => console.log("COMPLETE", flow)}
             variables={{
               firstName: "John",
             }}
-            // spotlight={true}
             {...options.args}
-            onPrimary={() => {
-              // change url without redirecdt to be current url plus /new-url
-              // window.history.pushState({}, "", "/new-url");
-            }}
           />
         </Box>
       );
