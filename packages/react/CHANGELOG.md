@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.4.17
+
+### Patch Changes
+
+- 6c02433: Adds a null check on `useSyncExternalStore`
+
 ## 2.4.16
 
 ### Patch Changes
