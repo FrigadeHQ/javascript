@@ -1,4 +1,4 @@
-import { SyntheticEvent, useContext, useState } from 'react'
+import { SyntheticEvent, useContext, useEffect, useState } from 'react'
 import { FormProvider, useController, useForm, useFormContext } from 'react-hook-form'
 
 import { Button } from '@/components/Button'
@@ -76,6 +76,7 @@ export function FormStep({
     }, {}),
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
+
   const fields = []
 
   const { control, handleSubmit } = formContext
@@ -106,6 +107,10 @@ export function FormStep({
 
   const disabled = step.$state.blocked || !formContext.formState.isValid ? true : false
 
+  useEffect(() => {
+    formContext.reset()
+  }, [step])
+
   return (
     <Flex.Column gap={5} part="form-step" {...stepProps}>
       <Card.Header
@@ -118,7 +123,12 @@ export function FormStep({
 
       <FormProvider {...formContext}>{fields}</FormProvider>
 
-      <Flex.Row key="form-footer" part="form-step-footer" justifyContent="flex-end" gap={3}>
+      <Flex.Row
+        key={`form-footer-${step.id}`}
+        part="form-step-footer"
+        justifyContent="flex-end"
+        gap={3}
+      >
         {secondaryButtonTitle && (
           <Button.Secondary onClick={handleSecondary} title={secondaryButtonTitle} />
         )}
