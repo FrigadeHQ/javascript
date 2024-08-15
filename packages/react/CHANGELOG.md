@@ -1,5 +1,12 @@
 # @frigade/react
 
+## 2.4.18
+
+### Patch Changes
+
+- 2e31c04: Ensure that form state error state is reset between steps
+- 8747be5: Standardizes blue colors to surface and neutral
+
 ## 2.4.17
 
 ### Patch Changes
