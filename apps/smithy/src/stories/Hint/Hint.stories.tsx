@@ -1,4 +1,4 @@
-import { Box, Hint, Flex } from "@frigade/react";
+import { Box, Card, Hint, Flex } from "@frigade/react";
 import type { Meta, StoryContext, StoryFn } from "@storybook/react";
 
 export default {
@@ -11,6 +11,7 @@ export const Default = {
     align: "after",
     alignOffset: 0,
     anchor: "#tooltip-storybook-0",
+    children: <Card boxShadow="md">Hello</Card>,
     defaultOpen: false,
     side: "left",
     sideOffset: 0,

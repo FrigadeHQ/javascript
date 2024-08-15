@@ -1,8 +1,6 @@
-import { keyframes } from '@emotion/react'
 import { useState } from 'react'
 
 import { Box } from '@/components/Box'
-import { Card } from '@/components/Card'
 import { Ping } from '@/components/Ping'
 
 import { getPingPosition } from '@/components/Hint/getPingPosition'
@@ -15,27 +13,17 @@ export interface HintProps {
   align?: AlignValue
   alignOffset?: number
   anchor: string
+  children?: React.ReactNode
   defaultOpen?: boolean
   side?: SideValue
   sideOffset?: number
 }
 
-const fadeIn = keyframes`
-  from {
-    opacity: 0;
-  }
-  25% {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-`
-
 export function Hint({
   align = 'center',
   alignOffset = 0,
   anchor,
+  children,
   defaultOpen = true,
   side = 'bottom',
   sideOffset = 0,
@@ -55,11 +43,7 @@ export function Hint({
   return (
     <>
       <Box ref={refs.setFloating} style={floatingStyles} {...getFloatingProps()}>
-        {contentOpen && (
-          <Card animation={`${fadeIn} 300ms ease-out`} boxShadow="md">
-            Hello
-          </Card>
-        )}
+        {contentOpen && children}
         <Ping
           onClick={() => {
             console.log('PING CLICK')

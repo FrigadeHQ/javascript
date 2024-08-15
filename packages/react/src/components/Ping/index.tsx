@@ -21,7 +21,14 @@ export interface PingProps extends BoxProps {}
 
 export function Ping({ part = '', ...props }: PingProps) {
   return (
-    <Box height="24px" part={`ping-wrapper ${part}`} position="absolute" width="24px" {...props}>
+    <Box
+      borderRadius="24px"
+      height="24px"
+      part={`ping-wrapper ${part}`}
+      position="absolute"
+      width="24px"
+      {...props}
+    >
       <Box
         backgroundColor="primary.surface"
         animation={`2s ease-out infinite ${pulse}`}
