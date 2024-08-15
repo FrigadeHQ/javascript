@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.4.20
+
+### Patch Changes
+
+- 7bf94cf: Fixes an issue in Next.js server components where pages fail to render
+
 ## 2.4.19
 
 ### Patch Changes
