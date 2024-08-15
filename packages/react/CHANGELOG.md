@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.4.19
+
+### Patch Changes
+
+- a0b64c3: Fixes an issue where modals can become non clickable
+
 ## 2.4.18
 
 ### Patch Changes
