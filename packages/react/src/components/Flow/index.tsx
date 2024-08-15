@@ -38,7 +38,6 @@ export function Flow({
   const {
     dismissible = false,
     forceMount = false,
-    modal = false,
     ...mergedProps
   } = {
     ...(flow?.props ?? {}),
@@ -60,7 +59,7 @@ export function Flow({
   })
 
   const isModal =
-    modal ||
+    mergedProps?.modal ||
     (typeof as === 'function' && as?.displayName === 'Dialog') ||
     [FlowType.ANNOUNCEMENT, FlowType.TOUR].includes(flow?.rawData?.flowType)
 

@@ -65,14 +65,16 @@ export function Dialog({ children, className, modal = true, ...props }: DialogPr
           position="fixed"
           zIndex={zIndex ?? 10}
         >
-          <RadixDialog.Overlay asChild>
-            <Box
-              background="rgb(0 0 0 / 0.5)"
-              inset="0"
-              part="dialog-overlay"
-              position="absolute"
-            />
-          </RadixDialog.Overlay>
+          {modal && (
+            <RadixDialog.Overlay asChild>
+              <Box
+                background="rgb(0 0 0 / 0.5)"
+                inset="0"
+                part="dialog-overlay"
+                position="absolute"
+              />
+            </RadixDialog.Overlay>
+          )}
           <RadixDialog.Content
             asChild
             onOpenAutoFocus={(e) => e.preventDefault()}
