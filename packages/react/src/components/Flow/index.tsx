@@ -115,6 +115,7 @@ export function Flow({
   const ContainerElement = as === null ? Fragment : as ?? Box
 
   const containerProps = {
+    modal,
     ...mergedProps,
     'data-flow-id': flow.id,
   }
