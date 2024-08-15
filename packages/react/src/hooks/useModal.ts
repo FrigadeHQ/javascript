@@ -14,12 +14,14 @@ export function useModal(flow: Flow, isModal: boolean = true) {
 
   function removeModal() {
     if (modals.has(flow?.id)) {
-      setModals((prevModals) => {
-        const nextModals = new Set(prevModals)
-        nextModals.delete(flow?.id)
+      setTimeout(() => {
+        setModals((prevModals) => {
+          const nextModals = new Set(prevModals)
+          nextModals.delete(flow?.id)
 
-        return nextModals
-      })
+          return nextModals
+        })
+      }, 0)
     }
   }
 
