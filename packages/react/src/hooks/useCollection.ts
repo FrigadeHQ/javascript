@@ -40,17 +40,31 @@ export function useCollection(collectionId: string) {
     [collectionId]
   )
 
-  const collection = useSyncExternalStore(subscribe, () => {
-    let result = undefined
+  const collection = useSyncExternalStore(
+    subscribe,
+    () => {
+      let result = undefined
 
-    try {
-      result = frigade.getCollectionSync(collectionId)
-    } catch (noGlobalStateYet) {
-      // no-op
+      try {
+        result = frigade.getCollectionSync(collectionId)
+      } catch (noGlobalStateYet) {
+        // no-op
+      }
+
+      return result
+    },
+    () => {
+      let result = undefined
+
+      try {
+        result = frigade.getCollectionSync(collectionId)
+      } catch (noGlobalStateYet) {
+        // no-op
+      }
+
+      return result
     }
-
-    return result
-  })
+  )
 
   const enrichedFlows =
     collection?.flows?.map((item) => ({

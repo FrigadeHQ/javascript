@@ -43,7 +43,11 @@ export function useFlow(flowId: string | null, config?: FlowConfig) {
     [flowId]
   )
 
-  const flow = useSyncExternalStore(subscribe, () => frigade?.getFlowSync(flowId))
+  const flow = useSyncExternalStore(
+    subscribe,
+    () => frigade?.getFlowSync(flowId),
+    () => frigade?.getFlowSync(flowId)
+  )
 
   if (flow != null && config?.variables) {
     flow.applyVariables(config.variables)
