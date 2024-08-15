@@ -33,7 +33,7 @@ export function CheckboxField(props: FormFieldProps) {
           alignItems="center"
           display="flex"
           // @ts-ignore
-          backgroundColor:hover="blue900"
+          backgroundColor:hover="neutral.900"
           part="field-checkbox"
           id={id as string}
         >

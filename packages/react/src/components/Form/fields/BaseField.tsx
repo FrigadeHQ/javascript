@@ -5,9 +5,15 @@ import { Error } from './Error'
 import { Label } from './Label'
 import * as styles from './BaseField.styles'
 
+export interface FieldProps {
+  value: string
+  onChange: (value: string) => void
+  [key: string]: any
+}
+
 interface BaseFieldProps extends FormFieldProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- TODO: Tighten up fieldProps type
-  children: (fieldProps?: any) => React.ReactNode
+  children: (fieldProps?: FieldProps) => React.ReactNode
 }
 
 export function BaseField({ children, field, fieldData, fieldState }: BaseFieldProps) {

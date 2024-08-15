@@ -161,7 +161,7 @@ Dialog.ProgressDots = ({ current, total }: { current: number; total: number }) =
         r={4}
         cx={4 + 16 * i}
         cy="4px"
-        fill={current === i ? theme.colors.blue500 : theme.colors.blue800}
+        fill={current === i ? theme.colors.primary.surface : theme.colors.neutral['700']}
         part={current === i ? 'progress-dot-selected' : 'progress-dot'}
       />
     )

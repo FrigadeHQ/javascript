@@ -19,7 +19,7 @@ const SelectItem = React.forwardRef<HTMLDivElement, SelectItemProps>(
   ({ label, value }, forwardedRef) => (
     <Select.Item value={value} ref={forwardedRef} asChild>
       <Box
-        backgroundColor:hover="blue900"
+        backgroundColor:hover="neutral.900"
         borderRadius="md"
         outline="none"
         part="field-select-option"
