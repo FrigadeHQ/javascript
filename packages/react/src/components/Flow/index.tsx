@@ -1,4 +1,4 @@
-import { Fragment, useEffect } from 'react'
+import { Fragment } from 'react'
 import { FlowType } from '@frigade/js'
 
 import { Box } from '@/components/Box'
@@ -66,12 +66,6 @@ export function Flow({
 
   const { isCurrentModal, removeModal } = useModal(flow, isModal)
 
-  useEffect(() => {
-    if (!flow?.isVisible && isCurrentModal) {
-      removeModal()
-    }
-  }, [flow?.isVisible, isCurrentModal])
-
   // useEffect(() => {
   //   return () => {
   //     unregisterComponent(flowId)
@@ -101,6 +95,7 @@ export function Flow({
   // })
 
   if (!flow.isVisible && !shouldForceMount) {
+    removeModal()
     return null
   }
 
