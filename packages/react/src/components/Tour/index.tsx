@@ -38,12 +38,6 @@ export function Tour({ flowId, onComplete, variables, part, ...props }: TourProp
   const { isCurrentModal, removeModal } = useModal(flow)
 
   useEffect(() => {
-    if (!flow?.isVisible && isCurrentModal) {
-      removeModal()
-    }
-  }, [flow?.isVisible, isCurrentModal])
-
-  useEffect(() => {
     return () => {
       unregisterComponent(flowId)
     }
@@ -61,6 +55,10 @@ export function Tour({ flowId, onComplete, variables, part, ...props }: TourProp
 
   if (!hasInitialized || !hasProcessedRules) {
     return null
+  }
+
+  if (!flow?.isVisible) {
+    removeModal()
   }
 
   const step = flow.getCurrentStep()

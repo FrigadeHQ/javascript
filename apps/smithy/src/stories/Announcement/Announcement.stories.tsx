@@ -42,3 +42,36 @@ export const TestReset = {
     },
   ],
 };
+
+export const ModalCollisions = {
+  decorators: [
+    (Story, { args }) => {
+      // const { frigade } = useFrigade();
+      const { flow: flowA } = useFlow("flow_gT6bpnCn");
+      const { flow: flowB } = useFlow("flow_FMjrv1vC");
+
+      return (
+        <div>
+          <Announcement flowId="flow_gT6bpnCn" />
+          <Announcement flowId="flow_FMjrv1vC" />
+          <button
+            onClick={async () => {
+              // const flow = await frigade.getFlow(args.flowId);
+              await flowA.restart();
+            }}
+          >
+            Reset flow A
+          </button>
+          <button
+            onClick={async () => {
+              // const flow = await frigade.getFlow(args.flowId);
+              await flowB.restart();
+            }}
+          >
+            Reset flow B
+          </button>
+        </div>
+      );
+    },
+  ],
+};
