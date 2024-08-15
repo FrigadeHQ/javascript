@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.4.21
+
+### Patch Changes
+
+- d754be2: Fixes a series of issues related to modals and announcements
+
 ## 2.4.20
 
 ### Patch Changes
