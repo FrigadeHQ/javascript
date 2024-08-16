@@ -1,7 +1,6 @@
-import { useContext, useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import { type FlowPropsWithoutChildren } from '@/components/Flow'
-import { FrigadeContext } from '@/components/Provider'
 import { type TooltipProps } from '@/components/Tooltip'
 import { TourStep } from '@/components/Tour/TourStep'
 
@@ -31,35 +30,35 @@ export function Tour({ flowId, onComplete, variables, part, ...props }: TourProp
     variables,
   })
 
-  const { hasInitialized, registerComponent, unregisterComponent } = useContext(FrigadeContext)
+  // const { hasInitialized, registerComponent, unregisterComponent } = useContext(FrigadeContext)
 
   useFlowHandlers(flow, { onComplete })
 
-  const { isCurrentModal, removeModal } = useModal(flow)
+  const { isCurrentModal } = useModal(flow)
 
-  useEffect(() => {
-    return () => {
-      unregisterComponent(flowId)
-      removeModal()
-    }
-  }, [])
+  // useEffect(() => {
+  //   return () => {
+  //     unregisterComponent(flowId)
+  //     removeModal()
+  //   }
+  // }, [])
 
-  if (flow == null || flow.isVisible === false || !isCurrentModal) {
-    return null
-  }
+  // registerComponent(flowId, () => {
+  //   if (!hasProcessedRules) {
+  //     setHasProcessedRules(true)
+  //   }
+  // })
 
-  registerComponent(flowId, () => {
-    if (!hasProcessedRules) {
-      setHasProcessedRules(true)
-    }
-  })
-
-  if (!hasInitialized || !hasProcessedRules) {
-    return null
-  }
+  // if (!hasInitialized  || !hasProcessedRules) {
+  //   return null
+  // }
 
   if (!flow?.isVisible) {
-    removeModal()
+    return null
+  }
+
+  if (!isCurrentModal) {
+    return null
   }
 
   const step = flow.getCurrentStep()
