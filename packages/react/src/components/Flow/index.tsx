@@ -1,4 +1,4 @@
-import { Fragment } from 'react'
+import { Fragment, useEffect } from 'react'
 import { FlowType } from '@frigade/js'
 
 import { Box } from '@/components/Box'
@@ -64,6 +64,12 @@ export function Flow({
     [FlowType.ANNOUNCEMENT, FlowType.TOUR].includes(flow?.rawData?.flowType)
 
   const { isCurrentModal, removeModal } = useModal(flow, isModal)
+
+  useEffect(() => {
+    return () => {
+      removeModal()
+    }
+  }, [])
 
   // useEffect(() => {
   //   return () => {

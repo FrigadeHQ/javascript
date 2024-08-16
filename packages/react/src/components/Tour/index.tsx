@@ -40,6 +40,7 @@ export function Tour({ flowId, onComplete, variables, part, ...props }: TourProp
   useEffect(() => {
     return () => {
       unregisterComponent(flowId)
+      removeModal()
     }
   }, [])
 
