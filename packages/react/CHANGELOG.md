@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.4.22
+
+### Patch Changes
+
+- d7de8d1: Fixes another edge case related to modals not opening when combined with a tour
+
 ## 2.4.21
 
 ### Patch Changes
