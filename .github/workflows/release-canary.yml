@@ -3,7 +3,7 @@ name: Release Canary
 on:
   workflow_run:
     workflows: ['Tests']
-    branches: [beta]
+    branches: [canary]
     types:
       - completed
 
