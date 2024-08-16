@@ -11,7 +11,7 @@ export function useModal(flow: Flow, isModal: boolean = true) {
   }, [globalModalState, isModal])
 
   const registerModal = useCallback(() => {
-    if (isModal && flow?.isVisible && flow && !globalModalState.has(flow.id)) {
+    if (isModal && flow?.isVisible && !globalModalState.has(flow.id)) {
       globalModalState.add(flow.id)
     }
   }, [globalModalState, isModal])
