@@ -1,4 +1,4 @@
-import { Fragment, useEffect } from 'react'
+import { Fragment } from 'react'
 import { FlowType } from '@frigade/js'
 
 import { Box } from '@/components/Box'
@@ -63,13 +63,7 @@ export function Flow({
     (typeof as === 'function' && as?.displayName === 'Dialog') ||
     [FlowType.ANNOUNCEMENT, FlowType.TOUR].includes(flow?.rawData?.flowType)
 
-  const { isCurrentModal, removeModal } = useModal(flow, isModal)
-
-  useEffect(() => {
-    return () => {
-      removeModal()
-    }
-  }, [])
+  const { isCurrentModal } = useModal(flow, isModal)
 
   // useEffect(() => {
   //   return () => {
@@ -89,10 +83,6 @@ export function Flow({
     return null
   }
 
-  if (!shouldForceMount && !isCurrentModal) {
-    return null
-  }
-
   // registerComponent(flowId, () => {
   //   if (!hasProcessedRules) {
   //     setHasProcessedRules(true)
@@ -100,7 +90,10 @@ export function Flow({
   // })
 
   if (!flow.isVisible && !shouldForceMount) {
-    removeModal()
+    return null
+  }
+
+  if (!shouldForceMount && !isCurrentModal) {
     return null
   }
 

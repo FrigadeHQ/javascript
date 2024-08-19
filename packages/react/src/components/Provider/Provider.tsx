@@ -125,7 +125,6 @@ export function Provider({
   ...props
 }: ProviderProps) {
   const themeOverrides = theme ? createThemeVariables(theme) : {}
-  const [modals, setModals] = useState(new Set<string>())
   const registeredComponents = useRef<RegisteredComponents>(new Map())
   const intervalRef = useRef<NodeJS.Timeout>()
   const [hasInitialized, setHasInitialized] = useState(false)
@@ -133,7 +132,6 @@ export function Provider({
   const frigade = useMemo<Frigade>(() => {
     setHasInitialized(false)
     intervalRef.current = undefined
-    setModals(new Set<string>())
 
     return new Frigade(props.apiKey, {
       apiKey: props.apiKey,
@@ -222,14 +220,9 @@ export function Provider({
     }
   }, [])
 
-  const currentModal = modals.size > 0 ? modals.values().next().value : null
-
   return (
     <FrigadeContext.Provider
       value={{
-        modals,
-        setModals,
-        currentModal,
         navigate: navigateHandler,
         ...props,
         frigade: frigade,
