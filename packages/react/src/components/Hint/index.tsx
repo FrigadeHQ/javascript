@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { Box } from '@/components/Box'
+import { Box, type BoxProps } from '@/components/Box'
 import { Ping } from '@/components/Ping'
 
 import { getPingPosition } from '@/components/Hint/getPingPosition'
@@ -9,7 +9,7 @@ import { useFloatingHint } from '@/components/Hint/useFloatingHint'
 export type AlignValue = 'after' | 'before' | 'center' | 'end' | 'start'
 export type SideValue = 'bottom' | 'left' | 'right' | 'top'
 
-export interface HintProps {
+export interface HintProps extends BoxProps {
   align?: AlignValue
   alignOffset?: number
   anchor: string
@@ -25,8 +25,11 @@ export function Hint({
   anchor,
   children,
   defaultOpen = true,
+  part,
   side = 'bottom',
   sideOffset = 0,
+  style = {},
+  ...props
 }: HintProps) {
   const [contentOpen, setContentOpen] = useState(defaultOpen)
 
@@ -40,9 +43,19 @@ export function Hint({
     sideOffset,
   })
 
+  // TODO: merge style prop from getFloatingProps
   return (
     <>
-      <Box ref={refs.setFloating} style={floatingStyles} {...getFloatingProps()}>
+      <Box
+        part={['hint', part]}
+        ref={refs.setFloating}
+        style={{
+          ...floatingStyles,
+          ...style,
+        }}
+        {...getFloatingProps()}
+        {...props}
+      >
         {contentOpen && children}
         <Ping
           onClick={() => {

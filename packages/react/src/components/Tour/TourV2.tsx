@@ -4,6 +4,7 @@ import { Card } from '@/components/Card'
 import { Flex } from '@/components/Flex'
 import { Flow, type FlowPropsWithoutChildren } from '@/components/Flow'
 import { Hint, type HintProps } from '@/components/Hint'
+import * as Progress from '@/components/Progress'
 
 export interface TourProps extends FlowPropsWithoutChildren, HintProps {
   sequential?: boolean
@@ -24,33 +25,63 @@ const fadeIn = keyframes`
 export function TourV2({
   align = 'after',
   alignOffset = 0,
+  as = null,
+  dismissible = true,
   flowId,
+  part,
   side = 'bottom',
   sideOffset = 0,
+  ...props
 }: TourProps) {
   return (
-    <Flow flowId={flowId}>
-      {({ step }) => {
+    <Flow as={as} flowId={flowId} {...props}>
+      {({ flow, handleDismiss, handlePrimary, handleSecondary, step }) => {
         const primaryButtonTitle = step.primaryButton?.title ?? step.primaryButtonTitle
         const secondaryButtonTitle = step.secondaryButton?.title ?? step.secondaryButtonTitle
+        const disabled = !!step.$state.blocked
 
-        const stepProps = step.props ?? {}
-
-        const disabled = step.$state.blocked ? true : false
+        // const stepProps = step.props ?? {}
 
         return (
           <Hint
             align={align}
             alignOffset={alignOffset}
             anchor={step.selector as string}
+            data-flow-id={flow.id}
+            data-step-id={step.id}
+            part={part}
             side={side}
             sideOffset={sideOffset}
           >
-            <Card animation={`${fadeIn} 300ms ease-out`} boxShadow="md">
-              <Card.Header subtitle={step.subtitle} title={step.title} />
-              <Flex.Row gap={3} justifyContent="flex-end">
-                <Card.Secondary title={secondaryButtonTitle} />
-                <Card.Primary title={primaryButtonTitle} />
+            <Card
+              animation={`${fadeIn} 300ms ease-out`}
+              boxShadow="md"
+              maxWidth="min(360px, calc(100vw - 25px))"
+            >
+              <Card.Header
+                dismissible={dismissible}
+                handleDismiss={handleDismiss}
+                subtitle={step.subtitle}
+                title={step.title}
+              />
+              <Flex.Row alignItems="center" gap={3} justifyContent="flex-end">
+                {flow.getNumberOfAvailableSteps() > 1 && (
+                  <Progress.Fraction
+                    current={flow.getCurrentStepOrder() + 1}
+                    marginRight="auto"
+                    total={flow.getNumberOfAvailableSteps()}
+                  />
+                )}
+                <Card.Secondary
+                  disabled={disabled}
+                  onClick={handleSecondary}
+                  title={secondaryButtonTitle}
+                />
+                <Card.Primary
+                  disabled={disabled}
+                  onClick={handlePrimary}
+                  title={primaryButtonTitle}
+                />
               </Flex.Row>
             </Card>
           </Hint>

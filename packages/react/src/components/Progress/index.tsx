@@ -1,4 +1,5 @@
 export { Bar } from './Bar'
 export { Dots } from './Dots'
+export { Fraction } from './Fraction'
 export { Segments } from './Segments'
 export type { ProgressProps } from './ProgressProps'
