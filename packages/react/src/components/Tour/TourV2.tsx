@@ -58,7 +58,26 @@ export function TourV2({
               boxShadow="md"
               maxWidth="min(360px, calc(100vw - 25px))"
             >
+              <Card.Media
+                aspectRatio="2"
+                borderRadius="md md 0 0"
+                borderWidth="0"
+                margin="-5 -5 0"
+                objectFit="cover"
+                overflowClipMargin="unset"
+                src={step.videoUri ?? step.imageUri}
+                transform="translate3d(0, 0, 1px)"
+                type={step.videoUri ? 'video' : 'image'}
+              />
+
               <Card.Header
+                css={{
+                  '.fr-dismiss': {
+                    position: 'absolute',
+                    right: '12px',
+                    top: '12px',
+                  },
+                }}
                 dismissible={dismissible}
                 handleDismiss={handleDismiss}
                 subtitle={step.subtitle}

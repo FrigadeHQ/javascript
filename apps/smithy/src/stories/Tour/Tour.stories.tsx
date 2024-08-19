@@ -56,6 +56,7 @@ export const TourV2NiceGreatYay = {
     // dismissible: true,
     // defaultOpen: false,
     flowId: "flow_U63A5pndRrvCwxNs",
+    side: "left",
     variables: {
       firstName: "Euronymous Bosch",
     },
