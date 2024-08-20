@@ -5,7 +5,7 @@ export default {
 };
 
 export function Default() {
-  const { flow } = useFlow("flow_U63A5pndRrvCwxNs", {
+  const { flow, isLoading } = useFlow("flow_U63A5pndRrvCwxNs", {
     variables: {
       firstName: "Jonathan",
     },
@@ -14,6 +14,8 @@ export function Default() {
   function clickyClicky() {
     flow.getCurrentStep()?.complete();
   }
+
+  console.log("isLoading:", isLoading);
 
   return (
     <div>

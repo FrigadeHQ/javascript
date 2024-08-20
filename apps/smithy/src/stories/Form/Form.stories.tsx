@@ -32,11 +32,6 @@ export const Default = {
       customTest: CustomStep,
     },
     as: Dialog,
-    onOpenChange: (isOpen) => {
-      if (!isOpen) {
-        flow.skip();
-      }
-    },
     variables: {
       testVar: "hello world",
     },
@@ -48,8 +43,13 @@ export const FormBranching = {
     dismissible: false,
     flowId: "flow_fpJlqkbl",
     width: "400px",
-    onPrimary: (step, e, properties) =>
-      console.log("Primary", step, e, properties),
+    onPrimary: (step, e, properties) => {
+      if (!properties["requiredFieldA"] && !properties["requiredFieldB"]) {
+        // either one of the fields is required.
+        return false;
+      }
+      return true;
+    },
     onSecondary: () => {
       console.log("Secondary");
       return true;

@@ -55,5 +55,6 @@ export function useFlow(flowId: string | null, config?: FlowConfig) {
 
   return {
     flow,
+    isLoading: frigade.hasFailedToLoad() ? false : !flow,
   }
 }
