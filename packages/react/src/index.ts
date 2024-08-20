@@ -28,6 +28,7 @@ export { Media, Image, Video } from './components/Media'
 
 export * as Progress from './components/Progress'
 export { Provider, type ProviderProps } from './components/Provider'
+export { Spotlight } from './components/Spotlight'
 export * as Survey from './components/Survey'
 export { Text, type TextProps } from './components/Text'
 export { Tooltip, type TooltipProps } from './components/Tooltip'

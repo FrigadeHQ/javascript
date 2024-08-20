@@ -1,17 +1,19 @@
 import { useEffect } from 'react'
 
 import {
-  useFloating,
   autoUpdate,
-  offset,
   flip,
+  offset,
   type Placement,
   shift,
   useClick,
   useDismiss,
+  useFloating,
   type UseFloatingOptions,
-  useRole,
+  type UseFloatingReturn,
   useInteractions,
+  type UseInteractionsReturn,
+  useRole,
 } from '@floating-ui/react'
 
 import type { AlignValue, HintProps } from '@/components/Hint'
@@ -19,6 +21,10 @@ import type { AlignValue, HintProps } from '@/components/Hint'
 export interface FloatingHintProps extends HintProps {
   onOpenChange?: UseFloatingOptions['onOpenChange']
   open: boolean
+}
+
+export interface FloatingHintReturn extends Partial<UseFloatingReturn> {
+  getFloatingProps: UseInteractionsReturn['getFloatingProps']
 }
 
 function getOriginalAlign(align: AlignValue) {
@@ -42,7 +48,7 @@ export function useFloatingHint({
   open,
   side,
   sideOffset,
-}: FloatingHintProps) {
+}: FloatingHintProps): FloatingHintReturn {
   const placement = `${side}-${getOriginalAlign(align)}` as Placement
 
   function offsetMiddleware({ rects }) {
@@ -73,6 +79,8 @@ export function useFloatingHint({
     placement,
     whileElementsMounted: autoUpdate,
   })
+
+  // console.log(context)
 
   const click = useClick(context)
   const dismiss = useDismiss(context)

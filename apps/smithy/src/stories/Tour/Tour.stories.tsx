@@ -57,6 +57,7 @@ export const TourV2NiceGreatYay = {
     // defaultOpen: false,
     flowId: "flow_U63A5pndRrvCwxNs",
     side: "left",
+    spotlight: true,
     variables: {
       firstName: "Euronymous Bosch",
     },
@@ -74,10 +75,12 @@ export const TourV2NiceGreatYay = {
             flexDirection: "column",
             justifyContent: "center",
             height: "calc(100vh - 32px)",
+            // height: "1500px",
           }}
         >
           <input value="Restart Flow" type="button" onClick={() => {}} />
           <Box
+            borderRadius="10px"
             id="tooltip-storybook-0"
             p={4}
             style={{ background: "pink", width: "20vw" }}

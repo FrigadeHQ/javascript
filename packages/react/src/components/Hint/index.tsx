@@ -2,6 +2,7 @@ import { useState } from 'react'
 
 import { Box, type BoxProps } from '@/components/Box'
 import { Ping } from '@/components/Ping'
+import { Spotlight } from '@/components/Spotlight'
 
 import { getPingPosition } from '@/components/Hint/getPingPosition'
 import { useFloatingHint } from '@/components/Hint/useFloatingHint'
@@ -17,6 +18,7 @@ export interface HintProps extends BoxProps {
   defaultOpen?: boolean
   side?: SideValue
   sideOffset?: number
+  spotlight?: boolean
 }
 
 export function Hint({
@@ -28,6 +30,7 @@ export function Hint({
   part,
   side = 'bottom',
   sideOffset = 0,
+  spotlight = false,
   style = {},
   ...props
 }: HintProps) {
@@ -46,6 +49,7 @@ export function Hint({
   // TODO: merge style prop from getFloatingProps
   return (
     <>
+      {spotlight && <Spotlight anchor={anchor} />}
       <Box
         part={['hint', part]}
         ref={refs.setFloating}

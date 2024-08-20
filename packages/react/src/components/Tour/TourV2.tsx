@@ -31,6 +31,7 @@ export function TourV2({
   part,
   side = 'bottom',
   sideOffset = 0,
+  spotlight,
   ...props
 }: TourProps) {
   return (
@@ -52,6 +53,7 @@ export function TourV2({
             part={part}
             side={side}
             sideOffset={sideOffset}
+            spotlight={spotlight}
           >
             <Card
               animation={`${fadeIn} 300ms ease-out`}
