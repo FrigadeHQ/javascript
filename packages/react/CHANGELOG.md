@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.4.23
+
+### Patch Changes
+
+- 1950e2e: Refactors the useModals hook to no longer depend on React context
+
 ## 2.4.22
 
 ### Patch Changes
