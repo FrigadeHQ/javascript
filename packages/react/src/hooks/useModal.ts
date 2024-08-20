@@ -31,6 +31,6 @@ export function useModal(flow: Flow, isModal: boolean = true) {
   const currentModal = globalModalState.size > 0 ? globalModalState.values().next().value : null
 
   return {
-    isCurrentModal: !isModal ? true : currentModal === flow?.id,
+    isCurrentModal: !isModal ? true : currentModal === flow?.id || globalModalState.size == 0,
   }
 }
