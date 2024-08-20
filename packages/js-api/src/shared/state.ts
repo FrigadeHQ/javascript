@@ -18,8 +18,8 @@ export interface FrigadeGlobalState {
   onFlowStateChangeHandlers: ((flow: Flow, previousFlow: Flow) => void)[]
   previousFlows: Map<string, Flow>
   variables: Record<string, Record<string, any>>
-  lastSyncDate?: Date
-  pendingRequests: number
+  lastFlowSyncDate: Map<string, Date>
+  pendingRequests: Map<string, number>
   config: FrigadeConfig
   currentUrl: string
 }
