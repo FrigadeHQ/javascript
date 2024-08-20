@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.7.5
+
+### Patch Changes
+
+- c1e6edd: Fixes an issue where flow.reset() sometimes can cause a race condition which prevents the flow from resetting
+
 ## 0.7.4
 
 ### Patch Changes
