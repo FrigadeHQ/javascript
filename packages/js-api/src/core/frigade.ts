@@ -398,7 +398,8 @@ export class Frigade extends Fetchable {
         variables: {},
         config: this.config,
         currentUrl: isWeb() ? window.location.href : '',
-        pendingRequests: 0,
+        pendingRequests: new Map(),
+        lastFlowSyncDate: new Map(),
       }
 
       if (this.config.__readOnly && this.config.__flowStateOverrides) {
@@ -424,11 +425,6 @@ export class Frigade extends Fetchable {
                 context: getContext(this.getGlobalState()),
               } as FlowStateDTO),
             })
-
-        // Avoids any race condition where the state is being refreshed while a write request is still pending
-        if (!overrideFlowStateRaw && this.getGlobalState().pendingRequests > 0) {
-          return
-        }
 
         const collectionsData: CollectionsList = new Map()
 

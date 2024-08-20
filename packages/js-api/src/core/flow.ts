@@ -616,8 +616,9 @@ export class Flow extends Fetchable {
     stepId?: string
   ) {
     const date = new Date()
-    this.getGlobalState().lastSyncDate = date
-    this.getGlobalState().pendingRequests += 1
+    this.getGlobalState().lastFlowSyncDate[this.id] = date
+    this.getGlobalState().pendingRequests[this.id] =
+      (this.getGlobalState().pendingRequests[this.id] ?? 0) + 1
     const flowStatesRaw: FlowStates = await this.fetch('/v1/public/flowStates', {
       method: 'POST',
       body: JSON.stringify({
@@ -631,10 +632,13 @@ export class Flow extends Fetchable {
         context: getContext(this.getGlobalState()),
       } as FlowStateDTO),
     })
-    this.getGlobalState().pendingRequests -= 1
+    this.getGlobalState().pendingRequests[this.id] -= 1
     // if a newer request was sent, use that one.
     // except if there are other pending requests
-    if (date < this.getGlobalState().lastSyncDate || this.getGlobalState().pendingRequests > 0) {
+    if (
+      date < this.getGlobalState().lastFlowSyncDate[this.id] ||
+      this.getGlobalState().pendingRequests[this.id] > 0
+    ) {
       return
     }
     await this.getGlobalState().refreshStateFromAPI(flowStatesRaw)
