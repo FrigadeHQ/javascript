@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.4.24
+
+### Patch Changes
+
+- c1e6edd: Fixes an issue where flow.reset() sometimes can cause a race condition which prevents the flow from resetting
+- Updated dependencies [c1e6edd]
+  - @frigade/js@0.7.5
+
 ## 2.4.23
 
 ### Patch Changes
