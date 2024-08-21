@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.4.25
+
+### Patch Changes
+
+- 8b7caba: Fixes an issue where `<Form as={Dialog} />` would not show up in some cases
+
 ## 2.4.24
 
 ### Patch Changes
