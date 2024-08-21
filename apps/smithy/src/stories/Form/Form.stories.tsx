@@ -32,11 +32,6 @@ export const Default = {
       customTest: CustomStep,
     },
     as: Dialog,
-    onOpenChange: (isOpen) => {
-      if (!isOpen) {
-        flow.skip();
-      }
-    },
     variables: {
       testVar: "hello world",
     },
