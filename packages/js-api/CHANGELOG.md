@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.7.7
+
+### Patch Changes
+
+- a052316: Fixes an issue where variable names remained in components if set to undefined or blank
+
 ## 0.7.6
 
 ### Patch Changes

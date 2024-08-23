@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.4.27
+
+### Patch Changes
+
+- a052316: Fixes an issue where variable names remained in components if set to undefined or blank
+- Updated dependencies [a052316]
+  - @frigade/js@0.7.7
+
 ## 2.4.26
 
 ### Patch Changes
