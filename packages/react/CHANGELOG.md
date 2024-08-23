@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.4.26
+
+### Patch Changes
+
+- b6438e4: Adds the entire form context to flow completion event
+- Updated dependencies [b6438e4]
+  - @frigade/js@0.7.6
+
 ## 2.4.25
 
 ### Patch Changes
