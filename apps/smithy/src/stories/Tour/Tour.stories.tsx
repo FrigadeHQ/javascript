@@ -1,6 +1,5 @@
 import { Box, Tour, useFlow } from "@frigade/react";
 import { StoryContext, StoryFn } from "@storybook/react";
-import { useEffect, useState } from "react";
 
 export default {
   title: "Components/Tour",
@@ -13,14 +12,14 @@ export const Default = {
   },
   decorators: [
     (_: StoryFn, options: StoryContext) => {
-      const [name, setName] = useState<string>();
+      // const [name, setName] = useState<string>("John");
       const { flow } = useFlow("flow_U63A5pndRrvCwxNs");
 
-      useEffect(() => {
-        setTimeout(() => {
-          setName("Smeagol");
-        }, 150);
-      }, []);
+      // useEffect(() => {
+      //   setTimeout(() => {
+      //     setName("Smeagol");
+      //   }, 1050);
+      // }, []);
 
       return (
         <Box

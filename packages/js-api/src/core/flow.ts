@@ -549,6 +549,8 @@ export class Flow extends Fetchable {
         matches.forEach((match) => {
           const variable = match.replace('${', '').replace('}', '')
           if (!variables[variable]) {
+            // set the variable to blank string as it was not found
+            str = str.replace(match, '')
             return
           }
           str = str.replace(match, variables[variable])
