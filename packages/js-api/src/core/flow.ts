@@ -265,7 +265,7 @@ export class Flow extends Fetchable {
           thisStep.id
         )
         if (isLastStep) {
-          await this.sendFlowStateToAPI(COMPLETED_FLOW)
+          await this.sendFlowStateToAPI(COMPLETED_FLOW, properties)
         }
       }
 
@@ -485,6 +485,13 @@ export class Flow extends Fetchable {
     return Array.from(this.steps.values())
       .filter((step) => step.$state.visible)
       .indexOf(currentStep)
+  }
+
+  /**
+   * Get the progress of the flow as a number between 0 and 1. Useful when rendering a progress bar.
+   */
+  public getProgress(): number {
+    return (this.getNumberOfCompletedSteps() || 0) / (this.getNumberOfAvailableSteps() || 1)
   }
 
   /**

@@ -108,7 +108,7 @@ export function FormStep({
   const disabled = step.$state.blocked || !formContext.formState.isValid ? true : false
 
   useEffect(() => {
-    formContext.reset()
+    formContext.clearErrors()
   }, [step])
 
   return (
