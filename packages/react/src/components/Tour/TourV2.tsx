@@ -6,7 +6,7 @@ import { Flow, type FlowPropsWithoutChildren } from '@/components/Flow'
 import { Hint, type HintProps } from '@/components/Hint'
 import * as Progress from '@/components/Progress'
 
-export interface TourProps extends FlowPropsWithoutChildren, HintProps {
+export interface TourProps extends FlowPropsWithoutChildren, Omit<HintProps, 'anchor'> {
   sequential?: boolean
 }
 

@@ -9,6 +9,7 @@ import { useFloatingHint } from '@/components/Hint/useFloatingHint'
 
 export type AlignValue = 'after' | 'before' | 'center' | 'end' | 'start'
 export type SideValue = 'bottom' | 'left' | 'right' | 'top'
+export type ExtendedPlacement = `${SideValue}-${AlignValue}`
 
 export interface HintProps extends BoxProps {
   align?: AlignValue
@@ -36,7 +37,7 @@ export function Hint({
 }: HintProps) {
   const [contentOpen, setContentOpen] = useState(defaultOpen)
 
-  const { getFloatingProps, floatingStyles, refs } = useFloatingHint({
+  const { getFloatingProps, floatingStyles, placement, refs } = useFloatingHint({
     align,
     alignOffset,
     anchor,
@@ -46,10 +47,12 @@ export function Hint({
     sideOffset,
   })
 
-  // TODO: merge style prop from getFloatingProps
+  const [finalSide, finalAlign] = placement.split('-')
+
   return (
     <>
       {spotlight && <Spotlight anchor={anchor} />}
+
       <Box
         part={['hint', part]}
         ref={refs.setFloating}
@@ -61,13 +64,13 @@ export function Hint({
         {...props}
       >
         {contentOpen && children}
+
         <Ping
           onClick={() => {
-            console.log('PING CLICK')
             setContentOpen((prev) => !prev)
           }}
           position="absolute"
-          style={getPingPosition(align, side)}
+          style={getPingPosition({ align: finalAlign, side: finalSide })}
         />
       </Box>
     </>

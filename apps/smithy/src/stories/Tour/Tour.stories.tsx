@@ -1,3 +1,4 @@
+import { TourProps } from "@/components/Tour/TourV2";
 import { Box, Button, Tour, TourV2 } from "@frigade/react";
 import { StoryContext, StoryFn } from "@storybook/react";
 
@@ -57,7 +58,7 @@ export const TourV2NiceGreatYay = {
     // defaultOpen: false,
     flowId: "flow_U63A5pndRrvCwxNs",
     side: "left",
-    spotlight: true,
+    spotlight: false,
     variables: {
       firstName: "Euronymous Bosch",
     },
@@ -78,14 +79,25 @@ export const TourV2NiceGreatYay = {
             // height: "1500px",
           }}
         >
-          <input value="Restart Flow" type="button" onClick={() => {}} />
+          <input
+            value="Restart Flow"
+            type="button"
+            onClick={() => {
+              // Do nothing, this is just to see if you can interact outside the overlay
+            }}
+          />
           <Box
             borderRadius="10px"
             id="tooltip-storybook-0"
             p={4}
-            style={{ background: "pink", width: "20vw" }}
+            style={{ background: "pink", width: "100px" }}
           >
-            <Button.Primary title="Anchor here" onClick={() => {}} />
+            <Button.Primary
+              title="Anchor here"
+              onClick={() => {
+                // no-op
+              }}
+            />
           </Box>
           <Box
             id="tooltip-storybook-1"
@@ -100,7 +112,7 @@ export const TourV2NiceGreatYay = {
             // variables={{
             //   firstName: "John",
             // }}
-            {...options.args}
+            {...(options.args as TourProps)}
           />
         </Box>
       );

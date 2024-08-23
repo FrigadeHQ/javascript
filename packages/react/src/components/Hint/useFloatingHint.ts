@@ -16,14 +16,15 @@ import {
   useRole,
 } from '@floating-ui/react'
 
-import type { AlignValue, HintProps } from '@/components/Hint'
+import type { AlignValue, ExtendedPlacement, HintProps } from '@/components/Hint'
 
 export interface FloatingHintProps extends HintProps {
   onOpenChange?: UseFloatingOptions['onOpenChange']
   open: boolean
 }
 
-export interface FloatingHintReturn extends Partial<UseFloatingReturn> {
+export interface FloatingHintReturn extends Partial<Omit<UseFloatingReturn, 'placement'>> {
+  placement: ExtendedPlacement
   getFloatingProps: UseInteractionsReturn['getFloatingProps']
 }
 
@@ -72,15 +73,18 @@ export function useFloatingHint({
     return offsets
   }
 
-  const { refs, floatingStyles, context } = useFloating({
+  const {
+    context,
+    floatingStyles,
+    placement: computedPlacement,
+    refs,
+  } = useFloating({
     middleware: [offset(offsetMiddleware), flip(), shift()],
     onOpenChange,
     open,
     placement,
     whileElementsMounted: autoUpdate,
   })
-
-  // console.log(context)
 
   const click = useClick(context)
   const dismiss = useDismiss(context)
@@ -99,9 +103,20 @@ export function useFloatingHint({
     }
   }, [anchor])
 
+  // The flip() middleware might reverse the align prop
+  const finalPlacement = computedPlacement.split('-')
+
+  // Check and flip after/before alignment
+  if (align === 'before') {
+    finalPlacement[1] = finalPlacement[1] === 'end' ? 'after' : 'before'
+  } else if (align === 'after') {
+    finalPlacement[1] = finalPlacement[1] === 'start' ? 'before' : 'after'
+  }
+
   return {
     getFloatingProps,
     floatingStyles,
+    placement: finalPlacement.join('-') as ExtendedPlacement,
     refs,
   }
 }

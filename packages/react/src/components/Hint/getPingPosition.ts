@@ -1,4 +1,4 @@
-export function getPingPosition(align, side) {
+export function getPingPosition({ align, side }) {
   const style = {}
   const pingOffset = '-12px'
 
