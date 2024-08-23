@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.7.6
+
+### Patch Changes
+
+- b6438e4: Adds the entire form context to flow completion event
+
 ## 0.7.5
 
 ### Patch Changes
