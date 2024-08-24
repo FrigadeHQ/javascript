@@ -55,8 +55,9 @@ export const Default = {
 export const TourV2NiceGreatYay = {
   args: {
     // dismissible: true,
-    // defaultOpen: false,
+    // defaultOpen: true,
     flowId: "flow_U63A5pndRrvCwxNs",
+    sequential: false,
     side: "left",
     spotlight: false,
     variables: {
@@ -90,7 +91,7 @@ export const TourV2NiceGreatYay = {
             borderRadius="10px"
             id="tooltip-storybook-0"
             p={4}
-            style={{ background: "pink", width: "100px" }}
+            style={{ background: "pink", width: "200px" }}
           >
             <Button.Primary
               title="Anchor here"
@@ -102,7 +103,7 @@ export const TourV2NiceGreatYay = {
           <Box
             id="tooltip-storybook-1"
             p={4}
-            style={{ background: "fuchsia", width: "20vw" }}
+            style={{ background: "fuchsia", width: "200px" }}
           >
             Second anchor
           </Box>

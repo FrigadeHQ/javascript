@@ -1,34 +1,21 @@
-import { keyframes } from '@emotion/react'
-
-import { Card } from '@/components/Card'
-import { Flex } from '@/components/Flex'
 import { Flow, type FlowPropsWithoutChildren } from '@/components/Flow'
-import { Hint, type HintProps } from '@/components/Hint'
-import * as Progress from '@/components/Progress'
+import { type HintProps } from '@/components/Hint'
+
+import { TourV2Step } from '@/components/Tour/TourV2Step'
 
 export interface TourProps extends FlowPropsWithoutChildren, Omit<HintProps, 'anchor'> {
   sequential?: boolean
 }
 
-const fadeIn = keyframes`
-  from {
-    opacity: 0;
-  }
-  25% {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-`
-
 export function TourV2({
   align = 'after',
   alignOffset = 0,
   as = null,
+  defaultOpen,
   dismissible = true,
   flowId,
   part,
+  sequential = true,
   side = 'bottom',
   sideOffset = 0,
   spotlight,
@@ -37,76 +24,59 @@ export function TourV2({
   return (
     <Flow as={as} flowId={flowId} {...props}>
       {({ flow, handleDismiss, handlePrimary, handleSecondary, step }) => {
-        const primaryButtonTitle = step.primaryButton?.title ?? step.primaryButtonTitle
-        const secondaryButtonTitle = step.secondaryButton?.title ?? step.secondaryButtonTitle
-        const disabled = !!step.$state.blocked
-
         // const stepProps = step.props ?? {}
 
-        return (
-          <Hint
-            align={align}
-            alignOffset={alignOffset}
-            anchor={step.selector as string}
-            data-flow-id={flow.id}
-            data-step-id={step.id}
-            part={part}
-            side={side}
-            sideOffset={sideOffset}
-            spotlight={spotlight}
-          >
-            <Card
-              animation={`${fadeIn} 300ms ease-out`}
-              boxShadow="md"
-              maxWidth="min(360px, calc(100vw - 25px))"
-            >
-              <Card.Media
-                aspectRatio="2"
-                borderRadius="md md 0 0"
-                borderWidth="0"
-                margin="-5 -5 0"
-                objectFit="cover"
-                overflowClipMargin="unset"
-                src={step.videoUri ?? step.imageUri}
-                transform="translate3d(0, 0, 1px)"
-                type={step.videoUri ? 'video' : 'image'}
-              />
+        if (sequential) {
+          return (
+            <TourV2Step
+              defaultOpen={defaultOpen ?? true}
+              {...{
+                align,
+                alignOffset,
+                dismissible,
+                flow,
+                handleDismiss,
+                handlePrimary,
+                handleSecondary,
+                part,
+                side,
+                sideOffset,
+                spotlight,
+                step,
+              }}
+            />
+          )
+        }
 
-              <Card.Header
-                css={{
-                  '.fr-dismiss': {
-                    position: 'absolute',
-                    right: '12px',
-                    top: '12px',
-                  },
+        return Array.from(flow.steps.values())
+          .filter((currentStep) => {
+            const { blocked, completed, visible } = currentStep.$state
+
+            return !blocked && !completed && visible
+          })
+          .map((currentStep) => {
+            console.log('CURRENT STEP: ', currentStep)
+            return (
+              <TourV2Step
+                defaultOpen={defaultOpen ?? false}
+                key={currentStep.id}
+                step={currentStep}
+                {...{
+                  align,
+                  alignOffset,
+                  dismissible,
+                  flow,
+                  handleDismiss,
+                  handlePrimary,
+                  handleSecondary,
+                  part,
+                  side,
+                  sideOffset,
+                  spotlight,
                 }}
-                dismissible={dismissible}
-                handleDismiss={handleDismiss}
-                subtitle={step.subtitle}
-                title={step.title}
               />
-              <Flex.Row alignItems="center" gap={3} justifyContent="flex-end">
-                {flow.getNumberOfAvailableSteps() > 1 && (
-                  <Progress.Fraction
-                    current={flow.getCurrentStepOrder() + 1}
-                    marginRight="auto"
-                    total={flow.getNumberOfAvailableSteps()}
-                  />
-                )}
-                <Card.Secondary
-                  disabled={disabled}
-                  onClick={handleSecondary}
-                  title={secondaryButtonTitle}
-                />
-                <Card.Primary
-                  disabled={disabled}
-                  onClick={handlePrimary}
-                  title={primaryButtonTitle}
-                />
-              </Flex.Row>
-            </Card>
-          </Hint>
-        )
+            )
+          })
       }}
     </Flow>
   )
