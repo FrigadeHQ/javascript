@@ -26,6 +26,7 @@ export interface FloatingHintProps extends HintProps {
 export interface FloatingHintReturn extends Partial<Omit<UseFloatingReturn, 'placement'>> {
   placement: ExtendedPlacement
   getFloatingProps: UseInteractionsReturn['getFloatingProps']
+  getReferenceProps: UseInteractionsReturn['getReferenceProps']
 }
 
 function getOriginalAlign(align: AlignValue) {
@@ -87,11 +88,13 @@ export function useFloatingHint({
   })
 
   const click = useClick(context)
-  const dismiss = useDismiss(context)
+  const dismiss = useDismiss(context, {
+    outsidePress: false,
+  })
   const role = useRole(context)
 
   // Merge all the interactions into prop getters
-  const { getFloatingProps } = useInteractions([click, dismiss, role])
+  const { getFloatingProps, getReferenceProps } = useInteractions([click, dismiss, role])
 
   useEffect(() => {
     const anchorQuery = document.querySelector(anchor)
@@ -114,7 +117,9 @@ export function useFloatingHint({
   }
 
   return {
+    context,
     getFloatingProps,
+    getReferenceProps,
     floatingStyles,
     placement: finalPlacement.join('-') as ExtendedPlacement,
     refs,

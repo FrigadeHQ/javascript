@@ -17,6 +17,8 @@ export interface HintProps extends BoxProps {
   anchor: string
   children?: React.ReactNode
   defaultOpen?: boolean
+  onOpenChange?: (open: boolean) => void
+  open?: boolean
   side?: SideValue
   sideOffset?: number
   spotlight?: boolean
@@ -28,6 +30,8 @@ export function Hint({
   anchor,
   children,
   defaultOpen = true,
+  onOpenChange = () => {},
+  open,
   part,
   side = 'bottom',
   sideOffset = 0,
@@ -35,19 +39,29 @@ export function Hint({
   style = {},
   ...props
 }: HintProps) {
-  const [contentOpen, setContentOpen] = useState(defaultOpen)
+  const [internalOpen, setInteralOpen] = useState(defaultOpen)
 
-  const { getFloatingProps, floatingStyles, placement, refs } = useFloatingHint({
+  // Defer to controlled open prop, otherwise manage open state internally
+  const canonicalOpen = open ?? internalOpen
+
+  const { getFloatingProps, getReferenceProps, floatingStyles, placement, refs } = useFloatingHint({
     align,
     alignOffset,
     anchor,
-    // TODO: onOpenChange: setOpen,
-    open: true,
+    onOpenChange: (newOpen) => {
+      onOpenChange(newOpen)
+
+      if (open == null) {
+        setInteralOpen(newOpen)
+      }
+    },
+    open: canonicalOpen,
     side,
     sideOffset,
   })
 
   const [finalSide, finalAlign] = placement.split('-')
+  const referenceProps = getReferenceProps()
 
   return (
     <>
@@ -63,12 +77,10 @@ export function Hint({
         {...getFloatingProps()}
         {...props}
       >
-        {contentOpen && children}
+        {canonicalOpen && children}
 
         <Ping
-          onClick={() => {
-            setContentOpen((prev) => !prev)
-          }}
+          {...referenceProps}
           position="absolute"
           style={getPingPosition({ align: finalAlign, side: finalSide })}
         />
