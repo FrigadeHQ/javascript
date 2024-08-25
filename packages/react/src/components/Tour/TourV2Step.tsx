@@ -43,7 +43,6 @@ export function TourV2Step({
       align={align}
       alignOffset={alignOffset}
       anchor={step.selector as string}
-      data-flow-id={flow.id}
       data-step-id={step.id}
       defaultOpen={defaultOpen}
       part={part}

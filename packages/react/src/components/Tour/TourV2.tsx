@@ -1,7 +1,8 @@
 import { Flow, type FlowPropsWithoutChildren } from '@/components/Flow'
 import { type HintProps } from '@/components/Hint'
-
 import { TourV2Step } from '@/components/Tour/TourV2Step'
+
+import { useClientPortal } from '@/hooks/useClientPortal'
 
 export interface TourProps extends FlowPropsWithoutChildren, Omit<HintProps, 'anchor'> {
   sequential?: boolean
@@ -10,7 +11,7 @@ export interface TourProps extends FlowPropsWithoutChildren, Omit<HintProps, 'an
 export function TourV2({
   align = 'after',
   alignOffset = 0,
-  as = null,
+  as,
   defaultOpen,
   dismissible = true,
   flowId,
@@ -21,8 +22,17 @@ export function TourV2({
   spotlight,
   ...props
 }: TourProps) {
-  return (
-    <Flow as={as} flowId={flowId} {...props}>
+  return useClientPortal(
+    <Flow
+      as={as}
+      css={{
+        '.fr-hint:has([aria-expanded=true])': {
+          zIndex: 1,
+        },
+      }}
+      flowId={flowId}
+      {...props}
+    >
       {({ flow, handleDismiss, handlePrimary, handleSecondary, step }) => {
         // const stepProps = step.props ?? {}
 
@@ -55,7 +65,6 @@ export function TourV2({
             return !blocked && !completed && visible
           })
           .map((currentStep) => {
-            console.log('CURRENT STEP: ', currentStep)
             return (
               <TourV2Step
                 defaultOpen={defaultOpen ?? false}
@@ -78,6 +87,7 @@ export function TourV2({
             )
           })
       }}
-    </Flow>
+    </Flow>,
+    'body'
   )
 }
