@@ -25,7 +25,7 @@ export function Ping({ part = '', ...props }: PingProps) {
       borderRadius="24px"
       height="24px"
       part={`ping-wrapper ${part}`}
-      position="absolute"
+      position="relative"
       width="24px"
       {...props}
     >

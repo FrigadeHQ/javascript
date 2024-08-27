@@ -15,6 +15,7 @@ export function TourV2({
   defaultOpen,
   dismissible = true,
   flowId,
+  modal,
   part,
   sequential = true,
   side = 'bottom',
@@ -34,8 +35,14 @@ export function TourV2({
     <Flow
       as={as}
       css={{
-        '.fr-hint:has([aria-expanded=true])': {
+        '.fr-hint': {
           zIndex: 1,
+        },
+        '.fr-hint:has([aria-expanded=true])': {
+          zIndex: 3,
+        },
+        '.fr-overlay': {
+          zIndex: 2,
         },
         ...(!sequential ? hideProgressStyle : {}),
       }}
@@ -56,6 +63,7 @@ export function TourV2({
                 dismissible,
                 flow,
                 handleDismiss,
+                modal,
                 onPrimary,
                 onSecondary,
                 part,
@@ -68,6 +76,8 @@ export function TourV2({
           )
         }
 
+        // TODO: Only render spotlight if current step
+        // TODO: Only render modal overlay once
         return Array.from(flow.steps.values())
           .filter((currentStep) => {
             const { blocked, completed, skipped, visible } = currentStep.$state
@@ -92,10 +102,12 @@ export function TourV2({
               return true
             }
 
+            const shouldShowSpotlight = spotlight && currentStep.id === step.id
+
             return (
               <TourV2Step
-                defaultOpen={defaultOpen ?? false}
-                key={currentStep.id}
+                defaultOpen={(defaultOpen || shouldShowSpotlight) ?? false}
+                key={`${currentStep.id}-${shouldShowSpotlight}`}
                 step={currentStep}
                 {...{
                   align,

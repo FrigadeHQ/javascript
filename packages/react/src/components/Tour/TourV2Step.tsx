@@ -1,7 +1,8 @@
 import { keyframes } from '@emotion/react'
 
 import { Card } from '@/components/Card'
-import { Hint } from '@/components/Hint'
+import type { FlowProps, FlowChildrenProps } from '@/components/Flow'
+import { Hint, type HintProps } from '@/components/Hint'
 import * as Progress from '@/components/Progress'
 
 import { useStepHandlers } from '@/hooks/useStepHandlers'
@@ -18,7 +19,10 @@ const fadeIn = keyframes`
   }
 `
 
-// TODO: TourStep prop type
+export interface TourStepProps
+  extends Omit<HintProps, 'anchor'>,
+    Pick<FlowProps, 'dismissible' | 'onPrimary' | 'onSecondary'>,
+    Pick<FlowChildrenProps, 'flow' | 'handleDismiss' | 'step'> {}
 
 export function TourV2Step({
   align,
@@ -27,6 +31,7 @@ export function TourV2Step({
   dismissible,
   flow,
   handleDismiss,
+  modal,
   onPrimary,
   onSecondary,
   part,
@@ -34,9 +39,7 @@ export function TourV2Step({
   sideOffset,
   spotlight,
   step,
-}) {
-  // TODO: Only render spotlight if current step
-
+}: TourStepProps) {
   const { handlePrimary, handleSecondary } = useStepHandlers(step, {
     onPrimary,
     onSecondary,
@@ -53,6 +56,7 @@ export function TourV2Step({
       anchor={step.selector as string}
       data-step-id={step.id}
       defaultOpen={defaultOpen}
+      modal={modal}
       part={part}
       side={side}
       sideOffset={sideOffset}

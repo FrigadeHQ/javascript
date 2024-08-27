@@ -1,13 +1,7 @@
 import { useEffect, useState } from 'react'
-import {
-  autoUpdate,
-  FloatingOverlay,
-  type Placement,
-  type ReferenceElement,
-  useFloating,
-} from '@floating-ui/react'
+import { autoUpdate, type Placement, type ReferenceElement, useFloating } from '@floating-ui/react'
 
-import { Box, type BoxProps } from '@/components/Box'
+import { Overlay, type OverlayProps } from '@/components/Overlay'
 
 export interface ClipPathCoords {
   maxX: number
@@ -59,11 +53,11 @@ function getComputedRadius(element: ReferenceElement) {
   return !Number.isNaN(computedRadius) ? computedRadius : 0
 }
 
-export interface SpotlightProps extends BoxProps {
+export interface SpotlightProps extends OverlayProps {
   anchor: string
 }
 
-export function Spotlight({ anchor }) {
+export function Spotlight({ anchor, part, style = {}, ...props }: SpotlightProps) {
   const [clipPathCoords, setClipPathCoords] = useState<ClipPathCoords>({
     maxX: 0,
     maxY: 0,
@@ -110,25 +104,14 @@ export function Spotlight({ anchor }) {
   }, [anchor])
 
   return (
-    <>
-      <FloatingOverlay
-        lockScroll
-        ref={refs.setFloating}
-        style={{
-          pointerEvents: 'none',
-        }}
-      />
-
-      <Box
-        backgroundColor="black"
-        inset="0"
-        opacity="0.5"
-        part="spotlight"
-        position="absolute"
-        style={{
-          clipPath: getClipPath(clipPathCoords),
-        }}
-      />
-    </>
+    <Overlay
+      part={['spotlight', part]}
+      ref={refs.setFloating}
+      style={{
+        clipPath: getClipPath(clipPathCoords),
+        ...style,
+      }}
+      {...props}
+    />
   )
 }

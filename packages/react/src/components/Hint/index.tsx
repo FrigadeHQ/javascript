@@ -1,6 +1,7 @@
 import { useState } from 'react'
 
 import { Box, type BoxProps } from '@/components/Box'
+import { Overlay } from '@/components/Overlay'
 import { Ping } from '@/components/Ping'
 import { Spotlight } from '@/components/Spotlight'
 
@@ -17,6 +18,7 @@ export interface HintProps extends BoxProps {
   anchor: string
   children?: React.ReactNode
   defaultOpen?: boolean
+  modal?: boolean
   onOpenChange?: (open: boolean) => void
   open?: boolean
   side?: SideValue
@@ -30,6 +32,7 @@ export function Hint({
   anchor,
   children,
   defaultOpen = true,
+  modal = false,
   onOpenChange = () => {},
   open,
   part,
@@ -65,7 +68,8 @@ export function Hint({
 
   return (
     <>
-      {spotlight && <Spotlight anchor={anchor} />}
+      {spotlight && canonicalOpen && <Spotlight anchor={anchor} />}
+      {modal && !spotlight && canonicalOpen && <Overlay lockScroll />}
 
       <Box
         part={['hint', part]}

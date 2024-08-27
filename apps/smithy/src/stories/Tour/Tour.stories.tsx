@@ -58,6 +58,7 @@ export const TourV2NiceGreatYay = {
     // dismissible: true,
     // defaultOpen: true,
     flowId: "flow_U63A5pndRrvCwxNs",
+    modal: false,
     sequential: false,
     side: "left",
     spotlight: false,
