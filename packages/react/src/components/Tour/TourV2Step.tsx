@@ -5,6 +5,8 @@ import { Flex } from '@/components/Flex'
 import { Hint } from '@/components/Hint'
 import * as Progress from '@/components/Progress'
 
+import { useStepHandlers } from '@/hooks/useStepHandlers'
+
 const fadeIn = keyframes`
   from {
     opacity: 0;
@@ -17,6 +19,8 @@ const fadeIn = keyframes`
   }
 `
 
+// TODO: TourStep prop type
+
 export function TourV2Step({
   align,
   alignOffset,
@@ -24,8 +28,8 @@ export function TourV2Step({
   dismissible,
   flow,
   handleDismiss,
-  handlePrimary,
-  handleSecondary,
+  onPrimary,
+  onSecondary,
   part,
   side,
   sideOffset,
@@ -33,6 +37,11 @@ export function TourV2Step({
   step,
 }) {
   // TODO: Only render spotlight if current step
+
+  const { handlePrimary, handleSecondary } = useStepHandlers(step, {
+    onPrimary,
+    onSecondary,
+  })
 
   const primaryButtonTitle = step.primaryButton?.title ?? step.primaryButtonTitle
   const secondaryButtonTitle = step.secondaryButton?.title ?? step.secondaryButtonTitle

@@ -22,6 +22,8 @@ export function TourV2({
   spotlight,
   ...props
 }: TourProps) {
+  const { onDismiss, onPrimary, onSecondary } = props
+
   return useClientPortal(
     <Flow
       as={as}
@@ -33,7 +35,7 @@ export function TourV2({
       flowId={flowId}
       {...props}
     >
-      {({ flow, handleDismiss, handlePrimary, handleSecondary, step }) => {
+      {({ flow, handleDismiss, step }) => {
         // const stepProps = step.props ?? {}
 
         if (sequential) {
@@ -46,8 +48,8 @@ export function TourV2({
                 dismissible,
                 flow,
                 handleDismiss,
-                handlePrimary,
-                handleSecondary,
+                onPrimary,
+                onSecondary,
                 part,
                 side,
                 sideOffset,
@@ -60,11 +62,28 @@ export function TourV2({
 
         return Array.from(flow.steps.values())
           .filter((currentStep) => {
-            const { blocked, completed, visible } = currentStep.$state
+            const { blocked, completed, skipped, visible } = currentStep.$state
 
-            return !blocked && !completed && visible
+            return !blocked && !completed && !skipped && visible
           })
           .map((currentStep) => {
+            /*
+             * Bit of a weird case here:
+             * When sequential == false, we're only dismissing currentStep, not the whole Flow
+             */
+            async function handleDismissStep(e: MouseEvent | KeyboardEvent) {
+              const continueDefault = await onDismiss?.(flow, e)
+
+              if (continueDefault === false) {
+                e.preventDefault()
+                return false
+              }
+
+              currentStep.skip()
+
+              return true
+            }
+
             return (
               <TourV2Step
                 defaultOpen={defaultOpen ?? false}
@@ -75,9 +94,9 @@ export function TourV2({
                   alignOffset,
                   dismissible,
                   flow,
-                  handleDismiss,
-                  handlePrimary,
-                  handleSecondary,
+                  handleDismiss: handleDismissStep,
+                  onPrimary,
+                  onSecondary,
                   part,
                   side,
                   sideOffset,
