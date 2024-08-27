@@ -13,7 +13,7 @@ export function TourV2({
   alignOffset = 0,
   as,
   defaultOpen,
-  dismissible = true,
+  dismissible = false,
   flowId,
   modal,
   part,

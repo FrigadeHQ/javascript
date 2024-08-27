@@ -56,7 +56,7 @@ export const Default = {
 export const TourV2NiceGreatYay = {
   args: {
     // dismissible: true,
-    // defaultOpen: true,
+    defaultOpen: false,
     flowId: "flow_U63A5pndRrvCwxNs",
     modal: false,
     sequential: false,
