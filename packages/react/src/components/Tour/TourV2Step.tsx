@@ -1,7 +1,6 @@
 import { keyframes } from '@emotion/react'
 
 import { Card } from '@/components/Card'
-import { Flex } from '@/components/Flex'
 import { Hint } from '@/components/Hint'
 import * as Progress from '@/components/Progress'
 
@@ -89,7 +88,7 @@ export function TourV2Step({
           subtitle={step.subtitle}
           title={step.title}
         />
-        <Flex.Row alignItems="center" gap={3} justifyContent="flex-end">
+        <Card.Footer>
           {flow.getNumberOfAvailableSteps() > 1 && (
             <Progress.Fraction
               current={flow.getCurrentStepOrder() + 1}
@@ -103,7 +102,7 @@ export function TourV2Step({
             title={secondaryButtonTitle}
           />
           <Card.Primary disabled={disabled} onClick={handlePrimary} title={primaryButtonTitle} />
-        </Flex.Row>
+        </Card.Footer>
       </Card>
     </Hint>
   )

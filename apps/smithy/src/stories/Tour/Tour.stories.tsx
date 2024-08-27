@@ -11,6 +11,7 @@ export const Default = {
   args: {
     dismissible: true,
     defaultOpen: false,
+    spotlight: false,
   },
   decorators: [
     (_: StoryFn, options: StoryContext) => {

@@ -24,6 +24,12 @@ export function TourV2({
 }: TourProps) {
   const { onDismiss, onPrimary, onSecondary } = props
 
+  const hideProgressStyle = {
+    '.fr-progress-fraction': {
+      display: 'none',
+    },
+  }
+
   return useClientPortal(
     <Flow
       as={as}
@@ -31,8 +37,10 @@ export function TourV2({
         '.fr-hint:has([aria-expanded=true])': {
           zIndex: 1,
         },
+        ...(!sequential ? hideProgressStyle : {}),
       }}
       flowId={flowId}
+      part="tour"
       {...props}
     >
       {({ flow, handleDismiss, step }) => {

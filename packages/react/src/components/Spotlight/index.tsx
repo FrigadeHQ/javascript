@@ -123,6 +123,7 @@ export function Spotlight({ anchor }) {
         backgroundColor="black"
         inset="0"
         opacity="0.5"
+        part="spotlight"
         position="absolute"
         style={{
           clipPath: getClipPath(clipPathCoords),
