@@ -40,8 +40,8 @@ export function Flow({
     forceMount = false,
     ...mergedProps
   } = {
-    ...(flow?.props ?? {}),
     ...props,
+    ...(flow?.props ?? {}),
   }
 
   // const { hasInitialized, registerComponent, unregisterComponent } = useContext(FrigadeContext)

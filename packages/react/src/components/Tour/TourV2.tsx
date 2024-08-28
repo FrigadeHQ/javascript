@@ -51,29 +51,25 @@ export function TourV2({
       {...props}
     >
       {({ flow, handleDismiss, step }) => {
-        // const stepProps = step.props ?? {}
+        const sequentialStepProps = {
+          align,
+          alignOffset,
+          dismissible,
+          flow,
+          handleDismiss,
+          modal,
+          onPrimary,
+          onSecondary,
+          part,
+          side,
+          sideOffset,
+          spotlight,
+          step,
+          ...(step.props ?? {}),
+        }
 
         if (sequential) {
-          return (
-            <TourV2Step
-              defaultOpen={defaultOpen ?? true}
-              {...{
-                align,
-                alignOffset,
-                dismissible,
-                flow,
-                handleDismiss,
-                modal,
-                onPrimary,
-                onSecondary,
-                part,
-                side,
-                sideOffset,
-                spotlight,
-                step,
-              }}
-            />
-          )
+          return <TourV2Step defaultOpen={defaultOpen ?? true} {...sequentialStepProps} />
         }
 
         // TODO: Only render spotlight if current step
@@ -104,24 +100,28 @@ export function TourV2({
 
             const shouldShowSpotlight = spotlight && currentStep.id === step.id
 
+            const nonSequentialStepProps = {
+              align,
+              alignOffset,
+              dismissible,
+              flow,
+              handleDismiss: handleDismissStep,
+              onPrimary,
+              onSecondary,
+              part,
+              side,
+              sideOffset,
+              spotlight,
+
+              ...(currentStep.props ?? {}),
+            }
+
             return (
               <TourV2Step
                 defaultOpen={(defaultOpen || shouldShowSpotlight) ?? false}
                 key={`${currentStep.id}-${shouldShowSpotlight}`}
                 step={currentStep}
-                {...{
-                  align,
-                  alignOffset,
-                  dismissible,
-                  flow,
-                  handleDismiss: handleDismissStep,
-                  onPrimary,
-                  onSecondary,
-                  part,
-                  side,
-                  sideOffset,
-                  spotlight,
-                }}
+                {...nonSequentialStepProps}
               />
             )
           })

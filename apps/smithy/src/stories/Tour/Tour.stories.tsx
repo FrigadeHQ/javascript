@@ -60,7 +60,7 @@ export const TourV2NiceGreatYay = {
     flowId: "flow_U63A5pndRrvCwxNs",
     modal: false,
     sequential: false,
-    side: "left",
+    // side: "left",
     spotlight: false,
     variables: {
       firstName: "Euronymous Bosch",
