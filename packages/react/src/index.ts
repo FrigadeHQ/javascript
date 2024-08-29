@@ -33,8 +33,6 @@ export * as Survey from './components/Survey'
 export { Text, type TextProps } from './components/Text'
 export { Tooltip, type TooltipProps } from './components/Tooltip'
 export { Tour, type TourProps } from './components/Tour'
-// TEMP: Export duplicate TourV2 component for Storybook dev
-export { TourV2 } from './components/Tour/TourV2'
 export {
   Flow,
   type FlowChildrenProps,

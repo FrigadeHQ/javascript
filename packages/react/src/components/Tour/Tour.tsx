@@ -1,6 +1,6 @@
 import { Flow, type FlowPropsWithoutChildren } from '@/components/Flow'
 import { type HintProps } from '@/components/Hint'
-import { TourV2Step } from '@/components/Tour/TourV2Step'
+import { TourStep } from '@/components/Tour/TourStep'
 
 import { useClientPortal } from '@/hooks/useClientPortal'
 
@@ -8,7 +8,7 @@ export interface TourProps extends FlowPropsWithoutChildren, Omit<HintProps, 'an
   sequential?: boolean
 }
 
-export function TourV2({
+export function Tour({
   align = 'after',
   alignOffset = 0,
   as,
@@ -69,7 +69,7 @@ export function TourV2({
         }
 
         if (sequential) {
-          return <TourV2Step defaultOpen={defaultOpen ?? true} {...sequentialStepProps} />
+          return <TourStep defaultOpen={defaultOpen ?? true} {...sequentialStepProps} />
         }
 
         // TODO: Only render spotlight if current step
@@ -117,7 +117,7 @@ export function TourV2({
             }
 
             return (
-              <TourV2Step
+              <TourStep
                 defaultOpen={(defaultOpen || shouldShowSpotlight) ?? false}
                 key={`${currentStep.id}-${shouldShowSpotlight}`}
                 step={currentStep}

@@ -1,5 +1,4 @@
-import { TourProps } from "@/components/Tour/TourV2";
-import { Box, Button, Tour, TourV2 } from "@frigade/react";
+import { Box, Button, Tour, type TourProps } from "@frigade/react";
 import { StoryContext, StoryFn } from "@storybook/react";
 
 export default {
@@ -9,53 +8,7 @@ export default {
 
 export const Default = {
   args: {
-    dismissible: true,
-    defaultOpen: false,
-    spotlight: false,
-  },
-  decorators: [
-    (_: StoryFn, options: StoryContext) => {
-      return (
-        <Box
-          style={{
-            alignItems: "center",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            height: "calc(100vh - 32px)",
-          }}
-        >
-          <input value="Restart Flow" type="button" />
-          <Box
-            id="tooltip-storybook-0"
-            p={4}
-            style={{ background: "pink", width: "20vw" }}
-          >
-            <Button.Primary title="Anchor here" />
-          </Box>
-          <Box
-            id="tooltip-storybook-1"
-            p={4}
-            style={{ background: "fuchsia", width: "20vw" }}
-          >
-            Second anchor
-          </Box>
-          <Tour
-            flowId="flow_U63A5pndRrvCwxNs"
-            variables={{
-              firstName: "John",
-            }}
-            {...options.args}
-          />
-        </Box>
-      );
-    },
-  ],
-};
-
-export const TourV2NiceGreatYay = {
-  args: {
-    // dismissible: true,
+    dismissible: false,
     defaultOpen: false,
     flowId: "flow_U63A5pndRrvCwxNs",
     modal: false,
@@ -109,7 +62,7 @@ export const TourV2NiceGreatYay = {
           >
             Second anchor
           </Box>
-          <TourV2
+          <Tour
             // onOpenChange={setOpen}
             // open={open}
             // variables={{
