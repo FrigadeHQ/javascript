@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.4.28
+
+### Patch Changes
+
+- 4ef2c5e: Includes version numbers in headers
+- Updated dependencies [4ef2c5e]
+  - @frigade/js@0.7.8
+
 ## 2.4.27
 
 ### Patch Changes
