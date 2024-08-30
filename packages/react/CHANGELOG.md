@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.4.29
+
+### Patch Changes
+
+- 884f533: Fix undefined frigade instance in useFlow and useCollection
+
 ## 2.4.28
 
 ### Patch Changes
