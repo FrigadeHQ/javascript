@@ -26,6 +26,7 @@ export interface CardComponent
   > {
   Dismiss: (props: ButtonProps) => EmotionJSX.Element
   Header: (props: CardHeaderProps) => EmotionJSX.Element
+  Footer: (props: BoxProps) => EmotionJSX.Element
   Media: (props: MediaProps) => EmotionJSX.Element
   Primary: (props: ButtonProps) => EmotionJSX.Element
   Secondary: (props: ButtonProps) => EmotionJSX.Element
@@ -37,7 +38,7 @@ export interface CardProps extends FlowPropsWithoutChildren {
   children: React.ReactNode
 }
 
-export const Card = React.forwardRef(({ children, flowId, ...props }: CardProps, ref) => {
+export const Card = React.forwardRef(({ children, flowId, part, ...props }: CardProps, ref) => {
   // If props.flowId is set, render FlowCard instead
   if (flowId != null) {
     return <FlowCard flowId={flowId} {...props} />
@@ -53,6 +54,7 @@ export const Card = React.forwardRef(({ children, flowId, ...props }: CardProps,
       borderWidth="0"
       gap={5}
       p={5}
+      part={['card', part]}
       {...props}
       ref={ref}
     >
@@ -69,9 +71,29 @@ Card.Dismiss = (props: ButtonProps) => {
   )
 }
 
-Card.Header = ({ dismissible, handleDismiss, subtitle, title, ...props }) => {
+Card.Footer = ({ children, part, ...props }: BoxProps) => {
   return (
-    <Flex.Row alignItems="flex-start" flexWrap="wrap" gap={1} part="card-header" {...props}>
+    <Flex.Row
+      alignItems="center"
+      gap={3}
+      justifyContent="flex-end"
+      part={['card-footer', part]}
+      {...props}
+    >
+      {children}
+    </Flex.Row>
+  )
+}
+
+Card.Header = ({ dismissible, handleDismiss, part, subtitle, title, ...props }) => {
+  return (
+    <Flex.Row
+      alignItems="flex-start"
+      flexWrap="wrap"
+      gap={1}
+      part={['card-header', part]}
+      {...props}
+    >
       <Card.Title maxWidth="calc(100% - 32px)">{title}</Card.Title>
       {dismissible && <Card.Dismiss onClick={handleDismiss} marginLeft="auto" />}
       <Card.Subtitle color="neutral.400" flexBasis="100%">
@@ -99,21 +121,21 @@ Card.Secondary = ({ onClick, title, ...props }: ButtonProps) => {
   return <Button.Secondary title={title} onClick={onClick} {...props} />
 }
 
-Card.Subtitle = ({ children, ...props }: TextProps) => {
+Card.Subtitle = ({ children, part, ...props }: TextProps) => {
   if (children == null) return null
 
   return (
-    <Text.Body2 display="block" color="neutral.400" part="subtitle" {...props}>
+    <Text.Body2 display="block" color="neutral.400" part={['subtitle', part]} {...props}>
       {children}
     </Text.Body2>
   )
 }
 
-Card.Title = ({ children, ...props }: TextProps) => {
+Card.Title = ({ children, part, ...props }: TextProps) => {
   if (children == null) return null
 
   return (
-    <Text.H4 display="block" part="title" {...props}>
+    <Text.H4 display="block" part={['title', part]} {...props}>
       {children}
     </Text.H4>
   )

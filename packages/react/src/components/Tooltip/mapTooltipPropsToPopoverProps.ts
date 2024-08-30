@@ -20,7 +20,7 @@ const RADIX_PROPS = {
     'sideOffset',
     'sticky',
   ],
-  root: ['defaultOpen', 'modal', 'onOpenChange', 'open'],
+  root: ['modal', 'onOpenChange'],
 }
 
 export function mapTooltipPropsToPopoverProps(props: TooltipProps, contentRect: DOMRect) {

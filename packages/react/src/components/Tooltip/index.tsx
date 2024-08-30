@@ -67,22 +67,35 @@ export function Tooltip({
   anchor,
   children,
   className,
+  defaultOpen = true,
+  open,
+  part,
   spotlight = false,
-  style,
+  style = {},
   ...props
 }: TooltipProps) {
   const { node: contentNode, rect: contentRect, ref: contentRef } = useBoundingClientRect()
   const { node: anchorNode, rect: anchorRect, ref: anchorRef } = useBoundingClientRect()
-  const {
-    contentProps,
-    otherProps: { part, ...otherProps },
-    rootProps,
-  } = mapTooltipPropsToPopoverProps(props, contentRect)
+  const { contentProps, otherProps, rootProps } = mapTooltipPropsToPopoverProps(props, contentRect)
 
+  const [internalOpen, setInternalOpen] = useState(defaultOpen)
   const [alignAttr, setAlignAttr] = useState(contentProps.align)
   const [sideAttr, setSideAttr] = useState(contentProps.side)
   const [spotlightLeft, setSpotlightLeft] = useState(0)
   const [spotlightTop, setSpotlightTop] = useState(0)
+
+  function isOpen() {
+    // External override via props
+    if (open != null) {
+      console.log('OVERRIDE: ', open)
+      return open
+    }
+
+    console.log('INTERNAL: ', internalOpen)
+
+    // Internal open state
+    return internalOpen
+  }
 
   // Radix will update data attrs to let us know if Popover.Content has collided
   if (contentNode !== null) {
@@ -226,22 +239,35 @@ export function Tooltip({
                 : {})}
             />
           )}
-          <Popover.Content asChild {...contentProps} ref={contentRef}>
-            <Card
-              animation={`${fadeIn} 300ms ease-out`}
-              boxShadow="md"
-              position="relative"
-              className={className}
-              maxWidth="min(360px, calc(100vw - 25px))"
-              part={['tooltip', part]}
-              pointerEvents="auto"
-              style={style}
-              {...otherProps}
-            >
-              <Dot style={dotPosition} />
+          <Popover.Content key={internalOpen} {...contentProps} ref={contentRef}>
+            <>
+              {isOpen() && (
+                <Card
+                  animation={`${fadeIn} 300ms ease-out`}
+                  boxShadow="md"
+                  position="relative"
+                  className={className}
+                  maxWidth="min(360px, calc(100vw - 25px))"
+                  part={['tooltip', part]}
+                  style={style}
+                  {...otherProps}
+                >
+                  {children}
+                </Card>
+              )}
+              <Dot
+                onClick={() => {
+                  setInternalOpen(() => {
+                    if (typeof rootProps.onOpenChange === 'function') {
+                      rootProps.onOpenChange(!isOpen())
+                    }
 
-              {children}
-            </Card>
+                    return !isOpen()
+                  })
+                }}
+                style={dotPosition}
+              />
+            </>
           </Popover.Content>
         </>
       </Popover.Portal>

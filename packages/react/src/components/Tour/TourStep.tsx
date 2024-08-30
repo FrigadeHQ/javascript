@@ -1,89 +1,113 @@
-import type { Flow, FlowStep } from '@frigade/js'
+import { keyframes } from '@emotion/react'
 
-import { TourProps } from '.'
-import { useFlowHandlers } from '@/hooks/useFlowHandlers'
+import { Card } from '@/components/Card'
+import type { FlowProps, FlowChildrenProps } from '@/components/Flow'
+import { Hint, type HintProps } from '@/components/Hint'
+import * as Progress from '@/components/Progress'
+
 import { useStepHandlers } from '@/hooks/useStepHandlers'
 
-import { Flex } from '@/components/Flex'
-import { Tooltip } from '@/components/Tooltip'
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  25% {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`
 
-export interface TourStepProps extends Omit<TourProps, 'flowId'> {
-  step: FlowStep
-  flow: Flow
-}
+export interface TourStepProps
+  extends Omit<HintProps, 'anchor'>,
+    Pick<FlowProps, 'dismissible' | 'onPrimary' | 'onSecondary'>,
+    Pick<FlowChildrenProps, 'flow' | 'handleDismiss' | 'step'> {}
 
 export function TourStep({
-  dismissible = true,
+  align,
+  alignOffset,
+  defaultOpen,
+  dismissible,
   flow,
-  onDismiss,
-  onEscapeKeyDown,
+  handleDismiss,
+  modal,
   onPrimary,
   onSecondary,
+  part,
+  side,
+  sideOffset,
+  spotlight,
   step,
-  ...props
 }: TourStepProps) {
-  const { handleDismiss } = useFlowHandlers(flow, {
-    onDismiss,
-  })
-
   const { handlePrimary, handleSecondary } = useStepHandlers(step, {
     onPrimary,
     onSecondary,
   })
 
-  const stepProps = step.props ?? {}
-
   const primaryButtonTitle = step.primaryButton?.title ?? step.primaryButtonTitle
   const secondaryButtonTitle = step.secondaryButton?.title ?? step.secondaryButtonTitle
-
-  const disabled = step.$state.blocked
+  const disabled = !!step.$state.blocked
 
   return (
-    <Tooltip
+    <Hint
+      align={align}
+      alignOffset={alignOffset}
       anchor={step.selector as string}
-      collisionPadding={12}
-      key={step.id}
-      onOpenAutoFocus={(e) => e.preventDefault()}
-      onPointerDownOutside={(e) => e.preventDefault()}
-      onInteractOutside={(e) => e.preventDefault()}
-      {...props}
-      {...stepProps}
-      onEscapeKeyDown={(e) => {
-        if (typeof onEscapeKeyDown === 'function') {
-          onEscapeKeyDown(e)
-        }
-
-        if (!e.defaultPrevented) {
-          handleDismiss(e)
-        }
-      }}
+      data-step-id={step.id}
+      defaultOpen={defaultOpen}
+      modal={modal}
+      part={part}
+      side={side}
+      sideOffset={sideOffset}
+      spotlight={spotlight}
     >
-      {dismissible && <Tooltip.Close onClick={handleDismiss} />}
-
-      <Tooltip.Media
-        src={step.videoUri ?? step.imageUri}
-        type={step.videoUri ? 'video' : 'image'}
-      />
-
-      <Flex.Column gap={1} part="tooltip-header">
-        <Tooltip.Title>{step.title}</Tooltip.Title>
-        <Tooltip.Subtitle color="neutral.400">{step.subtitle}</Tooltip.Subtitle>
-      </Flex.Column>
-
-      <Flex.Row alignItems="center" gap={3} justifyContent="flex-end" part="tooltip-footer">
-        {flow.getNumberOfAvailableSteps() > 1 && (
-          <Tooltip.Progress marginRight="auto" transform="translateY(1px)">{`${
-            flow.getCurrentStepOrder() + 1
-          }/${flow.getNumberOfAvailableSteps()}`}</Tooltip.Progress>
-        )}
-
-        <Tooltip.Secondary
-          disabled={disabled}
-          onClick={handleSecondary}
-          title={secondaryButtonTitle}
+      <Card
+        animation={`${fadeIn} 300ms ease-out`}
+        boxShadow="md"
+        maxWidth="min(360px, calc(100vw - 25px))"
+      >
+        <Card.Media
+          aspectRatio="2"
+          borderRadius="md md 0 0"
+          borderWidth="0"
+          margin="-5 -5 0"
+          objectFit="cover"
+          overflowClipMargin="unset"
+          src={step.videoUri ?? step.imageUri}
+          transform="translate3d(0, 0, 1px)"
+          type={step.videoUri ? 'video' : 'image'}
         />
-        <Tooltip.Primary disabled={disabled} onClick={handlePrimary} title={primaryButtonTitle} />
-      </Flex.Row>
-    </Tooltip>
+
+        <Card.Header
+          css={{
+            '.fr-dismiss': {
+              position: 'absolute',
+              right: '12px',
+              top: '12px',
+            },
+          }}
+          dismissible={dismissible}
+          handleDismiss={handleDismiss}
+          subtitle={step.subtitle}
+          title={step.title}
+        />
+        <Card.Footer>
+          {flow.getNumberOfAvailableSteps() > 1 && (
+            <Progress.Fraction
+              current={flow.getCurrentStepOrder() + 1}
+              marginRight="auto"
+              total={flow.getNumberOfAvailableSteps()}
+            />
+          )}
+          <Card.Secondary
+            disabled={disabled}
+            onClick={handleSecondary}
+            title={secondaryButtonTitle}
+          />
+          <Card.Primary disabled={disabled} onClick={handlePrimary} title={primaryButtonTitle} />
+        </Card.Footer>
+      </Card>
+    </Hint>
   )
 }
