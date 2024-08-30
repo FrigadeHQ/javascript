@@ -296,6 +296,16 @@ export interface FrigadeConfig {
    * @ignore Internal use only.
    */
   __instanceId?: string
+
+  /**
+   * @ignore Internal use only.
+   */
+  __platformVersion?: string
+
+  /**
+   * @ignore Internal use only.
+   */
+  __platformName?: string
 }
 
 export interface StatefulStep {

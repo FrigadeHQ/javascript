@@ -15,6 +15,7 @@
     },
     "clean": {
       "cache": false
-    }
+    },
+    "prepublish": {}
   }
 }

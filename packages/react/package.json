@@ -44,7 +44,8 @@
     "test": "jest --passWithNoTests",
     "lint": "eslint --fix --ext .ts,.tsx .",
     "build": "yarn clean && tsup",
-    "local-release": "tsup"
+    "local-release": "tsup",
+    "prepublish": "node prepublish.mjs"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",

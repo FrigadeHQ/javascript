@@ -21,6 +21,7 @@ import {
 
 import { FrigadeContext } from './FrigadeContext'
 import { ImagePreloader } from '@/components/Provider/ImagePreloader'
+import { SDK_VERSION } from '@/version'
 
 export type NavigateHandler = (url: string, target?: string) => void
 export type RegisteredComponents = Map<
@@ -144,6 +145,8 @@ export function Provider({
       syncOnWindowUpdates: props.syncOnWindowUpdates,
       __readOnly: props.__readOnly,
       __flowStateOverrides: props.__flowStateOverrides,
+      __platformVersion: SDK_VERSION,
+      __platformName: 'React',
     } as FrigadeConfig)
   }, [props.userId, props.groupId, props.apiKey])
 

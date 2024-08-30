@@ -33,7 +33,7 @@ export class Fetchable {
     return gracefulFetch(this.getAPIUrl(path), {
       keepalive: true,
       ...(options ?? {}),
-      ...getHeaders(this.config.apiKey),
+      ...getHeaders(this.config),
     })
   }
 

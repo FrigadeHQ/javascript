@@ -19,7 +19,8 @@
     "test": "jest",
     "lint": "eslint --fix --ext .ts,.tsx .",
     "build": "tsup",
-    "local-release": "tsup"
+    "local-release": "tsup",
+    "prepublish": "node prepublish.mjs"
   },
   "repository": {
     "type": "git",

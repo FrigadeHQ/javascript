@@ -22,6 +22,15 @@ jobs:
         run: yarn set version 4.1.1
       - name: Install dependencies
         run: yarn install --frozen-lockfile
+      - name: Run pre-publish script
+        run: yarn prepublish
+      - name: Commit changes made by the prepublish script
+        run: |
+          git config --global user.name 'GitHub Action'
+          git config --global user.email 'action@github.com'
+          git add .
+          git commit -m "chore: run prepublish script"
+          git push origin main
       - name: Build
         run: yarn build
       - name: Create Release Pull Request or Publish to npm

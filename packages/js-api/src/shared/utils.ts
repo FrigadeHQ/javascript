@@ -1,8 +1,8 @@
-import { VERSION_NUMBER } from '../core/version'
 import { v4 as uuidv4 } from 'uuid'
 import { Flow } from '../core/flow'
 import { FrigadeGlobalState, frigadeGlobalState } from './state'
-import { FlowStateContext } from '../core/types'
+import { FlowStateContext, FrigadeConfig } from '../core/types'
+import { SDK_VERSION } from '../version'
 
 export const NOT_STARTED_STEP = 'NOT_STARTED_STEP'
 export const COMPLETED_FLOW = 'COMPLETED_FLOW'
@@ -29,13 +29,13 @@ export function clone<T>(obj: T): T {
   return JSON.parse(JSON.stringify(obj))
 }
 
-export function getHeaders(apiKey: string) {
+export function getHeaders(config: FrigadeConfig) {
   return {
     headers: {
-      Authorization: `Bearer ${apiKey}`,
+      Authorization: `Bearer ${config.apiKey}`,
       'Content-Type': 'application/json',
-      'X-Frigade-SDK-Version': VERSION_NUMBER,
-      'X-Frigade-SDK-Platform': 'Javascript',
+      'x-frigade-sdk-version': config.__platformVersion ?? SDK_VERSION,
+      'x-frigade-sdk-platform': config.__platformName ?? 'Javascript',
     },
   }
 }
@@ -193,13 +193,6 @@ export function generateGuestId() {
   } else {
     return `${GUEST_PREFIX}${uuidv4()}`
   }
-}
-
-export function fetcher(apiKey: string, path: string, options?: Record<any, any>) {
-  return gracefulFetch(`//api.frigade.com/v1/public${path}`, {
-    ...(options ?? {}),
-    ...getHeaders(apiKey),
-  })
 }
 
 export function isWeb() {

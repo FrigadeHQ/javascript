@@ -18,7 +18,8 @@
     "changeset": "changeset",
     "version-packages": "changeset version",
     "release": "turbo build && changeset publish",
-    "copy-version-number": "turbo run copy-version-number"
+    "copy-version-number": "turbo run copy-version-number",
+    "prepublish": "turbo prepublish"
   },
   "devDependencies": {
     "@changesets/cli": "^2.22.0",
