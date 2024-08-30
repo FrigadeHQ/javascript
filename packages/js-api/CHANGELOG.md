@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.7.8
+
+### Patch Changes
+
+- 4ef2c5e: Includes version numbers in headers
+
 ## 0.7.7
 
 ### Patch Changes
