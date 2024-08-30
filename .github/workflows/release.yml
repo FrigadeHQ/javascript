@@ -21,7 +21,7 @@ jobs:
       - name: Set yarn version
         run: yarn set version 4.1.1
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install
       - name: Run pre-publish script
         run: yarn prepublish
       - name: Commit changes made by the prepublish script
