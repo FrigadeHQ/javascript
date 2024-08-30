@@ -37,7 +37,7 @@ export function useFlow(flowId: string | null, config?: FlowConfig) {
       frigade?.onStateChange(handler)
 
       return () => {
-        frigade.removeStateChangeHandler(handler)
+        frigade?.removeStateChangeHandler(handler)
       }
     },
     [flowId]

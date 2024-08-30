@@ -13,7 +13,7 @@ export function useCollection(collectionId: string) {
   const subscribe = useCallback(
     (cb: () => void) => {
       // TODO: Why is there a noticeable delay when this is commented out?
-      frigade.getCollection(collectionId).then(() => {
+      frigade?.getCollection(collectionId).then(() => {
         cb()
       })
 
@@ -31,10 +31,10 @@ export function useCollection(collectionId: string) {
         }, 100)
       }
 
-      frigade.onStateChange(handler)
+      frigade?.onStateChange(handler)
 
       return () => {
-        frigade.removeStateChangeHandler(handler)
+        frigade?.removeStateChangeHandler(handler)
       }
     },
     [collectionId]
@@ -46,7 +46,7 @@ export function useCollection(collectionId: string) {
       let result = undefined
 
       try {
-        result = frigade.getCollectionSync(collectionId)
+        result = frigade?.getCollectionSync(collectionId)
       } catch (noGlobalStateYet) {
         // no-op
       }
@@ -57,7 +57,7 @@ export function useCollection(collectionId: string) {
       let result = undefined
 
       try {
-        result = frigade.getCollectionSync(collectionId)
+        result = frigade?.getCollectionSync(collectionId)
       } catch (noGlobalStateYet) {
         // no-op
       }
@@ -69,7 +69,7 @@ export function useCollection(collectionId: string) {
   const enrichedFlows =
     collection?.flows?.map((item) => ({
       ...item,
-      flow: frigade.getFlowSync(item.flowId),
+      flow: frigade?.getFlowSync(item.flowId),
     })) ?? []
 
   const flowId = enrichedFlows.find(({ flow }) => flow.isVisible)?.flowId
