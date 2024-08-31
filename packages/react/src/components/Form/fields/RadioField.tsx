@@ -41,6 +41,7 @@ const RadioItem = React.forwardRef<HTMLButtonElement, SelectItemProps>(
           borderStyle="solid"
           borderColor="neutral.border"
           borderRadius="100%"
+          flex="0 0 auto"
           padding="0"
           part="field-radio-value"
           position="relative"
