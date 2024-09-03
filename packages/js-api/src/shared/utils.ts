@@ -131,7 +131,8 @@ export async function gracefulFetch(url: string, options: any) {
       if (isWebPostRequest) {
         callQueue.push(
           lastCallDataKey,
-          pendingResponse.then((res) => res.clone())
+          // @ts-ignore
+          pendingResponse.then((res) => res.clone()).catch(() => getEmptyResponse())
         )
       }
 
@@ -179,6 +180,7 @@ export function getEmptyResponse(error?: any) {
   // Create empty response that contains the .json method and returns an empty object
   return {
     json: () => ({}),
+    clone: () => ({}),
   }
 }
 
