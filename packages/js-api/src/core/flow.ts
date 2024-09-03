@@ -244,11 +244,8 @@ export class Flow extends Fetchable {
               copy.data.steps[nextStepIndex].$state.started = true
             }
           } else {
-            if (eventType == 'complete') {
-              copy.$state.completed = true
-            } else {
-              copy.$state.skipped = true
-            }
+            copy.$state.completed = true
+            copy.$state.visible = false
           }
 
           this.getGlobalState().flowStates[this.id] = copy
