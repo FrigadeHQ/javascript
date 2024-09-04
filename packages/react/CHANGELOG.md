@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.5.1
+
+### Patch Changes
+
+- f7d3e16: Fixes an issue where lazy loaded dynamic variables are not updating in a form
+
 ## 2.5.0
 
 ### Minor Changes
