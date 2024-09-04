@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.7.9
+
+### Patch Changes
+
+- 1d95aa2: Fixes an issue where `visibilityCriteria` was not respected in the carousel checklist component
+
 ## 0.7.8
 
 ### Patch Changes
