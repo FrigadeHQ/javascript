@@ -39,6 +39,7 @@ export function TourStep({
   sideOffset,
   spotlight,
   step,
+  ...props
 }: TourStepProps) {
   const { handlePrimary, handleSecondary } = useStepHandlers(step, {
     onPrimary,
@@ -61,6 +62,7 @@ export function TourStep({
       side={side}
       sideOffset={sideOffset}
       spotlight={spotlight}
+      {...props}
     >
       <Card
         animation={`${fadeIn} 300ms ease-out`}

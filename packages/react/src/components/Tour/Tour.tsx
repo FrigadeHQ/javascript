@@ -21,36 +21,14 @@ export function Tour({
   side = 'bottom',
   sideOffset = 0,
   spotlight,
+  zIndex = 9999,
   ...props
 }: TourProps) {
   const { onDismiss, onPrimary, onSecondary } = props
 
-  const hideProgressStyle = {
-    '.fr-progress-fraction': {
-      display: 'none',
-    },
-  }
-
   return useClientPortal(
-    <Flow
-      as={as}
-      css={{
-        '.fr-hint': {
-          zIndex: 1,
-        },
-        '.fr-hint:has([aria-expanded=true])': {
-          zIndex: 3,
-        },
-        '.fr-overlay': {
-          zIndex: 2,
-        },
-        ...(!sequential ? hideProgressStyle : {}),
-      }}
-      flowId={flowId}
-      part="tour"
-      {...props}
-    >
-      {({ flow, handleDismiss, step }) => {
+    <Flow as={as} flowId={flowId} part="tour" {...props}>
+      {({ flow, handleDismiss, parentProps: { containerProps }, step }) => {
         const sequentialStepProps = {
           align,
           alignOffset,
@@ -65,6 +43,7 @@ export function Tour({
           sideOffset,
           spotlight,
           step,
+          zIndex: step.props?.zIndex ?? containerProps?.zIndex ?? zIndex,
           ...(step.props ?? {}),
         }
 
@@ -100,6 +79,8 @@ export function Tour({
 
             const shouldShowSpotlight = spotlight && currentStep.id === step.id
 
+            const currentStepZIndex = currentStep.props?.zIndex ?? containerProps?.zIndex ?? zIndex
+
             const nonSequentialStepProps = {
               align,
               alignOffset,
@@ -112,12 +93,26 @@ export function Tour({
               side,
               sideOffset,
               spotlight,
-
+              zIndex: currentStepZIndex,
               ...(currentStep.props ?? {}),
             }
 
             return (
               <TourStep
+                css={{
+                  '&:has([aria-expanded=true])': {
+                    zIndex: Number(currentStepZIndex) + 2,
+                  },
+
+                  // NOTE: Selector does not currently apply due to rearranged component structure
+                  '.fr-overlay': {
+                    zIndex: Number(currentStepZIndex) + 1,
+                  },
+
+                  '.fr-progress-fraction': {
+                    display: 'none',
+                  },
+                }}
                 defaultOpen={(defaultOpen || shouldShowSpotlight) ?? false}
                 key={`${currentStep.id}-${shouldShowSpotlight}`}
                 step={currentStep}
