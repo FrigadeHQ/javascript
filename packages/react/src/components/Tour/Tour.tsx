@@ -5,6 +5,11 @@ import { TourStep } from '@/components/Tour/TourStep'
 import { useClientPortal } from '@/hooks/useClientPortal'
 
 export interface TourProps extends FlowPropsWithoutChildren, Omit<HintProps, 'anchor'> {
+  /**
+   * Whether the tour should be completed by the end-user in sequential order.
+   * If `false`, all steps will be rendered at once.
+   * Defaults to `true`, which means only one step will be rendered at a time in sequential order.
+   */
   sequential?: boolean
 }
 
