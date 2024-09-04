@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.4.30
+
+### Patch Changes
+
+- 1d95aa2: Fixes an issue where `visibilityCriteria` was not respected in the carousel checklist component
+- Updated dependencies [1d95aa2]
+  - @frigade/js@0.7.9
+
 ## 2.4.29
 
 ### Patch Changes
