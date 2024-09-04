@@ -1,4 +1,4 @@
-import { SyntheticEvent, useContext, useEffect, useState } from 'react'
+import { SyntheticEvent, useContext, useEffect, useMemo, useState } from 'react'
 import { FormProvider, useController, useForm, useFormContext } from 'react-hook-form'
 
 import { Button } from '@/components/Button'
@@ -62,10 +62,16 @@ export function FormStep({
   step,
 }: FormStepProps) {
   const { __readOnly } = useContext(FrigadeContext)
-  // @ts-expect-error TODO: Add type to step.fields
-  const fieldDatas = (step.fields ?? []).filter(
-    (field: any) => fieldTypes[field.type] != null && field.id
-  ) as FormFieldData[]
+
+  const fieldDatas = useMemo(
+    () =>
+      // @ts-expect-error TODO: Add type to step.fields
+      step.fields?.filter(
+        (field: any) => fieldTypes[field.type] != null && field.id
+      ) as FormFieldData[],
+    [step.fields, fieldTypes]
+  )
+
   const formContext = useForm({
     delayError: 2000,
     mode: 'onChange',
@@ -75,6 +81,19 @@ export function FormStep({
       return acc
     }, {}),
   })
+
+  useEffect(() => {
+    // if the form is updated reset it if not dirty
+    if (!formContext.formState.isDirty) {
+      formContext.reset(
+        fieldDatas.reduce((acc, field) => {
+          acc[field.id] = field.value ?? ''
+          return acc
+        }, {})
+      )
+    }
+  }, [fieldDatas])
+
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const fields = []

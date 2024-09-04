@@ -5,6 +5,7 @@ import {
   type FormFieldProps,
   SelectField,
 } from "@frigade/react";
+import { useState } from "react";
 
 export default {
   title: "Components/Form",
@@ -97,6 +98,38 @@ export const ChainingOfFlows = {
         <div>
           <Story {...args} />
           <Announcement flowId="flow_LUjHxjFO" />
+        </div>
+      );
+    },
+  ],
+};
+
+export const VariablesInForms = {
+  args: {
+    dismissible: true,
+    flowId: "flow_fpJlqkbl",
+  },
+  decorators: [
+    (Story, { args }) => {
+      const [testVar, setTestVar] = useState("test1");
+      const [otherVar, setOtherVar] = useState("test2");
+
+      // setTimeout to simulate async data fetching
+      setTimeout(() => {
+        setTestVar("updated var 1");
+        setOtherVar("updated var 2");
+      }, 1000);
+
+      return (
+        <div>
+          {/*<Story {...args} />*/}
+          <Form
+            flowId="flow_GSfKhVKmWXTw2wdt"
+            variables={{
+              testVar: testVar,
+              otherVar: otherVar,
+            }}
+          />
         </div>
       );
     },
