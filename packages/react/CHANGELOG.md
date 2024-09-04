@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.5.0
+
+### Minor Changes
+
+- a680a56: Revamped Tour Component
+
 ## 2.4.30
 
 ### Patch Changes
