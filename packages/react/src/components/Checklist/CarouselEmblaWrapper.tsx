@@ -134,6 +134,7 @@ export function CarouselEmblaWrapper({
       >
         <Flex.Row gap={4} part="carousel-content">
           {Array.from(flow.steps.values())
+            .filter((step) => step.$state.visible)
             .sort((a, b) => stepOrder.indexOf(a.id) - stepOrder.indexOf(b.id))
             .map((step) => (
               <CarouselStep
