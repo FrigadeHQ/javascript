@@ -27,26 +27,29 @@ export function NPS({ as = Dialog, flowId, fieldTypes, part, ...props }: FormPro
         }
       }}
       part={['nps', part]}
+      {...props}
       css={{
-        // Hides the submit button on the first page
-        ...(!flow || flow.getCurrentStepIndex() == 0
-          ? { '.fr-form-step-footer': { display: 'none' } }
-          : {}),
-        '.fr-form': {
-          padding: '20px',
-          '@media (min-width: 660px)': {
-            minWidth: '600px',
+        ...{
+          // Hides the submit button on the first page
+          ...(!flow || flow.getCurrentStepIndex() == 0
+            ? { '.fr-form-step-footer': { display: 'none' } }
+            : {}),
+          '.fr-form': {
+            padding: '20px',
+            '@media (min-width: 660px)': {
+              minWidth: '600px',
+            },
+            minWidth: '100%',
           },
-          minWidth: '100%',
-        },
-        '.fr-form-step': {
-          gap: '14px',
-          '@media (min-width: 660px)': {
-            gap: '1',
+          '.fr-form-step': {
+            gap: '14px',
+            '@media (min-width: 660px)': {
+              gap: '1',
+            },
           },
+          ...props.css,
         },
       }}
-      {...props}
     />
   )
 }
