@@ -1,5 +1,12 @@
 # @frigade/react
 
+## 2.5.2
+
+### Patch Changes
+
+- 175670a: Correctly merges CSS in the NPS Survey component
+- 6f4f7bd: Add variables prop to Collection
+
 ## 2.5.1
 
 ### Patch Changes
