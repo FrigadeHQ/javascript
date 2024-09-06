@@ -21,15 +21,13 @@ export interface CollectionProps extends BoxProps {
   collectionId: string
 
   /**
-   * A map of variables to pass to specific Flow IDs this Collection.
+   * A map of variables to pass to Flows this Collection.
    * e.g. variables={{
-   *   flow_abc123: {
-   *     name: "Bobby Nerves",
-   *     occupation: "Vocalist",
-   *   }
+   *   name: "Bobby Nerves",
+   *   occupation: "Vocalist",
    * }}
    */
-  variables?: Record<string, FlowProps['variables']>
+  variables?: FlowProps['variables']
 }
 
 export function Collection({ collectionId, part, variables = {}, ...props }: CollectionProps) {
@@ -53,19 +51,17 @@ export function Collection({ collectionId, part, variables = {}, ...props }: Col
     return null
   }
 
-  const flowVariables = variables[currentFlow.id] ?? {}
-
   if (currentFlow?.rawData?.flowType === FlowType.FORM) {
     return (
       <Box part={['collection', part]} data-collection-id={collectionId} {...props}>
-        <Form flowId={currentFlow.id} key={currentFlow.id} as={Dialog} variables={flowVariables} />
+        <Form flowId={currentFlow.id} key={currentFlow.id} as={Dialog} variables={variables} />
       </Box>
     )
   }
 
   return (
     <Box part={['collection', part]} data-collection-id={collectionId} {...props}>
-      <FlowComponent flowId={currentFlow.id} key={currentFlow.id} variables={flowVariables} />
+      <FlowComponent flowId={currentFlow.id} key={currentFlow.id} variables={variables} />
     </Box>
   )
 }
