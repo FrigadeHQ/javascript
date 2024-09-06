@@ -49,22 +49,10 @@ export function useFlow(flowId: string | null, config?: FlowConfig) {
     () => frigade?.getFlowSync(flowId)
   )
 
-  if (flow != null) {
-    let combinedVariables = {}
-
-    if (config?.variables) {
-      combinedVariables = config.variables
-    }
-
-    if (variables) {
-      combinedVariables = {
-        ...combinedVariables,
-        variables,
-      }
-    }
-
-    flow.applyVariables(combinedVariables)
-  }
+  flow?.applyVariables({
+    ...variables,
+    ...config?.variables,
+  })
 
   return {
     flow,
