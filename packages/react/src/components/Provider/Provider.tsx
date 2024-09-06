@@ -105,6 +105,11 @@ export interface ProviderProps {
   preloadImages?: boolean
 
   /**
+   * Global variables to apply to all Flows, including Collections.
+   */
+  variables?: Record<string, unknown>
+
+  /**
    * @ignore Internal use only.
    * If enabled, Frigade will not send any data to the API. A user's state will be reset on page refresh.
    */
@@ -232,6 +237,7 @@ export function Provider({
         registerComponent,
         unregisterComponent,
         hasInitialized,
+        variables: props.variables || {},
       }}
     >
       <Global styles={{ ':root': { ...themeVariables, ...themeOverrides, ...css } }} />
