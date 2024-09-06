@@ -8,6 +8,9 @@ export default {
 export const OneCollection = {
   args: {
     collectionId: "collection_zrwaSVhX",
+    variables: {
+      testVariable: "THIS VARIABLE IS SET",
+    },
   },
 };
 
