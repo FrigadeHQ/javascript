@@ -23,12 +23,12 @@ export interface CollectionProps extends BoxProps {
   /**
    * A map of variables to pass to Flows this Collection.
    * Example:
-   * ```
+   * ```tsx
    * variables={{
    *   name: "Bobby Nerves",
    *   occupation: "Vocalist",
    * }}
-   * ``
+   * ```
    */
   variables?: FlowProps['variables']
 }
