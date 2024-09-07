@@ -8,6 +8,7 @@ export interface ProviderContext extends Omit<ProviderProps, 'children' | 'theme
   hasInitialized: boolean
   registerComponent: (flowId: string, callback?: CollectionsRegistryCallback) => void
   unregisterComponent: (flowId: string) => void
+  variables: Record<string, unknown>
 }
 
 export const FrigadeContext = createContext<ProviderContext>({
@@ -16,4 +17,5 @@ export const FrigadeContext = createContext<ProviderContext>({
   hasInitialized: false,
   registerComponent: () => {},
   unregisterComponent: () => {},
+  variables: {},
 })

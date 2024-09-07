@@ -56,6 +56,9 @@ const preview = {
             image:
               "https://cdn.frigade.com/6a05066d-6781-46f9-8476-bbbde3c39960.jpeg",
           }}
+          variables={{
+            globalFullName: "Balrog Hansen",
+          }}
           // __readOnly={true}
           // __flowConfigOverrides={{
           //   flow_cvWFczn1RMHp9ZcK: JSON.stringify({

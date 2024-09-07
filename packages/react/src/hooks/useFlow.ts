@@ -8,7 +8,7 @@ export interface FlowConfig {
 }
 
 export function useFlow(flowId: string | null, config?: FlowConfig) {
-  const { frigade } = useContext(FrigadeContext)
+  const { frigade, variables } = useContext(FrigadeContext)
   const [, setForceRender] = useState<boolean>(false)
 
   const subscribe = useCallback(
@@ -49,9 +49,10 @@ export function useFlow(flowId: string | null, config?: FlowConfig) {
     () => frigade?.getFlowSync(flowId)
   )
 
-  if (flow != null && config?.variables) {
-    flow.applyVariables(config.variables)
-  }
+  flow?.applyVariables({
+    ...variables,
+    ...config?.variables,
+  })
 
   return {
     flow,

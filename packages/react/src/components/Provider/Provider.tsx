@@ -105,6 +105,20 @@ export interface ProviderProps {
   preloadImages?: boolean
 
   /**
+   * Global variables to apply to all Flows, including Collections.
+   * If the individual Collection or Flow has its own variables, the two objects will be merged, with the Flow/Collection having high priority.
+   * Example:
+   * ```
+   * variables={{
+   *   name: "Bobby Nerves",
+   *   occupation: "Vocalist",
+   * }}
+   * ``
+   * This prop can conveniently be used to pass entire i18n objects as well, which will allow all Flows to access i18n strings as needed.
+   */
+  variables?: Record<string, unknown>
+
+  /**
    * @ignore Internal use only.
    * If enabled, Frigade will not send any data to the API. A user's state will be reset on page refresh.
    */
@@ -232,6 +246,7 @@ export function Provider({
         registerComponent,
         unregisterComponent,
         hasInitialized,
+        variables: props.variables || {},
       }}
     >
       <Global styles={{ ':root': { ...themeVariables, ...themeOverrides, ...css } }} />
