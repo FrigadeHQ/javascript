@@ -40,14 +40,13 @@ export function SelectMultipleField(props: FormFieldProps) {
               asChild
             >
               <Box
-                as="label"
+                as="button"
                 backgroundColor="neutral.background"
                 borderColor="neutral.border"
                 borderRadius="md"
                 borderStyle="solid"
                 borderWidth="md"
                 display="flex"
-                htmlFor={value}
                 justifyContent="space-between"
                 part="field-check"
                 px={4}
@@ -56,7 +55,6 @@ export function SelectMultipleField(props: FormFieldProps) {
                 <Text.Body2 part="field-check-label">{label}</Text.Body2>
 
                 <Box
-                  as="button"
                   backgroundColor="inherit"
                   borderWidth="md"
                   borderStyle="solid"

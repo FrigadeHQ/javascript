@@ -30,13 +30,18 @@ export function useFlowHandlers(flow: Flow, { onComplete, onDismiss }: FlowHandl
   useEffect(() => {
     if (flow == null) return
 
-    if (flow.isCompleted && lastCompleted.current === false) {
-      ;(async () => {
+    async function callHandler() {
+      if (flow.isCompleted && lastCompleted.current === false) {
         await onComplete?.(flow)
-      })()
+      }
     }
 
+    callHandler()
+
     lastCompleted.current = flow?.isCompleted
+    return () => {
+      callHandler()
+    }
   }, [flow?.isCompleted])
 
   return {

@@ -29,13 +29,11 @@ export interface FlowPropsWithoutChildren extends BoxPropsWithoutChildren {
    */
   modal?: boolean
   /**
-   * Handler for when the Flow is completed.
-   * If this function a promise that evaluates to `false`, the Flow will not be marked as completed.
+   * Handler for when the Flow is completed. This is event is fired immediately after the user completes the Flow.
    */
   onComplete?: FlowHandlerProp
   /**
-   * Handler for when the Flow is dismissed.
-   * If this function a promise that evaluates to `false`, the Flow will not be marked as dismissed.
+   * Handler for when the Flow is dismissed (skipped). This is event is fired immediately after the user dismisses the Flow.
    */
   onDismiss?: FlowHandlerProp
   /**
