@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.5.4
+
+### Patch Changes
+
+- 3da8c7b: Fixes a bug where collection cooloffs were not respected
+
 ## 2.5.3
 
 ### Patch Changes
