@@ -269,7 +269,7 @@ export class Frigade extends Fetchable {
   /**
    * @ignore
    */
-  public getCollectionSync(collectionId: string) {
+  public getCollectionSync(collectionId: string): Collection | undefined {
     const collection = this.getGlobalState().collections.getCollection(collectionId)
 
     if (collection == null) {

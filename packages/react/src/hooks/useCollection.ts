@@ -3,6 +3,7 @@ import { useCallback, useContext, useState, useSyncExternalStore } from 'react'
 import { FrigadeContext } from '@/components/Provider'
 
 import { useFlow } from '@/hooks/useFlow'
+import { Collection } from '@frigade/js'
 
 export function useCollection(collectionId: string) {
   const { frigade } = useContext(FrigadeContext)
@@ -40,7 +41,7 @@ export function useCollection(collectionId: string) {
     [collectionId]
   )
 
-  const collection = useSyncExternalStore(
+  const collection: Collection | undefined = useSyncExternalStore(
     subscribe,
     () => {
       let result = undefined
@@ -67,10 +68,12 @@ export function useCollection(collectionId: string) {
   )
 
   const enrichedFlows =
-    collection?.flows?.map((item) => ({
-      ...item,
-      flow: frigade?.getFlowSync(item.flowId),
-    })) ?? []
+    collection?.flows
+      ?.filter((flowInCollection) => flowInCollection.visible)
+      .map((item) => ({
+        ...item,
+        flow: frigade?.getFlowSync(item.flowId),
+      })) ?? []
 
   const flowId = enrichedFlows.find(({ flow }) => flow.isVisible)?.flowId
 
