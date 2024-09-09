@@ -66,9 +66,9 @@ export function FormStep({
   const fieldDatas = useMemo(
     () =>
       // @ts-expect-error TODO: Add type to step.fields
-      step.fields?.filter(
+      (step.fields?.filter(
         (field: any) => fieldTypes[field.type] != null && field.id
-      ) as FormFieldData[],
+      ) as FormFieldData[]) ?? [],
     [step.fields, fieldTypes]
   )
 

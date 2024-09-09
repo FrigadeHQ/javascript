@@ -129,6 +129,9 @@ export const VariablesInForms = {
               testVar: testVar,
               otherVar: otherVar,
             }}
+            onComplete={() => {
+              console.log("form was completed");
+            }}
           />
         </div>
       );
