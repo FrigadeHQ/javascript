@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.5.5
+
+### Patch Changes
+
+- e079e76: Fixes an edge case where `onComplete()` would not be called in some cases
+
 ## 2.5.4
 
 ### Patch Changes
