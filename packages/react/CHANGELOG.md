@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.5.6
+
+### Patch Changes
+
+- 365a31e: Fixes an issue where setting the user id with a delay could cause `useFlow` to return `undefined`
+
 ## 2.5.5
 
 ### Patch Changes
