@@ -40,7 +40,7 @@ export function useFlow(flowId: string | null, config?: FlowConfig) {
         frigade?.removeStateChangeHandler(handler)
       }
     },
-    [flowId]
+    [flowId, frigade]
   )
 
   const flow = useSyncExternalStore(
