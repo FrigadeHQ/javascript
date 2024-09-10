@@ -38,8 +38,8 @@ export const Palette = {
                     Number(degree) < 500
                       ? `${name}.700`
                       : degree === "500"
-                      ? `${name}.900`
-                      : `${name}.300)`
+                        ? `${name}.900`
+                        : `${name}.300)`
                   }
                 >
                   {degree}
