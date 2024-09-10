@@ -66,6 +66,10 @@ export function Hint({
   const [finalSide, finalAlign] = placement.split('-')
   const referenceProps = getReferenceProps()
 
+  if (refs.reference.current == null) {
+    return null
+  }
+
   return (
     <>
       {spotlight && canonicalOpen && <Spotlight anchor={anchor} />}
