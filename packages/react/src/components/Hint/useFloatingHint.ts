@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 
 import {
   autoUpdate,
@@ -17,6 +17,8 @@ import {
 } from '@floating-ui/react'
 
 import type { AlignValue, ExtendedPlacement, HintProps } from '@/components/Hint'
+
+import { useMutationAwareAnchor } from '@/components/Hint/useMutationAwareAnchor'
 
 export interface FloatingHintProps extends HintProps {
   onOpenChange?: UseFloatingOptions['onOpenChange']
@@ -80,7 +82,7 @@ export function useFloatingHint({
     placement: computedPlacement,
     refs,
   } = useFloating({
-    middleware: [offset(offsetMiddleware), flip(), shift()],
+    middleware: [offset(offsetMiddleware, [align, alignOffset, side, sideOffset]), flip(), shift()],
     onOpenChange,
     open,
     placement,
@@ -96,15 +98,15 @@ export function useFloatingHint({
   // Merge all the interactions into prop getters
   const { getFloatingProps, getReferenceProps } = useInteractions([click, dismiss, role])
 
-  useEffect(() => {
-    const anchorQuery = document.querySelector(anchor)
+  const { anchorElement } = useMutationAwareAnchor(anchor)
 
-    if (anchorQuery != null) {
-      refs.setReference(anchorQuery)
+  useEffect(() => {
+    if (anchorElement != null) {
+      refs.setReference(anchorElement)
     } else {
       console.debug(`[frigade] Hint: No anchor found for selector: ${anchor}`)
     }
-  }, [anchor])
+  }, [anchorElement])
 
   // The flip() middleware might reverse the align prop
   const finalPlacement = computedPlacement.split('-')

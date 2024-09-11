@@ -53,7 +53,9 @@ export function Tour({
         }
 
         if (sequential) {
-          return <TourStep defaultOpen={defaultOpen ?? true} {...sequentialStepProps} />
+          return (
+            <TourStep defaultOpen={defaultOpen ?? true} key={step.id} {...sequentialStepProps} />
+          )
         }
 
         // TODO: Only render spotlight if current step

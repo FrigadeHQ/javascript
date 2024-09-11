@@ -1,5 +1,6 @@
 import { Box, Button, Tour, type TourProps } from "@frigade/react";
 import { StoryContext, StoryFn } from "@storybook/react";
+import { useEffect, useRef } from "react";
 
 export default {
   title: "Components/Tour",
@@ -8,12 +9,13 @@ export default {
 
 export const Default = {
   args: {
+    align: "after",
     dismissible: false,
-    defaultOpen: false,
+    defaultOpen: true,
     flowId: "flow_U63A5pndRrvCwxNs",
     modal: false,
-    sequential: false,
-    // side: "left",
+    sequential: true,
+    side: "left",
     spotlight: false,
     variables: {
       firstName: "Euronymous Bosch",
@@ -23,6 +25,27 @@ export const Default = {
     (_: StoryFn, options: StoryContext) => {
       // const [open, setOpen] = useState(true);
       // const { flow } = useFlow("flow_U63A5pndRrvCwxNs");
+
+      const lateAnchorRef = useRef(null);
+
+      useEffect(() => {
+        // @ts-expect-error Shush TypeScript, it's a debug ref in a story, it's fine
+        lateAnchorRef.current = (
+          <Box
+            borderRadius="10px"
+            id="tooltip-storybook-0"
+            p={4}
+            style={{ background: "pink", width: "200px" }}
+          >
+            <Button.Primary
+              title="Anchor here"
+              onClick={() => {
+                // no-op
+              }}
+            />
+          </Box>
+        );
+      }, []);
 
       return (
         <Box
@@ -42,19 +65,9 @@ export const Default = {
               // Do nothing, this is just to see if you can interact outside the overlay
             }}
           />
-          <Box
-            borderRadius="10px"
-            id="tooltip-storybook-0"
-            p={4}
-            style={{ background: "pink", width: "200px" }}
-          >
-            <Button.Primary
-              title="Anchor here"
-              onClick={() => {
-                // no-op
-              }}
-            />
-          </Box>
+
+          {lateAnchorRef.current}
+
           <Box
             id="tooltip-storybook-1"
             p={4}
