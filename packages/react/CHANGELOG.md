@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.5.7
+
+### Patch Changes
+
+- ce2444f: A few fixes for the Tour component
+
 ## 2.5.6
 
 ### Patch Changes
