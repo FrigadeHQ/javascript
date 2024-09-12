@@ -210,10 +210,38 @@ export const DefaultCollectionUrlTargeting = {
   decorators: [
     () => {
       const [url, setUrl] = useState(window.location.href);
-
       useEffect(() => {
-        setUrl(window.location.href);
-      }, [window.location.href]);
+        const handleNavigation = () => {
+          setUrl(window.location.href);
+        };
+
+        // Listen for popstate event (back/forward navigation)
+        window.addEventListener("popstate", handleNavigation);
+
+        // Create a custom event for pushState and replaceState
+        const originalPushState = window.history.pushState;
+        const originalReplaceState = window.history.replaceState;
+
+        window.history.pushState = function () {
+          originalPushState.apply(this, arguments);
+          window.dispatchEvent(new Event("locationchange"));
+        };
+
+        window.history.replaceState = function () {
+          originalReplaceState.apply(this, arguments);
+          window.dispatchEvent(new Event("locationchange"));
+        };
+
+        // Listen for our custom locationchange event
+        window.addEventListener("locationchange", handleNavigation);
+
+        return () => {
+          window.removeEventListener("popstate", handleNavigation);
+          window.removeEventListener("locationchange", handleNavigation);
+          window.history.pushState = originalPushState;
+          window.history.replaceState = originalReplaceState;
+        };
+      }, []);
 
       return (
         <Flex.Column gap={2}>
@@ -227,14 +255,14 @@ export const DefaultCollectionUrlTargeting = {
               window.history.pushState({}, "", "/push-state-url");
             }}
           >
-            Push new URL state
+            Push new URL state (this should trigger an announcement)
           </Button.Primary>
           <Button.Primary
             onClick={() => {
               window.history.replaceState({}, "", "/replace-state-url");
             }}
           >
-            Replace current URL state
+            Replace current URL state (this should trigger an announcement)
           </Button.Primary>
         </Flex.Column>
       );
