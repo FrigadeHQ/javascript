@@ -16,6 +16,7 @@ export function Default() {
   }
 
   console.log("isLoading:", isLoading);
+  flow.rawData.flowType;
 
   return (
     <div>

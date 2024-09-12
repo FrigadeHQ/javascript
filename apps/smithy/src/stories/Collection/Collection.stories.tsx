@@ -1,4 +1,12 @@
-import { Banner, Collection, Text, useUser } from "@frigade/react";
+import {
+  Banner,
+  Collection,
+  Flex,
+  Text,
+  useUser,
+  Button,
+} from "@frigade/react";
+import { useEffect, useState } from "react";
 
 export default {
   title: "Components/Collection",
@@ -193,6 +201,42 @@ export const FlowVisibilityChange = {
           <Text.H4 mt="8">Rule order - A Flow:</Text.H4>
           <Banner flowId="flow_EwYzCB3L" />
         </>
+      );
+    },
+  ],
+};
+
+export const DefaultCollectionUrlTargeting = {
+  decorators: [
+    () => {
+      const [url, setUrl] = useState(window.location.href);
+
+      useEffect(() => {
+        setUrl(window.location.href);
+      }, [window.location.href]);
+
+      return (
+        <Flex.Column gap={2}>
+          <Text.Body2>
+            Make sure to enable the default collection in the provider to use
+            this story
+          </Text.Body2>
+          <Text.Body2>Current URL: {url}</Text.Body2>
+          <Button.Primary
+            onClick={() => {
+              window.history.pushState({}, "", "/push-state-url");
+            }}
+          >
+            Push new URL state
+          </Button.Primary>
+          <Button.Primary
+            onClick={() => {
+              window.history.replaceState({}, "", "/replace-state-url");
+            }}
+          >
+            Replace current URL state
+          </Button.Primary>
+        </Flex.Column>
       );
     },
   ],
