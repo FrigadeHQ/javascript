@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.5.8
+
+### Patch Changes
+
+- a786557: Fixes an issue where url targeting is not always working with some routers
+
 ## 2.5.7
 
 ### Patch Changes
