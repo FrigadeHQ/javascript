@@ -17,9 +17,11 @@ const pulse = keyframes({
   },
 })
 
-export interface PingProps extends BoxProps {}
+export interface PingProps extends BoxProps {
+  clickable?: boolean
+}
 
-export function Ping({ part = '', ...props }: PingProps) {
+export function Ping({ clickable = false, part = '', ...props }: PingProps) {
   return (
     <Box
       borderRadius="24px"
@@ -27,6 +29,7 @@ export function Ping({ part = '', ...props }: PingProps) {
       part={`ping-wrapper ${part}`}
       position="relative"
       width="24px"
+      cursor={clickable ? 'pointer' : undefined}
       {...props}
     >
       <Box
@@ -51,6 +54,7 @@ export function Ping({ part = '', ...props }: PingProps) {
         position="absolute"
         top="0"
         width="24px"
+        backgroundColor:hover={clickable ? 'primary.hover.surface' : undefined}
       />
     </Box>
   )

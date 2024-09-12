@@ -91,6 +91,7 @@ export function Hint({
           {...referenceProps}
           position="absolute"
           style={getPingPosition({ align: finalAlign, side: finalSide })}
+          clickable={defaultOpen === false}
         />
       </Box>
     </>
