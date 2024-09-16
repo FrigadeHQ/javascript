@@ -65,7 +65,7 @@ export const Card = React.forwardRef(({ children, flowId, part, ...props }: Card
 
 Card.Dismiss = (props: ButtonProps) => {
   return (
-    <Button.Plain part="dismiss" padding={0} {...props}>
+    <Button.Plain aria-label="Dismiss" part="dismiss" padding={0} {...props}>
       <XMarkIcon height="20" fill="currentColor" />
     </Button.Plain>
   )
