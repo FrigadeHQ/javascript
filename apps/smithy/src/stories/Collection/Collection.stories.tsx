@@ -222,13 +222,13 @@ export const DefaultCollectionUrlTargeting = {
         const originalPushState = window.history.pushState;
         const originalReplaceState = window.history.replaceState;
 
-        window.history.pushState = function () {
-          originalPushState.apply(this, arguments);
+        window.history.pushState = function (...args) {
+          originalPushState.apply(this, args);
           window.dispatchEvent(new Event("locationchange"));
         };
 
-        window.history.replaceState = function () {
-          originalReplaceState.apply(this, arguments);
+        window.history.replaceState = function (...args) {
+          originalReplaceState.apply(this, args);
           window.dispatchEvent(new Event("locationchange"));
         };
 
@@ -263,6 +263,13 @@ export const DefaultCollectionUrlTargeting = {
             }}
           >
             Replace current URL state (this should trigger an announcement)
+          </Button.Primary>
+          <Button.Primary
+            onClick={() => {
+              window.history.pushState({}, "", "/");
+            }}
+          >
+            Go back to original URL (this should hide the announcement)
           </Button.Primary>
         </Flex.Column>
       );

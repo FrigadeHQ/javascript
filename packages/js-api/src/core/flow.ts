@@ -3,6 +3,7 @@ import {
   FlowStateDTO,
   FlowStates,
   FlowStep,
+  FlowType,
   FrigadeConfig,
   PropertyPayload,
   StatefulFlow,
@@ -46,6 +47,10 @@ export class Flow extends Fetchable {
    * The user-facing description of the Flow, if defined at the top level of the YAML config.
    */
   public subtitle?: string
+  /**
+   * The type of the Flow such as `TOUR` or `CHECKLIST`.
+   */
+  public type: FlowType
   /**
    * @ignore Internal use only.
    * Props to pass through to the Flow Component in the React SDK.
@@ -118,6 +123,7 @@ export class Flow extends Fetchable {
     this.rawData = statefulFlow
     this.title = statefulFlow?.data?.title
     this.subtitle = statefulFlow?.data?.subtitle
+    this.type = statefulFlow?.data?.type
     this.props = statefulFlow?.data?.props ?? {}
 
     this.isCompleted = statefulFlow.$state.completed
