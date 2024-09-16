@@ -152,12 +152,15 @@ export async function gracefulFetch(
         )
       }
 
-      response = await pendingResponse
+      response = pendingResponse
       // check if call queue still has this request
+      // it could be removed if a newer request has been made
       if (!callQueue.hasCall(lastCallDataKey)) {
-        // if not, cancel the request
+        // if not, abort the request
+        response?.abort()
         return getEmptyResponse()
       }
+      response = await pendingResponse
     } catch (error) {
       return getEmptyResponse(error)
     }
