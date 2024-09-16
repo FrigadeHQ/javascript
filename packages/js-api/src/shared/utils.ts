@@ -79,7 +79,7 @@ class CallQueue {
     response?: Promise<Response>
   }[] = []
   private readonly ttlInMS = 250
-  private readonly cacheSize = 5
+  private readonly cacheSize = 10
 
   public push(call: string, response?: Promise<Response>) {
     const now = new Date()
@@ -93,16 +93,28 @@ class CallQueue {
     })
   }
 
-  public hasIdenticalCall(call: string) {
+  public hasIdenticalRecentCall(callKey: string) {
     const now = new Date()
     this.queue = this.queue.filter((item) => now.getTime() - item.time < this.ttlInMS)
-    return this.queue.find((item) => item.call === call)
+    return this.queue.find((item) => item.call === callKey)
+  }
+
+  public hasCall(callKey: string) {
+    return this.queue.find((item) => item.call === callKey)
+  }
+
+  public empty() {
+    this.queue = []
   }
 }
 
 const callQueue = new CallQueue()
 
-export async function gracefulFetch(url: string, options: any) {
+export async function gracefulFetch(
+  url: string,
+  options: any,
+  cancelPendingRequests: boolean = false
+) {
   if (typeof globalThis.fetch !== 'function') {
     return getEmptyResponse(
       "- Attempted to call fetch() in an environment that doesn't support it."
@@ -114,8 +126,8 @@ export async function gracefulFetch(url: string, options: any) {
 
   const isWebPostRequest = isWeb() && options && options.body && options.method === 'POST'
 
-  if (isWebPostRequest) {
-    const cachedCall = callQueue.hasIdenticalCall(lastCallDataKey)
+  if (isWebPostRequest && !cancelPendingRequests) {
+    const cachedCall = callQueue.hasIdenticalRecentCall(lastCallDataKey)
 
     if (cachedCall != null && cachedCall.response != null) {
       const cachedResponse = await cachedCall.response
@@ -128,6 +140,10 @@ export async function gracefulFetch(url: string, options: any) {
     try {
       const pendingResponse = fetch(url, options)
 
+      if (cancelPendingRequests) {
+        callQueue.empty()
+      }
+
       if (isWebPostRequest) {
         callQueue.push(
           lastCallDataKey,
@@ -137,6 +153,11 @@ export async function gracefulFetch(url: string, options: any) {
       }
 
       response = await pendingResponse
+      // check if call queue still has this request
+      if (!callQueue.hasCall(lastCallDataKey)) {
+        // if not, cancel the request
+        return getEmptyResponse()
+      }
     } catch (error) {
       return getEmptyResponse(error)
     }

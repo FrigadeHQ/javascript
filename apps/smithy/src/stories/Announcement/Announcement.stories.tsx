@@ -8,7 +8,7 @@ export default {
 export const Default = {
   args: {
     dismissible: true,
-    flowId: "flow_cvWFczn1RMHp9ZcK",
+    flowId: "flow_8Ybz7lMK",
     modal: true,
     onDismiss: () => console.log("Dismissed"),
   },
@@ -17,7 +17,7 @@ export const Default = {
 export const TestReset = {
   args: {
     dismissible: true,
-    flowId: "flow_cvWFczn1RMHp9ZcK",
+    flowId: "flow_8Ybz7lMK",
   },
   decorators: [
     (Story, { args }) => {
