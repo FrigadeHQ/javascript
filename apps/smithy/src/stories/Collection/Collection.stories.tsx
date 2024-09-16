@@ -6,7 +6,7 @@ import {
   useUser,
   Button,
 } from "@frigade/react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default {
   title: "Components/Collection",
@@ -209,6 +209,7 @@ export const FlowVisibilityChange = {
 export const DefaultCollectionUrlTargeting = {
   decorators: [
     () => {
+      const originalUrl = useRef(window.location.href);
       const [url, setUrl] = useState(window.location.href);
       useEffect(() => {
         const handleNavigation = () => {
@@ -255,21 +256,21 @@ export const DefaultCollectionUrlTargeting = {
               window.history.pushState({}, "", "/push-state-url");
             }}
           >
-            Push new URL state (this should trigger an announcement)
+            Push new URL state (this should HIDE the announcement)
           </Button.Primary>
           <Button.Primary
             onClick={() => {
               window.history.replaceState({}, "", "/replace-state-url");
             }}
           >
-            Replace current URL state (this should trigger an announcement)
+            Replace current URL state (this should HIDE the announcement)
           </Button.Primary>
           <Button.Primary
             onClick={() => {
-              window.history.pushState({}, "", "/");
+              window.history.pushState({}, "", originalUrl.current);
             }}
           >
-            Go back to original URL (this should hide the announcement)
+            Go back to original URL
           </Button.Primary>
         </Flex.Column>
       );
