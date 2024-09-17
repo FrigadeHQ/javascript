@@ -16,6 +16,7 @@ const GUEST_KEY = 'frigade-guest-key'
 export const GUEST_PREFIX = 'guest_'
 const GET_CACHE_PREFIX = 'get-cache-'
 const LOCAL_STORAGE_PREFIX = 'fr-js-'
+const REDUNDANT_CALL_MESSAGE = 'Redundant call to Frigade API removed'
 
 export function cloneFlow(flow: Flow): Flow {
   const newFlow = new Flow({
@@ -106,7 +107,7 @@ class CallQueue {
 
   public cancelAllPendingRequests() {
     // abort all requests
-    this.controller.abort('Redundant call to Frigade API removed')
+    this.controller.abort(REDUNDANT_CALL_MESSAGE)
     this.queue = []
     this.controller = new AbortController()
   }
@@ -201,7 +202,11 @@ export async function gracefulFetch(
 
 export function getEmptyResponse(error?: any) {
   if (error) {
-    console.warn('Call to Frigade failed:', error)
+    if (error === REDUNDANT_CALL_MESSAGE) {
+      console.debug(error)
+    } else {
+      console.warn('Call to Frigade failed:', error)
+    }
   }
 
   // Create empty response that contains the .json method and returns an empty object
