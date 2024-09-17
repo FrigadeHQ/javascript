@@ -66,7 +66,7 @@ export class Frigade extends Fetchable {
             }
 
             this.getGlobalState().currentUrl = event.destination.url
-            this.refreshStateFromAPI()
+            this.refreshStateFromAPI(true)
           } catch (e) {}
         })
       }
@@ -281,6 +281,13 @@ export class Frigade extends Fetchable {
     return collection
   }
 
+  /**
+   * @ignore
+   */
+  public getCollectionsSync(): CollectionsList | undefined {
+    return this.getGlobalState().collections.getCollections()
+  }
+
   public async getCollections(): Promise<CollectionsList | undefined> {
     await this.initIfNeeded()
 
@@ -365,7 +372,7 @@ export class Frigade extends Fetchable {
   /**
    * @ignore
    */
-  private async refreshStateFromAPI(): Promise<void> {
+  private async refreshStateFromAPI(cancelPendingRequests: boolean = false): Promise<void> {
     const globalStateKey = getGlobalStateKey(this.config)
 
     if (!frigadeGlobalState[globalStateKey]) {
@@ -409,7 +416,8 @@ export class Frigade extends Fetchable {
       }
 
       frigadeGlobalState[globalStateKey].refreshStateFromAPI = async (
-        overrideFlowStateRaw?: FlowStates
+        overrideFlowStateRaw?: FlowStates,
+        cancelPendingRequests?: boolean
       ) => {
         if (this.config.__readOnly) {
           return
@@ -417,14 +425,18 @@ export class Frigade extends Fetchable {
 
         const flowStateRaw: FlowStates = overrideFlowStateRaw
           ? overrideFlowStateRaw
-          : await this.fetch('/v1/public/flowStates', {
-              method: 'POST',
-              body: JSON.stringify({
-                userId: this.getGlobalState().config.userId,
-                groupId: this.getGlobalState().config.groupId,
-                context: getContext(this.getGlobalState()),
-              } as FlowStateDTO),
-            })
+          : await this.fetch(
+              '/v1/public/flowStates',
+              {
+                method: 'POST',
+                body: JSON.stringify({
+                  userId: this.getGlobalState().config.userId,
+                  groupId: this.getGlobalState().config.groupId,
+                  context: getContext(this.getGlobalState()),
+                } as FlowStateDTO),
+              },
+              cancelPendingRequests
+            )
 
         const collectionsData: CollectionsList = new Map()
 
@@ -474,7 +486,7 @@ export class Frigade extends Fetchable {
       }
     }
 
-    await frigadeGlobalState[globalStateKey].refreshStateFromAPI()
+    await frigadeGlobalState[globalStateKey].refreshStateFromAPI(undefined, cancelPendingRequests)
   }
 
   /**

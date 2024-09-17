@@ -3,7 +3,10 @@ import { Flow } from '../core/flow'
 import type { Collections } from '../core/collections'
 
 export interface FrigadeGlobalState {
-  refreshStateFromAPI: (overrideFlowStatesRaw?: FlowStates) => Promise<void>
+  refreshStateFromAPI: (
+    overrideFlowStatesRaw?: FlowStates,
+    cancelPendingRequests?: boolean
+  ) => Promise<void>
   flowStates: Record<string, StatefulFlow>
   collections: Collections
   registeredCollectionIds: Set<string>

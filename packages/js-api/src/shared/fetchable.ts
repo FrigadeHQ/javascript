@@ -25,16 +25,24 @@ export class Fetchable {
   /**
    * @ignore
    */
-  public async fetch(path: string, options?: Record<any, any>) {
+  public async fetch(
+    path: string,
+    options?: Record<any, any>,
+    cancelPendingRequests: boolean = false
+  ) {
     if (this.config.__readOnly) {
       return getEmptyResponse()
     }
 
-    return gracefulFetch(this.getAPIUrl(path), {
-      keepalive: true,
-      ...(options ?? {}),
-      ...getHeaders(this.config),
-    })
+    return gracefulFetch(
+      this.getAPIUrl(path),
+      {
+        keepalive: true,
+        ...(options ?? {}),
+        ...getHeaders(this.config),
+      },
+      cancelPendingRequests
+    )
   }
 
   private getAPIUrl(path: string) {

@@ -16,6 +16,7 @@ const GUEST_KEY = 'frigade-guest-key'
 export const GUEST_PREFIX = 'guest_'
 const GET_CACHE_PREFIX = 'get-cache-'
 const LOCAL_STORAGE_PREFIX = 'fr-js-'
+const REDUNDANT_CALL_MESSAGE = 'Redundant call to Frigade API removed'
 
 export function cloneFlow(flow: Flow): Flow {
   const newFlow = new Flow({
@@ -79,7 +80,8 @@ class CallQueue {
     response?: Promise<Response>
   }[] = []
   private readonly ttlInMS = 250
-  private readonly cacheSize = 5
+  private readonly cacheSize = 10
+  private controller: AbortController = new AbortController()
 
   public push(call: string, response?: Promise<Response>) {
     const now = new Date()
@@ -93,16 +95,35 @@ class CallQueue {
     })
   }
 
-  public hasIdenticalCall(call: string) {
+  public hasIdenticalRecentCall(callKey: string) {
     const now = new Date()
     this.queue = this.queue.filter((item) => now.getTime() - item.time < this.ttlInMS)
-    return this.queue.find((item) => item.call === call)
+    return this.queue.find((item) => item.call === callKey)
+  }
+
+  public hasCall(callKey: string) {
+    return this.queue.find((item) => item.call === callKey)
+  }
+
+  public cancelAllPendingRequests() {
+    // abort all requests
+    this.controller.abort(REDUNDANT_CALL_MESSAGE)
+    this.queue = []
+    this.controller = new AbortController()
+  }
+
+  public getController() {
+    return this.controller
   }
 }
 
 const callQueue = new CallQueue()
 
-export async function gracefulFetch(url: string, options: any) {
+export async function gracefulFetch(
+  url: string,
+  options: any,
+  cancelPendingRequests: boolean = false
+) {
   if (typeof globalThis.fetch !== 'function') {
     return getEmptyResponse(
       "- Attempted to call fetch() in an environment that doesn't support it."
@@ -114,8 +135,8 @@ export async function gracefulFetch(url: string, options: any) {
 
   const isWebPostRequest = isWeb() && options && options.body && options.method === 'POST'
 
-  if (isWebPostRequest) {
-    const cachedCall = callQueue.hasIdenticalCall(lastCallDataKey)
+  if (isWebPostRequest && !cancelPendingRequests) {
+    const cachedCall = callQueue.hasIdenticalRecentCall(lastCallDataKey)
 
     if (cachedCall != null && cachedCall.response != null) {
       const cachedResponse = await cachedCall.response
@@ -126,7 +147,14 @@ export async function gracefulFetch(url: string, options: any) {
 
   if (!response) {
     try {
-      const pendingResponse = fetch(url, options)
+      if (cancelPendingRequests) {
+        callQueue.cancelAllPendingRequests()
+      }
+
+      const pendingResponse = fetch(url, {
+        ...(options ?? {}),
+        signal: callQueue.getController().signal,
+      })
 
       if (isWebPostRequest) {
         callQueue.push(
@@ -174,7 +202,11 @@ export async function gracefulFetch(url: string, options: any) {
 
 export function getEmptyResponse(error?: any) {
   if (error) {
-    console.warn('Call to Frigade failed', error)
+    if (error === REDUNDANT_CALL_MESSAGE) {
+      console.debug(error)
+    } else {
+      console.warn('Call to Frigade failed:', error)
+    }
   }
 
   // Create empty response that contains the .json method and returns an empty object

@@ -1,21 +1,12 @@
-import { useEffect, useState } from 'react'
-
 import { Collection } from '@/components/Collection'
-import { useFrigade } from '@/hooks/useFrigade'
+import { useCollections } from '@/hooks/useCollections'
 
 export function DefaultCollection() {
-  const [collectionId, setCollectionId] = useState<string>()
-  const { frigade } = useFrigade()
+  const { collections } = useCollections()
 
-  useEffect(() => {
-    frigade.getCollections().then((collections) => {
-      collections?.forEach((c, id) => {
-        if (c.collectionType === 'DEFAULT') {
-          setCollectionId(id)
-        }
-      })
-    })
-  }, [])
+  const collectionId = Array.from(collections?.entries() ?? []).find(
+    (entry) => entry[1].collectionType === 'DEFAULT'
+  )?.[0]
 
   if (collectionId == null) {
     return null
