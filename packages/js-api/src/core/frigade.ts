@@ -281,6 +281,13 @@ export class Frigade extends Fetchable {
     return collection
   }
 
+  /**
+   * @ignore
+   */
+  public getCollectionsSync(): CollectionsList | undefined {
+    return this.getGlobalState().collections.getCollections()
+  }
+
   public async getCollections(): Promise<CollectionsList | undefined> {
     await this.initIfNeeded()
 
@@ -418,15 +425,18 @@ export class Frigade extends Fetchable {
 
         const flowStateRaw: FlowStates = overrideFlowStateRaw
           ? overrideFlowStateRaw
-          : await this.fetch('/v1/public/flowStates', {
-              method: 'POST',
-              body: JSON.stringify({
-                userId: this.getGlobalState().config.userId,
-                groupId: this.getGlobalState().config.groupId,
-                context: getContext(this.getGlobalState()),
-              } as FlowStateDTO),
-              cancelPendingRequests,
-            })
+          : await this.fetch(
+              '/v1/public/flowStates',
+              {
+                method: 'POST',
+                body: JSON.stringify({
+                  userId: this.getGlobalState().config.userId,
+                  groupId: this.getGlobalState().config.groupId,
+                  context: getContext(this.getGlobalState()),
+                } as FlowStateDTO),
+              },
+              cancelPendingRequests
+            )
 
         const collectionsData: CollectionsList = new Map()
 

@@ -80,6 +80,7 @@ class CallQueue {
   }[] = []
   private readonly ttlInMS = 250
   private readonly cacheSize = 10
+  private controller: AbortController = new AbortController()
 
   public push(call: string, response?: Promise<Response>) {
     const now = new Date()
@@ -103,8 +104,15 @@ class CallQueue {
     return this.queue.find((item) => item.call === callKey)
   }
 
-  public empty() {
+  public cancelAllPendingRequests() {
+    // abort all requests
+    this.controller.abort('Redundant call to Frigade API removed')
     this.queue = []
+    this.controller = new AbortController()
+  }
+
+  public getController() {
+    return this.controller
   }
 }
 
@@ -138,11 +146,14 @@ export async function gracefulFetch(
 
   if (!response) {
     try {
-      const pendingResponse = fetch(url, options)
-
       if (cancelPendingRequests) {
-        callQueue.empty()
+        callQueue.cancelAllPendingRequests()
       }
+
+      const pendingResponse = fetch(url, {
+        ...(options ?? {}),
+        signal: callQueue.getController().signal,
+      })
 
       if (isWebPostRequest) {
         callQueue.push(
@@ -152,14 +163,6 @@ export async function gracefulFetch(
         )
       }
 
-      response = pendingResponse
-      // check if call queue still has this request
-      // it could be removed if a newer request has been made
-      if (!callQueue.hasCall(lastCallDataKey)) {
-        // if not, abort the request
-        response?.abort()
-        return getEmptyResponse()
-      }
       response = await pendingResponse
     } catch (error) {
       return getEmptyResponse(error)
@@ -198,7 +201,7 @@ export async function gracefulFetch(
 
 export function getEmptyResponse(error?: any) {
   if (error) {
-    console.warn('Call to Frigade failed', error)
+    console.warn('Call to Frigade failed:', error)
   }
 
   // Create empty response that contains the .json method and returns an empty object

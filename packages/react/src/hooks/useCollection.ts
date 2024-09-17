@@ -1,75 +1,20 @@
-import { useCallback, useContext, useState, useSyncExternalStore } from 'react'
+import { useContext } from 'react'
 
 import { FrigadeContext } from '@/components/Provider'
 
 import { useFlow } from '@/hooks/useFlow'
-import { Collection } from '@frigade/js'
+import { useCollections } from './useCollections'
 
 export function useCollection(collectionId: string) {
   const { frigade } = useContext(FrigadeContext)
-  const [, setForceRender] = useState<boolean>(false)
+  const { collections } = useCollections()
 
-  let debounceTimeout: ReturnType<typeof setTimeout>
-
-  const subscribe = useCallback(
-    (cb: () => void) => {
-      // TODO: Why is there a noticeable delay when this is commented out?
-      frigade?.getCollection(collectionId).then(() => {
-        cb()
-      })
-
-      const handler = () => {
-        clearTimeout(debounceTimeout)
-
-        /*
-         * NOTE: Since React doesn't re-render on deep object diffs,
-         * we need to gently prod it here by creating a state update.
-         */
-        debounceTimeout = setTimeout(() => {
-          setForceRender((forceRender) => !forceRender)
-
-          cb()
-        }, 100)
-      }
-
-      frigade?.onStateChange(handler)
-
-      return () => {
-        frigade?.removeStateChangeHandler(handler)
-      }
-    },
-    [collectionId]
-  )
-
-  const collection: Collection | undefined = useSyncExternalStore(
-    subscribe,
-    () => {
-      let result = undefined
-
-      try {
-        result = frigade?.getCollectionSync(collectionId)
-      } catch (noGlobalStateYet) {
-        // no-op
-      }
-
-      return result
-    },
-    () => {
-      let result = undefined
-
-      try {
-        result = frigade?.getCollectionSync(collectionId)
-      } catch (noGlobalStateYet) {
-        // no-op
-      }
-
-      return result
-    }
-  )
+  const collection = collections?.get(collectionId)
 
   const enrichedFlows =
-    collection?.flows
-      ?.filter((flowInCollection) => flowInCollection.visible)
+    collections
+      ?.get(collectionId)
+      ?.flows?.filter((flowInCollection) => flowInCollection.visible)
       .map((item) => ({
         ...item,
         flow: frigade?.getFlowSync(item.flowId),
