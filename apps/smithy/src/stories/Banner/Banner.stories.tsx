@@ -61,8 +61,6 @@ export const Dismissible: BannerStory = {
   play: async (context) => {
     const { canvasElement, step } = context;
 
-    console.log("CONTEXT: ", context);
-
     const canvas = within(canvasElement);
     const bannerElement = await canvas.findByRole("complementary", {
       name: "Banner",
