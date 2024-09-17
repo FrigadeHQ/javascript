@@ -94,12 +94,16 @@ export function Spotlight({ anchor, part, style = {}, ...props }: SpotlightProps
   })
 
   useEffect(() => {
-    const anchorQuery = document.querySelector(anchor)
+    try {
+      const anchorQuery = document.querySelector(anchor)
 
-    if (anchorQuery != null) {
-      refs.setReference(anchorQuery)
-    } else {
-      console.debug(`[frigade] Spotlight: No anchor found for selector: ${anchor}`)
+      if (anchorQuery != null) {
+        refs.setReference(anchorQuery)
+      } else {
+        console.debug(`[frigade] Spotlight: No anchor found for selector: ${anchor}`)
+      }
+    } catch (invalidSelector) {
+      /* no-op */
     }
   }, [anchor])
 

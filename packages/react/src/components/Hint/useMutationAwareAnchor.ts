@@ -1,25 +1,19 @@
 import { useEffect, useState } from 'react'
 
 function checkElementForAnchor(element: Element, anchor: string) {
-  if (element.matches(anchor)) {
-    if (isVisible(element)) {
+  try {
+    if (element.matches(anchor) && isVisible(element)) {
       return element
-    } else {
-      return null
     }
-  }
 
-  const anchorSelector = element.querySelectorAll(anchor)
+    const anchorSelector = element.querySelectorAll(anchor)
 
-  if (anchorSelector.length > 0) {
-    if (isVisible(anchorSelector[0])) {
+    if (anchorSelector.length > 0 && isVisible(anchorSelector[0])) {
       return anchorSelector[0]
-    } else {
-      return null
     }
+  } catch (invalidSelector) {
+    return null
   }
-
-  return null
 }
 
 function isVisible(element: Element) {
@@ -34,10 +28,14 @@ export function useMutationAwareAnchor(anchor: string) {
   const [anchorElement, setAnchorElement] = useState(null)
 
   useEffect(() => {
-    const element = document.querySelector(anchor)
+    try {
+      const element = document.querySelector(anchor)
 
-    if (element != null) {
-      setAnchorElement(element)
+      if (element != null) {
+        setAnchorElement(element)
+      }
+    } catch (invalidSelector) {
+      /* no-op */
     }
   }, [anchor])
 
