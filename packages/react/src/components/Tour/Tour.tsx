@@ -1,5 +1,5 @@
 import { Flow, type FlowPropsWithoutChildren } from '@/components/Flow'
-import { type HintProps } from '@/components/Hint'
+import { AlignValue, SideValue, type HintProps } from '@/components/Hint'
 import { TourStep } from '@/components/Tour/TourStep'
 
 import { useClientPortal } from '@/hooks/useClientPortal'
@@ -11,6 +11,49 @@ export interface TourProps extends FlowPropsWithoutChildren, Omit<HintProps, 'an
    * Defaults to `true`, which means only one step will be rendered at a time in sequential order.
    */
   sequential?: boolean
+
+  /**
+   * The alignment of the tooltip relative to the anchor.
+   * Possible values: `after`, `before`, `center`, `end`, `start`.
+   */
+  align?: AlignValue
+  /**
+   * The offset of the tooltip relative to the anchor along the alignment axis.
+   */
+  alignOffset?: number
+  /**
+   * The CSS selector or DOM element to anchor the tooltip to.
+   */
+  anchor: string
+  /**
+   * Whether the tooltip should be open by default.
+   */
+  defaultOpen?: boolean
+  /**
+   * Whether to render a modal overlay behind the tooltip.
+   */
+  modal?: boolean
+  /**
+   * Callback function triggered when the open state of the tooltip changes.
+   */
+  onOpenChange?: (open: boolean) => void
+  /**
+   * Controls the open state of the tooltip. Use this for controlled components.
+   */
+  open?: boolean
+  /**
+   * The preferred side of the anchor to render the tooltip.
+   * Possible values: `top`, `right`, `bottom`, `left`.
+   */
+  side?: SideValue
+  /**
+   * The distance in pixels from the tooltip to the anchor element.
+   */
+  sideOffset?: number
+  /**
+   * Whether to highlight the anchor element with a spotlight/scrim effect.
+   */
+  spotlight?: boolean
 }
 
 export function Tour({
