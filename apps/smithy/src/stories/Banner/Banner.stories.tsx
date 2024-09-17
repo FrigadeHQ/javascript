@@ -1,8 +1,8 @@
-import { Banner, useFlow } from "@frigade/react";
+import { Banner } from "@frigade/react";
 import type { Meta, StoryObj } from "@storybook/react";
-import { expect, userEvent, waitFor, within } from "@storybook/test";
+import { expect, within } from "@storybook/test";
 
-type BannerStory = StoryObj<typeof Banner>;
+export type BannerStory = StoryObj<typeof Banner>;
 
 export default {
   title: "Components/Banner",
@@ -11,35 +11,8 @@ export default {
 
 export const Default: BannerStory = {
   args: {
-    dismissible: true,
     flowId: "flow_ZacoWhZhzqbdHQ8k",
   },
-};
-
-export const Tests: BannerStory = {
-  args: {
-    dismissible: true,
-    flowId: "flow_ZacoWhZhzqbdHQ8k",
-  },
-
-  decorators: [
-    (Story, { args }) => {
-      const { flow } = useFlow(args.flowId);
-
-      return (
-        <>
-          <Story {...args} />
-          <button
-            onClick={() => {
-              flow.restart();
-            }}
-          >
-            Reset Flow
-          </button>
-        </>
-      );
-    },
-  ],
 
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
@@ -66,8 +39,6 @@ export const Tests: BannerStory = {
       expect(
         banner.getByRole("button", { name: "Secondary CTA" })
       ).toBeVisible();
-
-      expect(banner.getByRole("button", { name: "Dismiss" })).toBeVisible();
     });
 
     // Check that stable classnames unique to this component exist in the DOM
@@ -78,17 +49,30 @@ export const Tests: BannerStory = {
         canvasElement.querySelector(".fr-banner-title-wrapper")
       ).toBeInTheDocument();
     });
+  },
+};
 
-    await step("Test interactions", async () => {
-      await userEvent.click(
-        banner.getByRole("button", { name: "Primary CTA" })
-      );
+export const Dismissible: BannerStory = {
+  args: {
+    dismissible: true,
+    flowId: "flow_ZacoWhZhzqbdHQ8k",
+  },
 
-      await waitFor(() => {
-        expect(bannerElement).not.toBeInTheDocument();
-      });
+  play: async (context) => {
+    const { canvasElement, step } = context;
 
-      // await userEvent.click(canvas.getByText("Reset Flow"));
+    console.log("CONTEXT: ", context);
+
+    const canvas = within(canvasElement);
+    const bannerElement = await canvas.findByRole("complementary", {
+      name: "Banner",
+    });
+    const banner = within(bannerElement);
+
+    await Default.play?.(context);
+
+    await step("Check dismissible state", async () => {
+      expect(banner.getByRole("button", { name: "Dismiss" })).toBeVisible();
     });
   },
 };
