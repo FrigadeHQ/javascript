@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.5.10
+
+### Patch Changes
+
+- a03e03a: Fixes a non-fatal typescript error on <Frigade.Tour />
+
 ## 2.5.9
 
 ### Patch Changes
