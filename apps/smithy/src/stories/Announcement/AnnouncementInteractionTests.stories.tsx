@@ -43,16 +43,71 @@ export const InteractionTests: AnnouncementStory = {
   ],
 
   play: async ({ step }) => {
-    const canvas = within(document.body);
-    const AnnouncementElement = await canvas.findByRole("dialog");
-    const Announcement = within(AnnouncementElement);
+    await step("Test paginating through the announcement", async () => {
+      const canvas = within(document.body);
+      const AnnouncementElement = await canvas.findByRole("dialog");
+      const Announcement = within(AnnouncementElement);
 
-    await step("Test interactions", async () => {
       await userEvent.click(Announcement.getByRole("button", { name: "Next" }));
       await sleep(100);
       await userEvent.click(
         Announcement.getByRole("button", { name: "Finish" })
       );
+
+      await waitFor(async () => {
+        await expect(AnnouncementElement).not.toBeInTheDocument();
+      });
+
+      await sleep(1000);
+
+      await userEvent.click(canvas.getByText("Reset Flow"));
+
+      await sleep(1000);
+    });
+
+    await step(
+      "Test navigating back and forth in an announcement",
+      async () => {
+        const canvas = within(document.body);
+        const AnnouncementElement = await canvas.findByRole("dialog");
+        const Announcement = within(AnnouncementElement);
+
+        await userEvent.click(
+          Announcement.getByRole("button", { name: "Next" })
+        );
+        await sleep(100);
+        await userEvent.click(
+          Announcement.getByRole("button", { name: "Back" })
+        );
+        await userEvent.click(
+          Announcement.getByRole("button", { name: "Next" })
+        );
+        await sleep(100);
+        await userEvent.click(
+          Announcement.getByRole("button", { name: "Finish" })
+        );
+        await sleep(100);
+
+        await waitFor(async () => {
+          await expect(AnnouncementElement).not.toBeInTheDocument();
+        });
+
+        await sleep(1000);
+
+        await userEvent.click(canvas.getByText("Reset Flow"));
+
+        await sleep(1000);
+      }
+    );
+
+    await step("Test dismissing the announcement", async () => {
+      const canvas = within(document.body);
+      const AnnouncementElement = await canvas.findByRole("dialog");
+
+      await expect(AnnouncementElement).toBeInTheDocument();
+
+      const dismissButton = document.querySelector(".fr-close");
+      await userEvent.click(dismissButton as HTMLElement);
 
       await waitFor(async () => {
         await expect(AnnouncementElement).not.toBeInTheDocument();
