@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.5.9
+
+### Patch Changes
+
+- 6a93986: Fixes an edge case where modals can sometime flicker when doing fast browser navigation
+- Updated dependencies [6a93986]
+  - @frigade/js@0.7.10
+
 ## 2.5.8
 
 ### Patch Changes
