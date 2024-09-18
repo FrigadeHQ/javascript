@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.7.10
+
+### Patch Changes
+
+- 6a93986: Fixes an edge case where modals can sometime flicker when doing fast browser navigation
+
 ## 0.7.9
 
 ### Patch Changes
