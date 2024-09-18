@@ -22,10 +22,6 @@ export interface TourProps extends FlowPropsWithoutChildren, Omit<HintProps, 'an
    */
   alignOffset?: number
   /**
-   * The CSS selector or DOM element to anchor the tooltip to.
-   */
-  anchor: string
-  /**
    * Whether the tooltip should be open by default.
    */
   defaultOpen?: boolean
