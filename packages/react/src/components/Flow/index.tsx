@@ -102,7 +102,7 @@ export function Flow({
   // }
 
   if (shouldForceMount || (!flow.isCompleted && !flow.isSkipped)) {
-    step.start()
+    step?.start()
   }
 
   const ContainerElement = as === null ? Fragment : as ?? Box

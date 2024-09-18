@@ -27,6 +27,7 @@ export { BaseField } from './components/Form/fields/BaseField'
 export { Media, Image, Video } from './components/Media'
 
 export * as Progress from './components/Progress'
+export { ProgressBadge, type ProgressBadgeProps } from './components/ProgressBadge'
 export { Provider, type ProviderProps } from './components/Provider'
 export { Spotlight } from './components/Spotlight'
 export * as Survey from './components/Survey'

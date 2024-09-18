@@ -11,6 +11,8 @@ export function Segments({ current, total, ...props }: ProgressProps) {
       flexGrow={1}
       height="100%"
       key={i}
+      minWidth="10px"
+      part="progress-segment"
     />
   ))
 
