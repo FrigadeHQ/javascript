@@ -1,4 +1,4 @@
-import { Box, Button, Tour, TourProps, useFlow } from "@frigade/react";
+import { Box, Button, Tour, useFlow } from "@frigade/react";
 import { type Meta, type StoryObj } from "@storybook/react";
 import { expect, userEvent, waitFor, within } from "@storybook/test";
 import { useEffect, useRef } from "react";
