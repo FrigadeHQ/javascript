@@ -119,7 +119,7 @@ export const InteractionTests: CollectionStory = {
 
         window.history.pushState({}, "", originalUrl);
 
-        await sleep(200);
+        await sleep(300);
 
         await expect(canvas.queryByRole("dialog")).not.toBeInTheDocument();
 
