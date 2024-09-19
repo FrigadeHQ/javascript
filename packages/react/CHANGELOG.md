@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.5.11
+
+### Patch Changes
+
+- 8d7f97c: Fixes an issue where anchor hashes causes network calls with state updates to be cancelled
+- Updated dependencies [8d7f97c]
+  - @frigade/js@0.7.11
+
 ## 2.5.10
 
 ### Patch Changes
