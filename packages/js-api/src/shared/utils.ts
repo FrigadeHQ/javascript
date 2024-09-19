@@ -81,7 +81,6 @@ class CallQueue {
   }[] = []
   private readonly ttlInMS = 250
   private readonly cacheSize = 10
-  private controller: AbortController = new AbortController()
 
   public push(call: string, response?: Promise<Response>) {
     const now = new Date()
@@ -106,14 +105,7 @@ class CallQueue {
   }
 
   public cancelAllPendingRequests() {
-    // abort all requests
-    this.controller.abort(REDUNDANT_CALL_MESSAGE)
     this.queue = []
-    this.controller = new AbortController()
-  }
-
-  public getController() {
-    return this.controller
   }
 }
 
@@ -151,10 +143,7 @@ export async function gracefulFetch(
         callQueue.cancelAllPendingRequests()
       }
 
-      const pendingResponse = fetch(url, {
-        ...(options ?? {}),
-        signal: callQueue.getController().signal,
-      })
+      const pendingResponse = fetch(url, options)
 
       if (isWebPostRequest) {
         callQueue.push(
@@ -165,6 +154,9 @@ export async function gracefulFetch(
       }
 
       response = await pendingResponse
+      if (isWebPostRequest && !callQueue.hasCall(lastCallDataKey)) {
+        response = getEmptyResponse(REDUNDANT_CALL_MESSAGE)
+      }
     } catch (error) {
       return getEmptyResponse(error)
     }

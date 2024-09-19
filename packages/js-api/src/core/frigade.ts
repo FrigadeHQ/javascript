@@ -64,6 +64,14 @@ export class Frigade extends Fetchable {
             if (this.getGlobalState().currentUrl === event.destination.url) {
               return
             }
+            // if the new base url is the same but with a hashtag, don't refresh the state as the page has not changed.
+            if (
+              event.destination.url &&
+              this.getGlobalState().currentUrl &&
+              event.destination.url.split('#')[0] === this.getGlobalState().currentUrl.split('#')[0]
+            ) {
+              return
+            }
 
             this.getGlobalState().currentUrl = event.destination.url
             this.refreshStateFromAPI(true)
