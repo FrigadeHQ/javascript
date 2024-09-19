@@ -18,12 +18,17 @@ export default StoryMeta;
 
 export const InteractionTests: CollectionStory = {
   args: {
-    flowId: "flow_sXqeX8oN",
+    announcementFlowId: "flow_sXqeX8oN",
+    bannerFlowId: "flow_ZacoWhZhzqbdHQ8k",
+    cardFlowId: "flow_xw9xq7yc",
   },
 
   decorators: [
     (Story, { args }) => {
-      const { flow } = useFlow(args.flowId);
+      const { flow: announcementFlow } = useFlow(args.announcementFlowId);
+      const { flow: bannerFlow } = useFlow(args.bannerFlowId);
+      const { flow: cardFlow } = useFlow(args.cardFlowId);
+
       const originalUrl = useRef(window.location.href);
       const [url, setUrl] = useState(window.location.href);
       useEffect(() => {
@@ -62,10 +67,15 @@ export const InteractionTests: CollectionStory = {
       return (
         <Flex.Column gap={2}>
           <Story {...args} />
+          <Collection collectionId="collection_84G6gzEL" />
           <button
             id="reset-flow"
-            onClick={() => {
-              flow.restart();
+            onClick={async () => {
+              await Promise.all([
+                announcementFlow.restart(),
+                bannerFlow.restart(),
+                cardFlow.restart(),
+              ]);
             }}
             style={{ marginTop: "36px" }}
           >
@@ -95,7 +105,7 @@ export const InteractionTests: CollectionStory = {
     },
   ],
 
-  play: async ({ step }) => {
+  play: async ({ step, canvasElement }) => {
     const originalUrl = window.location.href;
 
     await step(
@@ -122,11 +132,56 @@ export const InteractionTests: CollectionStory = {
         await sleep(300);
 
         await expect(canvas.queryByRole("dialog")).not.toBeInTheDocument();
-
-        await userEvent.click(canvas.getByText("Reset Flow"));
-
-        await sleep(1000);
       }
     );
+
+    await step("Test that cooloffs are respected", async () => {
+      const canvas = within(canvasElement);
+      const bannerElement = await canvas.findByRole("complementary", {
+        name: "Banner",
+      });
+      const banner = within(bannerElement);
+
+      // expect banner to be in the document
+      await expect(bannerElement).toBeInTheDocument();
+
+      // expect banner to contain the text "Banner title"
+      await expect(banner.getByText("Banner title")).toBeInTheDocument();
+
+      // Click button with Primary CTA
+      await userEvent.click(
+        banner.getByRole("button", {
+          name: "Primary CTA",
+        })
+      );
+
+      await sleep(1000);
+
+      // banner is now gone
+      await expect(bannerElement).not.toBeInTheDocument();
+
+      await sleep(200);
+
+      // look for a an element with the class fr-card
+      let card = document.querySelector(".fr-card");
+      await expect(card).not.toBeInTheDocument();
+      // change the url to trigger a provider reload
+      window.history.pushState({}, "", "/some-url");
+      await sleep(500);
+      card = document.querySelector(".fr-card");
+      await expect(card).not.toBeInTheDocument();
+      await sleep(5500);
+      // change the url to trigger a provider reload
+      window.history.pushState({}, "", "/some-other-url");
+      await sleep(1000);
+      card = document.querySelector(".fr-card");
+      await expect(card).toBeInTheDocument();
+    });
+
+    await step("Reset all flows", async () => {
+      const canvas = within(canvasElement);
+      await userEvent.click(canvas.getByText("Reset Flow"));
+      await sleep(1000);
+    });
   },
 };

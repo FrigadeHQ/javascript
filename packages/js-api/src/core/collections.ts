@@ -34,6 +34,7 @@ export class Collections {
   private registryStateLocked: boolean = false
   private collections: CollectionsList = new Map()
   private flowsInCollections: Set<string> = new Set()
+  private hasChanges: boolean = false
 
   constructor(collectionsData: CollectionsList) {
     this.ingestCollectionsData(collectionsData)
@@ -47,7 +48,19 @@ export class Collections {
     return this.collections
   }
 
+  collectionsHaveChanged() {
+    return this.hasChanges
+  }
+
   ingestCollectionsData(collectionsData: CollectionsList) {
+    this.hasChanges = true
+
+    this.checkIfCollectionsHaveChanged(collectionsData)
+
+    if (!this.hasChanges) {
+      return
+    }
+
     this.collections = collectionsData
 
     for (const [, collection] of this.collections) {
@@ -65,6 +78,33 @@ export class Collections {
     }
 
     this.fireCallbacks()
+  }
+
+  private checkIfCollectionsHaveChanged(newCollectionsData: CollectionsList) {
+    const previousCollections = this.collections
+    const newCollections = newCollectionsData
+
+    if (previousCollections.size !== newCollections.size) {
+      this.hasChanges = true
+    }
+
+    for (const [collectionId, collection] of previousCollections) {
+      const newCollection = newCollections.get(collectionId)
+      if (collection.flows.length !== newCollection.flows.length) {
+        this.hasChanges = true
+        break
+      }
+
+      for (let i = 0; i < collection.flows.length; i++) {
+        if (
+          collection.flows[i].flowId !== newCollection.flows[i].flowId ||
+          collection.flows[i].visible !== newCollection.flows[i].visible
+        ) {
+          this.hasChanges = true
+          break
+        }
+      }
+    }
   }
 
   fireCallbacks() {

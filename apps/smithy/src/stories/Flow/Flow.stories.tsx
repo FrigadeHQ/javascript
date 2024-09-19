@@ -9,7 +9,7 @@ export default {
 export const Default = {
   args: {
     as: Card,
-    flowId: "flow_Kvwr5ow8",
+    flowId: "flow_xw9xq7yc",
     children: ({
       handleDismiss,
       handlePrimary,

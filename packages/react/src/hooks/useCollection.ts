@@ -1,11 +1,11 @@
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 
 import { FrigadeContext } from '@/components/Provider'
 
 import { useFlow } from '@/hooks/useFlow'
 import { useCollections } from './useCollections'
 
-export function useCollection(collectionId: string) {
+export function useCollection(collectionId?: string) {
   const { frigade } = useContext(FrigadeContext)
   const { collections } = useCollections()
 
@@ -23,6 +23,10 @@ export function useCollection(collectionId: string) {
   const flowId = enrichedFlows.find(({ flow }) => flow.isVisible)?.flowId
 
   const { flow } = useFlow(flowId)
+
+  useEffect(() => {
+    frigade?.registerCollection(collectionId)
+  }, [collectionId])
 
   return {
     collection,

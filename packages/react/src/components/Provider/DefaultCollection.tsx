@@ -1,4 +1,5 @@
 import { Collection } from '@/components/Collection'
+import { useCollection } from '@/hooks/useCollection'
 import { useCollections } from '@/hooks/useCollections'
 
 export function DefaultCollection() {
@@ -7,6 +8,8 @@ export function DefaultCollection() {
   const collectionId = Array.from(collections?.entries() ?? []).find(
     (entry) => entry[1].collectionType === 'DEFAULT'
   )?.[0]
+
+  useCollection(collectionId)
 
   if (collectionId == null) {
     return null

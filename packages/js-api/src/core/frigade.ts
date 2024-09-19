@@ -260,7 +260,7 @@ export class Frigade extends Fetchable {
       return undefined
     }
 
-    this.getGlobalState().registeredCollectionIds.add(collectionId)
+    this.registerCollection(collectionId)
 
     const enrichedFlows = await Promise.all(
       collection.flows.map(async (item) => ({
@@ -272,6 +272,13 @@ export class Frigade extends Fetchable {
     collection.flows = enrichedFlows
 
     return collection as EnrichedCollection
+  }
+
+  public async registerCollection(collectionId: string) {
+    await this.initIfNeeded()
+    if (collectionId) {
+      this.getGlobalState().registeredCollectionIds.add(collectionId)
+    }
   }
 
   /**
@@ -326,7 +333,10 @@ export class Frigade extends Fetchable {
     }
     this.initPromise = null
     await this.init(this.config)
-    // Trigger all event handlers
+    this.triggerAllEventHandlers()
+  }
+
+  private triggerAllEventHandlers() {
     this.flows.forEach((flow) => {
       this.getGlobalState().onFlowStateChangeHandlers.forEach((handler) => {
         const lastFlow = this.getGlobalState().previousFlows.get(flow.id)
@@ -467,6 +477,9 @@ export class Frigade extends Fetchable {
 
         if (collectionsData.size > 0) {
           frigadeGlobalState[globalStateKey].collections.ingestCollectionsData(collectionsData)
+          if (frigadeGlobalState[globalStateKey].collections.collectionsHaveChanged()) {
+            this.triggerAllEventHandlers()
+          }
         }
 
         if (flowStateRaw && flowStateRaw.eligibleFlows) {

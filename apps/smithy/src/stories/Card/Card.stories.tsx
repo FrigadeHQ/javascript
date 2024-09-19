@@ -35,7 +35,7 @@ export const Default = {
 export const FlowAwareCard = {
   args: {
     dismissible: true,
-    flowId: "flow_Kvwr5ow8",
+    flowId: "flow_xw9xq7yc",
     width: "400px",
   },
 };
