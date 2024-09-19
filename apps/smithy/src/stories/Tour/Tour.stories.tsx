@@ -48,42 +48,56 @@ export const Default = {
       }, []);
 
       return (
-        <Box
-          style={{
-            alignItems: "center",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            height: "calc(100vh - 32px)",
-            // height: "1500px",
-          }}
-        >
-          <input
-            value="Restart Flow"
-            type="button"
-            onClick={() => {
-              // Do nothing, this is just to see if you can interact outside the overlay
+        <>
+          <Box
+            style={{
+              alignItems: "center",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              height: "calc(100vh - 32px)",
+              // height: "1500px",
             }}
-          />
+          >
+            <input
+              value="Restart Flow"
+              type="button"
+              onClick={() => {
+                // Do nothing, this is just to see if you can interact outside the overlay
+              }}
+            />
 
-          {lateAnchorRef.current}
+            {lateAnchorRef.current}
+
+            <Box
+              id="tooltip-storybook-1"
+              p={4}
+              style={{ background: "fuchsia", width: "200px" }}
+            >
+              Second anchor
+            </Box>
+            <Tour
+              // onOpenChange={setOpen}
+              // open={open}
+              // variables={{
+              //   firstName: "John",
+              // }}
+              {...(options.args as TourProps)}
+            />
+          </Box>
 
           <Box
-            id="tooltip-storybook-1"
+            id="tooltip-storybook-2"
             p={4}
-            style={{ background: "fuchsia", width: "200px" }}
+            style={{
+              background: "lightgreen",
+              width: "200px",
+              marginTop: "1400px", // Add significant margin to force scrolling
+            }}
           >
-            Second anchor
+            Scroll to see this anchor
           </Box>
-          <Tour
-            // onOpenChange={setOpen}
-            // open={open}
-            // variables={{
-            //   firstName: "John",
-            // }}
-            {...(options.args as TourProps)}
-          />
-        </Box>
+        </>
       );
     },
   ],
