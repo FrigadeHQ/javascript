@@ -132,6 +132,8 @@ export const InteractionTests: CollectionStory = {
         await sleep(300);
 
         await expect(canvas.queryByRole("dialog")).not.toBeInTheDocument();
+
+        await sleep(300);
       }
     );
 
