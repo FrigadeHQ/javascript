@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.7.11
+
+### Patch Changes
+
+- 8d7f97c: Fixes an issue where anchor hashes causes network calls with state updates to be cancelled
+
 ## 0.7.10
 
 ### Patch Changes
