@@ -477,7 +477,11 @@ export class Frigade extends Fetchable {
 
         if (collectionsData.size > 0) {
           frigadeGlobalState[globalStateKey].collections.ingestCollectionsData(collectionsData)
-          if (frigadeGlobalState[globalStateKey].collections.collectionsHaveChanged()) {
+          if (
+            frigadeGlobalState[globalStateKey].collections.collectionsHaveChanged() &&
+            // Necessary check to prevent race condition between flow state and collection state
+            !overrideFlowStateRaw
+          ) {
             this.triggerAllEventHandlers()
           }
         }
