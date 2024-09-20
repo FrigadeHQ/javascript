@@ -1,7 +1,6 @@
-import { Box, Button, Form, useFlow } from "@frigade/react";
+import { Form, useFlow } from "@frigade/react";
 import { type Meta, type StoryObj } from "@storybook/react";
-import { expect, userEvent, waitFor, within } from "@storybook/test";
-import { useEffect, useRef } from "react";
+import { expect, userEvent, within } from "@storybook/test";
 
 type FormStory = StoryObj<typeof Form>;
 
@@ -43,40 +42,36 @@ export const InteractionTests: FormStory = {
   ],
 
   play: async ({ step }) => {
+    await step("Test linear flow of Form", async () => {
+      const canvas = within(document.body);
+      await canvas.findByText("This is page 1");
+      await userEvent.click(canvas.getByText("Continue to page 2"));
+      await userEvent.click(canvas.getByText("Next"));
+      await canvas.findByText("This is page 2");
+      await userEvent.click(canvas.getByText("Next"));
+      await canvas.findByText("This is page 3");
+      await sleep(100);
+      await expect(canvas.getByText("Finish").closest("button")).toBeDisabled();
+      await userEvent.click(canvas.getByText("Radio 1"));
+      await userEvent.click(canvas.getByText("Finish"));
+      await sleep(500);
+      await expect(document.querySelector(".fr-form")).not.toBeInTheDocument();
+      await userEvent.click(canvas.getByText("Reset Flow"));
+      await sleep(1000);
+    });
+
+    // create a similar test to above but where you click Go to page 3 in the first page
     await step("Test branching of Form", async () => {
       const canvas = within(document.body);
       await canvas.findByText("This is page 1");
-
-      // click on thing that says Go to page 2
-      await userEvent.click(canvas.getByText("Continue to page 2"));
-
-      // Click on Next button
+      await userEvent.click(canvas.getByText("Go to page 3"));
       await userEvent.click(canvas.getByText("Next"));
-
-      // look for text that says "This is page 2"
-      await canvas.findByText("This is page 2");
-
-      // click Next
-      await userEvent.click(canvas.getByText("Next"));
-
-      // look for text that says "This is page 3"
       await canvas.findByText("This is page 3");
-
-      // expect button that says Finish to be disabled
-      await sleep(100);
-      await expect(canvas.getByText("Finish").closest("button")).toBeDisabled();
-
-      // click on Radio 1
       await userEvent.click(canvas.getByText("Radio 1"));
-      // click Next
       await userEvent.click(canvas.getByText("Finish"));
-
       await sleep(500);
-      // check that .fr-form is gone
       await expect(document.querySelector(".fr-form")).not.toBeInTheDocument();
-
       await userEvent.click(canvas.getByText("Reset Flow"));
-
       await sleep(1000);
     });
   },
