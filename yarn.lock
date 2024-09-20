@@ -3721,7 +3721,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@frigade/js@npm:^0.7.11, @frigade/js@workspace:packages/js-api":
+"@frigade/js@npm:^0.7.12, @frigade/js@workspace:packages/js-api":
   version: 0.0.0-use.local
   resolution: "@frigade/js@workspace:packages/js-api"
   dependencies:
@@ -3755,7 +3755,7 @@ __metadata:
   dependencies:
     "@emotion/react": "npm:^11.11.4"
     "@floating-ui/react": "npm:^0.26.22"
-    "@frigade/js": "npm:^0.7.11"
+    "@frigade/js": "npm:^0.7.12"
     "@radix-ui/react-checkbox": "npm:^1.1.1"
     "@radix-ui/react-collapsible": "npm:^1.0.3"
     "@radix-ui/react-dialog": "npm:^1.0.5"
