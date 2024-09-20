@@ -4,6 +4,7 @@
   "version": "0.0.3",
   "type": "module",
   "scripts": {
+    "build-storybook": "storybook build",
     "dev": "storybook dev -p 6006",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
