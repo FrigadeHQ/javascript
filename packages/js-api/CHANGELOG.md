@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.7.12
+
+### Patch Changes
+
+- 459fa14: Fixes an edge case for collections with url-based targeting
+
 ## 0.7.11
 
 ### Patch Changes
