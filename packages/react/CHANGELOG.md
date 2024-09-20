@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.5.12
+
+### Patch Changes
+
+- 459fa14: Fixes an edge case for collections with url-based targeting
+- Updated dependencies [459fa14]
+  - @frigade/js@0.7.12
+
 ## 2.5.11
 
 ### Patch Changes
