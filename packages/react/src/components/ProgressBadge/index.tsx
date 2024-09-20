@@ -29,8 +29,8 @@ export function ProgressBadge({ title, ...props }: FlowPropsWithoutChildren) {
       {({ flow, parentProps: { containerProps }, step }) => {
         const derivedTitle = firstNonEmptyString(title, flow.title, step.title)
 
-        const completedSteps = flow.getCurrentStepOrder() + 1
-        const availableSteps = flow.getNumberOfAvailableSteps()
+        const completedSteps = flow?.getNumberOfCompletedSteps() ?? 0
+        const availableSteps = flow?.getNumberOfAvailableSteps() ?? 1
 
         return (
           <Card
