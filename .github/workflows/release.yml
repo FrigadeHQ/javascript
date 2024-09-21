@@ -1,7 +1,7 @@
 name: Release
 on:
   workflow_run:
-    workflows: ['Tests']
+    workflows: ['Tests', 'Storybook Tests']
     branches: [main]
     types:
       - completed

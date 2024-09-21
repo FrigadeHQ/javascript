@@ -2,7 +2,7 @@ name: Release Canary
 
 on:
   workflow_run:
-    workflows: ['Tests']
+    workflows: ['Tests', 'Storybook Tests']
     branches: [canary]
     types:
       - completed
