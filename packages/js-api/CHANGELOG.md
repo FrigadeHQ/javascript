@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.7.13
+
+### Patch Changes
+
+- c8c6cc4: Fixes an edge case/race condition that can occur with forms that have branching
+
 ## 0.7.12
 
 ### Patch Changes

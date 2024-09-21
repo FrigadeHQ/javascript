@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.5.13
+
+### Patch Changes
+
+- c8c6cc4: Fixes an edge case/race condition that can occur with forms that have branching
+- Updated dependencies [c8c6cc4]
+  - @frigade/js@0.7.13
+
 ## 2.5.12
 
 ### Patch Changes
