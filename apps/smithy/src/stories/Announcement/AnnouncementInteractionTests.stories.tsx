@@ -44,6 +44,7 @@ export const InteractionTests: AnnouncementStory = {
 
   play: async ({ step }) => {
     await step("Test paginating through the announcement", async () => {
+      await sleep(500);
       const canvas = within(document.body);
       const AnnouncementElement = await canvas.findByRole("dialog");
       const Announcement = within(AnnouncementElement);
