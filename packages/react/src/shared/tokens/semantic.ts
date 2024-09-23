@@ -94,8 +94,8 @@ export const semantic: SemanticColors = {
       surface: colorVar('neutral-700'),
     },
     hover: {
-      background: colorVar('white'),
-      border: colorVar('neutral-900'),
+      background: colorVar('neutral-900'),
+      border: colorVar('neutral-800'),
       foreground: colorVar('black'),
       surface: colorVar('neutral-700'),
     },

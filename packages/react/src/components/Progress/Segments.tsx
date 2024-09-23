@@ -12,7 +12,7 @@ export function Segments({ current, total, ...props }: ProgressProps) {
       height="100%"
       key={i}
       minWidth="10px"
-      part="progress-segment"
+      part={['progress-segment', current - 1 === i ? 'progress-segment-filled' : null]}
     />
   ))
 

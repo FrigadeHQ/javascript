@@ -6,6 +6,8 @@ import { Flow, type FlowPropsWithoutChildren } from '@/components/Flow'
 import * as Progress from '@/components/Progress'
 import { Text } from '@/components/Text'
 
+import { deepmerge } from '@/shared/deepmerge'
+
 export interface ProgressBadgeProps extends FlowPropsWithoutChildren {
   /**
    * Override the title displayed on the ProgressBadge. Defaults to the title of the associated Flow, or the title of that Flow's first Step.
@@ -23,7 +25,7 @@ function firstNonEmptyString(...strings: string[]) {
   return null
 }
 
-export function ProgressBadge({ title, ...props }: FlowPropsWithoutChildren) {
+export function ProgressBadge({ title, ...props }: ProgressBadgeProps) {
   return (
     <Flow as={null} {...props}>
       {({ flow, parentProps: { containerProps }, step }) => {
@@ -32,10 +34,23 @@ export function ProgressBadge({ title, ...props }: FlowPropsWithoutChildren) {
         const completedSteps = flow?.getNumberOfCompletedSteps() ?? 0
         const availableSteps = flow?.getNumberOfAvailableSteps() ?? 1
 
+        const isClickable = containerProps.onClick != null
+
+        if (isClickable) {
+          containerProps.css = deepmerge(
+            {
+              '&:hover': {
+                backgroundColor: 'var(--fr-colors-neutral-hover-background)',
+              },
+            },
+            containerProps.css ?? {}
+          )
+        }
+
         return (
           <Card
             borderWidth="md"
-            cursor={containerProps.onClick != null ? 'pointer' : 'auto'}
+            cursor={isClickable ? 'pointer' : 'auto'}
             gap=""
             p="3 2"
             part="progress-badge"

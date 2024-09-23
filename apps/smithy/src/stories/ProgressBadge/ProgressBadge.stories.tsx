@@ -8,7 +8,7 @@ export default {
 export const Default = {
   args: {
     display: "inline-block",
-    flowId: "flow_8Ybz7lMK",
+    flowId: "flow_ArnxGil9",
     onClick: () => {
       console.log("Clicked ProgressBadge");
     },
