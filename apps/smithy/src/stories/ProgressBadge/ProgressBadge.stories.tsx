@@ -10,7 +10,7 @@ export default {
 export const Default: StoryObj<typeof ProgressBadge> = {
   args: {
     display: "inline-block",
-    flowId: "flow_ArnxGil9",
+    flowId: "flow_1Tbh8w1l",
     // title: "Override ProgressBadge title",
   },
 
