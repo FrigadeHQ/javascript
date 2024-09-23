@@ -6,7 +6,7 @@ import type { ProgressProps } from './ProgressProps'
 export function Segments({ current, total, ...props }: ProgressProps) {
   const segments = [...Array(total)].map((_, i) => (
     <Box
-      backgroundColor={current - 1 === i ? 'primary.surface' : 'blue800'}
+      backgroundColor={current - 1 >= i ? 'primary.surface' : 'blue800'}
       borderRadius="md"
       flexGrow={1}
       height="100%"
