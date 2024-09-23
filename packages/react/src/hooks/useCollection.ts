@@ -4,8 +4,12 @@ import { FrigadeContext } from '@/components/Provider'
 
 import { useFlow } from '@/hooks/useFlow'
 import { useCollections } from './useCollections'
+import { Collection, Flow } from '@frigade/js'
 
-export function useCollection(collectionId?: string) {
+export function useCollection(collectionId?: string): {
+  collection: Collection | undefined
+  currentFlow: Flow | undefined
+} {
   const { frigade } = useContext(FrigadeContext)
   const { collections } = useCollections()
 

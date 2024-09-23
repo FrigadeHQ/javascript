@@ -7,7 +7,13 @@ export interface FlowConfig {
   variables?: Record<string, unknown>
 }
 
-export function useFlow(flowId: string | null, config?: FlowConfig) {
+export function useFlow(
+  flowId: string | null,
+  config?: FlowConfig
+): {
+  flow: Flow | undefined
+  isLoading: boolean
+} {
   const { frigade, variables } = useContext(FrigadeContext)
   const [, setForceRender] = useState<boolean>(false)
 
@@ -43,7 +49,7 @@ export function useFlow(flowId: string | null, config?: FlowConfig) {
     [flowId, frigade]
   )
 
-  const flow = useSyncExternalStore(
+  const flow = useSyncExternalStore<Flow | undefined>(
     subscribe,
     () => frigade?.getFlowSync(flowId),
     () => frigade?.getFlowSync(flowId)

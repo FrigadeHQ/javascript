@@ -49,7 +49,11 @@ export function useCollections() {
     return result
   }
 
-  const collections: CollectionsList = useSyncExternalStore(subscribe, getSnapshot, getSnapshot)
+  const collections = useSyncExternalStore<CollectionsList | undefined>(
+    subscribe,
+    getSnapshot,
+    getSnapshot
+  )
 
   return {
     collections,

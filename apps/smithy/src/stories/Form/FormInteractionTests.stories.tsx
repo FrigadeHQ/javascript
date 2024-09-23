@@ -44,7 +44,7 @@ export const InteractionTests: FormStory = {
   play: async ({ step }) => {
     await step("Test linear flow of Form", async () => {
       const canvas = within(document.body);
-      await sleep(1000);
+      await sleep(500);
       await canvas.findByText("This is page 1");
       await userEvent.click(canvas.getByText("Continue to page 2"));
       await userEvent.click(canvas.getByText("Next"));
