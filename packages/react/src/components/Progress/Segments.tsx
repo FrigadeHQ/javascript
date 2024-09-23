@@ -17,7 +17,18 @@ export function Segments({ current, total, ...props }: ProgressProps) {
   ))
 
   return (
-    <Flex.Row gap={1} height="10px" part="progress-segments" {...props}>
+    <Flex.Row
+      aria-description="Progress represented as a segmented bar"
+      aria-label="Progress Segments"
+      aria-valuemin="0"
+      aria-valuemax={total}
+      aria-valuenow={current}
+      gap={1}
+      height="10px"
+      part="progress-segments"
+      role="meter"
+      {...props}
+    >
       {segments}
     </Flex.Row>
   )

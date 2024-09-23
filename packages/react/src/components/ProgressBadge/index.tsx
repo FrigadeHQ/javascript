@@ -4,7 +4,6 @@ import { ChevronDownMiniIcon } from '@/components/Icon/ChevronDownMiniIcon'
 import { Flex } from '@/components/Flex'
 import { Flow, type FlowPropsWithoutChildren } from '@/components/Flow'
 import * as Progress from '@/components/Progress'
-import { Text } from '@/components/Text'
 
 import { deepmerge } from '@/shared/deepmerge'
 
@@ -49,15 +48,17 @@ export function ProgressBadge({ title, ...props }: ProgressBadgeProps) {
 
         return (
           <Card
+            aria-label="Progress Badge"
             borderWidth="md"
             cursor={isClickable ? 'pointer' : 'auto'}
             gap=""
             p="3 2"
             part="progress-badge"
+            role="complementary"
             {...containerProps}
           >
             <Flex.Row alignItems="center" gap="2" part="progress-badge-header">
-              <Card.Title as={Text.Caption}>{derivedTitle}</Card.Title>
+              <Card.Title>{derivedTitle}</Card.Title>
 
               <Box
                 as={ChevronDownMiniIcon}

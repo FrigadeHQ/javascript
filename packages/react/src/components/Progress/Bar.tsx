@@ -9,10 +9,16 @@ export function Bar({ current, total, ...props }: ProgressProps) {
 
   return (
     <Box
-      part="progress-bar"
+      aria-description="Progress represented as a bar"
+      aria-label="Progress Bar"
+      aria-valuemin="0"
+      aria-valuemax={total}
+      aria-valuenow={current}
       backgroundColor="neutral.800"
       borderRadius="md"
       height="10px"
+      part="progress-bar"
+      role="meter"
       {...props}
     >
       <Box
