@@ -6,6 +6,7 @@ import type { BoxProps } from '@/components/Box'
 
 import type { DismissHandler, FlowHandlerProp } from '@/hooks/useFlowHandlers'
 import type { StepHandler, StepHandlerProp } from '@/hooks/useStepHandlers'
+import { Interpolation, Theme } from '@emotion/react'
 
 export interface BoxPropsWithoutChildren extends Omit<BoxProps, 'children'> {}
 
@@ -56,6 +57,16 @@ export interface FlowPropsWithoutChildren extends BoxPropsWithoutChildren {
    * Optional component to wrap the child components in, e.g. `as={Dialog}` will render the Flow in a modal Dialog. Defaults to `Box`.
    */
   as?: React.ElementType
+
+  /**
+   * Emotion CSS prop to apply to the Flow. Learn more about this prop in our [Theming documentation](https://docs.frigade.com/v2/sdk/styling/css-overrides).
+   *
+   * Example usage:
+   * ```
+   * <Frigade.Checklist css={{ backgroundColor: "pink", ".fr-button-primary": { backgroundColor: "fuchsia" } }} />
+   * ```
+   */
+  css?: Interpolation<Theme>
 }
 
 export interface FlowProps extends FlowPropsWithoutChildren {

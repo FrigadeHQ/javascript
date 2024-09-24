@@ -47,7 +47,7 @@ export function NPS({ as = Dialog, flowId, fieldTypes, part, ...props }: FormPro
               gap: '1',
             },
           },
-          ...props.css,
+          ...((props.css as object) ?? {}),
         },
       }}
     />
