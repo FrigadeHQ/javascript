@@ -59,7 +59,7 @@ export interface FlowPropsWithoutChildren extends BoxPropsWithoutChildren {
   as?: React.ElementType
 
   /**
-   * Emotion CSS prop to apply to the Flow. Learn more about this prop in our [Theming documentation](https://docs.frigade.com/v2/sdk/styling/css-overrides).
+   * Emotion CSS prop to apply to the component. See [Theming documentation](https://docs.frigade.com/v2/sdk/styling/css-overrides) for more information.
    *
    * Example usage:
    * ```
