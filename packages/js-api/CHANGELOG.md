@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.7.14
+
+### Patch Changes
+
+- 09f77bd: Adds missing typescript docs for some components and hooks
+
 ## 0.7.13
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.5.14
+
+### Patch Changes
+
+- 09f77bd: Adds missing typescript docs for some components and hooks
+- Updated dependencies [09f77bd]
+  - @frigade/js@0.7.14
+
 ## 2.5.13
 
 ### Patch Changes
