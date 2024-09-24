@@ -54,4 +54,28 @@ export const Default: StoryObj<typeof ProgressBadge> = {
   },
 };
 
-// Addt'l story for title override
+export const TitleOverride: StoryObj<typeof ProgressBadge> = {
+  args: {
+    display: "inline-block",
+    flowId: "flow_1Tbh8w1l",
+    title: "Override ProgressBadge title",
+  },
+
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+    const progressBadgeElement = await canvas.findByRole("complementary", {
+      name: "Progress Badge",
+    });
+    const progressBadge = within(progressBadgeElement);
+
+    expect(progressBadgeElement).toBeInTheDocument();
+
+    await step("Check ProgressBadge contents", async () => {
+      expect(
+        progressBadge.getByRole("heading", {
+          name: "Override ProgressBadge title",
+        })
+      ).toBeVisible();
+    });
+  },
+};
