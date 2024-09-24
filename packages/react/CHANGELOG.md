@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.5.15
+
+### Patch Changes
+
+- 67475cc: Fixes a build issue with core-js and Next.js
+
 ## 2.5.14
 
 ### Patch Changes
