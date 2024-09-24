@@ -9,9 +9,8 @@ export default {
 
 export const Default: StoryObj<typeof ProgressBadge> = {
   args: {
-    display: "inline-block",
     flowId: "flow_1Tbh8w1l",
-    // title: "Override ProgressBadge title",
+    width: "fit-content",
   },
 
   play: async ({ canvasElement, step }) => {
@@ -56,9 +55,9 @@ export const Default: StoryObj<typeof ProgressBadge> = {
 
 export const TitleOverride: StoryObj<typeof ProgressBadge> = {
   args: {
-    display: "inline-block",
     flowId: "flow_1Tbh8w1l",
     title: "Override ProgressBadge title",
+    width: "fit-content",
   },
 
   play: async ({ canvasElement, step }) => {

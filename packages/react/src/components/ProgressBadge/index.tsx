@@ -51,19 +51,22 @@ export function ProgressBadge({ title, ...props }: ProgressBadgeProps) {
             aria-label="Progress Badge"
             borderWidth="md"
             cursor={isClickable ? 'pointer' : 'auto'}
-            gap=""
-            p="3 2"
+            gap="1"
+            p="3"
             part="progress-badge"
             role="complementary"
             {...containerProps}
           >
             <Flex.Row alignItems="center" gap="2" part="progress-badge-header">
-              <Card.Title>{derivedTitle}</Card.Title>
+              <Card.Title fontSize="sm" lineHeight="sm">
+                {derivedTitle}
+              </Card.Title>
 
               <Box
                 as={ChevronDownMiniIcon}
                 height="20px"
                 marginLeft="auto"
+                marginRight="-1"
                 transform="rotate(-90deg)"
                 width="20px"
               />
@@ -72,7 +75,9 @@ export function ProgressBadge({ title, ...props }: ProgressBadgeProps) {
             <Flex.Row alignItems="center" gap="2" part="progress-badge-footer">
               <Progress.Fraction
                 current={completedSteps}
+                fontSize="xs"
                 fontWeight="medium"
+                lineHeight="xs"
                 total={availableSteps}
               />
 
