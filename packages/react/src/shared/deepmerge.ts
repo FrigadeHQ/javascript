@@ -1,5 +1,3 @@
-import structuredClone from 'core-js-pure/actual/structured-clone'
-
 function isObject(obj) {
   return typeof obj === 'object' && obj !== null && !Array.isArray(obj)
 }

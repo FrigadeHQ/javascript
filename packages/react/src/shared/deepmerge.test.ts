@@ -1,5 +1,10 @@
 import { deepmerge } from './deepmerge'
 
+// JSDOM doesn't support structuredClone yet. SEE: https://github.com/jsdom/jsdom/issues/3363
+global.structuredClone = (val) => {
+  return JSON.parse(JSON.stringify(val))
+}
+
 describe('deepmerge', () => {
   it('only merges objects', () => {
     const objectA = { foo: null }
