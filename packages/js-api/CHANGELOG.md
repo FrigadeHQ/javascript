@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.7.15
+
+### Patch Changes
+
+- 740bcb0: Fixes a typescript issue related to the `css` prop
+
 ## 0.7.14
 
 ### Patch Changes
