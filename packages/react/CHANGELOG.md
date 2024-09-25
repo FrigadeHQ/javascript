@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.5.16
+
+### Patch Changes
+
+- 740bcb0: Fixes a typescript issue related to the `css` prop
+- Updated dependencies [740bcb0]
+  - @frigade/js@0.7.15
+
 ## 2.5.15
 
 ### Patch Changes
