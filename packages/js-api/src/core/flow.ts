@@ -585,7 +585,11 @@ export class Flow extends Fetchable {
 
     if (this.steps) {
       this.steps.forEach((step) => {
-        applyVariablesToStep(step)
+        try {
+          applyVariablesToStep(step)
+        } catch (e) {
+          // ignore any failures
+        }
       })
     }
 
