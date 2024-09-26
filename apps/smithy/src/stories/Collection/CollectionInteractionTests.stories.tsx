@@ -112,6 +112,7 @@ export const InteractionTests: CollectionStory = {
       "Test that the default collection can render url-based announcement",
       async () => {
         const canvas = within(document.body);
+        await sleep(300);
         await expect(canvas.queryByRole("dialog")).not.toBeInTheDocument();
 
         await userEvent.click(
