@@ -1,5 +1,12 @@
 # @frigade/react
 
+## 2.5.17
+
+### Patch Changes
+
+- e8d1067: Fixes an issue where visibilityCriteria is not respected with some flow actions
+- ea45487: Adds support for props in form fields
+
 ## 2.5.16
 
 ### Patch Changes
