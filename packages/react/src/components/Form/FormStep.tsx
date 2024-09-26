@@ -67,7 +67,7 @@ export function FormStep({
     () =>
       // @ts-expect-error TODO: Add type to step.fields
       (step.fields?.filter(
-        (field: any) => fieldTypes[field.type] != null && field.id
+        (field: FormFieldData) => fieldTypes[field.type] != null && field.id
       ) as FormFieldData[]) ?? [],
     [step.fields, fieldTypes]
   )

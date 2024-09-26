@@ -17,7 +17,7 @@ interface BaseFieldProps extends FormFieldProps {
 }
 
 export function BaseField({ children, field, fieldData, fieldState }: BaseFieldProps) {
-  const { id, label, placeholder } = fieldData
+  const { id, label, placeholder, props } = fieldData
   const { error } = fieldState
 
   const fieldProps = {
@@ -27,6 +27,7 @@ export function BaseField({ children, field, fieldData, fieldState }: BaseFieldP
     ...styles.input,
     'aria-invalid': !!error,
     value: field.value ?? '',
+    ...props,
   }
 
   return (

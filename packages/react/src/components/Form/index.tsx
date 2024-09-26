@@ -44,6 +44,7 @@ export interface FormFieldData extends ValidationRules {
   type: string
   value?: string
   multiple?: boolean
+  props?: Record<string, string | number | boolean | undefined>
   // allow any other custom properties
   [key: string]: any
 }
