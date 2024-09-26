@@ -36,16 +36,16 @@ export function useStepHandlers(step: FlowStep, { onPrimary, onSecondary }: Step
   const { navigate } = useContext(FrigadeContext)
 
   const stepActions = {
-    'flow.back': () => step.flow.back(),
-    'flow.complete': () => step.flow.complete(),
-    'flow.forward': () => step.flow.forward(),
+    'flow.back': (...args) => step.flow.back(...args),
+    'flow.complete': (...args) => step.flow.complete(...args),
+    'flow.forward': (...args) => step.flow.forward(...args),
     'flow.restart': () => step.flow.restart(),
-    'flow.skip': () => step.flow.skip(),
-    'flow.start': () => step.flow.start(),
-    'step.complete': () => step.complete(),
-    'step.skip': () => step.skip(),
+    'flow.skip': (...args) => step.flow.skip(...args),
+    'flow.start': (...args) => step.flow.start(...args),
+    'step.complete': (...args) => step.complete(...args),
+    'step.skip': (...args) => step.skip(...args),
     'step.reset': () => step.reset(),
-    'step.start': () => step.start(),
+    'step.start': (...args) => step.start(...args),
   }
 
   return {
@@ -62,7 +62,7 @@ export function useStepHandlers(step: FlowStep, { onPrimary, onSecondary }: Step
             step.primaryButton.action === false ? false : stepActions[step.primaryButton.action]
 
           if (typeof primaryAction === 'function') {
-            primaryAction()
+            await primaryAction(properties, optimistic)
           } else if (primaryAction !== false) {
             await step.complete(properties, optimistic)
           }
