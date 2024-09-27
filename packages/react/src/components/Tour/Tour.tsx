@@ -6,12 +6,11 @@ import { useClientPortal } from '@/hooks/useClientPortal'
 
 export interface TourProps extends FlowPropsWithoutChildren, Omit<HintProps, 'anchor'> {
   /**
-   * Whether the tour should be completed by the end-user in sequential order.
+   * Whether the Tour should be completed by the end-user in sequential order.
    * If `false`, all steps will be rendered at once.
    * Defaults to `true`, which means only one step will be rendered at a time in sequential order.
    */
   sequential?: boolean
-
   /**
    * The alignment of the tooltip relative to the anchor.
    * Possible values: `after`, `before`, `center`, `end`, `start`.
@@ -21,6 +20,10 @@ export interface TourProps extends FlowPropsWithoutChildren, Omit<HintProps, 'an
    * The offset of the tooltip relative to the anchor along the alignment axis.
    */
   alignOffset?: number
+  /**
+   * Specify a container in the DOM render the Tour into
+   */
+  container?: Parameters<typeof useClientPortal>[1]
   /**
    * Whether the tooltip should be open by default.
    */
@@ -56,6 +59,7 @@ export function Tour({
   align = 'after',
   alignOffset = 0,
   as,
+  container = 'body',
   defaultOpen,
   dismissible = false,
   flowId,
@@ -168,6 +172,6 @@ export function Tour({
           })
       }}
     </Flow>,
-    'body'
+    container
   )
 }

@@ -12,7 +12,7 @@ export const Default = {
     alignOffset: 0,
     anchor: "#tooltip-storybook-0",
     children: <Card boxShadow="md">Hello</Card>,
-    defaultOpen: false,
+    defaultOpen: true,
     side: "left",
     sideOffset: 0,
   },

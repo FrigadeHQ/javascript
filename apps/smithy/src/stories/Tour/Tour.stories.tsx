@@ -92,10 +92,86 @@ export const Default = {
             style={{
               background: "lightgreen",
               width: "200px",
-              marginTop: "1400px", // Add significant margin to force scrolling
+              marginTop: "200vh", // Add significant margin to force scrolling
             }}
           >
             Scroll to see this anchor
+          </Box>
+        </>
+      );
+    },
+  ],
+};
+
+export const WithScrollContainer = {
+  args: {
+    container: "#tour-scroll-container",
+    flowId: "flow_U63A5pndRrvCwxNs",
+    modal: false,
+    spotlight: false,
+    variables: {
+      firstName: "Euronymous Bosch",
+    },
+  },
+  decorators: [
+    (_: StoryFn, options: StoryContext) => {
+      return (
+        <>
+          <Box
+            style={{
+              alignItems: "center",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              height: "calc(100vh - 32px)",
+            }}
+          >
+            <Box
+              backgroundColor="neutral.900"
+              height="50vw"
+              id="tour-scroll-container"
+              overflow="scroll"
+              padding="2"
+              position="relative"
+              width="50vw"
+            >
+              <Box height="300%">
+                <Box
+                  borderRadius="10px"
+                  id="tooltip-storybook-0"
+                  p={4}
+                  style={{ background: "pink", width: "200px" }}
+                >
+                  <Button.Primary
+                    title="Anchor here"
+                    onClick={() => {
+                      // no-op
+                    }}
+                  />
+                </Box>
+
+                <Box
+                  id="tooltip-storybook-1"
+                  p={4}
+                  style={{ background: "fuchsia", width: "200px" }}
+                >
+                  Second anchor
+                </Box>
+
+                <Box
+                  id="tooltip-storybook-2"
+                  p={4}
+                  style={{
+                    background: "lightgreen",
+                    width: "200px",
+                    marginTop: "200vh", // Add significant margin to force scrolling
+                  }}
+                >
+                  Scroll to see this anchor
+                </Box>
+                <Tour {...(options.args as TourProps)} />
+              </Box>
+            </Box>
           </Box>
         </>
       );
