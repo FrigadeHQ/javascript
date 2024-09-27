@@ -1,8 +1,8 @@
+import { Box } from '@/components/Box'
+import { ClientPortal, type ClientPortalProps } from '@/components/ClientPortal/ClientPortal'
 import { Flow, type FlowPropsWithoutChildren } from '@/components/Flow'
 import { AlignValue, SideValue, type HintProps } from '@/components/Hint'
 import { TourStep } from '@/components/Tour/TourStep'
-
-import { useClientPortal } from '@/hooks/useClientPortal'
 
 export interface TourProps extends FlowPropsWithoutChildren, Omit<HintProps, 'anchor'> {
   /**
@@ -23,7 +23,7 @@ export interface TourProps extends FlowPropsWithoutChildren, Omit<HintProps, 'an
   /**
    * Specify a container in the DOM render the Tour into
    */
-  container?: Parameters<typeof useClientPortal>[1]
+  container?: ClientPortalProps['container']
   /**
    * Whether the tooltip should be open by default.
    */
@@ -55,28 +55,28 @@ export interface TourProps extends FlowPropsWithoutChildren, Omit<HintProps, 'an
   spotlight?: boolean
 }
 
-export function Tour({
-  align = 'after',
-  alignOffset = 0,
-  as,
-  container = 'body',
-  defaultOpen,
-  dismissible = false,
-  flowId,
-  modal,
-  part,
-  sequential = true,
-  side = 'bottom',
-  sideOffset = 0,
-  spotlight,
-  zIndex = 9999,
-  ...props
-}: TourProps) {
+export function Tour({ as, flowId, ...props }: TourProps) {
   const { onDismiss, onPrimary, onSecondary } = props
 
-  return useClientPortal(
-    <Flow as={as} flowId={flowId} part="tour" {...props}>
-      {({ flow, handleDismiss, parentProps: { containerProps }, step }) => {
+  return (
+    <Flow as={null} flowId={flowId} {...props}>
+      {({ flow, handleDismiss, parentProps, step }) => {
+        const {
+          align = 'after',
+          alignOffset = 0,
+          container = 'body',
+          defaultOpen,
+          dismissible = false,
+          modal,
+          part,
+          sequential = true,
+          side = 'bottom',
+          sideOffset = 0,
+          spotlight,
+          zIndex = 9999,
+          ...containerProps
+        } = parentProps.containerProps as Partial<TourProps>
+
         const sequentialStepProps = {
           align,
           alignOffset,
@@ -91,19 +91,27 @@ export function Tour({
           sideOffset,
           spotlight,
           step,
-          zIndex: step.props?.zIndex ?? containerProps?.zIndex ?? zIndex,
+          zIndex,
           ...(step.props ?? {}),
         }
 
         if (sequential) {
           return (
-            <TourStep defaultOpen={defaultOpen ?? true} key={step.id} {...sequentialStepProps} />
+            <ClientPortal container={container}>
+              <Box as={as} data-flow-id={flowId} part="tour" zIndex={zIndex} {...containerProps}>
+                <TourStep
+                  defaultOpen={defaultOpen ?? true}
+                  key={step.id}
+                  {...sequentialStepProps}
+                />
+              </Box>
+            </ClientPortal>
           )
         }
 
         // TODO: Only render spotlight if current step
         // TODO: Only render modal overlay once
-        return Array.from(flow.steps.values())
+        const tourSteps = Array.from(flow.steps.values())
           .filter((currentStep) => {
             const { blocked, completed, skipped, visible } = currentStep.$state
 
@@ -129,7 +137,7 @@ export function Tour({
 
             const shouldShowSpotlight = spotlight && currentStep.id === step.id
 
-            const currentStepZIndex = currentStep.props?.zIndex ?? containerProps?.zIndex ?? zIndex
+            const currentStepZIndex = currentStep.props?.zIndex ?? zIndex
 
             const nonSequentialStepProps = {
               align,
@@ -170,8 +178,15 @@ export function Tour({
               />
             )
           })
+
+        return (
+          <ClientPortal container={container}>
+            <Box as={as} data-flow-id={flowId} part="tour" zIndex={zIndex} {...containerProps}>
+              {tourSteps}
+            </Box>
+          </ClientPortal>
+        )
       }}
-    </Flow>,
-    container
+    </Flow>
   )
 }
