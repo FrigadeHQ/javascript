@@ -27,6 +27,7 @@ export interface TourStepProps
 export function TourStep({
   align,
   alignOffset,
+  autoScroll,
   defaultOpen,
   dismissible,
   flow,
@@ -55,6 +56,7 @@ export function TourStep({
       align={align}
       alignOffset={alignOffset}
       anchor={step.selector as string}
+      autoScroll={autoScroll}
       data-step-id={step.id}
       defaultOpen={defaultOpen}
       modal={modal}

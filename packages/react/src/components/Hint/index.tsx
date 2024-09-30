@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { Box, type BoxProps } from '@/components/Box'
 import { Overlay } from '@/components/Overlay'
@@ -16,6 +16,7 @@ export interface HintProps extends BoxProps {
   align?: AlignValue
   alignOffset?: number
   anchor: string
+  autoScroll?: ScrollIntoViewOptions | boolean
   children?: React.ReactNode
   defaultOpen?: boolean
   modal?: boolean
@@ -30,6 +31,7 @@ export function Hint({
   align = 'center',
   alignOffset = 0,
   anchor,
+  autoScroll = false,
   children,
   defaultOpen = true,
   modal = false,
@@ -43,6 +45,7 @@ export function Hint({
   ...props
 }: HintProps) {
   const [internalOpen, setInteralOpen] = useState(defaultOpen)
+  const [scrollComplete, setScrollComplete] = useState(false)
 
   // Defer to controlled open prop, otherwise manage open state internally
   const canonicalOpen = open ?? internalOpen
@@ -66,7 +69,38 @@ export function Hint({
   const [finalSide, finalAlign] = placement.split('-')
   const referenceProps = getReferenceProps()
 
-  if (refs.reference.current == null) {
+  useEffect(() => {
+    if (!scrollComplete && autoScroll && refs.reference.current instanceof Element) {
+      const scrollOptions: ScrollIntoViewOptions =
+        typeof autoScroll !== 'boolean' ? autoScroll : { behavior: 'smooth' }
+
+      /*
+       * NOTE: "scrollend" event isn't supported widely enough yet :(
+       *
+       * We'll listen to a capture-phase "scroll" instead, and when it stops
+       * bouncing, we can infer that the scroll we initiated is over.
+       */
+      let scrollTimeout: ReturnType<typeof setTimeout>
+      window.addEventListener(
+        'scroll',
+        function scrollHandler() {
+          clearTimeout(scrollTimeout)
+
+          scrollTimeout = setTimeout(() => {
+            window.removeEventListener('scroll', scrollHandler)
+            setScrollComplete(true)
+          }, 100)
+        },
+        true
+      )
+
+      refs.reference.current.scrollIntoView(scrollOptions)
+    } else if (!autoScroll) {
+      setScrollComplete(true)
+    }
+  }, [autoScroll, refs.reference.current])
+
+  if (refs.reference.current == null || !scrollComplete) {
     return null
   }
 

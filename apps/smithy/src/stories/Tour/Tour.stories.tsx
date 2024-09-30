@@ -105,7 +105,8 @@ export const Default = {
 
 export const WithScrollContainer = {
   args: {
-    // container: "#tour-scroll-container",
+    autoScroll: true,
+    container: "#tour-scroll-container",
     flowId: "flow_U63A5pndRrvCwxNs",
     modal: false,
     spotlight: false,

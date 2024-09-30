@@ -6,12 +6,6 @@ import { TourStep } from '@/components/Tour/TourStep'
 
 export interface TourProps extends FlowPropsWithoutChildren, Omit<HintProps, 'anchor'> {
   /**
-   * Whether the Tour should be completed by the end-user in sequential order.
-   * If `false`, all steps will be rendered at once.
-   * Defaults to `true`, which means only one step will be rendered at a time in sequential order.
-   */
-  sequential?: boolean
-  /**
    * The alignment of the tooltip relative to the anchor.
    * Possible values: `after`, `before`, `center`, `end`, `start`.
    */
@@ -20,6 +14,10 @@ export interface TourProps extends FlowPropsWithoutChildren, Omit<HintProps, 'an
    * The offset of the tooltip relative to the anchor along the alignment axis.
    */
   alignOffset?: number
+  /**
+   * Automatically scroll to the anchor element of the current Step
+   */
+  autoScroll?: boolean
   /**
    * Specify a container in the DOM render the Tour into
    */
@@ -41,6 +39,12 @@ export interface TourProps extends FlowPropsWithoutChildren, Omit<HintProps, 'an
    */
   open?: boolean
   /**
+   * Whether the Tour should be completed by the end-user in sequential order.
+   * If `false`, all steps will be rendered at once.
+   * Defaults to `true`, which means only one step will be rendered at a time in sequential order.
+   */
+  sequential?: boolean
+  /**
    * The preferred side of the anchor to render the tooltip.
    * Possible values: `top`, `right`, `bottom`, `left`.
    */
@@ -55,6 +59,16 @@ export interface TourProps extends FlowPropsWithoutChildren, Omit<HintProps, 'an
   spotlight?: boolean
 }
 
+function TourWrapper({ children, container, flowId, ...props }: Partial<TourProps>) {
+  return (
+    <ClientPortal container={container}>
+      <Box data-flow-id={flowId} part="tour" {...props}>
+        {children}
+      </Box>
+    </ClientPortal>
+  )
+}
+
 export function Tour({ as, flowId, ...props }: TourProps) {
   const { onDismiss, onPrimary, onSecondary } = props
 
@@ -64,6 +78,7 @@ export function Tour({ as, flowId, ...props }: TourProps) {
         const {
           align = 'after',
           alignOffset = 0,
+          autoScroll = false,
           container = 'body',
           defaultOpen,
           dismissible = false,
@@ -80,6 +95,7 @@ export function Tour({ as, flowId, ...props }: TourProps) {
         const sequentialStepProps = {
           align,
           alignOffset,
+          autoScroll,
           dismissible,
           flow,
           handleDismiss,
@@ -97,15 +113,16 @@ export function Tour({ as, flowId, ...props }: TourProps) {
 
         if (sequential) {
           return (
-            <ClientPortal container={container}>
-              <Box as={as} data-flow-id={flowId} part="tour" zIndex={zIndex} {...containerProps}>
-                <TourStep
-                  defaultOpen={defaultOpen ?? true}
-                  key={step.id}
-                  {...sequentialStepProps}
-                />
-              </Box>
-            </ClientPortal>
+            <TourWrapper
+              as={as}
+              container={container}
+              flowId={flowId}
+              part="tour"
+              zIndex={zIndex}
+              {...containerProps}
+            >
+              <TourStep defaultOpen={defaultOpen ?? true} key={step.id} {...sequentialStepProps} />
+            </TourWrapper>
           )
         }
 
@@ -180,11 +197,16 @@ export function Tour({ as, flowId, ...props }: TourProps) {
           })
 
         return (
-          <ClientPortal container={container}>
-            <Box as={as} data-flow-id={flowId} part="tour" zIndex={zIndex} {...containerProps}>
-              {tourSteps}
-            </Box>
-          </ClientPortal>
+          <TourWrapper
+            as={as}
+            container={container}
+            flowId={flowId}
+            part="tour"
+            zIndex={zIndex}
+            {...containerProps}
+          >
+            {tourSteps}
+          </TourWrapper>
         )
       }}
     </Flow>
