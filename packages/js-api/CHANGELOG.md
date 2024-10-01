@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.7.16
+
+### Patch Changes
+
+- 96a7862: Fixes an issue where checklists complete when finishing the last step
+
 ## 0.7.15
 
 ### Patch Changes

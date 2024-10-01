@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.5.18
+
+### Patch Changes
+
+- 96a7862: Fixes an issue where checklists complete when finishing the last step
+- Updated dependencies [96a7862]
+  - @frigade/js@0.7.16
+
 ## 2.5.17
 
 ### Patch Changes
