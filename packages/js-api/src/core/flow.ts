@@ -230,6 +230,11 @@ export class Flow extends Fetchable {
         }
 
         const isLastStep = this.getCurrentStepOrder() + 1 === this.getNumberOfAvailableSteps()
+        const isLastIncompleteStep =
+          Array.from(this.steps.values()).filter(
+            (step) => step.$state.visible && !step.$state.completed && !step.$state.skipped
+          ).length === 1
+
         if (optimistic) {
           const copy = clone(this.getGlobalState().flowStates[this.id])
 
@@ -249,7 +254,8 @@ export class Flow extends Fetchable {
               copy.$state.currentStepIndex = nextStepIndex
               copy.data.steps[nextStepIndex].$state.started = true
             }
-          } else {
+          }
+          if (isLastIncompleteStep) {
             copy.$state.completed = true
             copy.$state.visible = false
           }
@@ -257,7 +263,7 @@ export class Flow extends Fetchable {
           this.getGlobalState().flowStates[this.id] = copy
           this.resyncState()
 
-          if (isLastStep) {
+          if (isLastIncompleteStep) {
             this.optimisticallyMarkFlowCompleted()
           }
         }
@@ -267,7 +273,7 @@ export class Flow extends Fetchable {
           properties,
           thisStep.id
         )
-        if (isLastStep) {
+        if (isLastIncompleteStep) {
           await this.sendFlowStateToAPI(COMPLETED_FLOW, properties)
         }
       }

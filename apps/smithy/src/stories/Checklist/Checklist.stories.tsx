@@ -64,7 +64,6 @@ export const Collapsible = {
       test: TestStep,
     },
     width: "500px",
-    forceMount: true,
     dismissible: true,
   },
 };
