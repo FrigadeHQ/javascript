@@ -1,4 +1,5 @@
 import { keyframes } from '@emotion/react'
+import { useEffect, useState } from 'react'
 
 import { Box, type BoxProps } from '@/components/Box'
 
@@ -21,7 +22,13 @@ export interface PingProps extends BoxProps {
   clickable?: boolean
 }
 
-export function Ping({ clickable = false, part = '', ...props }: PingProps) {
+export function Ping({ clickable = false, part = '', style = {}, ...props }: PingProps) {
+  const [hasMounted, setHasMounted] = useState(false)
+
+  useEffect(() => {
+    setHasMounted(true)
+  }, [])
+
   return (
     <Box
       borderRadius="24px"
@@ -30,6 +37,11 @@ export function Ping({ clickable = false, part = '', ...props }: PingProps) {
       position="relative"
       width="24px"
       cursor={clickable ? 'pointer' : undefined}
+      style={{
+        opacity: hasMounted ? 1 : 0,
+        ...style,
+      }}
+      transition={'opacity 0.2s ease-out'}
       {...props}
     >
       <Box

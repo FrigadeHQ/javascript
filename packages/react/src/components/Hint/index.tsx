@@ -7,6 +7,7 @@ import { Spotlight } from '@/components/Spotlight'
 
 import { getPingPosition } from '@/components/Hint/getPingPosition'
 import { useFloatingHint } from '@/components/Hint/useFloatingHint'
+import { useVisibility } from '@/hooks/useVisibility'
 
 export type AlignValue = 'after' | 'before' | 'center' | 'end' | 'start'
 export type SideValue = 'bottom' | 'left' | 'right' | 'top'
@@ -33,6 +34,7 @@ export function Hint({
   anchor,
   autoScroll = false,
   children,
+  css = {},
   defaultOpen = true,
   modal = false,
   onOpenChange = () => {},
@@ -50,29 +52,32 @@ export function Hint({
   // Defer to controlled open prop, otherwise manage open state internally
   const canonicalOpen = open ?? internalOpen
 
-  const { getFloatingProps, getReferenceProps, floatingStyles, placement, refs } = useFloatingHint({
-    align,
-    alignOffset,
-    anchor,
-    onOpenChange: (newOpen) => {
-      onOpenChange(newOpen)
+  const { getFloatingProps, getReferenceProps, floatingStyles, placement, refs, status } =
+    useFloatingHint({
+      align,
+      alignOffset,
+      anchor,
+      onOpenChange: (newOpen) => {
+        onOpenChange(newOpen)
 
-      if (open == null) {
-        setInteralOpen(newOpen)
-      }
-    },
-    open: canonicalOpen,
-    side,
-    sideOffset,
-  })
+        if (open == null) {
+          setInteralOpen(newOpen)
+        }
+      },
+      open: canonicalOpen,
+      side,
+      sideOffset,
+    })
 
   const [finalSide, finalAlign] = placement.split('-')
   const referenceProps = getReferenceProps()
 
+  const { isVisible } = useVisibility(refs.reference.current as Element | null)
+
   useEffect(() => {
     if (!scrollComplete && autoScroll && refs.reference.current instanceof Element) {
       const scrollOptions: ScrollIntoViewOptions =
-        typeof autoScroll !== 'boolean' ? autoScroll : { behavior: 'smooth' }
+        typeof autoScroll !== 'boolean' ? autoScroll : { behavior: 'smooth', block: 'center' }
 
       /*
        * NOTE: "scrollend" event isn't supported widely enough yet :(
@@ -100,7 +105,7 @@ export function Hint({
     }
   }, [autoScroll, refs.reference.current])
 
-  if (refs.reference.current == null || !scrollComplete) {
+  if (refs.reference.current == null || !scrollComplete || !isVisible) {
     return null
   }
 
@@ -110,6 +115,14 @@ export function Hint({
       {modal && !spotlight && canonicalOpen && <Overlay lockScroll />}
 
       <Box
+        css={{
+          '&[data-status="open"]': {
+            transition: 'transform 0.2s ease-out',
+          },
+          ...css,
+        }}
+        data-placement={placement}
+        data-status={status.status}
         part={['hint', part]}
         ref={refs.setFloating}
         style={{

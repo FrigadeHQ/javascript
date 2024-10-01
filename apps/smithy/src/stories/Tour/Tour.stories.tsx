@@ -136,7 +136,7 @@ export const WithScrollContainer = {
               position="relative"
               width="50vw"
             >
-              <Box height="300%">
+              <Box height="300vh">
                 <Box
                   borderRadius="10px"
                   id="tooltip-storybook-0"

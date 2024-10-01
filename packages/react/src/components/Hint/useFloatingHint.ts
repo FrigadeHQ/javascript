@@ -14,6 +14,7 @@ import {
   useInteractions,
   type UseInteractionsReturn,
   useRole,
+  useTransitionStatus,
 } from '@floating-ui/react'
 
 import type { AlignValue, ExtendedPlacement, HintProps } from '@/components/Hint'
@@ -29,6 +30,7 @@ export interface FloatingHintReturn extends Partial<Omit<UseFloatingReturn, 'pla
   placement: ExtendedPlacement
   getFloatingProps: UseInteractionsReturn['getFloatingProps']
   getReferenceProps: UseInteractionsReturn['getReferenceProps']
+  status: ReturnType<typeof useTransitionStatus>
 }
 
 function getOriginalAlign(align: AlignValue) {
@@ -94,6 +96,7 @@ export function useFloatingHint({
     outsidePress: false,
   })
   const role = useRole(context)
+  const status = useTransitionStatus(context)
 
   // Merge all the interactions into prop getters
   const { getFloatingProps, getReferenceProps } = useInteractions([click, dismiss, role])
@@ -125,5 +128,6 @@ export function useFloatingHint({
     floatingStyles,
     placement: finalPlacement.join('-') as ExtendedPlacement,
     refs,
+    status,
   }
 }
