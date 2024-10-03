@@ -7,7 +7,7 @@ import { Button, type ButtonProps } from '@/components/Button'
 import { Flex } from '@/components/Flex'
 import { type FlowPropsWithoutChildren } from '@/components/Flow'
 import { FlowCard } from './FlowCard'
-import { Media, type MediaProps } from '@/components/Media'
+import { Media as MediaComponent, type MediaProps } from '@/components/Media'
 import { Text, type TextProps } from '@/components/Text'
 
 import type { DismissHandler } from '@/hooks/useFlowHandlers'
@@ -62,16 +62,19 @@ export const Card = React.forwardRef(({ children, flowId, part, ...props }: Card
     </Component>
   )
 }) as CardComponent
+Card.displayName = 'Card'
 
-Card.Dismiss = (props: ButtonProps) => {
+function Dismiss(props: ButtonProps) {
   return (
     <Button.Plain aria-label="Dismiss" part="dismiss" padding={0} {...props}>
       <XMarkIcon height="20" fill="currentColor" />
     </Button.Plain>
   )
 }
+Dismiss.displayName = 'Card.Dismiss'
+Card.Dismiss = Dismiss
 
-Card.Footer = ({ children, part, ...props }: BoxProps) => {
+function Footer({ children, part, ...props }: BoxProps) {
   return (
     <Flex.Row
       alignItems="center"
@@ -84,8 +87,10 @@ Card.Footer = ({ children, part, ...props }: BoxProps) => {
     </Flex.Row>
   )
 }
+Footer.displayName = 'Card.Footer'
+Card.Footer = Footer
 
-Card.Header = ({ dismissible, handleDismiss, part, subtitle, title, ...props }) => {
+function Header({ dismissible, handleDismiss, part, subtitle, title, ...props }: CardHeaderProps) {
   return (
     <Flex.Row
       alignItems="flex-start"
@@ -102,41 +107,54 @@ Card.Header = ({ dismissible, handleDismiss, part, subtitle, title, ...props }) 
     </Flex.Row>
   )
 }
+Header.displayName = 'Card.Header'
+Card.Header = Header
 
-Card.Media = ({ src, ...props }: MediaProps) => {
+function Media({ src, ...props }: MediaProps) {
   if (src == null || src?.length === 0) return null
 
-  return <Media borderRadius="md" src={src} {...props} />
+  return <MediaComponent borderRadius="md" src={src} {...props} />
 }
+Media.displayName = 'Card.Media'
+Card.Media = Media
 
-Card.Primary = ({ onClick, title, ...props }: ButtonProps) => {
+function Primary({ onClick, title, ...props }: ButtonProps) {
   if (title == null || title?.length === 0) return null
 
   return <Button.Primary title={title} onClick={onClick} {...props} />
 }
+Primary.displayName = 'Card.Primary'
+Card.Primary = Primary
 
-Card.Secondary = ({ onClick, title, ...props }: ButtonProps) => {
+function Secondary({ onClick, title, ...props }: ButtonProps) {
   if (title == null || title?.length === 0) return null
 
   return <Button.Secondary title={title} onClick={onClick} {...props} />
 }
+Secondary.displayName = 'Card.Secondary'
+Card.Secondary = Secondary
 
-Card.Subtitle = ({ children, part, ...props }: TextProps) => {
+function Subtitle({ children, part, ...props }: TextProps, ref) {
   if (children == null) return null
 
   return (
-    <Text.Body2 display="block" color="neutral.400" part={['subtitle', part]} {...props}>
+    <Text.Body2 display="block" color="neutral.400" part={['subtitle', part]} ref={ref} {...props}>
       {children}
     </Text.Body2>
   )
 }
+Subtitle.displayName = 'Card.Subtitle'
+Card.Subtitle = React.forwardRef(Subtitle)
 
-Card.Title = ({ children, part, ...props }: TextProps) => {
+function Title({ children, part, ...props }: TextProps, ref) {
   if (children == null) return null
 
   return (
-    <Text.H4 display="block" part={['title', part]} {...props}>
+    <Text.H4 display="block" part={['title', part]} ref={ref} {...props}>
       {children}
     </Text.H4>
   )
 }
+
+Title.displayName = 'Card.Title'
+Card.Title = React.forwardRef(Title)
