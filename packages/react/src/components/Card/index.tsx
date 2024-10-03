@@ -143,8 +143,8 @@ function Subtitle({ children, part, ...props }: TextProps, ref) {
     </Text.Body2>
   )
 }
-Subtitle.displayName = 'Card.Subtitle'
 Card.Subtitle = React.forwardRef(Subtitle)
+Card.Subtitle.displayName = 'Card.Subtitle'
 
 function Title({ children, part, ...props }: TextProps, ref) {
   if (children == null) return null
@@ -156,5 +156,5 @@ function Title({ children, part, ...props }: TextProps, ref) {
   )
 }
 
-Title.displayName = 'Card.Title'
 Card.Title = React.forwardRef(Title)
+Card.Title.displayName = 'Card.Title'
