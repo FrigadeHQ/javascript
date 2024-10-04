@@ -1,4 +1,5 @@
-import { SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable'
+import { useDroppable } from '@dnd-kit/core'
+import { SortableContext, useSortable, rectSortingStrategy } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { Children } from 'react'
 
@@ -7,6 +8,8 @@ import { Card } from '@/components/Card'
 export function SortableCard({ children, id, items = [], ...props }) {
   console.log('SORTABLE CARD ITEMS: ', items)
 
+  const { setNodeRef } = useDroppable({ id })
+
   const sortedChildren = Children.toArray(children).sort(
     (a, b) => items.indexOf(a.props.id) - items.indexOf(b.props.id)
   )
@@ -14,11 +17,11 @@ export function SortableCard({ children, id, items = [], ...props }) {
   console.log('SORTABLE CHILDREN: ', sortedChildren)
 
   return (
-    <Card {...props}>
-      <SortableContext id={id} items={items} strategy={verticalListSortingStrategy}>
+    <SortableContext id={id} items={items} strategy={rectSortingStrategy}>
+      <Card ref={setNodeRef} gap="0" {...props}>
         {sortedChildren}
-      </SortableContext>
-    </Card>
+      </Card>
+    </SortableContext>
   )
 }
 SortableCard.displayName = 'Card'

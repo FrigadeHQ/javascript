@@ -154,7 +154,12 @@ export function Editor() {
   function handleDragEnd({ active, over }) {
     // console.log('DRAG END: ', active, over)
 
-    if (active.id !== over.id) {
+    if (!over) {
+      setActiveId(null)
+      return
+    }
+
+    if (active.id !== over.id && over.id != 'new-card') {
       const items = [...serializedTree.props.items]
       const oldIndex = items.indexOf(active.id)
       const newIndex = items.indexOf(over.id)
@@ -167,6 +172,7 @@ export function Editor() {
       }
 
       if (oldIndex === -1) {
+        // TODO: Make this work with any element type, not just title
         newProps.children.splice(newIndex, 0, {
           type: 'Card.Title',
           key: newId,
@@ -197,6 +203,61 @@ export function Editor() {
     setActiveId(null)
   }
 
+  function handleDragOver({ active, over }) {
+    // If active is over the droppable card
+    // Insert it into the items of that card in the current position
+
+    if (!over) {
+      return
+    }
+
+    console.log('OVER!!!! ', over)
+
+    if (active.id !== over.id && over.id != 'new-card') {
+      const items = [...serializedTree.props.items]
+      const oldIndex = items.indexOf(active.id)
+      const newIndex = items.indexOf(over.id)
+
+      const newId = 'new-title' // crypto.randomUUID()
+
+      const newProps = {
+        children: [...serializedTree.props.children],
+        items,
+      }
+
+      if (oldIndex === -1) {
+        // TODO: Make this work with any element type, not just title
+        newProps.children.splice(newIndex, 0, {
+          type: 'Card.Title',
+          key: newId,
+          props: {
+            children: 'New title',
+            key: newId,
+            id: newId,
+          },
+        })
+
+        newProps.items.splice(newIndex, 0, newId)
+      } else {
+        newProps.items = arrayMove(items, oldIndex, newIndex)
+      }
+
+      // console.log('OLD INDEX: ', oldIndex, newIndex)
+      // console.log('NEW PROPS: ', newProps)
+
+      setSerializedTree((tree) => ({
+        ...tree,
+        props: {
+          ...tree.props,
+          ...newProps,
+        },
+      }))
+    }
+  }
+
+  // TODO: Handle case where item is dragged into new container, then dragged out to nowhere before drag end
+  // Should probably check if we're over nothing and revert to original state?
+
   function handleDragStart({ active }) {
     if (availableItems[active.id] != null) {
       setActiveId(active.id)
@@ -205,19 +266,26 @@ export function Editor() {
 
   const availableItems = {
     'new-title': <SortableTitle id="new-title">New title</SortableTitle>,
+    // 'new-subtitle': <SortableSubtitle id="new-subtitle">New subtitle</SortableSubtitle>,
   }
+
+  const filteredAvailableItems = Array.from(Object.keys(availableItems)).filter(
+    (item) => !serializedTree.props.items.includes(item)
+  )
 
   return (
     <DndContext
       sensors={sensors}
-      collisionDetection={closestCenter}
+      // collisionDetection={closestCenter}
       onDragEnd={handleDragEnd}
+      onDragOver={handleDragOver}
       onDragStart={handleDragStart}
     >
       {deserializedTree}
 
-      <SortableCard id="new-card" items={Array.from(Object.keys(availableItems))}>
-        {availableItems['new-title']}
+      <SortableCard backgroundColor="neutral.800" id="new-card" items={filteredAvailableItems}>
+        {!serializedTree.props.items.includes('new-title') && availableItems['new-title']}
+        {/* {availableItems['new-subtitle']} */}
       </SortableCard>
       <DragOverlay>{activeId && availableItems[activeId]}</DragOverlay>
     </DndContext>
