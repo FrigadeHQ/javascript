@@ -36,7 +36,17 @@ export function SortableSubtitle({ id, ...props }) {
     transition,
   }
 
-  return <Card.Subtitle ref={setNodeRef} style={style} {...listeners} {...attributes} {...props} />
+  return (
+    <Card.Subtitle
+      contentEditable={true}
+      outline={0}
+      ref={setNodeRef}
+      style={style}
+      {...listeners}
+      {...attributes}
+      {...props}
+    />
+  )
 }
 SortableSubtitle.displayName = 'Card.Subtitle'
 
@@ -50,6 +60,16 @@ export function SortableTitle({ id, ...props }) {
     transition,
   }
 
-  return <Card.Title ref={setNodeRef} style={style} {...listeners} {...attributes} {...props} />
+  return (
+    <Card.Title
+      contentEditable={true}
+      outline={0}
+      ref={setNodeRef}
+      style={style}
+      {...listeners}
+      {...attributes}
+      {...props}
+    />
+  )
 }
 SortableTitle.displayName = 'Card.Title'

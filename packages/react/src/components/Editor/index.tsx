@@ -95,10 +95,14 @@ function createElement(el) {
 
 export function Editor() {
   const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 10,
+      },
     })
+    // useSensor(KeyboardSensor, {
+    //   coordinateGetter: sortableKeyboardCoordinates,
+    // })
   )
 
   const [activeId, setActiveId] = useState(null)
@@ -150,6 +154,63 @@ export function Editor() {
   const deserializedTree = deserializeElement(serializedTree)
 
   console.log(deserializedTree)
+
+  function getContainer(containerId, context = serializedTree) {
+    if (context.key === containerId) {
+      return context
+    }
+
+    if (Array.isArray(context.props.children)) {
+      for (const child of context.props.children) {
+        const maybeContainer = getContainer(containerId, child)
+
+        if (maybeContainer !== null) {
+          return maybeContainer
+        }
+      }
+    }
+
+    return null
+  }
+
+  console.log('GET CONTAINER: ', getContainer('e896382d-c193-4c33-8e52-bac65eea42fa'))
+
+  /*
+  const containers = {
+    containerId: [
+      {
+        'itemId': {
+          props: {}
+        }
+      }
+    ]
+  }
+  */
+
+  // const containers = {
+  //   '916e76ab-d726-4648-80b0-83d0b025efad': [
+  //     {
+  //       '5acd05ea-73c5-48d5-b391-b618d783ec77': {
+  //         type: 'Card.Title',
+  //         key: '5acd05ea-73c5-48d5-b391-b618d783ec77',
+  //         props: {
+  //           children: 'Title',
+  //           key: '5acd05ea-73c5-48d5-b391-b618d783ec77',
+  //           id: '5acd05ea-73c5-48d5-b391-b618d783ec77',
+  //         },
+  //       },
+  //       'e896382d-c193-4c33-8e52-bac65eea42fa': {
+  //         type: 'Card.Subtitle',
+  //         key: 'e896382d-c193-4c33-8e52-bac65eea42fa',
+  //         props: {
+  //           children: 'Subtitle',
+  //           key: 'e896382d-c193-4c33-8e52-bac65eea42fa',
+  //           id: 'e896382d-c193-4c33-8e52-bac65eea42fa',
+  //         },
+  //       }
+  //     }
+  //   ]
+  // }
 
   function handleDragEnd({ active, over }) {
     // console.log('DRAG END: ', active, over)
@@ -211,13 +272,12 @@ export function Editor() {
       return
     }
 
-    console.log('OVER!!!! ', over)
-
     if (active.id !== over.id && over.id != 'new-card') {
       const items = [...serializedTree.props.items]
       const oldIndex = items.indexOf(active.id)
       const newIndex = items.indexOf(over.id)
 
+      // TODO: Use id of dragged item
       const newId = 'new-title' // crypto.randomUUID()
 
       const newProps = {
@@ -259,6 +319,7 @@ export function Editor() {
   // Should probably check if we're over nothing and revert to original state?
 
   function handleDragStart({ active }) {
+    console.log('DRAG START: ', active)
     if (availableItems[active.id] != null) {
       setActiveId(active.id)
     }
