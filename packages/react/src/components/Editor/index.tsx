@@ -16,20 +16,17 @@ import {
   useSortable,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable'
-import { CSS } from '@dnd-kit/utilities'
 import React, { Children, useState } from 'react'
 
 import { Card } from '@/components/Card'
 
-const componentMap = {
-  Card,
-}
+import { SortableCard, SortableSubtitle, SortableTitle } from './SortableCard'
 
-function resolvePath(object, path, defaultValue = null) {
-  return path.split('.').reduce((o, p) => (o ? o[p] : defaultValue), object)
-}
+// function resolvePath(object, path, defaultValue = null) {
+//   return path.split('.').reduce((o, p) => (o ? o[p] : defaultValue), object)
+// }
 
-function serialize(element) {
+function serializeElement(element) {
   const replacer = (key, value) => {
     switch (key) {
       case 'type':
@@ -39,20 +36,18 @@ function serialize(element) {
       case 'ref':
         // case 'key':
         return
+      case 'key':
+        return value != null ? value : crypto.randomUUID()
       default:
         return value
     }
   }
 
-  return JSON.stringify(element, replacer)
+  return JSON.parse(JSON.stringify(element, replacer))
 }
 
-function deserialize(string) {
-  const parsed = JSON.parse(serialize(string))
-
-  // console.log('WHAT: ', resolvePath(componentMap, parsed.type))
-
-  return createElement(parsed)
+function deserializeElement(serializedElement) {
+  return createElement(serializedElement)
 }
 
 function parsePropsWithChildren(props) {
@@ -80,28 +75,151 @@ function parsePropsWithChildren(props) {
   return newProps
 }
 
+const componentMap = {
+  Card: SortableCard,
+  'Card.Title': SortableTitle,
+  'Card.Subtitle': SortableSubtitle,
+}
+
 function createElement(el) {
   // TODO: Add key
-  return React.createElement(resolvePath(componentMap, el.type), parsePropsWithChildren(el.props))
+  // return React.createElement(resolvePath(componentMap, el.type), parsePropsWithChildren(el.props))
+
+  if (el.key) {
+    el.props.id = el.key
+    el.props.key = el.key
+  }
+
+  return React.createElement(componentMap[el.type], parsePropsWithChildren(el.props))
 }
 
 export function Editor() {
-  const init = (
-    <Card borderWidth="md">
-      <Card.Title>Title</Card.Title>
-      <Card.Subtitle>Subtitle</Card.Subtitle>
-    </Card>
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
   )
 
-  const serializedInit = JSON.parse(serialize(init))
+  const [activeId, setActiveId] = useState(null)
+
+  // const init = (
+  //   <Card borderWidth="md">
+  //     <Card.Title>Title</Card.Title>
+  //     <Card.Subtitle>Subtitle</Card.Subtitle>
+  //   </Card>
+  // )
+
+  // const serializedInit = serializeElement(init)
+
+  const serializedInit = {
+    type: 'Card',
+    key: '916e76ab-d726-4648-80b0-83d0b025efad',
+    props: {
+      borderWidth: 'md',
+      items: ['5acd05ea-73c5-48d5-b391-b618d783ec77', 'e896382d-c193-4c33-8e52-bac65eea42fa'],
+      children: [
+        {
+          type: 'Card.Title',
+          key: '5acd05ea-73c5-48d5-b391-b618d783ec77',
+          props: {
+            children: 'Title',
+            key: '5acd05ea-73c5-48d5-b391-b618d783ec77',
+            id: '5acd05ea-73c5-48d5-b391-b618d783ec77',
+          },
+        },
+        {
+          type: 'Card.Subtitle',
+          key: 'e896382d-c193-4c33-8e52-bac65eea42fa',
+          props: {
+            children: 'Subtitle',
+            key: 'e896382d-c193-4c33-8e52-bac65eea42fa',
+            id: 'e896382d-c193-4c33-8e52-bac65eea42fa',
+          },
+        },
+      ],
+      id: '916e76ab-d726-4648-80b0-83d0b025efad',
+      key: '916e76ab-d726-4648-80b0-83d0b025efad',
+    },
+  }
 
   const [serializedTree, setSerializedTree] = useState(serializedInit)
 
-  console.log(serializedInit)
+  console.log(serializedTree)
 
-  const deserializedTree = deserialize(serializedTree)
+  const deserializedTree = deserializeElement(serializedTree)
 
   console.log(deserializedTree)
 
-  return deserializedTree
+  function handleDragEnd({ active, over }) {
+    // console.log('DRAG END: ', active, over)
+
+    if (active.id !== over.id) {
+      const items = [...serializedTree.props.items]
+      const oldIndex = items.indexOf(active.id)
+      const newIndex = items.indexOf(over.id)
+
+      const newId = crypto.randomUUID()
+
+      const newProps = {
+        children: [...serializedTree.props.children],
+        items,
+      }
+
+      if (oldIndex === -1) {
+        newProps.children.splice(newIndex, 0, {
+          type: 'Card.Title',
+          key: newId,
+          props: {
+            children: 'New title',
+            key: newId,
+            id: newId,
+          },
+        })
+
+        newProps.items.splice(newIndex, 0, newId)
+      } else {
+        newProps.items = arrayMove(items, oldIndex, newIndex)
+      }
+
+      console.log('OLD INDEX: ', oldIndex, newIndex)
+      console.log('NEW PROPS: ', newProps)
+
+      setSerializedTree((tree) => ({
+        ...tree,
+        props: {
+          ...tree.props,
+          ...newProps,
+        },
+      }))
+    }
+
+    setActiveId(null)
+  }
+
+  function handleDragStart({ active }) {
+    if (availableItems[active.id] != null) {
+      setActiveId(active.id)
+    }
+  }
+
+  const availableItems = {
+    'new-title': <SortableTitle id="new-title">New title</SortableTitle>,
+  }
+
+  return (
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCenter}
+      onDragEnd={handleDragEnd}
+      onDragStart={handleDragStart}
+    >
+      {deserializedTree}
+
+      <SortableCard id="new-card" items={Array.from(Object.keys(availableItems))}>
+        {availableItems['new-title']}
+      </SortableCard>
+      <DragOverlay>{activeId && availableItems[activeId]}</DragOverlay>
+    </DndContext>
+  )
 }
