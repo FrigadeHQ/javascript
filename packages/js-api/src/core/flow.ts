@@ -143,7 +143,7 @@ export class Flow extends Fetchable {
     })
 
     if (this.getGlobalState().variables[this.id]) {
-      this.applyVariables(this.getGlobalState().variables[this.id] ?? {})
+      this.applyVariablesInternal(this.getGlobalState().variables[this.id] ?? {})
     }
   }
 
@@ -345,7 +345,7 @@ export class Flow extends Fetchable {
       this.getGlobalState().variables[this.id] &&
       Object.keys(this.getGlobalState().variables[this.id]).length > 0
     ) {
-      this.applyVariables(this.getGlobalState().variables[this.id])
+      this.applyVariablesInternal(this.getGlobalState().variables[this.id] ?? {})
     }
   }
 
@@ -540,6 +540,10 @@ export class Flow extends Fetchable {
    * @param variables A record of variables to apply to the flow.
    */
   public applyVariables(variables: Record<string, any>) {
+    this.applyVariablesInternal(variables, true)
+  }
+
+  private applyVariablesInternal(variables: Record<string, any>, resyncState: boolean = false) {
     // Check if variables have changed
 
     if (this.getGlobalState().variables[this.id]) {
@@ -592,6 +596,7 @@ export class Flow extends Fetchable {
     if (this.steps) {
       this.steps.forEach((step) => {
         try {
+          console
           applyVariablesToStep(step)
         } catch (e) {
           // ignore any failures
@@ -600,6 +605,10 @@ export class Flow extends Fetchable {
     }
 
     this.getGlobalState().variables[this.id] = variables
+
+    if (resyncState) {
+      this.resyncState()
+    }
   }
 
   /**
