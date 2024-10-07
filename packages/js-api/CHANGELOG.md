@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.7.18
+
+### Patch Changes
+
+- 177f6bb: Fixes an edge cases where variables used in form fields do not update in some cases
+
 ## 0.7.17
 
 ### Patch Changes
