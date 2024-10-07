@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.7.17
+
+### Patch Changes
+
+- 6c8748e: Contains a series of minor bug fixes related to tours and variables
+
 ## 0.7.16
 
 ### Patch Changes

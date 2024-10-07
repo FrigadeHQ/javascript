@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.5.19
+
+### Patch Changes
+
+- 6c8748e: Contains a series of minor bug fixes related to tours and variables
+- Updated dependencies [6c8748e]
+  - @frigade/js@0.7.17
+
 ## 2.5.18
 
 ### Patch Changes
