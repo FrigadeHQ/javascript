@@ -544,17 +544,6 @@ export class Flow extends Fetchable {
   }
 
   private applyVariablesInternal(variables: Record<string, any>, resyncState: boolean = false) {
-    // Check if variables have changed
-
-    if (this.getGlobalState().variables[this.id]) {
-      // If they have changed, reset the flow's content so variables can be replaced again.
-      if (JSON.stringify(this.getGlobalState().variables[this.id]) !== JSON.stringify(variables)) {
-        this.getGlobalState().variables[this.id] = variables
-        this.reload()
-        return
-      }
-    }
-
     // Replace ${variable} with the value of the variable
     const replaceVariables = (str: string) => {
       const matches = str.match(/\${(.*?)}/g)

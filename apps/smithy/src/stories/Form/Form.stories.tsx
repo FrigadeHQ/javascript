@@ -5,7 +5,7 @@ import {
   type FormFieldProps,
   SelectField,
 } from "@frigade/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default {
   title: "Components/Form",
@@ -114,11 +114,20 @@ export const VariablesInForms = {
       const [testVar, setTestVar] = useState("test1");
       const [otherVar, setOtherVar] = useState("test2");
 
-      // setTimeout to simulate async data fetching
-      setTimeout(() => {
-        setTestVar("updated var 1");
-        setOtherVar("updated var 2");
-      }, 1000);
+      useEffect(() => {
+        // setTimeout to simulate async data fetching
+        setTimeout(() => {
+          setTestVar("updated var 1");
+          setOtherVar("updated var 2");
+        }, 1000);
+
+        // update it again after 2000ms
+        setTimeout(() => {
+          setTestVar("updated var 1 again");
+          setOtherVar("updated var 2 again");
+        }, 2000);
+      }, []);
+      ``;
 
       return (
         <div>
