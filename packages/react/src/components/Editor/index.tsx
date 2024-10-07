@@ -26,6 +26,94 @@ import { SortableCard, SortableSubtitle, SortableTitle } from './SortableCard'
 //   return path.split('.').reduce((o, p) => (o ? o[p] : defaultValue), object)
 // }
 
+/*
+{
+  elementId: {
+    type: 'string',
+    props: {
+      ...  
+    },
+    children: [
+      'elementId',
+      ....
+    ]
+  },
+  ...
+}
+*/
+
+function flatSerialize(element, acc = {}, parent = null) {
+  if (typeof element === 'string') {
+    return element
+  }
+
+  const key = element.key ?? element.props.id ?? crypto.randomUUID()
+
+  if (parent != null) {
+    parent.children.push(key)
+    parent.props.items.push(key)
+  }
+
+  const { children, ...props } = element.props ?? {}
+
+  if (!props.id) {
+    props.id = key
+  }
+
+  acc[key] = {
+    type: typeof element.type === 'string' ? element.type : element.type.displayName,
+    props,
+  }
+
+  if (Array.isArray(children)) {
+    acc[key].children = []
+    acc[key].props.items = []
+
+    for (const child of children) {
+      flatSerialize(child, acc, acc[key])
+    }
+  } else if (typeof children === 'string') {
+    acc[key].children = children
+  } else if (children?.type?.displayName != null) {
+    acc[key].children = []
+    acc[key].props.items = []
+
+    flatSerialize(children, acc, acc[key])
+  }
+
+  return {
+    elements: acc,
+    root: key,
+  }
+}
+
+function flatDeserialize(serialized) {
+  const parsed = typeof serialized === 'string' ? JSON.parse(serialized) : serialized
+
+  return hydrateElement(parsed.root, parsed.elements)
+}
+
+function hydrateElement(elementId, elements) {
+  const element = elements[elementId]
+
+  // console.log('#### HYDRATE: ', elementId, element, elements)
+
+  const props = {
+    ...(element.props ?? {}),
+    key: elementId,
+  }
+
+  // TODO MONDAY: WAIT I THINK PROPS ISN'T BEING RESET? OR SOMETHING IS FUCKED HERE?
+  if (Array.isArray(element.children)) {
+    props.children = element.children.map((childId) => hydrateElement(childId, elements))
+    props.items = props.items ?? element.children
+  } else {
+    props.children = element.children
+  }
+
+  return React.createElement(componentMap[element.type], props)
+}
+
 function serializeElement(element) {
   const replacer = (key, value) => {
     switch (key) {
@@ -107,110 +195,47 @@ export function Editor() {
 
   const [activeId, setActiveId] = useState(null)
 
-  // const init = (
-  //   <Card borderWidth="md">
-  //     <Card.Title>Title</Card.Title>
-  //     <Card.Subtitle>Subtitle</Card.Subtitle>
-  //   </Card>
-  // )
+  const init = (
+    <Card borderWidth="md">
+      <Card.Title>Title</Card.Title>
+      <Card.Subtitle>Subtitle</Card.Subtitle>
+    </Card>
+  )
 
-  // const serializedInit = serializeElement(init)
+  const bullpenInit = (
+    <Card backgroundColor="neutral.800" id="new-card">
+      <Card.Title id="new-title">New title</Card.Title>
+    </Card>
+  )
 
-  const serializedInit = {
-    type: 'Card',
-    key: '916e76ab-d726-4648-80b0-83d0b025efad',
-    props: {
-      borderWidth: 'md',
-      items: ['5acd05ea-73c5-48d5-b391-b618d783ec77', 'e896382d-c193-4c33-8e52-bac65eea42fa'],
-      children: [
-        {
-          type: 'Card.Title',
-          key: '5acd05ea-73c5-48d5-b391-b618d783ec77',
-          props: {
-            children: 'Title',
-            key: '5acd05ea-73c5-48d5-b391-b618d783ec77',
-            id: '5acd05ea-73c5-48d5-b391-b618d783ec77',
-          },
-        },
-        {
-          type: 'Card.Subtitle',
-          key: 'e896382d-c193-4c33-8e52-bac65eea42fa',
-          props: {
-            children: 'Subtitle',
-            key: 'e896382d-c193-4c33-8e52-bac65eea42fa',
-            id: 'e896382d-c193-4c33-8e52-bac65eea42fa',
-          },
-        },
-      ],
-      id: '916e76ab-d726-4648-80b0-83d0b025efad',
-      key: '916e76ab-d726-4648-80b0-83d0b025efad',
-    },
+  const serializedInit = flatSerialize(init)
+  const serializedBullpen = flatSerialize(bullpenInit)
+
+  for (const [itemId, item] of Object.entries(serializedBullpen.elements)) {
+    if (itemId === 'new-card') {
+      continue
+    }
+
+    serializedInit.elements[itemId] = item
   }
 
   const [serializedTree, setSerializedTree] = useState(serializedInit)
+  const [bullpen, setBullpen] = useState(serializedBullpen)
 
-  console.log(serializedTree)
+  // console.log(serializedTree)
 
-  const deserializedTree = deserializeElement(serializedTree)
-
-  console.log(deserializedTree)
-
-  function getContainer(containerId, context = serializedTree) {
-    if (context.key === containerId) {
-      return context
-    }
-
-    if (Array.isArray(context.props.children)) {
-      for (const child of context.props.children) {
-        const maybeContainer = getContainer(containerId, child)
-
-        if (maybeContainer !== null) {
-          return maybeContainer
-        }
-      }
-    }
-
-    return null
-  }
-
-  console.log('GET CONTAINER: ', getContainer('e896382d-c193-4c33-8e52-bac65eea42fa'))
+  // TODO: HEY MICAH LOOK HERE: DOES flatDeserialize correctly order everything?
 
   /*
-  const containers = {
-    containerId: [
-      {
-        'itemId': {
-          props: {}
-        }
-      }
-    ]
-  }
+    MONDAY CATCH UP:
+    - In "SETTING TREE", children and items appear correct
+    - But in SORTABLE CARD ITEMS, the items are still in the old order
+    - What is causing the rendered component to get the wrong info?
+    - Is it something in the deserialize func?
   */
 
-  // const containers = {
-  //   '916e76ab-d726-4648-80b0-83d0b025efad': [
-  //     {
-  //       '5acd05ea-73c5-48d5-b391-b618d783ec77': {
-  //         type: 'Card.Title',
-  //         key: '5acd05ea-73c5-48d5-b391-b618d783ec77',
-  //         props: {
-  //           children: 'Title',
-  //           key: '5acd05ea-73c5-48d5-b391-b618d783ec77',
-  //           id: '5acd05ea-73c5-48d5-b391-b618d783ec77',
-  //         },
-  //       },
-  //       'e896382d-c193-4c33-8e52-bac65eea42fa': {
-  //         type: 'Card.Subtitle',
-  //         key: 'e896382d-c193-4c33-8e52-bac65eea42fa',
-  //         props: {
-  //           children: 'Subtitle',
-  //           key: 'e896382d-c193-4c33-8e52-bac65eea42fa',
-  //           id: 'e896382d-c193-4c33-8e52-bac65eea42fa',
-  //         },
-  //       }
-  //     }
-  //   ]
-  // }
+  const deserializedTree = flatDeserialize(serializedTree)
+  const deserializedBullpen = flatDeserialize(bullpen)
 
   function handleDragEnd({ active, over }) {
     // console.log('DRAG END: ', active, over)
@@ -221,44 +246,53 @@ export function Editor() {
     }
 
     if (active.id !== over.id && over.id != 'new-card') {
-      const items = [...serializedTree.props.items]
+      // const items = [...serializedTree.props.items]
+      const overContainer = over.data.current?.sortable.containerId || over.id
+      const items = serializedTree.elements[overContainer].props.items
+
       const oldIndex = items.indexOf(active.id)
       const newIndex = items.indexOf(over.id)
 
-      const newId = crypto.randomUUID()
+      // if (oldIndex === -1) {
 
-      const newProps = {
-        children: [...serializedTree.props.children],
-        items,
-      }
+      // } else {
 
-      if (oldIndex === -1) {
-        // TODO: Make this work with any element type, not just title
-        newProps.children.splice(newIndex, 0, {
-          type: 'Card.Title',
-          key: newId,
-          props: {
-            children: 'New title',
-            key: newId,
-            id: newId,
-          },
-        })
+      // }
 
-        newProps.items.splice(newIndex, 0, newId)
-      } else {
-        newProps.items = arrayMove(items, oldIndex, newIndex)
-      }
+      // const newId = crypto.randomUUID()
 
-      console.log('OLD INDEX: ', oldIndex, newIndex)
-      console.log('NEW PROPS: ', newProps)
+      // const newProps = {
+      //   children: [...serializedTree.props.children],
+      //   items,
+      // }
 
-      setSerializedTree((tree) => ({
-        ...tree,
-        props: {
-          ...tree.props,
-          ...newProps,
-        },
-      }))
+      // if (oldIndex === -1) {
+      //   // TODO: Make this work with any element type, not just title
+      //   newProps.children.splice(newIndex, 0, {
+      //     type: 'Card.Title',
+      //     key: newId,
+      //     props: {
+      //       children: 'New title',
+      //       key: newId,
+      //       id: newId,
+      //     },
+      //   })
+
+      //   newProps.items.splice(newIndex, 0, newId)
+      // } else {
+      //   newProps.items = arrayMove(items, oldIndex, newIndex)
+      // }
+
+      // console.log('OLD INDEX: ', oldIndex, newIndex)
+      // console.log('NEW PROPS: ', newProps)
+
+      // setSerializedTree((tree) => ({
+      //   ...tree,
+      //   props: {
+      //     ...tree.props,
+      //     ...newProps,
+      //   },
+      // }))
     }
 
     setActiveId(null)
@@ -273,45 +307,107 @@ export function Editor() {
     }
 
     if (active.id !== over.id && over.id != 'new-card') {
-      const items = [...serializedTree.props.items]
+      const overContainerId = over.data.current?.sortable.containerId // || over.id
+      const overContainer = serializedTree.elements[overContainerId]
+
+      // console.log('#### OVER ID: ', overContainerId, overContainer, serializedTree)
+
+      /*
+        If we're over an element that has a container
+          If active isn't already in the container
+            Get the index we're over
+            and splice active into the current container at that point
+        Else we're over a container or some other droppable object
+          TODO: Figure out what to do in this case
+      */
+      if (overContainer == null) {
+        return
+      }
+
+      // TODO: Handle case where there are no existing children and there are no items yet
+
+      const items = overContainer.props.items
+
+      // const items = [...serializedTree.props.items]
       const oldIndex = items.indexOf(active.id)
       const newIndex = items.indexOf(over.id)
 
-      // TODO: Use id of dragged item
-      const newId = 'new-title' // crypto.randomUUID()
-
-      const newProps = {
-        children: [...serializedTree.props.children],
-        items,
-      }
+      const newContainer = { ...overContainer }
 
       if (oldIndex === -1) {
-        // TODO: Make this work with any element type, not just title
-        newProps.children.splice(newIndex, 0, {
-          type: 'Card.Title',
-          key: newId,
-          props: {
-            children: 'New title',
-            key: newId,
-            id: newId,
-          },
-        })
+        newContainer.props.items.splice(newIndex, 0, active.id)
+        newContainer.children.splice(newIndex, 0, active.id)
 
-        newProps.items.splice(newIndex, 0, newId)
+        console.log('NOT IN CONTAINER: ', active.id, items, oldIndex, newContainer)
+
+        if (bullpen.elements[active.id] !== null) {
+          const newBullpen = { ...bullpen }
+
+          newBullpen.elements[newBullpen.root].props.items = newBullpen.elements[
+            newBullpen.root
+          ].props.items.filter((id) => id !== active.id)
+          newBullpen.elements[newBullpen.root].children = newBullpen.elements[
+            newBullpen.root
+          ].children.filter((id) => id !== active.id)
+
+          setBullpen(newBullpen)
+        }
       } else {
-        newProps.items = arrayMove(items, oldIndex, newIndex)
+        console.log('IN CONTAINER, REORDER: ', items, oldIndex, newIndex)
+        newContainer.props.items = arrayMove(items, oldIndex, newIndex)
+
+        console.log('REORDERED: ', newContainer)
       }
+
+      setSerializedTree((tree) => {
+        const newTree = {
+          ...tree,
+          elements: {
+            ...tree.elements,
+            [overContainerId]: newContainer,
+          },
+        }
+
+        console.log('SETTING TREE: ', newTree)
+
+        return newTree
+      })
+
+      // TODO: Use id of dragged item
+      // const newId = 'new-title' // crypto.randomUUID()
+
+      // const newProps = {
+      //   children: [...overContainer.children],
+      //   items,
+      // }
+
+      // if (oldIndex === -1) {
+      //   // TODO: Make this work with any element type, not just title
+      //   newProps.children.splice(newIndex, 0, {
+      //     type: 'Card.Title',
+      //     key: newId,
+      //     props: {
+      //       children: 'New title',
+      //       key: newId,
+      //       id: newId,
+      //     },
+      //   })
+
+      //   newProps.items.splice(newIndex, 0, newId)
+      // } else {
+      //   newProps.items = arrayMove(items, oldIndex, newIndex)
+      // }
 
       // console.log('OLD INDEX: ', oldIndex, newIndex)
       // console.log('NEW PROPS: ', newProps)
 
-      setSerializedTree((tree) => ({
-        ...tree,
-        props: {
-          ...tree.props,
-          ...newProps,
-        },
-      }))
+      // setSerializedTree((tree) => ({
+      //   ...tree,
+      //   props: {
+      //     ...tree.props,
+      //     ...newProps,
+      //   },
+      // }))
     }
   }
 
@@ -320,19 +416,23 @@ export function Editor() {
 
   function handleDragStart({ active }) {
     console.log('DRAG START: ', active)
-    if (availableItems[active.id] != null) {
-      setActiveId(active.id)
+    // if (bullpen.elements[active.id] != null) {
+    setActiveId(active.id)
+    // }
+  }
+
+  function getDragOverlay(elementId) {
+    if (serializedTree.elements[elementId] != null) {
+      return hydrateElement(elementId, serializedTree.elements)
+    } else if (serializedBullpen.elements[elementId] != null) {
+      return hydrateElement(elementId, serializedBullpen.elements)
     }
+
+    return null
   }
 
-  const availableItems = {
-    'new-title': <SortableTitle id="new-title">New title</SortableTitle>,
-    // 'new-subtitle': <SortableSubtitle id="new-subtitle">New subtitle</SortableSubtitle>,
-  }
-
-  const filteredAvailableItems = Array.from(Object.keys(availableItems)).filter(
-    (item) => !serializedTree.props.items.includes(item)
-  )
+  console.log('#### D TREE: ', deserializedTree)
+  // console.log('DC: ', bullpen, deserializedBullpen)
 
   return (
     <DndContext
@@ -343,12 +443,9 @@ export function Editor() {
       onDragStart={handleDragStart}
     >
       {deserializedTree}
+      {deserializedBullpen}
 
-      <SortableCard backgroundColor="neutral.800" id="new-card" items={filteredAvailableItems}>
-        {!serializedTree.props.items.includes('new-title') && availableItems['new-title']}
-        {/* {availableItems['new-subtitle']} */}
-      </SortableCard>
-      <DragOverlay>{activeId && availableItems[activeId]}</DragOverlay>
+      <DragOverlay>{getDragOverlay(activeId)}</DragOverlay>
     </DndContext>
   )
 }

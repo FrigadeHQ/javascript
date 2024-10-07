@@ -14,7 +14,7 @@ export function SortableCard({ children, id, items = [], ...props }) {
     (a, b) => items.indexOf(a.props.id) - items.indexOf(b.props.id)
   )
 
-  console.log('SORTABLE CHILDREN: ', sortedChildren)
+  console.log('SORTED CHILDREN: ', children, sortedChildren)
 
   return (
     <SortableContext id={id} items={items} strategy={rectSortingStrategy}>
@@ -38,7 +38,7 @@ export function SortableSubtitle({ id, ...props }) {
 
   return (
     <Card.Subtitle
-      contentEditable={true}
+      // contentEditable={true}
       outline={0}
       ref={setNodeRef}
       style={style}
@@ -62,7 +62,7 @@ export function SortableTitle({ id, ...props }) {
 
   return (
     <Card.Title
-      contentEditable={true}
+      // contentEditable={true}
       outline={0}
       ref={setNodeRef}
       style={style}
