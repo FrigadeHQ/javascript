@@ -27,11 +27,13 @@ export function SortableCard({ children, id, items = [], ...props }) {
 SortableCard.displayName = 'Card'
 
 export function SortableSubtitle({ id, ...props }) {
-  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
+  const { attributes, isDragging, listeners, setNodeRef, transform, transition } = useSortable({
     id,
   })
 
   const style = {
+    cursor: isDragging ? 'grabbing' : 'grab',
+    opacity: isDragging ? 0 : 1,
     transform: CSS.Transform.toString(transform),
     transition,
   }
@@ -42,6 +44,7 @@ export function SortableSubtitle({ id, ...props }) {
       outline={0}
       ref={setNodeRef}
       style={style}
+      userSelect="none"
       {...listeners}
       {...attributes}
       {...props}
@@ -51,11 +54,13 @@ export function SortableSubtitle({ id, ...props }) {
 SortableSubtitle.displayName = 'Card.Subtitle'
 
 export function SortableTitle({ id, ...props }) {
-  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
+  const { attributes, isDragging, listeners, setNodeRef, transform, transition } = useSortable({
     id,
   })
 
   const style = {
+    cursor: isDragging ? 'grabbing' : 'grab',
+    opacity: isDragging ? 0 : 1,
     transform: CSS.Transform.toString(transform),
     transition,
   }
@@ -66,6 +71,7 @@ export function SortableTitle({ id, ...props }) {
       outline={0}
       ref={setNodeRef}
       style={style}
+      userSelect="none"
       {...listeners}
       {...attributes}
       {...props}
