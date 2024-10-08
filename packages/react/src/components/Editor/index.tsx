@@ -59,17 +59,17 @@ export function Editor() {
   function moveBetweenContainers({ active, activeContainer, over, overContainer }) {
     const newOverContainer = { ...overContainer }
 
-    const overItems = newOverContainer.props.items
+    const overItems = newOverContainer.children
     const overIndex = overItems.indexOf(over.id)
 
     console.log('OVER INDEX: ', overIndex)
 
     if (overIndex === -1) {
       newOverContainer.children.push(active.id)
-      newOverContainer.props.items.push(active.id)
+      // newOverContainer.props.items.push(active.id)
     } else {
       newOverContainer.children.splice(overIndex, 0, active.id)
-      newOverContainer.props.items.splice(overIndex, 0, active.id)
+      // newOverContainer.props.items.splice(overIndex, 0, active.id)
     }
 
     setSerializedTree((tree) => {
@@ -83,11 +83,11 @@ export function Editor() {
 
       if (activeContainer != null) {
         const newActiveContainer = { ...activeContainer }
-        const activeItems = newActiveContainer.props.items
+        const activeItems = newActiveContainer.children
         const activeIndex = activeItems.indexOf(active.id)
 
         newActiveContainer.children.splice(activeIndex, 1)
-        newActiveContainer.props.items.splice(activeIndex, 1)
+        // newActiveContainer.props.items.splice(activeIndex, 1)
 
         newTree.elements[activeContainer.props.id] = newActiveContainer
       }
@@ -104,11 +104,11 @@ export function Editor() {
 
     const newOverContainer = { ...overContainer }
 
-    const overItems = newOverContainer.props.items
+    const overItems = newOverContainer.children
     const activeIndex = overItems.indexOf(active.id)
     const overIndex = overItems.indexOf(over.id)
 
-    newOverContainer.props.items = arrayMove(overItems, activeIndex, overIndex)
+    newOverContainer.children = arrayMove(overItems, activeIndex, overIndex)
 
     setSerializedTree((tree) => {
       const newTree = {
@@ -416,7 +416,7 @@ export function Editor() {
   return (
     <DndContext
       sensors={sensors}
-      collisionDetection={closestCenter}
+      // collisionDetection={closestCenter}
       onDragEnd={handleDragEnd}
       onDragOver={handleDragOver}
       onDragStart={handleDragStart}

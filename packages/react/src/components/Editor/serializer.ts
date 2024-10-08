@@ -11,7 +11,7 @@ export function flatSerialize(element, acc = {}, parent = null) {
 
   if (parent != null) {
     parent.children.push(key)
-    parent.props.items.push(key)
+    // parent.props.items.push(key)
   }
 
   const { children, ...props } = element.props ?? {}
@@ -27,7 +27,7 @@ export function flatSerialize(element, acc = {}, parent = null) {
 
   if (Array.isArray(children)) {
     acc[key].children = []
-    acc[key].props.items = []
+    // acc[key].props.items = []
 
     for (const child of children) {
       flatSerialize(child, acc, acc[key])
@@ -36,7 +36,7 @@ export function flatSerialize(element, acc = {}, parent = null) {
     acc[key].children = children
   } else if (children?.type?.displayName != null) {
     acc[key].children = []
-    acc[key].props.items = []
+    // acc[key].props.items = []
 
     flatSerialize(children, acc, acc[key])
   }
@@ -65,7 +65,7 @@ export function hydrateElement(elementId, elements) {
 
   if (Array.isArray(element.children)) {
     props.children = element.children.map((childId) => hydrateElement(childId, elements))
-    props.items = props.items ?? element.children
+    props.items = element.children
   } else {
     props.children = element.children
   }
