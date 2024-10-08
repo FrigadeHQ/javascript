@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.5.20
+
+### Patch Changes
+
+- 177f6bb: Fixes an edge cases where variables used in form fields do not update in some cases
+- Updated dependencies [177f6bb]
+  - @frigade/js@0.7.18
+
 ## 2.5.19
 
 ### Patch Changes
