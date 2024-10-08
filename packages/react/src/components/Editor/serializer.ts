@@ -16,9 +16,9 @@ export function flatSerialize(element, acc = {}, parent = null) {
 
   const { children, ...props } = element.props ?? {}
 
-  if (!props.id) {
-    props.id = key
-  }
+  // if (!props.id) {
+  //   props.id = key
+  // }
 
   acc[key] = {
     type: typeof element.type === 'string' ? element.type : element.type.displayName,
@@ -59,8 +59,9 @@ export function hydrateElement(elementId, elements) {
   // console.log('#### HYDRATE: ', elementId, element, elements)
 
   const props = {
-    ...(element.props ?? {}),
+    id: elementId,
     key: elementId,
+    ...(element.props ?? {}),
   }
 
   if (Array.isArray(element.children)) {
