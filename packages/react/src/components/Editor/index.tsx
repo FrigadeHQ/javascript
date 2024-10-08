@@ -4,120 +4,15 @@ import {
   closestCenter,
   KeyboardSensor,
   PointerSensor,
-  useDraggable,
-  useDroppable,
   useSensor,
   useSensors,
 } from '@dnd-kit/core'
-import {
-  arrayMove,
-  SortableContext,
-  sortableKeyboardCoordinates,
-  useSortable,
-  verticalListSortingStrategy,
-} from '@dnd-kit/sortable'
-import React, { Children, useState } from 'react'
+import { arrayMove } from '@dnd-kit/sortable'
+import React, { useState } from 'react'
 
 import { Card } from '@/components/Card'
 
-import { SortableCard, SortableSubtitle, SortableTitle } from './SortableCard'
-
-// function resolvePath(object, path, defaultValue = null) {
-//   return path.split('.').reduce((o, p) => (o ? o[p] : defaultValue), object)
-// }
-
-/*
-{
-  elementId: {
-    type: 'string',
-    props: {
-      ...  
-    },
-    children: [
-      'elementId',
-      ....
-    ]
-  },
-  ...
-}
-*/
-
-function flatSerialize(element, acc = {}, parent = null) {
-  if (typeof element === 'string') {
-    return element
-  }
-
-  const key = element.key ?? element.props.id ?? crypto.randomUUID()
-
-  if (parent != null) {
-    parent.children.push(key)
-    parent.props.items.push(key)
-  }
-
-  const { children, ...props } = element.props ?? {}
-
-  if (!props.id) {
-    props.id = key
-  }
-
-  acc[key] = {
-    type: typeof element.type === 'string' ? element.type : element.type.displayName,
-    props,
-  }
-
-  if (Array.isArray(children)) {
-    acc[key].children = []
-    acc[key].props.items = []
-
-    for (const child of children) {
-      flatSerialize(child, acc, acc[key])
-    }
-  } else if (typeof children === 'string') {
-    acc[key].children = children
-  } else if (children?.type?.displayName != null) {
-    acc[key].children = []
-    acc[key].props.items = []
-
-    flatSerialize(children, acc, acc[key])
-  }
-
-  return {
-    elements: acc,
-    root: key,
-  }
-}
-
-function flatDeserialize(serialized) {
-  const parsed = typeof serialized === 'string' ? JSON.parse(serialized) : serialized
-
-  return hydrateElement(parsed.root, parsed.elements)
-}
-
-function hydrateElement(elementId, elements) {
-  const element = elements[elementId]
-
-  // console.log('#### HYDRATE: ', elementId, element, elements)
-
-  const props = {
-    ...(element.props ?? {}),
-    key: elementId,
-  }
-
-  if (Array.isArray(element.children)) {
-    props.children = element.children.map((childId) => hydrateElement(childId, elements))
-    props.items = props.items ?? element.children
-  } else {
-    props.children = element.children
-  }
-
-  return React.createElement(componentMap[element.type], props)
-}
-
-const componentMap = {
-  Card: SortableCard,
-  'Card.Title': SortableTitle,
-  'Card.Subtitle': SortableSubtitle,
-}
+import { flatSerialize, flatDeserialize, hydrateElement } from '@/components/Editor/serializer'
 
 export function Editor() {
   const sensors = useSensors(
@@ -150,10 +45,6 @@ export function Editor() {
   const serializedBullpen = flatSerialize(bullpenInit)
 
   for (const [itemId, item] of Object.entries(serializedBullpen.elements)) {
-    // if (itemId === 'new-card') {
-    //   continue
-    // }
-
     serializedInit.elements[itemId] = item
   }
 
