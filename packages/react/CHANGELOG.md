@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.5.21
+
+### Patch Changes
+
+- 2982a19: Fixes an issue where variables are sometimes not applied when using useFlow() with the same Flow ID in a component
+- Updated dependencies [2982a19]
+  - @frigade/js@0.7.19
+
 ## 2.5.20
 
 ### Patch Changes
