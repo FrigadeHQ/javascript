@@ -6,7 +6,7 @@ import { Children } from 'react'
 import { Card } from '@/components/Card'
 
 export function SortableCard({ children, id, items = [], ...props }) {
-  console.log('SORTABLE CARD ITEMS: ', items)
+  // console.log('SORTABLE CARD ITEMS: ', items)
 
   const { setNodeRef } = useDroppable({ id })
 
@@ -14,7 +14,7 @@ export function SortableCard({ children, id, items = [], ...props }) {
     (a, b) => items.indexOf(a.props.id) - items.indexOf(b.props.id)
   )
 
-  console.log('SORTED CHILDREN: ', children, sortedChildren)
+  // console.log('SORTED CHILDREN: ', children, sortedChildren)
 
   return (
     <SortableContext id={id} items={items} strategy={rectSortingStrategy}>
