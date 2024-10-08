@@ -345,7 +345,9 @@ export class Flow extends Fetchable {
       this.getGlobalState().variables[this.id] &&
       Object.keys(this.getGlobalState().variables[this.id]).length > 0
     ) {
-      this.applyVariablesInternal(this.getGlobalState().variables[this.id] ?? {})
+      this.applyVariablesInternal(this.getGlobalState().variables[this.id])
+    } else {
+      this.applyVariablesInternal({})
     }
   }
 

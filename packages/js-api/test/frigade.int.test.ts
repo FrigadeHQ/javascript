@@ -413,8 +413,8 @@ describe('Basic Checklist integration test', () => {
     const flow = await frigade.getFlow(testFlowId)
     expect(flow).toBeDefined()
     expect(flow.getStepByIndex(0)).toBeDefined()
-    expect(flow.getStepByIndex(0).subtitle).toContain('${email}')
-    expect(flow.getStepByIndex(0).subtitle).toContain('${name}')
+    expect(flow.getStepByIndex(0).subtitle).not.toContain('${email}')
+    expect(flow.getStepByIndex(0).subtitle).not.toContain('${name}')
     const step = flow.steps.get(testFlowStepId)
     const customVariables = {
       name: 'John Doe',

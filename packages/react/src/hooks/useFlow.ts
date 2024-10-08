@@ -1,5 +1,5 @@
 import { type Flow } from '@frigade/js'
-import { useCallback, useContext, useState, useSyncExternalStore } from 'react'
+import { useCallback, useContext, useEffect, useState, useSyncExternalStore } from 'react'
 
 import { FrigadeContext } from '@/components/Provider'
 
@@ -55,11 +55,12 @@ export function useFlow(
     () => frigade?.getFlowSync(flowId)
   )
 
-  flow?.applyVariables({
-    ...variables,
-    ...config?.variables,
-  })
-
+  useEffect(() => {
+    flow?.applyVariables({
+      ...variables,
+      ...config?.variables,
+    })
+  }, [config?.variables, flowId, variables])
   return {
     flow,
     isLoading: frigade?.hasFailedToLoad() ? false : !flow,
