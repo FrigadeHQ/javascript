@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.7.21
+
+### Patch Changes
+
+- 7d96719: Fixes a minor bug where multiple flow back and forth navigations can result in a 2 page form to finish prematurely
+
 ## 0.7.20
 
 ### Patch Changes
