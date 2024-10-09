@@ -144,6 +144,8 @@ export class Flow extends Fetchable {
 
     if (this.getGlobalState().variables[this.id]) {
       this.applyVariablesInternal(this.getGlobalState().variables[this.id] ?? {})
+    } else {
+      this.applyVariablesInternal({})
     }
   }
 
@@ -167,9 +169,6 @@ export class Flow extends Fetchable {
    */
   private init() {
     const statefulFlow = this.getStatefulFlow()
-
-    this.resyncState()
-
     const newSteps = new Map<string, FlowStep>()
 
     statefulFlow.data.steps.forEach((step, index) => {
@@ -339,16 +338,8 @@ export class Flow extends Fetchable {
       newSteps.set(step.id, stepObj as FlowStep)
     })
     this.steps = newSteps
-    // Check if empty object
-    if (
-      this.getGlobalState().variables &&
-      this.getGlobalState().variables[this.id] &&
-      Object.keys(this.getGlobalState().variables[this.id]).length > 0
-    ) {
-      this.applyVariablesInternal(this.getGlobalState().variables[this.id])
-    } else {
-      this.applyVariablesInternal({})
-    }
+
+    this.resyncState()
   }
 
   /**
@@ -595,7 +586,10 @@ export class Flow extends Fetchable {
       })
     }
 
-    this.getGlobalState().variables[this.id] = variables
+    this.getGlobalState().variables[this.id] = {
+      ...this.getGlobalState().variables[this.id],
+      ...variables,
+    }
 
     if (resyncState) {
       this.resyncState()

@@ -61,6 +61,7 @@ export function useFlow(
       ...config?.variables,
     })
   }, [config?.variables, flowId, variables])
+
   return {
     flow,
     isLoading: frigade?.hasFailedToLoad() ? false : !flow,
