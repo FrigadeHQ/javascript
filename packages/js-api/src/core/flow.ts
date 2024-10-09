@@ -232,7 +232,7 @@ export class Flow extends Fetchable {
         const isLastIncompleteStep =
           Array.from(this.steps.values()).filter(
             (step) => step.$state.visible && !step.$state.completed && !step.$state.skipped
-          ).length === 1
+          ).length === 1 && isLastStep
 
         if (optimistic) {
           const copy = clone(this.getGlobalState().flowStates[this.id])

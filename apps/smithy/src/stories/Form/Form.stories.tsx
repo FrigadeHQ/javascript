@@ -84,6 +84,7 @@ export const CustomForm = {
       console.log("Secondary");
       return true;
     },
+    onComplete: (e, properties) => console.log("Complete", e, properties),
   },
 };
 

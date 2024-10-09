@@ -94,6 +94,10 @@ export function FormStep({
     }
   }, [fieldDatas])
 
+  useEffect(() => {
+    formContext.trigger()
+  }, [step.id])
+
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const fields = []

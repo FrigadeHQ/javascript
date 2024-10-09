@@ -32,12 +32,12 @@ export function useFlowHandlers(flow: Flow, { onComplete, onDismiss }: FlowHandl
 
     async function callHandler() {
       if (flow.isCompleted && lastCompleted.current === false) {
+        lastCompleted.current = true
         await onComplete?.(flow)
       }
     }
 
     callHandler()
-
     lastCompleted.current = flow?.isCompleted
     return () => {
       callHandler()
