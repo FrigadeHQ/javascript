@@ -95,7 +95,13 @@ export function FormStep({
   }, [fieldDatas])
 
   useEffect(() => {
-    formContext.trigger()
+    if (
+      Object.keys(formContext.formState.dirtyFields).some((field) =>
+        fieldDatas.some((data) => data.id === field)
+      )
+    ) {
+      formContext.trigger()
+    }
   }, [step.id])
 
   const [isSubmitting, setIsSubmitting] = useState(false)
