@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.5.23
+
+### Patch Changes
+
+- 7d96719: Fixes a minor bug where multiple flow back and forth navigations can result in a 2 page form to finish prematurely
+- Updated dependencies [7d96719]
+  - @frigade/js@0.7.21
+
 ## 2.5.22
 
 ### Patch Changes
