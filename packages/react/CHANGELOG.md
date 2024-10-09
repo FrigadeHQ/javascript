@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.5.24
+
+### Patch Changes
+
+- 595957b: Fixes an issue where form state triggers on step change even if no fields are dirty
+
 ## 2.5.23
 
 ### Patch Changes
