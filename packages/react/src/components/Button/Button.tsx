@@ -1,3 +1,5 @@
+import * as React from 'react'
+
 import { Box, type BoxProps } from '@/components/Box'
 import { Text } from '@/components/Text'
 
@@ -12,20 +14,24 @@ export interface ButtonProps extends BoxProps {
   loading?: boolean
 }
 
-function BaseButton({ as, children, part, title, variant = 'Primary', ...props }: ButtonProps) {
+const BaseButton = React.forwardRef(function BaseButtonWithRef(
+  { as, children, part, title, variant = 'Primary', ...props }: ButtonProps,
+  ref
+) {
   const variantPart = variant.toLocaleLowerCase()
 
   return (
     <Box
       as={as ?? 'button'}
-      part={[`button-${variantPart}`, part]}
-      {...styles[variant]}
       css={{
         ...(props.css ?? {}),
         ...(props.loading ? loadingCSSStyle : {}),
       }}
-      {...props}
       loading={undefined}
+      part={[`button-${variantPart}`, part]}
+      ref={ref}
+      {...props}
+      {...styles[variant]}
     >
       {children}
       {title && (
@@ -46,36 +52,52 @@ function BaseButton({ as, children, part, title, variant = 'Primary', ...props }
       )}
     </Box>
   )
-}
+})
 
-export function Primary({ children, ...props }: ButtonProps) {
+export const Primary = React.forwardRef(function PrimaryWithRef(
+  { children, ...props }: ButtonProps,
+  ref
+) {
   return (
-    <BaseButton {...props} variant="Primary">
+    <BaseButton {...props} ref={ref} variant="Primary">
       {children}
     </BaseButton>
   )
-}
+})
+Primary.displayName = 'Button.Primary'
 
-export function Secondary({ children, ...props }: ButtonProps) {
+export const Secondary = React.forwardRef(function SecondaryWithRef(
+  { children, ...props }: ButtonProps,
+  ref
+) {
   return (
-    <BaseButton {...props} variant="Secondary">
+    <BaseButton {...props} ref={ref} variant="Secondary">
       {children}
     </BaseButton>
   )
-}
+})
+Secondary.displayName = 'Button.Secondary'
 
-export function Link({ children, ...props }: ButtonProps) {
+export const Link = React.forwardRef(function LinkWithRef(
+  { children, ...props }: ButtonProps,
+  ref
+) {
   return (
-    <BaseButton {...props} variant="Link">
+    <BaseButton {...props} ref={ref} variant="Link">
       {children}
     </BaseButton>
   )
-}
+})
+Link.displayName = 'Button.Link'
 
-export function Plain({ children, ...props }: ButtonProps) {
+export const Plain = React.forwardRef(function PlainWithRef(
+  { children, ...props }: ButtonProps,
+  ref
+) {
   return (
-    <BaseButton {...props} variant="Plain">
+    <BaseButton {...props} ref={ref} variant="Plain">
       {children}
     </BaseButton>
   )
-}
+})
+Plain.displayName = 'Button.Plain'

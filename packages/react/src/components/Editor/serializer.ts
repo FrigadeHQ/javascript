@@ -1,8 +1,40 @@
 import * as React from 'react'
 
-import { SortableCard, SortableSubtitle, SortableTitle } from './SortableCard'
+import {
+  SortableCard,
+  SortablePrimary,
+  SortableRow,
+  SortableSecondary,
+  SortableSubtitle,
+  SortableTitle,
+} from './SortableCard'
 
-export function flatSerialize(element, acc = {}, parent = null) {
+export interface SerializedTree {
+  elements: Record<
+    string,
+    {
+      children: string[]
+      props: Record<string, unknown>
+      type: string
+    }
+  >
+  root: string
+}
+
+export const componentMap = {
+  'Button.Primary': SortablePrimary,
+  'Button.Secondary': SortableSecondary,
+  Card: SortableCard,
+  'Card.Title': SortableTitle,
+  'Card.Subtitle': SortableSubtitle,
+  'Flex.Row': SortableRow,
+}
+
+export function flatSerialize(
+  element: React.ReactElement,
+  acc = {},
+  parent = null
+): string | SerializedTree {
   if (typeof element === 'string') {
     return element
   }
@@ -11,23 +43,18 @@ export function flatSerialize(element, acc = {}, parent = null) {
 
   if (parent != null) {
     parent.children.push(key)
-    // parent.props.items.push(key)
   }
 
   const { children, ...props } = element.props ?? {}
 
-  // if (!props.id) {
-  //   props.id = key
-  // }
-
   acc[key] = {
+    // @ts-expect-error Need to use a type that includes displayName on ReactElement
     type: typeof element.type === 'string' ? element.type : element.type.displayName,
     props,
   }
 
   if (Array.isArray(children)) {
     acc[key].children = []
-    // acc[key].props.items = []
 
     for (const child of children) {
       flatSerialize(child, acc, acc[key])
@@ -36,7 +63,6 @@ export function flatSerialize(element, acc = {}, parent = null) {
     acc[key].children = children
   } else if (children?.type?.displayName != null) {
     acc[key].children = []
-    // acc[key].props.items = []
 
     flatSerialize(children, acc, acc[key])
   }
@@ -72,10 +98,4 @@ export function hydrateElement(elementId, elements) {
   }
 
   return React.createElement(componentMap[element.type], props)
-}
-
-export const componentMap = {
-  Card: SortableCard,
-  'Card.Title': SortableTitle,
-  'Card.Subtitle': SortableSubtitle,
 }

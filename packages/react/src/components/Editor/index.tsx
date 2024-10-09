@@ -3,19 +3,47 @@ import {
   DragOverlay,
   closestCenter,
   closestCorners,
-  KeyboardSensor,
   PointerSensor,
+  pointerWithin,
+  rectIntersection,
   useSensor,
   useSensors,
 } from '@dnd-kit/core'
 import { arrayMove } from '@dnd-kit/sortable'
-import React, { useState } from 'react'
+import { useEffect, useState } from 'react'
 
+import { Button } from '@/components/Button'
 import { Card } from '@/components/Card'
 import { Flex } from '@/components/Flex'
 import { Text } from '@/components/Text'
 
-import { flatSerialize, flatDeserialize, hydrateElement } from '@/components/Editor/serializer'
+import { useFlow } from '@/hooks/useFlow'
+
+import {
+  flatSerialize,
+  flatDeserialize,
+  hydrateElement,
+  type SerializedTree,
+} from '@/components/Editor/serializer'
+
+function collision(args) {
+  // First, let's see if there are any collisions with the pointer
+  const pointerCollisions = pointerWithin(args)
+
+  // Collision detection algorithms return an array of collisions
+  if (pointerCollisions.length > 0) {
+    return pointerCollisions
+  }
+
+  const cornerCollisions = closestCorners(args)
+
+  if (cornerCollisions.length > 0) {
+    return cornerCollisions
+  }
+
+  // If there are no collisions with the pointer, return rectangle intersections
+  return rectIntersection(args)
+}
 
 export function Editor() {
   const sensors = useSensors(
@@ -24,48 +52,74 @@ export function Editor() {
         distance: 10,
       },
     })
-    // useSensor(KeyboardSensor, {
-    //   coordinateGetter: sortableKeyboardCoordinates,
-    // })
   )
 
   const [activeId, setActiveId] = useState(null)
 
-  const init = (
-    <Card borderWidth="md">
-      <Card.Title>Title</Card.Title>
-      <Card.Subtitle>Subtitle</Card.Subtitle>
-    </Card>
-  )
+  const { flow } = useFlow('flow_xw9xq7yc')
 
-  const bullpenInit = (
-    <Card backgroundColor="neutral.800" id="bullpen">
-      <Card.Title id="new-title">New title</Card.Title>
-    </Card>
-  )
+  const step = flow?.getCurrentStep()
 
-  const serializedInit = flatSerialize(init)
-  const serializedBullpen = flatSerialize(bullpenInit)
+  // console.log(step)
 
-  for (const [itemId, item] of Object.entries(serializedBullpen.elements)) {
-    serializedInit.elements[itemId] = item
+  useEffect(() => {
+    if (step != null) {
+      setSerializedTree(getSerializedInit())
+    }
+  }, [step])
+
+  function getSerializedInit() {
+    const init = (
+      <Card borderWidth="md">
+        <Card.Title>{step?.title}</Card.Title>
+        <Card.Subtitle>{step?.subtitle}</Card.Subtitle>
+        <Flex.Row>
+          <Button.Primary title={step?.primaryButton.title} />
+          <Button.Secondary title="Secondary Button" />
+        </Flex.Row>
+      </Card>
+    )
+
+    const bullpenInit = (
+      <Card backgroundColor="neutral.800" id="bullpen">
+        <Card.Title id="new-title">New title</Card.Title>
+      </Card>
+    )
+
+    const serializedInit = flatSerialize(init) as SerializedTree
+    const serializedBullpen = flatSerialize(bullpenInit) as SerializedTree
+
+    for (const [itemId, item] of Object.entries(serializedBullpen.elements)) {
+      serializedInit.elements[itemId] = item
+    }
+
+    serializedBullpen.elements = serializedInit.elements
+
+    return serializedInit
   }
 
-  serializedBullpen.elements = serializedInit.elements
-
-  const [serializedTree, setSerializedTree] = useState(serializedInit)
+  const [serializedTree, setSerializedTree] = useState(getSerializedInit())
 
   // console.log(serializedTree)
 
   const deserializedTree = flatDeserialize(serializedTree)
 
-  function moveBetweenContainers({ active, activeContainer, over, overContainer }) {
+  function moveBetweenContainers({ active, over }) {
+    const activeContainerId = active.data.current?.sortable?.containerId
+    const activeContainer = serializedTree.elements[activeContainerId]
+    const overContainerId = over.data.current?.sortable?.containerId ?? over.id
+    const overContainer = serializedTree.elements[overContainerId]
+
     const newOverContainer = { ...overContainer }
 
     const overItems = newOverContainer.children
     const overIndex = overItems.indexOf(over.id)
 
-    console.log('OVER INDEX: ', overIndex)
+    // Don't attempt to move an item into its own children
+    // TODO: DFS to handle deeply nested cases, e.g. moving an item into its children's children
+    if (active.id === overContainerId) {
+      return
+    }
 
     if (overIndex === -1) {
       newOverContainer.children.push(active.id)
@@ -78,7 +132,7 @@ export function Editor() {
         ...tree,
         elements: {
           ...tree.elements,
-          [overContainer.props.id]: newOverContainer,
+          [overContainerId]: newOverContainer,
         },
       }
 
@@ -89,10 +143,10 @@ export function Editor() {
 
         newActiveContainer.children.splice(activeIndex, 1)
 
-        newTree.elements[activeContainer.props.id] = newActiveContainer
+        newTree.elements[activeContainerId] = newActiveContainer
       }
 
-      console.log('MOVE BETWEEN: ', newTree)
+      // console.log('MOVE BETWEEN: ', newTree)
 
       return newTree
     })
@@ -119,8 +173,6 @@ export function Editor() {
         },
       }
 
-      console.log('MOVE WITHIN: ', newTree)
-
       return newTree
     })
   }
@@ -130,16 +182,15 @@ export function Editor() {
       return
     }
 
+    // console.log('OVER: ', over, active, over.id === active.id)
+    // return
+
     const activeContainerId = active.data.current?.sortable?.containerId
-    const activeContainer = serializedTree.elements[activeContainerId]
     const overContainerId = over.data.current?.sortable?.containerId ?? over.id
-    const overContainer = serializedTree.elements[overContainerId]
 
     if (overContainerId) {
-      console.log('OVER: ', activeContainerId, overContainerId)
-
       if (activeContainerId != overContainerId) {
-        moveBetweenContainers({ active, activeContainer, over, overContainer })
+        moveBetweenContainers({ active, over })
       } else {
         moveWithinContainer({ active, over })
       }
@@ -152,21 +203,17 @@ export function Editor() {
     }
 
     const activeContainerId = active.data.current?.sortable?.containerId
-    const activeContainer = serializedTree.elements[activeContainerId]
     const overContainerId = over.data.current?.sortable?.containerId ?? over.id
-    const overContainer = serializedTree.elements[overContainerId]
 
     if (overContainerId) {
-      console.log('OVER: ', activeContainerId, overContainerId)
-
       if (activeContainerId != overContainerId) {
-        moveBetweenContainers({ active, activeContainer, over, overContainer })
+        moveBetweenContainers({ active, over })
       } else {
         moveWithinContainer({ active, over })
       }
     }
 
-    console.log('DRAG END: ', serializedTree)
+    // console.log('DRAG END: ', serializedTree)
 
     setActiveId(null)
   }
@@ -183,14 +230,12 @@ export function Editor() {
     return null
   }
 
-  // console.log('#### D TREE: ', deserializedTree)
-  // console.log('DC: ', bullpen, deserializedBullpen)
-
   return (
     <DndContext
       sensors={sensors}
-      // collisionDetection={closestCenter}
-      collisionDetection={closestCorners}
+      collisionDetection={collision}
+      //collisionDetection={closestCenter}
+      //collisionDetection={closestCorners}
       onDragEnd={handleDragEnd}
       onDragOver={handleDragOver}
       onDragStart={handleDragStart}
