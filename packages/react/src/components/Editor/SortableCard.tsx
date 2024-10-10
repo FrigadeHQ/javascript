@@ -31,7 +31,8 @@ function SortableItem({ component, id, ...props }) {
   return (
     <Component
       // contentEditable={true}
-      outline={0}
+      // outline={0}
+      data-sortable-id={id}
       ref={setNodeRef}
       style={style}
       userSelect="none"
@@ -55,7 +56,7 @@ export function SortableCard({ children, id, items = [], ...props }) {
 
   return (
     <SortableContext id={id} items={items} strategy={verticalListSortingStrategy}>
-      <Card ref={setNodeRef} gap="0" {...props}>
+      <Card data-sortable-id={id} gap="0" ref={setNodeRef} {...props}>
         {sortedChildren}
       </Card>
     </SortableContext>
@@ -105,6 +106,7 @@ export function SortableRow({ children, id, items = [], ...props }) {
   return (
     <SortableContext id={id} items={items}>
       <Flex.Row
+        data-sortable-id={id}
         gap="4"
         // minHeight="40px"
         ref={setNodeRef}

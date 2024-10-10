@@ -12,6 +12,7 @@ import {
 import { arrayMove } from '@dnd-kit/sortable'
 import { useEffect, useState } from 'react'
 
+import { Box } from '@/components/Box'
 import { Button } from '@/components/Button'
 import { Card } from '@/components/Card'
 import { Flex } from '@/components/Flex'
@@ -55,6 +56,8 @@ export function Editor() {
   )
 
   const [activeId, setActiveId] = useState(null)
+  const [selectedId, setSelectedId] = useState(null)
+  const [, setForceRender] = useState(0)
 
   const { flow } = useFlow('flow_xw9xq7yc')
 
@@ -82,7 +85,7 @@ export function Editor() {
 
     const bullpenInit = (
       <Card backgroundColor="neutral.800" id="bullpen">
-        <Card.Title id="new-title">New title</Card.Title>
+        {/* <Card.Title id="new-title">New title</Card.Title> */}
       </Card>
     )
 
@@ -220,6 +223,7 @@ export function Editor() {
 
   function handleDragStart({ active }) {
     setActiveId(active.id)
+    setSelectedId(active.id)
   }
 
   function getDragOverlay(elementId) {
@@ -228,6 +232,35 @@ export function Editor() {
     }
 
     return null
+  }
+
+  function handlePropChange(name, value) {
+    console.log(name, value)
+
+    setSerializedTree((tree) => {
+      const newElement = { ...tree.elements[selectedId] }
+
+      newElement.props = {
+        ...newElement.props,
+        [name]: value,
+      }
+
+      return {
+        ...tree,
+        elements: {
+          ...tree.elements,
+          [selectedId]: newElement,
+        },
+      }
+    })
+
+    setForceRender(Math.random())
+  }
+
+  function curryChange(name) {
+    return (e) => {
+      handlePropChange(name, e.target.value)
+    }
   }
 
   return (
@@ -241,17 +274,39 @@ export function Editor() {
       onDragStart={handleDragStart}
     >
       <Flex.Row gap="4">
-        <div style={{ width: '30%' }}>{hydrateElement('bullpen', serializedTree.elements)}</div>
+        <Box
+          css={{
+            [`[data-sortable-id="${selectedId}"]`]: {
+              outline: '1',
+            },
+          }}
+          width="30%"
+        >
+          {hydrateElement('bullpen', serializedTree.elements)}
+
+          {selectedId && (
+            <Card borderWidth="md" marginTop="4">
+              <div key="name">{serializedTree.elements[selectedId]?.type}</div>
+              {Object.entries({
+                backgroundColor: '',
+                border: '',
+                display: '',
+                margin: 0,
+                padding: 0,
+                ...serializedTree.elements[selectedId]?.props,
+              }).map(([key, val]) => {
+                return (
+                  <div key={key}>
+                    <Text.Caption>{key}</Text.Caption>
+                    <input onChange={curryChange(key)} type="text" value={val} />
+                  </div>
+                )
+              })}
+            </Card>
+          )}
+        </Box>
         <div style={{ width: '70%' }}>{deserializedTree}</div>
       </Flex.Row>
-
-      {/* <Text.H2 mb="2">Available components:</Text.H2>
-      {hydrateElement('bullpen', serializedTree.elements)}
-
-      <Text.H2 mb="2" mt="5">
-        Template:
-      </Text.H2>
-      {deserializedTree} */}
 
       <Text.H4 mb="2" mt="5">
         Serialized template:
