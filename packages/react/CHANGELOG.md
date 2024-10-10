@@ -1,5 +1,12 @@
 # @frigade/react
 
+## 2.5.25
+
+### Patch Changes
+
+- e9053ec: Partially de-flake Form tests
+- 1eef79d: Fix dismissible prop in Tour
+
 ## 2.5.24
 
 ### Patch Changes
