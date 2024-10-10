@@ -81,7 +81,6 @@ export function Tour({ as, flowId, ...props }: TourProps) {
           autoScroll = false,
           container = 'body',
           defaultOpen,
-          dismissible = false,
           modal,
           part,
           sequential = true,
@@ -91,6 +90,8 @@ export function Tour({ as, flowId, ...props }: TourProps) {
           zIndex = 9999,
           ...containerProps
         } = parentProps.containerProps as Partial<TourProps>
+
+        const { dismissible } = parentProps
 
         const sequentialStepProps = {
           align,
