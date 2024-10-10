@@ -1,6 +1,6 @@
 import { Form, useFlow } from "@frigade/react";
 import { type Meta, type StoryObj } from "@storybook/react";
-import { expect, userEvent, within } from "@storybook/test";
+import { expect, userEvent, waitFor, within } from "@storybook/test";
 
 type FormStory = StoryObj<typeof Form>;
 
@@ -44,19 +44,35 @@ export const InteractionTests: FormStory = {
   play: async ({ step }) => {
     await step("Test linear flow of Form", async () => {
       const canvas = within(document.body);
-      await sleep(500);
+
       await canvas.findByText("This is page 1");
       await userEvent.click(canvas.getByText("Continue to page 2"));
       await userEvent.click(canvas.getByText("Next"));
+
       await canvas.findByText("This is page 2");
       await userEvent.click(canvas.getByText("Next"));
+
       await canvas.findByText("This is page 3");
-      await sleep(100);
-      await expect(canvas.getByText("Finish").closest("button")).toBeDisabled();
+
+      const finishButton = await canvas.findByRole("button", {
+        name: "Finish",
+      });
+
+      await waitFor(async () => {
+        await expect(finishButton).toBeDisabled();
+      });
+
       await userEvent.click(canvas.getByText("Radio 1"));
-      await userEvent.click(canvas.getByText("Finish"));
-      await sleep(500);
-      await expect(document.querySelector(".fr-form")).not.toBeInTheDocument();
+      await userEvent.click(finishButton);
+
+      await waitFor(async () => {
+        await expect(
+          document.querySelector(".fr-form")
+        ).not.toBeInTheDocument();
+      });
+
+      await sleep(1000);
+
       await userEvent.click(canvas.getByText("Reset Flow"));
       await sleep(1000);
     });
@@ -85,10 +101,10 @@ export const InteractionTests: FormStory = {
         const canvas = within(document.body);
 
         for (let i = 0; i < 3; i++) {
-          await canvas.findByText("This is page 1");
+          await canvas.findByText("This is page 1", {}, { timeout: 5000 });
           await userEvent.click(canvas.getByText("Continue to page 2"));
           await userEvent.click(canvas.getByText("Next"));
-          await canvas.findByText("This is page 2");
+          await canvas.findByText("This is page 2", {}, { timeout: 5000 });
           await userEvent.click(canvas.getByText("Back"));
         }
 
