@@ -29,18 +29,18 @@ import {
 
 function collision(args) {
   // First, let's see if there are any collisions with the pointer
-  const pointerCollisions = pointerWithin(args)
+  // const pointerCollisions = pointerWithin(args)
 
   // Collision detection algorithms return an array of collisions
-  if (pointerCollisions.length > 0) {
-    return pointerCollisions
-  }
+  // if (pointerCollisions.length > 0) {
+  //   return pointerCollisions
+  // }
 
-  const cornerCollisions = closestCorners(args)
+  // const cornerCollisions = closestCorners(args)
 
-  if (cornerCollisions.length > 0) {
-    return cornerCollisions
-  }
+  // if (cornerCollisions.length > 0) {
+  //   return cornerCollisions
+  // }
 
   // If there are no collisions with the pointer, return rectangle intersections
   return rectIntersection(args)
@@ -85,7 +85,7 @@ export function Editor() {
 
     const bullpenInit = (
       <Card backgroundColor="neutral.800" id="bullpen">
-        {/* <Card.Title id="new-title">New title</Card.Title> */}
+        <Card.Title id="new-title">New title</Card.Title>
       </Card>
     )
 
@@ -263,6 +263,27 @@ export function Editor() {
     }
   }
 
+  function handleSelectElement(e) {
+    const sortableId = findClosestSortableId(e.target)
+
+    if (sortableId !== null) {
+      console.log(sortableId)
+      setSelectedId(sortableId)
+    }
+  }
+
+  function findClosestSortableId(element: Element) {
+    if (element.hasAttribute('data-sortable-id')) {
+      return element.getAttribute('data-sortable-id')
+    }
+
+    if (element.parentElement != null) {
+      return findClosestSortableId(element.parentElement)
+    }
+
+    return null
+  }
+
   return (
     <DndContext
       sensors={sensors}
@@ -273,20 +294,30 @@ export function Editor() {
       onDragOver={handleDragOver}
       onDragStart={handleDragStart}
     >
-      <Flex.Row gap="4">
-        <Box
-          css={{
-            [`[data-sortable-id="${selectedId}"]`]: {
-              outline: '1',
+      <Flex.Row
+        css={{
+          [`& [data-sortable-id="${selectedId}"]`]: {
+            position: 'relative',
+            '&:after': {
+              borderRadius: 0,
+              content: '""',
+              display: 'block',
+              inset: '-1px',
+              outline: 'solid #B026FF',
+              position: 'absolute',
             },
-          }}
-          width="30%"
-        >
+          },
+        }}
+        gap="4"
+      >
+        <Box width="30%">
           {hydrateElement('bullpen', serializedTree.elements)}
 
           {selectedId && (
-            <Card borderWidth="md" marginTop="4">
-              <div key="name">{serializedTree.elements[selectedId]?.type}</div>
+            <Card borderWidth="md" flexFlow="row wrap" marginTop="4">
+              <Box flexBasis="100%" key="name">
+                {serializedTree.elements[selectedId]?.type}
+              </Box>
               {Object.entries({
                 backgroundColor: '',
                 border: '',
@@ -296,16 +327,29 @@ export function Editor() {
                 ...serializedTree.elements[selectedId]?.props,
               }).map(([key, val]) => {
                 return (
-                  <div key={key}>
-                    <Text.Caption>{key}</Text.Caption>
-                    <input onChange={curryChange(key)} type="text" value={val} />
-                  </div>
+                  <Flex.Row flexBasis="50%" key={key}>
+                    <Text.Caption fontWeight="bold" marginRight="2">
+                      {key}
+                    </Text.Caption>
+                    <Box
+                      as="input"
+                      display="inline-block"
+                      fontSize="xs"
+                      marginLeft="auto"
+                      onChange={curryChange(key)}
+                      type="text"
+                      value={val}
+                      width="40px"
+                    />
+                  </Flex.Row>
                 )
               })}
             </Card>
           )}
         </Box>
-        <div style={{ width: '70%' }}>{deserializedTree}</div>
+        <Box onClick={handleSelectElement} width="70%">
+          {deserializedTree}
+        </Box>
       </Flex.Row>
 
       <Text.H4 mb="2" mt="5">

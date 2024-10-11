@@ -22,8 +22,10 @@ function SortableItem({ component, id, ...props }) {
   })
 
   const style = {
+    backgroundColor: isDragging ? '#f3F3F3' : undefined,
+    color: isDragging ? 'transparent' : undefined,
     cursor: isDragging ? 'grabbing' : 'grab',
-    opacity: isDragging ? 0 : 1,
+    // opacity: isDragging ? 0 : 1,
     transform: CSS.Transform.toString(transform),
     transition,
   }
@@ -31,7 +33,6 @@ function SortableItem({ component, id, ...props }) {
   return (
     <Component
       // contentEditable={true}
-      // outline={0}
       data-sortable-id={id}
       ref={setNodeRef}
       style={style}
@@ -56,7 +57,7 @@ export function SortableCard({ children, id, items = [], ...props }) {
 
   return (
     <SortableContext id={id} items={items} strategy={verticalListSortingStrategy}>
-      <Card data-sortable-id={id} gap="0" ref={setNodeRef} {...props}>
+      <Card data-sortable-id={id} ref={setNodeRef} {...props}>
         {sortedChildren}
       </Card>
     </SortableContext>
@@ -64,25 +65,10 @@ export function SortableCard({ children, id, items = [], ...props }) {
 }
 SortableCard.displayName = 'Card'
 
-export function SortableSubtitle(props) {
-  return <SortableItem component={Card.Subtitle} {...props} />
-}
-SortableSubtitle.displayName = 'Card.Subtitle'
-
-export function SortableTitle(props) {
-  return <SortableItem component={Card.Title} {...props} />
-}
-SortableTitle.displayName = 'Card.Title'
-
 export function SortablePrimary(props) {
   return <SortableItem component={Button.Primary} {...props} />
 }
 SortablePrimary.displayName = 'Button.Primary'
-
-export function SortableSecondary(props) {
-  return <SortableItem component={Button.Secondary} {...props} />
-}
-SortableSecondary.displayName = 'Button.Secondary'
 
 export function SortableRow({ children, id, items = [], ...props }) {
   const { active, attributes, isDragging, isOver, listeners, setNodeRef, transform, transition } =
@@ -121,3 +107,18 @@ export function SortableRow({ children, id, items = [], ...props }) {
   )
 }
 SortableCard.displayName = 'Flex.Row'
+
+export function SortableSecondary(props) {
+  return <SortableItem component={Button.Secondary} {...props} />
+}
+SortableSecondary.displayName = 'Button.Secondary'
+
+export function SortableSubtitle(props) {
+  return <SortableItem css={{ '& *': { margin: 0 } }} component={Card.Subtitle} {...props} />
+}
+SortableSubtitle.displayName = 'Card.Subtitle'
+
+export function SortableTitle(props) {
+  return <SortableItem component={Card.Title} {...props} />
+}
+SortableTitle.displayName = 'Card.Title'
