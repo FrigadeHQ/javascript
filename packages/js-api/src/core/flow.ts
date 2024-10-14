@@ -536,6 +536,9 @@ export class Flow extends Fetchable {
     this.applyVariablesInternal(variables, true)
   }
 
+  /**
+   * @ignore
+   */
   private applyVariablesInternal(variables: Record<string, any>, resyncState: boolean = false) {
     // Replace ${variable} with the value of the variable
     const replaceVariables = (str: string) => {
