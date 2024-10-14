@@ -19,7 +19,8 @@ export interface TourProps extends FlowPropsWithoutChildren, Omit<HintProps, 'an
    */
   autoScroll?: boolean
   /**
-   * Specify a container in the DOM render the Tour into
+   * Specify a container in the DOM render the Tour into.
+   * Use this to render the Tour into a different container/scrollable ancestor.
    */
   container?: ClientPortalProps['container']
   /**
