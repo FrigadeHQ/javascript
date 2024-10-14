@@ -73,13 +73,13 @@ export function flatSerialize(
   }
 }
 
-export function flatDeserialize(serialized) {
-  const parsed = typeof serialized === 'string' ? JSON.parse(serialized) : serialized
+export function flatDeserialize(template, components = componentMap) {
+  const parsed = typeof template === 'string' ? JSON.parse(template) : template
 
-  return hydrateElement(parsed.root, parsed.elements)
+  return hydrateElement({ elementId: parsed.root, elements: parsed.elements, components })
 }
 
-export function hydrateElement(elementId, elements) {
+export function hydrateElement({ components, elementId, elements }) {
   const element = elements[elementId]
 
   if (element == null) {
@@ -93,11 +93,13 @@ export function hydrateElement(elementId, elements) {
   }
 
   if (Array.isArray(element.children)) {
-    props.children = element.children.map((childId) => hydrateElement(childId, elements))
+    props.children = element.children.map((childId) =>
+      hydrateElement({ components, elementId: childId, elements })
+    )
     props.items = element.children
   } else {
     props.children = element.children
   }
 
-  return React.createElement(componentMap[element.type], props)
+  return React.createElement(components[element.type], props)
 }

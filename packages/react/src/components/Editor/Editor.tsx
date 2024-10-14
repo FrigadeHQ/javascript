@@ -71,11 +71,6 @@ export function Editor() {
           </Box>
         </Flex.Row>
 
-        {/*<Text.H4 mb="2" mt="5">
-        Serialized template:
-      </Text.H4>
-       <pre style={{ width: '100%' }}>{JSON.stringify(serializedTree, null, 2)}</pre> */}
-
         <DragOverlay />
       </DndContextWrapper>
     </EditorProvider>

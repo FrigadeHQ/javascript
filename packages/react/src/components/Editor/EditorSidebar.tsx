@@ -5,7 +5,7 @@ import { Text } from '@/components/Text'
 
 import { useEditorContext } from '@/components/Editor/useEditorContext'
 
-import { hydrateElement } from '@/components/Editor/serializer'
+import { componentMap, hydrateElement } from '@/components/Editor/serializer'
 
 export function EditorSidebar() {
   const { selectedId, serializedTree, setSerializedTree } = useEditorContext()
@@ -37,7 +37,11 @@ export function EditorSidebar() {
 
   return (
     <>
-      {hydrateElement('bullpen', serializedTree.elements)}
+      {hydrateElement({
+        components: componentMap,
+        elementId: 'bullpen',
+        elements: serializedTree.elements,
+      })}
 
       {selectedId && (
         <Card borderWidth="md" flexFlow="row wrap" marginTop="4">

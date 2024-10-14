@@ -9,8 +9,6 @@ export * as Checklist from './components/Checklist'
 export type { CollapsibleProps, CollapsibleStepProps } from './components/Checklist'
 export { Collection } from './components/Collection'
 export { Dialog, type DialogProps } from './components/Dialog'
-// TEMP: Export editor experiment
-export { Editor } from './components/Editor'
 export { Flex } from './components/Flex'
 export {
   type FieldTypes,
@@ -64,3 +62,7 @@ export {
 export { useFrigade } from './hooks/useFrigade'
 export { useUser } from './hooks/useUser'
 export { useGroup } from './hooks/useGroup'
+
+// TEMP: Export editor experiments
+export { Editor } from './components/Editor'
+export { TemplateFlow } from './components/Flow/TemplateFlow'

@@ -1,4 +1,5 @@
 import { Box } from '@/components/Box'
+import { Text } from '@/components/Text'
 
 import { useEditorContext } from '@/components/Editor/useEditorContext'
 import { flatDeserialize } from '@/components/Editor/serializer'
@@ -47,6 +48,11 @@ export function EditorPreview() {
       onClick={handleSelectElement}
     >
       {deserializedTree}
+
+      <Text.H4 mb="2" mt="5">
+        Serialized template:
+      </Text.H4>
+      <pre style={{ width: '100%' }}>{JSON.stringify(serializedTree, null, 2)}</pre>
     </Box>
   )
 }
