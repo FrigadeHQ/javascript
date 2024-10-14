@@ -82,7 +82,9 @@ export function flatDeserialize(serialized) {
 export function hydrateElement(elementId, elements) {
   const element = elements[elementId]
 
-  // console.log('#### HYDRATE: ', elementId, element, elements)
+  if (element == null) {
+    return null
+  }
 
   const props = {
     id: elementId,
