@@ -7,7 +7,7 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { Children } from 'react'
+import * as React from 'react'
 
 import { Box } from '@/components/Box'
 import { Button } from '@/components/Button'
@@ -49,7 +49,7 @@ export function SortableCard({ children, id, items = [], ...props }) {
 
   const { setNodeRef } = useDroppable({ id })
 
-  const sortedChildren = Children.toArray(children).sort(
+  const sortedChildren = React.Children.toArray(children).sort(
     (a, b) => items.indexOf(a.props.id) - items.indexOf(b.props.id)
   )
 
@@ -76,7 +76,7 @@ export function SortableRow({ children, id, items = [], ...props }) {
       id,
     })
 
-  const sortedChildren = Children.toArray(children).sort(
+  const sortedChildren = React.Children.toArray(children).sort(
     (a, b) => items.indexOf(a.props.id) - items.indexOf(b.props.id)
   )
 

@@ -5,7 +5,7 @@ import { Text } from '@/components/Text'
 
 import { useEditorContext } from '@/components/Editor/useEditorContext'
 
-import { componentMap, hydrateElement } from '@/components/Editor/serializer'
+import { editorComponents, hydrateElement } from '@/components/Editor/serializer'
 
 export function EditorSidebar() {
   const { selectedId, serializedTree, setSerializedTree } = useEditorContext()
@@ -38,7 +38,7 @@ export function EditorSidebar() {
   return (
     <>
       {hydrateElement({
-        components: componentMap,
+        components: editorComponents,
         elementId: 'bullpen',
         elements: serializedTree.elements,
       })}

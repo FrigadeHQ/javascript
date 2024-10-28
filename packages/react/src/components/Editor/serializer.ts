@@ -21,7 +21,16 @@ export interface SerializedTree {
   root: string
 }
 
-export const componentMap = {
+export interface ComponentMap {
+  [componentName: string]:
+    | React.ComponentType<unknown>
+    | {
+        component: React.ComponentType<unknown>
+        props?: Record<string, unknown>
+      }
+}
+
+export const editorComponents: ComponentMap = {
   'Button.Primary': SortablePrimary,
   'Button.Secondary': SortableSecondary,
   Card: SortableCard,
@@ -31,7 +40,7 @@ export const componentMap = {
 }
 
 export function flatSerialize(
-  element: React.ReactElement,
+  element: React.JSX.Element,
   acc = {},
   parent = null
 ): string | SerializedTree {
@@ -48,7 +57,6 @@ export function flatSerialize(
   const { children, ...props } = element.props ?? {}
 
   acc[key] = {
-    // @ts-expect-error Need to use a type that includes displayName on ReactElement
     type: typeof element.type === 'string' ? element.type : element.type.displayName,
     props,
   }
@@ -73,33 +81,52 @@ export function flatSerialize(
   }
 }
 
-export function flatDeserialize(template, components = componentMap) {
+export function flatDeserialize(template, components = editorComponents) {
   const parsed = typeof template === 'string' ? JSON.parse(template) : template
 
   return hydrateElement({ elementId: parsed.root, elements: parsed.elements, components })
 }
 
-export function hydrateElement({ components, elementId, elements }) {
+export function hydrateElement({
+  components,
+  elementId,
+  elements,
+}: {
+  components: ComponentMap
+  elementId: string
+  elements: SerializedTree['elements']
+}) {
   const element = elements[elementId]
+  const mappedComponent = components[element?.type]
 
-  if (element == null) {
+  let finalComponent: React.ComponentType
+
+  if ('component' in mappedComponent) {
+    finalComponent = mappedComponent.component
+  } else {
+    finalComponent = mappedComponent
+  }
+  // const { component, props } = typeof components[element?.type] === 'function' ? { component: components[element?.type], props: { }} : components[element?.type] ?? {}
+
+  if (element == null || finalComponent == null) {
     return null
   }
 
-  const props = {
+  const finalProps: Record<string, unknown> = {
     id: elementId,
     key: elementId,
     ...(element.props ?? {}),
+    ...('props' in mappedComponent ? mappedComponent.props : {}),
   }
 
   if (Array.isArray(element.children)) {
-    props.children = element.children.map((childId) =>
+    finalProps.children = element.children.map((childId) =>
       hydrateElement({ components, elementId: childId, elements })
     )
-    props.items = element.children
+    finalProps.items = element.children
   } else {
-    props.children = element.children
+    finalProps.children = element.children
   }
 
-  return React.createElement(components[element.type], props)
+  return React.createElement(finalComponent, finalProps)
 }

@@ -33,7 +33,6 @@ export const Default = {
         lateAnchorRef.current = (
           <Box
             borderRadius="10px"
-            id="tooltip-storybook-0"
             p={4}
             style={{ background: "pink", width: "200px" }}
           >

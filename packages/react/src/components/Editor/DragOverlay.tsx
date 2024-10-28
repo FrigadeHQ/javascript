@@ -2,7 +2,7 @@ import { DragOverlay as DndDragOverlay } from '@dnd-kit/core'
 
 import { useEditorContext } from '@/components/Editor/useEditorContext'
 
-import { componentMap, hydrateElement } from '@/components/Editor/serializer'
+import { editorComponents, hydrateElement } from '@/components/Editor/serializer'
 
 export function DragOverlay() {
   const { activeId, serializedTree } = useEditorContext()
@@ -10,7 +10,7 @@ export function DragOverlay() {
   function getDragOverlay(elementId) {
     if (serializedTree.elements[elementId] != null) {
       return hydrateElement({
-        components: componentMap,
+        components: editorComponents,
         elementId,
         elements: serializedTree.elements,
       })
