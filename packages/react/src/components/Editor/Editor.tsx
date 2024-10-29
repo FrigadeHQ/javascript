@@ -39,20 +39,7 @@ export function Editor() {
       </Card>
     )
 
-    const bullpenInit = (
-      <Card backgroundColor="neutral.800" id="bullpen">
-        <Card.Title id="new-title">New title</Card.Title>
-      </Card>
-    )
-
     const serializedInit = flatSerialize(init) as SerializedTree
-    const serializedBullpen = flatSerialize(bullpenInit) as SerializedTree
-
-    for (const [itemId, item] of Object.entries(serializedBullpen.elements)) {
-      serializedInit.elements[itemId] = item
-    }
-
-    serializedBullpen.elements = serializedInit.elements
 
     return serializedInit
   }

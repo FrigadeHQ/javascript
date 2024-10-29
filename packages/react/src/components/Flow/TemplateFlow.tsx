@@ -43,6 +43,44 @@ flatDeserialize({
 
 */
 
+/*
+
+Unified flow data + template
+
+- Add template data to YAML separate from existing step data, to avoid bloat / complexity in steps
+OR
+- Add template data directly into step data, to keep a step as an atomic / encapsulated object
+
+Separate:
+
+steps:
+  - id: stepA
+    ...
+    templateId: tplA
+templates:
+  - id: tplA
+    root: bar
+    elements: 
+      - bar:
+        ...
+      ...
+
+Together:
+
+steps:
+  - id: stepA
+    ...
+    template:
+      root: bar
+      elements: 
+        - bar:
+          type: Text.H3
+          props:
+            - color: fuchsia
+          children: How does this work?
+        ...
+*/
+
 export function TemplateFlow(props) {
   return (
     <Flow {...props}>

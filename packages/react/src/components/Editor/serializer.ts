@@ -48,7 +48,7 @@ export function flatSerialize(
     return element
   }
 
-  const key = element.key ?? element.props.id ?? crypto.randomUUID()
+  const key = element.key ?? element.props.id ?? crypto.randomUUID().split('-')[0]
 
   if (parent != null) {
     parent.children.push(key)
