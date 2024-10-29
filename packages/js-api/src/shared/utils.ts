@@ -43,14 +43,23 @@ export function getHeaders(config: FrigadeConfig) {
 
 function getLocalStorage(key: string) {
   if (isWeb()) {
-    return window.localStorage.getItem(`${LOCAL_STORAGE_PREFIX}${key}`)
+    try {
+      return window.localStorage.getItem(`${LOCAL_STORAGE_PREFIX}${key}`)
+    } catch (e) {
+      console.debug('Error getting localStorage:', e)
+      return null
+    }
   }
   return null
 }
 
 function setLocalStorage(key: string, value: string) {
   if (isWeb()) {
-    window.localStorage.setItem(`${LOCAL_STORAGE_PREFIX}${key}`, value)
+    try {
+      window.localStorage.setItem(`${LOCAL_STORAGE_PREFIX}${key}`, value)
+    } catch (e) {
+      console.debug('Error setting localStorage:', e)
+    }
   }
 }
 
