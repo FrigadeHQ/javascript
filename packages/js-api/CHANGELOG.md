@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.7.22
+
+### Patch Changes
+
+- e8de2d9: Adds a `try/catch` to localStorage getter/setter
+
 ## 0.7.21
 
 ### Patch Changes

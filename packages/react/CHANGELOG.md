@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.5.26
+
+### Patch Changes
+
+- e8de2d9: Adds a `try/catch` to localStorage getter/setter
+- Updated dependencies [e8de2d9]
+  - @frigade/js@0.7.22
+
 ## 2.5.25
 
 ### Patch Changes
