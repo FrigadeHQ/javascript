@@ -19,7 +19,7 @@ export function ElementList() {
   const hydrated = flatDeserialize(serializedTree, components)
 
   return (
-    <Box maxWidth="200px">
+    <Box maxWidth="200px" padding="3">
       <Text.Caption display="block" fontWeight="demibold" marginBottom="3">
         Elements
       </Text.Caption>

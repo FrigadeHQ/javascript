@@ -7,6 +7,14 @@ import { flatDeserialize } from '@/components/Editor/serializer'
 export function EditorPreview() {
   const { selectedId, serializedTree, setSelectedId } = useEditorContext()
 
+  function handleKeyDown(e) {
+    if (e.key === 'Escape') {
+      e.target.focus()
+      ;(document.activeElement as HTMLElement).blur()
+      setSelectedId(null)
+    }
+  }
+
   function handleSelectElement(e) {
     const sortableId = findClosestSortableId(e.target)
 
@@ -46,13 +54,17 @@ export function EditorPreview() {
         },
       }}
       onClick={handleSelectElement}
+      onKeyDown={handleKeyDown}
+      margin="auto"
+      maxWidth="400px"
+      tabIndex="0"
     >
       {deserializedTree}
 
-      <Text.H4 mb="2" mt="5">
+      {/* <Text.H4 mb="2" mt="5">
         Serialized template:
       </Text.H4>
-      <pre style={{ width: '100%' }}>{JSON.stringify(serializedTree, null, 2)}</pre>
+      <pre style={{ width: '100%' }}>{JSON.stringify(serializedTree, null, 2)}</pre> */}
     </Box>
   )
 }

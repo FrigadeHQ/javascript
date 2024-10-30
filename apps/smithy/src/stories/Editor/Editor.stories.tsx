@@ -8,7 +8,7 @@ export default {
 
 export const Default = {
   args: {
-    // nada
+    margin: "-1rem",
   },
 };
 

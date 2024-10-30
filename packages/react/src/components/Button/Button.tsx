@@ -30,8 +30,8 @@ const BaseButton = React.forwardRef(function BaseButtonWithRef(
       loading={undefined}
       part={[`button-${variantPart}`, part]}
       ref={ref}
-      {...props}
       {...styles[variant]}
+      {...props}
     >
       {children}
       {title && (
