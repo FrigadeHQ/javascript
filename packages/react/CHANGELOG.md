@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.5.27
+
+### Patch Changes
+
+- 76343a0: Allow video HTML props to be passed into Tour
+
 ## 2.5.26
 
 ### Patch Changes
