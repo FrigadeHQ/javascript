@@ -1,4 +1,7 @@
+import * as React from 'react'
 import { Box, BoxProps } from '@/components/Box'
+
+import { VIDEO_PROP_NAMES } from '@/components/Media/videoPropNames'
 
 function getVideoEmbedSrc(videoUri: string) {
   if (videoUri.includes('youtube')) {
@@ -26,17 +29,54 @@ function getVideoEmbedSrc(videoUri: string) {
   return null
 }
 
-export interface VideoProps extends BoxProps {
-  src: string
-}
+export type VideoPropName = (typeof VIDEO_PROP_NAMES)[number]
 
-export function Video({ part, src, ...props }: VideoProps) {
+export interface VideoProps
+  extends BoxProps,
+    Pick<React.VideoHTMLAttributes<HTMLVideoElement>, VideoPropName> {}
+
+export function Video({
+  autoPlay,
+  controls,
+  controlsList,
+  crossOrigin,
+  disablePictureInPicture,
+  disableRemotePlayback,
+  loop,
+  muted,
+  playsInline,
+  poster,
+  preload,
+  part,
+  src,
+  ...props
+}: VideoProps) {
   const videoEmbedSrc = getVideoEmbedSrc(src)
 
   if (!videoEmbedSrc) {
     // Check if it's a url that ends in .mp4
     if (src?.endsWith('.mp4')) {
-      return <Box as="video" controls part={['video', part]} src={src} {...props}></Box>
+      return (
+        <Box
+          as="video"
+          part={['video', part]}
+          src={src}
+          {...{
+            autoPlay,
+            controls: controls ?? true,
+            controlsList,
+            crossOrigin,
+            disablePictureInPicture,
+            disableRemotePlayback,
+            loop,
+            muted: muted ?? autoPlay,
+            playsInline,
+            poster,
+            preload,
+          }}
+          {...props}
+        />
+      )
     }
 
     console.error(
@@ -47,7 +87,7 @@ export function Video({ part, src, ...props }: VideoProps) {
 
   return (
     <Box
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; fullscreen; gyroscope; picture-in-picture"
       allowFullScreen
       as="iframe"
       backgroundColor="neutral.100"

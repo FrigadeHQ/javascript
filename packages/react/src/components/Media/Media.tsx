@@ -1,9 +1,7 @@
 import { Image } from './Image'
-import { Video } from './Video'
-import { BoxProps } from '@/components/Box'
+import { Video, type VideoProps } from './Video'
 
-export interface MediaProps extends BoxProps {
-  src: string
+export interface MediaProps extends VideoProps {
   type?: 'image' | 'video'
 }
 
