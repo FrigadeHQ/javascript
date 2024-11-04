@@ -529,36 +529,43 @@ export function useFlows() {
 
     return true
   }
+  const getStepStatus = useCallback(
+    (flowId: string, stepId: string): StepActionType | null => {
+      const maybeFlowResponse = getStepStateForFlow(flowId, stepId)
 
-  function getStepStatus(flowId: string, stepId: string): StepActionType | null {
-    const maybeFlowResponse = getStepStateForFlow(flowId, stepId)
+      if (isLoadingUserFlowStateData) {
+        return null
+      }
 
-    if (isLoadingUserFlowStateData) {
-      return null
-    }
+      return (maybeFlowResponse ? maybeFlowResponse.actionType : NOT_STARTED_STEP) as StepActionType
+    },
+    [userFlowStatesData, isLoadingUserFlowStateData]
+  )
+  const isStepBlocked = useCallback(
+    (flowId: string, stepId: string): boolean => {
+      const maybeFlowResponse = getStepStateForFlow(flowId, stepId)
 
-    return (maybeFlowResponse ? maybeFlowResponse.actionType : NOT_STARTED_STEP) as StepActionType
-  }
+      if (!maybeFlowResponse) {
+        return false
+      }
 
-  function isStepBlocked(flowId: string, stepId: string): boolean {
-    const maybeFlowResponse = getStepStateForFlow(flowId, stepId)
+      return maybeFlowResponse.blocked
+    },
+    [userFlowStatesData, isLoadingUserFlowStateData]
+  )
 
-    if (!maybeFlowResponse) {
-      return false
-    }
+  const isStepHidden = useCallback(
+    (flowId: string, stepId: string): boolean => {
+      const maybeFlowResponse = getStepStateForFlow(flowId, stepId)
 
-    return maybeFlowResponse.blocked
-  }
+      if (!maybeFlowResponse) {
+        return false
+      }
 
-  function isStepHidden(flowId: string, stepId: string): boolean {
-    const maybeFlowResponse = getStepStateForFlow(flowId, stepId)
-
-    if (!maybeFlowResponse) {
-      return false
-    }
-
-    return maybeFlowResponse.hidden
-  }
+      return maybeFlowResponse.hidden
+    },
+    [userFlowStatesData, isLoadingUserFlowStateData]
+  )
 
   function getStepStateForFlow(flowId: string, stepId: string): FlowResponse | null {
     if (isLoadingUserFlowStateData) {
@@ -615,79 +622,96 @@ export function useFlows() {
     return total === 0 ? undefined : completed / total
   }
 
-  function getFlowStatus(flowId: string) {
-    const userFlowState = userFlowStatesData?.find((f) => f.flowId === flowId)
-    if (!userFlowState) {
-      return null
-    }
-    return userFlowState.flowState
-  }
+  const getFlowStatus = useCallback(
+    (flowId: string) => {
+      const userFlowState = userFlowStatesData?.find((f) => f.flowId === flowId)
+      if (!userFlowState) {
+        return null
+      }
+      return userFlowState.flowState
+    },
+    [userFlowStatesData]
+  )
+  const getNumberOfStepsCompleted = useCallback(
+    (flowId: string): number => {
+      const steps = getFlowSteps(flowId)
+      if (steps.length === 0) {
+        return 0
+      }
 
-  function getNumberOfStepsCompleted(flowId: string): number {
-    const steps = getFlowSteps(flowId)
-    if (steps.length === 0) {
-      return 0
-    }
+      const completedSteps = steps.filter((s) => getStepStatus(flowId, s.id) === COMPLETED_STEP)
 
-    const completedSteps = steps.filter((s) => getStepStatus(flowId, s.id) === COMPLETED_STEP)
+      return completedSteps.length
+    },
+    [userFlowStatesData, isLoadingUserFlowStateData]
+  )
 
-    return completedSteps.length
-  }
-
-  function getNumberOfSteps(flowId: string) {
-    return getFlowSteps(flowId).length
-  }
+  const getNumberOfSteps = useCallback(
+    (flowId: string) => {
+      return getFlowSteps(flowId).length
+    },
+    [userFlowStatesData, isLoadingUserFlowStateData]
+  )
 
   /**
    * Generic method for getting the raw Flow data as a Javascript object.
    * For typescript, pass in T to get the correct type.
    * @param flowId
    */
-  function getFlowData<T>(flowId: string): T | null {
-    const maybeFlow = flows.find((f) => f.slug === flowId)
-    if (!maybeFlow) {
-      return null
-    }
-    if (flowDataOverrides && flowDataOverrides[flowId]) {
-      maybeFlow.data = flowDataOverrides[flowId]
-    }
-    return safeParse<T>(maybeFlow.data)
-  }
-
-  function targetingLogicShouldHideFlow(flow: Flow) {
-    if (readonly) {
-      return false
-    }
-    if (isLoadingUserFlowStateData) {
-      return true
-    }
-    if (shouldGracefullyDegrade) {
-      return true
-    }
-    if (flow?.targetingLogic && userFlowStatesData) {
-      // Iterate through matching userFlowState for the flow and if shouldTrigger is true, return false
-      const matchingUserFlowState = userFlowStatesData.find((ufs) => ufs.flowId === flow.slug)
-      if (matchingUserFlowState) {
-        return matchingUserFlowState.shouldTrigger === false
+  const getFlowData = useCallback(
+    <T>(flowId: string): T | null => {
+      const maybeFlow = flows.find((f) => f.slug === flowId)
+      if (!maybeFlow) {
+        return null
       }
-    }
-    if (flow?.targetingLogic && userId && userId.startsWith('guest_')) {
-      return true
-    }
+      if (flowDataOverrides && flowDataOverrides[flowId]) {
+        maybeFlow.data = flowDataOverrides[flowId]
+      }
+      return safeParse<T>(maybeFlow.data)
+    },
+    [flows, flowDataOverrides]
+  )
 
-    return false
-  }
+  const targetingLogicShouldHideFlow = useCallback(
+    (flow: Flow) => {
+      if (readonly) {
+        return false
+      }
+      if (isLoadingUserFlowStateData) {
+        return true
+      }
+      if (shouldGracefullyDegrade) {
+        return true
+      }
+      if (flow?.targetingLogic && userFlowStatesData) {
+        // Iterate through matching userFlowState for the flow and if shouldTrigger is true, return false
+        const matchingUserFlowState = userFlowStatesData.find((ufs) => ufs.flowId === flow.slug)
+        if (matchingUserFlowState) {
+          return matchingUserFlowState.shouldTrigger === false
+        }
+      }
+      if (flow?.targetingLogic && userId && userId.startsWith('guest_')) {
+        return true
+      }
 
-  function isFlowAvailableToUser(flowId: string) {
-    const flow = getFlow(flowId)
-    if (!flow) {
       return false
-    }
-    if (flow.active === false) {
-      return false
-    }
-    return !targetingLogicShouldHideFlow(getFlow(flowId))
-  }
+    },
+    [readonly, isLoadingUserFlowStateData, shouldGracefullyDegrade, userFlowStatesData, userId]
+  )
+
+  const isFlowAvailableToUser = useCallback(
+    (flowId: string) => {
+      const flow = getFlow(flowId)
+      if (!flow) {
+        return false
+      }
+      if (flow.active === false) {
+        return false
+      }
+      return !targetingLogicShouldHideFlow(getFlow(flowId))
+    },
+    [userId, organizationId, userFlowStatesData]
+  )
 
   function refresh() {
     if (userId) {
