@@ -2,6 +2,8 @@ import { Card } from '@/components/Card'
 import { Flex } from '@/components/Flex'
 import { Flow, type FlowProps } from '@/components/Flow'
 
+import { getVideoProps } from '@/components/Media/videoProps'
+
 export function FlowCard({ part, ...props }: FlowProps) {
   return (
     <Flow
@@ -17,6 +19,8 @@ export function FlowCard({ part, ...props }: FlowProps) {
         const primaryButtonTitle = step.primaryButton?.title ?? step.primaryButtonTitle
         const secondaryButtonTitle = step.secondaryButton?.title ?? step.secondaryButtonTitle
 
+        const { videoProps } = getVideoProps(step.props ?? {})
+
         return (
           <>
             <Card.Header
@@ -26,7 +30,12 @@ export function FlowCard({ part, ...props }: FlowProps) {
               title={step.title}
             />
 
-            <Card.Media src={step.imageUri} css={{ objectFit: 'contain', width: '100%' }} />
+            <Card.Media
+              src={step.videoUri ?? step.imageUri}
+              type={step.videoUri ? 'video' : 'image'}
+              css={{ objectFit: 'contain', width: '100%' }}
+              {...videoProps}
+            />
 
             <Flex.Row gap={3} justifyContent="flex-end" part="card-footer">
               <Card.Secondary title={secondaryButtonTitle} onClick={handleSecondary} />

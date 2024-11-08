@@ -10,6 +10,8 @@ import { Text } from '@/components/Text'
 
 import { type StepHandlerProp, useStepHandlers } from '@/hooks/useStepHandlers'
 
+import { getVideoProps } from '@/components/Media/videoProps'
+
 export interface CollapsibleStepProps extends FlowChildrenProps {
   onOpenChange: (isOpening: boolean) => void
   open: boolean
@@ -71,6 +73,8 @@ function DefaultCollapsibleStep({
 
   const disabled = blocked ? true : false
 
+  const { videoProps } = getVideoProps(stepProps)
+
   return (
     <CollapsibleStep.Root open={open} onOpenChange={onOpenChange} {...stepProps}>
       <CollapsibleStep.Trigger
@@ -87,6 +91,7 @@ function DefaultCollapsibleStep({
           src={step.videoUri ?? step.imageUri}
           transform="translate3d(0, 0, 1px)"
           type={step.videoUri ? 'video' : 'image'}
+          {...videoProps}
         />
         <Card.Subtitle color="neutral.400">{subtitle}</Card.Subtitle>
         <Flex.Row gap={3} part="collapsible-footer">
