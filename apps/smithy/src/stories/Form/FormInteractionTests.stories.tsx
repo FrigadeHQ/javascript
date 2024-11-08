@@ -101,10 +101,18 @@ export const InteractionTests: FormStory = {
         const canvas = within(document.body);
 
         for (let i = 0; i < 3; i++) {
-          await canvas.findByText("This is page 1", {}, { timeout: 5000 });
+          await canvas.findByText(
+            "This is page 1",
+            {},
+            { timeout: 5000, interval: 500 }
+          );
           await userEvent.click(canvas.getByText("Continue to page 2"));
           await userEvent.click(canvas.getByText("Next"));
-          await canvas.findByText("This is page 2", {}, { timeout: 5000 });
+          await canvas.findByText(
+            "This is page 2",
+            {},
+            { timeout: 5000, interval: 500 }
+          );
           await userEvent.click(canvas.getByText("Back"));
         }
 
