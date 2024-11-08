@@ -7,7 +7,7 @@ import * as Progress from '@/components/Progress'
 
 import { useStepHandlers } from '@/hooks/useStepHandlers'
 
-import { VIDEO_PROP_NAMES } from '@/components/Media/videoPropNames'
+import { getVideoProps } from '@/components/Media/videoProps'
 
 const fadeIn = keyframes`
   from {
@@ -49,16 +49,7 @@ export function TourStep({
     onSecondary,
   })
 
-  const mediaProps = {}
-  const hintProps = {}
-
-  for (const [propName, propValue] of Object.entries(props)) {
-    if (VIDEO_PROP_NAMES.some((name) => name === propName)) {
-      mediaProps[propName] = propValue
-    } else {
-      hintProps[propName] = propValue
-    }
-  }
+  const { videoProps, otherProps } = getVideoProps(props)
 
   const primaryButtonTitle = step.primaryButton?.title ?? step.primaryButtonTitle
   const secondaryButtonTitle = step.secondaryButton?.title ?? step.secondaryButtonTitle
@@ -77,7 +68,7 @@ export function TourStep({
       side={side}
       sideOffset={sideOffset}
       spotlight={spotlight}
-      {...hintProps}
+      {...otherProps}
     >
       <Card
         animation={`${fadeIn} 300ms ease-out`}
@@ -94,7 +85,7 @@ export function TourStep({
           src={step.videoUri ?? step.imageUri}
           transform="translate3d(0, 0, 1px)"
           type={step.videoUri ? 'video' : 'image'}
-          {...mediaProps}
+          {...videoProps}
         />
 
         <Card.Header

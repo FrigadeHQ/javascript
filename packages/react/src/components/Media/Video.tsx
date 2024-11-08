@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Box, BoxProps } from '@/components/Box'
 
-import { VIDEO_PROP_NAMES } from '@/components/Media/videoPropNames'
+import type { VideoPropName } from '@/components/Media/videoProps'
 
 function getVideoEmbedSrc(videoUri: string) {
   if (videoUri.includes('youtube')) {
@@ -28,8 +28,6 @@ function getVideoEmbedSrc(videoUri: string) {
 
   return null
 }
-
-export type VideoPropName = (typeof VIDEO_PROP_NAMES)[number]
 
 export interface VideoProps
   extends BoxProps,

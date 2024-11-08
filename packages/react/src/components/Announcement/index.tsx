@@ -2,6 +2,8 @@ import { Dialog, type DialogProps } from '@/components/Dialog'
 import { Flex } from '@/components/Flex'
 import { Flow, type FlowPropsWithoutChildren } from '@/components/Flow'
 
+import { getVideoProps } from '@/components/Media/videoProps'
+
 export interface AnnouncementProps extends FlowPropsWithoutChildren, DialogProps {
   /**
    * @ignore
@@ -53,6 +55,8 @@ export function Announcement({ flowId, part, ...props }: AnnouncementProps) {
 
         const disabled = step.$state.blocked
 
+        const { videoProps } = getVideoProps(stepProps)
+
         return (
           <Dialog
             part={['announcement', part]}
@@ -88,6 +92,7 @@ export function Announcement({ flowId, part, ...props }: AnnouncementProps) {
                 transform="translate3d(0, 0, 1px)"
                 type={step.videoUri ? 'video' : 'image'}
                 width="100%"
+                {...videoProps}
               />
 
               <Dialog.ProgressDots
