@@ -1,7 +1,7 @@
 import {writeFileSync} from 'fs';
 import {fileURLToPath} from 'url';
 import {dirname, resolve} from 'path';
-import packageJson from './package.json';
+const packageJson = await import('./package.json', { assert: { type: 'json' } });
 
 // Mimic __dirname in ES modules
 const __filename = fileURLToPath(import.meta.url);
