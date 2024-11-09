@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.5.28
+
+### Patch Changes
+
+- 25e7a98: Add video props to Announcement, Card, Collapsible
+
 ## 2.5.27
 
 ### Patch Changes
