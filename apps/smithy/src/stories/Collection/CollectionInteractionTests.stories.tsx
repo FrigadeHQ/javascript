@@ -151,6 +151,8 @@ export const InteractionTests: CollectionStory = {
       // expect banner to contain the text "Banner title"
       await expect(banner.getByText("Banner title")).toBeInTheDocument();
 
+      await sleep(200);
+
       // Click button with Primary CTA
       await userEvent.click(
         banner.getByRole("button", {
