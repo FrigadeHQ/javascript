@@ -38,6 +38,20 @@ const preview = {
           // generateGuestId={false}
           userId={FRIGADE_USER_ID}
           // syncOnWindowUpdates={false}
+
+          // theme={{
+          //   colors: {
+          //     primary: {
+          //       surface: "pink",
+          //       active: {
+          //         surface: "teal",
+          //       },
+          //       hover: {
+          //         surface: "orange",
+          //       },
+          //     },
+          //   },
+          // }}
           userProperties={{
             firstName: "Jonathan",
             lastName: "Livingston",
