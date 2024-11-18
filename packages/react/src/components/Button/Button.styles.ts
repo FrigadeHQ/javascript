@@ -1,6 +1,7 @@
 import { keyframes } from '@emotion/react'
 
 const base = {
+  alignItems: 'center',
   borderWidth: 'md',
   borderRadius: 'md',
   borderStyle: 'solid',
@@ -9,6 +10,9 @@ const base = {
   gap: '2',
   padding: '2 4',
   fontFamily: 'inherit',
+
+  'opacity:disabled': '0.6',
+  'pointerEvents:disabled': 'none',
 }
 
 export const Primary = {
@@ -17,12 +21,9 @@ export const Primary = {
   borderColor: 'primary.border',
   color: 'primary.foreground',
 
-  'backgroundColor:disabled': 'primary.surface',
   'backgroundColor:hover': 'primary.hover.surface',
-
-  'opacity:disabled': '0.6',
-
-  'pointerEvents:disabled': 'none',
+  'backgroundColor:active': 'primary.active.surface',
+  'backgroundColor:disabled': 'primary.surface',
 }
 
 export const Secondary = {
@@ -33,9 +34,8 @@ export const Secondary = {
   color: 'secondary.foreground',
 
   'backgroundColor:hover': 'secondary.hover.background',
-
+  'backgroundColor:active': 'secondary.active.surface',
   'backgroundColor:disabled': 'secondary.background',
-  'opacity:disabled': '0.6',
 }
 
 export const Link = {
@@ -46,6 +46,7 @@ export const Link = {
   color: 'primary.surface',
 
   'color:hover': 'primary.hover.surface',
+  'color:active': 'primary.active.surface',
 }
 
 export const Plain = {

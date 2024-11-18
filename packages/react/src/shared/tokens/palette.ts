@@ -82,7 +82,7 @@ export const palette = {
   blue500: scaledColors.blue['500'],
   blue800: scaledColors.blue['800'],
   blue900: scaledColors.blue['900'],
-  green400: scaledColors.blue['400'],
+  green400: scaledColors.green['400'],
   green500: scaledColors.green['500'],
   green800: scaledColors.green['800'],
   red500: scaledColors.red['500'],

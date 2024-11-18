@@ -154,10 +154,10 @@ export const semantic: SemanticColors = {
     surface: colorVar('primary-500'),
 
     active: {
-      background: colorVar('primary-400'),
-      border: colorVar('primary-400'),
+      background: colorVar('primary-300'),
+      border: colorVar('primary-300'),
       foreground: colorVar('white'),
-      surface: colorVar('primary-400'),
+      surface: colorVar('primary-300'),
     },
     focus: {
       background: colorVar('primary-500'),
