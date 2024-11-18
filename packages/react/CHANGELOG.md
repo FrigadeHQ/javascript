@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.5.29
+
+### Patch Changes
+
+- b59ede2: Fix Button active styles
+
 ## 2.5.28
 
 ### Patch Changes
