@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.6.0
+
+### Minor Changes
+
+- ae705d1: Refactored useModal. Modal collision detection should behave more consistently with SSR / caching.
+
 ## 2.5.29
 
 ### Patch Changes
