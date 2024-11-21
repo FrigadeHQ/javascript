@@ -1,53 +1,64 @@
-import { useCallback, useEffect } from 'react'
+import { useCallback, useContext, useEffect } from 'react'
 import type { Flow } from '@frigade/js'
 
-export const globalModalState: Set<string> = new Set()
+import { FrigadeContext } from '@/components/Provider'
 
-export function useModal(flow: Flow, isModal: boolean = true) {
-  const removeModal = useCallback(() => {
-    if (globalModalState.has(flow?.id)) {
-      globalModalState.delete(flow?.id)
-    }
-  }, [globalModalState, isModal])
+export function useCheckForModalCollision(flow: Flow, isModal = true) {
+  const { currentModal, setCurrentModal } = useContext(FrigadeContext)
 
-  const registerModal = useCallback(() => {
-    if (isModal && flow?.isVisible && !globalModalState.has(flow.id)) {
-      globalModalState.add(flow.id)
+  const claimLock = useCallback(
+    (flowId: string) => {
+      if (isModal && flow.isVisible) {
+        setCurrentModal(flowId)
+      }
+    },
+    [isModal, flow?.isVisible]
+  )
+
+  const releaseLock = useCallback(() => {
+    if (flow != null && currentModal === flow?.id) {
+      setCurrentModal(null)
     }
-  }, [globalModalState, isModal])
+  }, [currentModal, flow?.id])
 
   useEffect(() => {
-    return () => {
-      removeModal()
+    if (flow != null && currentModal === null && flow.isVisible) {
+      claimLock(flow.id)
     }
-  }, [])
 
+    return releaseLock
+  }, [currentModal, flow?.id, flow?.isVisible])
+
+  // Edge case: The current modal may become non-modal while still mounted
   useEffect(() => {
-    registerModal()
-
-    const handleRouteChange = () => {
-      removeModal()
+    if (flow != null && (!isModal || !flow.isVisible)) {
+      releaseLock()
     }
+  }, [flow?.isVisible, isModal])
 
-    window.addEventListener('popstate', handleRouteChange)
-    window.addEventListener('beforeunload', handleRouteChange)
-
-    return () => {
-      removeModal()
-      window.removeEventListener('popstate', handleRouteChange)
-      window.removeEventListener('beforeunload', handleRouteChange)
+  // No flow? No problem.
+  if (flow == null) {
+    return {
+      hasModalCollision: false,
     }
-  }, [registerModal, removeModal])
-
-  if (!flow?.isVisible) {
-    removeModal()
-  } else {
-    registerModal()
   }
 
-  const currentModal = globalModalState.size > 0 ? globalModalState.values().next().value : null
+  // Non-modal and hidden components, by definition, can't collide with modals
+  if (!isModal || !flow.isVisible) {
+    return {
+      hasModalCollision: false,
+    }
+  }
 
+  // We already have the lock, send it
+  if (currentModal === flow.id) {
+    return {
+      hasModalCollision: false,
+    }
+  }
+
+  // If we didn't short circuit and didn't have the lock, assume that we're out of lock luck.
   return {
-    isCurrentModal: !isModal ? true : currentModal === flow?.id || globalModalState.size == 0,
+    hasModalCollision: true,
   }
 }

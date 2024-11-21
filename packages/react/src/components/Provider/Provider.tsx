@@ -143,6 +143,7 @@ export function Provider({
   const registeredComponents = useRef<RegisteredComponents>(new Map())
   const intervalRef = useRef<NodeJS.Timeout>()
   const [hasInitialized, setHasInitialized] = useState(false)
+  const [currentModal, setCurrentModal] = useState<string | null>(null)
 
   const frigade = useMemo<Frigade>(() => {
     setHasInitialized(false)
@@ -240,6 +241,8 @@ export function Provider({
   return (
     <FrigadeContext.Provider
       value={{
+        currentModal,
+        setCurrentModal,
         navigate: navigateHandler,
         ...props,
         frigade: frigade,

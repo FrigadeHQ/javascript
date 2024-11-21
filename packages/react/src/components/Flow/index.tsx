@@ -6,7 +6,7 @@ import { Box } from '@/components/Box'
 import { useFlow } from '@/hooks/useFlow'
 import { useFlowHandlers } from '@/hooks/useFlowHandlers'
 import { useStepHandlers } from '@/hooks/useStepHandlers'
-import { useModal } from '@/hooks/useModal'
+import { useCheckForModalCollision } from '@/hooks/useModal'
 
 import type { FlowProps } from '@/components/Flow/FlowProps'
 // import { FrigadeContext } from '@/components/Provider'
@@ -63,7 +63,7 @@ export function Flow({
     (typeof as === 'function' && as?.displayName === 'Dialog') ||
     [FlowType.ANNOUNCEMENT, FlowType.TOUR].includes(flow?.rawData?.flowType)
 
-  const { isCurrentModal } = useModal(flow, isModal)
+  const { hasModalCollision } = useCheckForModalCollision(flow, isModal)
 
   // useEffect(() => {
   //   return () => {
@@ -89,11 +89,7 @@ export function Flow({
   //   }
   // })
 
-  if (!flow.isVisible && !shouldForceMount) {
-    return null
-  }
-
-  if (!shouldForceMount && !isCurrentModal) {
+  if ((!flow.isVisible || hasModalCollision) && !shouldForceMount) {
     return null
   }
 

@@ -1,4 +1,4 @@
-import { Announcement, useFlow, useFrigade } from "@frigade/react";
+import { Announcement, Tour, useFlow, useFrigade } from "@frigade/react";
 
 export default {
   title: "Components/Announcement",
@@ -52,8 +52,10 @@ export const ModalCollisions = {
 
       return (
         <div>
-          <Announcement flowId="flow_gT6bpnCn" />
+          <Tour flowId="flow_U63A5pndRrvCwxNs" />
           <Announcement flowId="flow_FMjrv1vC" />
+          <Announcement flowId="flow_gT6bpnCn" />
+
           <button
             onClick={async () => {
               // const flow = await frigade.getFlow(args.flowId);
@@ -70,6 +72,8 @@ export const ModalCollisions = {
           >
             Reset flow B
           </button>
+
+          <div id="tooltip-storybook-0">Tour anchor</div>
         </div>
       );
     },

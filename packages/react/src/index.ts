@@ -52,7 +52,6 @@ export {
   type FlowHandlerProp,
   type FlowHandlerProps,
 } from './hooks/useFlowHandlers'
-export { useModal } from './hooks/useModal'
 export {
   useStepHandlers,
   type StepHandler,

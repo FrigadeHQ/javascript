@@ -1,9 +1,11 @@
 import type { CollectionsRegistryCallback, Frigade } from '@frigade/js'
-import { createContext } from 'react'
+import { createContext, type Dispatch, type SetStateAction } from 'react'
 
 import type { ProviderProps } from './Provider'
 
 export interface ProviderContext extends Omit<ProviderProps, 'children' | 'theme'> {
+  currentModal: string | null
+  setCurrentModal: Dispatch<SetStateAction<string | null>>
   frigade?: Frigade
   hasInitialized: boolean
   registerComponent: (flowId: string, callback?: CollectionsRegistryCallback) => void
@@ -13,6 +15,8 @@ export interface ProviderContext extends Omit<ProviderProps, 'children' | 'theme
 
 export const FrigadeContext = createContext<ProviderContext>({
   apiKey: '',
+  currentModal: null,
+  setCurrentModal: () => {},
   navigate: () => {},
   hasInitialized: false,
   registerComponent: () => {},
