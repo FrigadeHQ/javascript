@@ -201,7 +201,7 @@ export interface FlowStep extends StatefulStep {
   [x: string | number | symbol]: unknown
 
   /**
-   * Marks the step started.
+   * Marks the step started. This will move the current step index to the given step.
    */
   start: (properties?: PropertyPayload) => Promise<void>
 
