@@ -9,6 +9,7 @@ import { useStepHandlers } from '@/hooks/useStepHandlers'
 import { useCheckForModalCollision } from '@/hooks/useModal'
 
 import type { FlowProps } from '@/components/Flow/FlowProps'
+import { getVideoProps } from '@/components/Media/videoProps'
 // import { FrigadeContext } from '@/components/Provider'
 
 export type {
@@ -37,7 +38,10 @@ export function Flow({
 
   const step = flow?.getCurrentStep()
 
-  const stepProps = step?.props ?? {}
+  const initialStepProps = step?.props ?? {}
+
+  // Discard video props when merging step props onto top-level container
+  const { otherProps: stepProps } = getVideoProps(initialStepProps)
 
   const {
     dismissible = false,
