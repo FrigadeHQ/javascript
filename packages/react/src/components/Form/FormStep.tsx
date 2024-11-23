@@ -110,8 +110,6 @@ export function FormStep({
 
   const { control, handleSubmit } = formContext
 
-  const stepProps = step.props ?? {}
-
   function onPrimarySubmit(properties: PropertyPayload, e: SyntheticEvent<object, unknown>) {
     setIsSubmitting(true)
     handlePrimary(e, properties, __readOnly === true).then(() => setIsSubmitting(false))
@@ -141,7 +139,7 @@ export function FormStep({
   }, [step])
 
   return (
-    <Flex.Column gap={5} part="form-step" {...stepProps}>
+    <>
       <Card.Header
         dismissible={dismissible}
         handleDismiss={handleDismiss}
@@ -168,6 +166,6 @@ export function FormStep({
           loading={isSubmitting}
         />
       </Flex.Row>
-    </Flex.Column>
+    </>
   )
 }

@@ -35,6 +35,10 @@ export function Flow({
     variables,
   })
 
+  const step = flow?.getCurrentStep()
+
+  const stepProps = step?.props ?? {}
+
   const {
     dismissible = false,
     forceMount = false,
@@ -42,11 +46,10 @@ export function Flow({
   } = {
     ...props,
     ...(flow?.props ?? {}),
+    ...(flow?.rawData?.flowType === FlowType.CHECKLIST ? {} : stepProps),
   }
 
   // const { hasInitialized, registerComponent, unregisterComponent } = useContext(FrigadeContext)
-
-  const step = flow?.getCurrentStep()
 
   const { handleDismiss } = useFlowHandlers(flow, {
     onComplete,
