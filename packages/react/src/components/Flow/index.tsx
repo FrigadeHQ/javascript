@@ -18,6 +18,10 @@ export type {
   FlowPropsWithoutChildren,
 } from '@/components/Flow/FlowProps'
 
+function isDialog(component) {
+  return typeof component === 'function' && component.displayName === 'Dialog'
+}
+
 export function Flow({
   as,
   children,
@@ -44,7 +48,7 @@ export function Flow({
   const { otherProps: stepProps } = getVideoProps(initialStepProps)
 
   const {
-    dismissible = false,
+    dismissible = isDialog(as) ? true : false,
     forceMount = false,
     ...mergedProps
   } = {
@@ -67,10 +71,25 @@ export function Flow({
 
   const isModal =
     mergedProps?.modal ||
-    (typeof as === 'function' && as?.displayName === 'Dialog') ||
+    isDialog(as) ||
     [FlowType.ANNOUNCEMENT, FlowType.TOUR].includes(flow?.rawData?.flowType)
 
   const { hasModalCollision } = useCheckForModalCollision(flow, isModal)
+
+  function handleEscapeKeyDown(e) {
+    if (dismissible === false) {
+      e.preventDefault()
+      return
+    }
+
+    if (typeof props.onEscapeKeyDown === 'function') {
+      props.onEscapeKeyDown(e)
+    }
+
+    if (!e.defaultPrevented) {
+      handleDismiss(e)
+    }
+  }
 
   // useEffect(() => {
   //   return () => {
@@ -110,9 +129,13 @@ export function Flow({
 
   const ContainerElement = as === null ? Fragment : as ?? Box
 
-  const containerProps = {
+  const containerProps: Record<string, unknown> = {
     ...mergedProps,
     'data-flow-id': flow.id,
+  }
+
+  if (isDialog(as)) {
+    containerProps.onEscapeKeyDown = handleEscapeKeyDown
   }
 
   return (

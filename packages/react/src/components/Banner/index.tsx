@@ -5,7 +5,7 @@ import { Box } from '@/components/Box'
 
 export interface BannerProps extends FlowPropsWithoutChildren {}
 
-export function Banner({ dismissible, flowId, part, ...props }: BannerProps) {
+export function Banner({ flowId, part, ...props }: BannerProps) {
   return (
     <Flow
       alignItems="center"
@@ -21,7 +21,7 @@ export function Banner({ dismissible, flowId, part, ...props }: BannerProps) {
       role="complementary"
       {...props}
     >
-      {({ handleDismiss, handlePrimary, handleSecondary, step }) => {
+      {({ handleDismiss, handlePrimary, handleSecondary, parentProps: { dismissible }, step }) => {
         const primaryButtonTitle = step.primaryButton?.title ?? step.primaryButtonTitle
         const secondaryButtonTitle = step.secondaryButton?.title ?? step.secondaryButtonTitle
 

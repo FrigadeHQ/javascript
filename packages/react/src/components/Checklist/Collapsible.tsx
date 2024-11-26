@@ -141,7 +141,6 @@ function StepWrapper({ flow, step, ...props }: FlowChildrenProps) {
 }
 
 export function Collapsible({
-  dismissible,
   flowId,
   onPrimary,
   onSecondary,
@@ -178,6 +177,9 @@ export function Collapsible({
 
           const currentSteps = flow.getNumberOfCompletedSteps()
           const availableSteps = flow.getNumberOfAvailableSteps()
+
+          // Note: Ignore merged props from step here, Checklist steps don't control flow dismissibility
+          const dismissible = props.dismissible || !!flow?.props?.dismissible
 
           return (
             <>
