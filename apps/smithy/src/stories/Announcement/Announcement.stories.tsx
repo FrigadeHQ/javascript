@@ -8,7 +8,7 @@ export default {
 export const Default = {
   args: {
     dismissible: true,
-    flowId: "flow_8Ybz7lMK",
+    flowId: "flow_vLivpwoH",
     modal: true,
     onDismiss: () => console.log("Dismissed"),
   },

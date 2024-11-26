@@ -32,7 +32,7 @@ export const Default = {
     fieldTypes: {
       customTest: CustomStep,
     },
-    as: Dialog,
+    // as: Dialog,
     variables: {
       testVar: "hello world",
     },
