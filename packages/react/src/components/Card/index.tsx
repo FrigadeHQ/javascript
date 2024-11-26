@@ -86,6 +86,14 @@ Card.Footer = ({ children, part, ...props }: BoxProps) => {
 }
 
 Card.Header = ({ dismissible, handleDismiss, part, subtitle, title, ...props }) => {
+  if (
+    !dismissible &&
+    (title == null || title?.length === 0) &&
+    (subtitle == null || subtitle?.length === 0)
+  ) {
+    return null
+  }
+
   return (
     <Flex.Row
       alignItems="flex-start"

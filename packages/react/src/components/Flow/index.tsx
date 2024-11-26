@@ -9,6 +9,7 @@ import { useStepHandlers } from '@/hooks/useStepHandlers'
 import { useCheckForModalCollision } from '@/hooks/useModal'
 
 import type { FlowProps } from '@/components/Flow/FlowProps'
+import { getVideoProps } from '@/components/Media/videoProps'
 // import { FrigadeContext } from '@/components/Provider'
 
 export type {
@@ -16,6 +17,10 @@ export type {
   FlowProps,
   FlowPropsWithoutChildren,
 } from '@/components/Flow/FlowProps'
+
+function isDialog(component) {
+  return typeof component === 'function' && component.displayName === 'Dialog'
+}
 
 export function Flow({
   as,
@@ -35,18 +40,24 @@ export function Flow({
     variables,
   })
 
+  const step = flow?.getCurrentStep()
+
+  const initialStepProps = step?.props ?? {}
+
+  // Discard video props when merging step props onto top-level container
+  const { otherProps: stepProps } = getVideoProps(initialStepProps)
+
   const {
-    dismissible = false,
+    dismissible = isDialog(as) ? true : false,
     forceMount = false,
     ...mergedProps
   } = {
     ...props,
     ...(flow?.props ?? {}),
+    ...(flow?.rawData?.flowType === FlowType.CHECKLIST ? {} : stepProps),
   }
 
   // const { hasInitialized, registerComponent, unregisterComponent } = useContext(FrigadeContext)
-
-  const step = flow?.getCurrentStep()
 
   const { handleDismiss } = useFlowHandlers(flow, {
     onComplete,
@@ -60,10 +71,25 @@ export function Flow({
 
   const isModal =
     mergedProps?.modal ||
-    (typeof as === 'function' && as?.displayName === 'Dialog') ||
+    isDialog(as) ||
     [FlowType.ANNOUNCEMENT, FlowType.TOUR].includes(flow?.rawData?.flowType)
 
   const { hasModalCollision } = useCheckForModalCollision(flow, isModal)
+
+  function handleEscapeKeyDown(e) {
+    if (dismissible === false) {
+      e.preventDefault()
+      return
+    }
+
+    if (typeof props.onEscapeKeyDown === 'function') {
+      props.onEscapeKeyDown(e)
+    }
+
+    if (!e.defaultPrevented) {
+      handleDismiss(e)
+    }
+  }
 
   // useEffect(() => {
   //   return () => {
@@ -103,9 +129,13 @@ export function Flow({
 
   const ContainerElement = as === null ? Fragment : as ?? Box
 
-  const containerProps = {
+  const containerProps: Record<string, unknown> = {
     ...mergedProps,
     'data-flow-id': flow.id,
+  }
+
+  if (isDialog(as)) {
+    containerProps.onEscapeKeyDown = handleEscapeKeyDown
   }
 
   return (

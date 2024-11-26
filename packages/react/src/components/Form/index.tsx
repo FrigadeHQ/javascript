@@ -1,6 +1,7 @@
 import { FlowStep } from '@frigade/js'
 import type { ControllerFieldState, Message, UseFormReturn, ValidationRule } from 'react-hook-form'
 
+import { Card } from '@/components/Card'
 import { Flow, type FlowPropsWithoutChildren } from '@/components/Flow'
 
 import { FormStep } from './FormStep'
@@ -108,7 +109,7 @@ export function Form({ fieldTypes = {}, flowId, part, ...props }: FormProps) {
   const mergedFieldTypes = Object.assign({}, defaultFieldTypes, fieldTypes)
 
   return (
-    <Flow flowId={flowId} part={['form', part]} {...props}>
+    <Flow as={Card} flowId={flowId} part={['form', part]} {...props}>
       {(childProps) => <FormStep fieldTypes={mergedFieldTypes} {...childProps} />}
     </Flow>
   )

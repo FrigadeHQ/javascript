@@ -19,114 +19,83 @@ export interface AnnouncementProps extends FlowPropsWithoutChildren, DialogProps
   defaultOpen?: boolean
 }
 
-const flowPropNames = [
-  'dismissible',
-  'flowId',
-  'forceMount',
-  'onComplete',
-  'onDismiss',
-  'onPrimary',
-  'onSecondary',
-  'variables',
-]
-
 export function Announcement({ flowId, part, ...props }: AnnouncementProps) {
-  const flowProps = Object.fromEntries(
-    Object.entries(props).filter(([k]) => flowPropNames.some((name) => k === name))
-  )
-  const dialogProps = Object.fromEntries(
-    Object.entries(props).filter(([k]) => flowPropNames.indexOf(k) === -1)
-  )
-
   return (
-    <Flow as={null} flowId={flowId} {...flowProps}>
+    <Flow
+      as={Dialog}
+      display="flex"
+      flexDirection="column"
+      flowId={flowId}
+      gap={5}
+      part={['announcement', part]}
+      textAlign="center"
+      {...props}
+    >
       {({
         flow,
         handleDismiss,
         handlePrimary,
         handleSecondary,
-        parentProps: { containerProps, dismissible },
+        parentProps: { dismissible },
         step,
       }) => {
-        const stepProps = step.props ?? {}
-
         const primaryButtonTitle = step.primaryButton?.title ?? step.primaryButtonTitle
         const secondaryButtonTitle = step.secondaryButton?.title ?? step.secondaryButtonTitle
 
         const disabled = step.$state.blocked
 
-        const { videoProps } = getVideoProps(stepProps)
+        const { videoProps } = getVideoProps(step.props ?? {})
 
         return (
-          <Dialog
-            part={['announcement', part]}
-            textAlign="center"
-            {...containerProps}
-            {...dialogProps}
-            onEscapeKeyDown={(e) => {
-              if (props.dismissible === false) {
-                e.preventDefault()
-                return
-              }
-              if (typeof props.onEscapeKeyDown === 'function') {
-                props.onEscapeKeyDown(e)
-              }
-
-              if (!e.defaultPrevented) {
-                handleDismiss(e)
-              }
-            }}
-          >
-            <Flex.Column gap={5} part="announcement-step" {...stepProps}>
-              {dismissible && <Dialog.Dismiss onClick={handleDismiss} />}
-              <Flex.Column gap={1} part="announcement-header">
-                <Dialog.Title>{step.title}</Dialog.Title>
-                <Dialog.Subtitle>{step.subtitle}</Dialog.Subtitle>
-              </Flex.Column>
-
-              <Dialog.Media
-                aspectRatio="1.5"
-                objectFit="cover"
-                overflowClipMargin="unset"
-                src={step.videoUri ?? step.imageUri}
-                transform="translate3d(0, 0, 1px)"
-                type={step.videoUri ? 'video' : 'image'}
-                width="100%"
-                {...videoProps}
-              />
-
-              <Dialog.ProgressDots
-                current={flow.getCurrentStepIndex()}
-                total={flow.getNumberOfAvailableSteps()}
-              />
-
-              <Flex.Row
-                css={{
-                  '& > button': {
-                    flexBasis: '50%',
-                    flexGrow: 1,
-                  },
-                }}
-                gap={3}
-                part="announcement-footer"
-              >
-                {secondaryButtonTitle && (
-                  <Dialog.Secondary
-                    disabled={disabled}
-                    onClick={handleSecondary}
-                    title={secondaryButtonTitle}
-                  />
-                )}
-                {primaryButtonTitle && (
-                  <Dialog.Primary
-                    disabled={disabled}
-                    onClick={handlePrimary}
-                    title={primaryButtonTitle}
-                  />
-                )}
-              </Flex.Row>
+          <>
+            {dismissible && <Dialog.Dismiss onClick={handleDismiss} />}
+            <Flex.Column gap={1} part="announcement-header">
+              <Dialog.Title>{step.title}</Dialog.Title>
+              <Dialog.Subtitle>{step.subtitle}</Dialog.Subtitle>
             </Flex.Column>
-          </Dialog>
+
+            <Dialog.Media
+              aspectRatio="1.5"
+              objectFit="cover"
+              overflowClipMargin="unset"
+              src={step.videoUri ?? step.imageUri}
+              transform="translate3d(0, 0, 1px)"
+              type={step.videoUri ? 'video' : 'image'}
+              width="100%"
+              {...videoProps}
+            />
+
+            <Dialog.ProgressDots
+              current={flow.getCurrentStepIndex()}
+              total={flow.getNumberOfAvailableSteps()}
+            />
+
+            <Flex.Row
+              css={{
+                '& > button': {
+                  flexBasis: '50%',
+                  flexGrow: 1,
+                },
+              }}
+              gap={3}
+              part="announcement-footer"
+            >
+              {secondaryButtonTitle && (
+                <Dialog.Secondary
+                  disabled={disabled}
+                  onClick={handleSecondary}
+                  title={secondaryButtonTitle}
+                />
+              )}
+              {primaryButtonTitle && (
+                <Dialog.Primary
+                  disabled={disabled}
+                  onClick={handlePrimary}
+                  title={primaryButtonTitle}
+                />
+              )}
+            </Flex.Row>
+          </>
         )
       }}
     </Flow>
