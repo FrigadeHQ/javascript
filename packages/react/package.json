@@ -1,6 +1,6 @@
 {
   "name": "@frigade/react",
-  "version": "2.6.0",
+  "version": "2.6.1",
   "description": "Build better product onboarding, faster.",
   "type": "module",
   "main": "./dist/index.js",

@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.6.1
+
+### Patch Changes
+
+- cce59b6: Fixes a series of inconsistencies in dismissible behaviors across components
+
 ## 2.6.0
 
 ### Minor Changes
