@@ -57,6 +57,10 @@ export function useCheckForModalCollision(flow: Flow, isModal = true) {
     }
   }
 
+  if (currentModal === null) {
+    claimLock(flow.id)
+  }
+
   // If we didn't short circuit and didn't have the lock, assume that we're out of lock luck.
   return {
     hasModalCollision: true,
