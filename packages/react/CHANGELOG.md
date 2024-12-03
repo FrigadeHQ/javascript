@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.6.2
+
+### Patch Changes
+
+- 32d72bc: Fixes an issue where `flow.restart()` followed by `flow.start()` could cause Dialog flows not to show up
+
 ## 2.6.1
 
 ### Patch Changes
