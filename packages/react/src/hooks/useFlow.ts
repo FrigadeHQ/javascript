@@ -2,6 +2,7 @@ import { type Flow } from '@frigade/js'
 import { useCallback, useContext, useEffect, useState, useSyncExternalStore } from 'react'
 
 import { FrigadeContext } from '@/components/Provider'
+import { logOnce } from '../shared/log'
 
 export interface FlowConfig {
   variables?: Record<string, unknown>
@@ -14,7 +15,11 @@ export function useFlow(
   flow: Flow | undefined
   isLoading: boolean
 } {
-  const { frigade, variables } = useContext(FrigadeContext)
+  const context = useContext(FrigadeContext)
+  if (!context || !context.frigade) {
+    logOnce(`useFlow('${flowId}') must be used in a child of the Frigade Provider`, 'error')
+  }
+  const { frigade, variables } = context ?? {}
   const [, setForceRender] = useState<boolean>(false)
 
   const subscribe = useCallback(

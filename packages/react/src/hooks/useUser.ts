@@ -1,9 +1,14 @@
 import { useContext } from 'react'
 
 import { FrigadeContext } from '@/components/Provider'
+import { logOnce } from '../shared/log'
 
 export function useUser() {
-  const { userId, frigade } = useContext(FrigadeContext)
+  const context = useContext(FrigadeContext)
+  if (!context || !context.frigade) {
+    logOnce('useUser() must be used in a child of the Frigade Provider', 'error')
+  }
+  const { userId, frigade } = context ?? {}
 
   /**
    * Adds properties for the current user

@@ -1,9 +1,14 @@
 import { useContext } from 'react'
 
 import { FrigadeContext } from '@/components/Provider'
+import { logOnce } from '../shared/log'
 
 export function useGroup() {
-  const { frigade } = useContext(FrigadeContext)
+  const context = useContext(FrigadeContext)
+  if (!context || !context.frigade) {
+    logOnce('useGroup() must be used in a child of the Frigade Provider', 'error')
+  }
+  const { frigade } = context ?? {}
 
   /**
    * Sets properties for the current group
