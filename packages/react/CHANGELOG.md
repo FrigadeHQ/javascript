@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.6.3
+
+### Patch Changes
+
+- 51c62d6: Show error logs when hooks are used outside the context of the `Frigade.Provider`
+
 ## 2.6.2
 
 ### Patch Changes
