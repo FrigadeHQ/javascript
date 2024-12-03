@@ -8,7 +8,7 @@ export function useCheckForModalCollision(flow: Flow, isModal = true) {
 
   const claimLock = useCallback(
     (flowId: string) => {
-      if (isModal && flow.isVisible) {
+      if (isModal && flow?.isVisible) {
         setCurrentModal(flowId)
       }
     },
@@ -58,7 +58,9 @@ export function useCheckForModalCollision(flow: Flow, isModal = true) {
   }
 
   if (currentModal === null) {
-    claimLock(flow.id)
+    return {
+      hasModalCollision: false,
+    }
   }
 
   // If we didn't short circuit and didn't have the lock, assume that we're out of lock luck.
