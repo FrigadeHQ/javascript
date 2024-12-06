@@ -1,8 +1,8 @@
-import { useCallback, useContext, useState, useSyncExternalStore } from 'react'
+import { useCallback, useContext, useState } from 'react'
+import { CollectionsList } from '@frigade/js'
 
 import { FrigadeContext } from '@/components/Provider'
-
-import { CollectionsList } from '@frigade/js'
+import { useSyncExternalStore } from '@/hooks/useSyncExternalStore'
 
 export function useCollections() {
   const { frigade } = useContext(FrigadeContext)

@@ -1,8 +1,9 @@
 import { type Flow } from '@frigade/js'
-import { useCallback, useContext, useEffect, useState, useSyncExternalStore } from 'react'
+import { useCallback, useContext, useEffect, useState } from 'react'
 
 import { FrigadeContext } from '@/components/Provider'
-import { logOnce } from '../shared/log'
+import { useSyncExternalStore } from '@/hooks/useSyncExternalStore'
+import { logOnce } from '@/shared/log'
 
 export interface FlowConfig {
   variables?: Record<string, unknown>
