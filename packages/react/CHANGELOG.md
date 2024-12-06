@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.6.4
+
+### Patch Changes
+
+- 3855645: Fixes an issue with React 17 related to useSyncExternalStore
+
 ## 2.6.3
 
 ### Patch Changes
