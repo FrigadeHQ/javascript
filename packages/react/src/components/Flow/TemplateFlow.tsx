@@ -86,7 +86,7 @@ export function TemplateFlow(props) {
     <Flow {...props}>
       {({
         flow,
-        handleDismiss,
+        // handleDismiss,
         handlePrimary,
         handleSecondary,
         // parentProps: { dismissible, flowId, variables, containerProps },

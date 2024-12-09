@@ -30,8 +30,8 @@ export interface CardComponent
   Media: (props: MediaProps) => EmotionJSX.Element
   Primary: (props: ButtonProps) => EmotionJSX.Element
   Secondary: (props: ButtonProps) => EmotionJSX.Element
-  Subtitle: (props: TextProps) => EmotionJSX.Element
-  Title: (props: TextProps) => EmotionJSX.Element
+  Subtitle: ForwardRefExoticComponent<Omit<TextProps, 'ref'>> & RefAttributes<unknown>
+  Title: ForwardRefExoticComponent<Omit<TextProps, 'ref'>> & RefAttributes<unknown>
 }
 
 export interface CardProps extends FlowPropsWithoutChildren {
