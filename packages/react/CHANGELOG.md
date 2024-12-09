@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.6.5
+
+### Patch Changes
+
+- 3808781: Fix issue with ESM import of use-sync-external-store.
+
 ## 2.6.4
 
 ### Patch Changes
