@@ -32,6 +32,8 @@ export function useCollection(collectionId?: string): {
     frigade?.registerCollection(collectionId)
   }, [collectionId])
 
+  console.log('CDB: useCollection ', collection, flow)
+
   return {
     collection,
     currentFlow: flow,

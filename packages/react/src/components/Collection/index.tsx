@@ -48,6 +48,8 @@ export function Collection({ collectionId, part, variables = {}, ...props }: Col
 
   const { currentFlow } = useCollection(collectionId)
 
+  console.log('CDB: Collection component ', currentFlow)
+
   const FlowComponent: EmotionJSX.ElementType = flowTypeMap[currentFlow?.rawData?.flowType] ?? null
 
   if (currentFlow == null || FlowComponent == null) {

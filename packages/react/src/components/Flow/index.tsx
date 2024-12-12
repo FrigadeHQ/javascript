@@ -105,6 +105,8 @@ export function Flow({
 
   const shouldForceMount = forceMount && (flow?.isCompleted || flow?.isSkipped)
 
+  console.log('CDB: Flow component ', flow, hasModalCollision, shouldForceMount)
+
   if (!flow) {
     return null
   }
