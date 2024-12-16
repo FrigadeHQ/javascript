@@ -80,7 +80,12 @@ export function NPS({
           // Hides the submit button on the first page
           ...(!flow || flow.getCurrentStepIndex() == 0
             ? { '.fr-form-step-footer': { display: 'none' } }
-            : {}),
+            : {
+                '.fr-card-header': {
+                  // Heuristic to prevent width jumpiness between first and second step
+                  minWidth: npsOptions.length * 51,
+                },
+              }),
           '.fr-form': {
             padding: '20px',
             '@media (max-width: 660px)': {

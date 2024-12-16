@@ -8,6 +8,7 @@ export default {
 
 export const NPS = {
   args: {
+    flowId: "flow_SJjL59eSt9A112vJ",
     dismissible: true,
     options: [
       { label: "😞", value: "0" },
@@ -31,7 +32,7 @@ export const NPS = {
               Change url
             </Button.Primary>
             <Survey.NPS
-              flowId="flow_SJjL59eSt9A112vJ"
+              flowId={options.args.flowId as string}
               alignSelf="flex-end"
               justifySelf="flex-end"
               {...options.args}
