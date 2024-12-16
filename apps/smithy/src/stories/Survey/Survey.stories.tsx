@@ -9,12 +9,17 @@ export default {
 export const NPS = {
   args: {
     dismissible: true,
+    options: [
+      { label: "😞", value: "0" },
+      { label: "😐", value: "1" },
+      { label: "😀", value: "2" },
+    ],
   },
   decorators: [
     (_: StoryFn, options: StoryContext) => {
       return (
         <Box fontFamily="Arial">
-          <Box backgroundColor="blue" height="500px">
+          <Box height="500px">
             Other elements on the page
             <Button.Primary
               onClick={() => {

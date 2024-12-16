@@ -3,18 +3,23 @@ import { Flex } from '@/components/Flex'
 import { FormFieldProps } from '@/components/Form'
 import { Text } from '@/components/Text'
 
-export function NPSField({ field, fieldData, submit }: FormFieldProps) {
-  const buttons = [...Array(11)].map((_, i) => {
-    const Component = field.value === i ? Button.Primary : Button.Secondary
+export function NPSField({
+  field,
+  fieldData,
+  submit,
+  options,
+}: FormFieldProps & { options: { label: string; value: string }[] }) {
+  const buttons = options.map((option) => {
+    const Component = field.value === option.value ? Button.Primary : Button.Secondary
     return (
       <Component
         borderWidth="1px"
-        key={i}
+        key={option.value}
         onClick={() => {
-          field.onChange(i)
+          field.onChange(option.value)
           submit()
         }}
-        title={`${i}`}
+        title={option.label}
         css={{
           '.fr-button-title': {
             fontSize: '15px',
