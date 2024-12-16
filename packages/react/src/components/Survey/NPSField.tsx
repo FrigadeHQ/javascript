@@ -3,18 +3,29 @@ import { Flex } from '@/components/Flex'
 import { FormFieldProps } from '@/components/Form'
 import { Text } from '@/components/Text'
 
-export function NPSField({ field, fieldData, submit }: FormFieldProps) {
-  const buttons = [...Array(11)].map((_, i) => {
-    const Component = field.value === i ? Button.Primary : Button.Secondary
+export function NPSField({
+  field,
+  fieldData,
+  submit,
+  options,
+  positiveLabel,
+  negativeLabel,
+}: FormFieldProps & {
+  options: { label: string; value: string }[]
+  positiveLabel?: string
+  negativeLabel?: string
+}) {
+  const buttons = options.map((option) => {
+    const Component = field.value === option.value ? Button.Primary : Button.Secondary
     return (
       <Component
         borderWidth="1px"
-        key={i}
+        key={option.value}
         onClick={() => {
-          field.onChange(i)
+          field.onChange(option.value)
           submit()
         }}
-        title={`${i}`}
+        title={option.label}
         css={{
           '.fr-button-title': {
             fontSize: '15px',
@@ -41,10 +52,10 @@ export function NPSField({ field, fieldData, submit }: FormFieldProps) {
       </Flex.Row>
       <Flex.Row justifyContent="space-between" part="field-nps-label">
         <Text.Caption part="field-nps-left-label" color="neutral.400">
-          {fieldData.negativeLabel ?? `Not likely at all`}
+          {fieldData.negativeLabel ?? negativeLabel}
         </Text.Caption>
         <Text.Caption part="field-nps-right-label" color="neutral.400">
-          {fieldData.positiveLabel ?? `Extremely likely`}
+          {fieldData.positiveLabel ?? positiveLabel}
         </Text.Caption>
       </Flex.Row>
     </Flex.Column>
