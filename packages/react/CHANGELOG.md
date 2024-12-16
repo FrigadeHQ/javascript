@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.6.6
+
+### Patch Changes
+
+- 991ebe2: Adds the ability to override the default scoring (options) on the `Survey.NPS` component
+
 ## 2.6.5
 
 ### Patch Changes
