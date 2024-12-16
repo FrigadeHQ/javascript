@@ -12,12 +12,35 @@ interface NPSProps extends FormProps {
    * If not provided, the default NPS numbers from 0 to 10 will be used.
    */
   options?: NPSOptions
+
+  /**
+   * The label to display for the positive end of the NPS scale.
+   * If not provided, the default label "Extremely likely" will be used.
+   */
+  positiveLabel?: string
+
+  /**
+   * The label to display for the negative end of the NPS scale.
+   * If not provided, the default label "Not likely at all" will be used.
+   */
+  negativeLabel?: string
 }
 
-export function NPS({ as = Dialog, flowId, fieldTypes, part, options, ...props }: NPSProps) {
+export function NPS({
+  as = Dialog,
+  flowId,
+  fieldTypes,
+  part,
+  options,
+  positiveLabel,
+  negativeLabel,
+  ...props
+}: NPSProps) {
   const { flow } = useFlow(flowId)
 
-  const defaultOptions = [...Array(11)].map((_, i) => ({ label: `${i}`, value: `${i}` }))
+  const defaultOptions =
+    (flow?.props?.options as NPSOptions) ??
+    [...Array(11)].map((_, i) => ({ label: `${i}`, value: `${i}` }))
   const npsOptions = options || defaultOptions
 
   return (
@@ -26,7 +49,18 @@ export function NPS({ as = Dialog, flowId, fieldTypes, part, options, ...props }
       as={as}
       flowId={flowId}
       fieldTypes={{
-        nps: (fieldProps) => <NPSField {...fieldProps} options={npsOptions} />,
+        nps: (fieldProps) => (
+          <NPSField
+            {...fieldProps}
+            options={npsOptions}
+            positiveLabel={
+              (flow?.props?.positiveLabel as string) ?? positiveLabel ?? 'Extremely likely'
+            }
+            negativeLabel={
+              (flow?.props?.negativeLabel as string) ?? negativeLabel ?? 'Not likely at all'
+            }
+          />
+        ),
         ...fieldTypes,
       }}
       modal={false}
@@ -49,6 +83,11 @@ export function NPS({ as = Dialog, flowId, fieldTypes, part, options, ...props }
             : {}),
           '.fr-form': {
             padding: '20px',
+            '@media (max-width: 660px)': {
+              minWidth: '100%',
+            },
+          },
+          '.fr-nps-field': {
             '@media (min-width: 660px)': {
               minWidth: 'fit-content',
             },
@@ -59,6 +98,9 @@ export function NPS({ as = Dialog, flowId, fieldTypes, part, options, ...props }
             '@media (min-width: 660px)': {
               gap: '1',
             },
+          },
+          '.fr-nps': {
+            maxWidth: 'min-content',
           },
           ...((props.css as object) ?? {}),
         },

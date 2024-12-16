@@ -8,7 +8,13 @@ export function NPSField({
   fieldData,
   submit,
   options,
-}: FormFieldProps & { options: { label: string; value: string }[] }) {
+  positiveLabel,
+  negativeLabel,
+}: FormFieldProps & {
+  options: { label: string; value: string }[]
+  positiveLabel?: string
+  negativeLabel?: string
+}) {
   const buttons = options.map((option) => {
     const Component = field.value === option.value ? Button.Primary : Button.Secondary
     return (
@@ -46,10 +52,10 @@ export function NPSField({
       </Flex.Row>
       <Flex.Row justifyContent="space-between" part="field-nps-label">
         <Text.Caption part="field-nps-left-label" color="neutral.400">
-          {fieldData.negativeLabel ?? `Not likely at all`}
+          {fieldData.negativeLabel ?? negativeLabel}
         </Text.Caption>
         <Text.Caption part="field-nps-right-label" color="neutral.400">
-          {fieldData.positiveLabel ?? `Extremely likely`}
+          {fieldData.positiveLabel ?? positiveLabel}
         </Text.Caption>
       </Flex.Row>
     </Flex.Column>
