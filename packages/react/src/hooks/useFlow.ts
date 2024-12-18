@@ -18,7 +18,7 @@ export function useFlow(
 } {
   const context = useContext(FrigadeContext)
   if (!context || !context.frigade) {
-    logOnce(`useFlow('${flowId}') must be used in a child of the Frigade Provider`, 'error')
+    logOnce(`useFlow('${flowId}') must be used in a child of the Frigade Provider`, 'warn')
   }
   const { frigade, variables } = context ?? {}
   const [, setForceRender] = useState<boolean>(false)

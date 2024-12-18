@@ -6,7 +6,7 @@ import { logOnce } from '../shared/log'
 export function useUser() {
   const context = useContext(FrigadeContext)
   if (!context || !context.frigade) {
-    logOnce('useUser() must be used in a child of the Frigade Provider', 'error')
+    logOnce('useUser() must be used in a child of the Frigade Provider', 'warn')
   }
   const { userId, frigade } = context ?? {}
 
