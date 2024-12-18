@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.6.7
+
+### Patch Changes
+
+- 0a6c80d: Fixes an issue where `generateGuestId` if used with the `useFrigade()` could cause components not to load
+- Updated dependencies [0a6c80d]
+  - @frigade/js@0.7.23
+
 ## 2.6.6
 
 ### Patch Changes
