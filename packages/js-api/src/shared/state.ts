@@ -1,4 +1,4 @@
-import { FlowStates, FlowStep, FrigadeConfig, StatefulFlow } from '../core/types'
+import { FlowStates, FlowStep, FrigadeConfig, SessionDTO, StatefulFlow } from '../core/types'
 import { Flow } from '../core/flow'
 import type { Collections } from '../core/collections'
 

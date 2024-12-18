@@ -13,9 +13,6 @@ export class Fetchable {
 
   constructor(config: FrigadeConfig) {
     const filteredConfig = Object.fromEntries(Object.entries(config).filter(([_, v]) => v != null))
-    if (!config.userId && config.generateGuestId === false) {
-      delete this.config.userId
-    }
     this.config = {
       ...this.config,
       ...filteredConfig,

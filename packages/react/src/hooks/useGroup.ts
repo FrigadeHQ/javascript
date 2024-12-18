@@ -9,6 +9,7 @@ export function useGroup() {
     logOnce('useGroup() must be used in a child of the Frigade Provider', 'warn')
   }
   const { frigade } = context ?? {}
+  const groupId = frigade?.getConfig()?.groupId
 
   /**
    * Sets properties for the current group
@@ -40,5 +41,11 @@ export function useGroup() {
     await frigade.group(groupId, properties)
   }
 
-  return { groupId: frigade?.config?.groupId, setGroupId, addProperties, track }
+  return {
+    groupId,
+    setGroupId,
+    addProperties,
+    track,
+    isLoading: !frigade?.isReady(),
+  }
 }

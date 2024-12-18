@@ -38,6 +38,10 @@ export class Frigade extends Fetchable {
    * @ignore
    */
   private hasFailed = false
+  /**
+   * @ignore
+   */
+  private lastSessionDTO?: SessionDTO
 
   /**
    * @ignore
@@ -112,7 +116,7 @@ export class Frigade extends Fetchable {
       ...config,
     })
 
-    if (!this.config.userId && this.config.generateGuestId === false) {
+    if (!this.config.userId) {
       return
     }
 
@@ -146,13 +150,19 @@ export class Frigade extends Fetchable {
    * @param properties
    */
   public async identify(userId: string, properties?: PropertyPayload): Promise<void> {
-    await this.updateConfig({ ...this.config, userId })
+    if (userId !== this.config.userId) {
+      await this.updateConfig({ ...this.config, userId })
+      await this.reload()
+    }
+
     await this.initIfNeeded()
-    await this.session({
+    const isNewSession = await this.session({
       userId: this.config.userId,
       userProperties: properties,
     })
-    await this.resync()
+    if (isNewSession) {
+      await this.resync()
+    }
   }
 
   /**
@@ -217,10 +227,20 @@ export class Frigade extends Fetchable {
    * @ignore
    */
   private async session(sessionDTO: SessionDTO) {
+    const lastSessionDTO = this.lastSessionDTO
+
+    if (lastSessionDTO && JSON.stringify(lastSessionDTO) === JSON.stringify(sessionDTO)) {
+      return false
+    }
+
     await this.fetch('/v1/public/sessions', {
       method: 'POST',
       body: JSON.stringify(sessionDTO),
     })
+
+    this.lastSessionDTO = sessionDTO
+
+    return true
   }
 
   /**
@@ -235,6 +255,13 @@ export class Frigade extends Fetchable {
    * @param flowId
    */
   public async getFlow(flowId: string) {
+    if (
+      this.getConfig().generateGuestId === false &&
+      this.getConfig().userId &&
+      this.getConfig().userId.startsWith(GUEST_PREFIX)
+    ) {
+      return undefined
+    }
     await this.initIfNeeded()
 
     return this.getFlowSync(flowId)
@@ -249,6 +276,12 @@ export class Frigade extends Fetchable {
 
   public async getFlows() {
     await this.initIfNeeded()
+    if (
+      this.config.generateGuestId === false &&
+      this.getConfig().userId?.startsWith(GUEST_PREFIX)
+    ) {
+      return []
+    }
     return this.flows
   }
 

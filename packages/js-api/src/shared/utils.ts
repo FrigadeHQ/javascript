@@ -118,7 +118,7 @@ class CallQueue {
   }
 }
 
-const callQueue = new CallQueue()
+globalThis.callQueue = new CallQueue()
 
 export async function gracefulFetch(
   url: string,
@@ -137,7 +137,7 @@ export async function gracefulFetch(
   const isWebPostRequest = isWeb() && options && options.body && options.method === 'POST'
 
   if (isWebPostRequest && !cancelPendingRequests) {
-    const cachedCall = callQueue.hasIdenticalRecentCall(lastCallDataKey)
+    const cachedCall = globalThis.callQueue.hasIdenticalRecentCall(lastCallDataKey)
 
     if (cachedCall != null && cachedCall.response != null) {
       const cachedResponse = await cachedCall.response
@@ -149,13 +149,13 @@ export async function gracefulFetch(
   if (!response) {
     try {
       if (cancelPendingRequests) {
-        callQueue.cancelAllPendingRequests()
+        globalThis.callQueue.cancelAllPendingRequests()
       }
 
       const pendingResponse = fetch(url, options)
 
       if (isWebPostRequest) {
-        callQueue.push(
+        globalThis.callQueue.push(
           lastCallDataKey,
           // @ts-ignore
           pendingResponse.then((res) => res.clone()).catch(() => getEmptyResponse())
@@ -163,7 +163,7 @@ export async function gracefulFetch(
       }
 
       response = await pendingResponse
-      if (isWebPostRequest && !callQueue.hasCall(lastCallDataKey)) {
+      if (isWebPostRequest && !globalThis.callQueue.hasCall(lastCallDataKey)) {
         response = getEmptyResponse(REDUNDANT_CALL_MESSAGE)
       }
     } catch (error) {

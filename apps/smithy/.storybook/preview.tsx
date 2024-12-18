@@ -35,7 +35,7 @@ const preview = {
           apiKey={FRIGADE_API_KEY}
           apiUrl={FRIGADE_API_URL}
           defaultCollection={true}
-          // generateGuestId={false}
+          // generateGuestId={true}
           userId={FRIGADE_USER_ID}
           // syncOnWindowUpdates={false}
 

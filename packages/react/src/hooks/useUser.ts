@@ -8,7 +8,8 @@ export function useUser() {
   if (!context || !context.frigade) {
     logOnce('useUser() must be used in a child of the Frigade Provider', 'warn')
   }
-  const { userId, frigade } = context ?? {}
+  const { frigade } = context ?? {}
+  const userId = frigade?.config.userId
 
   /**
    * Adds properties for the current user
@@ -27,5 +28,5 @@ export function useUser() {
     await frigade.track(eventName, properties)
   }
 
-  return { userId, addProperties, track }
+  return { userId, addProperties, track, isLoading: !frigade?.isReady() }
 }

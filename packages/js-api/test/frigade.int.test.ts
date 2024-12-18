@@ -24,7 +24,7 @@ describe('Basic Checklist integration test', () => {
     })
     let flows = await frigade.getFlows()
     expect(flows.length).toEqual(0)
-    expect(frigade.isReady()).toBeFalsy()
+    expect(frigade.isReady()).toBeTruthy()
     await frigade.identify(getRandomID())
     flows = await frigade.getFlows()
     expect(flows.length).toBeGreaterThan(0)
