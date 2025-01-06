@@ -56,7 +56,7 @@ export function useFlowHandlers(flow: Flow, { onComplete, onDismiss }: FlowHandl
 
         flow.skip()
       },
-      [flow]
+      [flow, onDismiss]
     ),
   }
 }
