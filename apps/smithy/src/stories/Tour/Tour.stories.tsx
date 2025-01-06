@@ -1,6 +1,6 @@
 import { Box, Button, Tour, type TourProps } from "@frigade/react";
 import { StoryContext, StoryFn } from "@storybook/react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default {
   title: "Components/Tour",
@@ -23,28 +23,33 @@ export const Default = {
   },
   decorators: [
     (_: StoryFn, options: StoryContext) => {
-      // const [open, setOpen] = useState(true);
+      const [, setForceRender] = useState(Math.random());
+      const [open, setOpen] = useState(true);
       // const { flow } = useFlow("flow_U63A5pndRrvCwxNs");
 
       const lateAnchorRef = useRef(null);
 
       useEffect(() => {
-        // @ts-expect-error Shush TypeScript, it's a debug ref in a story, it's fine
-        lateAnchorRef.current = (
-          <Box
-            borderRadius="10px"
-            id="tooltip-storybook-0"
-            p={4}
-            style={{ background: "pink", width: "200px" }}
-          >
-            <Button.Primary
-              title="Anchor here"
-              onClick={() => {
-                // no-op
-              }}
-            />
-          </Box>
-        );
+        setTimeout(() => {
+          // @ts-expect-error Shush TypeScript, it's a debug ref in a story, it's fine
+          lateAnchorRef.current = (
+            <Box
+              borderRadius="10px"
+              id="tooltip-storybook-0"
+              p={4}
+              style={{ background: "pink", width: "200px" }}
+            >
+              <Button.Primary
+                title="Anchor here"
+                onClick={() => {
+                  // no-op
+                }}
+              />
+            </Box>
+          );
+
+          setForceRender(Math.random());
+        }, 333);
       }, []);
 
       return (
@@ -77,11 +82,12 @@ export const Default = {
               Second anchor
             </Box>
             <Tour
-              // onOpenChange={setOpen}
-              // open={open}
+              onOpenChange={setOpen}
+              open={open}
               // variables={{
               //   firstName: "John",
               // }}
+              onSecondary={() => setOpen(false)}
               {...(options.args as TourProps)}
             />
           </Box>
