@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.6.8
+
+### Patch Changes
+
+- 2860866: Bug fixes for onDismiss, onOpenChange, and URL-based Collection targeting
+- Updated dependencies [2860866]
+  - @frigade/js@0.7.24
+
 ## 2.6.7
 
 ### Patch Changes

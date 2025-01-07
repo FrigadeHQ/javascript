@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.7.24
+
+### Patch Changes
+
+- 2860866: Bug fixes for onDismiss, onOpenChange, and URL-based Collection targeting
+
 ## 0.7.23
 
 ### Patch Changes
