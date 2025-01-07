@@ -148,9 +148,10 @@ export async function gracefulFetch(
 
   if (!response) {
     try {
-      if (cancelPendingRequests) {
-        globalThis.callQueue.cancelAllPendingRequests()
-      }
+      // TEMP: Disable pending request flushing
+      // if (cancelPendingRequests) {
+      //   globalThis.callQueue.cancelAllPendingRequests()
+      // }
 
       const pendingResponse = fetch(url, options)
 
