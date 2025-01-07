@@ -24,6 +24,24 @@ export type StepAction =
   | 'step.start'
   | false
 
+export type FlowChangeEvent =
+  | 'flow.any'
+  | 'flow.complete'
+  | 'flow.restart'
+  | 'flow.skip'
+  | 'flow.start'
+  | 'step.complete'
+  | 'step.skip'
+  | 'step.reset'
+  | 'step.start'
+
+export type FlowChangeEventHandler = (
+  event: FlowChangeEvent,
+  flow: Flow,
+  previousFlow?: Flow,
+  step?: FlowStep
+) => void
+
 export type PropertyPayload = Record<string, any>
 
 export interface FlowStep extends StatefulStep {

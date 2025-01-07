@@ -1,4 +1,5 @@
 import { Announcement, Tour, useFlow, useFrigade } from "@frigade/react";
+import { useEffect } from "react";
 
 export default {
   title: "Components/Announcement",
@@ -23,6 +24,21 @@ export const TestReset = {
     (Story, { args }) => {
       const { frigade } = useFrigade();
       const { flow } = useFlow(args.flowId);
+
+      useEffect(() => {
+        frigade.on("flow.start", (event, flow) => {
+          console.log("flow.start", event, flow.id);
+        });
+        frigade.on("flow.complete", (event, flow) => {
+          console.log("flow.complete", event, flow.id);
+        });
+        frigade.on("flow.skip", (event, flow) => {
+          console.log("flow.skip", event, flow.id);
+        });
+        frigade.on("step.complete", (event, flow, previousFlow, step) => {
+          console.log("step.complete", event, flow.id, step?.id);
+        });
+      }, []);
 
       return (
         <div>
