@@ -103,7 +103,7 @@ export function Hint({
     } else if (!autoScroll) {
       setScrollComplete(true)
     }
-  }, [autoScroll, refs.reference.current])
+  }, [autoScroll, refs.reference, scrollComplete])
 
   if (refs.reference.current == null || !scrollComplete || !isVisible) {
     return null

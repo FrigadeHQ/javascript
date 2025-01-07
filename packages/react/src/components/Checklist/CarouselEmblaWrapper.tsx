@@ -69,7 +69,7 @@ export function CarouselEmblaWrapper({
       setHasNext(emblaApi.canScrollNext())
       setHasPrev(emblaApi.canScrollPrev())
     })
-  }, [emblaApi])
+  }, [emblaApi, hasNext, hasPrev])
 
   useEffect(() => {
     // check if hasCompletedInitialSort. If not then sort the steps from not completed not skipped to completed/skipped
@@ -91,7 +91,7 @@ export function CarouselEmblaWrapper({
         setStepOrder(steps.map((step) => step.id))
       }
     }
-  }, [])
+  }, [flow.steps, sort, stepOrder])
 
   const completedSteps = flow.getNumberOfCompletedSteps()
   const availableSteps = flow.getNumberOfAvailableSteps()

@@ -12,14 +12,14 @@ export function useCheckForModalCollision(flow: Flow, isModal = true) {
         setCurrentModal(flowId)
       }
     },
-    [isModal, flow?.isVisible]
+    [isModal, flow?.isVisible, setCurrentModal]
   )
 
   const releaseLock = useCallback(() => {
     if (flow != null && currentModal === flow?.id) {
       setCurrentModal(null)
     }
-  }, [currentModal, flow?.id])
+  }, [currentModal, flow, setCurrentModal])
 
   useEffect(() => {
     if (flow != null && currentModal === null && flow.isVisible) {
@@ -27,14 +27,14 @@ export function useCheckForModalCollision(flow: Flow, isModal = true) {
     }
 
     return releaseLock
-  }, [currentModal, flow?.id, flow?.isVisible])
+  }, [claimLock, currentModal, flow, releaseLock])
 
   // Edge case: The current modal may become non-modal while still mounted
   useEffect(() => {
     if (flow != null && (!isModal || !flow.isVisible)) {
       releaseLock()
     }
-  }, [flow?.isVisible, isModal])
+  }, [flow, isModal, releaseLock])
 
   // No flow? No problem.
   if (flow == null) {

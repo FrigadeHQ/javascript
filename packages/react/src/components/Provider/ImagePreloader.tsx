@@ -16,7 +16,7 @@ export function ImagePreloader() {
         })
       })
     })()
-  }, [])
+  }, [frigade])
 
   return null
 }
