@@ -30,10 +30,10 @@ export function useCollections() {
       }, 0)
     }
 
-    frigade?.onStateChange(handler)
+    frigade?.on('flow.any', handler)
 
     return () => {
-      frigade?.removeStateChangeHandler(handler)
+      frigade?.off('flow.any', handler)
     }
   }, [])
 

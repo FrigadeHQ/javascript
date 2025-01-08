@@ -26,6 +26,13 @@ export const TestReset = {
       const { flow } = useFlow(args.flowId);
 
       useEffect(() => {
+        frigade.on("step.start", (event, flow, previousFlow, step) => {
+          console.log("step.start", event, flow.id, step?.id);
+        });
+        frigade.on("step.complete", (event, flow, previousFlow, step) => {
+          console.log("step.complete", event, flow.id, step?.id);
+        });
+
         frigade.on("flow.start", (event, flow) => {
           console.log("flow.start", event, flow.id);
         });
@@ -34,9 +41,6 @@ export const TestReset = {
         });
         frigade.on("flow.skip", (event, flow) => {
           console.log("flow.skip", event, flow.id);
-        });
-        frigade.on("step.complete", (event, flow, previousFlow, step) => {
-          console.log("step.complete", event, flow.id, step?.id);
         });
       }, []);
 

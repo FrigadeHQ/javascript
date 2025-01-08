@@ -498,6 +498,7 @@ export class Flow extends Fetchable {
 
   /**
    * @ignore
+   * @deprecated Use `frigade.on('flow.complete' | 'flow.skip' | 'flow.restart' | 'flow.start', handler)` instead.
    */
   public onStateChange(handler: (flow: Flow, previousFlow: Flow) => void) {
     const wrapperHandler = (flow: Flow, previousFlow: Flow) => {

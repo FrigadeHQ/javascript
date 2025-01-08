@@ -253,6 +253,7 @@ export interface FlowStep extends StatefulStep {
 
   /**
    * Event handler called when this step's state changes.
+   * @deprecated Use `frigade.on('step.complete' | 'step.skip' | 'step.reset' | 'step.start', handler)` instead.
    */
   onStateChange: (callback: (step: FlowStep, previousStep?: FlowStep) => void) => void
 

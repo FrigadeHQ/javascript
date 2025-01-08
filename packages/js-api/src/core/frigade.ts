@@ -659,6 +659,26 @@ export class Frigade extends Fetchable {
           flow.resyncState(newState)
           for (const [event, handlers] of this.eventHandlers.entries()) {
             switch (event) {
+              case 'flow.complete':
+                if (newState.$state.completed && previousState?.$state.completed === false) {
+                  handlers.forEach((handler) => handler(event, flow, lastFlow))
+                }
+                break
+              case 'flow.restart':
+                if (!newState.$state.started && previousState?.$state.started === true) {
+                  handlers.forEach((handler) => handler(event, flow, lastFlow))
+                }
+                break
+              case 'flow.skip':
+                if (newState.$state.skipped && previousState?.$state.skipped === false) {
+                  handlers.forEach((handler) => handler(event, flow, lastFlow))
+                }
+                break
+              case 'flow.start':
+                if (newState.$state.started && previousState?.$state.started === false) {
+                  handlers.forEach((handler) => handler(event, flow, lastFlow))
+                }
+                break
               case 'step.complete':
                 for (const step of newState.data.steps ?? []) {
                   if (
@@ -706,24 +726,20 @@ export class Frigade extends Fetchable {
                   }
                 }
                 break
-              case 'flow.complete':
-                if (newState.$state.completed && previousState?.$state.completed === false) {
-                  handlers.forEach((handler) => handler(event, flow, lastFlow))
-                }
-                break
-              case 'flow.restart':
-                if (!newState.$state.started && previousState?.$state.started === true) {
-                  handlers.forEach((handler) => handler(event, flow, lastFlow))
-                }
-                break
-              case 'flow.skip':
-                if (newState.$state.skipped && previousState?.$state.skipped === false) {
-                  handlers.forEach((handler) => handler(event, flow, lastFlow))
-                }
-                break
-              case 'flow.start':
-                if (newState.$state.started && previousState?.$state.started === false) {
-                  handlers.forEach((handler) => handler(event, flow, lastFlow))
+              case 'step.start':
+                for (const step of newState.data.steps ?? []) {
+                  if (
+                    step.$state.started &&
+                    previousState?.data.steps.find(
+                      (previousStepState) =>
+                        previousStepState.id === step.id &&
+                        previousStepState.$state.started === false
+                    )
+                  ) {
+                    handlers.forEach((handler) =>
+                      handler(event, flow, lastFlow, flow.steps.get(step.id))
+                    )
+                  }
                 }
                 break
 
