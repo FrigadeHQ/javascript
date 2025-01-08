@@ -40,16 +40,18 @@ export function useStepHandlers(step: FlowStep, { onPrimary, onSecondary }: Step
       step == null
         ? {}
         : {
-            'flow.back': () => step.flow.back(),
-            'flow.complete': () => step.flow.complete(),
-            'flow.forward': () => step.flow.forward(),
+            'flow.back': (properties?: PropertyPayload) => step.flow.back(properties),
+            'flow.complete': (properties?: PropertyPayload) => step.flow.complete(properties),
+            'flow.forward': (properties?: PropertyPayload) => step.flow.forward(properties),
             'flow.restart': () => step.flow.restart(),
-            'flow.skip': () => step.flow.skip(),
-            'flow.start': () => step.flow.start(),
-            'step.complete': () => step.complete(),
-            'step.skip': () => step.skip(),
+            'flow.skip': (properties?: PropertyPayload) => step.flow.skip(properties),
+            'flow.start': (properties?: PropertyPayload) => step.flow.start(properties),
+            'step.complete': (properties?: PropertyPayload, optimistic?: boolean) =>
+              step.complete(properties, optimistic),
+            'step.skip': (properties?: PropertyPayload, optimistic?: boolean) =>
+              step.skip(properties, optimistic),
             'step.reset': () => step.reset(),
-            'step.start': () => step.start(),
+            'step.start': (properties?: PropertyPayload) => step.start(properties),
           },
     [step]
   )
