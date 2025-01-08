@@ -458,6 +458,135 @@ describe('Basic Checklist integration test', () => {
     expect(flow.isCompleted).toBeFalsy()
     expect(flow.isVisible).toBeTruthy()
   })
+  test('on() event handler for flow.complete', async () => {
+    const userId = getRandomID()
+    const frigade = new Frigade(testAPIKey, {
+      userId,
+    })
+    await frigade.identify(userId)
+    const flow = await frigade.getFlow(testFlowId)
+    expect(flow).toBeDefined()
+
+    const callback = jest.fn(
+      (event: string, flow: Flow, _previousFlow?: Flow, _step?: FlowStep) => {
+        expect(event).toBe('flow.complete')
+        expect(flow).toBeDefined()
+        expect(flow.id).toEqual(testFlowId)
+      }
+    )
+    frigade.on('flow.complete', callback)
+
+    expect(flow.isCompleted).toBeFalsy()
+    await flow.complete()
+    expect(flow.isCompleted).toBeTruthy()
+    expect(callback).toHaveBeenCalledTimes(1)
+  })
+
+  test('on() event handler for flow.start', async () => {
+    const userId = getRandomID()
+    const frigade = new Frigade(testAPIKey, {
+      userId,
+    })
+    await frigade.identify(userId)
+    const flow = await frigade.getFlow(testFlowId)
+    expect(flow).toBeDefined()
+
+    const callback = jest.fn(
+      (event: string, flow: Flow, _previousFlow?: Flow, _step?: FlowStep) => {
+        expect(event).toBe('flow.start')
+        expect(flow).toBeDefined()
+        expect(flow.id).toEqual(testFlowId)
+      }
+    )
+    frigade.on('flow.start', callback)
+
+    const step = flow.steps.get(testFlowStepId)
+    expect(step).toBeDefined()
+
+    await step.start()
+    expect(callback).toHaveBeenCalledTimes(1)
+  })
+
+  test('on() event handler for step.complete', async () => {
+    const userId = getRandomID()
+    const frigade = new Frigade(testAPIKey, {
+      userId,
+    })
+    await frigade.identify(userId)
+    const flow = await frigade.getFlow(testFlowId)
+    expect(flow).toBeDefined()
+
+    const callback = jest.fn((event: string, flow: Flow, _previousFlow?: Flow, step?: FlowStep) => {
+      expect(event).toBe('step.complete')
+      expect(flow).toBeDefined()
+      expect(flow.id).toEqual(testFlowId)
+      expect(step).toBeDefined()
+      expect(step.id).toEqual(testFlowStepId)
+    })
+    frigade.on('step.complete', callback)
+
+    if (flow) {
+      const step = flow.steps.get(testFlowStepId)
+      expect(step).toBeDefined()
+      if (step) {
+        await step.complete()
+        expect(callback).toHaveBeenCalledTimes(1)
+      }
+    }
+  })
+
+  test('on() event handler for flow.skip', async () => {
+    const userId = getRandomID()
+    const frigade = new Frigade(testAPIKey, {
+      userId,
+    })
+    await frigade.identify(userId)
+    const flow = await frigade.getFlow(testFlowId)
+    expect(flow).toBeDefined()
+
+    const callback = jest.fn(
+      (event: string, flow: Flow, _previousFlow?: Flow, _step?: FlowStep) => {
+        expect(event).toBe('flow.skip')
+        expect(flow).toBeDefined()
+        expect(flow.id).toEqual(testFlowId)
+      }
+    )
+    frigade.on('flow.skip', callback)
+
+    if (flow) {
+      await flow.skip()
+      expect(callback).toHaveBeenCalledTimes(1)
+    }
+  })
+
+  test('on() event handler for step.reset', async () => {
+    const userId = getRandomID()
+    const frigade = new Frigade(testAPIKey, {
+      userId,
+    })
+    await frigade.identify(userId)
+    const flow = await frigade.getFlow(testFlowId)
+    expect(flow).toBeDefined()
+
+    const callback = jest.fn((event: string, flow: Flow, _previousFlow?: Flow, step?: FlowStep) => {
+      expect(event).toBe('step.reset')
+      expect(flow).toBeDefined()
+      expect(flow.id).toEqual(testFlowId)
+      expect(step).toBeDefined()
+      expect(step.id).toEqual(testFlowStepId)
+    })
+    frigade.on('step.reset', callback)
+
+    if (flow) {
+      const step = flow.steps.get(testFlowStepId)
+      expect(step).toBeDefined()
+      if (step) {
+        await step.complete()
+        await step.reset()
+        expect(callback).toHaveBeenCalledTimes(1)
+      }
+    }
+  })
 })
 
 describe('Advanced Checklist integration test', () => {

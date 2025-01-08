@@ -36,9 +36,21 @@ export type FlowChangeEvent =
   | 'step.start'
 
 export type FlowChangeEventHandler = (
+  /**
+   * The event that triggered the handler.
+   */
   event: FlowChangeEvent,
+  /**
+   * The Flow that triggered the event.
+   */
   flow: Flow,
+  /**
+   * The previous Flow that triggered the event.
+   */
   previousFlow?: Flow,
+  /**
+   * The step that triggered the event. Only applicable for `step.complete`, `step.skip`, `step.reset`, `step.start` events.
+   */
   step?: FlowStep
 ) => void
 

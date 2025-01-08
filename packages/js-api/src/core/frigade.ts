@@ -373,16 +373,27 @@ export class Frigade extends Fetchable {
     }
     this.initPromise = null
     await this.init(this.config)
+    this.triggerAllLegacyEventHandlers()
     this.triggerAllEventHandlers()
   }
 
-  private triggerAllEventHandlers() {
+  /**
+   * @ignore
+   */
+  private triggerAllLegacyEventHandlers() {
     this.flows.forEach((flow) => {
       this.getGlobalState().onFlowStateChangeHandlers.forEach((handler) => {
         const lastFlow = this.getGlobalState().previousFlows.get(flow.id)
         handler(flow, lastFlow)
         this.getGlobalState().previousFlows.set(flow.id, cloneFlow(flow))
       })
+    })
+  }
+
+  private triggerAllEventHandlers() {
+    this.flows.forEach((flow) => {
+      const lastFlow = this.getGlobalState().previousFlows.get(flow.id)
+      this.triggerEventHandlers(flow.rawData, lastFlow?.rawData)
     })
   }
 
@@ -402,21 +413,19 @@ export class Frigade extends Fetchable {
 
   /**
    * Event handler that captures all changes that happen to the state of the Flows. Use `flow.any` to capture all events.
-   * @param event `flow.any` | `flow.complete` | `flow.skip` | `flow.start` | `step.complete` | `step.skip` | `step.reset` | `step.start`
+   * @param event `flow.any` | `flow.complete` | `flow.restart` | `flow.skip` | `flow.start` | `step.complete` | `step.skip` | `step.reset` | `step.start`
    * @param handler
    */
   public async on(event: FlowChangeEvent, handler: FlowChangeEventHandler) {
-    await this.initIfNeeded()
     this.eventHandlers.set(event, [...(this.eventHandlers.get(event) ?? []), handler])
   }
 
   /**
    * Removes the given handler.
-   * @param event `flow.any` | `flow.complete` | `flow.skip` | `flow.start` | `step.complete` | `step.skip` | `step.reset` | `step.start`
+   * @param event `flow.any` | `flow.complete` | `flow.restart` | `flow.skip` | `flow.start` | `step.complete` | `step.skip` | `step.reset` | `step.start`
    * @param handler
    */
   public async off(event: FlowChangeEvent, handler: FlowChangeEventHandler) {
-    await this.initIfNeeded()
     this.eventHandlers.set(
       event,
       (this.eventHandlers.get(event) ?? []).filter((h) => h !== handler)
@@ -547,6 +556,7 @@ export class Frigade extends Fetchable {
             // Necessary check to prevent race condition between flow state and collection state
             !overrideFlowStateRaw
           ) {
+            this.triggerAllLegacyEventHandlers()
             this.triggerAllEventHandlers()
           }
         }
@@ -641,35 +651,14 @@ export class Frigade extends Fetchable {
   /**
    * @ignore
    */
-  private async triggerEventHandlers(newState: StatefulFlow, previousState?: StatefulFlow) {
+  private triggerEventHandlers(newState: StatefulFlow, previousState?: StatefulFlow) {
     if (newState) {
-      this.flows.forEach((flow) => {
-        if (flow.id == previousState.flowSlug) {
-          Array.from(this.eventHandlers.entries()).forEach(([event, handlers]) => {
-            const lastFlow = this.getGlobalState().previousFlows.get(flow.id)
-            flow.resyncState(newState)
-
+      for (const flow of this.flows) {
+        if (flow.id == newState.flowSlug) {
+          const lastFlow = this.getGlobalState().previousFlows.get(flow.id)
+          flow.resyncState(newState)
+          for (const [event, handlers] of this.eventHandlers.entries()) {
             switch (event) {
-              case 'flow.complete':
-                if (newState.$state.completed && !previousState.$state.completed) {
-                  handlers.forEach((handler) => handler(event, flow, lastFlow))
-                }
-                break
-              case 'flow.restart':
-                if (!newState.$state.started && previousState.$state.started) {
-                  handlers.forEach((handler) => handler(event, flow, lastFlow))
-                }
-                break
-              case 'flow.skip':
-                if (newState.$state.skipped && !previousState.$state.skipped) {
-                  handlers.forEach((handler) => handler(event, flow, lastFlow))
-                }
-                break
-              case 'flow.start':
-                if (newState.$state.started && !previousState.$state.started) {
-                  handlers.forEach((handler) => handler(event, flow, lastFlow))
-                }
-                break
               case 'step.complete':
                 for (const step of newState.data.steps ?? []) {
                   if (
@@ -717,17 +706,37 @@ export class Frigade extends Fetchable {
                   }
                 }
                 break
+              case 'flow.complete':
+                if (newState.$state.completed && previousState?.$state.completed === false) {
+                  handlers.forEach((handler) => handler(event, flow, lastFlow))
+                }
+                break
+              case 'flow.restart':
+                if (!newState.$state.started && previousState?.$state.started === true) {
+                  handlers.forEach((handler) => handler(event, flow, lastFlow))
+                }
+                break
+              case 'flow.skip':
+                if (newState.$state.skipped && previousState?.$state.skipped === false) {
+                  handlers.forEach((handler) => handler(event, flow, lastFlow))
+                }
+                break
+              case 'flow.start':
+                if (newState.$state.started && previousState?.$state.started === false) {
+                  handlers.forEach((handler) => handler(event, flow, lastFlow))
+                }
+                break
+
               default:
                 if (JSON.stringify(newState) !== JSON.stringify(previousState ?? {})) {
                   handlers.forEach((handler) => handler(event, flow, lastFlow))
                 }
                 break
             }
-
-            this.getGlobalState().previousFlows.set(flow.id, cloneFlow(flow))
-          })
+          }
+          this.getGlobalState().previousFlows.set(flow.id, cloneFlow(flow))
         }
-      })
+      }
     }
   }
 
