@@ -742,8 +742,7 @@ export class Frigade extends Fetchable {
                   }
                 }
                 break
-
-              default:
+              case 'flow.any':
                 if (JSON.stringify(newState) !== JSON.stringify(previousState ?? {})) {
                   handlers.forEach((handler) => handler(event, flow, lastFlow))
                 }
