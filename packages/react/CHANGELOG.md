@@ -1,5 +1,16 @@
 # @frigade/react
 
+## 2.7.0
+
+### Minor Changes
+
+- 9bdfcb3: Adds a new and improved API for handling state changes which allows you to filter events based on flow and step completion for the user. The API is available through `frigade.on(...)`
+
+### Patch Changes
+
+- Updated dependencies [9bdfcb3]
+  - @frigade/js@0.8.0
+
 ## 2.6.8
 
 ### Patch Changes
