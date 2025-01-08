@@ -11,7 +11,7 @@ import * as baseStyles from '@/components/Form/fields/BaseField.styles'
 export function CheckboxField(props: FormFieldProps) {
   const {
     field: { onChange, value },
-    fieldData: { options, label, id = [] },
+    fieldData: { label, id = [] },
   } = props
 
   return (
@@ -32,7 +32,7 @@ export function CheckboxField(props: FormFieldProps) {
           justifyContent="center"
           alignItems="center"
           display="flex"
-          // @ts-ignore
+          // @ts-expect-error :hover type isn't in style props yet
           backgroundColor:hover="neutral.900"
           part="field-checkbox"
           id={id as string}

@@ -105,7 +105,7 @@ export function Spotlight({ anchor, part, style = {}, ...props }: SpotlightProps
     } catch (invalidSelector) {
       /* no-op */
     }
-  }, [anchor])
+  }, [anchor, refs])
 
   return (
     <Overlay

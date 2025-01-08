@@ -123,7 +123,7 @@ export function Tooltip({
     } else {
       console.debug(`[frigade] Tooltip: No anchor found for query: ${anchor}`)
     }
-  }, [anchor])
+  }, [anchor, anchorRef])
 
   useEffect(() => {
     function checkElementForAnchor(element: Element) {
@@ -193,7 +193,7 @@ export function Tooltip({
     observer.observe(document.querySelector('body'), { childList: true, subtree: true })
 
     return () => observer.disconnect()
-  }, [])
+  }, [anchor, anchorRef])
 
   useEffect(() => {
     const { scrollX, scrollY } = window

@@ -66,7 +66,7 @@ export function useFlow(
       ...variables,
       ...config?.variables,
     })
-  }, [config?.variables, flowId, variables])
+  }, [config?.variables, flow, flowId, variables])
 
   return {
     flow,

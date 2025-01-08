@@ -45,7 +45,8 @@
     "lint": "eslint --fix --ext .ts,.tsx .",
     "build": "yarn clean && tsup",
     "local-release": "tsup",
-    "prepublish": "node prepublish.mjs"
+    "prepublish": "node prepublish.mjs",
+    "prepare": "cd ../../ && husky"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",

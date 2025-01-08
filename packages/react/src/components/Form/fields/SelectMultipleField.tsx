@@ -11,7 +11,7 @@ import * as baseStyles from '@/components/Form/fields/BaseField.styles'
 
 export function SelectMultipleField(props: FormFieldProps) {
   const {
-    field: { onChange, value },
+    field: { onChange },
     fieldData: { options = [] },
   } = props
 

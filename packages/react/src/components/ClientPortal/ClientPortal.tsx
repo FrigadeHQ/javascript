@@ -6,5 +6,5 @@ export interface ClientPortalProps {
 }
 
 export function ClientPortal({ children, container = 'body' }: ClientPortalProps) {
-  return children != null ? useClientPortal(children, container) : null
+  return useClientPortal(children, container)
 }

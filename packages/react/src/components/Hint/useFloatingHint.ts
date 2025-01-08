@@ -109,7 +109,7 @@ export function useFloatingHint({
     } else {
       console.debug(`[frigade] Hint: No anchor found for selector: ${anchor}`)
     }
-  }, [anchorElement])
+  }, [anchor, anchorElement, refs])
 
   // The flip() middleware might reverse the align prop
   const finalPlacement = computedPlacement.split('-')

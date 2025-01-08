@@ -163,7 +163,18 @@ export function Provider({
       __platformVersion: SDK_VERSION,
       __platformName: 'React',
     } as FrigadeConfig)
-  }, [props.userId, props.groupId, props.apiKey])
+  }, [
+    props.apiKey,
+    props.apiUrl,
+    props.userId,
+    props.groupId,
+    props.userProperties,
+    props.groupProperties,
+    props.generateGuestId,
+    props.syncOnWindowUpdates,
+    props.__readOnly,
+    props.__flowStateOverrides,
+  ])
 
   useEffect(() => {
     if (props.__flowStateOverrides) {
@@ -171,7 +182,7 @@ export function Provider({
       config.__flowStateOverrides = props.__flowStateOverrides
       frigade.reload(config)
     }
-  }, [props.__flowStateOverrides])
+  }, [frigade, props.__flowStateOverrides])
 
   function batchRegistration() {
     const batchedFlowIds = [...registeredComponents.current.entries()].map(([flowId, options]) => [
@@ -236,7 +247,7 @@ export function Provider({
     return () => {
       frigade.destroy()
     }
-  }, [])
+  }, [frigade])
 
   return (
     <FrigadeContext.Provider

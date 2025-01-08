@@ -8,7 +8,7 @@ import * as styles from './BaseField.styles'
 export interface FieldProps {
   value: string
   onChange: (value: string) => void
-  [key: string]: any
+  [key: string]: unknown
 }
 
 interface BaseFieldProps extends FormFieldProps {

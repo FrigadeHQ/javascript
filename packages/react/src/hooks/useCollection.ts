@@ -30,7 +30,7 @@ export function useCollection(collectionId?: string): {
 
   useEffect(() => {
     frigade?.registerCollection(collectionId)
-  }, [collectionId])
+  }, [collectionId, frigade])
 
   return {
     collection,

@@ -1,4 +1,4 @@
-import { type SyntheticEvent, useCallback, useContext } from 'react'
+import { type SyntheticEvent, useCallback, useContext, useMemo } from 'react'
 
 import type { FlowStep, PropertyPayload } from '@frigade/js'
 
@@ -35,18 +35,24 @@ export type StepHandler = (
 export function useStepHandlers(step: FlowStep, { onPrimary, onSecondary }: StepHandlerProps = {}) {
   const { navigate } = useContext(FrigadeContext)
 
-  const stepActions = {
-    'flow.back': (...args) => step.flow.back(...args),
-    'flow.complete': (...args) => step.flow.complete(...args),
-    'flow.forward': (...args) => step.flow.forward(...args),
-    'flow.restart': () => step.flow.restart(),
-    'flow.skip': (...args) => step.flow.skip(...args),
-    'flow.start': (...args) => step.flow.start(...args),
-    'step.complete': (...args) => step.complete(...args),
-    'step.skip': (...args) => step.skip(...args),
-    'step.reset': () => step.reset(),
-    'step.start': (...args) => step.start(...args),
-  }
+  const stepActions = useMemo(
+    () =>
+      step == null
+        ? {}
+        : {
+            'flow.back': step.flow.back,
+            'flow.complete': step.flow.complete,
+            'flow.forward': step.flow.forward,
+            'flow.restart': step.flow.restart,
+            'flow.skip': step.flow.skip,
+            'flow.start': step.flow.start,
+            'step.complete': step.complete,
+            'step.skip': step.skip,
+            'step.reset': step.reset,
+            'step.start': step.start,
+          },
+    [step]
+  )
 
   return {
     handlePrimary: useCallback<StepHandler>(
@@ -80,7 +86,7 @@ export function useStepHandlers(step: FlowStep, { onPrimary, onSecondary }: Step
 
         return true
       },
-      [step]
+      [navigate, onPrimary, step, stepActions]
     ),
 
     handleSecondary: useCallback<StepHandler>(
@@ -116,7 +122,7 @@ export function useStepHandlers(step: FlowStep, { onPrimary, onSecondary }: Step
 
         return true
       },
-      [step]
+      [navigate, onSecondary, step, stepActions]
     ),
   }
 }

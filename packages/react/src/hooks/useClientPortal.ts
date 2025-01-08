@@ -13,7 +13,7 @@ export function useClientPortal(
     containerRef.current =
       typeof container === 'string' ? document.querySelector(container) : container
     setMounted(true)
-  }, [])
+  }, [container])
 
   return mounted ? createPortal(children, containerRef.current, key) : null
 }

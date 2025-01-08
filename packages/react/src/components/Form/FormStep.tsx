@@ -92,7 +92,7 @@ export function FormStep({
         }, {})
       )
     }
-  }, [fieldDatas])
+  }, [fieldDatas, formContext])
 
   useEffect(() => {
     if (
@@ -102,7 +102,7 @@ export function FormStep({
     ) {
       formContext.trigger()
     }
-  }, [step.id])
+  }, [fieldDatas, formContext, step.id])
 
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -136,7 +136,7 @@ export function FormStep({
 
   useEffect(() => {
     formContext.clearErrors()
-  }, [step])
+  }, [formContext, step])
 
   return (
     <>
