@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.8.0
+
+### Minor Changes
+
+- 9bdfcb3: Adds a new and improved API for handling state changes which allows you to filter events based on flow and step completion for the user. The API is available through `frigade.on(...)`
+
 ## 0.7.24
 
 ### Patch Changes
