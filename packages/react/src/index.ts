@@ -25,6 +25,7 @@ export { RadioField } from './components/Form/fields/RadioField'
 export { Label } from './components/Form/fields/Label'
 export { BaseField } from './components/Form/fields/BaseField'
 export { Media, Image, Video } from './components/Media'
+export { type NPSProps } from './components/Survey/NPS'
 
 export * as Progress from './components/Progress'
 export { ProgressBadge, type ProgressBadgeProps } from './components/ProgressBadge'

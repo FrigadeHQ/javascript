@@ -6,7 +6,7 @@ import { useFlow } from '@/hooks/useFlow'
 
 type NPSOptions = { label: string; value: string }[]
 
-interface NPSProps extends FormProps {
+export interface NPSProps extends FormProps {
   /**
    * The options to display in the NPS field.
    * If not provided, the default NPS numbers from 0 to 10 will be used.
