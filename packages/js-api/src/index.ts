@@ -8,6 +8,8 @@ export {
   type StatefulFlow,
   TriggerType,
   PropertyPayload,
+  FlowChangeEvent,
+  FlowChangeEventHandler,
 } from './core/types'
 export type {
   EnrichedCollection,

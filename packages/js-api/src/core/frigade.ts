@@ -1,6 +1,9 @@
 import {
+  FlowChangeEvent,
+  FlowChangeEventHandler,
   FlowStateDTO,
   FlowStates,
+  FlowStep,
   FrigadeConfig,
   PropertyPayload,
   SessionDTO,
@@ -42,6 +45,10 @@ export class Frigade extends Fetchable {
    * @ignore
    */
   private lastSessionDTO?: SessionDTO
+  /**
+   * @ignore
+   */
+  private eventHandlers: Map<FlowChangeEvent, FlowChangeEventHandler[]> = new Map()
 
   /**
    * @ignore
@@ -366,10 +373,14 @@ export class Frigade extends Fetchable {
     }
     this.initPromise = null
     await this.init(this.config)
+    this.triggerAllLegacyEventHandlers()
     this.triggerAllEventHandlers()
   }
 
-  private triggerAllEventHandlers() {
+  /**
+   * @ignore
+   */
+  private triggerAllLegacyEventHandlers() {
     this.flows.forEach((flow) => {
       this.getGlobalState().onFlowStateChangeHandlers.forEach((handler) => {
         const lastFlow = this.getGlobalState().previousFlows.get(flow.id)
@@ -379,17 +390,46 @@ export class Frigade extends Fetchable {
     })
   }
 
+  private triggerAllEventHandlers() {
+    this.flows.forEach((flow) => {
+      const lastFlow = this.getGlobalState().previousFlows.get(flow.id)
+      this.triggerEventHandlers(flow.rawData, lastFlow?.rawData)
+    })
+  }
+
   private async resync() {
     await this.refreshStateFromAPI()
   }
 
   /**
    * Event handler that captures all changes that happen to the state of the Flows.
+   * @deprecated Use `frigade.on` instead.
    * @param handler
    */
   public async onStateChange(handler: (flow: Flow, previousFlow?: Flow) => void) {
     await this.initIfNeeded()
     this.getGlobalState().onFlowStateChangeHandlers.push(handler)
+  }
+
+  /**
+   * Event handler that captures all changes that happen to the state of the Flows. Use `flow.any` to capture all events.
+   * @param event `flow.any` | `flow.complete` | `flow.restart` | `flow.skip` | `flow.start` | `step.complete` | `step.skip` | `step.reset` | `step.start`
+   * @param handler
+   */
+  public async on(event: FlowChangeEvent, handler: FlowChangeEventHandler) {
+    this.eventHandlers.set(event, [...(this.eventHandlers.get(event) ?? []), handler])
+  }
+
+  /**
+   * Removes the given handler.
+   * @param event `flow.any` | `flow.complete` | `flow.restart` | `flow.skip` | `flow.start` | `step.complete` | `step.skip` | `step.reset` | `step.start`
+   * @param handler
+   */
+  public async off(event: FlowChangeEvent, handler: FlowChangeEventHandler) {
+    this.eventHandlers.set(
+      event,
+      (this.eventHandlers.get(event) ?? []).filter((h) => h !== handler)
+    )
   }
 
   /**
@@ -435,6 +475,7 @@ export class Frigade extends Fetchable {
             const previousState = target[key] as StatefulFlow
             const newState = value as StatefulFlow
             if (JSON.stringify(previousState) !== JSON.stringify(newState)) {
+              that.triggerDeprecatedEventHandlers(newState, previousState)
               that.triggerEventHandlers(newState, previousState)
             }
           }
@@ -515,6 +556,7 @@ export class Frigade extends Fetchable {
             // Necessary check to prevent race condition between flow state and collection state
             !overrideFlowStateRaw
           ) {
+            this.triggerAllLegacyEventHandlers()
             this.triggerAllEventHandlers()
           }
         }
@@ -588,7 +630,10 @@ export class Frigade extends Fetchable {
   /**
    * @ignore
    */
-  private async triggerEventHandlers(newState: StatefulFlow, previousState?: StatefulFlow) {
+  private async triggerDeprecatedEventHandlers(
+    newState: StatefulFlow,
+    previousState?: StatefulFlow
+  ) {
     if (newState) {
       this.flows.forEach((flow) => {
         if (flow.id == previousState.flowSlug) {
@@ -600,6 +645,113 @@ export class Frigade extends Fetchable {
           })
         }
       })
+    }
+  }
+
+  /**
+   * @ignore
+   */
+  private triggerEventHandlers(newState: StatefulFlow, previousState?: StatefulFlow) {
+    if (newState) {
+      for (const flow of this.flows) {
+        if (flow.id == newState.flowSlug) {
+          const lastFlow = this.getGlobalState().previousFlows.get(flow.id)
+          flow.resyncState(newState)
+          for (const [event, handlers] of this.eventHandlers.entries()) {
+            switch (event) {
+              case 'flow.complete':
+                if (newState.$state.completed && previousState?.$state.completed === false) {
+                  handlers.forEach((handler) => handler(event, flow, lastFlow))
+                }
+                break
+              case 'flow.restart':
+                if (!newState.$state.started && previousState?.$state.started === true) {
+                  handlers.forEach((handler) => handler(event, flow, lastFlow))
+                }
+                break
+              case 'flow.skip':
+                if (newState.$state.skipped && previousState?.$state.skipped === false) {
+                  handlers.forEach((handler) => handler(event, flow, lastFlow))
+                }
+                break
+              case 'flow.start':
+                if (newState.$state.started && previousState?.$state.started === false) {
+                  handlers.forEach((handler) => handler(event, flow, lastFlow))
+                }
+                break
+              case 'step.complete':
+                for (const step of newState.data.steps ?? []) {
+                  if (
+                    step.$state.completed &&
+                    !previousState?.data.steps.find(
+                      (previousStepState) =>
+                        previousStepState.id === step.id && previousStepState.$state.completed
+                    )
+                  ) {
+                    handlers.forEach((handler) =>
+                      handler(event, flow, lastFlow, flow.steps.get(step.id))
+                    )
+                  }
+                }
+                break
+              case 'step.reset':
+                for (const step of newState.data.steps ?? []) {
+                  const previousStep = previousState?.data.steps.find(
+                    (previousStepState) => previousStepState.id === step.id
+                  )
+                  if (
+                    step.$state.started == false &&
+                    !step.$state.lastActionAt &&
+                    previousStep?.$state.started &&
+                    previousStep?.$state.lastActionAt
+                  ) {
+                    handlers.forEach((handler) =>
+                      handler(event, flow, lastFlow, flow.steps.get(step.id))
+                    )
+                  }
+                }
+                break
+              case 'step.skip':
+                for (const step of newState.data.steps ?? []) {
+                  if (
+                    step.$state.skipped &&
+                    !previousState?.data.steps.find(
+                      (previousStepState) =>
+                        previousStepState.id === step.id && previousStepState.$state.skipped
+                    )
+                  ) {
+                    handlers.forEach((handler) =>
+                      handler(event, flow, lastFlow, flow.steps.get(step.id))
+                    )
+                  }
+                }
+                break
+              case 'step.start':
+                for (const step of newState.data.steps ?? []) {
+                  if (
+                    step.$state.started &&
+                    previousState?.data.steps.find(
+                      (previousStepState) =>
+                        previousStepState.id === step.id &&
+                        previousStepState.$state.started === false
+                    )
+                  ) {
+                    handlers.forEach((handler) =>
+                      handler(event, flow, lastFlow, flow.steps.get(step.id))
+                    )
+                  }
+                }
+                break
+              case 'flow.any':
+                if (JSON.stringify(newState) !== JSON.stringify(previousState ?? {})) {
+                  handlers.forEach((handler) => handler(event, flow, lastFlow))
+                }
+                break
+            }
+          }
+          this.getGlobalState().previousFlows.set(flow.id, cloneFlow(flow))
+        }
+      }
     }
   }
 

@@ -30,6 +30,12 @@ export function useCollections() {
           cb()
         }, 0)
       }
+      
+    frigade?.on('flow.any', handler)
+
+    return () => {
+      frigade?.off('flow.any', handler)
+    }
 
       frigade?.onStateChange(handler)
 

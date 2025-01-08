@@ -1,4 +1,4 @@
-import { type Flow } from '@frigade/js'
+import { FlowChangeEvent, type Flow } from '@frigade/js'
 import { useCallback, useContext, useEffect, useState } from 'react'
 
 import { FrigadeContext } from '@/components/Provider'
@@ -30,7 +30,7 @@ export function useFlow(
         cb()
       })
 
-      const handler = (updatedFlow: Flow) => {
+      const handler = (_event: FlowChangeEvent, updatedFlow: Flow) => {
         if (updatedFlow.id !== flowId) {
           return
         }
@@ -46,10 +46,10 @@ export function useFlow(
         }, 0)
       }
 
-      frigade?.onStateChange(handler)
+      frigade?.on('flow.any', handler)
 
       return () => {
-        frigade?.removeStateChangeHandler(handler)
+        frigade?.off('flow.any', handler)
       }
     },
     [flowId, frigade]

@@ -24,6 +24,36 @@ export type StepAction =
   | 'step.start'
   | false
 
+export type FlowChangeEvent =
+  | 'flow.any'
+  | 'flow.complete'
+  | 'flow.restart'
+  | 'flow.skip'
+  | 'flow.start'
+  | 'step.complete'
+  | 'step.skip'
+  | 'step.reset'
+  | 'step.start'
+
+export type FlowChangeEventHandler = (
+  /**
+   * The event that triggered the handler.
+   */
+  event: FlowChangeEvent,
+  /**
+   * The Flow that triggered the event.
+   */
+  flow: Flow,
+  /**
+   * The previous Flow that triggered the event.
+   */
+  previousFlow?: Flow,
+  /**
+   * The step that triggered the event. Only applicable for `step.complete`, `step.skip`, `step.reset`, `step.start` events.
+   */
+  step?: FlowStep
+) => void
+
 export type PropertyPayload = Record<string, any>
 
 export interface FlowStep extends StatefulStep {
@@ -223,6 +253,7 @@ export interface FlowStep extends StatefulStep {
 
   /**
    * Event handler called when this step's state changes.
+   * @deprecated Use `frigade.on('step.complete' | 'step.skip' | 'step.reset' | 'step.start', handler)` instead.
    */
   onStateChange: (callback: (step: FlowStep, previousStep?: FlowStep) => void) => void
 
