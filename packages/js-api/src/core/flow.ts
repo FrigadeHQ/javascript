@@ -31,6 +31,10 @@ export class Flow extends Fetchable {
    */
   public id: string
   /**
+   * The version of the Flow.
+   */
+  public version: number
+  /**
    * The Flow's component ID.
    */
   public componentId: string
@@ -125,7 +129,7 @@ export class Flow extends Fetchable {
     this.subtitle = statefulFlow?.data?.subtitle
     this.type = statefulFlow?.data?.type
     this.props = statefulFlow?.data?.props ?? {}
-
+    this.version = statefulFlow?.version
     this.isCompleted = statefulFlow.$state.completed
     this.isStarted = statefulFlow.$state.started
     this.isSkipped = statefulFlow.$state.skipped

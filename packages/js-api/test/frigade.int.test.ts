@@ -44,6 +44,7 @@ describe('Basic Checklist integration test', () => {
       expect(step.id).toBeDefined()
       expect(step.title).toBeDefined()
     })
+    expect(flow.version).toBeDefined()
   })
 
   test('read and set flow state', async () => {
@@ -67,6 +68,7 @@ describe('Basic Checklist integration test', () => {
           flowSlug: 'some-flow',
           flowName: 'Some flow',
           flowType: FlowType.CHECKLIST,
+          version: 1,
           data: {
             steps: [
               {
@@ -125,6 +127,7 @@ describe('Basic Checklist integration test', () => {
         [madeUpFlowId]: {
           flowSlug: 'some-flow',
           flowName: 'Some flow',
+          version: 1,
           flowType: FlowType.CHECKLIST,
           data: {
             steps: [
@@ -180,6 +183,7 @@ describe('Basic Checklist integration test', () => {
       [madeUpFlowId]: {
         flowSlug: 'some-flow',
         flowName: 'Some flow',
+        version: 1,
         flowType: FlowType.CHECKLIST,
         data: {
           steps: [

@@ -371,6 +371,7 @@ export interface StatefulFlow {
   flowSlug: string
   flowName: string
   flowType: FlowType
+  version: number
   /**
    * Contains the raw data of the Flow as defined in the YAML config as well as the user's state of each step.
    */
