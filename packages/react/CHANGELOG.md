@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.7.1
+
+### Patch Changes
+
+- 3cd8d0b: Adds version number to the `Flow` model
+- Updated dependencies [3cd8d0b]
+  - @frigade/js@0.8.1
+
 ## 2.7.0
 
 ### Minor Changes
