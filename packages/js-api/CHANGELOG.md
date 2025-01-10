@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.8.1
+
+### Patch Changes
+
+- 3cd8d0b: Adds version number to the `Flow` model
+
 ## 0.8.0
 
 ### Minor Changes
