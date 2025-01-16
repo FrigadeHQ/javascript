@@ -26,7 +26,7 @@ export interface FloatingHintProps extends HintProps {
   open: boolean
 }
 
-export interface FloatingHintReturn extends Partial<Omit<UseFloatingReturn, 'placement'>> {
+export interface FloatingHintReturn extends Omit<UseFloatingReturn, 'placement'> {
   placement: ExtendedPlacement
   getFloatingProps: UseInteractionsReturn['getFloatingProps']
   getReferenceProps: UseInteractionsReturn['getReferenceProps']
@@ -83,6 +83,7 @@ export function useFloatingHint({
     floatingStyles,
     placement: computedPlacement,
     refs,
+    ...floatingReturn
   } = useFloating({
     middleware: [offset(offsetMiddleware, [align, alignOffset, side, sideOffset]), flip(), shift()],
     onOpenChange,
@@ -127,5 +128,6 @@ export function useFloatingHint({
     placement: finalPlacement.join('-') as ExtendedPlacement,
     refs,
     status,
+    ...floatingReturn,
   }
 }
