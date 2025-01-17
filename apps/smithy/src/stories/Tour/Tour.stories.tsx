@@ -49,7 +49,7 @@ export const Default = {
           );
 
           setForceRender(Math.random());
-        }, 333);
+        }, 1000);
       }, []);
 
       return (

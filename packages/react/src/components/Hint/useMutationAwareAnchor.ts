@@ -32,10 +32,13 @@ export function useMutationAwareAnchor(anchor: string) {
       const element = document.querySelector(anchor)
 
       if (element != null) {
+        console.debug(`[frigade] Found anchor: ${anchor}`)
         setAnchorElement(element)
+      } else {
+        console.debug(`[frigade] No anchor found for selector: ${anchor}`)
       }
     } catch (invalidSelector) {
-      /* no-op */
+      console.debug(`[frigade] Invalid selector for anchor: ${anchor}`)
     }
   }, [anchor])
 
@@ -54,6 +57,7 @@ export function useMutationAwareAnchor(anchor: string) {
           const maybeAnchor = checkElementForAnchor(node as Element, anchor)
 
           if (maybeAnchor != null) {
+            console.debug(`[frigade] Found anchor: ${anchor}`)
             setAnchorElement(maybeAnchor)
             break
           }
@@ -67,6 +71,7 @@ export function useMutationAwareAnchor(anchor: string) {
           const maybeAnchor = checkElementForAnchor(node as Element, anchor)
 
           if (maybeAnchor != null) {
+            console.debug(`[frigade] Removed anchor: ${anchor}`)
             setAnchorElement(null)
             break
           }

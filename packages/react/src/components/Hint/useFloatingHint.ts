@@ -106,8 +106,6 @@ export function useFloatingHint({
   useEffect(() => {
     if (anchorElement != null) {
       refs.setReference(anchorElement)
-    } else {
-      console.debug(`[frigade] Hint: No anchor found for selector: ${anchor}`)
     }
   }, [anchor, anchorElement, refs])
 
