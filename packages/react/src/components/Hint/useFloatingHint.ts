@@ -23,6 +23,7 @@ import { useMutationAwareAnchor } from '@/components/Hint/useMutationAwareAnchor
 
 export interface FloatingHintProps extends HintProps {
   onOpenChange?: UseFloatingOptions['onOpenChange']
+  onAnchorFound?: () => void
   open: boolean
 }
 
@@ -51,6 +52,7 @@ export function useFloatingHint({
   alignOffset,
   anchor,
   onOpenChange = () => {},
+  onAnchorFound,
   open,
   side,
   sideOffset,
@@ -106,10 +108,11 @@ export function useFloatingHint({
   useEffect(() => {
     if (anchorElement != null) {
       refs.setReference(anchorElement)
+      onAnchorFound?.()
     } else {
       console.debug(`[frigade] Hint: No anchor found for selector: ${anchor}`)
     }
-  }, [anchor, anchorElement, refs])
+  }, [anchor, anchorElement, refs, onAnchorFound])
 
   // The flip() middleware might reverse the align prop
   const finalPlacement = computedPlacement.split('-')

@@ -31,7 +31,7 @@ export function Flow({
   onPrimary,
   onSecondary,
   variables,
-
+  autoStart = true,
   ...props
 }: FlowProps) {
   // const [hasProcessedRules, setHasProcessedRules] = useState(false)
@@ -123,7 +123,7 @@ export function Flow({
   //   return null
   // }
 
-  if (shouldForceMount || (!flow.isCompleted && !flow.isSkipped)) {
+  if (shouldForceMount || (!flow.isCompleted && !flow.isSkipped && autoStart)) {
     step?.start()
   }
 

@@ -68,6 +68,11 @@ export function TourStep({
       side={side}
       sideOffset={sideOffset}
       spotlight={spotlight}
+      onAnchorFound={() => {
+        if (defaultOpen && !disabled) {
+          step?.start()
+        }
+      }}
       {...otherProps}
     >
       <Card

@@ -21,6 +21,7 @@ export interface HintProps extends BoxProps {
   children?: React.ReactNode
   defaultOpen?: boolean
   modal?: boolean
+  onAnchorFound?: () => void
   onOpenChange?: (open: boolean) => void
   open?: boolean
   side?: SideValue
@@ -37,6 +38,7 @@ export function Hint({
   css = {},
   defaultOpen = true,
   modal = false,
+  onAnchorFound,
   onOpenChange = () => {},
   open,
   part,
@@ -57,6 +59,7 @@ export function Hint({
       align,
       alignOffset,
       anchor,
+      onAnchorFound,
       onOpenChange: (newOpen) => {
         onOpenChange(newOpen)
 

@@ -73,6 +73,13 @@ export interface FlowProps extends FlowPropsWithoutChildren {
    * Flow accepts a render function as its only child, whose props are described in FlowChildrenProps
    */
   children?: (props: FlowChildrenProps) => ReactNode
+  /**
+   * Whether to automatically mark the Flow started (i.e. in progress) when the Flow is eligible to be shown.
+   * You will need to call `flow.start()` or `step.start()` from the parent component if you set this to `false`. Most components should not need to override this behavior.
+   *
+   * Defaults to `true`.
+   */
+  autoStart?: boolean
 }
 
 type ParentProps = {

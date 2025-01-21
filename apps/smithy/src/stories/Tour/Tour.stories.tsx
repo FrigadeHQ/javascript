@@ -109,6 +109,46 @@ export const Default = {
   ],
 };
 
+export const AnchorNotFound = {
+  args: {
+    autoScroll: true,
+    flowId: "flow_U63A5pndRrvCwxNs",
+    defaultOpen: true,
+  },
+  decorators: [
+    (_: StoryFn, options: StoryContext) => {
+      return (
+        <>
+          <Box
+            style={{
+              alignItems: "center",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              height: "calc(100vh - 32px)",
+            }}
+          >
+            <Box
+              borderRadius="10px"
+              id="tooltip-storybook-nonexistent"
+              p={4}
+              style={{ background: "red", width: "200px" }}
+            >
+              <Button.Primary
+                title="Non-existent Anchor"
+                onClick={() => {
+                  // no-op
+                }}
+              />
+            </Box>
+            <Tour {...(options.args as TourProps)} />
+          </Box>
+        </>
+      );
+    },
+  ],
+};
+
 export const WithScrollContainer = {
   args: {
     autoScroll: true,
