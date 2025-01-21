@@ -24,6 +24,7 @@ function isDialog(component) {
 
 export function Flow({
   as,
+  autoStart = true,
   children,
   flowId,
   onComplete,
@@ -31,7 +32,6 @@ export function Flow({
   onPrimary,
   onSecondary,
   variables,
-  autoStart = true,
   ...props
 }: FlowProps) {
   // const [hasProcessedRules, setHasProcessedRules] = useState(false)

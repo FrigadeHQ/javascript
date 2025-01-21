@@ -68,7 +68,7 @@ export function TourStep({
       side={side}
       sideOffset={sideOffset}
       spotlight={spotlight}
-      onAnchorFound={() => {
+      onMount={() => {
         if (defaultOpen && !disabled) {
           step?.start()
         }
