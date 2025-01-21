@@ -16,7 +16,7 @@ const StoryMeta: Meta<typeof Tour> = {
 
 export default StoryMeta;
 
-export const InteractionTests: TourStory = {
+export const AnchorFoundInteractionTests: TourStory = {
   args: {
     flowId: "flow_U63A5pndRrvCwxNs",
   },
@@ -24,6 +24,7 @@ export const InteractionTests: TourStory = {
   decorators: [
     (Story, { args }) => {
       const { flow } = useFlow(args.flowId);
+      args.flow = flow;
 
       const lateAnchorRef = useRef(null);
 
@@ -52,7 +53,7 @@ export const InteractionTests: TourStory = {
           <button
             id="reset-flow"
             onClick={() => {
-              flow.restart();
+              flow?.restart();
             }}
             style={{ marginTop: "36px" }}
           >
@@ -103,11 +104,21 @@ export const InteractionTests: TourStory = {
     },
   ],
 
-  play: async ({ step }) => {
+  play: async ({ step, args }) => {
+    console.log("args", args);
+
     await step("Test paginating through the Tour", async () => {
       const canvas = within(document.body);
+      await waitFor(() => {
+        expect(args.flow).toBeDefined();
+      });
+
       let TourElement = await canvas.findByRole("dialog");
       let Tour = within(TourElement);
+
+      await waitFor(() => {
+        expect(args.flow?.isStarted).toBe(true);
+      });
 
       await userEvent.click(Tour.getByRole("button", { name: "Let's go!" }));
       await sleep(100);
@@ -120,7 +131,6 @@ export const InteractionTests: TourStory = {
       );
 
       await sleep(100);
-
       TourElement = await canvas.findByRole("dialog");
       Tour = within(TourElement);
 
@@ -137,6 +147,49 @@ export const InteractionTests: TourStory = {
       await userEvent.click(canvas.getByText("Reset Flow"));
 
       await sleep(1000);
+    });
+  },
+};
+
+export const AnchorNotFoundInteractionTests: TourStory = {
+  args: {
+    flowId: "flow_U63A5pndRrvCwxNs",
+  },
+
+  decorators: [
+    (Story, { args }) => {
+      const { flow } = useFlow(args.flowId);
+      args.flow = flow;
+
+      return (
+        <>
+          <Story {...args} />
+          <button
+            id="reset-flow"
+            onClick={() => {
+              flow?.restart();
+            }}
+            style={{ marginTop: "36px" }}
+          >
+            Reset Flow
+          </button>
+          <Box id="anchor-not-found" />
+        </>
+      );
+    },
+  ],
+
+  play: async ({ step, args }) => {
+    console.log("args", args);
+
+    await step("Test Anchor Not Found", async () => {
+      // Wait for flow to be defined
+      await waitFor(() => {
+        expect(args.flow).toBeDefined();
+      });
+
+      // Verify the flow is started
+      expect(args.flow?.isStarted).toBe(false);
     });
   },
 };
