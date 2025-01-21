@@ -164,6 +164,9 @@ export function Content({ children, css, part, style, ...props }: BoxProps) {
     return null
   }
 
+  console.log('FLOATIES: ', floatingStyles)
+
+  // TODO: Should Popover animate on its own? Should it detect side/align and set transform-origin accordingly?
   return (
     <FloatingNode id={floatingNodeId}>
       {isOpen && (
@@ -171,11 +174,22 @@ export function Content({ children, css, part, style, ...props }: BoxProps) {
           css={{
             opacity: 1,
             transitionProperty: 'opacity',
-            '&[data-status="initial"],&[data-status="close"]': {
-              opacity: 0,
+            transformOrigin: 'left',
+            '&[data-status="initial"], &[data-status="close"]': {
+              opacity: 0.6,
             },
-            '&[data-status="open"],&[data-status="close"]': {
-              transition: 'transform 0.2s ease-out',
+            '&[data-status="open"], &[data-status="close"]': {
+              transition: 'transform 0.2s ease-out, opacity 0.2s ease-out',
+            },
+            '&[data-status="initial"] .fr-popover-transition-container, &[data-status="close"] .fr-popover-transition-container':
+              {
+                transform: 'scale(0.1)',
+              },
+            '&[data-status="open"] .fr-popover-transition-container': {
+              transform: 'scale(1)',
+            },
+            '& .fr-popover-transition-container': {
+              transition: 'transform 1s ease-out',
             },
             ...css,
           }}
@@ -190,7 +204,7 @@ export function Content({ children, css, part, style, ...props }: BoxProps) {
           {...getFloatingProps()}
           {...props}
         >
-          {children}
+          <Box part="popover-transition-container">{children}</Box>
         </Box>
       )}
     </FloatingNode>
