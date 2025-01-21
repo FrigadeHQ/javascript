@@ -8,7 +8,7 @@ import {
   shift,
   useClick,
   useDismiss,
-  useFloating,
+  useFloating as useFloatingUI,
   type UseFloatingOptions,
   type UseFloatingReturn,
   useInteractions,
@@ -21,12 +21,14 @@ import type { AlignValue, ExtendedPlacement, HintProps } from '@/components/Hint
 
 import { useMutationAwareAnchor } from '@/components/Hint/useMutationAwareAnchor'
 
-export interface FloatingHintProps extends HintProps {
+// TODO: Fix these props
+export interface FloatingProps extends HintProps {
+  hover?: boolean
   onOpenChange?: UseFloatingOptions['onOpenChange']
   open: boolean
 }
 
-export interface FloatingHintReturn extends Omit<UseFloatingReturn, 'placement'> {
+export interface FloatingReturn extends Omit<UseFloatingReturn, 'placement'> {
   placement: ExtendedPlacement
   getFloatingProps: UseInteractionsReturn['getFloatingProps']
   getReferenceProps: UseInteractionsReturn['getReferenceProps']
@@ -46,15 +48,16 @@ function getOriginalAlign(align: AlignValue) {
   }
 }
 
-export function useFloatingHint({
+export function useFloating({
   align,
   alignOffset,
   anchor,
+  nodeId,
   onOpenChange = () => {},
   open,
   side,
   sideOffset,
-}: FloatingHintProps): FloatingHintReturn {
+}: FloatingProps): FloatingReturn {
   const placement = `${side}-${getOriginalAlign(align)}` as Placement
 
   function offsetMiddleware({ rects }) {
@@ -84,23 +87,28 @@ export function useFloatingHint({
     placement: computedPlacement,
     refs,
     ...floatingReturn
-  } = useFloating({
+  } = useFloatingUI({
     middleware: [offset(offsetMiddleware, [align, alignOffset, side, sideOffset]), flip(), shift()],
+    nodeId,
     onOpenChange,
     open,
     placement,
     whileElementsMounted: autoUpdate,
   })
 
-  const click = useClick(context)
-  const dismiss = useDismiss(context, {
+  const clickHandler = useClick(context)
+  const dismissHandler = useDismiss(context, {
     outsidePress: false,
   })
-  const role = useRole(context)
+  const roleProps = useRole(context)
   const status = useTransitionStatus(context)
 
   // Merge all the interactions into prop getters
-  const { getFloatingProps, getReferenceProps } = useInteractions([click, dismiss, role])
+  const { getFloatingProps, getReferenceProps } = useInteractions([
+    clickHandler,
+    dismissHandler,
+    roleProps,
+  ])
 
   const { anchorElement } = useMutationAwareAnchor(anchor)
 

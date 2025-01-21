@@ -6,7 +6,7 @@ import { Ping } from '@/components/Ping'
 import { Spotlight } from '@/components/Spotlight'
 
 import { getPingPosition } from '@/components/Hint/getPingPosition'
-import { useFloatingHint } from '@/components/Hint/useFloatingHint'
+import { useFloating } from '@/hooks/useFloating'
 import { useVisibility } from '@/hooks/useVisibility'
 
 export type AlignValue = 'after' | 'before' | 'center' | 'end' | 'start'
@@ -57,7 +57,7 @@ export function Hint({
   const canonicalOpen = open ?? internalOpen
 
   const { getFloatingProps, getReferenceProps, floatingStyles, placement, refs, status } =
-    useFloatingHint({
+    useFloating({
       align,
       alignOffset,
       anchor,
