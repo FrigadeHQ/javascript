@@ -20,6 +20,7 @@ export const Default = {
     variables: {
       firstName: "Euronymous Bosch",
     },
+    lockScroll: true,
   },
   decorators: [
     (_: StoryFn, options: StoryContext) => {
