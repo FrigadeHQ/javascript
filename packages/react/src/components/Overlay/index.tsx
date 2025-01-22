@@ -28,7 +28,9 @@ function OverlayWithRef(
   React.useEffect(() => {
     if (!lockScroll) {
       const handleScroll = () => {
-        setIsScrolling(true)
+        if (!isScrolling) {
+          setIsScrolling(true)
+        }
       }
 
       window.addEventListener('scroll', handleScroll)
@@ -37,7 +39,7 @@ function OverlayWithRef(
         window.removeEventListener('scroll', handleScroll)
       }
     }
-  }, [lockScroll])
+  }, [lockScroll, isScrolling])
 
   if (!lockScroll && isScrolling) {
     return <>{children}</>
