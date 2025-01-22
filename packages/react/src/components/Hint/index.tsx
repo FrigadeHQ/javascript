@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import { Box, type BoxProps } from '@/components/Box'
 import { Overlay } from '@/components/Overlay'
@@ -21,6 +21,7 @@ export interface HintProps extends BoxProps {
   children?: React.ReactNode
   defaultOpen?: boolean
   modal?: boolean
+  onMount?: () => void
   onOpenChange?: (open: boolean) => void
   open?: boolean
   side?: SideValue
@@ -37,6 +38,7 @@ export function Hint({
   css = {},
   defaultOpen = true,
   modal = false,
+  onMount,
   onOpenChange = () => {},
   open,
   part,
@@ -73,6 +75,7 @@ export function Hint({
   const referenceProps = getReferenceProps()
 
   const { isVisible } = useVisibility(refs.reference.current as Element | null)
+  const isMounted = useRef(false)
 
   useEffect(() => {
     if (!scrollComplete && autoScroll && refs.reference.current instanceof Element) {
@@ -105,8 +108,14 @@ export function Hint({
     }
   }, [autoScroll, refs.reference, scrollComplete])
 
-  if (refs.reference.current == null || !scrollComplete || !isVisible) {
+  const shouldMount = refs.reference.current !== null && scrollComplete && isVisible
+
+  if (!shouldMount) {
+    isMounted.current = false
     return null
+  } else if (isMounted.current === false) {
+    isMounted.current = true
+    onMount?.()
   }
 
   return (

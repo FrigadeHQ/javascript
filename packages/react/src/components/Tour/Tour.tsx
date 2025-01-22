@@ -74,7 +74,7 @@ export function Tour({ as, flowId, ...props }: TourProps) {
   const { onDismiss, onPrimary, onSecondary } = props
 
   return (
-    <Flow as={null} flowId={flowId} {...props}>
+    <Flow as={null} flowId={flowId} autoStart={false} {...props}>
       {({ flow, handleDismiss, parentProps, step }) => {
         const {
           align = 'after',

@@ -11,6 +11,26 @@ export interface BoxPropsWithoutChildren extends Omit<BoxProps, 'children'> {}
 
 export interface FlowPropsWithoutChildren extends BoxPropsWithoutChildren {
   /**
+   * Whether to automatically mark the Flow started (i.e. in progress) when the Flow is eligible to be shown.
+   * You will need to call `flow.start()` or `step.start()` from the parent component if you set this to `false`. Most components should not need to override this behavior.
+   *
+   * Defaults to `true`.
+   */
+  autoStart?: boolean
+  /**
+   * Optional component to wrap the child components in, e.g. `as={Dialog}` will render the Flow in a modal Dialog. Defaults to `Box`.
+   */
+  as?: React.ElementType
+  /**
+   * Emotion CSS prop to apply to the component. See [Theming documentation](https://docs.frigade.com/v2/sdk/styling/css-overrides) for more information.
+   *
+   * Example usage:
+   * ```
+   * <Frigade.Checklist css={{ backgroundColor: "pink", ".fr-button-primary": { backgroundColor: "fuchsia" } }} />
+   * ```
+   */
+  css?: React.Attributes['css']
+  /**
    * Whether the Flow is dismissible or not
    *
    */
@@ -51,21 +71,6 @@ export interface FlowPropsWithoutChildren extends BoxPropsWithoutChildren {
    * For instance, you can use `title: Hello, ${name}!` in the Flow configuration and pass `variables={{name: 'John'}}` to customize the copy.
    */
   variables?: Record<string, unknown>
-
-  /**
-   * Optional component to wrap the child components in, e.g. `as={Dialog}` will render the Flow in a modal Dialog. Defaults to `Box`.
-   */
-  as?: React.ElementType
-
-  /**
-   * Emotion CSS prop to apply to the component. See [Theming documentation](https://docs.frigade.com/v2/sdk/styling/css-overrides) for more information.
-   *
-   * Example usage:
-   * ```
-   * <Frigade.Checklist css={{ backgroundColor: "pink", ".fr-button-primary": { backgroundColor: "fuchsia" } }} />
-   * ```
-   */
-  css?: React.Attributes['css']
 }
 
 export interface FlowProps extends FlowPropsWithoutChildren {
