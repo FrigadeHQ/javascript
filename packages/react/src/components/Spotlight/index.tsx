@@ -55,9 +55,16 @@ function getComputedRadius(element: ReferenceElement) {
 
 export interface SpotlightProps extends OverlayProps {
   anchor: string
+  lockScroll?: boolean
 }
 
-export function Spotlight({ anchor, part, style = {}, ...props }: SpotlightProps) {
+export function Spotlight({
+  anchor,
+  lockScroll = true,
+  part,
+  style = {},
+  ...props
+}: SpotlightProps) {
   const [clipPathCoords, setClipPathCoords] = useState<ClipPathCoords>({
     maxX: 0,
     maxY: 0,
@@ -109,6 +116,7 @@ export function Spotlight({ anchor, part, style = {}, ...props }: SpotlightProps
 
   return (
     <Overlay
+      lockScroll={lockScroll}
       part={['spotlight', part]}
       ref={refs.setFloating}
       style={{

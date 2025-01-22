@@ -20,6 +20,7 @@ export interface HintProps extends BoxProps {
   autoScroll?: ScrollIntoViewOptions | boolean
   children?: React.ReactNode
   defaultOpen?: boolean
+  lockScroll?: boolean
   modal?: boolean
   onMount?: () => void
   onOpenChange?: (open: boolean) => void
@@ -37,6 +38,7 @@ export function Hint({
   children,
   css = {},
   defaultOpen = true,
+  lockScroll = true,
   modal = false,
   onMount,
   onOpenChange = () => {},
@@ -120,8 +122,8 @@ export function Hint({
 
   return (
     <>
-      {spotlight && canonicalOpen && <Spotlight anchor={anchor} />}
-      {modal && !spotlight && canonicalOpen && <Overlay lockScroll />}
+      {spotlight && canonicalOpen && <Spotlight anchor={anchor} lockScroll={lockScroll} />}
+      {modal && !spotlight && canonicalOpen && <Overlay lockScroll={lockScroll} />}
 
       <Box
         css={{

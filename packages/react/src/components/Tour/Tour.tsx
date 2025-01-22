@@ -28,6 +28,11 @@ export interface TourProps extends FlowPropsWithoutChildren, Omit<HintProps, 'an
    */
   defaultOpen?: boolean
   /**
+   * Whether to lock the scroll of the container when the Spotlight is enabled.
+   * Defaults to `true`.
+   */
+  lockScroll?: boolean
+  /**
    * Whether to render a modal overlay behind the tooltip.
    */
   modal?: boolean
@@ -82,6 +87,7 @@ export function Tour({ as, flowId, ...props }: TourProps) {
           autoScroll = false,
           container = 'body',
           defaultOpen,
+          lockScroll = true,
           modal,
           onOpenChange,
           open,
@@ -127,7 +133,12 @@ export function Tour({ as, flowId, ...props }: TourProps) {
               zIndex={zIndex}
               {...containerProps}
             >
-              <TourStep defaultOpen={defaultOpen ?? true} key={step.id} {...sequentialStepProps} />
+              <TourStep
+                defaultOpen={defaultOpen ?? true}
+                key={step.id}
+                lockScroll={lockScroll}
+                {...sequentialStepProps}
+              />
             </TourWrapper>
           )
         }
@@ -198,6 +209,7 @@ export function Tour({ as, flowId, ...props }: TourProps) {
                 }}
                 defaultOpen={(defaultOpen || shouldShowSpotlight) ?? false}
                 key={`${currentStep.id}-${shouldShowSpotlight}`}
+                lockScroll={lockScroll}
                 step={currentStep}
                 {...nonSequentialStepProps}
               />

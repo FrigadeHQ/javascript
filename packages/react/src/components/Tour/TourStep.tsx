@@ -34,6 +34,7 @@ export function TourStep({
   dismissible,
   flow,
   handleDismiss,
+  lockScroll,
   modal,
   onPrimary,
   onSecondary,
@@ -63,6 +64,7 @@ export function TourStep({
       autoScroll={autoScroll}
       data-step-id={step.id}
       defaultOpen={defaultOpen}
+      lockScroll={lockScroll}
       modal={modal}
       part={part}
       side={side}
