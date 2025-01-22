@@ -4,7 +4,7 @@ import { keyframes } from '@emotion/react'
 import { Box, type BoxProps } from '@/components/Box'
 
 import { RemoveScroll } from 'react-remove-scroll'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export interface OverlayProps extends BoxProps {
   lockScroll?: boolean
@@ -23,13 +23,14 @@ function OverlayWithRef(
     }
   `
 
-  const [isScrolling, setIsScrolling] = useState(false)
+  const [hasScrolled, setHasScrolled] = useState(false)
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!lockScroll) {
       const handleScroll = () => {
-        if (!isScrolling) {
-          setIsScrolling(true)
+        if (!hasScrolled) {
+          setHasScrolled(true)
+          window.removeEventListener('scroll', handleScroll)
         }
       }
 
@@ -39,9 +40,9 @@ function OverlayWithRef(
         window.removeEventListener('scroll', handleScroll)
       }
     }
-  }, [lockScroll, isScrolling])
+  }, [lockScroll, hasScrolled])
 
-  if (!lockScroll && isScrolling) {
+  if (!lockScroll && hasScrolled) {
     return <>{children}</>
   }
 
