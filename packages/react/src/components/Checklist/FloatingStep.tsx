@@ -5,6 +5,7 @@ import { Box } from '@/components/Box'
 import { Card } from '@/components/Card'
 import { Flex } from '@/components/Flex'
 import { getVideoProps } from '@/components/Media/videoProps'
+import { Text } from '@/components/Text'
 
 import { useStepHandlers } from '@/hooks/useStepHandlers'
 
@@ -41,14 +42,20 @@ export function FloatingStep({ onPrimary, onSecondary, openStepId, setOpenStepId
 
   return (
     <>
-      <Box
+      <Text.Body2
+        borderRadius="md"
+        display="block"
         onPointerEnter={handlePointerEnter}
         onPointerLeave={handlePointerLeave}
         id={anchorId}
         padding="1 2"
+        style={{
+          backgroundColor: isStepOpen ? 'var(--fr-colors-neutral-800)' : 'transparent',
+        }}
+        userSelect="none"
       >
         {step.title}
-      </Box>
+      </Text.Body2>
       <Popover.Root
         align="start"
         anchor={`#${anchorId}`}
@@ -56,27 +63,28 @@ export function FloatingStep({ onPrimary, onSecondary, openStepId, setOpenStepId
         side="right"
         sideOffset={4}
       >
-        <Popover.Content
-          as={Card}
-          backgroundColor="neutral.background"
-          border="md solid neutral.border"
-          borderRadius="md"
-          minWidth="400px"
-          padding="2"
-        >
-          <Card.Header dismissible={false} subtitle={step.subtitle} title={step.title} />
+        <Popover.Content>
+          <Card
+            backgroundColor="neutral.background"
+            border="md solid neutral.border"
+            borderRadius="md"
+            minWidth="400px"
+            padding="2"
+          >
+            <Card.Header dismissible={false} subtitle={step.subtitle} title={step.title} />
 
-          <Card.Media
-            src={step.videoUri ?? step.imageUri}
-            type={step.videoUri ? 'video' : 'image'}
-            css={{ objectFit: 'contain', width: '100%' }}
-            {...videoProps}
-          />
+            <Card.Media
+              src={step.videoUri ?? step.imageUri}
+              type={step.videoUri ? 'video' : 'image'}
+              css={{ objectFit: 'contain', width: '100%' }}
+              {...videoProps}
+            />
 
-          <Flex.Row gap={3} justifyContent="flex-end" part="card-footer">
-            <Card.Secondary title={secondaryButtonTitle} onClick={handleSecondary} />
-            <Card.Primary title={primaryButtonTitle} onClick={handlePrimary} />
-          </Flex.Row>
+            <Flex.Row gap={3} justifyContent="flex-end" part="card-footer">
+              <Card.Secondary title={secondaryButtonTitle} onClick={handleSecondary} />
+              <Card.Primary title={primaryButtonTitle} onClick={handlePrimary} />
+            </Flex.Row>
+          </Card>
         </Popover.Content>
       </Popover.Root>
     </>

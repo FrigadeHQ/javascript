@@ -148,7 +148,7 @@ export function Root({
 }
 
 export function Content({ children, css, part, style, ...props }: BoxProps) {
-  const { floating, floatingNodeId, isOpen } = useContext(PopoverContext)
+  const { floating, floatingNodeId } = useContext(PopoverContext)
 
   const { isVisible: isAnchorVisible } = useVisibility(
     floating?.refs.reference.current as Element | null
@@ -164,49 +164,60 @@ export function Content({ children, css, part, style, ...props }: BoxProps) {
     return null
   }
 
-  console.log('FLOATIES: ', floatingStyles)
-
   // TODO: Should Popover animate on its own? Should it detect side/align and set transform-origin accordingly?
   return (
     <FloatingNode id={floatingNodeId}>
-      {isOpen && (
-        <Box
-          css={{
+      <Box
+        css={{
+          '&[data-status="open"]': {
             opacity: 1,
-            transitionProperty: 'opacity',
+            zIndex: 1,
+          },
+          '&[data-status="close"]': {
+            opacity: 0,
+            zIndex: 0,
+
+            '& [data-status="close"]': {
+              display: 'none',
+            },
+          },
+          '&[data-status="unmounted"]': {
+            display: 'none',
+          },
+          '&[data-status="initial"]': {
+            opacity: 0.8,
+          },
+          '&[data-status="open"], &[data-status="close"]': {
+            transition: 'transform 0.2s ease-out, opacity 0.2s ease-out',
+          },
+          '&[data-status="initial"] .fr-popover-transition-container': {
+            transform: 'scale(0.8)',
+          },
+          '&[data-status="close"] .fr-popover-transition-container': {
+            transform: 'scale(0.3)',
+          },
+          '&[data-status="open"] .fr-popover-transition-container': {
+            transform: 'scale(1)',
+          },
+          '& .fr-popover-transition-container': {
             transformOrigin: 'left',
-            '&[data-status="initial"], &[data-status="close"]': {
-              opacity: 0.6,
-            },
-            '&[data-status="open"], &[data-status="close"]': {
-              transition: 'transform 0.2s ease-out, opacity 0.2s ease-out',
-            },
-            '&[data-status="initial"] .fr-popover-transition-container, &[data-status="close"] .fr-popover-transition-container':
-              {
-                transform: 'scale(0.1)',
-              },
-            '&[data-status="open"] .fr-popover-transition-container': {
-              transform: 'scale(1)',
-            },
-            '& .fr-popover-transition-container': {
-              transition: 'transform 1s ease-out',
-            },
-            ...css,
-          }}
-          data-placement={placement}
-          data-status={status.status}
-          part={['popover-content', part]}
-          ref={refs.setFloating}
-          style={{
-            ...floatingStyles,
-            ...style,
-          }}
-          {...getFloatingProps()}
-          {...props}
-        >
-          <Box part="popover-transition-container">{children}</Box>
-        </Box>
-      )}
+            transition: 'transform 0.2s ease-out',
+          },
+          ...css,
+        }}
+        data-placement={placement}
+        data-status={status.status}
+        part={['popover-content', part]}
+        ref={refs.setFloating}
+        style={{
+          ...floatingStyles,
+          ...style,
+        }}
+        {...getFloatingProps()}
+        {...props}
+      >
+        <Box part="popover-transition-container">{children}</Box>
+      </Box>
     </FloatingNode>
   )
 }

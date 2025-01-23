@@ -1,8 +1,12 @@
 import { useState } from 'react'
 import { FloatingTree } from '@floating-ui/react'
 
+import { Box } from '@/components/Box'
+import { Flex } from '@/components/Flex'
 import { Flow, type FlowPropsWithoutChildren } from '@/components/Flow'
 import * as Popover from '@/components/Popover'
+import * as Progress from '@/components/Progress'
+import { Text } from '@/components/Text'
 
 import { FloatingStep } from '@/components/Checklist/FloatingStep'
 
@@ -23,6 +27,9 @@ export function Floating({ children, onPrimary, onSecondary, ...props }: Floatin
   return (
     <Flow flowId={props.flowId}>
       {({ flow }) => {
+        const currentSteps = flow.getNumberOfCompletedSteps()
+        const availableSteps = flow.getNumberOfAvailableSteps()
+
         return (
           <FloatingTree>
             <Popover.Root
@@ -38,8 +45,12 @@ export function Floating({ children, onPrimary, onSecondary, ...props }: Floatin
                 backgroundColor="neutral.background"
                 border="md solid neutral.border"
                 borderRadius="md"
-                padding="2 0"
+                padding="1"
               >
+                <Flex.Column gap="1" marginBottom="1" padding="1 2">
+                  <Text.Body2 fontWeight="medium">{flow.title}</Text.Body2>
+                  <Progress.Bar current={currentSteps} total={availableSteps} flexGrow={1} />
+                </Flex.Column>
                 {Array.from(flow.steps.values()).map((step) => (
                   <FloatingStep
                     key={step.id}
