@@ -68,8 +68,8 @@
     "use-sync-external-store": "^1.4.0"
   },
   "peerDependencies": {
-    "react": "17 - 18",
-    "react-dom": "17 - 18"
+    "react": "17 - 19",
+    "react-dom": "17 - 19"
   },
   "devDependencies": {
     "@types/dompurify": "^3.0.5",
