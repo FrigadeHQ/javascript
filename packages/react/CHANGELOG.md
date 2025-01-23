@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.7.4
+
+### Patch Changes
+
+- 50e19ba: Adds support for React 19
+
 ## 2.7.3
 
 ### Patch Changes
