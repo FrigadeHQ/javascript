@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.7.3
+
+### Patch Changes
+
+- d05a923: Fixes an issue where Frigade will re-render when minor fields are changed in the provider
+
 ## 2.7.2
 
 ### Patch Changes
