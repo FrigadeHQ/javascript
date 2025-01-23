@@ -163,18 +163,8 @@ export function Provider({
       __platformVersion: SDK_VERSION,
       __platformName: 'React',
     } as FrigadeConfig)
-  }, [
-    props.apiKey,
-    props.apiUrl,
-    props.userId,
-    props.groupId,
-    props.userProperties,
-    props.groupProperties,
-    props.generateGuestId,
-    props.syncOnWindowUpdates,
-    props.__readOnly,
-    props.__flowStateOverrides,
-  ])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.userId, props.groupId, props.apiKey])
 
   useEffect(() => {
     if (props.__flowStateOverrides) {
