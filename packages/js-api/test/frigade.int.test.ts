@@ -1,8 +1,6 @@
-import { FlowStep, Frigade } from '../src'
+import { FlowStep, FlowType, Frigade } from '../src'
 import { getRandomID } from './util'
 import { Flow } from '../src/.'
-
-import { FlowType } from '@frigade/reactv1'
 
 const testAPIKey = 'api_public_3MPLH7NJ9L0U963XKW7BPE2IT137GC6L742JLC2XCT6NOIYSI4QUI9I1RA3ZOGIL'
 const testFlowId = 'flow_yJfjksFrs5QEH0c8'

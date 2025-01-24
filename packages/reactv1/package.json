@@ -10,7 +10,6 @@
   ],
   "scripts": {
     "clean": "rimraf ./dist",
-    "test": "jest",
     "lint": "eslint --fix --ext .ts,.tsx .",
     "build": "yarn clean && tsup",
     "local-release": "tsup",
