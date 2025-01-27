@@ -168,6 +168,7 @@ export function Content({ children, css, part, style, ...props }: BoxProps) {
   return (
     <FloatingNode id={floatingNodeId}>
       <Box
+        autoFocus
         css={{
           '&[data-status="open"]': {
             opacity: 1,

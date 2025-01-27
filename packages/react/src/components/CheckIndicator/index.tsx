@@ -24,9 +24,10 @@ function CheckIcon() {
 
 interface CheckIndicatorProps extends BoxProps {
   checked?: boolean
+  size?: string
 }
 
-export function CheckIndicator({ checked = false, ...props }: CheckIndicatorProps) {
+export function CheckIndicator({ checked = false, size = '22px', ...props }: CheckIndicatorProps) {
   return (
     <Box
       backgroundColor="inherit"
@@ -37,8 +38,8 @@ export function CheckIndicator({ checked = false, ...props }: CheckIndicatorProp
       padding="0"
       part="check-indicator"
       position="relative"
-      height="22px"
-      width="22px"
+      height={size}
+      width={size}
       {...props}
     >
       {checked && (

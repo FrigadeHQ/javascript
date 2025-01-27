@@ -1,8 +1,8 @@
 import { useMemo, useRef } from 'react'
 import * as Popover from '@/components/Popover'
 
-import { Box } from '@/components/Box'
 import { Card } from '@/components/Card'
+import { CheckIndicator } from '@/components/CheckIndicator'
 import { Flex } from '@/components/Flex'
 import { getVideoProps } from '@/components/Media/videoProps'
 import { Text } from '@/components/Text'
@@ -13,10 +13,25 @@ import { useStepHandlers } from '@/hooks/useStepHandlers'
 export function FloatingStep({ onPrimary, onSecondary, openStepId, setOpenStepId, step }) {
   const anchorId = useMemo(() => `floating-checklist-step-${step.id}`, [step.id])
   const anchorPointerEnterTimeout = useRef<ReturnType<typeof setTimeout>>()
-
   const { handlePrimary, handleSecondary } = useStepHandlers(step, { onPrimary, onSecondary })
 
   const isStepOpen = openStepId === step.id
+
+  async function wrappedHandlePrimary(...args: Parameters<typeof handlePrimary>) {
+    const primaryReturnValue = await handlePrimary(...args)
+
+    if (primaryReturnValue) {
+      setOpenStepId(null)
+    }
+  }
+
+  async function wrappedHandleSecondary(...args: Parameters<typeof handleSecondary>) {
+    const secondaryReturnValue = await handleSecondary(...args)
+
+    if (secondaryReturnValue) {
+      setOpenStepId(null)
+    }
+  }
 
   // TODO: Handle tap while open on mobile to close step
   function handlePointerEnter() {
@@ -31,20 +46,18 @@ export function FloatingStep({ onPrimary, onSecondary, openStepId, setOpenStepId
     clearTimeout(anchorPointerEnterTimeout.current)
   }
 
-  // TODO: set a timeout on pointer leave trigger and cancel it when pointer enters content
-
   const primaryButtonTitle = step.primaryButton?.title ?? step.primaryButtonTitle
   const secondaryButtonTitle = step.secondaryButton?.title ?? step.secondaryButtonTitle
 
   const { videoProps } = getVideoProps(step.props ?? {})
 
-  // TODO: Steps have no visual state indicator (and button aren't disabled when completed)
-
   return (
     <>
-      <Text.Body2
+      <Flex.Row
+        alignItems="center"
         borderRadius="md"
-        display="block"
+        gap="2"
+        justifyContent="space-between"
         onPointerEnter={handlePointerEnter}
         onPointerLeave={handlePointerLeave}
         id={anchorId}
@@ -54,8 +67,9 @@ export function FloatingStep({ onPrimary, onSecondary, openStepId, setOpenStepId
         }}
         userSelect="none"
       >
-        {step.title}
-      </Text.Body2>
+        <Text.Body2>{step.title}</Text.Body2>
+        <CheckIndicator checked={step.$state.completed || step.$state.skipped} size="18px" />
+      </Flex.Row>
       <Popover.Root
         align="start"
         anchor={`#${anchorId}`}
@@ -81,8 +95,16 @@ export function FloatingStep({ onPrimary, onSecondary, openStepId, setOpenStepId
             />
 
             <Flex.Row gap={3} justifyContent="flex-end" part="card-footer">
-              <Card.Secondary title={secondaryButtonTitle} onClick={handleSecondary} />
-              <Card.Primary title={primaryButtonTitle} onClick={handlePrimary} />
+              <Card.Secondary
+                disabled={step.$state.blocked}
+                onClick={wrappedHandleSecondary}
+                title={secondaryButtonTitle}
+              />
+              <Card.Primary
+                disabled={step.$state.blocked}
+                onClick={wrappedHandlePrimary}
+                title={primaryButtonTitle}
+              />
             </Flex.Row>
           </Card>
         </Popover.Content>

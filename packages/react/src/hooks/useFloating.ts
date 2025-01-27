@@ -11,6 +11,7 @@ import {
   useFloating as useFloatingUI,
   type UseFloatingOptions,
   type UseFloatingReturn,
+  useFocus,
   useInteractions,
   type UseInteractionsReturn,
   useRole,
@@ -100,6 +101,7 @@ export function useFloating({
   const dismissHandler = useDismiss(context, {
     outsidePress: false,
   })
+  const focusProps = useFocus(context)
   const roleProps = useRole(context)
   const status = useTransitionStatus(context)
 
@@ -107,6 +109,7 @@ export function useFloating({
   const { getFloatingProps, getReferenceProps } = useInteractions([
     clickHandler,
     dismissHandler,
+    focusProps,
     roleProps,
   ])
 

@@ -1,7 +1,6 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { FloatingTree } from '@floating-ui/react'
 
-import { Box } from '@/components/Box'
 import { Flex } from '@/components/Flex'
 import { Flow, type FlowPropsWithoutChildren } from '@/components/Flow'
 import * as Popover from '@/components/Popover'
@@ -17,8 +16,21 @@ export interface FloatingChecklistProps
 // TODO: Fix props here (split popover and flow props and pass them to Flow / Popover.Root)
 export function Floating({ children, onPrimary, onSecondary, ...props }: FloatingChecklistProps) {
   const [openStepId, setOpenStepId] = useState(null)
+  const pointerLeaveTimeout = useRef<ReturnType<typeof setTimeout>>()
 
-  function resetOpenStepOnClose(isOpen: boolean) {
+  function handlePointerEnter() {
+    clearTimeout(pointerLeaveTimeout.current)
+  }
+
+  function handlePointerLeave() {
+    clearTimeout(pointerLeaveTimeout.current)
+
+    if (openStepId != null) {
+      pointerLeaveTimeout.current = setTimeout(() => setOpenStepId(null), 300)
+    }
+  }
+
+  function resetOpenStep(isOpen: boolean) {
     if (!isOpen && openStepId != null) {
       setOpenStepId(null)
     }
@@ -32,11 +44,7 @@ export function Floating({ children, onPrimary, onSecondary, ...props }: Floatin
 
         return (
           <FloatingTree>
-            <Popover.Root
-              align="start"
-              anchor="#temp-popover-anchor"
-              onOpenChange={resetOpenStepOnClose}
-            >
+            <Popover.Root align="start" anchor="#temp-popover-anchor" onOpenChange={resetOpenStep}>
               <Popover.Trigger display="inline-block" id="temp-popover-anchor">
                 {children}
               </Popover.Trigger>
@@ -45,6 +53,8 @@ export function Floating({ children, onPrimary, onSecondary, ...props }: Floatin
                 backgroundColor="neutral.background"
                 border="md solid neutral.border"
                 borderRadius="md"
+                onPointerEnter={handlePointerEnter}
+                onPointerLeave={handlePointerLeave}
                 padding="1"
               >
                 <Flex.Column gap="1" marginBottom="1" padding="1 2">
