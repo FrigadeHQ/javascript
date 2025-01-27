@@ -9,6 +9,8 @@ import { Text } from '@/components/Text'
 
 import { useStepHandlers } from '@/hooks/useStepHandlers'
 
+import { floatingTransitionCSS } from '@/components/Checklist/Floating.styles'
+
 // TODO: Type props
 export function FloatingStep({ onPrimary, onSecondary, openStepId, setOpenStepId, step }) {
   const anchorId = useMemo(() => `floating-checklist-step-${step.id}`, [step.id])
@@ -77,22 +79,21 @@ export function FloatingStep({ onPrimary, onSecondary, openStepId, setOpenStepId
         side="right"
         sideOffset={4}
       >
-        <Popover.Content>
+        <Popover.Content css={floatingTransitionCSS}>
           <Card
             backgroundColor="neutral.background"
             border="md solid neutral.border"
             borderRadius="md"
             minWidth="400px"
-            padding="2"
+            p="2"
           >
-            <Card.Header dismissible={false} subtitle={step.subtitle} title={step.title} />
-
             <Card.Media
               src={step.videoUri ?? step.imageUri}
               type={step.videoUri ? 'video' : 'image'}
               css={{ objectFit: 'contain', width: '100%' }}
               {...videoProps}
             />
+            <Card.Header dismissible={false} subtitle={step.subtitle} title={step.title} />
 
             <Flex.Row gap={3} justifyContent="flex-end" part="card-footer">
               <Card.Secondary

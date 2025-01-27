@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react'
 import { FloatingTree } from '@floating-ui/react'
 
+import { Card } from '@/components/Card'
 import { Flex } from '@/components/Flex'
 import { Flow, type FlowPropsWithoutChildren } from '@/components/Flow'
 import * as Popover from '@/components/Popover'
@@ -8,6 +9,7 @@ import * as Progress from '@/components/Progress'
 import { Text } from '@/components/Text'
 
 import { FloatingStep } from '@/components/Checklist/FloatingStep'
+import { floatingTransitionCSS } from '@/components/Checklist/Floating.styles'
 
 export interface FloatingChecklistProps
   extends Popover.PopoverRootProps,
@@ -50,27 +52,38 @@ export function Floating({ children, onPrimary, onSecondary, ...props }: Floatin
               </Popover.Trigger>
 
               <Popover.Content
-                backgroundColor="neutral.background"
-                border="md solid neutral.border"
-                borderRadius="md"
-                onPointerEnter={handlePointerEnter}
-                onPointerLeave={handlePointerLeave}
-                padding="1"
+                css={{
+                  ...floatingTransitionCSS,
+                  '& .fr-popover-transition-container': {
+                    transformOrigin: 'top left',
+                    transition: 'transform 0.2s ease-out',
+                  },
+                }}
               >
-                <Flex.Column gap="1" marginBottom="1" padding="1 2">
-                  <Text.Body2 fontWeight="medium">{flow.title}</Text.Body2>
-                  <Progress.Bar current={currentSteps} total={availableSteps} flexGrow={1} />
-                </Flex.Column>
-                {Array.from(flow.steps.values()).map((step) => (
-                  <FloatingStep
-                    key={step.id}
-                    onPrimary={onPrimary}
-                    onSecondary={onSecondary}
-                    openStepId={openStepId}
-                    setOpenStepId={setOpenStepId}
-                    step={step}
-                  />
-                ))}
+                <Card
+                  backgroundColor="neutral.background"
+                  border="md solid neutral.border"
+                  borderRadius="md"
+                  gap="0"
+                  onPointerEnter={handlePointerEnter}
+                  onPointerLeave={handlePointerLeave}
+                  p="1"
+                >
+                  <Flex.Column gap="1" marginBottom="1" padding="1 2">
+                    <Text.Body2 fontWeight="medium">{flow.title}</Text.Body2>
+                    <Progress.Bar current={currentSteps} total={availableSteps} flexGrow={1} />
+                  </Flex.Column>
+                  {Array.from(flow.steps.values()).map((step) => (
+                    <FloatingStep
+                      key={step.id}
+                      onPrimary={onPrimary}
+                      onSecondary={onSecondary}
+                      openStepId={openStepId}
+                      setOpenStepId={setOpenStepId}
+                      step={step}
+                    />
+                  ))}
+                </Card>
               </Popover.Content>
             </Popover.Root>
           </FloatingTree>
