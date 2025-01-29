@@ -77,13 +77,14 @@ export function FloatingStep({ onPrimary, onSecondary, openStepId, setOpenStepId
         anchor={`#${anchorId}`}
         open={isStepOpen}
         side="right"
-        sideOffset={4}
+        sideOffset={8}
       >
         <Popover.Content css={floatingTransitionCSS}>
           <Card
             backgroundColor="neutral.background"
             border="md solid neutral.border"
             borderRadius="md"
+            gap="3"
             minWidth="400px"
             p="2"
           >
@@ -93,17 +94,24 @@ export function FloatingStep({ onPrimary, onSecondary, openStepId, setOpenStepId
               css={{ objectFit: 'contain', width: '100%' }}
               {...videoProps}
             />
-            <Card.Header dismissible={false} subtitle={step.subtitle} title={step.title} />
+            <Card.Header
+              dismissible={false}
+              padding="0 1"
+              subtitle={step.subtitle}
+              title={step.title}
+            />
 
             <Flex.Row gap={3} justifyContent="flex-end" part="card-footer">
               <Card.Secondary
                 disabled={step.$state.blocked}
                 onClick={wrappedHandleSecondary}
+                padding="1 2"
                 title={secondaryButtonTitle}
               />
               <Card.Primary
                 disabled={step.$state.blocked}
                 onClick={wrappedHandlePrimary}
+                padding="1 2"
                 title={primaryButtonTitle}
               />
             </Flex.Row>

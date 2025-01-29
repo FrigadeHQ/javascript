@@ -44,16 +44,46 @@ export function Floating({ children, onPrimary, onSecondary, ...props }: Floatin
         const currentSteps = flow.getNumberOfCompletedSteps()
         const availableSteps = flow.getNumberOfAvailableSteps()
 
+        const anchorContent = children ?? (
+          <Flex.Row
+            alignItems="center"
+            backgroundColor="neutral.background"
+            border="md solid neutral.border"
+            borderRadius="md"
+            cursor="pointer"
+            gap="2"
+            padding="1 2"
+            userSelect="none"
+          >
+            <Text.Body2 fontWeight="medium">{flow.title}</Text.Body2>
+            <Progress.Ring
+              current={currentSteps}
+              height="24px"
+              strokeWidth="4px"
+              total={availableSteps}
+              width="24px"
+            />{' '}
+          </Flex.Row>
+        )
+
         return (
           <FloatingTree>
-            <Popover.Root align="start" anchor="#temp-popover-anchor" onOpenChange={resetOpenStep}>
+            <Popover.Root
+              align="start"
+              anchor="#temp-popover-anchor"
+              onOpenChange={resetOpenStep}
+              sideOffset={4}
+            >
               <Popover.Trigger display="inline-block" id="temp-popover-anchor">
-                {children}
+                {anchorContent}
               </Popover.Trigger>
 
               <Popover.Content
                 css={{
                   ...floatingTransitionCSS,
+                  '&[data-status="initial"]': {
+                    opacity: 0.3,
+                  },
                   '& .fr-popover-transition-container': {
                     transformOrigin: 'top left',
                     transition: 'transform 0.2s ease-out',
