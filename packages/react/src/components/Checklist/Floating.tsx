@@ -16,7 +16,14 @@ export interface FloatingChecklistProps
     FlowPropsWithoutChildren {}
 
 // TODO: Fix props here (split popover and flow props and pass them to Flow / Popover.Root)
-export function Floating({ children, onPrimary, onSecondary, ...props }: FloatingChecklistProps) {
+export function Floating({
+  children,
+  flowId,
+  onPrimary,
+  onSecondary,
+  part,
+  ...props
+}: FloatingChecklistProps) {
   const [openStepId, setOpenStepId] = useState(null)
   const pointerLeaveTimeout = useRef<ReturnType<typeof setTimeout>>()
 
@@ -39,7 +46,7 @@ export function Floating({ children, onPrimary, onSecondary, ...props }: Floatin
   }
 
   return (
-    <Flow flowId={props.flowId}>
+    <Flow flowId={flowId} part={['floating-checklist', part]} {...props}>
       {({ flow }) => {
         const currentSteps = flow.getNumberOfCompletedSteps()
         const availableSteps = flow.getNumberOfAvailableSteps()
@@ -53,16 +60,19 @@ export function Floating({ children, onPrimary, onSecondary, ...props }: Floatin
             cursor="pointer"
             gap="2"
             padding="1 2"
+            part="floating-checklist-anchor"
             userSelect="none"
           >
-            <Text.Body2 fontWeight="medium">{flow.title}</Text.Body2>
+            <Text.Body2 fontWeight="medium" part="floating-checklist-title">
+              {flow.title}
+            </Text.Body2>
             <Progress.Ring
               current={currentSteps}
               height="24px"
               strokeWidth="4px"
               total={availableSteps}
               width="24px"
-            />{' '}
+            />
           </Flex.Row>
         )
 
@@ -79,6 +89,7 @@ export function Floating({ children, onPrimary, onSecondary, ...props }: Floatin
               </Popover.Trigger>
 
               <Popover.Content
+                data-flow-id={flowId}
                 css={{
                   ...floatingTransitionCSS,
                   '&[data-status="initial"]': {
@@ -97,12 +108,23 @@ export function Floating({ children, onPrimary, onSecondary, ...props }: Floatin
                   gap="0"
                   onPointerEnter={handlePointerEnter}
                   onPointerLeave={handlePointerLeave}
-                  p="1"
+                  p="0 1 1"
+                  part="floating-checklist-step-list"
                 >
-                  <Flex.Column gap="1" marginBottom="1" padding="1 2">
-                    <Text.Body2 fontWeight="medium">{flow.title}</Text.Body2>
-                    <Progress.Bar current={currentSteps} total={availableSteps} flexGrow={1} />
-                  </Flex.Column>
+                  <Progress.Bar
+                    borderRadius="md md 0 0"
+                    clipPath="border-box"
+                    css={{
+                      '& .fr-progress-bar-fill': {
+                        borderRadius: 0,
+                      },
+                    }}
+                    current={currentSteps}
+                    height="5px"
+                    total={availableSteps}
+                    flexGrow={1}
+                    margin="0 -1 2"
+                  />
                   {Array.from(flow.steps.values()).map((step) => (
                     <FloatingStep
                       key={step.id}

@@ -192,7 +192,7 @@ export function Content({ children, css, part, style, ...props }: BoxProps) {
   )
 }
 
-export function Trigger({ children, ...props }: BoxProps) {
+export function Trigger({ children, part, ...props }: BoxProps) {
   const {
     floating: { getReferenceProps, refs },
     setIsOpen,
@@ -202,6 +202,7 @@ export function Trigger({ children, ...props }: BoxProps) {
     <Box
       ref={refs?.setReference}
       onClick={() => setIsOpen((prev) => !prev)}
+      part={['popover-trigger', part]}
       {...props}
       {...(getReferenceProps?.() ?? {})}
     >

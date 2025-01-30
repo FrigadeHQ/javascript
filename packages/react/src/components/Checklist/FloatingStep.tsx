@@ -64,12 +64,13 @@ export function FloatingStep({ onPrimary, onSecondary, openStepId, setOpenStepId
         onPointerLeave={handlePointerLeave}
         id={anchorId}
         padding="1 2"
+        part="floating-checklist-step-list-item"
         style={{
           backgroundColor: isStepOpen ? 'var(--fr-colors-neutral-800)' : 'transparent',
         }}
         userSelect="none"
       >
-        <Text.Body2>{step.title}</Text.Body2>
+        <Text.Body2 part="floating-checklist-step-title">{step.title}</Text.Body2>
         <CheckIndicator checked={step.$state.completed || step.$state.skipped} size="18px" />
       </Flex.Row>
       <Popover.Root
@@ -79,7 +80,7 @@ export function FloatingStep({ onPrimary, onSecondary, openStepId, setOpenStepId
         side="right"
         sideOffset={8}
       >
-        <Popover.Content css={floatingTransitionCSS}>
+        <Popover.Content css={floatingTransitionCSS} part="floating-step">
           <Card
             backgroundColor="neutral.background"
             border="md solid neutral.border"
@@ -94,12 +95,7 @@ export function FloatingStep({ onPrimary, onSecondary, openStepId, setOpenStepId
               css={{ objectFit: 'contain', width: '100%' }}
               {...videoProps}
             />
-            <Card.Header
-              dismissible={false}
-              padding="0 1"
-              subtitle={step.subtitle}
-              title={step.title}
-            />
+            <Card.Header dismissible={false} padding="0 1" subtitle={step.subtitle} />
 
             <Flex.Row gap={3} justifyContent="flex-end" part="card-footer">
               <Card.Secondary

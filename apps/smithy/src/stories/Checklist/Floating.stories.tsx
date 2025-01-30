@@ -1,4 +1,4 @@
-import { Box, Button, Checklist } from "@frigade/react";
+import { Box, Checklist } from "@frigade/react";
 import { type Meta } from "@storybook/react";
 
 export default {
