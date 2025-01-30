@@ -99,6 +99,9 @@ export function Floating({
                     transformOrigin: 'top left',
                     transition: 'transform 0.2s ease-out',
                   },
+                  '&[data-placement^="top"] .fr-popover-transition-container': {
+                    transformOrigin: 'bottom left',
+                  },
                 }}
               >
                 <Card
