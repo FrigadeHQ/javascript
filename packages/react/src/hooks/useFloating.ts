@@ -18,15 +18,18 @@ import {
   useTransitionStatus,
 } from '@floating-ui/react'
 
-import type { AlignValue, ExtendedPlacement, HintProps } from '@/components/Hint'
-
 import { useMutationAwareAnchor } from '@/components/Hint/useMutationAwareAnchor'
 
-// TODO: Fix these props
-export interface FloatingProps extends HintProps {
-  hover?: boolean
-  onOpenChange?: UseFloatingOptions['onOpenChange']
-  open: boolean
+export type AlignValue = 'after' | 'before' | 'center' | 'end' | 'start'
+export type SideValue = 'bottom' | 'left' | 'right' | 'top'
+export type ExtendedPlacement = `${SideValue}-${AlignValue}`
+
+export interface FloatingProps extends UseFloatingOptions {
+  align?: AlignValue
+  alignOffset?: number
+  anchor?: string
+  side?: SideValue
+  sideOffset?: number
 }
 
 export interface FloatingReturn extends Omit<UseFloatingReturn, 'placement'> {
@@ -61,20 +64,19 @@ export function useFloating({
 }: FloatingProps): FloatingReturn {
   const placement = `${side}-${getOriginalAlign(align)}` as Placement
 
+  // Handle our added "after" and "before" alignments
   function offsetMiddleware({ rects }) {
     const offsets = {
       alignmentAxis: alignOffset,
       mainAxis: sideOffset,
     }
 
-    // if align is before or after
     if (['after', 'before'].includes(align)) {
-      // if side is bottom or top
       if (['bottom', 'top'].includes(side)) {
-        // hOffset
+        // Offset horizontally
         offsets.alignmentAxis = alignOffset - rects.floating.width
       } else {
-        // vOffset
+        // Offset vertically
         offsets.alignmentAxis = alignOffset - rects.floating.height
       }
     }
@@ -105,7 +107,6 @@ export function useFloating({
   const roleProps = useRole(context)
   const status = useTransitionStatus(context)
 
-  // Merge all the interactions into prop getters
   const { getFloatingProps, getReferenceProps } = useInteractions([
     clickHandler,
     dismissHandler,
@@ -113,6 +114,11 @@ export function useFloating({
     roleProps,
   ])
 
+  /*
+   * Note: If anchor is passed in as a selector, we'll automatically pass it
+   * through to refs.setReference If not, we assume that the floating reference
+   * element is being set manually elsewhere (e.g. Popover.Trigger)
+   */
   const { anchorElement } = useMutationAwareAnchor(anchor)
 
   useEffect(() => {

@@ -78,15 +78,8 @@ export function Floating({
 
         return (
           <FloatingTree>
-            <Popover.Root
-              align="start"
-              anchor="#temp-popover-anchor"
-              onOpenChange={resetOpenStep}
-              sideOffset={4}
-            >
-              <Popover.Trigger display="inline-block" id="temp-popover-anchor">
-                {anchorContent}
-              </Popover.Trigger>
+            <Popover.Root align="start" onOpenChange={resetOpenStep} sideOffset={4}>
+              <Popover.Trigger display="inline-block">{anchorContent}</Popover.Trigger>
 
               <Popover.Content
                 data-flow-id={flowId}

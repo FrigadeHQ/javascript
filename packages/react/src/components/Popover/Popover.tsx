@@ -13,12 +13,8 @@ import { Box, type BoxProps } from '@/components/Box'
 import { Overlay } from '@/components/Overlay'
 import { Spotlight } from '@/components/Spotlight'
 
-import { type FloatingReturn, useFloating } from '@/hooks/useFloating'
+import { type FloatingProps, type FloatingReturn, useFloating } from '@/hooks/useFloating'
 import { useVisibility } from '@/hooks/useVisibility'
-
-export type AlignValue = 'after' | 'before' | 'center' | 'end' | 'start'
-export type SideValue = 'bottom' | 'left' | 'right' | 'top'
-export type ExtendedPlacement = `${SideValue}-${AlignValue}`
 
 export interface PopoverContextValue {
   floating?: FloatingReturn
@@ -33,19 +29,11 @@ const PopoverContext = createContext<PopoverContextValue>({
   setIsOpen: () => {},
 })
 
-// TODO: Extend this off of useFloating
-export interface PopoverRootProps {
-  align?: AlignValue
-  alignOffset?: number
-  anchor: string
+export interface PopoverRootProps extends FloatingProps {
   autoScroll?: ScrollIntoViewOptions | boolean
   children?: React.ReactNode
   defaultOpen?: boolean
   modal?: boolean
-  onOpenChange?: (open: boolean) => void
-  open?: boolean
-  side?: SideValue
-  sideOffset?: number
   spotlight?: boolean
 }
 
@@ -66,6 +54,7 @@ export function Root({
   side = 'bottom',
   sideOffset = 0,
   spotlight = false,
+  ...floatingProps
 }: PopoverRootProps) {
   const [internalOpen, setInternalOpen] = useState(defaultOpen)
   const [scrollComplete, setScrollComplete] = useState(false)
@@ -90,12 +79,10 @@ export function Root({
     open: canonicalOpen,
     side,
     sideOffset,
+    ...floatingProps,
   })
 
   const { refs } = floating
-
-  // const [finalSide, finalAlign] = placement.split('-')
-  // const referenceProps = getReferenceProps()
 
   // TODO: Split this out to useAutoScroll hook
   useEffect(() => {
@@ -164,7 +151,6 @@ export function Content({ children, css, part, style, ...props }: BoxProps) {
     return null
   }
 
-  // TODO: Should Popover animate on its own? Should it detect side/align and set transform-origin accordingly?
   return (
     <FloatingNode id={floatingNodeId}>
       <Box
