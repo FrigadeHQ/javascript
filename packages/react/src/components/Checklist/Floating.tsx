@@ -82,7 +82,6 @@ export function Floating({
               <Popover.Trigger display="inline-block">{anchorContent}</Popover.Trigger>
 
               <Popover.Content
-                data-flow-id={flowId}
                 css={{
                   ...floatingTransitionCSS,
                   '&[data-status="initial"]': {

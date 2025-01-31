@@ -26,7 +26,7 @@ export { Label } from './components/Form/fields/Label'
 export { BaseField } from './components/Form/fields/BaseField'
 export { Media, Image, Video } from './components/Media'
 export { type NPSProps } from './components/Survey/NPS'
-
+export * as Popover from './components/Popover'
 export * as Progress from './components/Progress'
 export { ProgressBadge, type ProgressBadgeProps } from './components/ProgressBadge'
 export { Provider, type ProviderProps } from './components/Provider'
@@ -62,3 +62,6 @@ export {
 export { useFrigade } from './hooks/useFrigade'
 export { useUser } from './hooks/useUser'
 export { useGroup } from './hooks/useGroup'
+
+// TEMP: Remove this, used for testing Storybook
+export * as FloatingUI from '@floating-ui/react'

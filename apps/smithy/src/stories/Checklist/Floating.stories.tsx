@@ -6,7 +6,7 @@ export default {
   component: Checklist.Floating,
   decorators: [
     (Story) => (
-      <Box backgroundColor="gray900" height="calc(300vh - 2rem)" p="95vh 4 4">
+      <Box backgroundColor="gray900">
         <Story />
       </Box>
     ),
