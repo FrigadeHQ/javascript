@@ -21,7 +21,7 @@ export interface CollectionProps extends BoxProps {
   collectionId: string
 
   /**
-   * A map of variables to pass to Flows this Collection.
+   * A map of variables to pass to Flows in this Collection.
    * Example:
    * ```tsx
    * variables={{
