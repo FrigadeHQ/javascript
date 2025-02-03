@@ -1,4 +1,4 @@
-import { EmotionJSX } from '@emotion/react/types/jsx-namespace'
+import type { JSX } from '@emotion/react/jsx-runtime'
 
 import { Announcement } from '@/components/Announcement'
 import { Banner } from '@/components/Banner'
@@ -48,7 +48,7 @@ export function Collection({ collectionId, part, variables = {}, ...props }: Col
 
   const { currentFlow } = useCollection(collectionId)
 
-  const FlowComponent: EmotionJSX.ElementType = flowTypeMap[currentFlow?.rawData?.flowType] ?? null
+  const FlowComponent: JSX.ElementType = flowTypeMap[currentFlow?.rawData?.flowType] ?? null
 
   if (currentFlow == null || FlowComponent == null) {
     return null

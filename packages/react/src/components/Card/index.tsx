@@ -1,6 +1,6 @@
 import type { ForwardRefExoticComponent, RefAttributes } from 'react'
 import * as React from 'react'
-import { EmotionJSX } from '@emotion/react/types/jsx-namespace'
+import type { JSX } from '@emotion/react/jsx-runtime'
 
 import type { BoxProps } from '@/components/Box'
 import { Button, type ButtonProps } from '@/components/Button'
@@ -24,14 +24,14 @@ export interface CardComponent
   extends ForwardRefExoticComponent<
     Omit<FlowPropsWithoutChildren, 'ref'> & RefAttributes<unknown>
   > {
-  Dismiss: (props: ButtonProps) => EmotionJSX.Element
-  Header: (props: CardHeaderProps) => EmotionJSX.Element
-  Footer: (props: BoxProps) => EmotionJSX.Element
-  Media: (props: MediaProps) => EmotionJSX.Element
-  Primary: (props: ButtonProps) => EmotionJSX.Element
-  Secondary: (props: ButtonProps) => EmotionJSX.Element
-  Subtitle: (props: TextProps) => EmotionJSX.Element
-  Title: (props: TextProps) => EmotionJSX.Element
+  Dismiss: (props: ButtonProps) => JSX.Element
+  Header: (props: CardHeaderProps) => JSX.Element
+  Footer: (props: BoxProps) => JSX.Element
+  Media: (props: MediaProps) => JSX.Element
+  Primary: (props: ButtonProps) => JSX.Element
+  Secondary: (props: ButtonProps) => JSX.Element
+  Subtitle: (props: TextProps) => JSX.Element
+  Title: (props: TextProps) => JSX.Element
 }
 
 export interface CardProps extends FlowPropsWithoutChildren {
