@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.7.5
+
+### Patch Changes
+
+- 51c7b3d: Upgrade dependencies for React 19 support
+
 ## 2.7.4
 
 ### Patch Changes
