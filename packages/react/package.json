@@ -49,7 +49,7 @@
     "prepare": "cd ../../ && husky"
   },
   "dependencies": {
-    "@emotion/react": "^11.11.4",
+    "@emotion/react": "^11.14.0",
     "@floating-ui/react": "^0.26.22",
     "@frigade/js": "^0.8.1",
     "@radix-ui/react-checkbox": "^1.1.1",
