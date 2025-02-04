@@ -10,6 +10,7 @@ export default {
 export const Default = {
   args: {
     align: "after",
+    autoScroll: false,
     dismissible: true,
     defaultOpen: true,
     flowId: "flow_U63A5pndRrvCwxNs",

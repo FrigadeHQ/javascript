@@ -56,3 +56,20 @@ export const Nested: Story = {
     </FloatingUI.FloatingTree>
   ),
 };
+
+export const AutoScroll: Story = {
+  render: () => (
+    <Box marginTop="200vh">
+      <Popover.Root autoScroll open>
+        <Popover.Trigger>
+          <Button.Primary>Popover.Trigger</Button.Primary>
+        </Popover.Trigger>
+        <Popover.Content>
+          <Card borderWidth="md">
+            <Card.Title>Popover.Content</Card.Title>
+          </Card>
+        </Popover.Content>
+      </Popover.Root>
+    </Box>
+  ),
+};

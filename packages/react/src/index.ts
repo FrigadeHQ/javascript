@@ -45,6 +45,7 @@ export * as FrigadeJS from '@frigade/js'
 export { themeVariables, type Theme } from './shared/theme'
 export { tokens, type Tokens } from './shared/tokens'
 
+export { useAutoScroll } from './hooks/useAutoScroll'
 export { useBoundingClientRect } from './hooks/useBoundingClientRect'
 export { useFlow, type FlowConfig } from './hooks/useFlow'
 export {

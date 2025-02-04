@@ -68,17 +68,7 @@ export function Root({
 
   const { refs } = floating
 
-  console.log(
-    'Popover.Root status: ',
-    canonicalOpen,
-    floating.context.floatingId,
-    floating.status.status
-  )
-
-  useAutoScroll({
-    enabled: autoScroll,
-    ref: refs.reference.current,
-  })
+  useAutoScroll(refs.reference.current as Element, autoScroll)
 
   return (
     <PopoverContext.Provider

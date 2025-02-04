@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react'
 
-export function useAutoScroll({ enabled, ref }) {
+export function useAutoScroll(
+  element: Element | null | undefined,
+  enabled: boolean | ScrollIntoViewOptions = true
+) {
   const [scrollComplete, setScrollComplete] = useState(false)
 
   useEffect(() => {
-    if (!scrollComplete && enabled && ref instanceof Element) {
+    if (!scrollComplete && enabled && element instanceof Element) {
       const scrollOptions: ScrollIntoViewOptions =
         typeof enabled !== 'boolean' ? enabled : { behavior: 'smooth', block: 'center' }
 
@@ -27,9 +30,9 @@ export function useAutoScroll({ enabled, ref }) {
         true
       )
 
-      ref.scrollIntoView(scrollOptions)
+      element.scrollIntoView(scrollOptions)
     } else if (!enabled) {
       setScrollComplete(true)
     }
-  }, [enabled, ref, scrollComplete])
+  }, [enabled, element, scrollComplete])
 }
