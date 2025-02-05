@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.7.6
+
+### Patch Changes
+
+- b9bc059: Export ClientPortal
+
 ## 2.7.5
 
 ### Patch Changes
