@@ -1,0 +1,6 @@
+export { Root } from './Root'
+export { Content } from './Content'
+export { Trigger } from './Trigger'
+export type { PopoverRootProps } from './Root'
+export type { PopoverContentProps } from './Content'
+export type { PopoverTriggerProps } from './Trigger'

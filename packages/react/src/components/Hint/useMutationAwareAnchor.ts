@@ -28,6 +28,10 @@ export function useMutationAwareAnchor(anchor: string) {
   const [anchorElement, setAnchorElement] = useState(null)
 
   useEffect(() => {
+    if (typeof anchor !== 'string') {
+      return
+    }
+
     try {
       const element = document.querySelector(anchor)
 
@@ -43,6 +47,10 @@ export function useMutationAwareAnchor(anchor: string) {
   }, [anchor])
 
   useEffect(() => {
+    if (typeof anchor !== 'string') {
+      return
+    }
+
     const observer = new MutationObserver((mutations) => {
       for (const mutation of mutations) {
         if (mutation.type !== 'childList') {
