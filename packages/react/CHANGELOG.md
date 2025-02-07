@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.8.0
+
+### Minor Changes
+
+- 8e6f67b: Add Checklist.Floating component, Popover and Progress.Ring primitives, and useFloating and useAutoScroll hooks
+
 ## 2.7.6
 
 ### Patch Changes
