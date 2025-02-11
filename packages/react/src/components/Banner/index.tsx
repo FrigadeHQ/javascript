@@ -5,30 +5,35 @@ import { Box } from '@/components/Box'
 
 export interface BannerProps extends FlowPropsWithoutChildren {}
 
-export function Banner({ flowId, part, ...props }: BannerProps) {
+export function Banner({ flowId, ...props }: BannerProps) {
   return (
-    <Flow
-      alignItems="center"
-      aria-label="Banner"
-      as={Card}
-      borderWidth="md"
-      display="flex"
-      flexDirection="row"
-      flowId={flowId}
-      gap={3}
-      justifyContent="flex-start"
-      part={['banner', part]}
-      role="complementary"
-      {...props}
-    >
-      {({ handleDismiss, handlePrimary, handleSecondary, parentProps: { dismissible }, step }) => {
+    <Flow as={null} flowId={flowId} {...props}>
+      {({
+        handleDismiss,
+        handlePrimary,
+        handleSecondary,
+        parentProps: { containerProps, dismissible },
+        step,
+      }) => {
         const primaryButtonTitle = step.primaryButton?.title ?? step.primaryButtonTitle
         const secondaryButtonTitle = step.secondaryButton?.title ?? step.secondaryButtonTitle
 
         const disabled = step.$state.blocked
 
         return (
-          <>
+          <Card
+            alignItems="center"
+            aria-label="Banner"
+            borderWidth="md"
+            data-step-id={step.id}
+            display="flex"
+            flexDirection="row"
+            gap={3}
+            justifyContent="flex-start"
+            part="banner"
+            role="complementary"
+            {...containerProps}
+          >
             {step.imageUri && (
               <Box
                 as="img"
@@ -50,7 +55,7 @@ export function Banner({ flowId, part, ...props }: BannerProps) {
             />
             <Card.Primary disabled={disabled} title={primaryButtonTitle} onClick={handlePrimary} />
             {dismissible && <Card.Dismiss onClick={handleDismiss} />}
-          </>
+          </Card>
         )
       }}
     </Flow>

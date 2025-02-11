@@ -42,6 +42,7 @@ export function CarouselStep({ onPrimary, onSecondary, step }: CarouselStepProps
           flexBasis: '25%',
         },
       }}
+      data-step-id={step.id}
       flex="0 0 30%"
       gap="2"
       p="4"

@@ -81,6 +81,7 @@ export interface FlowProps extends FlowPropsWithoutChildren {
 }
 
 type ParentProps = {
+  as: FlowPropsWithoutChildren['as']
   containerProps: Record<string, unknown>
   dismissible: boolean
   flowId: string

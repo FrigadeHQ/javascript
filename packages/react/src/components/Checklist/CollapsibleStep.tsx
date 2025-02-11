@@ -49,6 +49,7 @@ function CheckIndicator({ checked = false }) {
       borderStyle="solid"
       borderColor="neutral.border"
       borderRadius="100%"
+      marginRight="2"
       padding="0"
       part="field-radio-value"
       position="relative"
@@ -100,7 +101,7 @@ export function Content({ children }) {
           It creates a flex gap at the top of this column, which animates smoothly.
           Other forms of whitespace like margin or padding? Not so smooth!
         */}
-        <Box />
+        <Box part="checklist-spacer" />
 
         {children}
       </Flex.Column>
@@ -139,7 +140,7 @@ export function Trigger({ isCompleted, isBlocked, title }) {
     <Collapsible.Trigger asChild>
       <Flex.Row
         alignItems="center"
-        justifyContent="space-between"
+        justifyContent="flex-start"
         margin={-5}
         padding={5}
         zIndex={1}
@@ -149,12 +150,10 @@ export function Trigger({ isCompleted, isBlocked, title }) {
         cursor={isBlocked ? 'not-allowed' : 'pointer'}
         part="collapsible-header"
       >
-        <Flex.Row alignItems="center" gap={2}>
-          <CheckIndicator checked={isCompleted} />
-          <Text.Body2 fontWeight="demibold" userSelect="none" part="collapsible-title">
-            {title}
-          </Text.Body2>
-        </Flex.Row>
+        <CheckIndicator checked={isCompleted} />
+        <Text.Body2 fontWeight="demibold" userSelect="none" part="collapsible-title">
+          {title}
+        </Text.Body2>
 
         <Box
           as={ChevronDownIcon}
@@ -166,6 +165,7 @@ export function Trigger({ isCompleted, isBlocked, title }) {
           }}
           display="block"
           height="16px"
+          marginLeft="auto"
           order={2}
           part="collapsible-step-icon"
           width="16px"

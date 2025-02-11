@@ -76,7 +76,12 @@ function DefaultCollapsibleStep({
   const { videoProps } = getVideoProps(stepProps)
 
   return (
-    <CollapsibleStep.Root open={open} onOpenChange={onOpenChange} {...stepProps}>
+    <CollapsibleStep.Root
+      data-step-id={step.id}
+      open={open}
+      onOpenChange={onOpenChange}
+      {...stepProps}
+    >
       <CollapsibleStep.Trigger
         isBlocked={step.$state.blocked}
         isCompleted={completed || skipped}
@@ -183,17 +188,16 @@ export function Collapsible({
 
           return (
             <>
-              <Flex.Column gap={2}>
+              <Flex.Column gap={2} part="checklist-header">
                 <Card.Header
                   dismissible={dismissible}
                   handleDismiss={handleDismiss}
-                  part="checklist-header"
                   subtitle={flow.subtitle}
                   title={flow.title}
                 />
 
-                <Flex.Row alignItems="center" gap={2}>
-                  <Text.Body2 fontWeight="demibold">
+                <Flex.Row alignItems="center" gap={2} part="checklist-progress">
+                  <Text.Body2 fontWeight="demibold" part="progress-text">
                     {currentSteps}/{availableSteps}
                   </Text.Body2>
                   <Progress.Bar current={currentSteps} total={availableSteps} flexGrow={1} />

@@ -19,24 +19,15 @@ export interface AnnouncementProps extends FlowPropsWithoutChildren, DialogProps
   defaultOpen?: boolean
 }
 
-export function Announcement({ flowId, part, ...props }: AnnouncementProps) {
+export function Announcement({ flowId, ...props }: AnnouncementProps) {
   return (
-    <Flow
-      as={Dialog}
-      display="flex"
-      flexDirection="column"
-      flowId={flowId}
-      gap={5}
-      part={['announcement', part]}
-      textAlign="center"
-      {...props}
-    >
+    <Flow as={null} flowId={flowId} {...props}>
       {({
         flow,
         handleDismiss,
         handlePrimary,
         handleSecondary,
-        parentProps: { dismissible },
+        parentProps: { containerProps, dismissible },
         step,
       }) => {
         const primaryButtonTitle = step.primaryButton?.title ?? step.primaryButtonTitle
@@ -47,7 +38,15 @@ export function Announcement({ flowId, part, ...props }: AnnouncementProps) {
         const { videoProps } = getVideoProps(step.props ?? {})
 
         return (
-          <>
+          <Dialog
+            data-step-id={step.id}
+            display="flex"
+            flexDirection="column"
+            gap={5}
+            part="announcement"
+            textAlign="center"
+            {...containerProps}
+          >
             {dismissible && <Dialog.Dismiss onClick={handleDismiss} />}
             <Flex.Column gap={1} part="announcement-header">
               <Dialog.Title>{step.title}</Dialog.Title>
@@ -95,7 +94,7 @@ export function Announcement({ flowId, part, ...props }: AnnouncementProps) {
                 />
               )}
             </Flex.Row>
-          </>
+          </Dialog>
         )
       }}
     </Flow>

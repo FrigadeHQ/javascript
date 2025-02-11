@@ -146,6 +146,7 @@ export function Flow({
         handlePrimary,
         handleSecondary,
         parentProps: {
+          as,
           dismissible,
           flowId,
           variables,

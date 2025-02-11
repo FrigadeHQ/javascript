@@ -11,7 +11,6 @@ import { useStepHandlers } from '@/hooks/useStepHandlers'
 
 import { floatingTransitionCSS } from '@/components/Checklist/Floating.styles'
 
-// TODO: Type props
 export function FloatingStep({ onPrimary, onSecondary, openStepId, setOpenStepId, step }) {
   const anchorPointerEnterTimeout = useRef<ReturnType<typeof setTimeout>>()
   const { handlePrimary, handleSecondary } = useStepHandlers(step, { onPrimary, onSecondary })
@@ -34,7 +33,6 @@ export function FloatingStep({ onPrimary, onSecondary, openStepId, setOpenStepId
     }
   }
 
-  // TODO: Handle tap while open on mobile to close step
   function handlePointerEnter() {
     clearTimeout(anchorPointerEnterTimeout.current)
 
