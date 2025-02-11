@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.8.1
+
+### Patch Changes
+
+- 187f0c8: Misc fixes for data-step-id and part props
+
 ## 2.8.0
 
 ### Minor Changes
