@@ -84,11 +84,9 @@ export function Hint({
   const shouldMount = refs.reference.current !== null && isVisible
 
   if (!shouldMount) {
-    console.log('HINT: !shouldMount')
     isMounted.current = false
     return null
   } else if (isMounted.current === false) {
-    console.log('HINT: shouldMount')
     isMounted.current = true
     onMount?.()
   }
