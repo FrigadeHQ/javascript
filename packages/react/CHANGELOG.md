@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.8.2
+
+### Patch Changes
+
+- 6ac6815: Add themeSelector prop to Provider
+
 ## 2.8.1
 
 ### Patch Changes
