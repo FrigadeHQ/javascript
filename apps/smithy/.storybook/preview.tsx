@@ -52,6 +52,9 @@ const preview = {
           //     },
           //   },
           // }}
+
+          // themeSelector="#storybook-root"
+
           userProperties={{
             firstName: "Jonathan",
             lastName: "Livingston",

@@ -90,6 +90,11 @@ export interface ProviderProps {
   theme?: Theme
 
   /**
+   * CSS selector to scope Frigade CSS variables into. Defaults to `:root`.
+   */
+  themeSelector?: string
+
+  /**
    * The user ID of the user who is interacting with Frigade. If not provided, Frigade will generate a random guest ID and persist it in local storage.
    */
   userId?: string
@@ -137,6 +142,7 @@ export function Provider({
   defaultCollection = true,
   navigate,
   theme,
+  themeSelector = ':root',
   ...props
 }: ProviderProps) {
   const themeOverrides = theme ? createThemeVariables(theme) : {}
@@ -253,7 +259,7 @@ export function Provider({
         variables: props.variables || {},
       }}
     >
-      <Global styles={{ ':root': { ...themeVariables, ...themeOverrides, ...css } }} />
+      <Global styles={{ [themeSelector]: { ...themeVariables, ...themeOverrides, ...css } }} />
       <ThemeProvider theme={themeTokens}>
         {defaultCollection && <DefaultCollection />}
         {children}
