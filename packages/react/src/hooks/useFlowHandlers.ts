@@ -42,7 +42,7 @@ export function useFlowHandlers(flow: Flow, { onComplete, onDismiss }: FlowHandl
     return () => {
       callHandler()
     }
-  }, [flow, onComplete])
+  }, [flow, flow?.isCompleted, onComplete])
 
   return {
     handleDismiss: useCallback<DismissHandler>(
