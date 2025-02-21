@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.8.3
+
+### Patch Changes
+
+- 4063bb5: Fix dependencies for Flow onComplete
+
 ## 2.8.2
 
 ### Patch Changes
