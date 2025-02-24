@@ -49,14 +49,41 @@ export class Frigade extends Fetchable {
    * @ignore
    */
   private eventHandlers: Map<FlowChangeEvent, FlowChangeEventHandler[]> = new Map()
+  /**
+   * @ignore
+   */
+  private refreshTimeout: ReturnType<typeof setTimeout> | null = null
+  /**
+   * @ignore
+   */
+  private queuedRefresh: boolean = false
 
   /**
    * @ignore
    */
-  private visibilityChangeHandler = async () => {
+  private visibilityChangeHandler = () => {
     if (document.visibilityState === 'visible') {
-      await this.refreshStateFromAPI()
+      this.queueRefreshStateFromAPI()
     }
+  }
+
+  /**
+   * @ignore
+   */
+  private queueRefreshStateFromAPI() {
+    this.queuedRefresh = true
+    if (this.refreshTimeout) {
+      return
+    }
+
+    this.refreshTimeout = setTimeout(async () => {
+      if (this.queuedRefresh) {
+        this.getGlobalState().currentUrl = window.location.href
+        await this.refreshStateFromAPI()
+        this.queuedRefresh = false
+      }
+      this.refreshTimeout = null
+    }, this.getGlobalState().config.__refreshIntervalInMS)
   }
 
   constructor(apiKey: string, config?: FrigadeConfig) {
@@ -83,9 +110,7 @@ export class Frigade extends Fetchable {
             ) {
               return
             }
-
-            this.getGlobalState().currentUrl = event.destination.url
-            this.refreshStateFromAPI(true)
+            this.queueRefreshStateFromAPI()
           } catch (e) {}
         })
       }
@@ -463,7 +488,7 @@ export class Frigade extends Fetchable {
   /**
    * @ignore
    */
-  private async refreshStateFromAPI(cancelPendingRequests: boolean = false): Promise<void> {
+  private async refreshStateFromAPI(): Promise<void> {
     const globalStateKey = getGlobalStateKey(this.config)
 
     if (!frigadeGlobalState[globalStateKey]) {
@@ -508,8 +533,7 @@ export class Frigade extends Fetchable {
       }
 
       frigadeGlobalState[globalStateKey].refreshStateFromAPI = async (
-        overrideFlowStateRaw?: FlowStates,
-        cancelPendingRequests?: boolean
+        overrideFlowStateRaw?: FlowStates
       ) => {
         if (this.config.__readOnly) {
           return
@@ -517,18 +541,14 @@ export class Frigade extends Fetchable {
 
         const flowStateRaw: FlowStates = overrideFlowStateRaw
           ? overrideFlowStateRaw
-          : await this.fetch(
-              '/v1/public/flowStates',
-              {
-                method: 'POST',
-                body: JSON.stringify({
-                  userId: this.getGlobalState().config.userId,
-                  groupId: this.getGlobalState().config.groupId,
-                  context: getContext(this.getGlobalState()),
-                } as FlowStateDTO),
-              },
-              cancelPendingRequests
-            )
+          : await this.fetch('/v1/public/flowStates', {
+              method: 'POST',
+              body: JSON.stringify({
+                userId: this.getGlobalState().config.userId,
+                groupId: this.getGlobalState().config.groupId,
+                context: getContext(this.getGlobalState()),
+              } as FlowStateDTO),
+            })
 
         const collectionsData: CollectionsList = new Map()
 
@@ -586,7 +606,7 @@ export class Frigade extends Fetchable {
       }
     }
 
-    await frigadeGlobalState[globalStateKey].refreshStateFromAPI(undefined, cancelPendingRequests)
+    await frigadeGlobalState[globalStateKey].refreshStateFromAPI(undefined)
   }
 
   /**

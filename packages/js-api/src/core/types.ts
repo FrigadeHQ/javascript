@@ -337,6 +337,11 @@ export interface FrigadeConfig {
    * @ignore Internal use only.
    */
   __platformName?: string
+
+  /**
+   * @ignore Internal use only.
+   */
+  __refreshIntervalInMS: number
 }
 
 export interface StatefulStep {

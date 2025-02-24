@@ -9,6 +9,7 @@ export class Fetchable {
     userId: generateGuestId(),
     __instanceId: Math.random().toString(12).substring(4),
     generateGuestId: true,
+    __refreshIntervalInMS: 100,
   }
 
   constructor(config: FrigadeConfig) {
@@ -22,24 +23,16 @@ export class Fetchable {
   /**
    * @ignore
    */
-  public async fetch(
-    path: string,
-    options?: Record<any, any>,
-    cancelPendingRequests: boolean = false
-  ) {
+  public async fetch(path: string, options?: Record<any, any>) {
     if (this.config.__readOnly) {
       return getEmptyResponse()
     }
 
-    return gracefulFetch(
-      this.getAPIUrl(path),
-      {
-        keepalive: true,
-        ...(options ?? {}),
-        ...getHeaders(this.config),
-      },
-      cancelPendingRequests
-    )
+    return gracefulFetch(this.getAPIUrl(path), {
+      keepalive: true,
+      ...(options ?? {}),
+      ...getHeaders(this.config),
+    })
   }
 
   private getAPIUrl(path: string) {
