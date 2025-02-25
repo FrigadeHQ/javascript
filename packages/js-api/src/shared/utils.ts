@@ -120,11 +120,7 @@ class CallQueue {
 
 globalThis.callQueue = new CallQueue()
 
-export async function gracefulFetch(
-  url: string,
-  options: any,
-  cancelPendingRequests: boolean = false
-) {
+export async function gracefulFetch(url: string, options: any) {
   if (typeof globalThis.fetch !== 'function') {
     return getEmptyResponse(
       "- Attempted to call fetch() in an environment that doesn't support it."
@@ -136,7 +132,7 @@ export async function gracefulFetch(
 
   const isWebPostRequest = isWeb() && options && options.body && options.method === 'POST'
 
-  if (isWebPostRequest && !cancelPendingRequests) {
+  if (isWebPostRequest) {
     const cachedCall = globalThis.callQueue.hasIdenticalRecentCall(lastCallDataKey)
 
     if (cachedCall != null && cachedCall.response != null) {
@@ -148,11 +144,6 @@ export async function gracefulFetch(
 
   if (!response) {
     try {
-      // TEMP: Disable pending request flushing
-      // if (cancelPendingRequests) {
-      //   globalThis.callQueue.cancelAllPendingRequests()
-      // }
-
       const pendingResponse = fetch(url, options)
 
       if (isWebPostRequest) {
