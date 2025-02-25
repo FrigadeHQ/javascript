@@ -1,5 +1,16 @@
 # @frigade/react
 
+## 2.9.0
+
+### Minor Changes
+
+- 32e8384: Performance improvement that updates the behavior of `syncOnWindowUpdates` to debounce identical calls more aggressively
+
+### Patch Changes
+
+- Updated dependencies [32e8384]
+  - @frigade/js@0.9.0
+
 ## 2.8.3
 
 ### Patch Changes
