@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.9.0
+
+### Minor Changes
+
+- 32e8384: Performance improvement that updates the behavior of `syncOnWindowUpdates` to debounce identical calls more aggressively
+
 ## 0.8.1
 
 ### Patch Changes
