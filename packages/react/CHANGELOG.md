@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.9.1
+
+### Patch Changes
+
+- 2113e9d: Fixes a typescript issue with a required field for `__refreshIntervalInMS`
+- Updated dependencies [2113e9d]
+  - @frigade/js@0.9.1
+
 ## 2.9.0
 
 ### Minor Changes
