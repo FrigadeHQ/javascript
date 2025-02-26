@@ -1,5 +1,5 @@
 import { generateGuestId, getEmptyResponse, getHeaders, gracefulFetch } from './utils'
-import { FrigadeConfig } from '../core/types'
+import { DEFAULT_REFRESH_INTERVAL_IN_MS, FrigadeConfig } from '../core/types'
 import { frigadeGlobalState, FrigadeGlobalState, getGlobalStateKey } from './state'
 
 export class Fetchable {
@@ -9,7 +9,7 @@ export class Fetchable {
     userId: generateGuestId(),
     __instanceId: Math.random().toString(12).substring(4),
     generateGuestId: true,
-    __refreshIntervalInMS: 100,
+    __refreshIntervalInMS: DEFAULT_REFRESH_INTERVAL_IN_MS,
   }
 
   constructor(config: FrigadeConfig) {

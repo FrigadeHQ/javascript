@@ -1,5 +1,7 @@
 import type { Flow } from './flow'
 
+export const DEFAULT_REFRESH_INTERVAL_IN_MS = 100
+
 export enum TriggerType {
   MANUAL = 'MANUAL',
   AUTOMATIC = 'AUTOMATIC',
@@ -341,7 +343,7 @@ export interface FrigadeConfig {
   /**
    * @ignore Internal use only.
    */
-  __refreshIntervalInMS: number
+  __refreshIntervalInMS?: number
 }
 
 export interface StatefulStep {

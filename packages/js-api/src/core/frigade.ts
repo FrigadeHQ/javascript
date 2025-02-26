@@ -1,4 +1,5 @@
 import {
+  DEFAULT_REFRESH_INTERVAL_IN_MS,
   FlowChangeEvent,
   FlowChangeEventHandler,
   FlowStateDTO,
@@ -83,7 +84,7 @@ export class Frigade extends Fetchable {
         this.queuedRefresh = false
       }
       this.refreshTimeout = null
-    }, this.getGlobalState().config.__refreshIntervalInMS)
+    }, this.getGlobalState().config.__refreshIntervalInMS ?? DEFAULT_REFRESH_INTERVAL_IN_MS)
   }
 
   constructor(apiKey: string, config?: FrigadeConfig) {
