@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.9.1
+
+### Patch Changes
+
+- 2113e9d: Fixes a typescript issue with a required field for `__refreshIntervalInMS`
+
 ## 0.9.0
 
 ### Minor Changes
