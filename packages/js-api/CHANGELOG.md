@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.9.2
+
+### Patch Changes
+
+- 78b0672: Fixes an issue where collections in some cases would not respect cool offs
+
 ## 0.9.1
 
 ### Patch Changes
