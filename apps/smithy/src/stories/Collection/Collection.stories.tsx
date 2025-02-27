@@ -176,7 +176,7 @@ export const MultipleAnnouncements = {
         <Collection collectionId="collection_49A28miL" />
 
         {/* Storybook X & Y Announcements */}
-        <Collection collectionId="collection_DrlkZoXK" />
+        {/* <Collection collectionId="collection_DrlkZoXK" /> */}
       </>
     ),
   ],
