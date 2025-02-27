@@ -621,6 +621,8 @@ export class Flow extends Fetchable {
     copy.$state.started = true
     copy.$state.visible = false
     this.getGlobalState().flowStates[this.id] = copy
+    // Temporarily disable collections until server round trip has finished
+    this.getGlobalState().collections.ingestCollectionsData(new Map())
     this.resyncState()
   }
 
@@ -631,6 +633,8 @@ export class Flow extends Fetchable {
     const copy = clone(this.getGlobalState().flowStates[this.id])
     copy.$state.started = true
     this.getGlobalState().flowStates[this.id] = copy
+    // Temporarily disable collections until server round trip has finished
+    this.getGlobalState().collections.ingestCollectionsData(new Map())
     this.resyncState()
   }
 
@@ -676,6 +680,8 @@ export class Flow extends Fetchable {
     copy.$state.skipped = true
     copy.$state.visible = false
     this.getGlobalState().flowStates[this.id] = copy
+    // Temporarily disable collections until server round trip has finished
+    this.getGlobalState().collections.ingestCollectionsData(new Map())
     this.resyncState()
   }
 

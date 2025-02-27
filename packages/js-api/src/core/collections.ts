@@ -90,15 +90,15 @@ export class Collections {
 
     for (const [collectionId, collection] of previousCollections) {
       const newCollection = newCollections.get(collectionId)
-      if (collection.flows.length !== newCollection.flows.length) {
+      if (collection?.flows?.length !== newCollection?.flows?.length) {
         this.hasChanges = true
         break
       }
 
       for (let i = 0; i < collection.flows.length; i++) {
         if (
-          collection.flows[i].flowId !== newCollection.flows[i].flowId ||
-          collection.flows[i].visible !== newCollection.flows[i].visible
+          collection?.flows[i]?.flowId !== newCollection?.flows[i]?.flowId ||
+          collection?.flows[i]?.visible !== newCollection?.flows[i]?.visible
         ) {
           this.hasChanges = true
           break
