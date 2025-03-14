@@ -72,6 +72,10 @@ export class Frigade extends Fetchable {
    * @ignore
    */
   private queueRefreshStateFromAPI() {
+    if (!this.isReady()) {
+      return
+    }
+
     this.queuedRefresh = true
     if (this.refreshTimeout) {
       return
@@ -280,7 +284,12 @@ export class Frigade extends Fetchable {
    * @ignore
    */
   public isReady(): boolean {
-    return Boolean(this.config.__instanceId && this.config.apiKey && this.initPromise)
+    return Boolean(
+      this.config.__instanceId &&
+        this.config.apiKey &&
+        this.initPromise &&
+        frigadeGlobalState[getGlobalStateKey(this.config)]
+    )
   }
 
   /**
