@@ -92,30 +92,32 @@ export class Frigade extends Fetchable {
       apiKey,
       ...config,
     })
-    this.init(this.config)
-    if (isWeb() && this.config.syncOnWindowUpdates !== false) {
-      document.addEventListener('visibilitychange', this.visibilityChangeHandler)
-      // @ts-ignore
-      if (window.navigation) {
+    this.init(this.config).then(() => {
+      if (isWeb() && this.config.syncOnWindowUpdates !== false) {
+        document.addEventListener('visibilitychange', this.visibilityChangeHandler)
         // @ts-ignore
-        window.navigation.addEventListener('navigate', async (event) => {
-          try {
-            if (this.getGlobalState().currentUrl === event.destination.url) {
-              return
-            }
-            // if the new base url is the same but with a hashtag, don't refresh the state as the page has not changed.
-            if (
-              event.destination.url &&
-              this.getGlobalState().currentUrl &&
-              event.destination.url.split('#')[0] === this.getGlobalState().currentUrl.split('#')[0]
-            ) {
-              return
-            }
-            this.queueRefreshStateFromAPI()
-          } catch (e) {}
-        })
+        if (window.navigation) {
+          // @ts-ignore
+          window.navigation.addEventListener('navigate', async (event) => {
+            try {
+              if (this.getGlobalState().currentUrl === event.destination.url) {
+                return
+              }
+              // if the new base url is the same but with a hashtag, don't refresh the state as the page has not changed.
+              if (
+                event.destination.url &&
+                this.getGlobalState().currentUrl &&
+                event.destination.url.split('#')[0] ===
+                  this.getGlobalState().currentUrl.split('#')[0]
+              ) {
+                return
+              }
+              this.queueRefreshStateFromAPI()
+            } catch (e) {}
+          })
+        }
       }
-    }
+    })
   }
 
   /**
@@ -280,7 +282,12 @@ export class Frigade extends Fetchable {
    * @ignore
    */
   public isReady(): boolean {
-    return Boolean(this.config.__instanceId && this.config.apiKey && this.initPromise)
+    return Boolean(
+      this.config.__instanceId &&
+        this.config.apiKey &&
+        this.initPromise &&
+        frigadeGlobalState[getGlobalStateKey(this.config)]
+    )
   }
 
   /**
