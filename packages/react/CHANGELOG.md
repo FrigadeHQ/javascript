@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.9.3
+
+### Patch Changes
+
+- b3d3cc6: Fixes an edge case where in some cases, the error `Frigade has not yet been initialized` can occur.
+- Updated dependencies [b3d3cc6]
+  - @frigade/js@0.9.3
+
 ## 2.9.2
 
 ### Patch Changes
