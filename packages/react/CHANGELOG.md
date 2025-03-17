@@ -1,5 +1,14 @@
 # @frigade/react
 
+## 2.9.4
+
+### Patch Changes
+
+- e1688af: - Fixes a bug where `frigade.on('step.compelte')` could sometimes be called for already completed steps in flows.
+  - Fixes an issue with using Storybook with Frigade components
+- Updated dependencies [e1688af]
+  - @frigade/js@0.9.4
+
 ## 2.9.3
 
 ### Patch Changes
