@@ -643,6 +643,65 @@ describe('Basic Checklist integration test', () => {
       }
     }
   })
+
+  test('on() event handler for steps completion should fire expected number of times', async () => {
+    const userId = getRandomID()
+    // First instance to complete the flow
+    const frigade = new Frigade(testAPIKey, {
+      userId,
+    })
+    const callback = jest.fn(
+      (event: string, flow: Flow, _previousFlow?: Flow, _step?: FlowStep) => {
+        expect(event).toBe('step.complete')
+        expect(flow).toBeDefined()
+        expect(flow.id).toEqual(testFlowId)
+      }
+    )
+    frigade.on('step.complete', callback)
+    await frigade.identify(userId)
+    const flow = await frigade.getFlow(testFlowId)
+    expect(flow).toBeDefined()
+    expect(callback).toHaveBeenCalledTimes(0)
+
+    // Complete the flow first
+    expect(flow.steps.get(testFlowStepId).$state.completed).toBeFalsy()
+    await flow.steps.get(testFlowStepId).complete()
+    expect(flow.steps.get(testFlowStepId).$state.completed).toBeTruthy()
+    await flow.complete()
+    expect(callback).toHaveBeenCalledTimes(1)
+
+    // Create a new Frigade instance with the same userId
+    const newFrigade = new Frigade(testAPIKey, {
+      userId,
+    })
+    await newFrigade.identify(userId)
+
+    // Register event handler after flow is already completed
+    const newCallback = jest.fn(
+      (event: string, flow: Flow, _previousFlow?: Flow, _step?: FlowStep) => {
+        expect(event).toBe('step.complete')
+        expect(flow).toBeDefined()
+        expect(flow.id).toEqual(testFlowId)
+      }
+    )
+
+    // Register the handler on the new instance - it should not fire for the already completed flow
+    newFrigade.on('step.complete', newCallback)
+
+    // Verify the callback wasn't called
+    expect(newCallback).toHaveBeenCalledTimes(0)
+
+    // Get the flow from the new instance and verify it's still completed
+    const newFlow = await newFrigade.getFlow(testFlowId)
+    expect(newFlow.isCompleted).toBeTruthy()
+
+    // Reset and complete the flow step again to verify the handler works for new completions
+    await newFlow.restart()
+    expect(newFlow.steps.get(testFlowStepId).$state.completed).toBeFalsy()
+    await newFlow.steps.get(testFlowStepId).complete()
+    expect(newFlow.steps.get(testFlowStepId).$state.completed).toBeTruthy()
+    expect(newCallback).toHaveBeenCalledTimes(1)
+  })
 })
 
 describe('Advanced Checklist integration test', () => {

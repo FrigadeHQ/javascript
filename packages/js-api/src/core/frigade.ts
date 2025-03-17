@@ -709,12 +709,13 @@ export class Frigade extends Fetchable {
                 break
               case 'step.complete':
                 for (const step of newState.data.steps ?? []) {
+                  const previousStep = previousState?.data.steps.find(
+                    (previousStepState) => previousStepState.id === step.id
+                  )
                   if (
                     step.$state.completed &&
-                    !previousState?.data.steps.find(
-                      (previousStepState) =>
-                        previousStepState.id === step.id && previousStepState.$state.completed
-                    )
+                    previousStep &&
+                    previousStep.$state.completed !== step.$state.completed
                   ) {
                     handlers.forEach((handler) =>
                       handler(event, flow, lastFlow, flow.steps.get(step.id))
@@ -730,6 +731,7 @@ export class Frigade extends Fetchable {
                   if (
                     step.$state.started == false &&
                     !step.$state.lastActionAt &&
+                    previousStep &&
                     previousStep?.$state.started &&
                     previousStep?.$state.lastActionAt
                   ) {
@@ -741,12 +743,13 @@ export class Frigade extends Fetchable {
                 break
               case 'step.skip':
                 for (const step of newState.data.steps ?? []) {
+                  const previousStep = previousState?.data.steps.find(
+                    (previousStepState) => previousStepState.id === step.id
+                  )
                   if (
                     step.$state.skipped &&
-                    !previousState?.data.steps.find(
-                      (previousStepState) =>
-                        previousStepState.id === step.id && previousStepState.$state.skipped
-                    )
+                    previousStep &&
+                    previousStep.$state.skipped !== step.$state.skipped
                   ) {
                     handlers.forEach((handler) =>
                       handler(event, flow, lastFlow, flow.steps.get(step.id))
@@ -756,13 +759,13 @@ export class Frigade extends Fetchable {
                 break
               case 'step.start':
                 for (const step of newState.data.steps ?? []) {
+                  const previousStep = previousState?.data.steps.find(
+                    (previousStepState) => previousStepState.id === step.id
+                  )
                   if (
                     step.$state.started &&
-                    previousState?.data.steps.find(
-                      (previousStepState) =>
-                        previousStepState.id === step.id &&
-                        previousStepState.$state.started === false
-                    )
+                    previousStep &&
+                    previousStep.$state.started === false
                   ) {
                     handlers.forEach((handler) =>
                       handler(event, flow, lastFlow, flow.steps.get(step.id))
