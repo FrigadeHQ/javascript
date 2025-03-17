@@ -1,5 +1,12 @@
 # @frigade/js
 
+## 0.9.4
+
+### Patch Changes
+
+- e1688af: - Fixes a bug where `frigade.on('step.compelte')` could sometimes be called for already completed steps in flows.
+  - Fixes an issue with using Storybook with Frigade components
+
 ## 0.9.3
 
 ### Patch Changes
