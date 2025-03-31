@@ -24,7 +24,7 @@ export function useCollection(collectionId?: string): {
         flow: frigade?.getFlowSync(item.flowId),
       })) ?? []
 
-  const flowId = enrichedFlows.find(({ flow }) => flow.isVisible)?.flowId
+  const flowId = enrichedFlows.find(({ flow }) => flow?.isVisible)?.flowId
 
   const { flow } = useFlow(flowId)
 
