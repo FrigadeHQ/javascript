@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.9.5
+
+### Patch Changes
+
+- 75a5475: Adds an additional null check to Flows served through collections
+
 ## 2.9.4
 
 ### Patch Changes
