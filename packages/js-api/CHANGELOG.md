@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.9.5
+
+### Patch Changes
+
+- 8496a7f: Fixes an issue where navigation change events were not firing in Firefox
+
 ## 0.9.4
 
 ### Patch Changes

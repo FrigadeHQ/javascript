@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.9.6
+
+### Patch Changes
+
+- 8496a7f: Fixes an issue where navigation change events were not firing in Firefox
+- Updated dependencies [8496a7f]
+  - @frigade/js@0.9.5
+
 ## 2.9.5
 
 ### Patch Changes
