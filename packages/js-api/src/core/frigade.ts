@@ -115,6 +115,25 @@ export class Frigade extends Fetchable {
               this.queueRefreshStateFromAPI()
             } catch (e) {}
           })
+        } else {
+          // For browsers like Safari and Firefox, window.navigation is not supported.
+          // Instead we use a mutation observer to detect changes to the URL.
+          new MutationObserver(() => {
+            try {
+              if (this.getGlobalState().currentUrl === location.href) {
+                return
+              }
+              // if the new base url is the same but with a hashtag, don't refresh the state as the page has not changed.
+              if (
+                location.href &&
+                this.getGlobalState().currentUrl &&
+                location.href.split('#')[0] === this.getGlobalState().currentUrl.split('#')[0]
+              ) {
+                return
+              }
+              this.queueRefreshStateFromAPI()
+            } catch (e) {}
+          }).observe(document, { subtree: true, childList: true })
         }
       }
     })
