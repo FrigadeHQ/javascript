@@ -18565,7 +18565,7 @@ __metadata:
     react-dom: "npm:^19.0.0"
     storybook: "npm:^8.5.3"
     typescript: "npm:^4.9.4"
-    vite: "npm:^4.5.11"
+    vite: "npm:^4.5.12"
   languageName: unknown
   linkType: soft
 
@@ -20347,9 +20347,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:^4.5.11":
-  version: 4.5.11
-  resolution: "vite@npm:4.5.11"
+"vite@npm:^4.5.12":
+  version: 4.5.13
+  resolution: "vite@npm:4.5.13"
   dependencies:
     esbuild: "npm:^0.18.10"
     fsevents: "npm:~2.3.2"
@@ -20383,7 +20383,7 @@ __metadata:
       optional: true
   bin:
     vite: bin/vite.js
-  checksum: 10/51028ad040e0fd68ba76824c61e306b0716f40fa682d8a5b386d3c3b4562997ff17ff113d9dd0e5971f34754fce5c55ed4402e742a4725a25bee80cc74c531f3
+  checksum: 10/eddfc619d69272ed3abfd0f59de3d52656d3aafbfe474db2bcccbc0520e6f52678469c7c7977ea952b5e3d99492c5b93d5b15ddfa3159cce70fa37a7c92c290a
   languageName: node
   linkType: hard
 
