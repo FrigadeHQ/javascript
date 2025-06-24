@@ -65,6 +65,7 @@ export {
 export { useFrigade } from './hooks/useFrigade'
 export { useUser } from './hooks/useUser'
 export { useGroup } from './hooks/useGroup'
+export { useFloating } from './hooks/useFloating'
 
 // TEMP: Remove this, used for testing Storybook
 export * as FloatingUI from '@floating-ui/react'

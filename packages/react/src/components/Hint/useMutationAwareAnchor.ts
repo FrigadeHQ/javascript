@@ -1,15 +1,16 @@
 import { useEffect, useState } from 'react'
+import Sizzle from 'sizzle'
 
-function checkElementForAnchor(element: Element, anchor: string) {
+function checkElementForAnchor(element: Element, anchorSelector: string) {
   try {
-    if (element.matches(anchor) && isVisible(element)) {
+    if (Sizzle.matchesSelector(element, anchorSelector) && isVisible(element)) {
       return element
     }
 
-    const anchorSelector = element.querySelectorAll(anchor)
+    const anchorElements = Sizzle(anchorSelector, element)
 
-    if (anchorSelector.length > 0 && isVisible(anchorSelector[0])) {
-      return anchorSelector[0]
+    if (anchorElements.length > 0 && isVisible(anchorElements[0])) {
+      return anchorElements[0]
     }
   } catch (invalidSelector) {
     return null
@@ -24,30 +25,30 @@ function isVisible(element: Element) {
   return !!(element.offsetWidth || element.offsetHeight || element.getClientRects().length)
 }
 
-export function useMutationAwareAnchor(anchor: string) {
+export function useMutationAwareAnchor(anchorSelector: string) {
   const [anchorElement, setAnchorElement] = useState(null)
 
   useEffect(() => {
-    if (typeof anchor !== 'string') {
+    if (typeof anchorSelector !== 'string') {
       return
     }
 
     try {
-      const element = document.querySelector(anchor)
+      const element = Sizzle(anchorSelector)[0]
 
       if (element != null) {
-        console.debug(`[frigade] Found anchor: ${anchor}`)
+        console.debug(`[frigade] Found anchor: ${anchorSelector}`)
         setAnchorElement(element)
       } else {
-        console.debug(`[frigade] No anchor found for selector: ${anchor}`)
+        console.debug(`[frigade] No anchor found for selector: ${anchorSelector}`)
       }
     } catch (invalidSelector) {
-      console.debug(`[frigade] Invalid selector for anchor: ${anchor}`)
+      console.debug(`[frigade] Invalid selector for anchor: ${anchorSelector}`)
     }
-  }, [anchor])
+  }, [anchorSelector])
 
   useEffect(() => {
-    if (typeof anchor !== 'string') {
+    if (typeof anchorSelector !== 'string') {
       return
     }
 
@@ -62,10 +63,10 @@ export function useMutationAwareAnchor(anchor: string) {
             continue
           }
 
-          const maybeAnchor = checkElementForAnchor(node as Element, anchor)
+          const maybeAnchor = checkElementForAnchor(node as Element, anchorSelector)
 
           if (maybeAnchor != null) {
-            console.debug(`[frigade] Found anchor: ${anchor}`)
+            console.debug(`[frigade] Found anchor: ${anchorSelector}`)
             setAnchorElement(maybeAnchor)
             break
           }
@@ -76,10 +77,10 @@ export function useMutationAwareAnchor(anchor: string) {
             continue
           }
 
-          const maybeAnchor = checkElementForAnchor(node as Element, anchor)
+          const maybeAnchor = checkElementForAnchor(node as Element, anchorSelector)
 
           if (maybeAnchor != null) {
-            console.debug(`[frigade] Removed anchor: ${anchor}`)
+            console.debug(`[frigade] Removed anchor: ${anchorSelector}`)
             setAnchorElement(null)
             break
           }
@@ -90,7 +91,7 @@ export function useMutationAwareAnchor(anchor: string) {
     observer.observe(document.querySelector('body'), { childList: true, subtree: true })
 
     return () => observer.disconnect()
-  }, [anchor])
+  }, [anchorSelector])
 
   return {
     anchorElement,

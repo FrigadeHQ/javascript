@@ -3834,6 +3834,7 @@ __metadata:
     "@types/node": "npm:^20.10.5"
     "@types/react": "npm:^18.2.34"
     "@types/react-dom": "npm:^18.2.14"
+    "@types/sizzle": "npm:^2"
     "@types/use-sync-external-store": "npm:^0.0.6"
     "@typescript-eslint/eslint-plugin": "npm:^6.20.0"
     "@typescript-eslint/parser": "npm:^6.20.0"
@@ -3852,6 +3853,7 @@ __metadata:
     react-hook-form: "npm:^7.49.3"
     react-remove-scroll: "npm:^2.5.10"
     rimraf: "npm:^4.1.2"
+    sizzle: "npm:^2.3.10"
     ts-jest: "npm:^29.1.0"
     tsup: "npm:^6.7.0"
     typedoc: "npm:^0.25.12"
@@ -7864,6 +7866,13 @@ __metadata:
     "@types/mime": "npm:*"
     "@types/node": "npm:*"
   checksum: 10/49aa21c367fffe4588fc8c57ea48af0ea7cbadde7418bc53cde85d8bd57fd2a09a293970d9ea86e79f17a87f8adeb3e20da76aab38e1c4d1567931fa15c8af38
+  languageName: node
+  linkType: hard
+
+"@types/sizzle@npm:^2":
+  version: 2.3.9
+  resolution: "@types/sizzle@npm:2.3.9"
+  checksum: 10/413811a79e7e9f1d8f47e6047ae0aea1530449d612304cdda1c30018e3d053b8544861ec2c70bdeca75a0a010192e6bb78efc6fb4caaafdd65c4eee90066686a
   languageName: node
   linkType: hard
 
@@ -18474,6 +18483,13 @@ __metadata:
   version: 1.0.5
   resolution: "sisteransi@npm:1.0.5"
   checksum: 10/aba6438f46d2bfcef94cf112c835ab395172c75f67453fe05c340c770d3c402363018ae1ab4172a1026a90c47eaccf3af7b6ff6fa749a680c2929bd7fa2b37a4
+  languageName: node
+  linkType: hard
+
+"sizzle@npm:^2.3.10":
+  version: 2.3.10
+  resolution: "sizzle@npm:2.3.10"
+  checksum: 10/c68b99ab7bb904655671068d959c1c4bee6b818514f04e3027f23650d2c85e6895d6a01304dd5cf8529c2cbe58cd926aad44a37396003c6a097b91ba5b9e4904
   languageName: node
   linkType: hard
 
