@@ -68,6 +68,7 @@
     "use-sync-external-store": "^1.4.0"
   },
   "peerDependencies": {
+    "@emotion/react": "^11.14.0",
     "react": "17 - 19",
     "react-dom": "17 - 19"
   },
