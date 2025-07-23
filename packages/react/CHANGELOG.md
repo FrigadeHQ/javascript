@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.10.0
+
+### Minor Changes
+
+- 11f71d9: Fixes an issue with Frigade and Vite
+
 ## 2.9.6
 
 ### Patch Changes
