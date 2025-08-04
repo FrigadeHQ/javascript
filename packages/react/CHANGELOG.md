@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.10.1
+
+### Patch Changes
+
+- d600eee: Fixes an issue related to form type select/multiple
+
 ## 2.10.0
 
 ### Minor Changes
