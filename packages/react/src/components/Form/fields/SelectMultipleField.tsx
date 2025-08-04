@@ -11,20 +11,19 @@ import * as baseStyles from '@/components/Form/fields/BaseField.styles'
 
 export function SelectMultipleField(props: FormFieldProps) {
   const {
-    field: { onChange },
+    field: { onChange, value },
     fieldData: { options = [] },
   } = props
 
-  const [valueArray, setValueArray] = React.useState<string[]>([])
+  // Ensure we always work with an array of strings coming from RHF
+  const valueArray: string[] = Array.isArray(value) ? value : []
 
-  function setValueInArray(value: string) {
-    let updatedValueArray = []
-    if (valueArray.includes(value)) {
-      updatedValueArray = [...valueArray.filter((v) => v !== value)]
-    } else {
-      updatedValueArray = [...valueArray, value]
-    }
-    setValueArray(updatedValueArray)
+  function toggleValue(optionValue: string) {
+    const updatedValueArray = valueArray.includes(optionValue)
+      ? valueArray.filter((v) => v !== optionValue)
+      : [...valueArray, optionValue]
+
+    // Let react-hook-form handle the new value
     onChange(updatedValueArray)
   }
 
@@ -32,11 +31,11 @@ export function SelectMultipleField(props: FormFieldProps) {
     <BaseField {...props}>
       {() => (
         <Flex.Column gap={2} part="field-select-multiple">
-          {options.map(({ label, value }) => (
+          {options.map(({ label, value: optionValue }) => (
             <Checkbox.Root
-              value={valueArray.includes(value) ? value : undefined}
-              onCheckedChange={() => setValueInArray(value)}
-              key={value}
+              key={optionValue}
+              checked={valueArray.includes(optionValue)}
+              onCheckedChange={() => toggleValue(optionValue)}
               asChild
             >
               <Box
@@ -61,7 +60,7 @@ export function SelectMultipleField(props: FormFieldProps) {
                   borderColor="neutral.border"
                   borderRadius="100%"
                   flex="0 0 auto"
-                  id={value}
+                  id={optionValue}
                   padding="0"
                   part="field-check-value"
                   position="relative"
