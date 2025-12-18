@@ -37,7 +37,7 @@
     "eslint-plugin-storybook": "^0.11.2",
     "playwright": "^1.55.1",
     "prop-types": "^15.8.1",
-    "storybook": "^8.5.3",
+    "storybook": "^8.6.15",
     "typescript": "^4.9.4",
     "vite": "^4.5.14"
   }
