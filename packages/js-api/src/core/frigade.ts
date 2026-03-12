@@ -610,6 +610,15 @@ export class Frigade extends Fetchable {
 
         if (flowStateRaw && flowStateRaw.eligibleFlows) {
           flowStateRaw.eligibleFlows.forEach((statefulFlow) => {
+            // Don't overwrite optimistic state for flows with in-flight API requests.
+            // sendFlowStateToAPI decrements pendingRequests before calling this function,
+            // so the acting flow's own count will be 0 and won't be skipped.
+            if (
+              (frigadeGlobalState[globalStateKey].pendingRequests[statefulFlow.flowSlug] ?? 0) > 0
+            ) {
+              return
+            }
+
             frigadeGlobalState[globalStateKey].flowStates[statefulFlow.flowSlug] = statefulFlow
             if (!this.flows.find((flow) => flow.id == statefulFlow.flowSlug)) {
               this.flows.push(
