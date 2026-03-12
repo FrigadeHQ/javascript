@@ -156,19 +156,15 @@ describe('Flow visibility flicker on complete/dismiss', () => {
   }
 
   // ────────────────────────────────────────────────────────────────
-  // TEST 1: The core flicker bug
+  // TEST 1: Completing last step should NOT flicker
   //
-  // When the last step is completed, internalComplete() does:
-  //   await sendFlowStateToAPI(COMPLETED_STEP)  ← refreshes state from response
-  //   await sendFlowStateToAPI(COMPLETED_FLOW)  ← refreshes state from response
-  //
-  // These are sequential awaits. When COMPLETED_STEP resolves, pendingRequests
-  // is 0 (COMPLETED_FLOW hasn't started yet), so refreshStateFromAPI runs.
-  // If the server response for COMPLETED_STEP shows the flow as still visible
-  // (because the server hasn't received COMPLETED_FLOW yet), the optimistic
-  // invisible state is overwritten → the flow reappears briefly.
+  // When the last step is completed, internalComplete() sends two
+  // sequential API calls: COMPLETED_STEP then COMPLETED_FLOW.
+  // The COMPLETED_STEP call now skips refreshStateFromAPI (via the
+  // skipRefresh parameter), so the intermediate server response
+  // cannot revert the optimistic invisible state.
   // ────────────────────────────────────────────────────────────────
-  test('completing last step causes isVisible to temporarily revert to true', async () => {
+  test('completing last step keeps flow invisible throughout', async () => {
     const { flow } = await setupFrigadeWithMockFlow(
       makeFlowStates({
         steps: [
@@ -225,10 +221,10 @@ describe('Flow visibility flicker on complete/dismiss', () => {
     // Let refreshStateFromAPI process the response
     await flushAsync()
 
-    // BUG: isVisible has reverted to true — the server response overwrote the optimistic state
-    visibilityLog.push(flow.isVisible) // [true, false, true]
-    expect(flow.isVisible).toBe(true) // ← FLICKER
-    expect(flow.isCompleted).toBe(false) // ← also reverted
+    // FIX: isVisible stays false — the COMPLETED_STEP response refresh is skipped
+    visibilityLog.push(flow.isVisible) // [true, false, false]
+    expect(flow.isVisible).toBe(false) // no flicker
+    expect(flow.isCompleted).toBe(true) // not reverted
 
     // Now resolve COMPLETED_FLOW with the final state
     resolveCall(
@@ -251,25 +247,21 @@ describe('Flow visibility flicker on complete/dismiss', () => {
     await completionPromise
     await flushAsync()
 
-    visibilityLog.push(flow.isVisible) // [true, false, true, false]
+    visibilityLog.push(flow.isVisible) // [true, false, false, false]
 
-    // The complete flicker cycle: visible → hidden → VISIBLE AGAIN → hidden
-    expect(visibilityLog).toEqual([true, false, true, false])
+    // No flicker: visible → hidden → stays hidden
+    expect(visibilityLog).toEqual([true, false, false, false])
   })
 
   // ────────────────────────────────────────────────────────────────
-  // TEST 2: The intermediate state creates conditions for cascading issues
+  // TEST 2: Intermediate state does NOT enable step.start() re-fire
   //
-  // After COMPLETED_STEP reverts the optimistic state, the flow is:
-  //   isVisible = true, isCompleted = false, isSkipped = false
-  //
-  // In React, Flow/index.tsx:126-128 checks:
-  //   if (!flow.isCompleted && !flow.isSkipped && autoStart) step?.start()
-  //
-  // All three conditions are met → step.start() fires during render,
-  // creating ANOTHER API call that can cause further state oscillation.
+  // With the skipRefresh fix, after COMPLETED_STEP the optimistic
+  // state is preserved: isCompleted=true, isVisible=false.
+  // The React autoStart condition (!isCompleted && !isSkipped) is
+  // NOT met, so step.start() won't fire during the flicker window.
   // ────────────────────────────────────────────────────────────────
-  test('intermediate state after COMPLETED_STEP enables step.start() re-fire conditions', async () => {
+  test('optimistic state is preserved after COMPLETED_STEP, preventing step.start() re-fire', async () => {
     const { flow } = await setupFrigadeWithMockFlow(
       makeFlowStates({
         steps: [
@@ -315,13 +307,11 @@ describe('Flow visibility flicker on complete/dismiss', () => {
 
     await flushAsync()
 
-    // These are the exact conditions checked in React's Flow component
-    // at Flow/index.tsx:126-128 for calling step.start() during render:
-    //   if (!flow.isCompleted && !flow.isSkipped && autoStart) { step?.start() }
-    expect(flow.isCompleted).toBe(false) // reverted by server
-    expect(flow.isSkipped).toBe(false)
-    expect(flow.isVisible).toBe(true) // component would render (not returning null)
-    // ALL CONDITIONS MET → step.start() would fire, creating another API call
+    // FIX: Optimistic state is preserved — the COMPLETED_STEP refresh was skipped.
+    // The React autoStart condition (!isCompleted && !isSkipped) is NOT met.
+    expect(flow.isCompleted).toBe(true) // preserved
+    expect(flow.isVisible).toBe(false) // preserved — component would return null
+    // step.start() would NOT fire
 
     // Clean up
     resolveCall(
@@ -344,14 +334,14 @@ describe('Flow visibility flicker on complete/dismiss', () => {
   })
 
   // ────────────────────────────────────────────────────────────────
-  // TEST 3: A stale state refresh after skip reverts the dismiss
+  // TEST 3: Stale state refresh does NOT revert a pending skip
   //
-  // When step.start() fires during the flicker window (test 2), its
-  // API response can arrive after a subsequent skip, reverting it.
-  // This test simulates that by calling refreshStateFromAPI with
-  // stale data while the skip's API call is still in flight.
+  // When a flow has a pending API request (e.g., SKIPPED_FLOW),
+  // refreshStateFromAPI now skips updating that flow's state.
+  // This prevents stale data from visibility-change polls or
+  // other flows' responses from reverting optimistic state.
   // ────────────────────────────────────────────────────────────────
-  test('flow skip can be reverted by stale state refresh', async () => {
+  test('flow skip is preserved despite stale state refresh', async () => {
     const { frigade, flow } = await setupFrigadeWithMockFlow(
       makeFlowStates({
         steps: [
@@ -402,9 +392,9 @@ describe('Flow visibility flicker on complete/dismiss', () => {
     await globalState.refreshStateFromAPI(staleState)
     await flushAsync()
 
-    // BUG: The skip was reverted — the stale refresh overwrote the optimistic state
-    expect(flow.isVisible).toBe(true) // ← was false after skip
-    expect(flow.isSkipped).toBe(false) // ← was true after skip
+    // FIX: The skip is preserved — refreshStateFromAPI skips flows with pending requests
+    expect(flow.isVisible).toBe(false) // preserved
+    expect(flow.isSkipped).toBe(true) // preserved
 
     // Clean up: resolve the pending SKIPPED_FLOW call
     resolveCall(
