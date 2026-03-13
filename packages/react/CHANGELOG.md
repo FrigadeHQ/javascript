@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.10.2
+
+### Patch Changes
+
+- 2ed000b: Fix race conditions in JS SDK Flows
+- Updated dependencies [2ed000b]
+  - @frigade/js@0.9.6
+
 ## 2.10.1
 
 ### Patch Changes

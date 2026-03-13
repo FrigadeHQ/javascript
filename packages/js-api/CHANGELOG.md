@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.9.6
+
+### Patch Changes
+
+- 2ed000b: Fix race conditions in JS SDK Flows
+
 ## 0.9.5
 
 ### Patch Changes
