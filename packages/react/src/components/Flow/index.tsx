@@ -1,4 +1,4 @@
-import { Fragment } from 'react'
+import { Fragment, useEffect } from 'react'
 import { FlowType } from '@frigade/js'
 
 import { Box } from '@/components/Box'
@@ -105,6 +105,18 @@ export function Flow({
 
   const shouldForceMount = forceMount && (flow?.isCompleted || flow?.isSkipped)
 
+  const shouldAutoStart =
+    flow != null &&
+    flow.isVisible &&
+    !hasModalCollision &&
+    (shouldForceMount || (!flow.isCompleted && !flow.isSkipped && autoStart))
+
+  useEffect(() => {
+    if (shouldAutoStart) {
+      step?.start()
+    }
+  }, [shouldAutoStart, step])
+
   if (!flow) {
     return null
   }
@@ -122,10 +134,6 @@ export function Flow({
   // if (!hasInitialized || !hasProcessedRules) {
   //   return null
   // }
-
-  if (shouldForceMount || (!flow.isCompleted && !flow.isSkipped && autoStart)) {
-    step?.start()
-  }
 
   const ContainerElement = as === null ? Fragment : as ?? Box
 

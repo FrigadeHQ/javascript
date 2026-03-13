@@ -274,7 +274,8 @@ export class Flow extends Fetchable {
         await this.sendFlowStateToAPI(
           eventType == 'complete' ? COMPLETED_STEP : SKIPPED_STEP,
           properties,
-          thisStep.id
+          thisStep.id,
+          isLastIncompleteStep
         )
         if (isLastIncompleteStep) {
           await this.sendFlowStateToAPI(COMPLETED_FLOW, properties)
@@ -641,7 +642,8 @@ export class Flow extends Fetchable {
   private async sendFlowStateToAPI(
     action: FlowActionType,
     data?: PropertyPayload,
-    stepId?: string
+    stepId?: string,
+    skipRefresh?: boolean
   ) {
     const date = new Date()
     this.getGlobalState().lastFlowSyncDate[this.id] = date
@@ -664,6 +666,7 @@ export class Flow extends Fetchable {
     // if a newer request was sent, use that one.
     // except if there are other pending requests
     if (
+      skipRefresh ||
       date < this.getGlobalState().lastFlowSyncDate[this.id] ||
       this.getGlobalState().pendingRequests[this.id] > 0
     ) {
