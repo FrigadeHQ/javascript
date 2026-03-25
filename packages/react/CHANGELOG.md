@@ -1,5 +1,11 @@
 # @frigade/react
 
+## 2.10.3
+
+### Patch Changes
+
+- e5c3939: Bump @frigade/js to ^0.9.7 to include the fix for sending STARTED_STEP events when completing a step.
+
 ## 2.10.2
 
 ### Patch Changes
