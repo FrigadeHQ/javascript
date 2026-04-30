@@ -284,7 +284,14 @@ export class Flow extends Fetchable {
           await this.sendFlowStateToAPI(COMPLETED_FLOW, properties)
         }
         if (nextStepForStartEvent) {
-          await this.sendFlowStateToAPI(STARTED_STEP, undefined, nextStepForStartEvent.id)
+          // The optimistic next step was chosen from pre-request visibility.
+          // The server may have hidden it via visibilityCriteria once it saw
+          // the form data we just submitted, so fire STARTED_STEP for the
+          // actual current step from refreshed state.
+          const refreshedCurrentStep = this.getCurrentStep()
+          if (refreshedCurrentStep && refreshedCurrentStep.id !== thisStep.id) {
+            await this.sendFlowStateToAPI(STARTED_STEP, undefined, refreshedCurrentStep.id)
+          }
         }
       }
 
