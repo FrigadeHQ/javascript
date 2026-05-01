@@ -4020,7 +4020,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": "npm:^6.20.0"
     "@typescript-eslint/parser": "npm:^6.20.0"
     clsx: "npm:^2.0.0"
-    dompurify: "npm:^3.3.2"
+    dompurify: "npm:^3.4.0"
     embla-carousel-react: "npm:^8.1.3"
     eslint: "npm:^8.56.0"
     eslint-config-prettier: "npm:^9.1.0"
@@ -4070,7 +4070,7 @@ __metadata:
     babel-jest: "npm:^29.4.1"
     copyfiles: "npm:^2.4.1"
     core-js-pure: "npm:^3.32.0"
-    dompurify: "npm:^3.3.2"
+    dompurify: "npm:^3.4.0"
     eslint-config-backpacker-react-ts: "npm:^0.3.0"
     husky: "npm:^8.0.3"
     jest: "npm:^29.6.2"
@@ -11222,15 +11222,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dompurify@npm:^3.3.2":
-  version: 3.3.3
-  resolution: "dompurify@npm:3.3.3"
+"dompurify@npm:^3.4.0":
+  version: 3.4.2
+  resolution: "dompurify@npm:3.4.2"
   dependencies:
     "@types/trusted-types": "npm:^2.0.7"
   dependenciesMeta:
     "@types/trusted-types":
       optional: true
-  checksum: 10/4cc9c539ed7136d46c6577613b8e20871c2b6165db01dfbd2a3c11c75f9e339c496ac6519a1c3190115def8cadae3720bef0417fc43fa28802c7407bab174da9
+  checksum: 10/8681a27f17412e754b38d080e39abb36fb14dbf58194d520eedd45b47986323966a0391df540a2011bce72dd37d67f2a015246a58f39d48e3e8f6051274fb974
   languageName: node
   linkType: hard
 
