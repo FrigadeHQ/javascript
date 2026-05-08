@@ -14,9 +14,9 @@
 
 ![Frigade image](https://cdn.frigade.com/0534ad31-8dc3-4061-9e53-53aae2ff3cf8.png)
 
-[Frigade](<https://frigade.com>) is a developer-first platform for building quality product onboarding. A powerful, flexible API and native SDKs allow you to build onboarding 10x faster, experiment more easily, and drive customer success.
+[Frigade Engage](<https://frigade.com/engage>) is a developer-first platform for building quality product onboarding. A powerful, flexible API and native SDKs allow you to build onboarding 10x faster, experiment more easily, and drive customer success.
 
-Frigade supports a series of use cases such as:
+Frigade Engage supports a series of use cases such as:
 
 - **Registration**: Maximize the number of users getting through your sign up flows with beautiful explainers, progress bars, and forms.
 - **Activation**: Convert more customers by taking them through a series of key onboarding items specific to their role, permissions, or goals.
