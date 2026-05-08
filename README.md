@@ -1,4 +1,4 @@
-<H3 align="center"><strong>Official Frigade JavaScript SDKs</strong></H3>
+<H3 align="center"><strong>Official Frigade Engage JavaScript SDKs</strong></H3>
 <div align="center">The easiest way for developers to build high-quality product onboarding and education.</div>
 <br />
 <div align="center">
