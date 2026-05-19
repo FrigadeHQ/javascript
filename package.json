@@ -28,7 +28,7 @@
     "husky": "^9.1.7",
     "prettier": "^2.5.1",
     "rimraf": "^5.0.0",
-    "turbo": "^1.10.14"
+    "turbo": "^2.9.14"
   },
   "author": "Frigade Inc.",
   "packageManager": "yarn@4.1.1"
