@@ -7,6 +7,7 @@ export interface ProviderContext extends Omit<ProviderProps, 'children' | 'theme
   currentModal: string | null
   setCurrentModal: Dispatch<SetStateAction<string | null>>
   frigade?: Frigade
+  hasCustomNavigate: boolean
   hasInitialized: boolean
   registerComponent: (flowId: string, callback?: CollectionsRegistryCallback) => void
   unregisterComponent: (flowId: string) => void
@@ -18,6 +19,7 @@ export const FrigadeContext = createContext<ProviderContext>({
   currentModal: null,
   setCurrentModal: () => {},
   navigate: () => {},
+  hasCustomNavigate: false,
   hasInitialized: false,
   registerComponent: () => {},
   unregisterComponent: () => {},

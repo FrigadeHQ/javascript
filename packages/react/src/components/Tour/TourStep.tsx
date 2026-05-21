@@ -45,7 +45,7 @@ export function TourStep({
   step,
   ...props
 }: TourStepProps) {
-  const { handlePrimary, handleSecondary } = useStepHandlers(step, {
+  const { primaryButtonProps, secondaryButtonProps } = useStepHandlers(step, {
     onPrimary,
     onSecondary,
   })
@@ -118,10 +118,14 @@ export function TourStep({
           )}
           <Card.Secondary
             disabled={disabled}
-            onClick={handleSecondary}
             title={secondaryButtonTitle}
+            {...secondaryButtonProps}
           />
-          <Card.Primary disabled={disabled} onClick={handlePrimary} title={primaryButtonTitle} />
+          <Card.Primary
+            disabled={disabled}
+            title={primaryButtonTitle}
+            {...primaryButtonProps}
+          />
         </Card.Footer>
       </Card>
     </Hint>

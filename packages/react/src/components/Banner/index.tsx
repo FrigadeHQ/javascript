@@ -10,8 +10,8 @@ export function Banner({ flowId, ...props }: BannerProps) {
     <Flow as={null} flowId={flowId} {...props}>
       {({
         handleDismiss,
-        handlePrimary,
-        handleSecondary,
+        primaryButtonProps,
+        secondaryButtonProps,
         parentProps: { containerProps, dismissible },
         step,
       }) => {
@@ -51,9 +51,13 @@ export function Banner({ flowId, ...props }: BannerProps) {
             <Card.Secondary
               disabled={disabled}
               title={secondaryButtonTitle}
-              onClick={handleSecondary}
+              {...secondaryButtonProps}
             />
-            <Card.Primary disabled={disabled} title={primaryButtonTitle} onClick={handlePrimary} />
+            <Card.Primary
+              disabled={disabled}
+              title={primaryButtonTitle}
+              {...primaryButtonProps}
+            />
             {dismissible && <Card.Dismiss onClick={handleDismiss} />}
           </Card>
         )

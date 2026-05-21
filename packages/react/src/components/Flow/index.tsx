@@ -64,10 +64,11 @@ export function Flow({
     onDismiss,
   })
 
-  const { handlePrimary, handleSecondary } = useStepHandlers(step, {
-    onPrimary,
-    onSecondary,
-  })
+  const { handlePrimary, handleSecondary, primaryButtonProps, secondaryButtonProps } =
+    useStepHandlers(step, {
+      onPrimary,
+      onSecondary,
+    })
 
   const isModal =
     mergedProps?.modal ||
@@ -153,6 +154,8 @@ export function Flow({
         handleDismiss,
         handlePrimary,
         handleSecondary,
+        primaryButtonProps,
+        secondaryButtonProps,
         parentProps: {
           as,
           dismissible,
