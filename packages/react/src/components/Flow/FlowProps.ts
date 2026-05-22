@@ -5,7 +5,11 @@ import type { Flow as FlowType, FlowStep } from '@frigade/js'
 import type { BoxProps } from '@/components/Box'
 
 import type { DismissHandler, FlowHandlerProp } from '@/hooks/useFlowHandlers'
-import type { StepHandler, StepHandlerProp } from '@/hooks/useStepHandlers'
+import type {
+  ButtonLinkProps,
+  StepHandler,
+  StepHandlerProp,
+} from '@/hooks/useStepHandlers'
 
 export interface BoxPropsWithoutChildren extends Omit<BoxProps, 'children'> {}
 
@@ -93,6 +97,17 @@ export interface FlowChildrenProps {
   handleDismiss: DismissHandler
   handlePrimary: StepHandler
   handleSecondary: StepHandler
+  /**
+   * Props to spread on the primary button component. When the step exposes a
+   * URI and the consumer hasn't overridden `navigate`, these include
+   * `as="a" href target rel` so the rendered element is a native anchor —
+   * native anchor clicks are not subject to mobile popup blocking.
+   */
+  primaryButtonProps: { onClick: StepHandler } & ButtonLinkProps
+  /**
+   * Props to spread on the secondary button component. See `primaryButtonProps`.
+   */
+  secondaryButtonProps: { onClick: StepHandler } & ButtonLinkProps
   parentProps: ParentProps
   step: FlowStep
 }

@@ -25,8 +25,8 @@ export function Announcement({ flowId, ...props }: AnnouncementProps) {
       {({
         flow,
         handleDismiss,
-        handlePrimary,
-        handleSecondary,
+        primaryButtonProps,
+        secondaryButtonProps,
         parentProps: { containerProps, dismissible },
         step,
       }) => {
@@ -71,7 +71,7 @@ export function Announcement({ flowId, ...props }: AnnouncementProps) {
 
             <Flex.Row
               css={{
-                '& > button': {
+                '& > button, & > a': {
                   flexBasis: '50%',
                   flexGrow: 1,
                 },
@@ -82,15 +82,15 @@ export function Announcement({ flowId, ...props }: AnnouncementProps) {
               {secondaryButtonTitle && (
                 <Dialog.Secondary
                   disabled={disabled}
-                  onClick={handleSecondary}
                   title={secondaryButtonTitle}
+                  {...secondaryButtonProps}
                 />
               )}
               {primaryButtonTitle && (
                 <Dialog.Primary
                   disabled={disabled}
-                  onClick={handlePrimary}
                   title={primaryButtonTitle}
+                  {...primaryButtonProps}
                 />
               )}
             </Flex.Row>

@@ -54,8 +54,8 @@ export interface CollapsibleProps extends FlowPropsWithoutChildren {
 }
 
 function DefaultCollapsibleStep({
-  handlePrimary,
-  handleSecondary,
+  primaryButtonProps,
+  secondaryButtonProps,
   open,
   onOpenChange,
   step,
@@ -100,8 +100,12 @@ function DefaultCollapsibleStep({
         />
         <Card.Subtitle color="neutral.400">{subtitle}</Card.Subtitle>
         <Flex.Row gap={3} part="collapsible-footer">
-          <Card.Secondary title={secondaryButtonTitle} onClick={handleSecondary} />
-          <Card.Primary disabled={disabled} title={primaryButtonTitle} onClick={handlePrimary} />
+          <Card.Secondary title={secondaryButtonTitle} {...secondaryButtonProps} />
+          <Card.Primary
+            disabled={disabled}
+            title={primaryButtonTitle}
+            {...primaryButtonProps}
+          />
         </Flex.Row>
       </CollapsibleStep.Content>
     </CollapsibleStep.Root>
@@ -115,7 +119,8 @@ const defaultStepTypes = {
 function StepWrapper({ flow, step, ...props }: FlowChildrenProps) {
   const { onPrimary, onSecondary, openStepId, setOpenStepId, stepTypes } =
     useContext(CollapsibleContext)
-  const { handlePrimary, handleSecondary } = useStepHandlers(step, { onPrimary, onSecondary })
+  const { handlePrimary, handleSecondary, primaryButtonProps, secondaryButtonProps } =
+    useStepHandlers(step, { onPrimary, onSecondary })
 
   const open = (openStepId ?? flow.getCurrentStep().id) === step.id
 
@@ -141,6 +146,8 @@ function StepWrapper({ flow, step, ...props }: FlowChildrenProps) {
       {...props}
       handlePrimary={handlePrimary}
       handleSecondary={handleSecondary}
+      primaryButtonProps={primaryButtonProps}
+      secondaryButtonProps={secondaryButtonProps}
     />
   )
 }

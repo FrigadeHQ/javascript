@@ -13,7 +13,8 @@ import { floatingTransitionCSS } from '@/components/Checklist/Floating.styles'
 
 export function FloatingStep({ onPrimary, onSecondary, openStepId, setOpenStepId, step }) {
   const anchorPointerEnterTimeout = useRef<ReturnType<typeof setTimeout>>()
-  const { handlePrimary, handleSecondary } = useStepHandlers(step, { onPrimary, onSecondary })
+  const { handlePrimary, handleSecondary, primaryButtonProps, secondaryButtonProps } =
+    useStepHandlers(step, { onPrimary, onSecondary })
 
   const isStepOpen = openStepId === step.id
 
@@ -90,15 +91,17 @@ export function FloatingStep({ onPrimary, onSecondary, openStepId, setOpenStepId
           <Flex.Row gap={3} justifyContent="flex-end" part="card-footer">
             <Card.Secondary
               disabled={step.$state.blocked}
-              onClick={wrappedHandleSecondary}
               padding="1 2"
               title={secondaryButtonTitle}
+              {...secondaryButtonProps}
+              onClick={wrappedHandleSecondary}
             />
             <Card.Primary
               disabled={step.$state.blocked}
-              onClick={wrappedHandlePrimary}
               padding="1 2"
               title={primaryButtonTitle}
+              {...primaryButtonProps}
+              onClick={wrappedHandlePrimary}
             />
           </Flex.Row>
         </Card>

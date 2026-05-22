@@ -15,7 +15,10 @@ interface CarouselStepProps {
 }
 
 export function CarouselStep({ onPrimary, onSecondary, step }: CarouselStepProps) {
-  const { handlePrimary, handleSecondary } = useStepHandlers(step, { onPrimary, onSecondary })
+  const { primaryButtonProps, secondaryButtonProps } = useStepHandlers(step, {
+    onPrimary,
+    onSecondary,
+  })
 
   const { blocked, completed, skipped } = step.$state
 
@@ -63,7 +66,7 @@ export function CarouselStep({ onPrimary, onSecondary, step }: CarouselStepProps
       <Flex.Row
         css={{
           '@container (max-width: 200px)': {
-            '& > button': {
+            '& > button, & > a': {
               flexBasis: '50%',
               flexGrow: 1,
             },
@@ -78,13 +81,13 @@ export function CarouselStep({ onPrimary, onSecondary, step }: CarouselStepProps
       >
         <Card.Secondary
           disabled={blocked}
-          onClick={handleSecondary}
           title={step.secondaryButton?.title}
+          {...secondaryButtonProps}
         />
         <Card.Primary
           disabled={blocked}
-          onClick={handlePrimary}
           title={step.primaryButton?.title}
+          {...primaryButtonProps}
         />
       </Flex.Row>
     </Card>

@@ -233,6 +233,7 @@ export function Provider({
     }
   }
 
+  const hasCustomNavigate = navigate != null
   const navigateHandler =
     navigate ??
     ((url, target = '_self') => {
@@ -251,6 +252,7 @@ export function Provider({
         currentModal,
         setCurrentModal,
         navigate: navigateHandler,
+        hasCustomNavigate,
         ...props,
         frigade: frigade,
         registerComponent,

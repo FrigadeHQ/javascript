@@ -15,7 +15,13 @@ export function FlowCard({ part, ...props }: FlowProps) {
       part={['card', part]}
       {...props}
     >
-      {({ handleDismiss, handlePrimary, handleSecondary, parentProps: { dismissible }, step }) => {
+      {({
+        handleDismiss,
+        primaryButtonProps,
+        secondaryButtonProps,
+        parentProps: { dismissible },
+        step,
+      }) => {
         const primaryButtonTitle = step.primaryButton?.title ?? step.primaryButtonTitle
         const secondaryButtonTitle = step.secondaryButton?.title ?? step.secondaryButtonTitle
 
@@ -38,8 +44,8 @@ export function FlowCard({ part, ...props }: FlowProps) {
             />
 
             <Flex.Row gap={3} justifyContent="flex-end" part="card-footer">
-              <Card.Secondary title={secondaryButtonTitle} onClick={handleSecondary} />
-              <Card.Primary title={primaryButtonTitle} onClick={handlePrimary} />
+              <Card.Secondary title={secondaryButtonTitle} {...secondaryButtonProps} />
+              <Card.Primary title={primaryButtonTitle} {...primaryButtonProps} />
             </Flex.Row>
           </>
         )

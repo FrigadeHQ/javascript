@@ -5,11 +5,13 @@ const base = {
   borderWidth: 'md',
   borderRadius: 'md',
   borderStyle: 'solid',
+  cursor: 'pointer',
   'cursor:disabled': 'not-allowed',
   display: 'flex',
   gap: '2',
   padding: '2 4',
   fontFamily: 'inherit',
+  textDecoration: 'none',
 
   'opacity:disabled': '0.6',
   'pointerEvents:disabled': 'none',
