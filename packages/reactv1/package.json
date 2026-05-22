@@ -94,7 +94,7 @@
     "styled-components": "5.3.6",
     "styled-system": "^5.1.5",
     "swr": "^2.2.0",
-    "uuid": "^9.0.0",
+    "uuid": "^14.0.0",
     "zod": "^3.22.3"
   },
   "packageManager": "yarn@3.6.2"
