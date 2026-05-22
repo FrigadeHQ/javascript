@@ -71,7 +71,7 @@ export function Announcement({ flowId, ...props }: AnnouncementProps) {
 
             <Flex.Row
               css={{
-                '& > button': {
+                '& > button, & > a': {
                   flexBasis: '50%',
                   flexGrow: 1,
                 },

@@ -66,7 +66,7 @@ export function CarouselStep({ onPrimary, onSecondary, step }: CarouselStepProps
       <Flex.Row
         css={{
           '@container (max-width: 200px)': {
-            '& > button': {
+            '& > button, & > a': {
               flexBasis: '50%',
               flexGrow: 1,
             },
