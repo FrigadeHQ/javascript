@@ -38,7 +38,7 @@
     "Javascript"
   ],
   "devDependencies": {
-    "@babel/core": "^7.15.8",
+    "@babel/core": "^7.29.6",
     "@babel/plugin-transform-runtime": "^7.19.6",
     "@babel/preset-env": "^7.21.5",
     "@babel/preset-typescript": "^7.21.5",
