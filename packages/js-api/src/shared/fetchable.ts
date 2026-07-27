@@ -1,4 +1,10 @@
-import { generateGuestId, getEmptyResponse, getHeaders, gracefulFetch } from './utils'
+import {
+  generateGuestId,
+  getEmptyResponse,
+  getHeaders,
+  gracefulFetch,
+  GUEST_PREFIX,
+} from './utils'
 import { DEFAULT_REFRESH_INTERVAL_IN_MS, FrigadeConfig } from '../core/types'
 import { frigadeGlobalState, FrigadeGlobalState, getGlobalStateKey } from './state'
 
@@ -24,7 +30,7 @@ export class Fetchable {
    * @ignore
    */
   public async fetch(path: string, options?: Record<any, any>) {
-    if (this.config.__readOnly) {
+    if (this.config.__readOnly || this.isAnonymousWithGuestIdDisabled()) {
       return getEmptyResponse()
     }
 
@@ -37,6 +43,18 @@ export class Fetchable {
 
   private getAPIUrl(path: string) {
     return `${this.config.apiUrl.replace(/\/$/, '')}/${path.replace(/^\//, '')}`
+  }
+
+  /**
+   * @ignore
+   * True when `generateGuestId` is explicitly disabled and no real userId has been provided,
+   * in which case no requests should be sent to the Frigade API.
+   */
+  protected isAnonymousWithGuestIdDisabled(): boolean {
+    return (
+      this.config.generateGuestId === false &&
+      (!this.config.userId || this.config.userId.startsWith(GUEST_PREFIX))
+    )
   }
 
   /**

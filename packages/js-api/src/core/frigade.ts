@@ -562,7 +562,7 @@ export class Frigade extends Fetchable {
       frigadeGlobalState[globalStateKey].refreshStateFromAPI = async (
         overrideFlowStateRaw?: FlowStates
       ) => {
-        if (this.config.__readOnly) {
+        if (this.config.__readOnly || this.isAnonymousWithGuestIdDisabled()) {
           return
         }
 
