@@ -18,16 +18,26 @@ describe('Basic Checklist integration test', () => {
   })
 
   test('can disable guest id generation', async () => {
+    window.localStorage.clear()
+    const fetchSpy = jest.spyOn(globalThis, 'fetch')
     const frigade = new Frigade(testAPIKey, {
       generateGuestId: false,
     })
     let flows = await frigade.getFlows()
     expect(flows.length).toEqual(0)
     expect(frigade.isReady()).toBeTruthy()
+    expect(frigade.isAnonymousWithGuestIdDisabled()).toBeTruthy()
+    // No guest ID should be generated or persisted
+    expect(frigade.getConfig().userId).toBeUndefined()
+    expect(window.localStorage.getItem('frigade-guest-key')).toBeNull()
+    // And no API calls should have been made
+    expect(fetchSpy).not.toHaveBeenCalled()
+    fetchSpy.mockRestore()
     await frigade.identify(getRandomID())
     flows = await frigade.getFlows()
     expect(flows.length).toBeGreaterThan(0)
     expect(frigade.isReady()).toBeTruthy()
+    expect(frigade.isAnonymousWithGuestIdDisabled()).toBeFalsy()
   })
 
   test('flows have fields set', async () => {
