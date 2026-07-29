@@ -68,8 +68,12 @@ export function useFlow(
     })
   }, [config?.variables, flow, flowId, variables])
 
+  // When guest IDs are disabled and no userId has been provided yet, no Flow
+  // will ever load: resolve immediately instead of staying in a loading state.
+  const willNeverLoad = frigade?.hasFailedToLoad() || frigade?.isAnonymousWithGuestIdDisabled()
+
   return {
     flow,
-    isLoading: frigade?.hasFailedToLoad() ? false : !flow,
+    isLoading: willNeverLoad ? false : !flow,
   }
 }

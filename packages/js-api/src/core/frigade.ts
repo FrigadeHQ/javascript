@@ -170,12 +170,15 @@ export class Frigade extends Fetchable {
       ...config,
     })
 
-    if (!this.config.userId) {
+    // Without a userId we can't initialize, unless guest IDs are explicitly
+    // disabled: in that case we still set up local state (without making any
+    // API calls) so that getters and hooks resolve instead of hanging.
+    if (!this.config.userId && this.config.generateGuestId !== false) {
       return
     }
 
     this.initPromise = (async () => {
-      if (!this.config.__readOnly) {
+      if (!this.config.__readOnly && this.config.userId) {
         if (this.config.userId?.startsWith(GUEST_PREFIX)) {
           // do nothing
         } else if (this.config.userId && this.config.groupId) {
@@ -314,11 +317,7 @@ export class Frigade extends Fetchable {
    * @param flowId
    */
   public async getFlow(flowId: string) {
-    if (
-      this.getConfig().generateGuestId === false &&
-      this.getConfig().userId &&
-      this.getConfig().userId.startsWith(GUEST_PREFIX)
-    ) {
+    if (this.isAnonymousWithGuestIdDisabled()) {
       return undefined
     }
     await this.initIfNeeded()
@@ -335,10 +334,7 @@ export class Frigade extends Fetchable {
 
   public async getFlows() {
     await this.initIfNeeded()
-    if (
-      this.config.generateGuestId === false &&
-      this.getConfig().userId?.startsWith(GUEST_PREFIX)
-    ) {
+    if (this.isAnonymousWithGuestIdDisabled()) {
       return []
     }
     return this.flows
@@ -398,7 +394,7 @@ export class Frigade extends Fetchable {
   public async getCollections(): Promise<CollectionsList | undefined> {
     await this.initIfNeeded()
 
-    if (!this.config.userId && this.config.generateGuestId === false) {
+    if (this.isAnonymousWithGuestIdDisabled()) {
       return undefined
     }
 
