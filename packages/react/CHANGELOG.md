@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.10.7
+
+### Patch Changes
+
+- c21e076: When `generateGuestId` is `false` and no `userId` has been provided, the SDK no longer generates or persists a guest ID at all (previously one was still created and stored in localStorage), and `useFlow` now resolves with `isLoading: false` instead of staying in a loading state forever.
+- Updated dependencies [c21e076]
+  - @frigade/js@0.9.10
+
 ## 2.10.6
 
 ### Patch Changes
