@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.9.11
+
+### Patch Changes
+
+- c7114ac: Update `uuid` to v11 as part of resolving open dependency security advisories. No API changes.
+
 ## 0.9.10
 
 ### Patch Changes
