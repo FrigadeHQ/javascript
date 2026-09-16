@@ -1,5 +1,13 @@
 # @frigade/react
 
+## 2.10.8
+
+### Patch Changes
+
+- 89293f6: Bump dompurify to ^3.4.13 to resolve a security advisory.
+- Updated dependencies [89293f6]
+  - @frigade/js@0.9.12
+
 ## 2.10.7
 
 ### Patch Changes
