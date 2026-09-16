@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.9.12
+
+### Patch Changes
+
+- 89293f6: Dependency security updates.
+
 ## 0.9.11
 
 ### Patch Changes
