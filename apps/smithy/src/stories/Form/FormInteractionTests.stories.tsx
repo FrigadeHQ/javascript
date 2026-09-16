@@ -16,6 +16,9 @@ const StoryMeta: Meta<typeof Form> = {
 export default StoryMeta;
 
 export const InteractionTests: FormStory = {
+  // Skipped: flaky against the live API (fails on a different assertion each run).
+  tags: ["skip-test"],
+
   args: {
     flowId: "flow_fpJlqkbl",
   },

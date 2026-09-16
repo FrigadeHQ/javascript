@@ -127,7 +127,7 @@ export const AnchorFoundInteractionTests: TourStory = {
       Tour = within(TourElement);
 
       await userEvent.click(
-        Tour.getByRole("button", { name: "Scroll to the next step" })
+        Tour.getByRole("link", { name: "Scroll to the next step" })
       );
 
       await sleep(100);
@@ -188,7 +188,12 @@ export const AnchorNotFoundInteractionTests: TourStory = {
         expect(args.flow).toBeDefined();
       });
 
-      // Verify the flow is started
+      // Stories in this file share a user, so clear any state left behind by
+      // the previous story before asserting.
+      await args.flow?.restart();
+      await sleep(500);
+
+      // With no matching anchor on the page, the Tour must not auto-start
       expect(args.flow?.isStarted).toBe(false);
     });
   },
