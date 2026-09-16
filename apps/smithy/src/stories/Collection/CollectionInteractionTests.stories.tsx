@@ -17,6 +17,10 @@ const StoryMeta: Meta<typeof Collection> = {
 export default StoryMeta;
 
 export const InteractionTests: CollectionStory = {
+  // Skipped: depends on announcement flow_sXqeX8oN being in collection_84G6gzEL
+  // with URL targeting in the dev workspace, which is no longer the case.
+  tags: ["skip-test"],
+
   args: {
     announcementFlowId: "flow_sXqeX8oN",
     bannerFlowId: "flow_ZacoWhZhzqbdHQ8k",
