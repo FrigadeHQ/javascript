@@ -1,5 +1,16 @@
 # @frigade/react
 
+## 2.11.0
+
+### Minor Changes
+
+- b3439ba: Build and release tooling moved to pnpm, Node 24 and TypeScript 5.9. No API changes.
+
+### Patch Changes
+
+- Updated dependencies [b3439ba]
+  - @frigade/js@0.10.0
+
 ## 2.10.8
 
 ### Patch Changes

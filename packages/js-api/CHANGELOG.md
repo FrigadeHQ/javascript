@@ -1,5 +1,11 @@
 # @frigade/js
 
+## 0.10.0
+
+### Minor Changes
+
+- b3439ba: Build and release tooling moved to pnpm, Node 24 and TypeScript 5.9. No API changes.
+
 ## 0.9.12
 
 ### Patch Changes
