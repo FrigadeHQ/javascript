@@ -14,29 +14,30 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
+      - uses: pnpm/action-setup@v4
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
-          node-version: 'lts/*' # Use the latest LTS version of Node.js
-
-      - name: Set yarn version
-        run: yarn set version 4.1.1
+          node-version-file: .nvmrc
+          cache: pnpm
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Build
-        run: yarn build
+        run: pnpm build
 
       - name: Create Release Pull Request or Publish to npm
         id: changesets
         uses: changesets/action@v1
         with:
-          publish: yarn release --tag canary
+          # Also refreshes pnpm-lock.yaml so the next frozen install passes.
+          version: pnpm version-packages
+          publish: pnpm release --tag canary
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
