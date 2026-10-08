@@ -169,7 +169,7 @@ importers:
         specifier: ^0.26.22
         version: 0.26.28(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       '@frigade/js':
-        specifier: ^0.9.12
+        specifier: ^0.10.0
         version: link:../js-api
       '@radix-ui/react-checkbox':
         specifier: ^1.1.1
