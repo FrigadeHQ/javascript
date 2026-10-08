@@ -1,0 +1,7 @@
+packages:
+  - apps/*
+  - packages/*
+
+# Use the local @frigade/js when its version satisfies @frigade/react's range,
+# like yarn workspaces did. Published manifests keep the plain semver range.
+linkWorkspacePackages: true

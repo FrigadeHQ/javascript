@@ -38,7 +38,7 @@ export interface CardProps extends FlowPropsWithoutChildren {
   children: React.ReactNode
 }
 
-export const Card = React.forwardRef(({ children, flowId, part, ...props }: CardProps, ref) => {
+export const Card = React.forwardRef<unknown, CardProps>(({ children, flowId, part, ...props }, ref) => {
   // If props.flowId is set, render FlowCard instead
   if (flowId != null) {
     return <FlowCard flowId={flowId} {...props} />
