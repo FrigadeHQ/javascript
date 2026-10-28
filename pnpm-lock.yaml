@@ -193,8 +193,8 @@ importers:
         specifier: ^2.0.0
         version: 2.1.1
       dompurify:
-        specifier: ^3.4.13
-        version: 3.4.16
+        specifier: ^3.4.17
+        version: 3.4.17
       embla-carousel-react:
         specifier: ^8.1.3
         version: 8.6.0(react@19.3.0)
@@ -284,8 +284,8 @@ importers:
         specifier: ^3.32.0
         version: 3.50.0
       dompurify:
-        specifier: ^3.4.13
-        version: 3.4.16
+        specifier: ^3.4.17
+        version: 3.4.17
       react:
         specifier: 17 - 18
         version: 18.3.1
@@ -297,7 +297,7 @@ importers:
         version: 4.3.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       styled-components:
         specifier: 5.3.6
-        version: 5.3.6(@babel/core@7.29.7)(react-dom@18.3.1(react@18.3.1))(react-is@19.3.0)(react@18.3.1)
+        version: 5.3.6(@babel/core@7.29.7)(react-dom@18.3.1(react@18.3.1))(react-is@19.3.1)(react@18.3.1)
       styled-system:
         specifier: ^5.1.5
         version: 5.1.5
@@ -5056,8 +5056,8 @@ packages:
     resolution: {integrity: sha512-GrwoxYN+uWlzO8uhUXRl0P+kHE4GtVPfYzVLcUxPL7KNdHKj66vvlhiweIHqYYXWlw+T8iLMp42Lm67ghw4WMQ==}
     engines: {node: '>= 4'}
 
-  dompurify@3.4.16:
-    resolution: {integrity: sha512-sqo+pNp3qRhCIpbgRi1y8Tgk27Bo2Ry7w0dC1NBeNTdZChWjz9Xb/KOoZbRP/R6pQZ80Qw8YhXw13hWWBbMRnQ==}
+  dompurify@3.4.17:
+    resolution: {integrity: sha512-B/pSlYVHQ58kqISD/yDjuJ1yfzI34m1gF4lAod2bwSRhiN4K5Cl3H8Af7hqB2PmTL911tdEudnnXn5FnhRoz0w==}
 
   domutils@1.7.0:
     resolution: {integrity: sha512-Lgd2XcJ/NjEw+7tFvfKxOzCYKZsdct5lczQ2ZaQY8Djz7pfAD3Gbp8ySJWtreII/vDlMVmxwa6pHmdxIYgttDg==}
@@ -7407,8 +7407,8 @@ packages:
   react-is@18.3.1:
     resolution: {integrity: sha512-/LLMVyas0ljjAtoYiPqYiL8VWXzUUdThrmU5+n20DZv+a+ClRoevUzw5JxU+Ieh5/c87ytoTBV9G1FiKfNJdmg==}
 
-  react-is@19.3.0:
-    resolution: {integrity: sha512-UpMYezM4v5/18F28aC66AEsjXIgE02kyEMH6yLdgLXu/UTfa1Ntwck/nNLrbqJsEXW7gPb0coNO9FQse9WTovA==}
+  react-is@19.3.1:
+    resolution: {integrity: sha512-RRieF6IyxQBkcK6pP8xOHprLTPW6QjRkbGdImtqNme+/hYVwCZkLQLdlZGOhUqXwkS9IEynaGvPJtv6XB/cz0Q==}
 
   react-portal@4.3.0:
     resolution: {integrity: sha512-qs/2uKq1ifB3J1+K8ExfgUvCDZqlqCkfOEhqTELEDTfosloKiuzOzc7hl7IQ/7nohiFZD41BUYU0boAsIsGYHw==}
@@ -13756,14 +13756,14 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  babel-plugin-styled-components@2.3.0(@babel/core@7.29.7)(styled-components@5.3.6(@babel/core@7.29.7)(react-dom@18.3.1(react@18.3.1))(react-is@19.3.0)(react@18.3.1))(supports-color@5.5.0):
+  babel-plugin-styled-components@2.3.0(@babel/core@7.29.7)(styled-components@5.3.6(@babel/core@7.29.7)(react-dom@18.3.1(react@18.3.1))(react-is@19.3.1)(react@18.3.1))(supports-color@5.5.0):
     dependencies:
       '@babel/core': 7.29.7
       '@babel/helper-annotate-as-pure': 7.29.7
       '@babel/helper-module-imports': 7.29.7(supports-color@5.5.0)
       '@babel/plugin-syntax-jsx': 7.29.7(@babel/core@7.29.7)
       picomatch: 4.0.7
-      styled-components: 5.3.6(@babel/core@7.29.7)(react-dom@18.3.1(react@18.3.1))(react-is@19.3.0)(react@18.3.1)
+      styled-components: 5.3.6(@babel/core@7.29.7)(react-dom@18.3.1(react@18.3.1))(react-is@19.3.1)(react@18.3.1)
     transitivePeerDependencies:
       - supports-color
 
@@ -14432,7 +14432,7 @@ snapshots:
     dependencies:
       domelementtype: 2.3.0
 
-  dompurify@3.4.16:
+  dompurify@3.4.17:
     optionalDependencies:
       '@types/trusted-types': 2.0.7
 
@@ -17409,7 +17409,7 @@ snapshots:
   pretty-format@30.5.1:
     dependencies:
       '@jest/react-is-18': react-is@18.3.1
-      '@jest/react-is-19': react-is@19.3.0
+      '@jest/react-is-19': react-is@19.3.1
       '@jest/schemas': 30.5.0
       ansi-styles: 5.2.0
 
@@ -17571,7 +17571,7 @@ snapshots:
 
   react-is@18.3.1: {}
 
-  react-is@19.3.0: {}
+  react-is@19.3.1: {}
 
   react-portal@4.3.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
@@ -18153,19 +18153,19 @@ snapshots:
     dependencies:
       webpack: 5.111.1(@swc/core@1.16.13)(esbuild@0.18.20)(postcss@8.5.29)
 
-  styled-components@5.3.6(@babel/core@7.29.7)(react-dom@18.3.1(react@18.3.1))(react-is@19.3.0)(react@18.3.1):
+  styled-components@5.3.6(@babel/core@7.29.7)(react-dom@18.3.1(react@18.3.1))(react-is@19.3.1)(react@18.3.1):
     dependencies:
       '@babel/helper-module-imports': 7.29.7(supports-color@5.5.0)
       '@babel/traverse': 7.29.10(supports-color@5.5.0)
       '@emotion/is-prop-valid': 1.4.0
       '@emotion/stylis': 0.8.5
       '@emotion/unitless': 0.7.5
-      babel-plugin-styled-components: 2.3.0(@babel/core@7.29.7)(styled-components@5.3.6(@babel/core@7.29.7)(react-dom@18.3.1(react@18.3.1))(react-is@19.3.0)(react@18.3.1))(supports-color@5.5.0)
+      babel-plugin-styled-components: 2.3.0(@babel/core@7.29.7)(styled-components@5.3.6(@babel/core@7.29.7)(react-dom@18.3.1(react@18.3.1))(react-is@19.3.1)(react@18.3.1))(supports-color@5.5.0)
       css-to-react-native: 3.2.0
       hoist-non-react-statics: 3.3.2
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
-      react-is: 19.3.0
+      react-is: 19.3.1
       shallowequal: 1.1.0
       supports-color: 5.5.0
     transitivePeerDependencies:
